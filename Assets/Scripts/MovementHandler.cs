@@ -345,9 +345,9 @@ public class MovementHandler : MonoBehaviour
                     if (opponentMove.hittingWall)
                     {
                         if (opponentMove.facingRight)
-                            transform.position = new Vector3(opponent.position.x + .5f * pushBox.size.x, transform.position.y, transform.position.z);
+                            transform.position = new Vector3(opponent.position.x + (.5f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
                         else
-                            transform.position = new Vector3(opponent.position.x - .5f * pushBox.size.x, transform.position.y, transform.position.z);
+                            transform.position = new Vector3(opponent.position.x - (.5f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
                     }
                 }
                 else if (!Actions.airborne && opponentMove.Actions.airborne && !hittingWall && opponentMove.rb.velocity.y < 0)
@@ -524,13 +524,13 @@ public class MovementHandler : MonoBehaviour
         else if (!Actions.airborne && !Actions.acceptMove)
         {
             //friction for on the ground while attacking or getting hit, uses character's walking back speed to determine deceleration
-            if (rb.velocity.x > 1f)
+            if (rb.velocity.x > .5f)
             {
-                rb.AddForce(new Vector2(-.1f * walkBackSpeed, 0), ForceMode2D.Impulse);
+                rb.AddForce(new Vector2(-.12f * walkBackSpeed, 0), ForceMode2D.Impulse);
             }
-            else if(rb.velocity.x < -1f)
+            else if(rb.velocity.x < -.5f)
             {
-                rb.AddForce(new Vector2(.1f * walkBackSpeed, 0), ForceMode2D.Impulse);
+                rb.AddForce(new Vector2(.12f * walkBackSpeed, 0), ForceMode2D.Impulse);
             }
             else
             {
@@ -539,7 +539,7 @@ public class MovementHandler : MonoBehaviour
         }
         else if (!Actions.airborne)
         {
-            //friction for on the ground while not attacking or getting hit, uses character's walking back speed to determine deceleration
+            //friction for on the ground, uses character's walking back speed to determine deceleration
             if(rb.velocity.x > .5f)
             {
                 rb.AddForce(new Vector2(-.2f * walkBackSpeed, 0), ForceMode2D.Impulse);

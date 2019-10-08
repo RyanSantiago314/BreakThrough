@@ -136,7 +136,7 @@ public class HitDetector : MonoBehaviour
         if (hitStop > 0)
         {
             //hitStop to give hits more impact and allow time to input next move
-            anim.SetFloat(animSpeedID, 0);
+            anim.SetFloat(animSpeedID, 0f);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
             hitStop--;
         }
@@ -266,24 +266,7 @@ public class HitDetector : MonoBehaviour
                     //double chip damage/durability damage on airguard
                     if(Actions.Move.OpponentProperties.armor > 0)
                     {
-                        //durability damage
-                        if (attackLevel >= 3)
-                        {
-                            //Actions.Move.OpponentProperties.durability -= 25;
-                        }
-                        else if (attackLevel == 2)
-                        {
-                            //Actions.Move.OpponentProperties.durability -= 20;
-                        }
-                        else if (attackLevel == 1)
-                        {
-                            //Actions.Move.OpponentProperties.durability -= 15;
-                        }
-                        else
-                        {
-                            //Actions.Move.OpponentProperties.durability -= 10;
-                        }
-                        //Actions.Move.OpponentProperties.durability -= durabilityDamage/5;
+                        //Actions.Move.OpponentProperties.durability -= damage/5;
                     }
                     else
                     {
@@ -295,22 +278,7 @@ public class HitDetector : MonoBehaviour
                     if(Actions.Move.OpponentProperties.armor > 0)
                     {
                         //durability damage
-                        if (attackLevel >= 3)
-                        {
-                            //Actions.Move.OpponentProperties.durability -= 20;
-                        }
-                        else if (attackLevel == 2)
-                        {
-                            //Actions.Move.OpponentProperties.durability -= 15;
-                        }
-                        else if (attackLevel == 1)
-                        {
-                            //Actions.Move.OpponentProperties.durability -= 10;
-                        }
-                        else
-                        {
-                            //Actions.Move.OpponentProperties.durability -= 5;
-                        }
+                        //Actions.Move.OpponentProperties.durability -= damage/10;
                     }
                     else
                     {
