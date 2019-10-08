@@ -75,7 +75,6 @@ public class HitDetector : MonoBehaviour
     static int shatterID;
     static int armorHitID;
 
-    // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 60;
@@ -103,16 +102,17 @@ public class HitDetector : MonoBehaviour
         armorHitID = Animator.StringToHash("ArmorHit");
     }
 
-    // Update is called once per frame
     void Update()
     {
         currentState = anim.GetCurrentAnimatorStateInfo(0); 
 
+        //reset combo count and damage scaling once combo has ended
         if ((OpponentDetector.hitStun == 0 && !OpponentDetector.Actions.airborne) || currentState.IsName("AirRecovery"))
         {
             comboCount = 0;
             initialProration = 1;
         }
+
         if(currentState.IsName("Launch"))
             anim.SetBool(launchID, false);
         else if (currentState.IsName("SweepHit"))
@@ -121,6 +121,7 @@ public class HitDetector : MonoBehaviour
         if(hitStun > 0 && hitStop == 0)
         {
             Actions.DisableAll();
+            //hitStun only counts down if not in the groundbounce or crumple animations
             if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple"))
                 hitStun--;
             anim.SetInteger(hitStunID, hitStun);
@@ -134,6 +135,7 @@ public class HitDetector : MonoBehaviour
 
         if (hitStop > 0)
         {
+            //hitStop to give hits more impact and allow time to input next move
             anim.SetFloat(animSpeedID, 0);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
             hitStop--;
@@ -152,6 +154,7 @@ public class HitDetector : MonoBehaviour
             }
             else if (Actions.shattered && hitStun > 0)
             {
+                //reward attacker for landing a shattering attack
                 rb.gravityScale = .7f;
                 anim.SetFloat(animSpeedID, .75f);
             }
@@ -162,12 +165,14 @@ public class HitDetector : MonoBehaviour
 
             if (currentVelocity != Vector2.zero)
             {
+                //retain velocity after hitStop occurs
                 rb.velocity = currentVelocity;
                 currentVelocity = Vector2.zero;
             }
 
             if (KnockBack != Vector2.zero)
             {
+                //apply knockback/pushback once hitstop has ceased
                 if ((hitStun > 0 || blockStun > 0) && Actions.airborne)
                     rb.velocity = Vector2.zero;
                 
@@ -201,9 +206,11 @@ public class HitDetector : MonoBehaviour
         if (allowHit && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
         {
             OpponentDetector.Actions.shattered = false;
-            //use for counter stances
+
+            //clash/deflect system
             if ((attackLevel - OpponentDetector.attackLevel) > 1)
             {
+                //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
                 ApplyHitStop(0);
                 Debug.Log("DEFLECTED!");
                 OpponentDetector.anim.SetTrigger(deflectID);
@@ -213,6 +220,7 @@ public class HitDetector : MonoBehaviour
             }
             else if ((attackLevel - OpponentDetector.attackLevel) <= 1)
             {
+                //if the attacks are of similar strength both can immediately input another command
                 Debug.Log("Clash!");
                 ApplyHitStop(0);
                 anim.SetTrigger(clashID);
@@ -382,6 +390,7 @@ public class HitDetector : MonoBehaviour
 
     void Contact()
     {
+        //execute if an attack makes contact with a opponent
         if (allowLight)
             Actions.acceptLight = true;
         if (allowMedium)
@@ -401,12 +410,25 @@ public class HitDetector : MonoBehaviour
 
     void HitSuccess(Collider2D other)
     {
-        //if the attack hit the opponent
+        //if the attack successfully hit the opponent
         anim.SetTrigger(successID);
 
-
+        OpponentDetector.anim.SetTrigger(hitID);
+        if (OpponentDetector.Actions.standing && !launch && !sweep && !crumple)
+        {
+            //determine whether to play a low hit or high hit animation
+            if (other.CompareTag("Body") || other.CompareTag("HurtBox"))
+            {
+                OpponentDetector.anim.SetTrigger(hitBodyID);
+            }
+            else if (other.CompareTag("Legs"))
+            {
+                OpponentDetector.anim.SetTrigger(hitLegsID);
+            }
+        }
 
         //manipulate opponent's state based on attack properties
+        //defender can enter unique states of stun if hit by an attack with corresponding property
         if (forceCrouch && OpponentDetector.Actions.standing)
             OpponentDetector.anim.SetBool("Crouch", true);
         else if (OpponentDetector.Actions.airborne && transform.position.y < 1.2f)
@@ -425,19 +447,7 @@ public class HitDetector : MonoBehaviour
             OpponentDetector.anim.SetBool(sweepID, true);
             OpponentDetector.Actions.airborne = true;
         }
-        
-        OpponentDetector.anim.SetTrigger(hitID);
-        if(OpponentDetector.Actions.standing && !launch && !sweep && !crumple)
-        {
-            if (other.CompareTag("Body") || other.CompareTag("HurtBox"))
-            {
-                OpponentDetector.anim.SetTrigger(hitBodyID);
-            }
-            else if (other.CompareTag("Legs"))
-            {
-                OpponentDetector.anim.SetTrigger(hitLegsID);
-            }
-        }
+
         OpponentDetector.Actions.groundBounce = allowGroundBounce;
 
         if(allowWallStick && OpponentDetector.Actions.wallStick == 0)
@@ -454,6 +464,10 @@ public class HitDetector : MonoBehaviour
         }
 
         //calculate and deal damage
+        //damageToOpponent = baseDamage * initialProration * comboProration * characterValor
+        //after calculating damage update comboProration
+        //if(initialProration < 1)
+        //comboProration *= initialProration;?
 
         //apply hitstun
         OpponentDetector.hitStun = potentialHitStun;

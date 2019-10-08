@@ -24,9 +24,9 @@ public class HitboxDHA : MonoBehaviour
     int hitStopLv3 = 11;
     int hitStopLv4 = 12;
 
-    public int sinCharge; // variable used to charge/enhance break attacks
+    public int sinCharge; // variable used to charge/enhance break attacks, unique to DHA
 
-    // Start is called before the first frame update
+
     void Start()
     {
         ClearHitBox();
@@ -65,7 +65,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.shatter = false;
     }
 
-    //push damage values, knockback, and proration to hitdetector from here in hitbox events
+    //push damage values, knockback, and proration to hitdetector from hitbox events
     void StandingLHitBox()
     {
         ClearHitBox();

@@ -10,6 +10,12 @@ public class CharacterProperties : MonoBehaviour
     public int durability;
     public float comboTimer;
 
+    //valor scales down damage based on current health
+    public float valor100;
+    public float valor50;
+    public float valor25;
+    public float currentValor;
+
     int durabilityRefillRate;
 
     public HitDetector HitDetect;

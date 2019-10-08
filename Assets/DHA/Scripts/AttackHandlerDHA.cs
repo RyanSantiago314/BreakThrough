@@ -54,7 +54,6 @@ public class AttackHandlerDHA : MonoBehaviour
 
     AnimatorStateInfo currentState;  
 
-    // Start is called before the first frame update
     void Start()
     {
         ID5L = Animator.StringToHash("5L");
@@ -89,7 +88,6 @@ public class AttackHandlerDHA : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         currentState = anim.GetCurrentAnimatorStateInfo(0);
@@ -148,10 +146,12 @@ public class AttackHandlerDHA : MonoBehaviour
 
         if (currentState.IsName("IdleStand") || currentState.IsName("IdleCrouch") || currentState.IsName("StandUp") || Move.jumped)
         {
+            //refresh possible moves when in certain states
             RefreshMoveList();
+            Move.jumped = false;
         }
 
-        //aerial recovery
+        //aerial recovery, press a button after hitstun ends
         if ((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") ||
              currentState.IsName("LaunchFall")) && Move.HitDetect.hitStun == 0 && 
             (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
@@ -163,7 +163,7 @@ public class AttackHandlerDHA : MonoBehaviour
             breakButton = 0;
         }
 
-        //blitz cancel mechanic
+        //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc.
         if (Actions.blitzCancel && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && heavyButton > 0 && mediumButton > 0) // && CharProp.armor >= 1)
         {
             if (!Actions.airborne)
@@ -176,6 +176,7 @@ public class AttackHandlerDHA : MonoBehaviour
         }
         else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop == 0)
         {
+            //break attacks
             if(Actions.standing)
             {
                 if(Input.GetAxis(Move.Vertical) < 0)
@@ -207,6 +208,7 @@ public class AttackHandlerDHA : MonoBehaviour
         }
         else if (Actions.acceptHeavy && heavyButton > 0 && Move.HitDetect.hitStop == 0)
         {
+            //heavy attacks
             if(Actions.standing)
             {
                 if(Input.GetAxis(Move.Vertical) < 0)
@@ -254,6 +256,7 @@ public class AttackHandlerDHA : MonoBehaviour
         }
         else if (Actions.acceptMedium && mediumButton > 0 && Move.HitDetect.hitStop == 0)
         {
+            //medium attacks
             if(Actions.standing)
             {
                 if(Input.GetAxis(Move.Vertical) < 0)
@@ -285,6 +288,7 @@ public class AttackHandlerDHA : MonoBehaviour
         }
         else if (Actions.acceptLight && lightButton > 0 && Move.HitDetect.hitStop == 0)
         {
+            //light attacks
             if(Actions.standing)
             {
                 if(Input.GetAxis(Move.Vertical) < 0)
@@ -315,6 +319,7 @@ public class AttackHandlerDHA : MonoBehaviour
             lightButton = 0;
         }
 
+        //character specific property, can charge Break attacks to make them more powerful
         if(Input.GetButton(Break))
         {
             anim.SetBool(BreakCharge, true);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AcceptInputs : MonoBehaviour
 {
-
+    //class that dictates what the character is currently capable of doing
     public bool acceptMove = true;
     public bool acceptGuard = true;
     public bool acceptLight = true;
@@ -48,13 +48,14 @@ public class AcceptInputs : MonoBehaviour
 
     void Update()
     {
+        //moves the defending character slightly farther back to allow visibility on attacking character
         if (comboHits > 0)
             transform.position = new Vector3(transform.position.x, transform.position.y, zPosHit);
         else
             transform.position = new Vector3(transform.position.x, transform.position.y, zPos);
 
-        comboHits = Move.OpponentProperties.HitDetect.comboCount;
 
+        //change character properties based on current animation state
         if(airborne || anim.GetCurrentAnimatorStateInfo(0).IsName("SweepHit"))
             standing = false;
 
@@ -69,6 +70,8 @@ public class AcceptInputs : MonoBehaviour
         anim.SetBool(standID, standing);
 
         //increase gravScale based on hitting certain numbers with comboHits
+        //keep track of hits in combo for damage and gravity scaling
+        comboHits = Move.OpponentProperties.HitDetect.comboCount;
     }
 
     public void DisableAll()

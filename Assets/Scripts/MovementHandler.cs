@@ -16,8 +16,8 @@ public class MovementHandler : MonoBehaviour
 
     AnimatorStateInfo currentState;
 
-    float inputTime = 0.2f;
-    float runInputTime = 0.2f;
+    float inputTime = 0.3f;
+    float runInputTime = 0.3f;
     int dashButtonCount = 0;
     int buttonCount = 0;
     int collideCount = 0;
@@ -279,6 +279,7 @@ public class MovementHandler : MonoBehaviour
     {
         if (collision.collider.CompareTag("Floor"))
         {
+            //bouncing against the ground
             if (Actions.groundBounce)
             { 
                 anim.SetTrigger(groundBounceID);
@@ -288,6 +289,7 @@ public class MovementHandler : MonoBehaviour
                     rb.velocity *= new Vector2(-1, 1);
                 Actions.groundBounce = false;
             }
+            //for landing on the ground if the opponent is not supposed to bounce
             else 
             {
                 Actions.airborne = false;
@@ -332,6 +334,7 @@ public class MovementHandler : MonoBehaviour
     {
         if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
+            //keeps characters from intersecting and occupying the same space
             collideCount++;
             if(allowHit)
             {
@@ -370,6 +373,7 @@ public class MovementHandler : MonoBehaviour
         }
         else if (other.CompareTag("Floor"))
         {
+            //keep character from falling through the floor
             pushBox.isTrigger = false;
         }
         else if (other.CompareTag("Wall"))
@@ -469,6 +473,7 @@ public class MovementHandler : MonoBehaviour
                 horiAxisInUse = true;
             }
         }
+        //double tap forward to run
         if (((Input.GetAxisRaw(Horizontal) == 1 && facingRight) || (Input.GetAxisRaw(Horizontal) == -1 && !facingRight)) && !Actions.airborne)
         {
             if (!horiAxisInUse)
@@ -510,6 +515,7 @@ public class MovementHandler : MonoBehaviour
     {
         if(anim.GetBool(runID) || (Actions.airborne && Actions.acceptMove))
         {
+            //keeps character movement speed from reaching insane levels
             if(rb.velocity.x > maxVelocity)
                 rb.velocity = new Vector2(maxVelocity, rb.velocity.y);
             else if (rb.velocity.x < -maxVelocity)
@@ -517,7 +523,8 @@ public class MovementHandler : MonoBehaviour
         }
         else if (!Actions.airborne && !Actions.acceptMove)
         {
-            if(rb.velocity.x > 1f)
+            //friction for on the ground while attacking or getting hit, uses character's walking back speed to determine deceleration
+            if (rb.velocity.x > 1f)
             {
                 rb.AddForce(new Vector2(-.1f * walkBackSpeed, 0), ForceMode2D.Impulse);
             }
@@ -532,6 +539,7 @@ public class MovementHandler : MonoBehaviour
         }
         else if (!Actions.airborne)
         {
+            //friction for on the ground while not attacking or getting hit, uses character's walking back speed to determine deceleration
             if(rb.velocity.x > .5f)
             {
                 rb.AddForce(new Vector2(-.2f * walkBackSpeed, 0), ForceMode2D.Impulse);
@@ -552,7 +560,8 @@ public class MovementHandler : MonoBehaviour
     {
         if (Actions.acceptGuard)
         {
-            if (opponent.position.x > transform.position.x)
+            //change guard type based on state and directions being held
+            if (opponent.position.x > transform.position.x) //for when the character is on the left
             {
                 if(Input.GetAxis(Horizontal) < 0 && Input.GetAxis(Vertical) < 0 && !Actions.airborne)
                 {
@@ -579,7 +588,7 @@ public class MovementHandler : MonoBehaviour
                     anim.SetBool(airGuardID, false);
                 }
             }
-            else if (opponent.position.x < transform.position.x)
+            else if (opponent.position.x < transform.position.x) //for when the character is on the right
             {
                 if(Input.GetAxis(Horizontal) > 0 && Input.GetAxis(Vertical) < 0 && !Actions.airborne)
                 {
@@ -618,6 +627,7 @@ public class MovementHandler : MonoBehaviour
     void WallStates()
     {
         hittingWall = true;
+        //makes characters stick against wall and slowly fall
         if (Actions.wallStick > 0 && HitDetect.hitStun > 0 && rb.velocity.y > 0 && transform.position.y > 1.3f)
         {
             Actions.groundBounce = false;
