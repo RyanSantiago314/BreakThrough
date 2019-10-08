@@ -1,0 +1,134 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: jH4
+  serializedVersion: 6
+  m_Legacy: 0
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves: []
+  m_ScaleCurves: []
+  m_FloatCurves: []
+  m_PPtrCurves:
+  - curve:
+    - time: 0
+      value: {fileID: 21300000, guid: d6806aee8e6d32a41baee689cb214831, type: 3}
+    - time: 0.083333336
+      value: {fileID: 21300000, guid: 34c96af54f8f7d94889475f8f6930ebe, type: 3}
+    - time: 0.13333334
+      value: {fileID: 21300000, guid: 6b213df70db94a54996929364f792aa2, type: 3}
+    - time: 0.2
+      value: {fileID: 21300000, guid: 506399dcbee02b14894a72b3f1e3d5f3, type: 3}
+    - time: 0.26666668
+      value: {fileID: 21300000, guid: b0ecb10a8938aca4099cf1f7e443e66e, type: 3}
+    - time: 0.33333334
+      value: {fileID: 21300000, guid: 09752b926f636eb48b2b1e7cfb47da1b, type: 3}
+    - time: 0.4
+      value: {fileID: 21300000, guid: a6d65f9b321e47944be345eab6a4f026, type: 3}
+    - time: 0.45
+      value: {fileID: 21300000, guid: bab75a4deb6456840aa72d8fe1ef6a0d, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: bab75a4deb6456840aa72d8fe1ef6a0d, type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
+  m_SampleRate: 60
+  m_WrapMode: 0
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    pptrCurveMapping:
+    - {fileID: 21300000, guid: d6806aee8e6d32a41baee689cb214831, type: 3}
+    - {fileID: 21300000, guid: 34c96af54f8f7d94889475f8f6930ebe, type: 3}
+    - {fileID: 21300000, guid: 6b213df70db94a54996929364f792aa2, type: 3}
+    - {fileID: 21300000, guid: 506399dcbee02b14894a72b3f1e3d5f3, type: 3}
+    - {fileID: 21300000, guid: b0ecb10a8938aca4099cf1f7e443e66e, type: 3}
+    - {fileID: 21300000, guid: 09752b926f636eb48b2b1e7cfb47da1b, type: 3}
+    - {fileID: 21300000, guid: a6d65f9b321e47944be345eab6a4f026, type: 3}
+    - {fileID: 21300000, guid: bab75a4deb6456840aa72d8fe1ef6a0d, type: 3}
+    - {fileID: 21300000, guid: bab75a4deb6456840aa72d8fe1ef6a0d, type: 3}
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 0.51666665
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 1
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves: []
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_Events:
+  - time: 0
+    functionName: DisableAll
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.083333336
+    functionName: JumpHFourthHitBox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.083333336
+    functionName: JumpHeavyFourthActive
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.13333334
+    functionName: ClearHitBox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.4
+    functionName: Jump
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.5
+    functionName: EnableAll
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
