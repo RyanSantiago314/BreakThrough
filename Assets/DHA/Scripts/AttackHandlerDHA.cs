@@ -9,16 +9,32 @@ public class AttackHandlerDHA : MonoBehaviour
     public AcceptInputs Actions;
     public CharacterProperties CharProp;
 
-    public string Light;
-    public string Medium;
-    public string Heavy;
-    public string Break;
+    private string Horizontal;
+    private string Vertical;
 
+    private string Light;
+    private string Medium;
+    private string Heavy;
+    private string Break;
+    private string LM;
+    private string HB;
+    private string MH;
+    private string Taunt;
+
+    float bufferTime = .25f;
+    float directionBuffertime = .35f;
     float lightButton;
     float mediumButton;
     float heavyButton;
     float breakButton;
-    float bufferTime = .25f;
+
+    //directional variables using numpad notation
+    float dir1;
+    float dir2;
+    float dir3;
+    float dir4;
+    float dir6;
+
 
     private int StandL = 3;
     private bool StandM = true;
@@ -74,17 +90,31 @@ public class AttackHandlerDHA : MonoBehaviour
 
         if (transform.parent.name == "Player1")
         {
-            Light = "Light_P1";
-            Medium = "Medium_P1";
-            Heavy = "Heavy_P1";
-            Break = "Break_P1";
+            Horizontal = "Horizontal_P1";
+            Vertical = "Vertical_P1";
+
+            Light = "Square_P1";
+            Medium = "Triangle_P1";
+            Heavy = "Circle_P1";
+            Break = "Cross_P1";
+            LM = "R1_P1";
+            HB = "R2_P1";
+            MH = "L1_P1";
+            Taunt = "L2_P1";
         }
         else
         {
-            Light = "Light_P2";
-            Medium = "Medium_P2";
-            Heavy = "Heavy_P2";
-            Break = "Break_P2";
+            Horizontal = "Horizontal_P2";
+            Vertical = "Vertical_P2";
+
+            Light = "Square_P2";
+            Medium = "Triangle_P2";
+            Heavy = "Circle_P2";
+            Break = "Cross_P2";
+            LM = "R1_P2";
+            HB = "R2_P2";
+            MH = "L1_P2";
+            Taunt = "L2_P2";
         }
     }
 
@@ -101,6 +131,7 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.ResetTrigger(ID5L);
             anim.ResetTrigger(ID2L);
         }
+
         if (mediumButton > 0)
         {
             mediumButton -= Time.deltaTime;
@@ -111,6 +142,7 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.ResetTrigger(ID5M);
             anim.ResetTrigger(ID2M);
         }
+
         if (heavyButton > 0)
         {
             heavyButton -= Time.deltaTime;
@@ -124,6 +156,7 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.ResetTrigger(ID5H4);
             anim.ResetTrigger(ID2H);
         }
+
         if (breakButton > 0)
         {
             breakButton -= Time.deltaTime;
@@ -135,6 +168,19 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.ResetTrigger(ID2B);
         }
 
+        if (dir1 > 0)
+            dir1 -= Time.deltaTime;
+        if (dir2 > 0)
+            dir2 -= Time.deltaTime;
+        if (dir3 > 0)
+            dir3 -= Time.deltaTime;
+        if (dir4 > 0)
+            dir4 -= Time.deltaTime;
+        if (dir6 > 0)
+            dir6 -= Time.deltaTime;
+
+
+        //record buttons pressed
         if (Input.GetButtonDown(Light))
             lightButton = bufferTime;
         if (Input.GetButtonDown(Medium))
@@ -143,6 +189,77 @@ public class AttackHandlerDHA : MonoBehaviour
             heavyButton = bufferTime;
         if (Input.GetButtonDown(Break))
             breakButton = bufferTime;
+        if (Input.GetButtonDown(LM))
+        {
+            lightButton = bufferTime;
+            mediumButton = bufferTime;
+        }
+        if (Input.GetButtonDown(HB))
+        {
+            heavyButton = bufferTime;
+            breakButton = bufferTime;
+        }
+        if (Input.GetButtonDown(MH))
+        {
+            mediumButton = bufferTime;
+            heavyButton = bufferTime;
+        }
+
+        //record directional input
+        //float dir# corresponds to numpad notation for character facing to the right
+        //special moves' directional input for DHA will never use 7 8 or 9, and 5 is the neutral position so no variables for those directions is necessary,
+        /*           up
+                     ^
+                     |
+                   7 8 9
+         left <--- 4 5 6 ---> right
+                   1 2 3
+                     |
+                     v
+                    down
+         */
+        // pressing left on the d pad or stick, considered backward if facing right, considered forward if facing left
+        if (Input.GetAxis(Horizontal) < 0) 
+        {
+            if(Input.GetAxis(Vertical) < 0) // diagonal directions
+            {
+                if (Move.facingRight) 
+                    // 1 : pressing down-back
+                    dir1 = directionBuffertime;
+                else // 3 : pressing down-forward
+                    dir3 = directionBuffertime;
+            }
+            else if (Move.facingRight) 
+                // pressing back if facing right
+                dir4 = directionBuffertime;
+            else 
+                // pressing forward if facing left
+                dir6 = directionBuffertime;
+        }
+        // pressing right on the d pad/stick, considered forward if facing right, considered backward if facing left
+        else if (Input.GetAxis(Horizontal) > 0) 
+        {
+            if (Input.GetAxis(Vertical) < 0)
+            {
+                if (Move.facingRight) 
+                    // pressing down-forward
+                    dir3 = directionBuffertime;
+                else
+                    // pressing down-back
+                    dir1 = directionBuffertime;
+            }
+            if (Move.facingRight)
+                //forward if facing right
+                dir6 = directionBuffertime;
+            else
+                //back if facing left
+                dir4 = directionBuffertime;
+        }
+        else if (Input.GetAxis(Vertical) < 0)
+        {
+            //only pressing down
+            dir2 = directionBuffertime;
+        }
 
         if (currentState.IsName("IdleStand") || currentState.IsName("IdleCrouch") || currentState.IsName("StandUp") || Move.jumped)
         {
@@ -179,7 +296,7 @@ public class AttackHandlerDHA : MonoBehaviour
             //break attacks
             if(Actions.standing)
             {
-                if(Input.GetAxis(Move.Vertical) < 0)
+                if(Input.GetAxis(Vertical) < 0)
                 {
                     if(CrouchB)
                     {
@@ -211,7 +328,7 @@ public class AttackHandlerDHA : MonoBehaviour
             //heavy attacks
             if(Actions.standing)
             {
-                if(Input.GetAxis(Move.Vertical) < 0)
+                if(Input.GetAxis(Vertical) < 0)
                 {
                     if(CrouchH)
                     {
@@ -259,7 +376,7 @@ public class AttackHandlerDHA : MonoBehaviour
             //medium attacks
             if(Actions.standing)
             {
-                if(Input.GetAxis(Move.Vertical) < 0)
+                if(Input.GetAxis(Vertical) < 0)
                 {
                     if(CrouchM)
                     {
@@ -291,7 +408,7 @@ public class AttackHandlerDHA : MonoBehaviour
             //light attacks
             if(Actions.standing)
             {
-                if(Input.GetAxis(Move.Vertical) < 0)
+                if(Input.GetAxis(Vertical) < 0)
                 {
                     if(CrouchL > 0)
                     {
@@ -319,7 +436,7 @@ public class AttackHandlerDHA : MonoBehaviour
             lightButton = 0;
         }
 
-        //character specific property, can charge Break attacks to make them more powerful
+        // DHA character specific property, can charge Break attacks to make them more powerful
         if(Input.GetButton(Break))
         {
             anim.SetBool(BreakCharge, true);

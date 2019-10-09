@@ -47,7 +47,7 @@ public class CameraController : MonoBehaviour
         else
         {
             cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2, zPos);
-            smooth = 10;
+            smooth = 7;
             leftBound.enabled = true;
             rightBound.enabled = true;
         }

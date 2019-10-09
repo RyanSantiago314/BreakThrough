@@ -472,7 +472,7 @@ public class HitDetector : MonoBehaviour
             {
                 OpponentDetector.KnockBack = potentialKnockBack;
                 if(potentialKnockBack.y == 0)
-                    OpponentDetector.KnockBack += new Vector2(0, 1.5f);
+                    OpponentDetector.KnockBack += new Vector2(0, 1f);
             }
             else
             {    
@@ -486,9 +486,9 @@ public class HitDetector : MonoBehaviour
         if (Actions.airborne)
         {
             if (OpponentDetector.Actions.Move.hittingWall && OpponentDetector.Actions.airborne)
-                KnockBack = potentialAirKnockBack * new Vector2(.25f, 0);
+                KnockBack = potentialAirKnockBack * new Vector2(.35f, 0);
             if (OpponentDetector.Actions.airborne && rb.velocity.y < 0)
-                KnockBack += potentialAirKnockBack * new Vector2(0, .35f);
+                KnockBack += potentialAirKnockBack * new Vector2(0, .3f);
         }
         else if (OpponentDetector.Actions.Move.hittingWall)
         {
