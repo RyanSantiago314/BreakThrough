@@ -409,6 +409,13 @@ public class MovementHandler : MonoBehaviour
             else if(Actions.airborne && !opponentMove.Actions.airborne)
             {
                 pushBox.isTrigger = true;
+                if (rb.velocity.y <= 0 && opponentMove.hittingWall)
+                {
+                   if (opponentMove.facingRight)
+                        transform.position = new Vector3(opponent.position.x + (.5f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                   else
+                        transform.position = new Vector3(opponent.position.x - (.5f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                }
                 if (((opponent.position.x > transform.position.x && facingRight)|| (opponent.position.x < transform.position.x && !facingRight)) && rb.velocity.y < 0)
                 {
                     rb.velocity = new Vector2(0, rb.velocity.y);
@@ -419,12 +426,12 @@ public class MovementHandler : MonoBehaviour
                 pushBox.isTrigger = false;
             }
 
-            if (opponentMove.hittingWall)
+            if (opponentMove.hittingWall && rb.velocity.y < 0)
             {
                 if(opponentMove.facingRight)
-                    rb.AddForce(new Vector2(.02f, 0), ForceMode2D.Impulse);
+                    rb.AddForce(new Vector2(.05f, 0), ForceMode2D.Impulse);
                 else
-                    rb.AddForce(new Vector2(-.02f, 0), ForceMode2D.Impulse);
+                    rb.AddForce(new Vector2(-.05f, 0), ForceMode2D.Impulse);
             }
         }
         else if (other.CompareTag("Bound"))

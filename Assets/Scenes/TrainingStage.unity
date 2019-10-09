@@ -2003,6 +2003,10 @@ MonoBehaviour:
   armor: 0
   durability: 0
   comboTimer: 0
+  valor100: 0
+  valor50: 0
+  valor25: 0
+  currentValor: 0
   HitDetect: {fileID: 840113009}
 --- !u!114 &2102449259
 MonoBehaviour:
@@ -2260,7 +2264,7 @@ MonoBehaviour:
   maxVelocity: 6
   maxJumps: 2
   jumps: 0
-  minPosY: 1.125
+  minPosY: 1.1
   pushCenter: {x: 0, y: -0.51}
   pushSize: {x: 0.4, y: 0.8}
   airPushCenter: {x: 0, y: -0.2}
@@ -2326,6 +2330,10 @@ MonoBehaviour:
   armor: 0
   durability: 0
   comboTimer: 0
+  valor100: 0
+  valor50: 0
+  valor25: 0
+  currentValor: 0
   HitDetect: {fileID: 515295540}
 --- !u!1001 &1853430285374181728
 PrefabInstance:
