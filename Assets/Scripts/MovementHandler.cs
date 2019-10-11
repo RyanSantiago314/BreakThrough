@@ -412,9 +412,9 @@ public class MovementHandler : MonoBehaviour
                 if (rb.velocity.y <= 0 && opponentMove.hittingWall)
                 {
                    if (opponentMove.facingRight)
-                        transform.position = new Vector3(opponent.position.x + (.5f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                        transform.position = new Vector3(opponent.position.x + (.55f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
                    else
-                        transform.position = new Vector3(opponent.position.x - (.5f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                        transform.position = new Vector3(opponent.position.x - (.55f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
                 }
                 if (((opponent.position.x > transform.position.x && facingRight)|| (opponent.position.x < transform.position.x && !facingRight)) && rb.velocity.y < 0)
                 {
@@ -531,11 +531,11 @@ public class MovementHandler : MonoBehaviour
         else if (!Actions.airborne && !Actions.acceptMove)
         {
             //friction for on the ground while attacking or getting hit, uses character's walking back speed to determine deceleration
-            if (rb.velocity.x > .5f)
+            if (rb.velocity.x > .75f)
             {
                 rb.AddForce(new Vector2(-.12f * walkBackSpeed, 0), ForceMode2D.Impulse);
             }
-            else if(rb.velocity.x < -.5f)
+            else if(rb.velocity.x < -.75f)
             {
                 rb.AddForce(new Vector2(.12f * walkBackSpeed, 0), ForceMode2D.Impulse);
             }
