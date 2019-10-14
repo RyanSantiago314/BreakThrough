@@ -145,7 +145,7 @@ public class MovementHandler : MonoBehaviour
         }
 
         pushTrigger.offset = new Vector2(pushBox.offset.x, pushBox.offset.y);
-        pushTrigger.size = new Vector2(pushBox.size.x, pushBox.size.y + .2f);
+        pushTrigger.size = new Vector2(pushBox.size.x - .1f, pushBox.size.y + .2f);
         if (transform.position.y < minPosY)
         {
             transform.position = new Vector3(transform.position.x, minPosY, transform.position.z);
@@ -446,11 +446,12 @@ public class MovementHandler : MonoBehaviour
         if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
             collideCount--;
-            if (collideCount == 0)
+            if (collideCount <= 0)
             {
                 allowHit = true;
+                collideCount = 0;
+                pushBox.isTrigger = false;
             }
-            pushBox.isTrigger = false;    
         }
         else if (other.CompareTag("Wall"))
         {

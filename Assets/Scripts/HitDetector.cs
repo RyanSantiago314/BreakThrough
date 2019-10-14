@@ -504,7 +504,7 @@ public class HitDetector : MonoBehaviour
             }
         }
 
-        if (Actions.Move.facingRight)
+        if (!OpponentDetector.Actions.Move.facingRight)
         {
             KnockBack *= new Vector2(-1f, 1);
         }
