@@ -257,8 +257,13 @@ public class HitDetector : MonoBehaviour
                 //mid can be guarded by any guard, lows must be guarded low, overheads must be guarded high
                 //deal durability/chip damage equaling 20% of base damage
                 //apply pushback to both by half of horizontal knockback value
-                KnockBack = potentialKnockBack * new Vector2(.7f, 0);
-                OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.4f, 0);
+                if(OpponentDetector.Actions.Move.hittingWall)
+                    KnockBack = potentialKnockBack;
+                else
+                {
+                    KnockBack = potentialKnockBack * new Vector2(.7f, 0);
+                    OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.4f, 0);
+                }
 
                 if(OpponentDetector.anim.GetBool(AirGuard))
                 {
@@ -316,10 +321,11 @@ public class HitDetector : MonoBehaviour
                     OpponentDetector.Actions.shattered = true;
                     Debug.Log("Shattered");
                     ApplyHitStop(5);
+                    //damage, hitstun, etc.
                     HitSuccess(other);
                     Actions.Move.OpponentProperties.armor = 0;
                     Actions.Move.OpponentProperties.durability = 0;
-                    //damage and hitstun;
+                    
                     
                 }
                 else if (piercing && Actions.Move.OpponentProperties.armor > 0)
@@ -541,8 +547,8 @@ public class HitDetector : MonoBehaviour
         {
             OpponentDetector.KnockBack *= new Vector2(-1f, 1);
         }
-
-        comboCount++;
+        if(!grab)
+            comboCount++;
     }
 
     void Clash()

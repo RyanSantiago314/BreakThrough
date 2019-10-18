@@ -43,6 +43,9 @@ public class CameraController : MonoBehaviour
             cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2, zPosZoom);
             leftBound.enabled = false;
             rightBound.enabled = false;
+
+            if (cameraPos.y < 1)
+                cameraPos = new Vector3(cameraPos.x, 1f, cameraPos.z);
         }
         else
         {
@@ -51,14 +54,15 @@ public class CameraController : MonoBehaviour
             leftBound.enabled = true;
             rightBound.enabled = true;
 
-            if (transform.position.x < -7.6)
-                transform.position = new Vector3(-7.6f, transform.position.y, transform.position.z);
-            if (transform.position.x > 7.6)
-                transform.position = new Vector3(7.6f, transform.position.y, transform.position.z);
-            if (transform.position.y < 1.45)
-                transform.position = new Vector3(transform.position.x, 1.45f, transform.position.z);
-            if (transform.position.y > 4)
-                transform.position = new Vector3(transform.position.x, 4f, transform.position.z);
+            if (cameraPos.x < -7.6)
+                cameraPos = new Vector3(-7.6f, cameraPos.y, cameraPos.z);
+            else if (cameraPos.x > 7.6)
+                cameraPos = new Vector3(7.6f, cameraPos.y, cameraPos.z);
+
+            if (cameraPos.y < 1.45)
+                cameraPos = new Vector3(cameraPos.x, 1.45f, cameraPos.z);
+            else if (cameraPos.y > 4)
+                cameraPos = new Vector3(cameraPos.x, 4f, cameraPos.z);
         }
 
         transform.position = Vector3.Lerp(transform.position, cameraPos, Time.fixedDeltaTime * smooth);
