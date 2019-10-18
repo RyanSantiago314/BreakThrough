@@ -157,11 +157,9 @@ public class HitDetector : MonoBehaviour
 
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-            if(currentState.IsName("Deflected") || currentState.IsName("WallStick"))
+            if(currentState.IsName("WallStick"))
             {
                 rb.velocity = Vector2.zero;
-                if (currentState.IsName("Deflected"))
-                    rb.gravityScale = .5f;
             }
             else if (Actions.shattered && hitStun > 0)
             {
@@ -217,10 +215,8 @@ public class HitDetector : MonoBehaviour
         currentVelocity = rb.velocity;
         if (allowHit && !grab && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
         {
-            OpponentDetector.Actions.shattered = false;
-
             //clash/deflect system
-            if ((attackLevel - OpponentDetector.attackLevel) < 1 && potentialHitStun > 0)
+            if ((OpponentDetector.attackLevel - attackLevel) > 1 && potentialHitStun > 0)
             {
                 //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
                 ApplyHitStop(0);
@@ -243,6 +239,8 @@ public class HitDetector : MonoBehaviour
         }
         else if (allowHit && !grab && !commandGrab && other.gameObject.transform.parent.parent == Actions.Move.opponent && potentialHitStun > 0)
         {
+            OpponentDetector.Actions.shattered = false;
+
             if ((guard == "Mid" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
                 (guard == "Low" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
                 (guard == "Overhead" && OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard)))

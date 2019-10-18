@@ -681,7 +681,7 @@ public class HitboxDHA : MonoBehaviour
         hit1.size = new Vector2(.18f, .9f);
 
         HitDetect.potentialHitStun = 60;
-        HitDetect.potentialHitStop = hitStopLv2;
+        HitDetect.potentialHitStop = 20;
         HitDetect.attackLevel = 0;
         HitDetect.guard = "Unblockable";
 
@@ -720,7 +720,7 @@ public class HitboxDHA : MonoBehaviour
 
         HitDetect.durabilityDamage = 100;
         HitDetect.armorDamage = 1;
-        HitDetect.potentialAirKnockBack = new Vector2(3f, 2f);
+        HitDetect.potentialAirKnockBack = new Vector2(2.5f, 2f);
         HitDetect.potentialHitStun = 60;
         HitDetect.potentialHitStop = 7;
         HitDetect.attackLevel = 0;

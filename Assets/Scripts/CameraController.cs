@@ -41,6 +41,7 @@ public class CameraController : MonoBehaviour
         {
             //zooming in "dynamic/cinematic" camera
             cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2, zPosZoom);
+            smooth = 5;
             leftBound.enabled = false;
             rightBound.enabled = false;
 
@@ -51,6 +52,7 @@ public class CameraController : MonoBehaviour
         {
             //gameplay camera
             cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2, zPos);
+            smooth = 7;
             leftBound.enabled = true;
             rightBound.enabled = true;
 
