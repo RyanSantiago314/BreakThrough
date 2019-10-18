@@ -29,7 +29,7 @@ public class HitboxDHA : MonoBehaviour
 
     void Start()
     {
-        ClearHitBox();
+        AwakenBox();
     }
 
     void Update()
@@ -54,6 +54,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStop = 0;
         HitDetect.potentialKnockBack = Vector2.zero;
         HitDetect.potentialAirKnockBack = Vector2.zero;
+        HitDetect.attackLevel = 0;
         HitDetect.grab = false;
         HitDetect.piercing = false;
         HitDetect.launch = false;
@@ -65,6 +66,12 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.shatter = false;
     }
 
+    void AwakenBox()
+    {
+        ClearHitBox();
+        hit1.enabled = true;
+        hit1.size = new Vector2(10f, 10f);
+    }
     //push damage values, knockback, and proration to hitdetector from hitbox events
     void StandingLHitBox()
     {
@@ -662,5 +669,64 @@ public class HitboxDHA : MonoBehaviour
 
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
+    }
+
+    void ThrowInit()
+    {
+        ClearHitBox();
+        hit1.enabled = true;
+
+
+        hit1.offset = new Vector2(.25f, -.09f);
+        hit1.size = new Vector2(.18f, .9f);
+
+        HitDetect.potentialHitStun = 60;
+        HitDetect.potentialHitStop = hitStopLv2;
+        HitDetect.attackLevel = 0;
+        HitDetect.guard = "Unblockable";
+
+        HitDetect.crumple = true;
+        HitDetect.grab = true;
+
+    }
+
+    void ThrowSecondHit()
+    {
+        ClearHitBox();
+        hit1.enabled = true;
+
+
+        hit1.offset = new Vector2(.975f, .1f);
+        hit1.size = new Vector2(.45f, .79f);
+
+        HitDetect.potentialHitStun = 60;
+        HitDetect.potentialHitStop = 0;
+        HitDetect.attackLevel = 0;
+        HitDetect.guard = "Unblockable";
+
+        HitDetect.launch = true;
+        HitDetect.grab = true;
+
+    }
+
+    void ThrowThirdHit()
+    {
+        ClearHitBox();
+        hit1.enabled = true;
+
+
+        hit1.offset = new Vector2(1.4f, .5f);
+        hit1.size = new Vector2(1.3f, .47f);
+
+        HitDetect.durabilityDamage = 100;
+        HitDetect.armorDamage = 1;
+        HitDetect.potentialAirKnockBack = new Vector2(3f, 2f);
+        HitDetect.potentialHitStun = 60;
+        HitDetect.potentialHitStop = 7;
+        HitDetect.attackLevel = 0;
+        HitDetect.guard = "Unblockable";
+
+        HitDetect.piercing = true;
+
     }
 }

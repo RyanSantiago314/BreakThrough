@@ -25,6 +25,7 @@ public class AcceptInputs : MonoBehaviour
 
     public bool grabbed = false;
     public bool throwTech = false;
+    public bool backThrow = false;
 
     public float gravScale = 1f;
     public int comboHits = 0;
@@ -32,6 +33,9 @@ public class AcceptInputs : MonoBehaviour
     public Animator anim;
     public MovementHandler Move;
     public CharacterProperties CharProp;
+
+    MovementHandler opponentMove;
+
     static int airID;
     static int standID;
 
@@ -44,6 +48,8 @@ public class AcceptInputs : MonoBehaviour
         standID = Animator.StringToHash("Standing");
         zPos = transform.position.z;
         zPosHit = zPos + .01f;
+
+        opponentMove = Move.opponent.GetComponent<MovementHandler>();
     }
 
     void Update()
@@ -85,6 +91,7 @@ public class AcceptInputs : MonoBehaviour
         acceptSpecial = false;
         acceptSuper = false;
         jumpCancel = false;
+        throwTech = false;
         CharProp.HitDetect.allowLight = false;
         CharProp.HitDetect.allowMedium = false;
         CharProp.HitDetect.allowHeavy = false;
@@ -111,6 +118,7 @@ public class AcceptInputs : MonoBehaviour
         shattered = false;
         wallStick = 0;
         groundBounce = false;
+        grabbed = false;
     }
     public void DisableMovement()
     {
@@ -121,6 +129,11 @@ public class AcceptInputs : MonoBehaviour
     public void DisableBlitz()
     {
         blitzCancel = false;
+    }
+
+    public void EnableBlitz()
+    {
+        blitzCancel = true;
     }
 
     public void EnableHeavy()
@@ -136,9 +149,9 @@ public class AcceptInputs : MonoBehaviour
 
     public void TurnAroundCheck()
     {
-        if(Move.opponent.transform.position.x < transform.position.x - .1f)
+        if(Move.opponent.transform.position.x < transform.position.x)
             Move.facingRight = false;
-        else if (Move.opponent.transform.position.x > transform.position.x + .1f)
+        else if (Move.opponent.transform.position.x > transform.position.x)
             Move.facingRight = true;
     }
 
@@ -194,13 +207,84 @@ public class AcceptInputs : MonoBehaviour
 
     public void Throwing()
     {
-        throwTech = true;
         DisableAll();
+        throwTech = true;
     }
 
     public void ThrowTechFalse()
     {
         throwTech = false;
+    }
+
+    public void StartGrab()
+    {
+        opponentMove.Actions.grabbed = true;
+    }
+
+    public void EndGrab()
+    {
+        opponentMove.Actions.grabbed = false;
+    }
+
+    public void SetPosX(float distance)
+    {
+        if (Move.facingRight)
+            Move.opponent.position = new Vector3(Move.transform.position.x + distance, Move.opponent.position.y, Move.opponent.position.z);
+        else
+            Move.opponent.position = new Vector3(Move.transform.position.x - distance, Move.opponent.position.y, Move.opponent.position.z);
+    }
+
+    public void SetPosY(float distance)
+    {
+        Move.opponent.position = new Vector3(Move.opponent.position.x, Move.transform.position.y + distance, Move.opponent.position.z);
+    }
+
+    public void BackThrowCheck(float distance)
+    {
+        if (backThrow)
+        {
+            if (Move.hittingWall || Move.transform.position.x - 9.8 < distance || Move.transform.position.x + 9.8 > distance)
+            {
+                if (Move.facingRight)
+                {
+                    Move.transform.position = new Vector3(Move.transform.position.x + distance, Move.transform.position.y, Move.transform.position.z);
+                    Move.opponent.position = new Vector3(Move.transform.position.x - distance, Move.transform.position.y, Move.transform.position.z);
+                }
+                else
+                {
+                    Move.transform.position = new Vector3(Move.transform.position.x - distance, Move.transform.position.y, Move.transform.position.z);
+                    Move.opponent.position = new Vector3(Move.transform.position.x + distance, Move.transform.position.y, Move.transform.position.z);
+                }
+            }
+            else
+            {
+                if (Move.facingRight)
+                    Move.opponent.position = new Vector3(Move.transform.position.x - distance, Move.opponent.position.y, Move.opponent.position.z);
+                else
+                    Move.opponent.position = new Vector3(Move.transform.position.x + distance, Move.opponent.position.y, Move.opponent.position.z);
+            }
+            TurnAroundCheck();
+            opponentMove.Actions.TurnAroundCheck();
+            backThrow = false;
+        }
+        else
+        {
+            if (opponentMove.hittingWall || Move.opponent.position.x - 9.8 < distance ||Move.opponent.position.x + 9.8 > distance)
+            {
+                if (Move.facingRight)
+                    Move.transform.position = new Vector3(Move.opponent.transform.position.x - distance, Move.transform.position.y, Move.transform.position.z);
+                else
+                    Move.transform.position = new Vector3(Move.opponent.transform.position.x + distance, Move.transform.position.y, Move.transform.position.z);
+            }
+            else
+            {
+                if (Move.facingRight)
+                    Move.opponent.position = new Vector3(Move.transform.position.x + distance, Move.transform.position.y, Move.transform.position.z);
+                else
+                    Move.opponent.position = new Vector3(Move.transform.position.x - distance, Move.transform.position.y, Move.transform.position.z);
+            }
+
+        }
     }
 
     public void GetUp()

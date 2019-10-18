@@ -37,6 +37,7 @@ public class HitDetector : MonoBehaviour
 
     public bool grab = false;
     public bool commandGrab = false;
+
     public bool piercing = false;
     public bool launch = false;
     public bool crumple = false;
@@ -49,6 +50,7 @@ public class HitDetector : MonoBehaviour
     HitDetector OpponentDetector;
 
     bool allowHit = false;
+    bool allowGrab = false;
     int collideCount = 0;
     public bool hit = false;
     public int comboCount;
@@ -74,6 +76,7 @@ public class HitDetector : MonoBehaviour
     static int sweepID;
     static int shatterID;
     static int armorHitID;
+    static int throwRejectID;
 
     void Start()
     {
@@ -100,6 +103,7 @@ public class HitDetector : MonoBehaviour
         sweepID = Animator.StringToHash("Sweep");
         shatterID = Animator.StringToHash("Shatter");
         armorHitID = Animator.StringToHash("ArmorHit");
+        throwRejectID = Animator.StringToHash("ThrowReject");
     }
 
     void Update()
@@ -138,7 +142,14 @@ public class HitDetector : MonoBehaviour
             //hitStop to give hits more impact and allow time to input next move
             anim.SetFloat(animSpeedID, 0f);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            hitStop--;
+            if (hitStop > 0)
+                hitStop--;
+        }
+        else if (Actions.grabbed)
+        {
+            //lock character to allow throw animation to work correctly
+            anim.SetFloat(animSpeedID, 0.5f);
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
         else 
         {
@@ -192,6 +203,7 @@ public class HitDetector : MonoBehaviour
             anim.ResetTrigger(hitID);
             anim.ResetTrigger(hitBodyID);
             anim.ResetTrigger(hitLegsID);
+            anim.SetBool(crumpleID, false);
             anim.SetBool(launchID, false);
             anim.SetBool(sweepID, false);
             anim.ResetTrigger(shatterID);
@@ -203,22 +215,22 @@ public class HitDetector : MonoBehaviour
     {
         collideCount++;
         currentVelocity = rb.velocity;
-        if (allowHit && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
+        if (allowHit && !grab && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
         {
             OpponentDetector.Actions.shattered = false;
 
             //clash/deflect system
-            if ((attackLevel - OpponentDetector.attackLevel) > 1)
+            if ((attackLevel - OpponentDetector.attackLevel) < 1 && potentialHitStun > 0)
             {
                 //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
                 ApplyHitStop(0);
                 Debug.Log("DEFLECTED!");
-                OpponentDetector.anim.SetTrigger(deflectID);
-                anim.SetTrigger(parryID);
+                OpponentDetector.anim.SetTrigger(parryID);
+                anim.SetTrigger(deflectID);
                 Actions.jumpCancel = true;
                 Contact();
             }
-            else if ((attackLevel - OpponentDetector.attackLevel) <= 1)
+            else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
             {
                 //if the attacks are of similar strength both can immediately input another command
                 Debug.Log("Clash!");
@@ -229,9 +241,8 @@ public class HitDetector : MonoBehaviour
             }
             allowHit = false;
         }
-        else if (allowHit && other.gameObject.transform.parent.parent == Actions.Move.opponent && potentialHitStun > 0)
+        else if (allowHit && !grab && !commandGrab && other.gameObject.transform.parent.parent == Actions.Move.opponent && potentialHitStun > 0)
         {
-
             if ((guard == "Mid" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
                 (guard == "Low" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
                 (guard == "Overhead" && OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard)))
@@ -297,6 +308,7 @@ public class HitDetector : MonoBehaviour
                 {
                     Actions.jumpCancel = true;
                 }
+                
                 if (shatter && Actions.Move.OpponentProperties.armor > 0)
                 {
                     //trigger shatter effect
@@ -334,17 +346,33 @@ public class HitDetector : MonoBehaviour
             }
             Contact();
         }
-        anim.ResetTrigger(clashID);
-        anim.ResetTrigger(deflectID);
-        anim.ResetTrigger(parryID);
-        anim.ResetTrigger(successID);
+        else if (allowHit && (grab || commandGrab) && other.CompareTag("Body") && ((Actions.standing && OpponentDetector.Actions.standing) || (Actions.airborne && OpponentDetector.Actions.airborne)))
+        {
+            if (OpponentDetector.Actions.throwTech && !commandGrab)
+            {
+                anim.SetTrigger(throwRejectID);
+                OpponentDetector.anim.SetTrigger(throwRejectID);
+                KnockBack = new Vector2(3, 0);
+                if (Actions.Move.facingRight)
+                    KnockBack *= new Vector2(-1, 0);
+            }
+            else if ((OpponentDetector.hitStun == 0 && OpponentDetector.blockStun == 0) || OpponentDetector.Actions.grabbed)
+            {
+                Actions.throwTech = false;
+                //Actions.Move.OpponentProperties.armor -= armorDamage;
+                //Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                ApplyHitStop(0);
+                HitSuccess(other);
+            }
+            allowHit = false;
+            hit = true;
+        }
         anim.ResetTrigger(hitID);
         anim.ResetTrigger(hitBodyID);
         anim.ResetTrigger(hitLegsID);
+        anim.SetBool(crumpleID, false);
         anim.SetBool(launchID, false);
         anim.SetBool(sweepID, false);
-        anim.ResetTrigger(shatterID);
-        anim.ResetTrigger(armorHitID);
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -353,6 +381,7 @@ public class HitDetector : MonoBehaviour
         if (collideCount == 0)
         {
             allowHit = true;
+            allowGrab = true;
         }
     }
 

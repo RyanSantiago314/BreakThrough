@@ -475,7 +475,7 @@ public class MovementHandler : MonoBehaviour
                 }
                 else
                 {
-                    inputTime = 0.3f; 
+                    inputTime = 0.25f; 
                     dashButtonCount += 1;
                 }
                 horiAxisInUse = true;
@@ -494,7 +494,7 @@ public class MovementHandler : MonoBehaviour
                 }
                 else
                 {
-                    runInputTime = 0.3f; 
+                    runInputTime = 0.25f; 
                     buttonCount += 1;
                 }
                 horiAxisInUse = true;
@@ -532,11 +532,11 @@ public class MovementHandler : MonoBehaviour
         else if (!Actions.airborne && !Actions.acceptMove)
         {
             //friction for on the ground while attacking or getting hit, uses character's walking back speed to determine deceleration
-            if (rb.velocity.x > .75f)
+            if (rb.velocity.x > .8f)
             {
                 rb.AddForce(new Vector2(-.12f * walkBackSpeed, 0), ForceMode2D.Impulse);
             }
-            else if(rb.velocity.x < -.75f)
+            else if(rb.velocity.x < -.8f)
             {
                 rb.AddForce(new Vector2(.12f * walkBackSpeed, 0), ForceMode2D.Impulse);
             }

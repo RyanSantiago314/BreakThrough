@@ -19,10 +19,10 @@ public class AttackHandlerDHA : MonoBehaviour
     private string LM;
     private string HB;
     private string MH;
-    private string Taunt;
+    private string LB;
 
     float bufferTime = .25f;
-    float directionBuffertime = .35f;
+    float directionBufferTime = .35f;
     float lightButton;
     float mediumButton;
     float heavyButton;
@@ -67,6 +67,7 @@ public class AttackHandlerDHA : MonoBehaviour
 
     static int IDRec;
     static int IDBlitz;
+    static int IDThrow;
 
     AnimatorStateInfo currentState;  
 
@@ -87,6 +88,7 @@ public class AttackHandlerDHA : MonoBehaviour
 
         IDRec = Animator.StringToHash("Recover");
         IDBlitz = Animator.StringToHash("Blitz");
+        IDThrow = Animator.StringToHash("Throw");
 
         if (transform.parent.name == "Player1")
         {
@@ -99,8 +101,8 @@ public class AttackHandlerDHA : MonoBehaviour
             Break = "Cross_P1";
             LM = "R1_P1";
             HB = "R2_P1";
-            MH = "L1_P1";
-            Taunt = "L2_P1";
+            LB = "L1_P1";
+            MH = "L2_P1";
         }
         else
         {
@@ -113,8 +115,8 @@ public class AttackHandlerDHA : MonoBehaviour
             Break = "Cross_P2";
             LM = "R1_P2";
             HB = "R2_P2";
-            MH = "L1_P2";
-            Taunt = "L2_P2";
+            LB = "L1_P2";
+            MH = "L2_P2";
         }
     }
 
@@ -199,6 +201,11 @@ public class AttackHandlerDHA : MonoBehaviour
             heavyButton = bufferTime;
             breakButton = bufferTime;
         }
+        if (Input.GetButtonDown(LB))
+        {
+            lightButton = bufferTime;
+            breakButton = bufferTime;
+        }
         if (Input.GetButtonDown(MH))
         {
             mediumButton = bufferTime;
@@ -225,16 +232,16 @@ public class AttackHandlerDHA : MonoBehaviour
             {
                 if (Move.facingRight) 
                     // 1 : pressing down-back
-                    dir1 = directionBuffertime;
+                    dir1 = directionBufferTime;
                 else // 3 : pressing down-forward
-                    dir3 = directionBuffertime;
+                    dir3 = directionBufferTime;
             }
             else if (Move.facingRight) 
                 // pressing back if facing right
-                dir4 = directionBuffertime;
+                dir4 = directionBufferTime;
             else 
                 // pressing forward if facing left
-                dir6 = directionBuffertime;
+                dir6 = directionBufferTime;
         }
         // pressing right on the d pad/stick, considered forward if facing right, considered backward if facing left
         else if (Input.GetAxis(Horizontal) > 0) 
@@ -243,22 +250,22 @@ public class AttackHandlerDHA : MonoBehaviour
             {
                 if (Move.facingRight) 
                     // pressing down-forward
-                    dir3 = directionBuffertime;
+                    dir3 = directionBufferTime;
                 else
                     // pressing down-back
-                    dir1 = directionBuffertime;
+                    dir1 = directionBufferTime;
             }
             if (Move.facingRight)
                 //forward if facing right
-                dir6 = directionBuffertime;
+                dir6 = directionBufferTime;
             else
                 //back if facing left
-                dir4 = directionBuffertime;
+                dir4 = directionBufferTime;
         }
         else if (Input.GetAxis(Vertical) < 0)
         {
             //only pressing down
-            dir2 = directionBuffertime;
+            dir2 = directionBufferTime;
         }
 
         if (currentState.IsName("IdleStand") || currentState.IsName("IdleCrouch") || currentState.IsName("StandUp") || Move.jumped)
@@ -291,12 +298,23 @@ public class AttackHandlerDHA : MonoBehaviour
             heavyButton = 0;
             mediumButton = 0;
         }
+        else if (Actions.acceptMove && lightButton > 0 && breakButton > 0)
+        {
+            if(Actions.standing)
+            {
+                anim.SetTrigger(IDThrow);
+                if (dir4 == directionBufferTime)
+                    Actions.backThrow = true;
+                else
+                    Actions.backThrow = false;
+            }
+        }
         else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop == 0)
         {
             //break attacks
             if(Actions.standing)
             {
-                if(Input.GetAxis(Vertical) < 0)
+                if(dir2 == directionBufferTime)
                 {
                     if(CrouchB)
                     {
@@ -328,7 +346,7 @@ public class AttackHandlerDHA : MonoBehaviour
             //heavy attacks
             if(Actions.standing)
             {
-                if(Input.GetAxis(Vertical) < 0)
+                if(dir2 == directionBufferTime)
                 {
                     if(CrouchH)
                     {
@@ -376,7 +394,7 @@ public class AttackHandlerDHA : MonoBehaviour
             //medium attacks
             if(Actions.standing)
             {
-                if(Input.GetAxis(Vertical) < 0)
+                if(dir2 == directionBufferTime)
                 {
                     if(CrouchM)
                     {
@@ -408,7 +426,7 @@ public class AttackHandlerDHA : MonoBehaviour
             //light attacks
             if(Actions.standing)
             {
-                if(Input.GetAxis(Vertical) < 0)
+                if(dir2 == directionBufferTime)
                 {
                     if(CrouchL > 0)
                     {
