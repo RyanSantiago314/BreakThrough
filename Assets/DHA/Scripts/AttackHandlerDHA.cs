@@ -8,6 +8,7 @@ public class AttackHandlerDHA : MonoBehaviour
     public MovementHandler Move;
     public AcceptInputs Actions;
     public CharacterProperties CharProp;
+    public MaxInput MaxInput;
 
     ColorSwapDHA colorControl;
 
@@ -187,30 +188,30 @@ public class AttackHandlerDHA : MonoBehaviour
 
 
         //record buttons pressed
-        if (Input.GetButtonDown(Light))
+        if (MaxInput.GetButtonDown(Light))
             lightButton = bufferTime;
-        if (Input.GetButtonDown(Medium))
+        if (MaxInput.GetButtonDown(Medium))
             mediumButton = bufferTime;
-        if (Input.GetButtonDown(Heavy))
+        if (MaxInput.GetButtonDown(Heavy))
             heavyButton = bufferTime;
-        if (Input.GetButtonDown(Break))
+        if (MaxInput.GetButtonDown(Break))
             breakButton = bufferTime;
-        if (Input.GetButtonDown(LM))
+        if (MaxInput.GetButtonDown(LM))
         {
             lightButton = bufferTime;
             mediumButton = bufferTime;
         }
-        if (Input.GetButtonDown(HB))
+        if (MaxInput.GetButtonDown(HB))
         {
             heavyButton = bufferTime;
             breakButton = bufferTime;
         }
-        if (Input.GetButtonDown(LB))
+        if (MaxInput.GetButtonDown(LB))
         {
             lightButton = bufferTime;
             breakButton = bufferTime;
         }
-        if (Input.GetButtonDown(MH))
+        if (MaxInput.GetButtonDown(MH))
         {
             mediumButton = bufferTime;
             heavyButton = bufferTime;
@@ -230,9 +231,9 @@ public class AttackHandlerDHA : MonoBehaviour
                     down
          */
         // pressing left on the d pad or stick, considered backward if facing right, considered forward if facing left
-        if (Input.GetAxis(Horizontal) < 0) 
+        if (MaxInput.GetAxis(Horizontal) < 0) 
         {
-            if(Input.GetAxis(Vertical) < 0) // diagonal directions
+            if(MaxInput.GetAxis(Vertical) < 0) // diagonal directions
             {
                 if (Move.facingRight) 
                     // 1 : pressing down-back
@@ -248,9 +249,9 @@ public class AttackHandlerDHA : MonoBehaviour
                 dir6 = directionBufferTime;
         }
         // pressing right on the d pad/stick, considered forward if facing right, considered backward if facing left
-        else if (Input.GetAxis(Horizontal) > 0) 
+        else if (MaxInput.GetAxis(Horizontal) > 0) 
         {
-            if (Input.GetAxis(Vertical) < 0)
+            if (MaxInput.GetAxis(Vertical) < 0)
             {
                 if (Move.facingRight) 
                     // pressing down-forward
@@ -266,7 +267,7 @@ public class AttackHandlerDHA : MonoBehaviour
                 //back if facing left
                 dir4 = directionBufferTime;
         }
-        else if (Input.GetAxis(Vertical) < 0)
+        else if (MaxInput.GetAxis(Vertical) < 0)
         {
             //only pressing down
             dir2 = directionBufferTime;
@@ -459,7 +460,7 @@ public class AttackHandlerDHA : MonoBehaviour
         }
 
         // DHA character specific property, can charge Break attacks to make them more powerful
-        if(Input.GetButton(Break))
+        if(MaxInput.GetButton(Break))
         {
             anim.SetBool(BreakCharge, true);
         }
