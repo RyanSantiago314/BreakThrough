@@ -255,10 +255,10 @@ public class HitDetector : MonoBehaviour
                 //deal durability/chip damage equaling 20% of base damage
                 //apply pushback to both by half of horizontal knockback value
                 if(OpponentDetector.Actions.Move.hittingWall)
-                    KnockBack = potentialKnockBack;
+                    KnockBack = potentialKnockBack * new Vector2(1,0);
                 else
                 {
-                    KnockBack = potentialKnockBack * new Vector2(.7f, 0);
+                    KnockBack = potentialKnockBack * new Vector2(.8f, 0);
                     OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.4f, 0);
                 }
 
@@ -351,7 +351,7 @@ public class HitDetector : MonoBehaviour
         }
         else if (allowHit && (grab || commandGrab) && other.CompareTag("Body") && ((Actions.standing && OpponentDetector.Actions.standing) || (Actions.airborne && OpponentDetector.Actions.airborne)))
         {
-            if (OpponentDetector.Actions.throwTech && !commandGrab)
+            if ((OpponentDetector.Actions.throwTech && !commandGrab))
             {
                 anim.SetTrigger(throwRejectID);
                 OpponentDetector.anim.SetTrigger(throwRejectID);
@@ -359,7 +359,7 @@ public class HitDetector : MonoBehaviour
                 if (Actions.Move.facingRight)
                     KnockBack *= new Vector2(-1, 0);
             }
-            else if ((OpponentDetector.hitStun == 0 && OpponentDetector.blockStun == 0) || OpponentDetector.Actions.grabbed)
+            else if (((OpponentDetector.hitStun == 0 && OpponentDetector.blockStun == 0) || OpponentDetector.Actions.grabbed) && hitStun == 0 && !currentState.IsName("Deflected"))
             {
                 Actions.throwTech = false;
                 //Actions.Move.OpponentProperties.armor -= armorDamage;

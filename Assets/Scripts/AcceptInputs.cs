@@ -57,7 +57,7 @@ public class AcceptInputs : MonoBehaviour
     void Update()
     {
         //moves the defending character slightly farther back to allow visibility on attacking character
-        if (comboHits > 0)
+        if (comboHits > 0 || grabbed)
             transform.position = new Vector3(transform.position.x, transform.position.y, zPosHit);
         else
             transform.position = new Vector3(transform.position.x, transform.position.y, zPos);
@@ -152,9 +152,9 @@ public class AcceptInputs : MonoBehaviour
 
     public void TurnAroundCheck()
     {
-        if(Move.opponent.transform.position.x < transform.position.x)
+        if(Move.opponent.transform.position.x < transform.position.x - .1f)
             Move.facingRight = false;
-        else if (Move.opponent.transform.position.x > transform.position.x)
+        else if (Move.opponent.transform.position.x > transform.position.x + .1f)
             Move.facingRight = true;
     }
 
