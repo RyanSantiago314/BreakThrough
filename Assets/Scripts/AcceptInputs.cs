@@ -22,6 +22,7 @@ public class AcceptInputs : MonoBehaviour
     public bool shattered = false;
     public int wallStick = 0;
     public bool groundBounce = false;
+    public bool wallBounce = false;
 
     public bool grabbed = false;
     public bool throwTech = false;
@@ -118,6 +119,7 @@ public class AcceptInputs : MonoBehaviour
         shattered = false;
         wallStick = 0;
         groundBounce = false;
+        wallBounce = false;
         grabbed = false;
     }
     public void DisableMovement()

@@ -9,6 +9,8 @@ public class AttackHandlerDHA : MonoBehaviour
     public AcceptInputs Actions;
     public CharacterProperties CharProp;
 
+    ColorSwapDHA colorControl;
+
     private string Horizontal;
     private string Vertical;
 
@@ -118,6 +120,8 @@ public class AttackHandlerDHA : MonoBehaviour
             LB = "L1_P2";
             MH = "L2_P2";
         }
+
+        colorControl = transform.GetChild(0).GetComponent<ColorSwapDHA>();
     }
 
     void Update()
@@ -268,11 +272,10 @@ public class AttackHandlerDHA : MonoBehaviour
             dir2 = directionBufferTime;
         }
 
-        if (currentState.IsName("IdleStand") || currentState.IsName("IdleCrouch") || currentState.IsName("StandUp") || Move.jumped)
+        if (Actions.acceptMove || currentState.IsName("StandUp") || Move.jumped)
         {
             //refresh possible moves when in certain states
             RefreshMoveList();
-            Move.jumped = false;
         }
 
         //aerial recovery, press a button after hitstun ends
@@ -281,6 +284,7 @@ public class AttackHandlerDHA : MonoBehaviour
             (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
         {
             anim.SetTrigger(IDRec);
+            colorControl.StartRecoverFlash();
             lightButton = 0;
             mediumButton = 0;
             heavyButton = 0;
@@ -298,7 +302,7 @@ public class AttackHandlerDHA : MonoBehaviour
             heavyButton = 0;
             mediumButton = 0;
         }
-        else if (Actions.acceptMove && lightButton > 0 && breakButton > 0)
+        else if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0)
         {
             if(Actions.standing)
             {

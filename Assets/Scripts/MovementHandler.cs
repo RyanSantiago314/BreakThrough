@@ -65,6 +65,7 @@ public class MovementHandler : MonoBehaviour
     static int airGuardID;
     static int wallStickID;
     static int groundBounceID;
+    static int wallBounceID;
     static int yVeloID;
 
     // Set Up inputs, anim variable hashes, and opponent in awake
@@ -105,6 +106,7 @@ public class MovementHandler : MonoBehaviour
         airGuardID = Animator.StringToHash("AirGuard");
         wallStickID = Animator.StringToHash("WallStick");
         groundBounceID = Animator.StringToHash("GroundBounce");
+        wallBounceID = Animator.StringToHash("WallBounce");
         yVeloID = Animator.StringToHash("VertVelocity");
     }
 
@@ -283,7 +285,7 @@ public class MovementHandler : MonoBehaviour
             if (Actions.groundBounce)
             { 
                 anim.SetTrigger(groundBounceID);
-                rb.velocity = new Vector2(1.5f, 5.5f);
+                rb.velocity = new Vector2(1.5f, 5.25f);
 
                 if (facingRight)
                     rb.velocity *= new Vector2(-1, 1);
@@ -303,6 +305,10 @@ public class MovementHandler : MonoBehaviour
             if(!opponent.GetComponent<MovementHandler>().hittingWall)
                 hittingWall = true;
         }
+        else if (collision.collider.CompareTag("Bound") && Actions.wallBounce && Actions.wallStick == 0)
+        {
+            WallStates();
+        }
     }
 
     void OnCollisionStay2D(Collision2D collision)
@@ -310,7 +316,8 @@ public class MovementHandler : MonoBehaviour
         if (collision.collider.CompareTag("Floor"))
         {
             Actions.airborne = false;
-            jumps = 0;
+            if(Actions.standing)
+                jumps = 0;
         }
         else if (collision.collider.CompareTag("Wall"))
         {
@@ -323,6 +330,8 @@ public class MovementHandler : MonoBehaviour
         if (collision.collider.CompareTag("Floor"))
         {
             Actions.airborne = true;
+            if (jumps > maxJumps - 1)
+                jumps--;
         }
         else if (collision.collider.CompareTag("Wall"))
         {
@@ -482,11 +491,11 @@ public class MovementHandler : MonoBehaviour
             }
         }
         //double tap forward to run
-        if (((Input.GetAxisRaw(Horizontal) == 1 && facingRight) || (Input.GetAxisRaw(Horizontal) == -1 && !facingRight)) && !Actions.airborne)
+        if (((Input.GetAxisRaw(Horizontal) == 1 && facingRight) || (Input.GetAxisRaw(Horizontal) == -1 && !facingRight)))
         {
             if (!horiAxisInUse)
             {
-                if (Actions.acceptMove && Actions.standing && runInputTime > 0 && buttonCount == 1/*Number of Taps Minus One*/)
+                if (Actions.acceptMove && runInputTime > 0 && buttonCount == 1/*Number of Taps Minus One*/)
                 {
                     //Has double tapped
                     anim.SetBool(runID, true);
@@ -641,6 +650,18 @@ public class MovementHandler : MonoBehaviour
             Actions.groundBounce = false;
             rb.velocity = new Vector2(0, rb.velocity.y);
             anim.SetBool(wallStickID, true);
+            //set off wall hit effect
+        }
+        else if (Actions.wallBounce && HitDetect.hitStun > 0  && transform.position.y > 1.3f)
+        {
+            Actions.groundBounce = false;
+            rb.velocity = Vector2.zero;
+            if (facingRight)
+                rb.AddForce(new Vector2(.6f, 1.5f), ForceMode2D.Impulse);
+            else
+                rb.AddForce(new Vector2(-.6f, 1.5f), ForceMode2D.Impulse);
+            anim.SetTrigger(wallBounceID);
+            //set off wall hit effect
         }
     }
 

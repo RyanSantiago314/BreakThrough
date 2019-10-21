@@ -46,11 +46,11 @@ public class HitDetector : MonoBehaviour
     public bool shatter = false;
     public bool allowWallStick = false;
     public bool allowGroundBounce = false;
+    public bool allowWallBounce = false;
 
     HitDetector OpponentDetector;
 
     bool allowHit = false;
-    bool allowGrab = false;
     int collideCount = 0;
     public bool hit = false;
     public int comboCount;
@@ -126,7 +126,7 @@ public class HitDetector : MonoBehaviour
         {
             Actions.DisableAll();
             //hitStun only counts down if not in the groundbounce or crumple animations
-            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple"))
+            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit"))
                 hitStun--;
             anim.SetInteger(hitStunID, hitStun);
         }
@@ -154,7 +154,6 @@ public class HitDetector : MonoBehaviour
         else 
         {
             anim.SetFloat(animSpeedID, 1.0f);
-
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
             if(currentState.IsName("WallStick"))
@@ -356,7 +355,7 @@ public class HitDetector : MonoBehaviour
             {
                 anim.SetTrigger(throwRejectID);
                 OpponentDetector.anim.SetTrigger(throwRejectID);
-                KnockBack = new Vector2(3, 0);
+                KnockBack = new Vector2(2, 0);
                 if (Actions.Move.facingRight)
                     KnockBack *= new Vector2(-1, 0);
             }
@@ -385,7 +384,6 @@ public class HitDetector : MonoBehaviour
         if (collideCount == 0)
         {
             allowHit = true;
-            allowGrab = true;
         }
     }
 
@@ -450,8 +448,9 @@ public class HitDetector : MonoBehaviour
         }
 
         OpponentDetector.Actions.groundBounce = allowGroundBounce;
+        OpponentDetector.Actions.wallBounce = allowWallBounce;
 
-        if(allowWallStick && OpponentDetector.Actions.wallStick == 0)
+        if (allowWallStick && OpponentDetector.Actions.wallStick == 0)
         {
             OpponentDetector.Actions.wallStick = 4;
         }
