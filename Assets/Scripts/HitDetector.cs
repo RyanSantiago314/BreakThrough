@@ -7,6 +7,7 @@ public class HitDetector : MonoBehaviour
     public Animator anim;
     public Rigidbody2D rb;
     public AcceptInputs Actions;
+    public MaxInput MaxInput;
 
     AnimatorStateInfo currentState;
     public Vector2 currentVelocity;
@@ -409,6 +410,7 @@ public class HitDetector : MonoBehaviour
 
     void HitSuccess(Collider2D other)
     {
+        MaxInput.Hit(OpponentDetector.gameObject.name);
         //if the attack successfully hit the opponent
         anim.SetTrigger(successID);
 

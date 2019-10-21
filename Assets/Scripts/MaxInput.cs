@@ -5,6 +5,7 @@ using UnityEngine;
 public class MaxInput : MonoBehaviour
 {
     public bool AI;
+    public bool training;
 
     private float horizontal;
     private float vertical;
@@ -16,6 +17,18 @@ public class MaxInput : MonoBehaviour
     private bool rTrigger;
     private bool lBumper;
     private bool lTrigger;
+    private string lastHit;
+
+    private float horizontal1;
+    private float vertical1;
+    private bool square1;
+    private bool triangle1;
+    private bool circle1;
+    private bool cross1;
+    private bool rBumper1;
+    private bool rTrigger1;
+    private bool lBumper1;
+    private bool lTrigger1;
 
     void Start()
     {
@@ -24,19 +37,27 @@ public class MaxInput : MonoBehaviour
 
     public float GetAxisRaw(string axis)
     {
-        if (!AI || axis.Contains("P1"))
+        if ((!AI || axis.Contains("P1")) && !training)
         {
             return Input.GetAxisRaw(axis);
         }
         else
         {
-            if (axis.Contains("Horizontal"))
+            if (axis.Contains("Horizontal_P2"))
             {
                 return horizontal;
             }
-            else if (axis.Contains("Vertical"))
+            else if (axis.Contains("Vertical_P2"))
             {
                 return vertical;
+            }
+            else if (axis.Contains("Horizontal_P1"))
+            {
+                return horizontal1;
+            }
+            else if (axis.Contains("Vertical_P1"))
+            {
+                return vertical1;
             }
             else
             {
@@ -47,19 +68,27 @@ public class MaxInput : MonoBehaviour
 
     public float GetAxis(string axis)
     {
-        if (!AI || axis.Contains("P1"))
+        if ((!AI || axis.Contains("P1")) && !training)
         {
             return Input.GetAxis(axis);
         }
         else
         {
-            if (axis.Contains("Horizontal"))
+            if (axis.Contains("Horizontal_P2"))
             {
                 return horizontal;
             }
-            else if (axis.Contains("Vertical"))
+            else if (axis.Contains("Vertical_P2"))
             {
                 return vertical;
+            }
+            else if (axis.Contains("Horizontal_P1"))
+            {
+                return horizontal1;
+            }
+            else if (axis.Contains("Vertical_P1"))
+            {
+                return vertical1;
             }
             else
             {
@@ -70,7 +99,7 @@ public class MaxInput : MonoBehaviour
 
     public bool GetButtonDown(string button)
     {
-        if (!AI || button.Contains("P1"))
+        if ((!AI || button.Contains("P1")) && !training)
         {
             return Input.GetButtonDown(button);
         }
@@ -94,6 +123,22 @@ public class MaxInput : MonoBehaviour
                     return lBumper;
                 case "L2_P2":
                     return lTrigger;
+                case "Square_P1":
+                    return square1;
+                case "Triangle_P1":
+                    return triangle1;
+                case "Circle_P1":
+                    return circle1;
+                case "Cross_P1":
+                    return cross1;
+                case "R1_P1":
+                    return rBumper1;
+                case "R2_P1":
+                    return rTrigger1;
+                case "L1_P1":
+                    return lBumper1;
+                case "L2_P1":
+                    return lTrigger1;
                 case "Start_P2":
                 case "Select_P2":
                     return false;
@@ -105,7 +150,7 @@ public class MaxInput : MonoBehaviour
 
     public bool GetButton(string button)
     {
-        if (!AI || button.Contains("P1"))
+        if ((!AI || button.Contains("P1")) && !training)
         {
             return Input.GetButton(button);
         }
@@ -129,6 +174,22 @@ public class MaxInput : MonoBehaviour
                     return lBumper;
                 case "L2_P2":
                     return lTrigger;
+                case "Square_P1":
+                    return square1;
+                case "Triangle_P1":
+                    return triangle1;
+                case "Circle_P1":
+                    return circle1;
+                case "Cross_P1":
+                    return cross1;
+                case "R1_P1":
+                    return rBumper1;
+                case "R2_P1":
+                    return rTrigger1;
+                case "L1_P1":
+                    return lBumper1;
+                case "L2_P1":
+                    return lTrigger1;
                 case "Start_P2":
                 case "Select_P2":
                     return false;
@@ -136,6 +197,16 @@ public class MaxInput : MonoBehaviour
                     throw new System.Exception("Button " + button + " is an invalid button.");
             }
         }
+    }
+
+    public void Hit(string player)
+    {
+        lastHit = player;
+    }
+
+    public string LastHit()
+    {
+        return lastHit;
     }
 
     public void ClearInput()
@@ -150,65 +221,162 @@ public class MaxInput : MonoBehaviour
         rTrigger = false;
         lBumper = false;
         lTrigger = false;
+
+        horizontal1 = 0;
+        vertical1 = 0;
+        square1 = false;
+        triangle1 = false;
+        circle1 = false;
+        cross1 = false;
+        rBumper1 = false;
+        rTrigger1 = false;
+        lBumper1 = false;
+        lTrigger1 = false;
+
+        lastHit = "";
 }
 
-    public void moveLeft()
+    public void moveLeft(string name)
     {
-        horizontal = -1;
+        if (name == "Player1")
+        {
+            horizontal1 = -1;
+        }
+        else
+        {
+            horizontal = -1;
+        }
     }
 
-    public void moveRight()
+    public void moveRight(string name)
     {
-        horizontal = 1;
+        if (name == "Player1")
+        {
+            horizontal1 = 1;
+        }
+        else
+        {
+            horizontal = 1;
+        }
     }
 
-    public void Jump()
+    public void Jump(string name)
     {
-        vertical = 1;
+        if (name == "Player1")
+        {
+            vertical1 = 1;
+        }
+        else
+        {
+            vertical = 1;
+        }
     }
 
-    public void Crouch()
+    public void Crouch(string name)
     {
-        vertical = -1;
+        if (name == "Player1")
+        {
+            vertical1 = -1;
+        }
+        else
+        {
+            vertical = -1;
+        }
     }
 
-    public void Square()
+    public void Square(string name)
     {
-        square = true;
+        if (name == "Player1")
+        {
+            square1 = true;
+        }
+        else
+        {
+            square = true;
+        }
     }
-    public void Triangle()
+    public void Triangle(string name)
     {
-        triangle = true;
-    }
-
-    public void Circle()
-    {
-        circle = true;
-    }
-
-    public void Cross()
-    {
-        cross = true;
-    }
-
-    public void RBumper()
-    {
-        rBumper = true;
-    }
-
-    public void RTrigger()
-    {
-        rTrigger = true;
+        if (name == "Player1")
+        {
+            triangle1 = true;
+        }
+        else
+        {
+            triangle = true;
+        }
     }
 
-    public void LBumper()
+    public void Circle(string name)
     {
-        lBumper = true;
+        if (name == "Player1")
+        {
+            circle1 = true;
+        }
+        else
+        {
+            circle = true;
+        }
     }
 
-    public void LTrigger()
+    public void Cross(string name)
     {
-        lTrigger = true;
+        if (name == "Player1")
+        {
+            cross1 = true;
+        }
+        else
+        {
+            cross = true;
+        }
+    }
+
+    public void RBumper(string name)
+    {
+        if (name == "Player1")
+        {
+            rBumper1 = true;
+        }
+        else
+        {
+            rBumper = true;
+        }
+    }
+
+    public void RTrigger(string name)
+    {
+        if (name == "Player1")
+        {
+            rTrigger1 = true;
+        }
+        else
+        {
+            rTrigger = true;
+        }
+    }
+
+    public void LBumper(string name)
+    {
+        if (name == "Player1")
+        {
+            lBumper1 = true;
+        }
+        else
+        {
+            lBumper = true;
+        }
+    }
+
+    public void LTrigger(string name)
+    {
+        if (name == "Player1")
+        {
+            lTrigger1 = true;
+        }
+        else
+        {
+            lTrigger = true;
+        }
     }
 
 }

@@ -981,6 +981,93 @@ MonoBehaviour:
   Actions: {fileID: 1430043728}
   CharProp: {fileID: 480952548}
   MaxInput: {fileID: 1948197657}
+--- !u!1 &509162048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 509162051}
+  - component: {fileID: 509162050}
+  - component: {fileID: 509162049}
+  m_Layer: 0
+  m_Name: FighterAcademy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &509162049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509162048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7169ecb92d5e3e049bc5cf8c26478a83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brain: {fileID: 11400000, guid: 1385b0963866c984796bf6d1fb00e6a4, type: 2}
+  agentParameters:
+    agentCameras:
+    - {fileID: 950203079}
+    agentRenderTextures: []
+    maxStep: 0
+    resetOnDone: 1
+    onDemandDecision: 0
+    numberOfActionsBetweenDecisions: 10
+  MaxInput: {fileID: 1948197657}
+  Name: Player2
+--- !u!114 &509162050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509162048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 674e9b2017c76ae418e22261c7aa5d7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  broadcastHub:
+    broadcastingBrains:
+    - {fileID: 11400000, guid: 1385b0963866c984796bf6d1fb00e6a4, type: 2}
+    - {fileID: 11400000, guid: 01fe688b10d355449a247c6af08d6efb, type: 2}
+    m_BrainsToControl:
+    - {fileID: 11400000, guid: 1385b0963866c984796bf6d1fb00e6a4, type: 2}
+  m_TrainingConfiguration:
+    width: 160
+    height: 80
+    qualityLevel: 1
+    timeScale: 1
+    targetFrameRate: -1
+  m_InferenceConfiguration:
+    width: 1280
+    height: 720
+    qualityLevel: 5
+    timeScale: 1
+    targetFrameRate: 60
+  resetParameters:
+    m_ResetParameters: []
+--- !u!4 &509162051
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509162048}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &515295531
 GameObject:
   m_ObjectHideFlags: 0
@@ -1216,6 +1303,7 @@ MonoBehaviour:
   anim: {fileID: 1026248757}
   rb: {fileID: 2128405694}
   Actions: {fileID: 1026248758}
+  MaxInput: {fileID: 1948197657}
   currentVelocity: {x: 0, y: 0}
   damage: 0
   initialProration: 0
@@ -1649,6 +1737,12 @@ Transform:
   m_Father: {fileID: 1430043735}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &950203079 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 1132291094756303826, guid: 256af52d0b7bef24a8349a57abdc9d7a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1132291094602616481}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1026248754
 GameObject:
   m_ObjectHideFlags: 0
@@ -2445,6 +2539,7 @@ GameObject:
   - component: {fileID: 1948197658}
   - component: {fileID: 1948197657}
   - component: {fileID: 1948197659}
+  - component: {fileID: 1948197660}
   m_Layer: 0
   m_Name: MaxInput
   m_TagString: Untagged
@@ -2465,6 +2560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AI: 1
+  training: 1
 --- !u!4 &1948197658
 Transform:
   m_ObjectHideFlags: 0
@@ -2486,11 +2582,33 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948197656}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bddeebde644bc0d45b9d06cbdf1ca9d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1948197660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948197656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7169ecb92d5e3e049bc5cf8c26478a83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brain: {fileID: 11400000, guid: 01fe688b10d355449a247c6af08d6efb, type: 2}
+  agentParameters:
+    agentCameras: []
+    agentRenderTextures: []
+    maxStep: 0
+    resetOnDone: 1
+    onDemandDecision: 0
+    numberOfActionsBetweenDecisions: 1
+  MaxInput: {fileID: 1948197657}
+  Name: Player1
 --- !u!1 &2007323896
 GameObject:
   m_ObjectHideFlags: 0
@@ -2544,6 +2662,7 @@ MonoBehaviour:
   anim: {fileID: 1430043734}
   rb: {fileID: 480952552}
   Actions: {fileID: 1430043728}
+  MaxInput: {fileID: 1948197657}
   currentVelocity: {x: 0, y: 0}
   damage: 0
   initialProration: 0

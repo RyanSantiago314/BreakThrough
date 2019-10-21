@@ -400,10 +400,12 @@ public class MovementHandler : MonoBehaviour
             if (transform.position.y > opponent.position.y && (transform.position.y - opponent.position.y) > (.5f * pushBox.size.y + .5f * opponentMove.pushBox.size.y))
             {
                 pushBox.isTrigger = true;
+                Debug.Log("Pushbox triggered");
             }
             else if ((Actions.airborne && opponentMove.Actions.airborne))
             {
                 pushBox.isTrigger = false;
+                Debug.Log("Pushbox not triggered");
                 if (Mathf.Abs(transform.position.x - opponent.position.x) < pushBox.size.x && Mathf.Abs(transform.position.y - opponent.position.y) <= pushBox.size.y && opponentMove.hittingWall)
                 {
                     if (facingRight)
@@ -415,10 +417,12 @@ public class MovementHandler : MonoBehaviour
             else if (Actions.airborne && !opponentMove.Actions.airborne && hittingWall && transform.position.y - opponent.position.y < .5f * pushBox.size.y)
             {
                 pushBox.isTrigger = false;
+                Debug.Log("Pushbox not triggered");
             }
             else if(Actions.airborne && !opponentMove.Actions.airborne)
             {
                 pushBox.isTrigger = true;
+                Debug.Log("Pushbox triggered");
                 if (rb.velocity.y <= 0 && opponentMove.hittingWall)
                 {
                    if (opponentMove.facingRight)

@@ -26,10 +26,11 @@ public class AI : MonoBehaviour
 
         if (timer > 2)
         {
-            MaxInput.Circle();
+            MaxInput.Circle("Player2");
+            Debug.Log("Stabbing");
             timer = 0;
         }
 
-        MaxInput.moveLeft();
+        MaxInput.moveLeft("Player2");
     }
 }
