@@ -63,6 +63,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.forceCrouch = false;
         HitDetect.allowWallStick = false;
         HitDetect.allowGroundBounce = false;
+        HitDetect.allowWallBounce = false;
         HitDetect.shatter = false;
     }
 
@@ -554,7 +555,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.damage = 150;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 0;
-        HitDetect.potentialKnockBack = new Vector2(2f, 2f);
+        HitDetect.potentialKnockBack = new Vector2(3f, 2f);
         HitDetect.potentialAirKnockBack = new Vector2(2f, -1f);
         HitDetect.potentialHitStun = 60;
         HitDetect.potentialHitStop = hitStopLv4;
