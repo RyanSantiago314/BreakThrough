@@ -10,6 +10,7 @@ public class MovementHandler : MonoBehaviour
     public BoxCollider2D pushTrigger;
     public AcceptInputs Actions;
     public HitDetector HitDetect;
+    public MaxInput MaxInput;
 
     public Transform opponent;
     public CharacterProperties OpponentProperties;
@@ -153,12 +154,12 @@ public class MovementHandler : MonoBehaviour
             transform.position = new Vector3(transform.position.x, minPosY, transform.position.z);
         }
 
-        if ((Input.GetAxis(Vertical) < 0 && Actions.acceptMove && Actions.standing)|| (anim.GetBool(crouchID) && !Actions.acceptMove && Actions.standing))
+        if ((MaxInput.GetAxis(Vertical) < 0 && Actions.acceptMove && Actions.standing)|| (anim.GetBool(crouchID) && !Actions.acceptMove && Actions.standing))
             anim.SetBool(crouchID, true);
         else
             anim.SetBool(crouchID, false);
 
-        if(Actions.acceptMove && ((Input.GetAxis(Horizontal) > 0 && facingRight) || (Input.GetAxis(Horizontal) < 0 && !facingRight)) && !Actions.airborne && !anim.GetBool(runID))
+        if(Actions.acceptMove && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)) && !Actions.airborne && !anim.GetBool(runID))
         {
             anim.SetBool(walkFID, true);
         }
@@ -167,7 +168,7 @@ public class MovementHandler : MonoBehaviour
             anim.SetBool(walkFID, false);
         }
 
-        if(Actions.acceptMove && ((Input.GetAxis(Horizontal) < 0 && facingRight) || (Input.GetAxis(Horizontal) > 0 && !facingRight)) && !Actions.airborne && !backDash)
+        if(Actions.acceptMove && ((MaxInput.GetAxis(Horizontal) < 0 && facingRight) || (MaxInput.GetAxis(Horizontal) > 0 && !facingRight)) && !Actions.airborne && !backDash)
         {
             anim.SetBool(walkBID, true);
         }
@@ -176,7 +177,7 @@ public class MovementHandler : MonoBehaviour
 
         DoubleTapActions();
 
-        if (Actions.jumpCancel && jumps < maxJumps && Input.GetAxisRaw(Vertical) == 1 && !vertAxisInUse)
+        if (Actions.jumpCancel && jumps < maxJumps && MaxInput.GetAxisRaw(Vertical) == 1 && !vertAxisInUse)
         {
             Actions.EnableAll();
             pushBox.isTrigger = true;
@@ -184,19 +185,19 @@ public class MovementHandler : MonoBehaviour
             jumping = true;
 
 
-            if(Input.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
+            if(MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
                 jumpRight = true;
-            else if(Input.GetAxis(Horizontal) < 0 && !anim.GetBool(runID))
+            else if(MaxInput.GetAxis(Horizontal) < 0 && !anim.GetBool(runID))
                 jumpLeft = true;
 
             vertAxisInUse = true;
         }
 
-        if (Input.GetAxisRaw(Vertical) == 0)
+        if (MaxInput.GetAxisRaw(Vertical) == 0)
         {
             vertAxisInUse = false;
         }
-        if (Input.GetAxisRaw(Horizontal) == 0)
+        if (MaxInput.GetAxisRaw(Horizontal) == 0)
         {
             horiAxisInUse = false;
         }
@@ -233,9 +234,9 @@ public class MovementHandler : MonoBehaviour
                 rb.velocity = new Vector2(.5f * rb.velocity.x, 0);
             Actions.airborne = true;
 
-            if (Input.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
+            if (MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
                 jumpRight = true;
-            else if (Input.GetAxis(Horizontal) < 0 && !anim.GetBool(runID))
+            else if (MaxInput.GetAxis(Horizontal) < 0 && !anim.GetBool(runID))
                 jumpLeft = true;
 
             if (jumpRight)
@@ -258,7 +259,7 @@ public class MovementHandler : MonoBehaviour
         }
 
         //Run acceleration
-        if(anim.GetBool(runID) && ((Input.GetAxis(Horizontal) > 0 && facingRight) || (Input.GetAxis(Horizontal) < 0 && !facingRight)))
+        if(anim.GetBool(runID) && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)))
         {
             if(facingRight && rb.velocity.x < walkSpeed)
                 rb.velocity = new Vector2(walkSpeed, rb.velocity.y);
@@ -471,7 +472,7 @@ public class MovementHandler : MonoBehaviour
     void DoubleTapActions()
     {
         //double tap backward direction for backdash
-        if (((Input.GetAxisRaw(Horizontal) == -1 && facingRight) || (Input.GetAxisRaw(Horizontal) == 1 && !facingRight)) && !Actions.airborne)
+        if (((MaxInput.GetAxisRaw(Horizontal) == -1 && facingRight) || (MaxInput.GetAxisRaw(Horizontal) == 1 && !facingRight)) && !Actions.airborne)
         {
             if(!horiAxisInUse)
             {
@@ -491,7 +492,7 @@ public class MovementHandler : MonoBehaviour
             }
         }
         //double tap forward to run
-        if (((Input.GetAxisRaw(Horizontal) == 1 && facingRight) || (Input.GetAxisRaw(Horizontal) == -1 && !facingRight)))
+        if (((MaxInput.GetAxisRaw(Horizontal) == 1 && facingRight) || (MaxInput.GetAxisRaw(Horizontal) == -1 && !facingRight)) && !Actions.airborne)
         {
             if (!horiAxisInUse)
             {
@@ -580,19 +581,19 @@ public class MovementHandler : MonoBehaviour
             //change guard type based on state and directions being held
             if (opponent.position.x > transform.position.x) //for when the character is on the left
             {
-                if(Input.GetAxis(Horizontal) < 0 && Input.GetAxis(Vertical) < 0 && !Actions.airborne)
+                if(MaxInput.GetAxis(Horizontal) < 0 && MaxInput.GetAxis(Vertical) < 0 && !Actions.airborne)
                 {
                     anim.SetBool(lowGuardID, true);
                     anim.SetBool(highGuardID, false);
                     anim.SetBool(airGuardID, false);
                 }
-                else if(Input.GetAxis(Horizontal) < 0 && !Actions.airborne)
+                else if(MaxInput.GetAxis(Horizontal) < 0 && !Actions.airborne)
                 {
                     anim.SetBool(lowGuardID, false);
                     anim.SetBool(highGuardID, true);
                     anim.SetBool(airGuardID, false);
                 }
-                else if (Input.GetAxis(Horizontal) < 0 && Actions.airborne)
+                else if (MaxInput.GetAxis(Horizontal) < 0 && Actions.airborne)
                 {
                     anim.SetBool(lowGuardID, false);
                     anim.SetBool(highGuardID, false);
@@ -607,19 +608,19 @@ public class MovementHandler : MonoBehaviour
             }
             else if (opponent.position.x < transform.position.x) //for when the character is on the right
             {
-                if(Input.GetAxis(Horizontal) > 0 && Input.GetAxis(Vertical) < 0 && !Actions.airborne)
+                if(MaxInput.GetAxis(Horizontal) > 0 && MaxInput.GetAxis(Vertical) < 0 && !Actions.airborne)
                 {
                     anim.SetBool(lowGuardID, true);
                     anim.SetBool(highGuardID, false);
                     anim.SetBool(airGuardID, false);
                 }
-                else if(Input.GetAxis(Horizontal) > 0 && !Actions.airborne)
+                else if(MaxInput.GetAxis(Horizontal) > 0 && !Actions.airborne)
                 {
                     anim.SetBool(lowGuardID, false);
                     anim.SetBool(highGuardID, true);
                     anim.SetBool(airGuardID, false);
                 }
-                else if (Input.GetAxis(Horizontal) > 0 && Actions.airborne)
+                else if (MaxInput.GetAxis(Horizontal) > 0 && Actions.airborne)
                 {
                     anim.SetBool(lowGuardID, false);
                     anim.SetBool(highGuardID, false);

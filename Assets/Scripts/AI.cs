@@ -1,0 +1,35 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AI : MonoBehaviour
+{
+    float timer;
+    private MaxInput MaxInput;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        timer = 0;
+        MaxInput = GetComponent<MaxInput>();
+        if (!MaxInput.AI)
+        {
+            enabled = false;
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        MaxInput.ClearInput();
+        timer += Time.deltaTime;
+
+        if (timer > 2)
+        {
+            MaxInput.Circle();
+            timer = 0;
+        }
+
+        MaxInput.moveLeft();
+    }
+}
