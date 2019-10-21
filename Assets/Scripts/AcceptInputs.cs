@@ -33,6 +33,7 @@ public class AcceptInputs : MonoBehaviour
     public Animator anim;
     public MovementHandler Move;
     public CharacterProperties CharProp;
+    public MaxInput MaxInput;
 
     MovementHandler opponentMove;
 
@@ -186,11 +187,11 @@ public class AcceptInputs : MonoBehaviour
     {
         Move.rb.velocity = new Vector2(.2f * Move.rb.velocity.x, 0);
 
-        if(Input.GetAxis(Move.Horizontal) > 0)
+        if(MaxInput.GetAxis(Move.Horizontal) > 0)
             Move.rb.AddForce(new Vector2(.5f * Move.backDashForce, .5f*Move.jumpPower), ForceMode2D.Impulse);
-        else if (Input.GetAxis(Move.Horizontal) < 0)
+        else if (MaxInput.GetAxis(Move.Horizontal) < 0)
             Move.rb.AddForce(new Vector2(-.5f * Move.backDashForce, .5f*Move.jumpPower), ForceMode2D.Impulse);
-        else if (Input.GetAxis(Move.Vertical) < 0 && transform.position.y > 1.5f)
+        else if (MaxInput.GetAxis(Move.Vertical) < 0 && transform.position.y > 1.5f)
             Move.rb.AddForce(new Vector2(0, -.5f*Move.jumpPower), ForceMode2D.Impulse);
         else
             Move.rb.AddForce(new Vector2(0, .5f * Move.jumpPower), ForceMode2D.Impulse);

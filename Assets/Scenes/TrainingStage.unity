@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -513,6 +514,7 @@ MonoBehaviour:
   anim: {fileID: 505640630}
   Move: {fileID: 1886478828}
   CharProp: {fileID: 1886478827}
+  MaxInput: {fileID: 1948197657}
 --- !u!114 &505640627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,6 +568,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1046,8 +1049,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 1
+  m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
@@ -1157,6 +1161,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1511,6 +1516,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1601,6 +1607,7 @@ MonoBehaviour:
   anim: {fileID: 1026248757}
   Move: {fileID: 2128405693}
   CharProp: {fileID: 2128405696}
+  MaxInput: {fileID: 1948197657}
 --- !u!114 &1026248759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1685,6 +1692,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1796,6 +1804,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1909,6 +1918,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2138,6 +2148,7 @@ MonoBehaviour:
   pushTrigger: {fileID: 1886478829}
   Actions: {fileID: 505640626}
   HitDetect: {fileID: 1018230601}
+  MaxInput: {fileID: 1948197657}
   opponent: {fileID: 0}
   OpponentProperties: {fileID: 0}
   hittingWall: 0
@@ -2249,6 +2260,64 @@ MonoBehaviour:
   Move: {fileID: 1886478828}
   Actions: {fileID: 505640626}
   CharProp: {fileID: 1886478827}
+  MaxInput: {fileID: 1948197657}
+--- !u!1 &1948197656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1948197658}
+  - component: {fileID: 1948197657}
+  - component: {fileID: 1948197659}
+  m_Layer: 0
+  m_Name: MaxInput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1948197657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948197656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34759b8f05b343a40a448855bc4158e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AI: 1
+--- !u!4 &1948197658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948197656}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1948197659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948197656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bddeebde644bc0d45b9d06cbdf1ca9d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2128405689
 GameObject:
   m_ObjectHideFlags: 0
@@ -2358,6 +2427,7 @@ MonoBehaviour:
   pushTrigger: {fileID: 2128405691}
   Actions: {fileID: 1026248758}
   HitDetect: {fileID: 515295540}
+  MaxInput: {fileID: 1948197657}
   opponent: {fileID: 0}
   OpponentProperties: {fileID: 0}
   hittingWall: 0
@@ -2417,6 +2487,7 @@ MonoBehaviour:
   Move: {fileID: 2128405693}
   Actions: {fileID: 1026248758}
   CharProp: {fileID: 2128405696}
+  MaxInput: {fileID: 1948197657}
 --- !u!114 &2128405696
 MonoBehaviour:
   m_ObjectHideFlags: 0
