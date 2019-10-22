@@ -25,12 +25,14 @@ public class CharacterProperties : MonoBehaviour
 
     static int crouchID;
     static int dizzyID;
+    static int aliveID;
 
     // Start is called before the first frame update
     void Start()
     {
         crouchID = Animator.StringToHash("Crouch");
         dizzyID = Animator.StringToHash("Dizzy");
+        aliveID = Animator.StringToHash("Alive");
 
         armor = 4;
         durability = 100;
@@ -40,6 +42,14 @@ public class CharacterProperties : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currentHealth == 0)
+        {
+            HitDetect.Actions.anim.SetBool(aliveID, false);
+            HitDetect.Actions.DisableAll();
+        }
+        else
+            HitDetect.Actions.anim.SetBool(aliveID, true);
+
         if (HitDetect.hitStun > 0 && armor <= 0)
             comboTimer += .6f;
         if (HitDetect.Actions.grabbed)

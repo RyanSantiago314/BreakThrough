@@ -30,6 +30,7 @@ public class HitDetector : MonoBehaviour
     public bool allowSpecial;
     public bool allowSuper;
     public bool jumpCancellable;
+    public bool usingSpecial;
 
     Vector2 KnockBack;
     public int hitStop = 0;
@@ -55,8 +56,12 @@ public class HitDetector : MonoBehaviour
     int collideCount = 0;
     public bool hit = false;
     public int comboCount;
-    float startProration;
+    float specialProration;
     float comboProration;
+    float opponentValor;
+
+    float minDamage;
+    float damageToOpponent;
 
     static int HiGuard;
     static int LoGuard;
@@ -117,8 +122,11 @@ public class HitDetector : MonoBehaviour
         if ((OpponentDetector.hitStun == 0 && !OpponentDetector.Actions.airborne) || currentState.IsName("AirRecovery"))
         {
             comboCount = 0;
-            initialProration = 1;
+            specialProration = 1;
+            comboProration = 1;
         }
+
+        opponentValor = Actions.Move.OpponentProperties.currentValor;
 
         if(currentState.IsName("Launch"))
             anim.SetBool(launchID, false);
@@ -287,6 +295,11 @@ public class HitDetector : MonoBehaviour
                     else
                     {
                         //chip damage
+                        if (Actions.Move.OpponentProperties.currentHealth - damage/5 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
+                            Actions.Move.OpponentProperties.currentHealth = 1;
+                        else
+                            Actions.Move.OpponentProperties.currentHealth -= damage/5;
+
                     }
                 }
                 else
@@ -299,6 +312,10 @@ public class HitDetector : MonoBehaviour
                     else
                     {
                         //chip damage
+                        if (Actions.Move.OpponentProperties.currentHealth - damage/10 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
+                            Actions.Move.OpponentProperties.currentHealth = 1;
+                        else
+                            Actions.Move.OpponentProperties.currentHealth -= damage/10;
                     }
                 }
 
@@ -488,10 +505,16 @@ public class HitDetector : MonoBehaviour
         //if(usingSpecial)
         //minDamage = baseDamage * .25f * opponentValor;
         //if(damageToOpponent < minDamage)
-        //opponentHealth -= minDamage;
+        //opponentHealth -= (int)minDamage;
         //else
-        //opponentHealth -= damageToOpponent;
-        //calculate forcedProration after dealing damage
+        //opponentHealth -= (int)damageToOpponent;
+
+        //calculate forcedProration and initialproration after dealing damage
+        if (specialProration == 1 && comboCount == 0)
+            specialProration = initialProration;
+        if (forcedProration > 0)
+            specialProration *= forcedProration;
+
 
         //apply hitstun
         OpponentDetector.hitStun = potentialHitStun;

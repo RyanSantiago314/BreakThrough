@@ -69,6 +69,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.allowGroundBounce = false;
         HitDetect.allowWallBounce = false;
         HitDetect.shatter = false;
+        HitDetect.usingSpecial = false;
     }
 
     void AwakenBox()
