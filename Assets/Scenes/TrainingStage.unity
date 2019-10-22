@@ -835,16 +835,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424206468c9e9034b89f8003cb7a3da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HitDetect: {fileID: 2007323898}
   maxHealth: 950
   currentHealth: 950
   armor: 0
   durability: 0
   comboTimer: 0
-  valor100: 0
-  valor50: 0
-  valor25: 0
+  valor100: 1
+  valor50: 0.8
+  valor25: 0.35
   currentValor: 0
-  HitDetect: {fileID: 2007323898}
+  durabilityRefillTimer: 0
 --- !u!114 &480952549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2227,7 +2228,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 6f85d13f56541644c8c5f9b3abb967e4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 732a0d0d396f8ef4d869ddeb2445c15d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3010,16 +3011,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424206468c9e9034b89f8003cb7a3da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HitDetect: {fileID: 515295540}
   maxHealth: 950
   currentHealth: 950
   armor: 0
   durability: 0
   comboTimer: 0
-  valor100: 0
-  valor50: 0
-  valor25: 0
+  valor100: 1
+  valor50: 0.8
+  valor25: 0.35
   currentValor: 0
-  HitDetect: {fileID: 515295540}
+  durabilityRefillTimer: 0
 --- !u!1001 &1132291094602616481
 PrefabInstance:
   m_ObjectHideFlags: 0

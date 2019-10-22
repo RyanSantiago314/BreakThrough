@@ -77,6 +77,7 @@ public class HitDetector : MonoBehaviour
     static int shatterID;
     static int armorHitID;
     static int throwRejectID;
+    static int dizzyID;
 
     void Start()
     {
@@ -104,6 +105,7 @@ public class HitDetector : MonoBehaviour
         shatterID = Animator.StringToHash("Shatter");
         armorHitID = Animator.StringToHash("ArmorHit");
         throwRejectID = Animator.StringToHash("ThrowReject");
+        dizzyID = Animator.StringToHash("Dizzy");
     }
 
     void Update()
@@ -223,7 +225,7 @@ public class HitDetector : MonoBehaviour
                 OpponentDetector.anim.SetTrigger(parryID);
                 anim.SetTrigger(deflectID);
                 Actions.jumpCancel = true;
-                Contact();
+                Actions.CharProp.durabilityRefillTimer = 0;
             }
             else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
             {
@@ -279,7 +281,7 @@ public class HitDetector : MonoBehaviour
                     //double chip damage/durability damage on airguard
                     if(Actions.Move.OpponentProperties.armor > 0)
                     {
-                        //Actions.Move.OpponentProperties.durability -= damage/5;
+                        Actions.Move.OpponentProperties.durability -= damage/5;
                     }
                     else
                     {
@@ -288,10 +290,10 @@ public class HitDetector : MonoBehaviour
                 }
                 else
                 {
-                    if(Actions.Move.OpponentProperties.armor > 0)
+                    if (Actions.Move.OpponentProperties.armor > 0)
                     {
                         //durability damage
-                        //Actions.Move.OpponentProperties.durability -= damage/10;
+                        Actions.Move.OpponentProperties.durability -= damage/10;
                     }
                     else
                     {
@@ -328,15 +330,15 @@ public class HitDetector : MonoBehaviour
                 else if (piercing && Actions.Move.OpponentProperties.armor > 0)
                 {
                     ApplyHitStop(-2);
-                    //Actions.Move.OpponentProperties.armor -= armorDamage;
-                    //Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                    Actions.Move.OpponentProperties.armor -= armorDamage;
+                    Actions.Move.OpponentProperties.durability -= durabilityDamage;
                     HitSuccess(other);   
                 }
                 else if(Actions.Move.OpponentProperties.armor > 0)
                 {
                     //if the opponent has armor, deal armor and durability damage
-                    //Actions.Move.OpponentProperties.armor -= armorDamage;
-                    //Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                    Actions.Move.OpponentProperties.armor -= armorDamage;
+                    Actions.Move.OpponentProperties.durability -= durabilityDamage;
                     ApplyHitStop(-2);
                     OpponentDetector.anim.SetTrigger(armorHitID);
                 }
@@ -362,8 +364,14 @@ public class HitDetector : MonoBehaviour
             else if (((OpponentDetector.hitStun == 0 && OpponentDetector.blockStun == 0) || OpponentDetector.Actions.grabbed) && hitStun == 0 && !currentState.IsName("Deflected"))
             {
                 Actions.throwTech = false;
-                //Actions.Move.OpponentProperties.armor -= armorDamage;
-                //Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                if(!OpponentDetector.anim.GetBool(dizzyID))
+                {
+                    Actions.Move.OpponentProperties.armor -= armorDamage;
+                    if (Actions.Move.OpponentProperties.armor > 0)
+                        Actions.Move.OpponentProperties.durability = 100;
+                    else
+                        Actions.Move.OpponentProperties.durability = 0;
+                }
                 ApplyHitStop(0);
                 HitSuccess(other);
             }
@@ -403,14 +411,29 @@ public class HitDetector : MonoBehaviour
         if (allowSuper)
             Actions.acceptSuper = true;
         Actions.blitzCancel = true;
+        
         allowHit = false;
         hit = true;
+
+        OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;
     }
 
     void HitSuccess(Collider2D other)
     {
         //if the attack successfully hit the opponent
         anim.SetTrigger(successID);
+
+        if(OpponentDetector.anim.GetBool(dizzyID))
+        {
+            OpponentDetector.anim.SetBool(dizzyID, false);
+            forceCrouch = true;
+        }
+
+        if (forceCrouch && OpponentDetector.Actions.standing)
+            OpponentDetector.anim.SetBool("Crouch", true);
+
+        if (OpponentDetector.Actions.airborne && transform.position.y < 1.2f)
+            transform.position = new Vector3(transform.position.x, 1.2f, transform.position.z);
 
         OpponentDetector.anim.SetTrigger(hitID);
         if (OpponentDetector.Actions.standing && !launch && !sweep && !crumple)
@@ -428,10 +451,6 @@ public class HitDetector : MonoBehaviour
 
         //manipulate opponent's state based on attack properties
         //defender can enter unique states of stun if hit by an attack with corresponding property
-        if (forceCrouch && OpponentDetector.Actions.standing)
-            OpponentDetector.anim.SetBool("Crouch", true);
-        else if (OpponentDetector.Actions.airborne && transform.position.y < 1.2f)
-            transform.position = new Vector3(transform.position.x, 1.2f, transform.position.z);
 
         if (launch)
         {
