@@ -842,10 +842,12 @@ MonoBehaviour:
   durability: 0
   comboTimer: 0
   valor100: 1
-  valor50: 0.8
+  valor50: 0.75
   valor25: 0.35
   currentValor: 0
   durabilityRefillTimer: 0
+  durabilityRefillRate: 1
+  refillInterval: 0
 --- !u!114 &480952549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3022,6 +3024,8 @@ MonoBehaviour:
   valor25: 0.35
   currentValor: 0
   durabilityRefillTimer: 0
+  durabilityRefillRate: 0
+  refillInterval: 0
 --- !u!1001 &1132291094602616481
 PrefabInstance:
   m_ObjectHideFlags: 0

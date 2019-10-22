@@ -19,8 +19,9 @@ public class CharacterProperties : MonoBehaviour
     public float currentValor;
 
     public float durabilityRefillTimer;
-    int durabilityRefillRate;
-    int refillInterval;
+    public int durabilityRefillRate = 1;
+    public int refillInterval;
+    int refillCounter;
 
     static int crouchID;
     static int dizzyID;
@@ -76,37 +77,40 @@ public class CharacterProperties : MonoBehaviour
         if (currentHealth <= maxHealth / 4)
         {
             currentValor = valor25;
-            durabilityRefillRate = 3;
+            if(durabilityRefillRate == 1)
+                refillInterval = 3;
         }
         else if (currentHealth <= maxHealth / 2)
         {
             currentValor = valor50;
-            durabilityRefillRate = 2;
+            if (durabilityRefillRate == 1)
+                refillInterval = 6;
         }
         else
         {
             currentValor = valor100;
-            durabilityRefillRate = 1;
+            if (durabilityRefillRate == 1)
+                refillInterval = 10;
         }
 
         //durability starts refilling after not being in hit or blockstun for three seconds
-        if (HitDetect.Actions.acceptMove)
+        if (HitDetect.hitStun == 0 && HitDetect.blockStun == 0)
             durabilityRefillTimer += Time.deltaTime;
         else
             durabilityRefillTimer = 0;
 
-        if (durabilityRefillTimer > 3 && refillInterval == 5)
+        if (durabilityRefillTimer >= 3 && refillCounter == refillInterval)
         {
             durability += durabilityRefillRate;
-            refillInterval = 0;
+            refillCounter = 0;
         }
         else if(durabilityRefillTimer > 3)
         {
-            refillInterval++;
+            refillCounter++;
         }
         else
         {
-            refillInterval = 0;
+            refillCounter = 0;
         }
 
         //gain armor when durability has refilled completely

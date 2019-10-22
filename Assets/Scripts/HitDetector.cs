@@ -13,6 +13,7 @@ public class HitDetector : MonoBehaviour
 
     public int damage;
     public float initialProration;
+    public float forcedProration;
     public Vector2 potentialKnockBack;
     public Vector2 potentialAirKnockBack;
     public int potentialHitStun;
@@ -166,7 +167,7 @@ public class HitDetector : MonoBehaviour
             {
                 //reward attacker for landing a shattering attack
                 rb.gravityScale = .7f;
-                anim.SetFloat(animSpeedID, .75f);
+                anim.SetFloat(animSpeedID, .85f);
             }
             else
             {
@@ -429,7 +430,7 @@ public class HitDetector : MonoBehaviour
             forceCrouch = true;
         }
 
-        if (forceCrouch && OpponentDetector.Actions.standing)
+        if (forceCrouch && !OpponentDetector.Actions.airborne)
             OpponentDetector.anim.SetBool("Crouch", true);
 
         if (OpponentDetector.Actions.airborne && transform.position.y < 1.2f)
@@ -483,10 +484,14 @@ public class HitDetector : MonoBehaviour
         }
 
         //calculate and deal damage
-        //damageToOpponent = baseDamage * initialProration * comboProration * characterValor
-        //after calculating damage update comboProration
-        //if(initialProration < 1)
-        //comboProration *= initialProration;?
+        //damageToOpponent = baseDamage * initialProration * comboProration * opponentValor * forcedProration
+        //if(usingSpecial)
+        //minDamage = baseDamage * .25f * opponentValor;
+        //if(damageToOpponent < minDamage)
+        //opponentHealth -= minDamage;
+        //else
+        //opponentHealth -= damageToOpponent;
+        //calculate forcedProration after dealing damage
 
         //apply hitstun
         OpponentDetector.hitStun = potentialHitStun;

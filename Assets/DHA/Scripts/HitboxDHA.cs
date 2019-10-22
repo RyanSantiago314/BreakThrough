@@ -57,6 +57,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialKnockBack = Vector2.zero;
         HitDetect.potentialAirKnockBack = Vector2.zero;
+        HitDetect.forcedProration = 0;
         HitDetect.attackLevel = 0;
         HitDetect.grab = false;
         HitDetect.piercing = false;
