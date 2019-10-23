@@ -7,32 +7,34 @@ public class MaxInput : MonoBehaviour
     public bool AI;
     public bool training;
 
-    private float horizontal;
-    private float vertical;
-    private bool square;
-    private bool triangle;
-    private bool circle;
-    private bool cross;
-    private bool rBumper;
-    private bool rTrigger;
-    private bool lBumper;
-    private bool lTrigger;
-    private string lastHit;
+    public float horizontal;
+    public float vertical;
+    public bool square;
+    public bool triangle;
+    public bool circle;
+    public bool cross;
+    public bool rBumper;
+    public bool rTrigger;
+    public bool lBumper;
+    public bool lTrigger;
+    public bool player2Hit;
 
-    private float horizontal1;
-    private float vertical1;
-    private bool square1;
-    private bool triangle1;
-    private bool circle1;
-    private bool cross1;
-    private bool rBumper1;
-    private bool rTrigger1;
-    private bool lBumper1;
-    private bool lTrigger1;
+    public float horizontal1;
+    public float vertical1;
+    public bool square1;
+    public bool triangle1;
+    public bool circle1;
+    public bool cross1;
+    public bool rBumper1;
+    public bool rTrigger1;
+    public bool lBumper1;
+    public bool lTrigger1;
+    public bool player1Hit;
 
     void Start()
     {
-        ClearInput();
+        ClearInput("Player1");
+        ClearInput("Player2");
     }
 
     public float GetAxisRaw(string axis)
@@ -201,39 +203,62 @@ public class MaxInput : MonoBehaviour
 
     public void Hit(string player)
     {
-        lastHit = player;
+        if (player == "Player1")
+        {
+            player1Hit = true;
+        }
+        else if (player == "Player2")
+        {
+            player2Hit = true;
+        }
     }
 
-    public string LastHit()
+    public bool LastHit(string player)
     {
-        return lastHit;
+        if (player == "Player1")
+        {
+            return player1Hit;
+        }
+        else if (player == "Player2")
+        {
+            return player2Hit;
+        }
+
+        return false;
     }
 
-    public void ClearInput()
+    public void ClearInput(string name)
     {
-        horizontal = 0;
-        vertical = 0;
-        square = false;
-        triangle = false;
-        circle = false;
-        cross = false;
-        rBumper = false;
-        rTrigger = false;
-        lBumper = false;
-        lTrigger = false;
+        Debug.Log(name);
 
-        horizontal1 = 0;
-        vertical1 = 0;
-        square1 = false;
-        triangle1 = false;
-        circle1 = false;
-        cross1 = false;
-        rBumper1 = false;
-        rTrigger1 = false;
-        lBumper1 = false;
-        lTrigger1 = false;
-
-        lastHit = "";
+        if (name == "Player2")
+        {
+            horizontal = 0;
+            vertical = 0;
+            square = false;
+            triangle = false;
+            circle = false;
+            cross = false;
+            rBumper = false;
+            rTrigger = false;
+            lBumper = false;
+            lTrigger = false;
+            player2Hit = false;
+        }
+        else if (name == "Player1")
+        {
+            horizontal1 = 0;
+            vertical1 = 0;
+            square1 = false;
+            triangle1 = false;
+            circle1 = false;
+            cross1 = false;
+            rBumper1 = false;
+            rTrigger1 = false;
+            lBumper1 = false;
+            lTrigger1 = false;
+            player1Hit = false;
+        }
 }
 
     public void moveLeft(string name)

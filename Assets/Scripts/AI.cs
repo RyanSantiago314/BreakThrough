@@ -21,7 +21,7 @@ public class AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MaxInput.ClearInput();
+        MaxInput.ClearInput("Player2");
         timer += Time.deltaTime;
 
         if (timer > 2)
