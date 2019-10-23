@@ -292,17 +292,24 @@ public class AttackHandlerDHA : MonoBehaviour
             breakButton = 0;
         }
 
-        //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc.
-        if (Actions.blitzCancel && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && heavyButton > 0 && mediumButton > 0) // && CharProp.armor >= 1)
+        //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
+        if (Actions.blitzCancel && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 1)
         {
             if (!Actions.airborne)
                 Move.rb.velocity = new Vector2(0, Move.rb.velocity.y);
             anim.SetTrigger(IDBlitz);
             Debug.Log("BLITZ CANCEL");
-            //CharProp.armor--; //cost for executing blitz cancel
+            //cost for executing blitz cancel
+            CharProp.armor--;
+            if (CharProp.armor > 0)
+                CharProp.durability = 100;
+            else
+                CharProp.durability = 0;
+            CharProp.durabilityRefillTimer = 0;
             heavyButton = 0;
             mediumButton = 0;
         }
+        // basic throw performed by pressing both light and break attack
         else if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0)
         {
             if(Actions.standing)

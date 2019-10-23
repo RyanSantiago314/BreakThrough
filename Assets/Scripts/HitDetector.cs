@@ -14,6 +14,7 @@ public class HitDetector : MonoBehaviour
 
     public int damage;
     public float initialProration;
+    public float forcedProration;
     public Vector2 potentialKnockBack;
     public Vector2 potentialAirKnockBack;
     public int potentialHitStun;
@@ -30,6 +31,7 @@ public class HitDetector : MonoBehaviour
     public bool allowSpecial;
     public bool allowSuper;
     public bool jumpCancellable;
+    public bool usingSpecial;
 
     Vector2 KnockBack;
     public int hitStop = 0;
@@ -55,8 +57,12 @@ public class HitDetector : MonoBehaviour
     int collideCount = 0;
     public bool hit = false;
     public int comboCount;
-    float startProration;
+    float specialProration;
     float comboProration;
+    float opponentValor;
+
+    float minDamage;
+    float damageToOpponent;
 
     static int HiGuard;
     static int LoGuard;
@@ -78,6 +84,7 @@ public class HitDetector : MonoBehaviour
     static int shatterID;
     static int armorHitID;
     static int throwRejectID;
+    static int dizzyID;
 
     void Start()
     {
@@ -105,17 +112,20 @@ public class HitDetector : MonoBehaviour
         shatterID = Animator.StringToHash("Shatter");
         armorHitID = Animator.StringToHash("ArmorHit");
         throwRejectID = Animator.StringToHash("ThrowReject");
+        dizzyID = Animator.StringToHash("Dizzy");
     }
 
     void Update()
     {
-        currentState = anim.GetCurrentAnimatorStateInfo(0); 
+        currentState = anim.GetCurrentAnimatorStateInfo(0);
+        opponentValor = Actions.Move.OpponentProperties.currentValor;
 
         //reset combo count and damage scaling once combo has ended
-        if ((OpponentDetector.hitStun == 0 && !OpponentDetector.Actions.airborne) || currentState.IsName("AirRecovery"))
+        if ((OpponentDetector.hitStun == 0 && OpponentDetector.Actions.standing) || OpponentDetector.currentState.IsName("AirRecovery"))
         {
             comboCount = 0;
-            initialProration = 1;
+            specialProration = 1;
+            comboProration = 1;
         }
 
         if(currentState.IsName("Launch"))
@@ -143,8 +153,7 @@ public class HitDetector : MonoBehaviour
             //hitStop to give hits more impact and allow time to input next move
             anim.SetFloat(animSpeedID, 0f);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            if (hitStop > 0)
-                hitStop--;
+            hitStop--;
         }
         else if (Actions.grabbed)
         {
@@ -155,7 +164,8 @@ public class HitDetector : MonoBehaviour
         else 
         {
             anim.SetFloat(animSpeedID, 1.0f);
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            if (rb.constraints == RigidbodyConstraints2D.FreezeAll)
+                    rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
             if(currentState.IsName("WallStick"))
             {
@@ -165,7 +175,7 @@ public class HitDetector : MonoBehaviour
             {
                 //reward attacker for landing a shattering attack
                 rb.gravityScale = .7f;
-                anim.SetFloat(animSpeedID, .75f);
+                anim.SetFloat(animSpeedID, .85f);
             }
             else
             {
@@ -212,7 +222,6 @@ public class HitDetector : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         collideCount++;
-        currentVelocity = rb.velocity;
         if (allowHit && !grab && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
         {
             //clash/deflect system
@@ -224,7 +233,7 @@ public class HitDetector : MonoBehaviour
                 OpponentDetector.anim.SetTrigger(parryID);
                 anim.SetTrigger(deflectID);
                 Actions.jumpCancel = true;
-                Contact();
+                Actions.CharProp.durabilityRefillTimer = 0;
             }
             else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
             {
@@ -250,16 +259,15 @@ public class HitDetector : MonoBehaviour
                 if (OpponentDetector.blockStun > 30)
                     OpponentDetector.blockStun = 30;
                 anim.SetInteger(blockStunID, blockStun);
-                ApplyHitStop(0);
                 //what to do if an attack is blocked
                 //mid can be guarded by any guard, lows must be guarded low, overheads must be guarded high
-                //deal durability/chip damage equaling 20% of base damage
+                //deal durability/chip damage equaling 10-20% of base damage
                 //apply pushback to both by half of horizontal knockback value
                 if(OpponentDetector.Actions.Move.hittingWall)
-                    KnockBack = potentialKnockBack;
+                    KnockBack = potentialKnockBack * new Vector2(1,0);
                 else
                 {
-                    KnockBack = potentialKnockBack * new Vector2(.7f, 0);
+                    KnockBack = potentialKnockBack * new Vector2(.8f, 0);
                     OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.4f, 0);
                 }
 
@@ -280,26 +288,41 @@ public class HitDetector : MonoBehaviour
                     //double chip damage/durability damage on airguard
                     if(Actions.Move.OpponentProperties.armor > 0)
                     {
-                        //Actions.Move.OpponentProperties.durability -= damage/5;
+                        Actions.Move.OpponentProperties.durability -= damage/5;
                     }
                     else
                     {
                         //chip damage
+                        if (Actions.Move.OpponentProperties.currentHealth - damage/5 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
+                            Actions.Move.OpponentProperties.currentHealth = 1;
+                        else
+                            Actions.Move.OpponentProperties.currentHealth -= damage/5;
+
+                        if (Actions.Move.OpponentProperties.currentHealth <= 0)
+                            OpponentDetector.anim.SetTrigger(hitID);
+
                     }
                 }
                 else
                 {
-                    if(Actions.Move.OpponentProperties.armor > 0)
+                    if (Actions.Move.OpponentProperties.armor > 0)
                     {
                         //durability damage
-                        //Actions.Move.OpponentProperties.durability -= damage/10;
+                        Actions.Move.OpponentProperties.durability -= damage/10;
                     }
                     else
                     {
                         //chip damage
+                        if (Actions.Move.OpponentProperties.currentHealth - damage/10 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
+                            Actions.Move.OpponentProperties.currentHealth = 1;
+                        else
+                            Actions.Move.OpponentProperties.currentHealth -= damage/10;
+
+                        if (Actions.Move.OpponentProperties.currentHealth <= 0)
+                            OpponentDetector.anim.SetBool(crumpleID, true);
                     }
                 }
-
+                ApplyHitStop(0);
                 if (Actions.Move.facingRight)
                     KnockBack *= new Vector2(-1, 1);
                 else
@@ -318,41 +341,42 @@ public class HitDetector : MonoBehaviour
                     OpponentDetector.anim.SetTrigger(shatterID);
                     OpponentDetector.Actions.shattered = true;
                     Debug.Log("Shattered");
-                    ApplyHitStop(5);
                     //damage, hitstun, etc.
                     HitSuccess(other);
+                    ApplyHitStop(5);
                     Actions.Move.OpponentProperties.armor = 0;
                     Actions.Move.OpponentProperties.durability = 0;
                     
                     
                 }
                 else if (piercing && Actions.Move.OpponentProperties.armor > 0)
-                {
+                { 
+                    Actions.Move.OpponentProperties.armor -= armorDamage;
+                    Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                    HitSuccess(other);
                     ApplyHitStop(-2);
-                    //Actions.Move.OpponentProperties.armor -= armorDamage;
-                    //Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                    HitSuccess(other);   
                 }
                 else if(Actions.Move.OpponentProperties.armor > 0)
                 {
                     //if the opponent has armor, deal armor and durability damage
-                    //Actions.Move.OpponentProperties.armor -= armorDamage;
-                    //Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                    Actions.Move.OpponentProperties.armor -= armorDamage;
+                    Actions.Move.OpponentProperties.durability -= durabilityDamage;
                     ApplyHitStop(-2);
                     OpponentDetector.anim.SetTrigger(armorHitID);
                 }
                 else
                 {
                     //otherwise deal damage, hitstun, and knockback
-                    ApplyHitStop(0);
                     HitSuccess(other);
+                    ApplyHitStop(0);
                 }
             }
             Contact();
         }
-        else if (allowHit && (grab || commandGrab) && other.CompareTag("Body") && ((Actions.standing && OpponentDetector.Actions.standing) || (Actions.airborne && OpponentDetector.Actions.airborne)))
+        else if (allowHit && (grab || commandGrab) && other.CompareTag("Body") && !OpponentDetector.Actions.throwInvincible &&
+            ((Actions.standing && OpponentDetector.Actions.standing) || (Actions.airborne && OpponentDetector.Actions.airborne)))
         {
-            if (OpponentDetector.Actions.throwTech && !commandGrab)
+            if ((OpponentDetector.Actions.throwTech && !commandGrab))
             {
                 anim.SetTrigger(throwRejectID);
                 OpponentDetector.anim.SetTrigger(throwRejectID);
@@ -360,13 +384,19 @@ public class HitDetector : MonoBehaviour
                 if (Actions.Move.facingRight)
                     KnockBack *= new Vector2(-1, 0);
             }
-            else if ((OpponentDetector.hitStun == 0 && OpponentDetector.blockStun == 0) || OpponentDetector.Actions.grabbed)
+            else if (((OpponentDetector.hitStun == 0 && OpponentDetector.blockStun == 0) || OpponentDetector.Actions.grabbed) && hitStun == 0 && !currentState.IsName("Deflected"))
             {
                 Actions.throwTech = false;
-                //Actions.Move.OpponentProperties.armor -= armorDamage;
-                //Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                ApplyHitStop(0);
+                if(!OpponentDetector.anim.GetBool(dizzyID))
+                {
+                    Actions.Move.OpponentProperties.armor -= armorDamage;
+                    if (Actions.Move.OpponentProperties.armor > 0)
+                        Actions.Move.OpponentProperties.durability = 100;
+                    else
+                        Actions.Move.OpponentProperties.durability = 0;
+                }
                 HitSuccess(other);
+                ApplyHitStop(0);
             }
             allowHit = false;
             hit = true;
@@ -404,8 +434,11 @@ public class HitDetector : MonoBehaviour
         if (allowSuper)
             Actions.acceptSuper = true;
         Actions.blitzCancel = true;
+        
         allowHit = false;
         hit = true;
+
+        OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;
     }
 
     void HitSuccess(Collider2D other)
@@ -413,6 +446,21 @@ public class HitDetector : MonoBehaviour
         MaxInput.Hit(OpponentDetector.gameObject.name);
         //if the attack successfully hit the opponent
         anim.SetTrigger(successID);
+
+        //special properties if hitting a dizzied opponent
+        if(OpponentDetector.anim.GetBool(dizzyID))
+        {
+            OpponentDetector.anim.SetBool(dizzyID, false);
+            OpponentDetector.Actions.CharProp.refill = true;
+            forceCrouch = true;
+            specialProration = .85f;
+        }
+
+        if (forceCrouch && !OpponentDetector.Actions.airborne)
+            OpponentDetector.anim.SetBool("Crouch", true);
+
+        if (OpponentDetector.Actions.airborne && transform.position.y < 1.2f)
+            transform.position = new Vector3(transform.position.x, 1.2f, transform.position.z);
 
         OpponentDetector.anim.SetTrigger(hitID);
         if (OpponentDetector.Actions.standing && !launch && !sweep && !crumple)
@@ -428,18 +476,56 @@ public class HitDetector : MonoBehaviour
             }
         }
 
+        //calculate and deal damage
+        damageToOpponent = damage * comboProration * opponentValor * specialProration;
+
+        if (usingSpecial)
+        {
+            minDamage = damage * .2f * opponentValor;
+            if (damageToOpponent < minDamage)
+                damageToOpponent = minDamage;
+        }
+
+        OpponentDetector.Actions.CharProp.currentHealth -= (int)damageToOpponent;
+
+        // initialproration is applied if it is the first hit of a combo
+        // some moves will force damage scaling in forcedProration
+        if (comboCount == 0)
+            specialProration *= initialProration;
+        if (forcedProration > 0)
+            specialProration *= forcedProration;
+        if (comboCount != 0 && comboCount < 10)
+        {
+            if (comboCount < 3)
+                comboProration = 1;
+            else if (comboCount < 4)
+                comboProration = .8f;
+            else if (comboCount < 5)
+                comboProration = .7f;
+            else if (comboCount < 6)
+                comboProration = .6f;
+            else if (comboCount < 7)
+                comboProration = .5f;
+            else if (comboCount < 8)
+                comboProration = .4f;
+            else if (comboCount < 9)
+                comboProration = .3f;
+            else if (comboCount < 10)
+                comboProration = .2f;
+            else if (comboCount < 11)
+                comboProration = .1f;
+        }
+            
+
+
         //manipulate opponent's state based on attack properties
         //defender can enter unique states of stun if hit by an attack with corresponding property
-        if (forceCrouch && OpponentDetector.Actions.standing)
-            OpponentDetector.anim.SetBool("Crouch", true);
-        else if (OpponentDetector.Actions.airborne && transform.position.y < 1.2f)
-            transform.position = new Vector3(transform.position.x, 1.2f, transform.position.z);
 
         if (launch)
         {
             OpponentDetector.anim.SetBool(launchID, true);
         }
-        else if ((crumple || OpponentDetector.Actions.CharProp.currentHealth == 0) && !OpponentDetector.Actions.airborne)
+        else if ((crumple || OpponentDetector.Actions.CharProp.currentHealth <= 0) && !OpponentDetector.Actions.airborne)
         {
             OpponentDetector.anim.SetBool(crumpleID, true);
         }
@@ -464,12 +550,6 @@ public class HitDetector : MonoBehaviour
         {
             OpponentDetector.Actions.wallStick = 0;
         }
-
-        //calculate and deal damage
-        //damageToOpponent = baseDamage * initialProration * comboProration * characterValor
-        //after calculating damage update comboProration
-        //if(initialProration < 1)
-        //comboProration *= initialProration;?
 
         //apply hitstun
         OpponentDetector.hitStun = potentialHitStun;
@@ -568,7 +648,15 @@ public class HitDetector : MonoBehaviour
     {
         currentVelocity = rb.velocity;
         OpponentDetector.currentVelocity = OpponentDetector.rb.velocity;
-        hitStop = potentialHitStop + i;
-        OpponentDetector.hitStop = potentialHitStop + i;
+        if (Actions.Move.OpponentProperties.currentHealth <= 0)
+        {
+            hitStop = 90;
+            OpponentDetector.hitStop = 90;
+        }
+        else
+        {
+            hitStop = potentialHitStop + i;
+            OpponentDetector.hitStop = potentialHitStop + i;
+        }
     }
 }
