@@ -53,6 +53,10 @@ public class CharacterProperties : MonoBehaviour
         }
         else
             HitDetect.Actions.anim.SetBool(KOID, false);
+
+        if (HitDetect.Actions.anim.GetBool(dizzyID))
+            HitDetect.Actions.DisableAll();
+
         if (currentHealth > 0)
         {
             if (HitDetect.hitStun > 0 && armor <= 0)
@@ -72,15 +76,14 @@ public class CharacterProperties : MonoBehaviour
                     comboTimer = 0;
                     armor = 0;
                     Debug.Log("DIZZY");
-                    HitDetect.Actions.DisableAll();
                     HitDetect.Actions.anim.SetBool(dizzyID, true);
                 }
                 else if (armor == 0 && refill)
                 {
                     //refill armor based on amount of time spent in hitstun on wake-up or aerial recovery
-                    if (comboTimer < 300)
+                    if (comboTimer < 200)
                         armor = 2;
-                    else if (comboTimer < 400)
+                    else if (comboTimer < 300)
                         armor = 3;
                     else
                         armor = 4;
@@ -94,11 +97,11 @@ public class CharacterProperties : MonoBehaviour
             else if (HitDetect.Actions.acceptMove && refill)
             {
                 //refill armor based on amount of time spent in hitstun when returning to neutral
-                if (comboTimer < 200)
+                if (comboTimer < 100)
                     armor = 1;
-                else if (comboTimer < 300)
+                else if (comboTimer < 200)
                     armor = 2;
-                else if (comboTimer < 400)
+                else if (comboTimer < 300)
                     armor = 3;
                 else
                     armor = 4;

@@ -21,7 +21,6 @@ public class MovementHandler : MonoBehaviour
     float runInputTime = 0.3f;
     int dashButtonCount = 0;
     int buttonCount = 0;
-    int collideCount = 0;
     bool allowHit = false;
     int wallStickTimer;
     public bool hittingWall = false;
@@ -148,7 +147,7 @@ public class MovementHandler : MonoBehaviour
         }
 
         pushTrigger.offset = new Vector2(pushBox.offset.x, pushBox.offset.y);
-        pushTrigger.size = new Vector2(pushBox.size.x - .1f, pushBox.size.y + .2f);
+        pushTrigger.size = new Vector2(pushBox.size.x, pushBox.size.y + .2f);
         if (transform.position.y < minPosY)
         {
             transform.position = new Vector3(transform.position.x, minPosY, transform.position.z);
@@ -319,6 +318,7 @@ public class MovementHandler : MonoBehaviour
             Actions.airborne = false;
             if(Actions.standing)
                 jumps = 0;
+            allowHit = true;
         }
         else if (collision.collider.CompareTag("Wall"))
         {
@@ -342,10 +342,9 @@ public class MovementHandler : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
+        if(allowHit && other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
             //keeps characters from intersecting and occupying the same space
-            collideCount++;
                 MovementHandler opponentMove = opponent.GetComponent<MovementHandler>();
                 if (Actions.airborne && !opponentMove.Actions.airborne && rb.velocity.y <= 0)
                 {
@@ -353,11 +352,30 @@ public class MovementHandler : MonoBehaviour
                     if (opponentMove.hittingWall)
                     {
                         if (opponentMove.facingRight)
-                            transform.position = new Vector3(opponent.position.x + (.5f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                            transform.position = new Vector3(opponent.position.x + (.5f * opponentMove.pushBox.size.x + .5f * pushBox.size.x), transform.position.y, transform.position.z);
                         else
-                            transform.position = new Vector3(opponent.position.x - (.5f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                            transform.position = new Vector3(opponent.position.x - (.5f * opponentMove.pushBox.size.x + .5f * pushBox.size.x), transform.position.y, transform.position.z);
                     }
                 }
+                else if (!Actions.airborne && opponentMove.Actions.airborne && !hittingWall && opponentMove.rb.velocity.y < 0)
+                {
+                    if (opponent.position.x > transform.position.x + .1f)
+                    {
+                        transform.position = new Vector3(transform.position.x - (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                    }
+                    else if (opponent.position.x < transform.position.x - .1f)
+                    {
+                        transform.position = new Vector3(transform.position.x + (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                    }
+                    else
+                    {
+                        if (facingRight)
+                            transform.position = new Vector3(transform.position.x - (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                        else
+                            transform.position = new Vector3(transform.position.x + (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                    }   
+                }
+            allowHit = false;
         }
         else if (other.CompareTag("Floor"))
         {
@@ -400,31 +418,13 @@ public class MovementHandler : MonoBehaviour
                 if (rb.velocity.y <= 0 && opponentMove.hittingWall)
                 {
                    if (opponentMove.facingRight)
-                        transform.position = new Vector3(opponent.position.x + (.55f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                        transform.position = new Vector3(opponent.position.x + (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
                    else
-                        transform.position = new Vector3(opponent.position.x - (.55f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                        transform.position = new Vector3(opponent.position.x - (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
                 }
                 if (((opponent.position.x > transform.position.x && facingRight)|| (opponent.position.x < transform.position.x && !facingRight)) && rb.velocity.y < 0)
                 {
                     rb.velocity = new Vector2(0, rb.velocity.y);
-                }
-            }
-            else if (!Actions.airborne && opponentMove.Actions.airborne && !hittingWall && opponentMove.rb.velocity.y < 0)
-            {
-                if (opponent.position.x > transform.position.x + .1f)
-                {
-                    transform.position = new Vector3(transform.position.x - (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                }
-                else if (opponent.position.x < transform.position.x - .1f)
-                {
-                    transform.position = new Vector3(transform.position.x + (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                }
-                else
-                {
-                    if (facingRight)
-                        transform.position = new Vector3(transform.position.x - (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                    else
-                        transform.position = new Vector3(transform.position.x + (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
                 }
             }
             else
@@ -451,13 +451,7 @@ public class MovementHandler : MonoBehaviour
     {
         if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
-            collideCount--;
-            if (collideCount <= 0)
-            {
-                allowHit = true;
-                collideCount = 0;
-                pushBox.isTrigger = false;
-            }
+            pushBox.isTrigger = false;
         }
         else if (other.CompareTag("Wall"))
         {

@@ -30,7 +30,6 @@ public class HitDetector : MonoBehaviour
     public bool allowSpecial;
     public bool allowSuper;
     public bool jumpCancellable;
-    public bool usingSpecial;
 
     Vector2 KnockBack;
     public int hitStop = 0;
@@ -49,6 +48,7 @@ public class HitDetector : MonoBehaviour
     public bool allowWallStick = false;
     public bool allowGroundBounce = false;
     public bool allowWallBounce = false;
+    public bool usingSuper;
 
     HitDetector OpponentDetector;
 
@@ -221,31 +221,7 @@ public class HitDetector : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         collideCount++;
-        if (allowHit && !grab && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
-        {
-            //clash/deflect system
-            if ((OpponentDetector.attackLevel - attackLevel) > 1 && potentialHitStun > 0)
-            {
-                //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
-                ApplyHitStop(0);
-                Debug.Log("DEFLECTED!");
-                OpponentDetector.anim.SetTrigger(parryID);
-                anim.SetTrigger(deflectID);
-                Actions.jumpCancel = true;
-                Actions.CharProp.durabilityRefillTimer = 0;
-            }
-            else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
-            {
-                //if the attacks are of similar strength both can immediately input another command
-                Debug.Log("Clash!");
-                ApplyHitStop(0);
-                anim.SetTrigger(clashID);
-                //no knockback on clashes
-                Clash();
-            }
-            allowHit = false;
-        }
-        else if (allowHit && !grab && !commandGrab && other.gameObject.transform.parent.parent == Actions.Move.opponent && potentialHitStun > 0)
+        if (allowHit && !grab && !commandGrab && other.gameObject.transform.parent.parent == Actions.Move.opponent && potentialHitStun > 0)
         {
             OpponentDetector.Actions.shattered = false;
 
@@ -263,10 +239,10 @@ public class HitDetector : MonoBehaviour
                 //deal durability/chip damage equaling 10-20% of base damage
                 //apply pushback to both by half of horizontal knockback value
                 if(OpponentDetector.Actions.Move.hittingWall)
-                    KnockBack = potentialKnockBack * new Vector2(1,0);
+                    KnockBack = potentialKnockBack * new Vector2(1.2f,0);
                 else
                 {
-                    KnockBack = potentialKnockBack * new Vector2(.8f, 0);
+                    KnockBack = potentialKnockBack * new Vector2(1f, 0);
                     OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.4f, 0);
                 }
 
@@ -400,6 +376,30 @@ public class HitDetector : MonoBehaviour
             allowHit = false;
             hit = true;
         }
+        else if (allowHit && !grab && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
+        {
+            //clash/deflect system
+            if ((OpponentDetector.attackLevel - attackLevel) > 1 && potentialHitStun > 0)
+            {
+                //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
+                ApplyHitStop(0);
+                Debug.Log("DEFLECTED!");
+                OpponentDetector.anim.SetTrigger(parryID);
+                anim.SetTrigger(deflectID);
+                Actions.jumpCancel = true;
+                Actions.CharProp.durabilityRefillTimer = 0;
+            }
+            else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
+            {
+                //if the attacks are of similar strength both can immediately input another command
+                Debug.Log("Clash!");
+                ApplyHitStop(0);
+                anim.SetTrigger(clashID);
+                //no knockback on clashes
+                Clash();
+            }
+            allowHit = false;
+        }
         anim.ResetTrigger(hitID);
         anim.ResetTrigger(hitBodyID);
         anim.ResetTrigger(hitLegsID);
@@ -477,19 +477,25 @@ public class HitDetector : MonoBehaviour
         //calculate and deal damage
         damageToOpponent = damage * comboProration * opponentValor * specialProration;
 
-        if (usingSpecial)
+        if (usingSuper)
         {
             minDamage = damage * .2f * opponentValor;
-            if (damageToOpponent < minDamage)
-                damageToOpponent = minDamage;
+        }
+        else if (damage > 1)
+        {
+            minDamage = 1;
         }
 
+        if (damageToOpponent < minDamage)
+            damageToOpponent = minDamage;
+
         OpponentDetector.Actions.CharProp.currentHealth -= (int)damageToOpponent;
+        minDamage = 0;
 
         // initialproration is applied if it is the first hit of a combo
         // some moves will force damage scaling in forcedProration
         if (comboCount == 0)
-            specialProration *= initialProration;
+            specialProration = initialProration;
         if (forcedProration > 0)
             specialProration *= forcedProration;
         if (comboCount != 0 && comboCount < 10)
@@ -551,6 +557,8 @@ public class HitDetector : MonoBehaviour
 
         //apply hitstun
         OpponentDetector.hitStun = potentialHitStun;
+        if (Actions.Move.OpponentProperties.comboTimer >= 400)
+            OpponentDetector.hitStun = 1;
 
         if (OpponentDetector.anim.GetBool("Crouch"))
             OpponentDetector.hitStun += 2;
@@ -624,7 +632,9 @@ public class HitDetector : MonoBehaviour
         {
             OpponentDetector.KnockBack *= new Vector2(-1f, 1);
         }
-        if(!grab)
+        if (Actions.Move.OpponentProperties.currentHealth <= 0)
+            OpponentDetector.KnockBack *= new Vector2(2f, 1);
+        if (!grab)
             comboCount++;
     }
 
