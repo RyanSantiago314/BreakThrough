@@ -17,6 +17,7 @@ public class AcceptInputs : MonoBehaviour
     public bool blitzCancel = true;
     public bool airborne = false;
     public bool standing = true;
+    public bool throwInvincible = false;
 
     public bool usingSpecial = false;
     public bool shattered = false;
@@ -94,6 +95,7 @@ public class AcceptInputs : MonoBehaviour
         acceptSuper = false;
         jumpCancel = false;
         throwTech = false;
+        throwInvincible = false;
         CharProp.HitDetect.allowLight = false;
         CharProp.HitDetect.allowMedium = false;
         CharProp.HitDetect.allowHeavy = false;
@@ -122,6 +124,7 @@ public class AcceptInputs : MonoBehaviour
         groundBounce = false;
         wallBounce = false;
         grabbed = false;
+        throwInvincible = false;
     }
     public void DisableMovement()
     {

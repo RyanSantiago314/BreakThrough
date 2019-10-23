@@ -346,8 +346,6 @@ public class MovementHandler : MonoBehaviour
         {
             //keeps characters from intersecting and occupying the same space
             collideCount++;
-            if(allowHit)
-            {
                 MovementHandler opponentMove = opponent.GetComponent<MovementHandler>();
                 if (Actions.airborne && !opponentMove.Actions.airborne && rb.velocity.y <= 0)
                 {
@@ -360,26 +358,6 @@ public class MovementHandler : MonoBehaviour
                             transform.position = new Vector3(opponent.position.x - (.5f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
                     }
                 }
-                else if (!Actions.airborne && opponentMove.Actions.airborne && !hittingWall && opponentMove.rb.velocity.y < 0)
-                {
-                    if (opponent.position.x > transform.position.x + .1f)
-                    {
-                        transform.position = new Vector3(transform.position.x - (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                    }
-                    else if (opponent.position.x < transform.position.x - .1f)
-                    {
-                        transform.position = new Vector3(transform.position.x + (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                    }
-                    else
-                    {
-                        if (facingRight)
-                            transform.position = new Vector3(transform.position.x - (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                        else
-                            transform.position = new Vector3(transform.position.x + (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                    }
-                }
-            }
-            allowHit = false;
         }
         else if (other.CompareTag("Floor"))
         {
@@ -429,6 +407,24 @@ public class MovementHandler : MonoBehaviour
                 if (((opponent.position.x > transform.position.x && facingRight)|| (opponent.position.x < transform.position.x && !facingRight)) && rb.velocity.y < 0)
                 {
                     rb.velocity = new Vector2(0, rb.velocity.y);
+                }
+            }
+            else if (!Actions.airborne && opponentMove.Actions.airborne && !hittingWall && opponentMove.rb.velocity.y < 0)
+            {
+                if (opponent.position.x > transform.position.x + .1f)
+                {
+                    transform.position = new Vector3(transform.position.x - (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                }
+                else if (opponent.position.x < transform.position.x - .1f)
+                {
+                    transform.position = new Vector3(transform.position.x + (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                }
+                else
+                {
+                    if (facingRight)
+                        transform.position = new Vector3(transform.position.x - (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                    else
+                        transform.position = new Vector3(transform.position.x + (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
                 }
             }
             else
@@ -534,7 +530,7 @@ public class MovementHandler : MonoBehaviour
         if(anim.GetBool(runID) || (Actions.airborne && Actions.acceptMove))
         {
             //keeps character movement speed from reaching insane levels
-            if(rb.velocity.x > maxVelocity)
+            if(rb.velocity.x > maxVelocity && facingRight)
                 rb.velocity = new Vector2(maxVelocity, rb.velocity.y);
             else if (rb.velocity.x < -maxVelocity)
                 rb.velocity = new Vector2(-maxVelocity, rb.velocity.y);

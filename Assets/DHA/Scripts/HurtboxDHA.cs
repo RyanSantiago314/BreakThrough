@@ -25,6 +25,8 @@ public class HurtboxDHA : MonoBehaviour
     Vector2 legsCrouchSize;
     Vector2 legsCrouchOffset;
 
+    CharacterProperties CharProp;
+
     void Start()
     {
         head.enabled = false;
@@ -46,6 +48,14 @@ public class HurtboxDHA : MonoBehaviour
         bodyCrouchOffset = new Vector2(.1f, -.16f);
         legsCrouchSize = new Vector2(.7f, .6f);
         legsCrouchOffset = new Vector2(-.03f, -.62f);
+
+        CharProp = transform.GetComponentInParent<CharacterProperties>();
+    }
+
+    void Update()
+    {
+        if (CharProp.currentHealth <= 0)
+            Invincible();
     }
 
     public void Standing()

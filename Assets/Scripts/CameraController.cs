@@ -37,7 +37,9 @@ public class CameraController : MonoBehaviour
     void Update()
     {
 
-        if (Character1.GetComponent<MovementHandler>().Actions.grabbed || Character2.GetComponent<MovementHandler>().Actions.grabbed)
+        if (Character1.GetComponent<MovementHandler>().Actions.grabbed || Character2.GetComponent<MovementHandler>().Actions.grabbed ||
+           (Character2.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character2.GetComponent<CharacterProperties>().currentHealth <= 0) ||
+           (Character1.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character1.GetComponent<CharacterProperties>().currentHealth <= 0))
         {
             //zooming in "dynamic/cinematic" camera
             cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2, zPosZoom);
@@ -67,7 +69,7 @@ public class CameraController : MonoBehaviour
                 cameraPos = new Vector3(cameraPos.x, 4f, cameraPos.z);
         }
 
-        transform.position = Vector3.Lerp(transform.position, cameraPos, Time.fixedDeltaTime * smooth);
+        transform.position = Vector3.Lerp(transform.position, cameraPos, Time.smoothDeltaTime * smooth);
 
         
     }
