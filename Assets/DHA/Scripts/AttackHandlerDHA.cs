@@ -128,6 +128,23 @@ public class AttackHandlerDHA : MonoBehaviour
     void Update()
     {
         currentState = anim.GetCurrentAnimatorStateInfo(0);
+        anim.ResetTrigger(IDRec);
+
+        if (Move.HitDetect.hitStun > 0)
+        {
+            anim.ResetTrigger(ID5L);
+            anim.ResetTrigger(ID2L);
+            anim.ResetTrigger(ID5M);
+            anim.ResetTrigger(ID2M);
+            anim.ResetTrigger(ID5H);
+            anim.ResetTrigger(ID5H2);
+            anim.ResetTrigger(ID5H3);
+            anim.ResetTrigger(ID5H4);
+            anim.ResetTrigger(ID2H);
+            anim.ResetTrigger(ID5B);
+            anim.ResetTrigger(ID2B);
+        }
+
         if (lightButton > 0)
         {
             lightButton -= Time.deltaTime;
@@ -281,11 +298,10 @@ public class AttackHandlerDHA : MonoBehaviour
 
         //aerial recovery, press a button after hitstun ends
         if ((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") ||
-             currentState.IsName("LaunchFall")) && Move.HitDetect.hitStun == 0 && 
+             currentState.IsName("LaunchFall")) && Move.HitDetect.hitStun == 0 && Move.transform.position.y > 1.4f &&
             (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
         {
             anim.SetTrigger(IDRec);
-            colorControl.StartRecoverFlash();
             lightButton = 0;
             mediumButton = 0;
             heavyButton = 0;

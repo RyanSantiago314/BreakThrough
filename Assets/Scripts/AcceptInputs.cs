@@ -81,6 +81,12 @@ public class AcceptInputs : MonoBehaviour
         //increase gravScale based on hitting certain numbers with comboHits
         //keep track of hits in combo for damage and gravity scaling
         comboHits = Move.OpponentProperties.HitDetect.comboCount;
+        if (comboHits == 0)
+            gravScale = 1;
+        else if (comboHits > 10)
+            gravScale = 1.1f;
+        else if (comboHits > 5)
+            gravScale = 1.05f;
     }
 
     public void DisableAll()
