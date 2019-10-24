@@ -7,6 +7,11 @@ public class AI : MonoBehaviour
 {
     float timer;
     float crouchTimer;
+    float grabTimer;
+    float lightTimer;
+    float mediumTimer;
+    float heavyTimer;
+    float specialTimer;
     double p1x;
     double p2x;
     bool faceLeft;
@@ -21,6 +26,11 @@ public class AI : MonoBehaviour
     {
         timer = 0;
         crouchTimer = 0;
+        grabTimer = 0;
+        lightTimer = 0;
+        mediumTimer = 0;
+        heavyTimer = 0;
+        specialTimer = 0;
         isJumping = false;
         isCrouching = false;
         faceLeft = true;
@@ -38,8 +48,24 @@ public class AI : MonoBehaviour
         if (crouchTimer > 0) {
             crouchTimer -= Time.deltaTime;
         }
+        if (grabTimer > 0) {
+            grabTimer -= Time.deltaTime;
+        }
+        if (lightTimer > 0) {
+            lightTimer -= Time.deltaTime;
+        }
+        if (mediumTimer > 0) {
+            mediumTimer -= Time.deltaTime;
+        }
+        if (heavyTimer > 0) {
+            heavyTimer -= Time.deltaTime;
+        }
+        if (specialTimer > 0) {
+            specialTimer -= Time.deltaTime;
+        }
         timer += Time.deltaTime;
-        //Setting variables representing the x and y locations of player and ai (ai location adjusted based on direction)
+
+        //Setting variables representing the x and y locations of player and ai (ai location adjusted based on direction its facing)
         p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x + 1.5;
         p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0;
         if (!faceLeft) {
@@ -90,7 +116,7 @@ public class AI : MonoBehaviour
             }
         }
 
-        //If player is above ai jump and maybe jump twice
+        //If player is above ai sometimes jump and maybe jump twice
         if (GameObject.Find("Player2").transform.GetChild(0).transform.position.y < 
             GameObject.Find("Player1").transform.GetChild(0).transform.position.y - 0.5 && rand.Next(0,4) == 1){
             MaxInput.Jump();
@@ -105,22 +131,42 @@ public class AI : MonoBehaviour
             MaxInput.Jump();
         }
 
-        //7 in 8 chance that ai does an attack based on distance from player in x units
+        //7 in 8 chance that ai does an attack based on distance from player in x units and some good old rng
         if (rand.Next(0, 8) != 1) {
-            if (Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)) > 0.01 && Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)) < 0.1) {
+            //Grab attack
+            if (Math.Abs(p1x - p2x) > 0.01 && Math.Abs(p1x - p2x) < 0.1 && grabTimer <= 0) {
                 MaxInput.LBumper();
+                if (rand.Next(0, 3) == 2) {
+                    grabTimer = 2;
+                }
             }
-            else if(Math.Abs(p1x - p2x) >= 0.1 && Math.Abs(p1x - p2x) < 0.3) {
+            //Light attack
+            else if(Math.Abs(p1x - p2x) >= 0.1 && Math.Abs(p1x - p2x) < 0.3 && lightTimer <= 0) {
                 MaxInput.Square();
+                /*if (rand.Next(0, 30) == 2) {
+                    lightTimer = 1;
+                }*/
             }
-            else if(Math.Abs(p1x - p2x) >= 0.3 && Math.Abs(p1x - p2x) < 0.6) {
+            //Medium attack
+            else if(Math.Abs(p1x - p2x) >= 0.3 && Math.Abs(p1x - p2x) < 0.6 && mediumTimer <= 0) {
                 MaxInput.Triangle();
+                /*if (rand.Next(0, 30) == 2) {
+                    mediumTimer = 1;
+                }*/
             }
-            else if(Math.Abs(p1x - p2x) >= 0.6 && Math.Abs(p1x - p2x) < .9) {
+            //Heavy attack
+            else if(Math.Abs(p1x - p2x) >= 0.6 && Math.Abs(p1x - p2x) < 0.9 && heavyTimer <= 0) {
                 MaxInput.Circle();
+                /*if (rand.Next(0, 30) == 2) {
+                    heavyTimer = 1;
+                }*/
             }
-            else if(Math.Abs(p1x - p2x) >= .9 && Math.Abs(p1x - p2x) < 1 && rand.Next(0,3) != 1) {
+            //Special attack
+            else if(Math.Abs(p1x - p2x) >= 0.9 && Math.Abs(p1x - p2x) < 1 && specialTimer <= 0) {
                 MaxInput.Cross();
+                if (rand.Next(0, 5) == 2) {
+                    specialTimer = 1;
+                }
             }
                 /*if (Math.Abs(p1x - p2x) > 2.5) {
                 if(p1x - p2x < 0) {
