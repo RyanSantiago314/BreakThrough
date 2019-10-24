@@ -54,9 +54,6 @@ public class CharacterProperties : MonoBehaviour
         else
             HitDetect.Actions.anim.SetBool(KOID, false);
 
-        if (HitDetect.Actions.anim.GetBool(dizzyID))
-            HitDetect.Actions.DisableAll();
-
         if (currentHealth > 0)
         {
             if (HitDetect.hitStun > 0 && armor <= 0)
@@ -75,7 +72,6 @@ public class CharacterProperties : MonoBehaviour
                     //make character dizzy if armor is less than zero, usually triggered by throws but also possible through other means
                     comboTimer = 0;
                     armor = 0;
-                    Debug.Log("DIZZY");
                     HitDetect.Actions.anim.SetBool(dizzyID, true);
                 }
                 else if (armor == 0 && refill)
@@ -182,5 +178,7 @@ public class CharacterProperties : MonoBehaviour
         {
             durability = 0;
         }
+        if (armor > 4)
+            armor = 4;
     }
 }

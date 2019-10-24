@@ -47,16 +47,17 @@ public class HUD : MonoBehaviour
 		
 		//player 1 combo timer
 		
-		if(P2hit.hitStun > 0 && P1hit.comboCount > 1)
+		if(P2hit.hitStun > 0 && P1hit.comboCount > 0)
 		{
 			if(P2hit.hitStun > 60)
 				combotimer1.fillAmount = 1;
 			else
 			{
-				Debug.Log("decreasing");
 				combotimer1.fillAmount = P2hit.hitStun / 60f;
 			}
-			Player1Combo.text = P1hit.comboCount.ToString() + " hits";
+
+            if(P1hit.comboCount > 1)
+			    Player1Combo.text = P1hit.comboCount.ToString() + " hits";
 		}
 		else
 		{
@@ -65,13 +66,14 @@ public class HUD : MonoBehaviour
 		}
 
 		//player 2 combo timer
-		if(P1hit.hitStun > 0 && P2hit.comboCount > 1)
+		if(P1hit.hitStun > 0 && P2hit.comboCount > 0)
 		{
 			if(P1hit.hitStun > 60)
 				combotimer2.fillAmount = 1;
 			else
 				combotimer2.fillAmount = P1hit.hitStun / 60f;
-			Player2Combo.text = P2hit.comboCount.ToString() + " hits";
+            if(P2hit.comboCount > 1)
+			    Player2Combo.text = P2hit.comboCount.ToString() + " hits";
 		}
 		else
 		{

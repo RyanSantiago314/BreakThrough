@@ -29,6 +29,8 @@ public class AcceptInputs : MonoBehaviour
     public bool throwTech = false;
     public bool backThrow = false;
 
+    int throwTechCounter;
+
     public float gravScale = 1f;
     public int comboHits = 0;
 
@@ -41,6 +43,7 @@ public class AcceptInputs : MonoBehaviour
 
     static int airID;
     static int standID;
+    static int dizzyID;
 
     float zPos;
     float zPosHit;
@@ -49,6 +52,7 @@ public class AcceptInputs : MonoBehaviour
     {
         airID = Animator.StringToHash("Airborne");
         standID = Animator.StringToHash("Standing");
+        dizzyID = Animator.StringToHash("Dizzy");
         zPos = transform.position.z;
         zPosHit = zPos + .01f;
 
@@ -64,9 +68,25 @@ public class AcceptInputs : MonoBehaviour
         else
             transform.position = new Vector3(transform.position.x, transform.position.y, zPos);
 
+        if (anim.GetBool(dizzyID) || grabbed || Move.HitDetect.hitStun > 0)
+        {
+            DisableAll();
+            DisableBlitz();
+        }
 
+        //characters are throw invincible for ten frames after throw teching
+        if(anim.GetCurrentAnimatorStateInfo(0).IsName("ThrowReject"))
+        {
+            throwTechCounter = 10;
+        }
+
+        if(throwTechCounter > 0)
+        {
+            throwInvincible = true;
+            throwTechCounter--;
+        }
         //change character properties based on current animation state
-        if(airborne || anim.GetCurrentAnimatorStateInfo(0).IsName("SweepHit"))
+        if (airborne || anim.GetCurrentAnimatorStateInfo(0).IsName("SweepHit"))
             standing = false;
 
         if(anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand")||anim.GetCurrentAnimatorStateInfo(0).IsName("IdleCrouch")||anim.GetCurrentAnimatorStateInfo(0).IsName("StandUp")||
@@ -185,6 +205,7 @@ public class AcceptInputs : MonoBehaviour
         acceptSpecial = false;
         acceptSuper = false;
         jumpCancel = false;
+        DisableBlitz();
     }
 
     public void Advance(float x)
