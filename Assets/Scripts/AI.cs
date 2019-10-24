@@ -52,7 +52,7 @@ public class AI : MonoBehaviour
         }
 
         //When crouchTimer reaches 0 or less set stop crouching otherwise keep crouching
-        if (crouchTimer <= 0) {
+        if (crouchTimer <= 0 || Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)) > 1) {
             isCrouching = false;
         }
         else {
@@ -62,7 +62,7 @@ public class AI : MonoBehaviour
         //When timer is greater than 4 then either crouch or jump and maybe jump twice
         if (timer > 4)
         {
-            if (rand.Next(0,4) == 2) {
+            if (rand.Next(0,4) == 2 && Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)) < 1) {
                MaxInput.Crouch();
                isCrouching = true;
                crouchTimer = 3;
