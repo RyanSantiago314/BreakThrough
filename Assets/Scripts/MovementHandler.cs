@@ -418,9 +418,9 @@ public class MovementHandler : MonoBehaviour
                 if (rb.velocity.y <= 0 && opponentMove.hittingWall)
                 {
                    if (opponentMove.facingRight)
-                        transform.position = new Vector3(opponent.position.x + (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                        transform.position = new Vector3(opponent.position.x + (.5f * opponentMove.pushBox.size.x + .5f * pushBox.size.x), transform.position.y, transform.position.z);
                    else
-                        transform.position = new Vector3(opponent.position.x - (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                        transform.position = new Vector3(opponent.position.x - (.5f * opponentMove.pushBox.size.x + .5f * pushBox.size.x), transform.position.y, transform.position.z);
                 }
                 if (((opponent.position.x > transform.position.x && facingRight)|| (opponent.position.x < transform.position.x && !facingRight)) && rb.velocity.y < 0)
                 {

@@ -35,8 +35,8 @@ public class AcceptInputs : MonoBehaviour
     public Animator anim;
     public MovementHandler Move;
     public CharacterProperties CharProp;
-    public MaxInput MaxInput;
 
+    MaxInput MaxInput;
     MovementHandler opponentMove;
 
     static int airID;
@@ -53,6 +53,7 @@ public class AcceptInputs : MonoBehaviour
         zPosHit = zPos + .01f;
 
         opponentMove = Move.opponent.GetComponent<MovementHandler>();
+        MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
     }
 
     void Update()

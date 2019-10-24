@@ -134,12 +134,14 @@ public class ColorSwapDHA : MonoBehaviour
             ColorSwap(SwapIndex.GlovesBoots, new Color32(199, 152, 123, 255));
             ColorSwap(SwapIndex.BootTrim, new Color32(236, 218, 189, 255));
             ColorSwap(SwapIndex.HairRibbon, new Color32(255, 100, 53, 255));
+            ColorSwap(SwapIndex.Blades, new Color32(255, 78, 78, 255));
             ColorSwap(SwapIndex.Sin, new Color32(55, 80, 255, 255));
             ColorSwap(SwapIndex.SinHighlight, new Color32(144, 145, 255, 255));
             ColorSwap(SwapIndex.Pastry, new Color32(193, 107, 58, 255));
         }
         else
         {
+            //original color
             ColorSwap(SwapIndex.Outline, new Color32(0, 0, 0, 255));
             ColorSwap(SwapIndex.Cape, new Color32(200, 62, 63, 255));
             ColorSwap(SwapIndex.Hair, new Color32(240, 222, 171, 255));
@@ -160,6 +162,7 @@ public class ColorSwapDHA : MonoBehaviour
             ColorSwap(SwapIndex.GlovesBoots, new Color32(199, 152, 123, 255));
             ColorSwap(SwapIndex.BootTrim, new Color32(236, 218, 189, 255));
             ColorSwap(SwapIndex.HairRibbon, new Color32(65, 130, 175, 255));
+            ColorSwap(SwapIndex.Blades, new Color32(205, 215, 222, 255));
             ColorSwap(SwapIndex.Sin, new Color32(255, 50, 53, 255));
             ColorSwap(SwapIndex.SinHighlight, new Color32(255, 144, 145, 255));
             ColorSwap(SwapIndex.Pastry, new Color32(193, 107, 58, 255));

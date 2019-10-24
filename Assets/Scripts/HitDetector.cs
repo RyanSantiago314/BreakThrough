@@ -451,6 +451,10 @@ public class HitDetector : MonoBehaviour
             forceCrouch = true;
             specialProration = .85f;
         }
+        if(Actions.Move.OpponentProperties.armor < 0 && !grab && !piercing)
+        {
+            Actions.Move.OpponentProperties.armor = 0;
+        }
 
         if (forceCrouch && !OpponentDetector.Actions.airborne)
             OpponentDetector.anim.SetBool("Crouch", true);

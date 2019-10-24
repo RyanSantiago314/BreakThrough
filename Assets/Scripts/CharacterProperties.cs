@@ -64,7 +64,7 @@ public class CharacterProperties : MonoBehaviour
             if (HitDetect.Actions.grabbed)
                 comboTimer = 0;
 
-            if (comboTimer >= 40) //recovers armor if in hitstun for a certain amount of time, but can also be forced to refill in other ways
+            if (comboTimer >= 60) //recovers armor if in hitstun for a certain amount of time, but can also be forced to refill in other ways
                 refill = true;
 
             if (HitDetect.Actions.anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || HitDetect.Actions.anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup") ||
