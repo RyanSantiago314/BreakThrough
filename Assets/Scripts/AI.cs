@@ -79,12 +79,17 @@ public class AI : MonoBehaviour
         if (!faceLeft) {
             p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0 + 0.914;
         }
-        
+
+        //Stops ai if player has not moved x position within time frame
         if (deadTimer <= 0) {
-            if (deadCheck == p1x) {
+            if (deadCheck == p1x && p1x - 1.5 >= -8 && p1x - 1.5 <= 11) {
                 pauseAI = true;
+                deadCheck = p1x;
+                deadTimer = 1;
+
             }
             else {
+                pauseAI = false;
                 deadCheck = p1x;
                 deadTimer = 3;
             }
