@@ -23,6 +23,7 @@ public class AttackHandlerDHA : MonoBehaviour
     private string HB;
     private string MH;
     private string LB;
+    private string Select;
 
     float bufferTime = .25f;
     float directionBufferTime = .35f;
@@ -106,6 +107,7 @@ public class AttackHandlerDHA : MonoBehaviour
             HB = "R2_P1";
             LB = "L1_P1";
             MH = "L2_P1";
+            Select = "Select_P1";
         }
         else
         {
@@ -120,6 +122,7 @@ public class AttackHandlerDHA : MonoBehaviour
             HB = "R2_P2";
             LB = "L1_P2";
             MH = "L2_P2";
+            Select = "Select_P2";
         }
 
         colorControl = transform.GetChild(0).GetComponent<ColorSwapDHA>();
@@ -129,6 +132,15 @@ public class AttackHandlerDHA : MonoBehaviour
     {
         currentState = anim.GetCurrentAnimatorStateInfo(0);
         anim.ResetTrigger(IDRec);
+        if (Input.GetButtonDown(Select))
+        {
+            CharProp.currentHealth = CharProp.maxHealth;
+            CharProp.armor = 4;
+            CharProp.durability = 100;
+            Move.OpponentProperties.currentHealth = Move.OpponentProperties.maxHealth;
+            Move.OpponentProperties.armor = 4;
+            Move.OpponentProperties.durability = 100;
+        }
 
         if (Move.HitDetect.hitStun > 0)
         {

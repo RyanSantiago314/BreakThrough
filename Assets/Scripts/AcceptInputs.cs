@@ -35,8 +35,8 @@ public class AcceptInputs : MonoBehaviour
     public Animator anim;
     public MovementHandler Move;
     public CharacterProperties CharProp;
-    public MaxInput MaxInput;
 
+    MaxInput MaxInput;
     MovementHandler opponentMove;
 
     static int airID;
@@ -53,6 +53,7 @@ public class AcceptInputs : MonoBehaviour
         zPosHit = zPos + .01f;
 
         opponentMove = Move.opponent.GetComponent<MovementHandler>();
+        MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
     }
 
     void Update()
@@ -83,6 +84,12 @@ public class AcceptInputs : MonoBehaviour
         comboHits = Move.OpponentProperties.HitDetect.comboCount;
         if (comboHits == 0)
             gravScale = 1;
+        else if (comboHits > 25)
+            gravScale = 1.25f;
+        else if (comboHits > 20)
+            gravScale = 1.2f;
+        else if (comboHits > 15)
+            gravScale = 1.15f;
         else if (comboHits > 10)
             gravScale = 1.1f;
         else if (comboHits > 5)
