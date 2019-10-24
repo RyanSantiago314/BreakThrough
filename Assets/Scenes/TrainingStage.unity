@@ -3011,7 +3011,7 @@ MonoBehaviour:
   rTrigger: 0
   lBumper: 0
   lTrigger: 0
-  lastHit: 
+  player2Hit: 0
   horizontal1: 0
   vertical1: 0
   square1: 0
@@ -3022,6 +3022,7 @@ MonoBehaviour:
   rTrigger1: 0
   lBumper1: 0
   lTrigger1: 0
+  player1Hit: 0
 --- !u!4 &1948197658
 Transform:
   m_ObjectHideFlags: 0
@@ -3063,8 +3064,7 @@ MonoBehaviour:
   broadcastHub:
     broadcastingBrains:
     - {fileID: 11400000, guid: 1385b0963866c984796bf6d1fb00e6a4, type: 2}
-    m_BrainsToControl:
-    - {fileID: 11400000, guid: 1385b0963866c984796bf6d1fb00e6a4, type: 2}
+    m_BrainsToControl: []
   m_TrainingConfiguration:
     width: 80
     height: 80

@@ -30,7 +30,7 @@ public class FighterAgent : Agent
         }
         else
         {
-            AddReward(-0.01f);
+            AddReward(-0.001f);
         }
 
         if (myChar.currentHealth == 0)

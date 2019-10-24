@@ -31,6 +31,9 @@ public class MaxInput : MonoBehaviour
     public bool lTrigger1;
     public bool player1Hit;
 
+    private bool p1Clear;
+    private bool p2Clear;
+
     void Start()
     {
         ClearInput("Player1");
@@ -243,7 +246,8 @@ public class MaxInput : MonoBehaviour
             rTrigger = false;
             lBumper = false;
             lTrigger = false;
-            player2Hit = false;
+
+            p2Clear = true;
         }
         else if (name == "Player1")
         {
@@ -257,7 +261,16 @@ public class MaxInput : MonoBehaviour
             rTrigger1 = false;
             lBumper1 = false;
             lTrigger1 = false;
+
+            p1Clear = true;
+        }
+
+        if (p1Clear && p2Clear)
+        {
             player1Hit = false;
+            player2Hit = false;
+            p2Clear = false;
+            p1Clear = false;
         }
 }
 
