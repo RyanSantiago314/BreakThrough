@@ -119,7 +119,14 @@ public class MovementHandler : MonoBehaviour
         if (facingRight)
             transform.eulerAngles = Vector3.zero;
         else
-            transform.eulerAngles = new Vector3 (0, 180, 0);
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        if (Actions.acceptMove && Actions.standing)
+        {
+            if (opponent.transform.position.x < transform.position.x - .1f)
+                facingRight = false;
+            else if (opponent.transform.position.x > transform.position.x + .1f)
+                facingRight = true;
+        }
 
         if (!Actions.airborne)
         {

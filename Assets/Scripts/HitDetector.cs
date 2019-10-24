@@ -191,7 +191,8 @@ public class HitDetector : MonoBehaviour
             if (KnockBack != Vector2.zero)
             {
                 //apply knockback/pushback once hitstop has ceased
-                if ((hitStun > 0 || blockStun > 0) && Actions.airborne)
+                if (((hitStun > 0 || blockStun > 0) && Actions.airborne) || 
+                    (Actions.Move.facingRight && Actions.Move.rb.velocity.x > 0 && hitStun > 0) || (!Actions.Move.facingRight && Actions.Move.rb.velocity.x < 0 && hitStun > 0))
                     rb.velocity = Vector2.zero;
                 
                 rb.AddForce(KnockBack, ForceMode2D.Impulse);
@@ -312,6 +313,10 @@ public class HitDetector : MonoBehaviour
                 
                 if (shatter && Actions.Move.OpponentProperties.armor > 0)
                 {
+                    //reward attacker for landing a shatter move
+                    Actions.CharProp.armor++;
+                    Actions.CharProp.durability = 100;
+
                     Actions.Move.OpponentProperties.armor = 0;
                     Actions.Move.OpponentProperties.durability = 0;
                     //trigger shatter effect
@@ -386,6 +391,7 @@ public class HitDetector : MonoBehaviour
                 anim.SetTrigger(deflectID);
                 Actions.jumpCancel = true;
                 Actions.CharProp.durabilityRefillTimer = 0;
+                OpponentDetector.hit = false;
             }
             else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
             {
@@ -397,6 +403,7 @@ public class HitDetector : MonoBehaviour
                 Clash();
             }
             allowHit = false;
+            hit = true;
         }
         anim.ResetTrigger(hitID);
         anim.ResetTrigger(hitBodyID);

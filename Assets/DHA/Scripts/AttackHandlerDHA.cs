@@ -73,6 +73,9 @@ public class AttackHandlerDHA : MonoBehaviour
     static int IDBlitz;
     static int IDThrow;
 
+    static int dizzyID;
+    public int dizzyTime;
+
     AnimatorStateInfo currentState;  
 
     void Start()
@@ -89,6 +92,7 @@ public class AttackHandlerDHA : MonoBehaviour
         ID5B = Animator.StringToHash("5B");
         ID2B = Animator.StringToHash("2B");
         BreakCharge = Animator.StringToHash("BreakCharge");
+        dizzyID = Animator.StringToHash("Dizzy");
 
         IDRec = Animator.StringToHash("Recover");
         IDBlitz = Animator.StringToHash("Blitz");
@@ -308,6 +312,45 @@ public class AttackHandlerDHA : MonoBehaviour
             RefreshMoveList();
         }
 
+        //dizzy state, mash buttons to get out of it faster
+        if (dizzyTime == 0 && anim.GetBool(dizzyID))
+        {
+            dizzyTime = 300;
+            Debug.Log("DIZZY");
+            Debug.Log("StartDizzy");
+        }
+        else if (!anim.GetBool(dizzyID))
+        {
+            dizzyTime = 0;
+        }
+
+        if (dizzyTime > 0)
+        {
+            dizzyTime--;
+            if (MaxInput.GetButtonDown(Light))
+            {
+                dizzyTime -= 5;
+            }
+            if (MaxInput.GetButtonDown(Medium))
+            {
+                dizzyTime -= 5;
+            }
+            if (MaxInput.GetButtonDown(Heavy))
+            {
+                dizzyTime -= 5;
+            }
+            if (MaxInput.GetButtonDown(Break))
+            {
+                dizzyTime -= 5;
+            }
+        }
+
+        if (dizzyTime <= 0 && anim.GetBool(dizzyID))
+        {
+            anim.SetBool(dizzyID, false);
+            Debug.Log("EndDizzy");
+        }
+
         //aerial recovery, press a button after hitstun ends
         if ((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") ||
              currentState.IsName("LaunchFall")) && Move.HitDetect.hitStun == 0 && Move.transform.position.y > 1.4f &&
@@ -354,7 +397,7 @@ public class AttackHandlerDHA : MonoBehaviour
             //break attacks
             if(Actions.standing)
             {
-                if(dir2 == directionBufferTime)
+                if(MaxInput.GetAxis(Vertical) < 0)
                 {
                     if(CrouchB)
                     {
@@ -386,7 +429,7 @@ public class AttackHandlerDHA : MonoBehaviour
             //heavy attacks
             if(Actions.standing)
             {
-                if(dir2 == directionBufferTime)
+                if(MaxInput.GetAxis(Vertical) < 0)
                 {
                     if(CrouchH)
                     {
@@ -434,7 +477,7 @@ public class AttackHandlerDHA : MonoBehaviour
             //medium attacks
             if(Actions.standing)
             {
-                if(dir2 == directionBufferTime)
+                if(MaxInput.GetAxis(Vertical) < 0)
                 {
                     if(CrouchM)
                     {
@@ -466,7 +509,7 @@ public class AttackHandlerDHA : MonoBehaviour
             //light attacks
             if(Actions.standing)
             {
-                if(dir2 == directionBufferTime)
+                if(MaxInput.GetAxis(Vertical) < 0)
                 {
                     if(CrouchL > 0)
                     {
