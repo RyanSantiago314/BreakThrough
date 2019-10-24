@@ -6,8 +6,13 @@ using System;
 public class AI : MonoBehaviour
 {
     float timer;
+    float crouchTimer;
     double p1x;
     double p2x;
+    bool faceLeft;
+    bool isJumping;
+    bool isCrouching;
+
     private MaxInput MaxInput;
 
 
@@ -15,7 +20,10 @@ public class AI : MonoBehaviour
     void Start()
     {
         timer = 0;
-        //rand = new Random();
+        crouchTimer = 0;
+        isJumping = false;
+        isCrouching = false;
+        faceLeft = true;
         MaxInput = GetComponent<MaxInput>();
         if (!MaxInput.AI)
         {
@@ -24,55 +32,79 @@ public class AI : MonoBehaviour
     }
     void Update() {
         MaxInput.ClearInput();
+        if (crouchTimer > 0) {
+            crouchTimer -= Time.deltaTime;
+        }
         timer += Time.deltaTime;
         p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x + 1.5;
         p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0;
-        //Debug.Log(p1x);
+        if (!faceLeft) {
+            p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0 + 0.914;
+        }
+        //Debug.Log(Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)));
+        Debug.Log(crouchTimer);
+        if (GameObject.Find("Player2").transform.GetChild(0).transform.position.y == 0) {
+            isJumping = false;
+        }
 
-        if (timer > 5)
+        if (crouchTimer <= 0) {
+            isCrouching = false;
+        }
+        else {
+            MaxInput.Crouch();
+        }
+
+        if (timer > 4)
         {
             var rand = new System.Random();
-            if (rand.Next(1,3) == 1) {
+            if (rand.Next(1,5) == 1) {
                MaxInput.Crouch();
+               isCrouching = true;
+               crouchTimer = 3;
                timer = 0;
             }
             else {
                MaxInput.Jump();
+               isJumping = true;
                timer = 0;
             }
         }
 
+        if (!isCrouching) {
         if(p1x - p2x < 0) {
+            faceLeft = true;
             MaxInput.moveLeft();
         }
         else {
+            faceLeft = false;
             MaxInput.moveRight();
         }
+        }
 
-        if (Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)) > 0 && Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)) < 0.15) {
-            MaxInput.LBumper();
-            
-        }
-        else if(Math.Abs(p1x - p2x) >= 0.15 && Math.Abs(p1x - p2x) < 0.5) {
-            MaxInput.Square();
-        }
-        else if(Math.Abs(p1x - p2x) >= 0.5 && Math.Abs(p1x - p2x) < 1) {
-            MaxInput.Triangle();
-        }
-        else if(Math.Abs(p1x - p2x) >= 1 && Math.Abs(p1x - p2x) < 1.25) {
-            MaxInput.Circle();
-            timer = 0;
-        }
-        else if(Math.Abs(p1x - p2x) >= 1.25 && Math.Abs(p1x - p2x) < 1.5) {
-            MaxInput.Cross();
-        }
-        /*if (math.Abs(p1x - p2x) > 3) {
-            if(p1x - p2x > 0) {
-               MaxInput.dashLeft();
+            if (Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)) > 0.01 && Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)) < 0.1) {
+                MaxInput.LBumper();
             }
-            else {
-               MaxInput.dashRight();
+            else if(Math.Abs(p1x - p2x) >= 0.1 && Math.Abs(p1x - p2x) < 0.3) {
+                MaxInput.Square();
             }
-        }*/
+            else if(Math.Abs(p1x - p2x) >= 0.3 && Math.Abs(p1x - p2x) < 0.6) {
+                MaxInput.Triangle();
+            }
+            else if(Math.Abs(p1x - p2x) >= 0.6 && Math.Abs(p1x - p2x) < 1) {
+                MaxInput.Circle();
+            }
+            else if(Math.Abs(p1x - p2x) >= 1 && Math.Abs(p1x - p2x) < 1.2) {
+                MaxInput.Cross();
+            }
+                /*if (Math.Abs(p1x - p2x) > 2.5) {
+                if(p1x - p2x < 0) {
+                    MaxInput.moveLeft();
+                    MaxInput.moveLeft();
+                }
+                else {
+                    MaxInput.moveRight();
+                    MaxInput.moveRight();
+                }
+            }*/
     }
 }
