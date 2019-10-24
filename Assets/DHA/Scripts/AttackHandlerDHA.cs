@@ -159,6 +159,7 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.ResetTrigger(ID2H);
             anim.ResetTrigger(ID5B);
             anim.ResetTrigger(ID2B);
+            anim.ResetTrigger(IDThrow);
         }
 
         if (lightButton > 0)
@@ -348,6 +349,8 @@ public class AttackHandlerDHA : MonoBehaviour
         if (dizzyTime <= 0 && anim.GetBool(dizzyID))
         {
             anim.SetBool(dizzyID, false);
+            CharProp.refill = true;
+            CharProp.comboTimer = 400;
             Debug.Log("EndDizzy");
         }
 
