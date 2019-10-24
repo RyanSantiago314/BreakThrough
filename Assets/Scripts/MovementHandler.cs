@@ -155,6 +155,10 @@ public class MovementHandler : MonoBehaviour
 
         pushTrigger.offset = new Vector2(pushBox.offset.x, pushBox.offset.y);
         pushTrigger.size = new Vector2(pushBox.size.x, pushBox.size.y + .2f);
+
+        if (hittingWall && rb.velocity.y > 0)
+            pushBox.isTrigger = false;
+
         if (transform.position.y < minPosY)
         {
             transform.position = new Vector3(transform.position.x, minPosY, transform.position.z);
@@ -193,7 +197,7 @@ public class MovementHandler : MonoBehaviour
 
             if(MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
                 jumpRight = true;
-            else if(MaxInput.GetAxis(Horizontal) < 0 && !anim.GetBool(runID))
+            else if(MaxInput.GetAxis(Horizontal) < 0 && !anim.GetBool(runID) && (!hittingWall && facingRight))
                 jumpLeft = true;
 
             vertAxisInUse = true;
@@ -392,6 +396,8 @@ public class MovementHandler : MonoBehaviour
         else if (other.CompareTag("Wall"))
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
+            if (!opponent.GetComponent<MovementHandler>().hittingWall)
+                hittingWall = true;
         }
     }
 
@@ -446,6 +452,10 @@ public class MovementHandler : MonoBehaviour
                 else
                     rb.AddForce(new Vector2(-.05f, 0), ForceMode2D.Impulse);
             }
+        }
+        else if (other.CompareTag("Wall"))
+        {
+            hittingWall = true;
         }
         else if (other.CompareTag("Bound"))
         {

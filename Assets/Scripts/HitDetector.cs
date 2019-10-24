@@ -127,14 +127,15 @@ public class HitDetector : MonoBehaviour
             comboProration = 1;
         }
 
-        if(currentState.IsName("Launch"))
+        if (currentState.IsName("Launch"))
             anim.SetBool(launchID, false);
         else if (currentState.IsName("SweepHit"))
             anim.SetBool(sweepID, false);
+        else if (currentState.IsName("Deflected"))
+            Actions.Move.rb.velocity = Vector2.zero;
 
         if(hitStun > 0 && hitStop == 0)
         {
-            Actions.DisableAll();
             //hitStun only counts down if not in the groundbounce or crumple animations
             if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit"))
                 hitStun--;
@@ -389,9 +390,9 @@ public class HitDetector : MonoBehaviour
                 Debug.Log("DEFLECTED!");
                 OpponentDetector.anim.SetTrigger(parryID);
                 anim.SetTrigger(deflectID);
-                Actions.jumpCancel = true;
+                OpponentDetector.Actions.jumpCancel = true;
                 Actions.CharProp.durabilityRefillTimer = 0;
-                OpponentDetector.hit = false;
+                OpponentDetector.hit = true;
             }
             else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
             {

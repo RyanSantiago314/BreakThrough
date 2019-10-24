@@ -22,6 +22,12 @@ public class HUD : MonoBehaviour
 	HitDetector P1hit;
 	HitDetector P2hit;
 
+    float P1DisplayTimer;
+    float P2DisplayTimer;
+
+    int P1Combo;
+    int P2Combo;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +55,7 @@ public class HUD : MonoBehaviour
 		
 		if(P2hit.hitStun > 0 && P1hit.comboCount > 0)
 		{
+            P1Combo = P1hit.comboCount;
 			if(P2hit.hitStun > 60)
 				combotimer1.fillAmount = 1;
 			else
@@ -57,28 +64,41 @@ public class HUD : MonoBehaviour
 			}
 
             if(P1hit.comboCount > 1)
-			    Player1Combo.text = P1hit.comboCount.ToString() + " hits";
+			    Player1Combo.text = P1Combo + " hits";
+            P1DisplayTimer = 1;
 		}
 		else
 		{
-			Player1Combo.text = "";
+            P1DisplayTimer -= Time.fixedDeltaTime;
+            if (P1DisplayTimer <= 0)
+            {
+                Player1Combo.text = "";
+                P1Combo = 0;
+            }
 			combotimer1.fillAmount = 0;
 		}
 
 		//player 2 combo timer
 		if(P1hit.hitStun > 0 && P2hit.comboCount > 0)
 		{
-			if(P1hit.hitStun > 60)
+            P2Combo = P2hit.comboCount;
+            if (P1hit.hitStun > 60)
 				combotimer2.fillAmount = 1;
 			else
 				combotimer2.fillAmount = P1hit.hitStun / 60f;
             if(P2hit.comboCount > 1)
-			    Player2Combo.text = P2hit.comboCount.ToString() + " hits";
-		}
+			    Player2Combo.text = P2Combo + " hits";
+            P2DisplayTimer = 1;
+        }
 		else
 		{
-			Player2Combo.text = "";
-			combotimer2.fillAmount = 0;
+            P2DisplayTimer -= Time.fixedDeltaTime;
+            if (P2DisplayTimer <= 0)
+            {
+                Player2Combo.text = "";
+                P2Combo = 0;
+            }
+            combotimer2.fillAmount = 0;
 		}
 		
 
