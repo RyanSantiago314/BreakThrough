@@ -210,7 +210,7 @@ public class HitDetector : MonoBehaviour
             anim.ResetTrigger(hitID);
             anim.ResetTrigger(hitBodyID);
             anim.ResetTrigger(hitLegsID);
-            anim.SetBool(crumpleID, false);
+            anim.ResetTrigger(crumpleID);
             anim.SetBool(launchID, false);
             anim.SetBool(sweepID, false);
             anim.ResetTrigger(shatterID);
@@ -294,7 +294,7 @@ public class HitDetector : MonoBehaviour
                             Actions.Move.OpponentProperties.currentHealth -= damage/10;
 
                         if (Actions.Move.OpponentProperties.currentHealth <= 0)
-                            OpponentDetector.anim.SetBool(crumpleID, true);
+                            OpponentDetector.anim.SetTrigger(crumpleID);
                     }
                 }
                 ApplyHitStop(0);
@@ -312,17 +312,15 @@ public class HitDetector : MonoBehaviour
                 
                 if (shatter && Actions.Move.OpponentProperties.armor > 0)
                 {
+                    Actions.Move.OpponentProperties.armor = 0;
+                    Actions.Move.OpponentProperties.durability = 0;
                     //trigger shatter effect
                     OpponentDetector.anim.SetTrigger(shatterID);
                     OpponentDetector.Actions.shattered = true;
                     Debug.Log("Shattered");
                     //damage, hitstun, etc.
                     HitSuccess(other);
-                    ApplyHitStop(5);
-                    Actions.Move.OpponentProperties.armor = 0;
-                    Actions.Move.OpponentProperties.durability = 0;
-                    
-                    
+                    ApplyHitStop(5);  
                 }
                 else if (piercing && Actions.Move.OpponentProperties.armor > 0)
                 { 
@@ -403,7 +401,7 @@ public class HitDetector : MonoBehaviour
         anim.ResetTrigger(hitID);
         anim.ResetTrigger(hitBodyID);
         anim.ResetTrigger(hitLegsID);
-        anim.SetBool(crumpleID, false);
+        anim.ResetTrigger(crumpleID);
         anim.SetBool(launchID, false);
         anim.SetBool(sweepID, false);
     }
@@ -453,6 +451,10 @@ public class HitDetector : MonoBehaviour
             forceCrouch = true;
             specialProration = .85f;
         }
+        if(Actions.Move.OpponentProperties.armor < 0 && !grab && !piercing)
+        {
+            Actions.Move.OpponentProperties.armor = 0;
+        }
 
         if (forceCrouch && !OpponentDetector.Actions.airborne)
             OpponentDetector.anim.SetBool("Crouch", true);
@@ -496,7 +498,7 @@ public class HitDetector : MonoBehaviour
         // some moves will force damage scaling in forcedProration
         if (comboCount == 0)
             specialProration = initialProration;
-        if (forcedProration > 0)
+        if (forcedProration > 0 && comboCount > 0)
             specialProration *= forcedProration;
         if (comboCount != 0 && comboCount < 10)
         {
@@ -531,7 +533,7 @@ public class HitDetector : MonoBehaviour
         }
         else if ((crumple || OpponentDetector.Actions.CharProp.currentHealth <= 0) && !OpponentDetector.Actions.airborne)
         {
-            OpponentDetector.anim.SetBool(crumpleID, true);
+            OpponentDetector.anim.SetTrigger(crumpleID);
         }
         else if (sweep && !OpponentDetector.Actions.airborne)
         {
@@ -632,8 +634,6 @@ public class HitDetector : MonoBehaviour
         {
             OpponentDetector.KnockBack *= new Vector2(-1f, 1);
         }
-        if (Actions.Move.OpponentProperties.currentHealth <= 0)
-            OpponentDetector.KnockBack *= new Vector2(2f, 1);
         if (!grab)
             comboCount++;
     }
