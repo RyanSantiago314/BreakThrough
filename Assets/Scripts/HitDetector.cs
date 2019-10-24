@@ -242,6 +242,10 @@ public class HitDetector : MonoBehaviour
                 //apply pushback to both by half of horizontal knockback value
                 if(OpponentDetector.Actions.Move.hittingWall)
                     KnockBack = potentialKnockBack * new Vector2(1.2f,0);
+                else if (Actions.Move.hittingWall)
+                {
+                    OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.8f, 0);
+                }
                 else
                 {
                     KnockBack = potentialKnockBack * new Vector2(1f, 0);

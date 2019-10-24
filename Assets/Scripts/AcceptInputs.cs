@@ -29,7 +29,7 @@ public class AcceptInputs : MonoBehaviour
     public bool throwTech = false;
     public bool backThrow = false;
 
-    int throwTechCounter;
+    int throwInvulnCounter;
 
     public float gravScale = 1f;
     public int comboHits = 0;
@@ -75,15 +75,17 @@ public class AcceptInputs : MonoBehaviour
         }
 
         //characters are throw invincible for ten frames after throw teching
-        if(anim.GetCurrentAnimatorStateInfo(0).IsName("ThrowReject"))
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("ThrowReject"))
         {
-            throwTechCounter = 10;
+            throwInvulnCounter = 10;
         }
+        else if (anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup"))
+            throwInvulnCounter = 5;
 
-        if(throwTechCounter > 0)
+        if(throwInvulnCounter > 0)
         {
             throwInvincible = true;
-            throwTechCounter--;
+            throwInvulnCounter--;
         }
         //change character properties based on current animation state
         if (airborne || anim.GetCurrentAnimatorStateInfo(0).IsName("SweepHit"))
