@@ -339,6 +339,79 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.jumpCancellable = true;
     }
 
+    void FHFirstHitBox()
+    {
+        ClearHitBox();
+        hit1.enabled = true;
+
+        hit1.offset = new Vector2(1.4f, .636f);
+        hit1.size = new Vector2(1.51f, .41f);
+
+        HitDetect.damage = 50;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 100;
+        HitDetect.potentialHitStun = hitStunLv3;
+        HitDetect.potentialHitStop = 8;
+        HitDetect.potentialKnockBack = new Vector2(1.2f, 0f);
+        HitDetect.potentialAirKnockBack = new Vector2(1f, 1.5f);
+        HitDetect.initialProration = .85f;
+        HitDetect.attackLevel = 3;
+        HitDetect.guard = "Mid";
+
+        HitDetect.allowHeavy = true;
+        HitDetect.allowBreak = true;
+        HitDetect.allowSpecial = true;
+        HitDetect.allowSuper = true;
+        HitDetect.jumpCancellable = true;
+    }
+
+    void FHExtraHitBox()
+    {
+        ClearHitBox();
+        hit1.enabled = true;
+
+        hit1.offset = new Vector2(1.4f, .636f);
+        hit1.size = new Vector2(1.51f, .41f);
+
+        HitDetect.damage = 40;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 50;
+        HitDetect.potentialHitStun = hitStunLv2;
+        HitDetect.potentialHitStop = 5;
+        HitDetect.potentialKnockBack = new Vector2(1.2f, 0f);
+        HitDetect.potentialAirKnockBack = new Vector2(1f, 1.5f);
+        HitDetect.initialProration = .7f;
+        HitDetect.attackLevel = 2;
+        HitDetect.guard = "Mid";
+
+        HitDetect.allowHeavy = true;
+        HitDetect.allowSuper = true;
+    }
+
+    void FHLastHitBox()
+    {
+        ClearHitBox();
+        hit1.enabled = true;
+
+        hit1.offset = new Vector2(1.4f, .636f);
+        hit1.size = new Vector2(1.51f, .41f);
+
+        HitDetect.damage = 50;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 50;
+        HitDetect.potentialHitStun = hitStunLv3;
+        HitDetect.potentialHitStop = 5;
+        HitDetect.potentialKnockBack = new Vector2(1.2f, 0f);
+        HitDetect.potentialAirKnockBack = new Vector2(1f, 1.5f);
+        HitDetect.initialProration = .7f;
+        HitDetect.attackLevel = 3;
+        HitDetect.guard = "Mid";
+
+        HitDetect.allowSuper = true;
+        HitDetect.jumpCancellable = true;
+    }
+
+
     void JumpHFirstHitBox()
     {
         ClearHitBox();
