@@ -12,14 +12,16 @@ public class AI : MonoBehaviour
     float mediumTimer;
     float heavyTimer;
     float specialTimer;
+    float deadTimer;
+    double deadCheck;
     double p1x;
     double p2x;
     bool faceLeft;
     bool isJumping;
     bool isCrouching;
+    bool pauseAI;
 
     private MaxInput MaxInput;
-
 
     // Start is called before the first frame update
     void Start()
@@ -31,9 +33,12 @@ public class AI : MonoBehaviour
         mediumTimer = 0;
         heavyTimer = 0;
         specialTimer = 0;
+        deadTimer = 5;
+        deadCheck = 0;
         isJumping = false;
         isCrouching = false;
         faceLeft = true;
+        pauseAI = false;
         MaxInput = GetComponent<MaxInput>();
         if (!MaxInput.AI)
         {
@@ -63,6 +68,9 @@ public class AI : MonoBehaviour
         if (specialTimer > 0) {
             specialTimer -= Time.deltaTime;
         }
+        if (deadTimer > 0) {
+            deadTimer -= Time.deltaTime;
+        }
         timer += Time.deltaTime;
 
         //Setting variables representing the x and y locations of player and ai (ai location adjusted based on direction its facing)
@@ -71,6 +79,18 @@ public class AI : MonoBehaviour
         if (!faceLeft) {
             p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0 + 0.914;
         }
+        
+        if (deadTimer <= 0) {
+            if (deadCheck == p1x) {
+                pauseAI = true;
+            }
+            else {
+                deadCheck = p1x;
+                deadTimer = 3;
+            }
+        }
+
+        if (!pauseAI) {
         
         //If ai is on ground set jumping to false
         if (GameObject.Find("Player2").transform.GetChild(0).transform.position.y <= 0) {
@@ -178,6 +198,7 @@ public class AI : MonoBehaviour
                     MaxInput.moveRight();
                 }
             }*/
+        }
         }
     }
 }
