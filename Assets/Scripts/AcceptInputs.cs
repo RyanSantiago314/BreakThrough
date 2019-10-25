@@ -283,7 +283,7 @@ public class AcceptInputs : MonoBehaviour
     {
         if (backThrow)
         {
-            if (Move.hittingWall || Move.transform.position.x - 9.8 < distance || Move.transform.position.x + 9.8 > distance)
+            if (Move.hittingWall || Move.transform.position.x - 10 < distance || Move.transform.position.x + 10 > distance)
             {
                 if (Move.facingRight)
                 {
