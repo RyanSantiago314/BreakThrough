@@ -55,6 +55,9 @@ public class AttackHandlerDHA : MonoBehaviour
     private bool JumpH3 = true;
     private bool JumpH4 = true;
     private bool JumpB = true;
+    private bool FH = true;
+    private int FHx = 2;
+    private bool FHF = true;
 
     static int ID5L;
     static int ID2L;
@@ -64,11 +67,13 @@ public class AttackHandlerDHA : MonoBehaviour
     static int ID5H2;
     static int ID5H3;
     static int ID5H4;
+    static int ID6H;
     static int ID2H;
     static int ID5B;
     static int ID2B;
     static int BreakCharge;
 
+    static int runID;
     static int IDRec;
     static int IDBlitz;
     static int IDThrow;
@@ -88,12 +93,14 @@ public class AttackHandlerDHA : MonoBehaviour
         ID5H2 = Animator.StringToHash("5H2");
         ID5H3 = Animator.StringToHash("5H3");
         ID5H4 = Animator.StringToHash("5H4");
+        ID6H = Animator.StringToHash("6H");
         ID2H = Animator.StringToHash("2H");
         ID5B = Animator.StringToHash("5B");
         ID2B = Animator.StringToHash("2B");
         BreakCharge = Animator.StringToHash("BreakCharge");
         dizzyID = Animator.StringToHash("Dizzy");
 
+        runID = Animator.StringToHash("Run");
         IDRec = Animator.StringToHash("Recover");
         IDBlitz = Animator.StringToHash("Blitz");
         IDThrow = Animator.StringToHash("Throw");
@@ -156,6 +163,7 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.ResetTrigger(ID5H2);
             anim.ResetTrigger(ID5H3);
             anim.ResetTrigger(ID5H4);
+            anim.ResetTrigger(ID6H);
             anim.ResetTrigger(ID2H);
             anim.ResetTrigger(ID5B);
             anim.ResetTrigger(ID2B);
@@ -432,17 +440,61 @@ public class AttackHandlerDHA : MonoBehaviour
             //heavy attacks
             if(Actions.standing)
             {
-                if(MaxInput.GetAxis(Vertical) < 0)
+                if (MaxInput.GetAxis(Vertical) < 0 && !(currentState.IsName("6Hx") || currentState.IsName("6HF")))
                 {
-                    if(CrouchH)
+                    if (CrouchH)
                     {
                         anim.SetTrigger(ID2H);
                         CrouchH = false;
                     }
                 }
+                else if (dir6 == directionBufferTime)
+                {
+                    if (FH)
+                    {
+                        anim.SetTrigger(ID6H);
+                        FH = false;
+                        anim.SetBool(runID, false);
+                    }
+                    else if (FHx == 2)
+                    {
+                        anim.SetTrigger(ID5H2);
+                        FHx--;
+                    }
+                    else if (FHx == 1)
+                    {
+                        anim.SetTrigger(ID5H3);
+                        FHx--;
+                    }
+                    else if (FHF)
+                    {
+                        anim.SetTrigger(ID5H4);
+                        FHF = false;
+                    }
+                }
                 else
                 {
-                    if(StandH)
+                    if (currentState.IsName("6Hx"))
+                    {
+                        if (FHx > 0)
+                        {
+                            if (FHx == 2)
+                            {
+                                anim.SetTrigger(ID5H2);
+                            }
+                            else if (FHx < 2)
+                            {
+                                anim.SetTrigger(ID5H3);
+                            }
+                            FHx--;
+                        }
+                        else if (FHF)
+                        {
+                            anim.SetTrigger(ID5H4);
+                            FHF = false;
+                        }
+                    }
+                    else if (StandH)
                     {
                         anim.SetTrigger(ID5H);
                         StandH = false;
@@ -570,6 +622,9 @@ public class AttackHandlerDHA : MonoBehaviour
         JumpH3 = true;
         JumpH4 = true;
         JumpB = true;
+        FH = true;
+        FHx = 2;
+        FHF = true;
 
         Move.jumped = false;
     }

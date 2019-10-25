@@ -156,9 +156,6 @@ public class MovementHandler : MonoBehaviour
         pushTrigger.offset = new Vector2(pushBox.offset.x, pushBox.offset.y);
         pushTrigger.size = new Vector2(pushBox.size.x, pushBox.size.y + .2f);
 
-        if (hittingWall && rb.velocity.y > 0)
-            pushBox.isTrigger = false;
-
         if (transform.position.y < minPosY)
         {
             transform.position = new Vector3(transform.position.x, minPosY, transform.position.z);

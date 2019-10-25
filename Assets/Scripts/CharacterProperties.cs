@@ -6,8 +6,8 @@ public class CharacterProperties : MonoBehaviour
 {
     public HitDetector HitDetect;
 
-    public int maxHealth;
-    public int currentHealth;
+    public float maxHealth;
+    public float currentHealth;
     public int armor;
     public int durability;
     public float comboTimer;

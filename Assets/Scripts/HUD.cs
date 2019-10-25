@@ -11,8 +11,14 @@ public class HUD : MonoBehaviour
     public Text Player2Armor;
     public Text Player1Durability;
     public Text Player2Durability;
-	
-	public Text Player1Combo;
+    public Image P1HealthUI;
+    public Image P2HealthUI;
+    public Image P1ArmorUI;
+    public Image P1DurabilityUI;
+    public Image P2ArmorUI;
+    public Image P2DurabilityUI;
+
+    public Text Player1Combo;
 	public Text Player2Combo;
 	public Image combotimer1;
 	public Image combotimer2;
@@ -21,12 +27,6 @@ public class HUD : MonoBehaviour
     CharacterProperties P2Prop;
 	HitDetector P1hit;
 	HitDetector P2hit;
-
-    float P1DisplayTimer;
-    float P2DisplayTimer;
-
-    int P1Combo;
-    int P2Combo;
 
     // Start is called before the first frame update
     void Start()
@@ -44,18 +44,23 @@ public class HUD : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Player1Health.text = "HP:" + P1Prop.currentHealth;
-        Player2Health.text = "HP:" + P2Prop.currentHealth;
+        Player1Health.text = P1Prop.currentHealth + " / " + P1Prop.maxHealth;
+        Player2Health.text = P2Prop.currentHealth + " / " + P2Prop.maxHealth;
         Player1Armor.text = "Armor:" + P1Prop.armor;
         Player2Armor.text = "Armor:" + P2Prop.armor;
         Player1Durability.text = "Durability:" + P1Prop.durability;
         Player2Durability.text = "Durability:" + P2Prop.durability;
-		
-		//player 1 combo timer
-		
-		if(P2hit.hitStun > 0 && P1hit.comboCount > 0)
+        P1HealthUI.fillAmount = (float)(P1Prop.currentHealth / P1Prop.maxHealth);
+        P2HealthUI.fillAmount = (float)(P2Prop.currentHealth / P2Prop.maxHealth);
+        P1ArmorUI.fillAmount = (float)P1Prop.armor / 4f;
+        P2ArmorUI.fillAmount = (float)P2Prop.armor / 4f;
+        P1DurabilityUI.fillAmount = P1Prop.durability / 100f;
+        P2DurabilityUI.fillAmount = P2Prop.durability / 100f;
+
+        //player 1 combo timer
+
+        if (P2hit.hitStun > 0 && P1hit.comboCount > 0)
 		{
-            P1Combo = P1hit.comboCount;
 			if(P2hit.hitStun > 60)
 				combotimer1.fillAmount = 1;
 			else
@@ -64,41 +69,28 @@ public class HUD : MonoBehaviour
 			}
 
             if(P1hit.comboCount > 1)
-			    Player1Combo.text = P1Combo + " hits";
-            P1DisplayTimer = 1;
+			    Player1Combo.text = P1hit.comboCount.ToString() + " hits";
 		}
 		else
 		{
-            P1DisplayTimer -= Time.fixedDeltaTime;
-            if (P1DisplayTimer <= 0)
-            {
-                Player1Combo.text = "";
-                P1Combo = 0;
-            }
+			Player1Combo.text = "";
 			combotimer1.fillAmount = 0;
 		}
 
 		//player 2 combo timer
 		if(P1hit.hitStun > 0 && P2hit.comboCount > 0)
 		{
-            P2Combo = P2hit.comboCount;
-            if (P1hit.hitStun > 60)
+			if(P1hit.hitStun > 60)
 				combotimer2.fillAmount = 1;
 			else
 				combotimer2.fillAmount = P1hit.hitStun / 60f;
             if(P2hit.comboCount > 1)
-			    Player2Combo.text = P2Combo + " hits";
-            P2DisplayTimer = 1;
-        }
+			    Player2Combo.text = P2hit.comboCount.ToString() + " hits";
+		}
 		else
 		{
-            P2DisplayTimer -= Time.fixedDeltaTime;
-            if (P2DisplayTimer <= 0)
-            {
-                Player2Combo.text = "";
-                P2Combo = 0;
-            }
-            combotimer2.fillAmount = 0;
+			Player2Combo.text = "";
+			combotimer2.fillAmount = 0;
 		}
 		
 

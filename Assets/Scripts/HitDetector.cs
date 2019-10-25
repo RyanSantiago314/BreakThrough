@@ -67,6 +67,7 @@ public class HitDetector : MonoBehaviour
     static int LoGuard;
     static int AirGuard;
 
+    static int runID;
     static int animSpeedID;
     static int hitStunID;
     static int blockStunID;
@@ -95,6 +96,7 @@ public class HitDetector : MonoBehaviour
         HiGuard = Animator.StringToHash("HighGuard");
         AirGuard = Animator.StringToHash("AirGuard");
 
+        runID = Animator.StringToHash("Run");
         animSpeedID = Animator.StringToHash("AnimSpeed");
         hitStunID = Animator.StringToHash("HitStun");
         blockStunID = Animator.StringToHash("BlockStun");
@@ -136,6 +138,7 @@ public class HitDetector : MonoBehaviour
 
         if(hitStun > 0 && hitStop == 0)
         {
+            anim.SetBool(runID, false);
             //hitStun only counts down if not in the groundbounce or crumple animations
             if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit"))
                 hitStun--;
