@@ -73,6 +73,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int ID2B;
     static int BreakCharge;
 
+    static int runID;
     static int IDRec;
     static int IDBlitz;
     static int IDThrow;
@@ -99,6 +100,7 @@ public class AttackHandlerDHA : MonoBehaviour
         BreakCharge = Animator.StringToHash("BreakCharge");
         dizzyID = Animator.StringToHash("Dizzy");
 
+        runID = Animator.StringToHash("Run");
         IDRec = Animator.StringToHash("Recover");
         IDBlitz = Animator.StringToHash("Blitz");
         IDThrow = Animator.StringToHash("Throw");
@@ -438,31 +440,30 @@ public class AttackHandlerDHA : MonoBehaviour
             //heavy attacks
             if(Actions.standing)
             {
-                if(MaxInput.GetAxis(Vertical) < 0 && !(currentState.IsName("6H") || currentState.IsName("6Hx")))
+                if (MaxInput.GetAxis(Vertical) < 0 && !(currentState.IsName("6Hx") || currentState.IsName("6HF")))
                 {
-                    if(CrouchH)
+                    if (CrouchH)
                     {
                         anim.SetTrigger(ID2H);
                         CrouchH = false;
                     }
                 }
-                else if (((Move.facingRight && MaxInput.GetAxis(Horizontal) > 0) || (!Move.facingRight && MaxInput.GetAxis(Horizontal) < 0)) || currentState.IsName("6H") || currentState.IsName("6Hx"))
+                else if (dir6 == directionBufferTime)
                 {
                     if (FH)
                     {
                         anim.SetTrigger(ID6H);
                         FH = false;
+                        anim.SetBool(runID, false);
                     }
-                    else if (FHx > 0)
+                    else if (FHx == 2)
                     {
-                        if(FHx == 2)
-                        {
-                            anim.SetTrigger(ID5H2);
-                        }
-                        else if (FHx < 2)
-                        {
-                            anim.SetTrigger(ID5H3);
-                        } 
+                        anim.SetTrigger(ID5H2);
+                        FHx--;
+                    }
+                    else if (FHx == 1)
+                    {
+                        anim.SetTrigger(ID5H3);
                         FHx--;
                     }
                     else if (FHF)
@@ -473,7 +474,27 @@ public class AttackHandlerDHA : MonoBehaviour
                 }
                 else
                 {
-                    if(StandH)
+                    if (currentState.IsName("6Hx"))
+                    {
+                        if (FHx > 0)
+                        {
+                            if (FHx == 2)
+                            {
+                                anim.SetTrigger(ID5H2);
+                            }
+                            else if (FHx < 2)
+                            {
+                                anim.SetTrigger(ID5H3);
+                            }
+                            FHx--;
+                        }
+                        else if (FHF)
+                        {
+                            anim.SetTrigger(ID5H4);
+                            FHF = false;
+                        }
+                    }
+                    else if (StandH)
                     {
                         anim.SetTrigger(ID5H);
                         StandH = false;
