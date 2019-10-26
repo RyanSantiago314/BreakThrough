@@ -194,7 +194,7 @@ public class MovementHandler : MonoBehaviour
 
             if(MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
                 jumpRight = true;
-            else if(MaxInput.GetAxis(Horizontal) < 0 && !anim.GetBool(runID) && (!hittingWall && facingRight))
+            else if(MaxInput.GetAxis(Horizontal) < 0 && !anim.GetBool(runID))
                 jumpLeft = true;
 
             vertAxisInUse = true;
@@ -453,6 +453,7 @@ public class MovementHandler : MonoBehaviour
         else if (other.CompareTag("Wall"))
         {
             hittingWall = true;
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
         else if (other.CompareTag("Bound"))
         {

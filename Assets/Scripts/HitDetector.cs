@@ -49,6 +49,7 @@ public class HitDetector : MonoBehaviour
     public bool allowGroundBounce = false;
     public bool allowWallBounce = false;
     public bool usingSuper;
+    public bool usingSpecial;
 
     HitDetector OpponentDetector;
 
@@ -219,7 +220,6 @@ public class HitDetector : MonoBehaviour
             anim.SetBool(launchID, false);
             anim.SetBool(sweepID, false);
             anim.ResetTrigger(shatterID);
-            anim.ResetTrigger(armorHitID);
         }
     }
 
@@ -409,12 +409,7 @@ public class HitDetector : MonoBehaviour
             allowHit = false;
             hit = true;
         }
-        anim.ResetTrigger(hitID);
-        anim.ResetTrigger(hitBodyID);
-        anim.ResetTrigger(hitLegsID);
-        anim.ResetTrigger(crumpleID);
-        anim.SetBool(launchID, false);
-        anim.SetBool(sweepID, false);
+        
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -570,13 +565,25 @@ public class HitDetector : MonoBehaviour
 
         //apply hitstun
         OpponentDetector.hitStun = potentialHitStun;
-        if (Actions.Move.OpponentProperties.comboTimer >= 400)
-            OpponentDetector.hitStun = 1;
+        if (OpponentDetector.Actions.airborne && !usingSpecial && !usingSuper)
+        {
+            if (Actions.Move.OpponentProperties.comboTimer >= 400)
+                OpponentDetector.hitStun = 6 * potentialHitStun / 10;
+            else if (Actions.Move.OpponentProperties.comboTimer >= 300)
+                OpponentDetector.hitStun = 7 * potentialHitStun / 10;
+            else if (Actions.Move.OpponentProperties.comboTimer >= 200)
+                OpponentDetector.hitStun = 8 * potentialHitStun / 10;
+            else if (Actions.Move.OpponentProperties.comboTimer >= 100)
+                OpponentDetector.hitStun = 9 * potentialHitStun / 10;
+        }
 
         if (OpponentDetector.anim.GetBool("Crouch"))
             OpponentDetector.hitStun += 2;
         if (OpponentDetector.Actions.shattered)
-            OpponentDetector.hitStun += OpponentDetector.hitStun/5;
+        {
+            Actions.Move.OpponentProperties.comboTimer = 0;
+            OpponentDetector.hitStun += OpponentDetector.hitStun / 5;
+        }
         OpponentDetector.blockStun = 0;
 
         //apply knockback

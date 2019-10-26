@@ -42,7 +42,7 @@ public class AI : MonoBehaviour
             p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0 + 0.914;
         }
         //Debug.Log(Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)));
-        Debug.Log(crouchTimer);
+        //Debug.Log(crouchTimer);
         if (GameObject.Find("Player2").transform.GetChild(0).transform.position.y == 0) {
             isJumping = false;
         }

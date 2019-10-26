@@ -68,7 +68,7 @@ public class AcceptInputs : MonoBehaviour
         else
             transform.position = new Vector3(transform.position.x, transform.position.y, zPos);
 
-        if (anim.GetBool(dizzyID) || grabbed || Move.HitDetect.hitStun > 0)
+        if (anim.GetBool(dizzyID) || grabbed || Move.HitDetect.hitStun > 0 || anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected"))
         {
             DisableAll();
             DisableBlitz();
@@ -104,6 +104,8 @@ public class AcceptInputs : MonoBehaviour
         comboHits = Move.OpponentProperties.HitDetect.comboCount;
         if (comboHits == 0)
             gravScale = 1;
+        else if (comboHits > 30)
+            gravScale = 1.3f;
         else if (comboHits > 25)
             gravScale = 1.25f;
         else if (comboHits > 20)

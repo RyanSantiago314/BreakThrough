@@ -326,7 +326,6 @@ public class AttackHandlerDHA : MonoBehaviour
         {
             dizzyTime = 300;
             Debug.Log("DIZZY");
-            Debug.Log("StartDizzy");
         }
         else if (!anim.GetBool(dizzyID))
         {
@@ -359,11 +358,10 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.SetBool(dizzyID, false);
             CharProp.refill = true;
             CharProp.comboTimer = 400;
-            Debug.Log("EndDizzy");
         }
 
         //aerial recovery, press a button after hitstun ends
-        if ((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") ||
+        if ((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") || currentState.IsName("LaunchTransition") ||
              currentState.IsName("LaunchFall")) && Move.HitDetect.hitStun == 0 && Move.transform.position.y > 1.4f &&
             (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
         {
