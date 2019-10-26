@@ -325,14 +325,14 @@ AnimationClip:
     floatParameter: 1.2
     intParameter: 0
     messageOptions: 0
-  - time: 0.93333334
+  - time: 0.95
     functionName: EndGrab
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.93333334
+  - time: 0.95
     functionName: ThrowThirdHit
     data: 
     objectReferenceParameter: {fileID: 0}

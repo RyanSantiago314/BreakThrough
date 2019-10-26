@@ -54,7 +54,7 @@ public class AcceptInputs : MonoBehaviour
         standID = Animator.StringToHash("Standing");
         dizzyID = Animator.StringToHash("Dizzy");
         zPos = transform.position.z;
-        zPosHit = zPos + .01f;
+        zPosHit = zPos + .05f;
 
         opponentMove = Move.opponent.GetComponent<MovementHandler>();
         MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
@@ -79,14 +79,13 @@ public class AcceptInputs : MonoBehaviour
         {
             throwInvulnCounter = 10;
         }
-        else if (anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup"))
-            throwInvulnCounter = 5;
-
-        if(throwInvulnCounter > 0)
+        else if (throwInvulnCounter > 0)
         {
             throwInvincible = true;
             throwInvulnCounter--;
         }
+
+
         //change character properties based on current animation state
         if (airborne || anim.GetCurrentAnimatorStateInfo(0).IsName("SweepHit"))
             standing = false;
@@ -177,6 +176,11 @@ public class AcceptInputs : MonoBehaviour
     public void EnableBlitz()
     {
         blitzCancel = true;
+    }
+
+    public void EnableLight()
+    {
+        acceptLight = true;
     }
 
     public void EnableHeavy()
@@ -287,7 +291,7 @@ public class AcceptInputs : MonoBehaviour
     {
         if (backThrow)
         {
-            if (Move.hittingWall || Move.transform.position.x - 10 < distance || Move.transform.position.x + 10 > distance)
+            if (Move.hittingWall || Move.transform.position.x - 10 < distance + 1 || Move.transform.position.x + 10 > distance + 1)
             {
                 if (Move.facingRight)
                 {
@@ -313,7 +317,7 @@ public class AcceptInputs : MonoBehaviour
         }
         else
         {
-            if (opponentMove.hittingWall || Move.opponent.position.x - 9.8 < distance ||Move.opponent.position.x + 9.8 > distance)
+            if (opponentMove.hittingWall || Move.opponent.position.x - 9.8 < distance + 1 ||Move.opponent.position.x + 9.8 > distance + 1)
             {
                 if (Move.facingRight)
                     Move.transform.position = new Vector3(Move.opponent.transform.position.x - distance, Move.transform.position.y, Move.transform.position.z);
