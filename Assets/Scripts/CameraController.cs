@@ -65,7 +65,7 @@ public class CameraController : MonoBehaviour
                 cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2, zPosZoomOut);
             else
                 cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2, zPos);
-            smooth = 7;
+            smooth = 10;
             leftBound.enabled = true;
             rightBound.enabled = true;
 

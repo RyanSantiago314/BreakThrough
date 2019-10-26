@@ -152,7 +152,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStop = hitStopLv2;
         HitDetect.potentialKnockBack = new Vector2(1.5f, 0f);
         HitDetect.potentialAirKnockBack = new Vector2(1.2f, 2f);
-        HitDetect.initialProration = .85f;
+        HitDetect.initialProration = .8f;
         HitDetect.attackLevel = 3;
         HitDetect.guard = "Mid";
 
@@ -437,7 +437,7 @@ public class HitboxDHA : MonoBehaviour
         hit5.offset = new Vector2(.56f, .49f);
         hit5.size = new Vector2(.37f, .087f);
 
-        HitDetect.damage = 55;
+        HitDetect.damage = 50;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv4;
@@ -475,7 +475,7 @@ public class HitboxDHA : MonoBehaviour
         hit5.offset = new Vector2(.7f, .49f);
         hit5.size = new Vector2(.23f, .33f);
 
-        HitDetect.damage = 36;
+        HitDetect.damage = 30;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv3;
@@ -512,7 +512,7 @@ public class HitboxDHA : MonoBehaviour
         hit5.offset = new Vector2(.77f, .14f);
         hit5.size = new Vector2(.16f, .186f);
 
-        HitDetect.damage = 36;
+        HitDetect.damage = 35;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv3;
@@ -751,7 +751,7 @@ public class HitboxDHA : MonoBehaviour
         hit5.offset = new Vector2(.82f, .71f);
         hit5.size = new Vector2(.21f, .76f);
 
-        HitDetect.damage = 90;
+        HitDetect.damage = 85;
         HitDetect.armorDamage = 1;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialKnockBack = new Vector2(2f, 0f);
@@ -813,7 +813,7 @@ public class HitboxDHA : MonoBehaviour
 
         hit1.offset = new Vector2(1.4f, .5f);
         hit1.size = new Vector2(1.3f, .47f);
-        HitDetect.damage = 25;
+        HitDetect.damage = 35;
         HitDetect.initialProration = 1.1f;
         HitDetect.potentialAirKnockBack = new Vector2(2.5f, 2f);
         HitDetect.potentialHitStun = 60;

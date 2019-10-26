@@ -21,7 +21,6 @@ public class MovementHandler : MonoBehaviour
     float runInputTime = 0.3f;
     int dashButtonCount = 0;
     int buttonCount = 0;
-    bool allowHit = false;
     int wallStickTimer;
     public bool hittingWall = false;
     public bool jumping = false;
@@ -326,7 +325,6 @@ public class MovementHandler : MonoBehaviour
             Actions.airborne = false;
             if(Actions.standing)
                 jumps = 0;
-            allowHit = true;
         }
         else if (collision.collider.CompareTag("Wall"))
         {
@@ -358,18 +356,23 @@ public class MovementHandler : MonoBehaviour
             {
                 if (opponent.position.x > transform.position.x + .1f)
                 {
-                    rb.AddForce(new Vector2(-.4f, 0), ForceMode2D.Impulse);
+                    if (transform.position.x + .5f * pushBox.size.x > opponent.position.x - .5f * opponentMove.pushBox.size.x)
+                    {
+                        float translateX = (transform.position.x + .5f * pushBox.size.x) - (opponent.position.x - .5f * opponentMove.pushBox.size.x);
+                        transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
+                    }
+                    else
+                        rb.AddForce(new Vector2(-.3f, 0), ForceMode2D.Impulse);
                 }
                 else if (opponent.position.x < transform.position.x - .1f)
                 {
-                    rb.AddForce(new Vector2(.4f, 0), ForceMode2D.Impulse);
-                }
-                else
-                {
-                    if (facingRight)
-                        rb.AddForce(new Vector2(-.4f, 0), ForceMode2D.Impulse);
+                    if (transform.position.x - .5f * pushBox.size.x < opponent.position.x + .5f * opponentMove.pushBox.size.x)
+                    {
+                        float translateX = (transform.position.x - .5f * pushBox.size.x) - (opponent.position.x + .5f * opponentMove.pushBox.size.x);
+                        transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
+                    }
                     else
-                        rb.AddForce(new Vector2(.4f, 0), ForceMode2D.Impulse);
+                        rb.AddForce(new Vector2(.3f, 0), ForceMode2D.Impulse);
                 }
             }
         }
