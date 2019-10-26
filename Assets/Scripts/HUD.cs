@@ -23,6 +23,11 @@ public class HUD : MonoBehaviour
 	public Image combotimer1;
 	public Image combotimer2;
 
+    float displayTime1;
+    float displayTime2;
+    int hitNum1;
+    int hitNum2;
+
     CharacterProperties P1Prop;
     CharacterProperties P2Prop;
 	HitDetector P1hit;
@@ -59,7 +64,7 @@ public class HUD : MonoBehaviour
 
         //player 1 combo timer
 
-        if (P2hit.hitStun > 0 && P1hit.comboCount > 0)
+        if (P2hit.hitStun > 0 && P1hit.comboCount > 1)
 		{
 			if(P2hit.hitStun > 60)
 				combotimer1.fillAmount = 1;
@@ -67,32 +72,53 @@ public class HUD : MonoBehaviour
 			{
 				combotimer1.fillAmount = P2hit.hitStun / 60f;
 			}
+            hitNum1 = P1hit.comboCount;
+            displayTime1 = 1;
 
-            if(P1hit.comboCount > 1)
-			    Player1Combo.text = P1hit.comboCount.ToString() + " hits";
-		}
+        }
 		else
 		{
-			Player1Combo.text = "";
 			combotimer1.fillAmount = 0;
 		}
 
-		//player 2 combo timer
-		if(P1hit.hitStun > 0 && P2hit.comboCount > 0)
+        if (displayTime1 > 0)
+        {
+            Player1Combo.text = hitNum1 + " hits";
+            displayTime1 -= Time.fixedDeltaTime;
+        }
+        else
+        {
+            hitNum1 = 0;
+            Player1Combo.text = "";
+        }
+
+        //player 2 combo timer
+        if (P1hit.hitStun > 0 && P2hit.comboCount > 1)
 		{
 			if(P1hit.hitStun > 60)
 				combotimer2.fillAmount = 1;
 			else
 				combotimer2.fillAmount = P1hit.hitStun / 60f;
-            if(P2hit.comboCount > 1)
-			    Player2Combo.text = P2hit.comboCount.ToString() + " hits";
-		}
+
+            hitNum2 = P2hit.comboCount;
+            displayTime2 = 1;
+        }
 		else
 		{
-			Player2Combo.text = "";
 			combotimer2.fillAmount = 0;
 		}
-		
+
+        if (displayTime2 > 0)
+        {
+            Player2Combo.text = hitNum1 + " hits";
+            displayTime2 -= Time.fixedDeltaTime;
+        }
+        else
+        {
+            hitNum2 = 0;
+            Player2Combo.text = "";
+        }
+
 
     }
 }

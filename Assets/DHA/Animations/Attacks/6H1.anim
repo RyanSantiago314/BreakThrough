@@ -144,20 +144,27 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.23333333
-    functionName: FHFirstHitBox
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.23333333
     functionName: FHeavyActive
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.25
+  - time: 0.23333333
+    functionName: Advance
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: -0.7
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.23333333
+    functionName: FHFirstHitBox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.26666668
     functionName: ClearHitBox
     data: 
     objectReferenceParameter: {fileID: 0}

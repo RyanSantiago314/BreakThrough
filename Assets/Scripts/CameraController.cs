@@ -58,16 +58,16 @@ public class CameraController : MonoBehaviour
             leftBound.enabled = true;
             rightBound.enabled = true;
 
-            if (cameraPos.x < -7.6)
-                cameraPos = new Vector3(-7.6f, cameraPos.y, cameraPos.z);
-            else if (cameraPos.x > 7.6)
-                cameraPos = new Vector3(7.6f, cameraPos.y, cameraPos.z);
-
-            if (cameraPos.y < 1.45)
-                cameraPos = new Vector3(cameraPos.x, 1.45f, cameraPos.z);
-            else if (cameraPos.y > 4)
-                cameraPos = new Vector3(cameraPos.x, 4f, cameraPos.z);
+            if (cameraPos.x < -8.5)
+                cameraPos = new Vector3(-8.5f, cameraPos.y, cameraPos.z);
+            else if (cameraPos.x > 8.5)
+                cameraPos = new Vector3(8.5f, cameraPos.y, cameraPos.z); 
         }
+
+        if (cameraPos.y < 1.45)
+            cameraPos = new Vector3(cameraPos.x, 1.45f, cameraPos.z);
+        else if (cameraPos.y > 4)
+            cameraPos = new Vector3(cameraPos.x, 4f, cameraPos.z);
 
         transform.position = Vector3.Lerp(transform.position, cameraPos, Time.smoothDeltaTime * smooth);
 
