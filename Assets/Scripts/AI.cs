@@ -188,19 +188,23 @@ public class AI : MonoBehaviour
                 }*/
             }
             //Special attack
-            else if(Math.Abs(p1x - p2x) >= 0.9 && Math.Abs(p1x - p2x) < 1 && specialTimer <= 0) {
+            else if(Math.Abs(p1x - p2x) >= 0.9 && Math.Abs(p1x - p2x) < 0.92 && specialTimer <= 0) {
                 MaxInput.Cross();
                 if (rand.Next(0, 5) == 2) {
                     specialTimer = 1;
                 }
             }
-                /*if (Math.Abs(p1x - p2x) > 2.5) {
+            //Dash logic but still work in progress
+            /*if (Math.Abs(p1x - p2x) > 1) {
                 if(p1x - p2x < 0) {
-                    MaxInput.moveLeft();
+                    faceLeft = true;
+                    MaxInput.ClearInput();
                     MaxInput.moveLeft();
                 }
                 else {
-                    MaxInput.moveRight();
+                    Debug.Log("here");
+                    faceLeft = false;
+                    MaxInput.ClearInput();
                     MaxInput.moveRight();
                 }
             }*/
