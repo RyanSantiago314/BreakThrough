@@ -184,7 +184,7 @@ public class MovementHandler : MonoBehaviour
 
         DoubleTapActions();
 
-        if (Actions.jumpCancel && jumps < maxJumps && MaxInput.GetAxisRaw(Vertical) == 1 && !vertAxisInUse)
+        if (Actions.jumpCancel && jumps < maxJumps && MaxInput.GetAxis(Vertical) > 0 && !vertAxisInUse)
         {
             Actions.EnableAll();
             pushBox.isTrigger = true;
@@ -266,7 +266,7 @@ public class MovementHandler : MonoBehaviour
         }
 
         //Run acceleration
-        if(anim.GetBool(runID) && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)))
+        if(anim.GetBool(runID) && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)) && !anim.GetBool(crouchID))
         {
             if(facingRight && rb.velocity.x < walkSpeed)
                 rb.velocity = new Vector2(walkSpeed, rb.velocity.y);
@@ -350,40 +350,28 @@ public class MovementHandler : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(allowHit && other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
+        if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
             //keeps characters from intersecting and occupying the same space
                 MovementHandler opponentMove = opponent.GetComponent<MovementHandler>();
-                if (Actions.airborne && !opponentMove.Actions.airborne && rb.velocity.y <= 0)
+            if (!Actions.airborne && opponentMove.Actions.airborne && !hittingWall && opponentMove.rb.velocity.y < 0)
+            {
+                if (opponent.position.x > transform.position.x + .1f)
                 {
-                    pushBox.isTrigger = true;
-                    if (opponentMove.hittingWall)
-                    {
-                        if (opponentMove.facingRight)
-                            transform.position = new Vector3(opponent.position.x + (.5f * opponentMove.pushBox.size.x + .5f * pushBox.size.x), transform.position.y, transform.position.z);
-                        else
-                            transform.position = new Vector3(opponent.position.x - (.5f * opponentMove.pushBox.size.x + .5f * pushBox.size.x), transform.position.y, transform.position.z);
-                    }
+                    rb.AddForce(new Vector2(-.4f, 0), ForceMode2D.Impulse);
                 }
-                else if (!Actions.airborne && opponentMove.Actions.airborne && !hittingWall && opponentMove.rb.velocity.y < 0)
+                else if (opponent.position.x < transform.position.x - .1f)
                 {
-                    if (opponent.position.x > transform.position.x + .1f)
-                    {
-                        transform.position = new Vector3(transform.position.x - (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                    }
-                    else if (opponent.position.x < transform.position.x - .1f)
-                    {
-                        transform.position = new Vector3(transform.position.x + (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                    }
+                    rb.AddForce(new Vector2(.4f, 0), ForceMode2D.Impulse);
+                }
+                else
+                {
+                    if (facingRight)
+                        rb.AddForce(new Vector2(-.4f, 0), ForceMode2D.Impulse);
                     else
-                    {
-                        if (facingRight)
-                            transform.position = new Vector3(transform.position.x - (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                        else
-                            transform.position = new Vector3(transform.position.x + (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                    }   
+                        rb.AddForce(new Vector2(.4f, 0), ForceMode2D.Impulse);
                 }
-            allowHit = false;
+            }
         }
         else if (other.CompareTag("Floor"))
         {
@@ -481,7 +469,7 @@ public class MovementHandler : MonoBehaviour
         {
             if(!horiAxisInUse)
             {
-                if (Actions.acceptMove && Actions.standing && inputTime > 0 && dashButtonCount == 1/*Number of Taps Minus One*/)
+                if (Actions.acceptMove && Actions.standing && inputTime > 0 && !anim.GetBool(crouchID) && dashButtonCount == 1/*Number of Taps Minus One*/)
                 {
                     //Has double tapped
                     anim.SetTrigger(backDashID);
@@ -501,7 +489,7 @@ public class MovementHandler : MonoBehaviour
         {
             if (!horiAxisInUse)
             {
-                if (Actions.acceptMove && runInputTime > 0 && buttonCount == 1/*Number of Taps Minus One*/)
+                if (Actions.acceptMove && runInputTime > 0 && !anim.GetBool(crouchID) && buttonCount == 1/*Number of Taps Minus One*/)
                 {
                     //Has double tapped
                     anim.SetBool(runID, true);

@@ -158,7 +158,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.23333333
-    functionName: FHFirstHitBox
+    functionName: FLFirstHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -172,7 +172,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.41666666
-    functionName: EnableHeavy
+    functionName: EnableLight
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

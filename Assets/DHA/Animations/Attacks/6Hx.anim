@@ -135,7 +135,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.083333336
-    functionName: FHExtraHitBox
+    functionName: FLExtraHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -156,7 +156,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.15
-    functionName: EnableHeavy
+    functionName: EnableLight
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

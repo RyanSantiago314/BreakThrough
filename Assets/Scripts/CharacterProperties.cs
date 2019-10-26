@@ -57,7 +57,7 @@ public class CharacterProperties : MonoBehaviour
         if (currentHealth > 0)
         {
             if (HitDetect.hitStun > 0 && armor <= 0)
-                comboTimer += .5f;
+                comboTimer += .45f;
             if (HitDetect.Actions.grabbed)
                 comboTimer = 0;
 

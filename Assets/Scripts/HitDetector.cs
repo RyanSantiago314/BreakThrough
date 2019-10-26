@@ -135,7 +135,12 @@ public class HitDetector : MonoBehaviour
         else if (currentState.IsName("SweepHit"))
             anim.SetBool(sweepID, false);
         else if (currentState.IsName("Deflected"))
-            Actions.Move.rb.velocity = Vector2.zero;
+        {
+            if (Actions.standing)
+                Actions.Move.rb.velocity = Vector2.zero;
+            else
+                Actions.Move.rb.velocity = new Vector2(0, rb.velocity.y);
+        }
 
         if(hitStun > 0 && hitStop == 0)
         {
@@ -649,11 +654,15 @@ public class HitDetector : MonoBehaviour
             }
         }
 
-        if (!OpponentDetector.Actions.Move.facingRight)
+        if (Actions.Move.facingRight && !Actions.airborne)
         {
             KnockBack *= new Vector2(-1f, 1);
         }
-        else
+        else if (OpponentDetector.Actions.Move.facingRight && !Actions.airborne)
+        {
+            OpponentDetector.KnockBack *= new Vector2(-1f, 1);
+        }
+        else if (Actions.airborne && Actions.Move.transform.position.x > OpponentDetector.Actions.Move.transform.position.x)
         {
             OpponentDetector.KnockBack *= new Vector2(-1f, 1);
         }
