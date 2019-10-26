@@ -181,6 +181,7 @@ public class AI : MonoBehaviour
             }
             //Heavy attack
             else if(Math.Abs(p1x - p2x) >= 0.6 && Math.Abs(p1x - p2x) < 0.9 && heavyTimer <= 0) {
+                MaxInput.ClearInput();
                 MaxInput.Circle();
                 /*if (rand.Next(0, 30) == 2) {
                     heavyTimer = 1;
