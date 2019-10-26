@@ -245,6 +245,10 @@ public class HitDetector : MonoBehaviour
                 //apply pushback to both by half of horizontal knockback value
                 if(OpponentDetector.Actions.Move.hittingWall)
                     KnockBack = potentialKnockBack * new Vector2(1.2f,0);
+                else if (Actions.Move.hittingWall)
+                {
+                    OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.8f, 0);
+                }
                 else
                 {
                     KnockBack = potentialKnockBack * new Vector2(1f, 0);
@@ -389,7 +393,7 @@ public class HitDetector : MonoBehaviour
             if ((OpponentDetector.attackLevel - attackLevel) > 1 && potentialHitStun > 0)
             {
                 //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
-                ApplyHitStop(0);
+                ApplyHitStop(2);
                 Debug.Log("DEFLECTED!");
                 OpponentDetector.anim.SetTrigger(parryID);
                 anim.SetTrigger(deflectID);
@@ -401,7 +405,7 @@ public class HitDetector : MonoBehaviour
             {
                 //if the attacks are of similar strength both can immediately input another command
                 Debug.Log("Clash!");
-                ApplyHitStop(0);
+                ApplyHitStop(2);
                 anim.SetTrigger(clashID);
                 //no knockback on clashes
                 Clash();
@@ -454,6 +458,7 @@ public class HitDetector : MonoBehaviour
         {
             OpponentDetector.anim.SetBool(dizzyID, false);
             OpponentDetector.Actions.CharProp.refill = true;
+            OpponentDetector.Actions.CharProp.comboTimer = 120;
             forceCrouch = true;
             specialProration = .85f;
         }
