@@ -72,7 +72,7 @@ public class CharacterProperties : MonoBehaviour
                     //make character dizzy if armor is less than zero, usually triggered by throws but also possible through other means
                     comboTimer = 0;
                     armor = 0;
-                    HitDetect.Actions.anim.SetBool(dizzyID, true);
+                    HitDetect.anim.SetBool(dizzyID, true);
                 }
                 else if (armor == 0 && refill)
                 {

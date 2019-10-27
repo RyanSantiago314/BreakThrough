@@ -57,6 +57,7 @@ public class HitDetector : MonoBehaviour
     bool allowHit = false;
     int collideCount = 0;
     public bool hit = false;
+    public bool armorHit = false;
     public int comboCount;
     float specialProration;
     float comboProration;
@@ -343,18 +344,22 @@ public class HitDetector : MonoBehaviour
                 }
                 else if (piercing && Actions.Move.OpponentProperties.armor > 0)
                 { 
-                    Actions.Move.OpponentProperties.armor -= armorDamage;
-                    Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                    if (armorDamage > 0 || durabilityDamage > 0)
+                    {
+                        Actions.Move.OpponentProperties.armor -= armorDamage;
+                        Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                        OpponentDetector.armorHit = true;
+                    }
                     HitSuccess(other);
-                    ApplyHitStop(-2);
+                    ApplyHitStop(0);
                 }
                 else if(Actions.Move.OpponentProperties.armor > 0)
                 {
                     //if the opponent has armor, deal armor and durability damage
                     Actions.Move.OpponentProperties.armor -= armorDamage;
                     Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                    ApplyHitStop(-2);
-                    OpponentDetector.anim.SetTrigger(armorHitID);
+                    ApplyHitStop(0);
+                    OpponentDetector.armorHit = true;
                 }
                 else
                 {
@@ -379,16 +384,15 @@ public class HitDetector : MonoBehaviour
             else if (((OpponentDetector.hitStun == 0 && OpponentDetector.blockStun == 0) || OpponentDetector.Actions.grabbed) && hitStun == 0 && !currentState.IsName("Deflected"))
             {
                 Actions.throwTech = false;
-                if(!OpponentDetector.anim.GetBool(dizzyID))
-                {
-                    Actions.Move.OpponentProperties.armor -= armorDamage;
-                    if (Actions.Move.OpponentProperties.armor > 0)
-                        Actions.Move.OpponentProperties.durability = 100;
-                    else
-                        Actions.Move.OpponentProperties.durability = 0;
-                }
                 HitSuccess(other);
                 ApplyHitStop(0);
+                if (!OpponentDetector.anim.GetBool(dizzyID))
+                {
+                    Actions.Move.OpponentProperties.armor -= armorDamage;
+                    Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                    if (Actions.Move.OpponentProperties.armor == 0)
+                        Actions.Move.OpponentProperties.durability = 0;
+                }
             }
             allowHit = false;
             hit = true;
@@ -548,7 +552,7 @@ public class HitDetector : MonoBehaviour
         {
             OpponentDetector.anim.SetBool(launchID, true);
         }
-        else if ((crumple || OpponentDetector.Actions.CharProp.currentHealth <= 0) && !OpponentDetector.Actions.airborne)
+        else if (crumple && !OpponentDetector.Actions.airborne)
         {
             OpponentDetector.anim.SetTrigger(crumpleID);
         }
@@ -557,6 +561,8 @@ public class HitDetector : MonoBehaviour
             OpponentDetector.anim.SetBool(sweepID, true);
             OpponentDetector.Actions.airborne = true;
         }
+        else if (OpponentDetector.Actions.CharProp.currentHealth <= 0 && !OpponentDetector.Actions.airborne)
+            OpponentDetector.anim.SetTrigger(crumpleID);
 
         OpponentDetector.Actions.groundBounce = allowGroundBounce;
         OpponentDetector.Actions.wallBounce = allowWallBounce;
@@ -580,11 +586,11 @@ public class HitDetector : MonoBehaviour
         {
             if (Actions.Move.OpponentProperties.comboTimer >= 400)
                 OpponentDetector.hitStun = 6 * potentialHitStun / 10;
-            else if (Actions.Move.OpponentProperties.comboTimer >= 300)
+            else if (Actions.Move.OpponentProperties.comboTimer > 300)
                 OpponentDetector.hitStun = 7 * potentialHitStun / 10;
-            else if (Actions.Move.OpponentProperties.comboTimer >= 200)
+            else if (Actions.Move.OpponentProperties.comboTimer > 200)
                 OpponentDetector.hitStun = 8 * potentialHitStun / 10;
-            else if (Actions.Move.OpponentProperties.comboTimer >= 100)
+            else if (Actions.Move.OpponentProperties.comboTimer > 100)
                 OpponentDetector.hitStun = 9 * potentialHitStun / 10;
         }
 

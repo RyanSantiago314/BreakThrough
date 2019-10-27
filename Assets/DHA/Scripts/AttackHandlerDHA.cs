@@ -334,6 +334,7 @@ public class AttackHandlerDHA : MonoBehaviour
 
         if (dizzyTime > 0)
         {
+            anim.SetBool(dizzyID, true);
             dizzyTime--;
             if (MaxInput.GetButtonDown(Light))
             {

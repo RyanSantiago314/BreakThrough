@@ -359,7 +359,7 @@ public class MovementHandler : MonoBehaviour
                     if (transform.position.x + .5f * pushBox.size.x > opponent.position.x - .5f * opponentMove.pushBox.size.x)
                     {
                         float translateX = (transform.position.x + .5f * pushBox.size.x) - (opponent.position.x - .5f * opponentMove.pushBox.size.x);
-                        transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
+                        transform.position = new Vector3(transform.position.x - 1.2f*translateX, transform.position.y, transform.position.z);
                     }
                     else
                         rb.AddForce(new Vector2(-.3f, 0), ForceMode2D.Impulse);
@@ -369,7 +369,7 @@ public class MovementHandler : MonoBehaviour
                     if (transform.position.x - .5f * pushBox.size.x < opponent.position.x + .5f * opponentMove.pushBox.size.x)
                     {
                         float translateX = (transform.position.x - .5f * pushBox.size.x) - (opponent.position.x + .5f * opponentMove.pushBox.size.x);
-                        transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
+                        transform.position = new Vector3(transform.position.x - 1.2f*translateX, transform.position.y, transform.position.z);
                     }
                     else
                         rb.AddForce(new Vector2(.3f, 0), ForceMode2D.Impulse);

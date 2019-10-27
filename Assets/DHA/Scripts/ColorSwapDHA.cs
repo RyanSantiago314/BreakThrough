@@ -8,9 +8,12 @@ public class ColorSwapDHA : MonoBehaviour
     Color[] mSpriteColors;
 
     SpriteRenderer sprite;
+    public HitDetector HitDetect;
+
     public int colorNum;
 
     float recoverFlashTimer = 0;
+    float armorFlashTimer = 0;
     const float flashTime = .1f;
 
     public enum SwapIndex
@@ -47,6 +50,7 @@ public class ColorSwapDHA : MonoBehaviour
         if (transform.parent.gameObject.name == "Sprite")
         {
             colorNum = transform.parent.GetComponent<ColorSwapDHA>().colorNum;
+            HitDetect = transform.parent.GetComponent<ColorSwapDHA>().HitDetect;
         }
         sprite = transform.GetComponent<SpriteRenderer>();
         InitColorSwapTex();
@@ -60,6 +64,17 @@ public class ColorSwapDHA : MonoBehaviour
             recoverFlashTimer -= Time.deltaTime;
             if (recoverFlashTimer <= 0)
                 ResetSpriteColors();
+        }
+        if (armorFlashTimer > 0)
+        {
+            armorFlashTimer -= Time.deltaTime;
+            if (armorFlashTimer <= 0)
+                ResetSpriteColors();
+        }
+        if (HitDetect.armorHit && gameObject.name == "Sprite")
+        {
+            StartArmorHitFlash();
+            HitDetect.armorHit = false;
         }
     }
 
@@ -108,6 +123,12 @@ public class ColorSwapDHA : MonoBehaviour
     {
         recoverFlashTimer = flashTime;
         SwapAllColorsTemp(Color.white);
+    }
+
+    public void StartArmorHitFlash()
+    {
+        armorFlashTimer = flashTime;
+        SwapAllColorsTemp(Color.red);
     }
 
     public void ApplyPalette()
