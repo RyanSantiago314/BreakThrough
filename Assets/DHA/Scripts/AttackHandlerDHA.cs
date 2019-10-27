@@ -23,6 +23,7 @@ public class AttackHandlerDHA : MonoBehaviour
     private string HB;
     private string MH;
     private string LB;
+    private string Select;
 
     float bufferTime = .25f;
     float directionBufferTime = .35f;
@@ -54,9 +55,13 @@ public class AttackHandlerDHA : MonoBehaviour
     private bool JumpH3 = true;
     private bool JumpH4 = true;
     private bool JumpB = true;
+    private bool FL = true;
+    private int FLx = 2;
+    private bool FLF = true;
 
     static int ID5L;
     static int ID2L;
+    static int ID6L;
     static int ID5M;
     static int ID2M;
     static int ID5H;
@@ -68,9 +73,13 @@ public class AttackHandlerDHA : MonoBehaviour
     static int ID2B;
     static int BreakCharge;
 
+    static int runID;
     static int IDRec;
     static int IDBlitz;
     static int IDThrow;
+
+    static int dizzyID;
+    public int dizzyTime;
 
     AnimatorStateInfo currentState;  
 
@@ -78,6 +87,7 @@ public class AttackHandlerDHA : MonoBehaviour
     {
         ID5L = Animator.StringToHash("5L");
         ID2L = Animator.StringToHash("2L");
+        ID6L = Animator.StringToHash("6L");
         ID5M = Animator.StringToHash("5M");
         ID2M = Animator.StringToHash("2M");
         ID5H = Animator.StringToHash("5H");
@@ -88,7 +98,9 @@ public class AttackHandlerDHA : MonoBehaviour
         ID5B = Animator.StringToHash("5B");
         ID2B = Animator.StringToHash("2B");
         BreakCharge = Animator.StringToHash("BreakCharge");
+        dizzyID = Animator.StringToHash("Dizzy");
 
+        runID = Animator.StringToHash("Run");
         IDRec = Animator.StringToHash("Recover");
         IDBlitz = Animator.StringToHash("Blitz");
         IDThrow = Animator.StringToHash("Throw");
@@ -106,6 +118,7 @@ public class AttackHandlerDHA : MonoBehaviour
             HB = "R2_P1";
             LB = "L1_P1";
             MH = "L2_P1";
+            Select = "Select_P1";
         }
         else
         {
@@ -120,6 +133,7 @@ public class AttackHandlerDHA : MonoBehaviour
             HB = "R2_P2";
             LB = "L1_P2";
             MH = "L2_P2";
+            Select = "Select_P2";
         }
 
         colorControl = transform.GetChild(0).GetComponent<ColorSwapDHA>();
@@ -128,6 +142,34 @@ public class AttackHandlerDHA : MonoBehaviour
     void Update()
     {
         currentState = anim.GetCurrentAnimatorStateInfo(0);
+        anim.ResetTrigger(IDRec);
+        if (Input.GetButtonDown(Select))
+        {
+            CharProp.currentHealth = CharProp.maxHealth;
+            CharProp.armor = 4;
+            CharProp.durability = 100;
+            Move.OpponentProperties.currentHealth = Move.OpponentProperties.maxHealth;
+            Move.OpponentProperties.armor = 4;
+            Move.OpponentProperties.durability = 100;
+        }
+
+        if (Move.HitDetect.hitStun > 0)
+        {
+            anim.ResetTrigger(ID5L);
+            anim.ResetTrigger(ID2L);
+            anim.ResetTrigger(ID5M);
+            anim.ResetTrigger(ID2M);
+            anim.ResetTrigger(ID5H);
+            anim.ResetTrigger(ID5H2);
+            anim.ResetTrigger(ID5H3);
+            anim.ResetTrigger(ID5H4);
+            anim.ResetTrigger(ID6L);
+            anim.ResetTrigger(ID2H);
+            anim.ResetTrigger(ID5B);
+            anim.ResetTrigger(ID2B);
+            anim.ResetTrigger(IDThrow);
+        }
+
         if (lightButton > 0)
         {
             lightButton -= Time.deltaTime;
@@ -279,13 +321,51 @@ public class AttackHandlerDHA : MonoBehaviour
             RefreshMoveList();
         }
 
+        //dizzy state, mash buttons to get out of it faster
+        if (dizzyTime == 0 && anim.GetBool(dizzyID))
+        {
+            dizzyTime = 300;
+            Debug.Log("DIZZY");
+        }
+        else if (!anim.GetBool(dizzyID))
+        {
+            dizzyTime = 0;
+        }
+
+        if (dizzyTime > 0)
+        {
+            dizzyTime--;
+            if (MaxInput.GetButtonDown(Light))
+            {
+                dizzyTime -= 5;
+            }
+            if (MaxInput.GetButtonDown(Medium))
+            {
+                dizzyTime -= 5;
+            }
+            if (MaxInput.GetButtonDown(Heavy))
+            {
+                dizzyTime -= 5;
+            }
+            if (MaxInput.GetButtonDown(Break))
+            {
+                dizzyTime -= 5;
+            }
+        }
+
+        if (dizzyTime <= 0 && anim.GetBool(dizzyID))
+        {
+            anim.SetBool(dizzyID, false);
+            CharProp.refill = true;
+            CharProp.comboTimer = 400;
+        }
+
         //aerial recovery, press a button after hitstun ends
-        if ((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") ||
-             currentState.IsName("LaunchFall")) && Move.HitDetect.hitStun == 0 && 
+        if ((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") || currentState.IsName("LaunchTransition") ||
+             currentState.IsName("LaunchFall")) && Move.HitDetect.hitStun == 0 && Move.transform.position.y > 1.4f &&
             (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
         {
             anim.SetTrigger(IDRec);
-            colorControl.StartRecoverFlash();
             lightButton = 0;
             mediumButton = 0;
             heavyButton = 0;
@@ -326,12 +406,13 @@ public class AttackHandlerDHA : MonoBehaviour
             //break attacks
             if(Actions.standing)
             {
-                if(dir2 == directionBufferTime)
+                if(MaxInput.GetAxis(Vertical) < 0)
                 {
                     if(CrouchB)
                     {
                         anim.SetTrigger(ID2B);
                         CrouchB = false;
+                        Actions.TurnAroundCheck();
                     }
                 }
                 else
@@ -340,6 +421,7 @@ public class AttackHandlerDHA : MonoBehaviour
                     {
                         anim.SetTrigger(ID5B);
                         StandB = false;
+                        Actions.TurnAroundCheck();
                     }
                 }
             }
@@ -358,9 +440,9 @@ public class AttackHandlerDHA : MonoBehaviour
             //heavy attacks
             if(Actions.standing)
             {
-                if(dir2 == directionBufferTime)
+                if (MaxInput.GetAxis(Vertical) < 0)
                 {
-                    if(CrouchH)
+                    if (CrouchH)
                     {
                         anim.SetTrigger(ID2H);
                         CrouchH = false;
@@ -368,7 +450,7 @@ public class AttackHandlerDHA : MonoBehaviour
                 }
                 else
                 {
-                    if(StandH)
+                    if (StandH)
                     {
                         anim.SetTrigger(ID5H);
                         StandH = false;
@@ -406,7 +488,7 @@ public class AttackHandlerDHA : MonoBehaviour
             //medium attacks
             if(Actions.standing)
             {
-                if(dir2 == directionBufferTime)
+                if(MaxInput.GetAxis(Vertical) < 0)
                 {
                     if(CrouchM)
                     {
@@ -438,7 +520,7 @@ public class AttackHandlerDHA : MonoBehaviour
             //light attacks
             if(Actions.standing)
             {
-                if(dir2 == directionBufferTime)
+                if(MaxInput.GetAxis(Vertical) < 0 && !(currentState.IsName("6Lx") || currentState.IsName("6LF")))
                 {
                     if(CrouchL > 0)
                     {
@@ -446,15 +528,60 @@ public class AttackHandlerDHA : MonoBehaviour
                         CrouchL--;
                     }
                 }
+                else if (dir6 == directionBufferTime)
+                {
+                    if (FL)
+                    {
+                        anim.SetTrigger(ID6L);
+                        FL = false;
+                        anim.SetBool(runID, false);
+                    }
+                    else if (FLx == 2)
+                    {
+                        anim.SetTrigger(ID5H2);
+                        FLx--;
+                    }
+                    else if (FLx == 1)
+                    {
+                        anim.SetTrigger(ID5H3);
+                        FLx--;
+                    }
+                    else if (FLF)
+                    {
+                        anim.SetTrigger(ID5H4);
+                        FLF = false;
+                    }
+                }
                 else
                 {
-                    if(StandL > 0)
+                    if (currentState.IsName("6Lx"))
+                    {
+                        if (FLx > 0)
+                        {
+                            if (FLx == 2)
+                            {
+                                anim.SetTrigger(ID5H2);
+                            }
+                            else if (FLx < 2)
+                            {
+                                anim.SetTrigger(ID5H3);
+                            }
+                            FLx--;
+                        }
+                        else if (FLF)
+                        {
+                            anim.SetTrigger(ID5H4);
+                            FLF = false;
+                        }
+                    }
+                    else if (StandL > 0)
                     {
                         anim.SetTrigger(ID5L);
                         StandL--;
                     }
                 }
             }
+
             else
             {
                 if(JumpL > 0)
@@ -496,6 +623,9 @@ public class AttackHandlerDHA : MonoBehaviour
         JumpH3 = true;
         JumpH4 = true;
         JumpB = true;
+        FL = true;
+        FLx = 2;
+        FLF = true;
 
         Move.jumped = false;
     }

@@ -29,43 +29,65 @@ public class AcceptInputs : MonoBehaviour
     public bool throwTech = false;
     public bool backThrow = false;
 
+    int throwInvulnCounter;
+
     public float gravScale = 1f;
     public int comboHits = 0;
 
     public Animator anim;
     public MovementHandler Move;
     public CharacterProperties CharProp;
-    public MaxInput MaxInput;
 
+    MaxInput MaxInput;
+    SpriteRenderer sprite;
     MovementHandler opponentMove;
 
     static int airID;
     static int standID;
+    static int dizzyID;
 
     float zPos;
-    float zPosHit;
 
     void Start()
     {
         airID = Animator.StringToHash("Airborne");
         standID = Animator.StringToHash("Standing");
+        dizzyID = Animator.StringToHash("Dizzy");
         zPos = transform.position.z;
-        zPosHit = zPos + .01f;
 
+        sprite = GetComponent<SpriteRenderer>();
         opponentMove = Move.opponent.GetComponent<MovementHandler>();
+        MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
     }
 
     void Update()
     {
-        //moves the defending character slightly farther back to allow visibility on attacking character
+        //draws the defending character first to allow visibility on attacking character
         if (comboHits > 0 || grabbed)
-            transform.position = new Vector3(transform.position.x, transform.position.y, zPosHit);
-        else
-            transform.position = new Vector3(transform.position.x, transform.position.y, zPos);
+            sprite.sortingOrder = 0;
+        else if (acceptMove)
+            sprite.sortingOrder = 1;
+
+        if (anim.GetBool(dizzyID) || grabbed || Move.HitDetect.hitStun > 0 || anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected"))
+        {
+            DisableAll();
+            DisableBlitz();
+        }
+
+        //characters are throw invincible for ten frames after throw teching
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("ThrowReject"))
+        {
+            throwInvulnCounter = 10;
+        }
+        else if (throwInvulnCounter > 0)
+        {
+            throwInvincible = true;
+            throwInvulnCounter--;
+        }
 
 
         //change character properties based on current animation state
-        if(airborne || anim.GetCurrentAnimatorStateInfo(0).IsName("SweepHit"))
+        if (airborne || anim.GetCurrentAnimatorStateInfo(0).IsName("SweepHit"))
             standing = false;
 
         if(anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand")||anim.GetCurrentAnimatorStateInfo(0).IsName("IdleCrouch")||anim.GetCurrentAnimatorStateInfo(0).IsName("StandUp")||
@@ -81,6 +103,20 @@ public class AcceptInputs : MonoBehaviour
         //increase gravScale based on hitting certain numbers with comboHits
         //keep track of hits in combo for damage and gravity scaling
         comboHits = Move.OpponentProperties.HitDetect.comboCount;
+        if (comboHits == 0)
+            gravScale = 1;
+        else if (comboHits > 30)
+            gravScale = 1.3f;
+        else if (comboHits > 25)
+            gravScale = 1.25f;
+        else if (comboHits > 20)
+            gravScale = 1.2f;
+        else if (comboHits > 15)
+            gravScale = 1.15f;
+        else if (comboHits > 10)
+            gravScale = 1.1f;
+        else if (comboHits > 5)
+            gravScale = 1.05f;
     }
 
     public void DisableAll()
@@ -142,6 +178,11 @@ public class AcceptInputs : MonoBehaviour
         blitzCancel = true;
     }
 
+    public void EnableLight()
+    {
+        acceptLight = true;
+    }
+
     public void EnableHeavy()
     {
         acceptHeavy = true;
@@ -172,6 +213,7 @@ public class AcceptInputs : MonoBehaviour
         acceptSpecial = false;
         acceptSuper = false;
         jumpCancel = false;
+        DisableBlitz();
     }
 
     public void Advance(float x)
@@ -249,7 +291,7 @@ public class AcceptInputs : MonoBehaviour
     {
         if (backThrow)
         {
-            if (Move.hittingWall || Move.transform.position.x - 9.8 < distance || Move.transform.position.x + 9.8 > distance)
+            if (Move.hittingWall || Move.transform.position.x - 10 < distance + 1 || Move.transform.position.x + 10 > distance + 1)
             {
                 if (Move.facingRight)
                 {
@@ -275,7 +317,7 @@ public class AcceptInputs : MonoBehaviour
         }
         else
         {
-            if (opponentMove.hittingWall || Move.opponent.position.x - 9.8 < distance ||Move.opponent.position.x + 9.8 > distance)
+            if (opponentMove.hittingWall || Move.opponent.position.x - 9.8 < distance + 1 ||Move.opponent.position.x + 9.8 > distance + 1)
             {
                 if (Move.facingRight)
                     Move.transform.position = new Vector3(Move.opponent.transform.position.x - distance, Move.transform.position.y, Move.transform.position.z);

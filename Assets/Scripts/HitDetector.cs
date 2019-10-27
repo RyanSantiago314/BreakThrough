@@ -31,7 +31,6 @@ public class HitDetector : MonoBehaviour
     public bool allowSpecial;
     public bool allowSuper;
     public bool jumpCancellable;
-    public bool usingSpecial;
 
     Vector2 KnockBack;
     public int hitStop = 0;
@@ -50,6 +49,8 @@ public class HitDetector : MonoBehaviour
     public bool allowWallStick = false;
     public bool allowGroundBounce = false;
     public bool allowWallBounce = false;
+    public bool usingSuper;
+    public bool usingSpecial;
 
     HitDetector OpponentDetector;
 
@@ -68,6 +69,7 @@ public class HitDetector : MonoBehaviour
     static int LoGuard;
     static int AirGuard;
 
+    static int runID;
     static int animSpeedID;
     static int hitStunID;
     static int blockStunID;
@@ -96,6 +98,7 @@ public class HitDetector : MonoBehaviour
         HiGuard = Animator.StringToHash("HighGuard");
         AirGuard = Animator.StringToHash("AirGuard");
 
+        runID = Animator.StringToHash("Run");
         animSpeedID = Animator.StringToHash("AnimSpeed");
         hitStunID = Animator.StringToHash("HitStun");
         blockStunID = Animator.StringToHash("BlockStun");
@@ -128,14 +131,21 @@ public class HitDetector : MonoBehaviour
             comboProration = 1;
         }
 
-        if(currentState.IsName("Launch"))
+        if (currentState.IsName("Launch"))
             anim.SetBool(launchID, false);
         else if (currentState.IsName("SweepHit"))
             anim.SetBool(sweepID, false);
+        else if (currentState.IsName("Deflected"))
+        {
+            if (Actions.standing)
+                Actions.Move.rb.velocity = Vector2.zero;
+            else
+                Actions.Move.rb.velocity = new Vector2(0, rb.velocity.y);
+        }
 
         if(hitStun > 0 && hitStop == 0)
         {
-            Actions.DisableAll();
+            anim.SetBool(runID, false);
             //hitStun only counts down if not in the groundbounce or crumple animations
             if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit"))
                 hitStun--;
@@ -192,7 +202,8 @@ public class HitDetector : MonoBehaviour
             if (KnockBack != Vector2.zero)
             {
                 //apply knockback/pushback once hitstop has ceased
-                if ((hitStun > 0 || blockStun > 0) && Actions.airborne)
+                if (((hitStun > 0 || blockStun > 0) && Actions.airborne) || 
+                    (Actions.Move.facingRight && Actions.Move.rb.velocity.x > 0 && hitStun > 0) || (!Actions.Move.facingRight && Actions.Move.rb.velocity.x < 0 && hitStun > 0))
                     rb.velocity = Vector2.zero;
                 
                 rb.AddForce(KnockBack, ForceMode2D.Impulse);
@@ -211,42 +222,17 @@ public class HitDetector : MonoBehaviour
             anim.ResetTrigger(hitID);
             anim.ResetTrigger(hitBodyID);
             anim.ResetTrigger(hitLegsID);
-            anim.SetBool(crumpleID, false);
+            anim.ResetTrigger(crumpleID);
             anim.SetBool(launchID, false);
             anim.SetBool(sweepID, false);
             anim.ResetTrigger(shatterID);
-            anim.ResetTrigger(armorHitID);
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         collideCount++;
-        if (allowHit && !grab && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
-        {
-            //clash/deflect system
-            if ((OpponentDetector.attackLevel - attackLevel) > 1 && potentialHitStun > 0)
-            {
-                //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
-                ApplyHitStop(0);
-                Debug.Log("DEFLECTED!");
-                OpponentDetector.anim.SetTrigger(parryID);
-                anim.SetTrigger(deflectID);
-                Actions.jumpCancel = true;
-                Actions.CharProp.durabilityRefillTimer = 0;
-            }
-            else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
-            {
-                //if the attacks are of similar strength both can immediately input another command
-                Debug.Log("Clash!");
-                ApplyHitStop(0);
-                anim.SetTrigger(clashID);
-                //no knockback on clashes
-                Clash();
-            }
-            allowHit = false;
-        }
-        else if (allowHit && !grab && !commandGrab && other.gameObject.transform.parent.parent == Actions.Move.opponent && potentialHitStun > 0)
+        if (allowHit && !grab && !commandGrab && other.gameObject.transform.parent.parent == Actions.Move.opponent && potentialHitStun > 0)
         {
             OpponentDetector.Actions.shattered = false;
 
@@ -264,10 +250,14 @@ public class HitDetector : MonoBehaviour
                 //deal durability/chip damage equaling 10-20% of base damage
                 //apply pushback to both by half of horizontal knockback value
                 if(OpponentDetector.Actions.Move.hittingWall)
-                    KnockBack = potentialKnockBack * new Vector2(1,0);
+                    KnockBack = potentialKnockBack * new Vector2(1.2f,0);
+                else if (Actions.Move.hittingWall)
+                {
+                    OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.8f, 0);
+                }
                 else
                 {
-                    KnockBack = potentialKnockBack * new Vector2(.8f, 0);
+                    KnockBack = potentialKnockBack * new Vector2(1f, 0);
                     OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.4f, 0);
                 }
 
@@ -319,7 +309,7 @@ public class HitDetector : MonoBehaviour
                             Actions.Move.OpponentProperties.currentHealth -= damage/10;
 
                         if (Actions.Move.OpponentProperties.currentHealth <= 0)
-                            OpponentDetector.anim.SetBool(crumpleID, true);
+                            OpponentDetector.anim.SetTrigger(crumpleID);
                     }
                 }
                 ApplyHitStop(0);
@@ -337,17 +327,19 @@ public class HitDetector : MonoBehaviour
                 
                 if (shatter && Actions.Move.OpponentProperties.armor > 0)
                 {
+                    //reward attacker for landing a shatter move
+                    Actions.CharProp.armor++;
+                    Actions.CharProp.durability = 100;
+
+                    Actions.Move.OpponentProperties.armor = 0;
+                    Actions.Move.OpponentProperties.durability = 0;
                     //trigger shatter effect
                     OpponentDetector.anim.SetTrigger(shatterID);
                     OpponentDetector.Actions.shattered = true;
                     Debug.Log("Shattered");
                     //damage, hitstun, etc.
                     HitSuccess(other);
-                    ApplyHitStop(5);
-                    Actions.Move.OpponentProperties.armor = 0;
-                    Actions.Move.OpponentProperties.durability = 0;
-                    
-                    
+                    ApplyHitStop(5);  
                 }
                 else if (piercing && Actions.Move.OpponentProperties.armor > 0)
                 { 
@@ -401,12 +393,33 @@ public class HitDetector : MonoBehaviour
             allowHit = false;
             hit = true;
         }
-        anim.ResetTrigger(hitID);
-        anim.ResetTrigger(hitBodyID);
-        anim.ResetTrigger(hitLegsID);
-        anim.SetBool(crumpleID, false);
-        anim.SetBool(launchID, false);
-        anim.SetBool(sweepID, false);
+        else if (allowHit && !grab && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
+        {
+            //clash/deflect system
+            if ((OpponentDetector.attackLevel - attackLevel) > 1 && potentialHitStun > 0)
+            {
+                //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
+                ApplyHitStop(2);
+                Debug.Log("DEFLECTED!");
+                OpponentDetector.anim.SetTrigger(parryID);
+                anim.SetTrigger(deflectID);
+                OpponentDetector.Actions.jumpCancel = true;
+                Actions.CharProp.durabilityRefillTimer = 0;
+                OpponentDetector.hit = true;
+            }
+            else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
+            {
+                //if the attacks are of similar strength both can immediately input another command
+                Debug.Log("Clash!");
+                ApplyHitStop(2);
+                anim.SetTrigger(clashID);
+                //no knockback on clashes
+                Clash();
+            }
+            allowHit = false;
+            hit = true;
+        }
+        
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -452,8 +465,13 @@ public class HitDetector : MonoBehaviour
         {
             OpponentDetector.anim.SetBool(dizzyID, false);
             OpponentDetector.Actions.CharProp.refill = true;
+            OpponentDetector.Actions.CharProp.comboTimer = 120;
             forceCrouch = true;
             specialProration = .85f;
+        }
+        if(Actions.Move.OpponentProperties.armor < 0 && !grab && !piercing)
+        {
+            Actions.Move.OpponentProperties.armor = 0;
         }
 
         if (forceCrouch && !OpponentDetector.Actions.airborne)
@@ -479,20 +497,26 @@ public class HitDetector : MonoBehaviour
         //calculate and deal damage
         damageToOpponent = damage * comboProration * opponentValor * specialProration;
 
-        if (usingSpecial)
+        if (usingSuper)
         {
             minDamage = damage * .2f * opponentValor;
-            if (damageToOpponent < minDamage)
-                damageToOpponent = minDamage;
+        }
+        else if (damage > 1)
+        {
+            minDamage = 1;
         }
 
+        if (damageToOpponent < minDamage)
+            damageToOpponent = minDamage;
+
         OpponentDetector.Actions.CharProp.currentHealth -= (int)damageToOpponent;
+        minDamage = 0;
 
         // initialproration is applied if it is the first hit of a combo
         // some moves will force damage scaling in forcedProration
         if (comboCount == 0)
-            specialProration *= initialProration;
-        if (forcedProration > 0)
+            specialProration = initialProration;
+        if (forcedProration > 0 && comboCount > 0)
             specialProration *= forcedProration;
         if (comboCount != 0 && comboCount < 10)
         {
@@ -527,7 +551,7 @@ public class HitDetector : MonoBehaviour
         }
         else if ((crumple || OpponentDetector.Actions.CharProp.currentHealth <= 0) && !OpponentDetector.Actions.airborne)
         {
-            OpponentDetector.anim.SetBool(crumpleID, true);
+            OpponentDetector.anim.SetTrigger(crumpleID);
         }
         else if (sweep && !OpponentDetector.Actions.airborne)
         {
@@ -553,11 +577,25 @@ public class HitDetector : MonoBehaviour
 
         //apply hitstun
         OpponentDetector.hitStun = potentialHitStun;
+        if (OpponentDetector.Actions.airborne && !usingSpecial && !usingSuper)
+        {
+            if (Actions.Move.OpponentProperties.comboTimer >= 400)
+                OpponentDetector.hitStun = 6 * potentialHitStun / 10;
+            else if (Actions.Move.OpponentProperties.comboTimer >= 300)
+                OpponentDetector.hitStun = 7 * potentialHitStun / 10;
+            else if (Actions.Move.OpponentProperties.comboTimer >= 200)
+                OpponentDetector.hitStun = 8 * potentialHitStun / 10;
+            else if (Actions.Move.OpponentProperties.comboTimer >= 100)
+                OpponentDetector.hitStun = 9 * potentialHitStun / 10;
+        }
 
         if (OpponentDetector.anim.GetBool("Crouch"))
             OpponentDetector.hitStun += 2;
         if (OpponentDetector.Actions.shattered)
-            OpponentDetector.hitStun += OpponentDetector.hitStun/5;
+        {
+            Actions.Move.OpponentProperties.comboTimer = 0;
+            OpponentDetector.hitStun += OpponentDetector.hitStun / 5;
+        }
         OpponentDetector.blockStun = 0;
 
         //apply knockback
@@ -618,15 +656,19 @@ public class HitDetector : MonoBehaviour
             }
         }
 
-        if (!OpponentDetector.Actions.Move.facingRight)
+        if (Actions.Move.facingRight && !Actions.airborne)
         {
             KnockBack *= new Vector2(-1f, 1);
         }
-        else
+        else if (OpponentDetector.Actions.Move.facingRight && !Actions.airborne)
         {
             OpponentDetector.KnockBack *= new Vector2(-1f, 1);
         }
-        if(!grab)
+        else if (Actions.airborne && Actions.Move.transform.position.x > OpponentDetector.Actions.Move.transform.position.x)
+        {
+            OpponentDetector.KnockBack *= new Vector2(-1f, 1);
+        }
+        if (!grab)
             comboCount++;
     }
 

@@ -21,8 +21,6 @@ public class MovementHandler : MonoBehaviour
     float runInputTime = 0.3f;
     int dashButtonCount = 0;
     int buttonCount = 0;
-    int collideCount = 0;
-    bool allowHit = false;
     int wallStickTimer;
     public bool hittingWall = false;
     public bool jumping = false;
@@ -120,7 +118,14 @@ public class MovementHandler : MonoBehaviour
         if (facingRight)
             transform.eulerAngles = Vector3.zero;
         else
-            transform.eulerAngles = new Vector3 (0, 180, 0);
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        if (Actions.acceptMove && Actions.standing)
+        {
+            if (opponent.transform.position.x < transform.position.x - .1f)
+                facingRight = false;
+            else if (opponent.transform.position.x > transform.position.x + .1f)
+                facingRight = true;
+        }
 
         if (!Actions.airborne)
         {
@@ -148,7 +153,8 @@ public class MovementHandler : MonoBehaviour
         }
 
         pushTrigger.offset = new Vector2(pushBox.offset.x, pushBox.offset.y);
-        pushTrigger.size = new Vector2(pushBox.size.x - .1f, pushBox.size.y + .2f);
+        pushTrigger.size = new Vector2(pushBox.size.x, pushBox.size.y + .2f);
+
         if (transform.position.y < minPosY)
         {
             transform.position = new Vector3(transform.position.x, minPosY, transform.position.z);
@@ -177,7 +183,7 @@ public class MovementHandler : MonoBehaviour
 
         DoubleTapActions();
 
-        if (Actions.jumpCancel && jumps < maxJumps && MaxInput.GetAxisRaw(Vertical) == 1 && !vertAxisInUse)
+        if (Actions.jumpCancel && jumps < maxJumps && MaxInput.GetAxis(Vertical) > 0 && !vertAxisInUse)
         {
             Actions.EnableAll();
             pushBox.isTrigger = true;
@@ -259,7 +265,7 @@ public class MovementHandler : MonoBehaviour
         }
 
         //Run acceleration
-        if(anim.GetBool(runID) && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)))
+        if(anim.GetBool(runID) && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)) && !anim.GetBool(crouchID))
         {
             if(facingRight && rb.velocity.x < walkSpeed)
                 rb.velocity = new Vector2(walkSpeed, rb.velocity.y);
@@ -345,19 +351,30 @@ public class MovementHandler : MonoBehaviour
         if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
             //keeps characters from intersecting and occupying the same space
-            collideCount++;
                 MovementHandler opponentMove = opponent.GetComponent<MovementHandler>();
-                if (Actions.airborne && !opponentMove.Actions.airborne && rb.velocity.y <= 0)
+            if (!Actions.airborne && opponentMove.Actions.airborne && !hittingWall && opponentMove.rb.velocity.y < 0)
+            {
+                if (opponent.position.x > transform.position.x + .1f)
                 {
-                    pushBox.isTrigger = true;
-                    if (opponentMove.hittingWall)
+                    if (transform.position.x + .5f * pushBox.size.x > opponent.position.x - .5f * opponentMove.pushBox.size.x)
                     {
-                        if (opponentMove.facingRight)
-                            transform.position = new Vector3(opponent.position.x + (.5f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                        else
-                            transform.position = new Vector3(opponent.position.x - (.5f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                        float translateX = (transform.position.x + .5f * pushBox.size.x) - (opponent.position.x - .5f * opponentMove.pushBox.size.x);
+                        transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
                     }
+                    else
+                        rb.AddForce(new Vector2(-.3f, 0), ForceMode2D.Impulse);
                 }
+                else if (opponent.position.x < transform.position.x - .1f)
+                {
+                    if (transform.position.x - .5f * pushBox.size.x < opponent.position.x + .5f * opponentMove.pushBox.size.x)
+                    {
+                        float translateX = (transform.position.x - .5f * pushBox.size.x) - (opponent.position.x + .5f * opponentMove.pushBox.size.x);
+                        transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
+                    }
+                    else
+                        rb.AddForce(new Vector2(.3f, 0), ForceMode2D.Impulse);
+                }
+            }
         }
         else if (other.CompareTag("Floor"))
         {
@@ -367,6 +384,8 @@ public class MovementHandler : MonoBehaviour
         else if (other.CompareTag("Wall"))
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
+            if (!opponent.GetComponent<MovementHandler>().hittingWall)
+                hittingWall = true;
         }
     }
 
@@ -404,31 +423,13 @@ public class MovementHandler : MonoBehaviour
                 if (rb.velocity.y <= 0 && opponentMove.hittingWall)
                 {
                    if (opponentMove.facingRight)
-                        transform.position = new Vector3(opponent.position.x + (.55f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                        transform.position = new Vector3(opponent.position.x + (.5f * opponentMove.pushBox.size.x + .5f * pushBox.size.x), transform.position.y, transform.position.z);
                    else
-                        transform.position = new Vector3(opponent.position.x - (.55f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                        transform.position = new Vector3(opponent.position.x - (.5f * opponentMove.pushBox.size.x + .5f * pushBox.size.x), transform.position.y, transform.position.z);
                 }
                 if (((opponent.position.x > transform.position.x && facingRight)|| (opponent.position.x < transform.position.x && !facingRight)) && rb.velocity.y < 0)
                 {
                     rb.velocity = new Vector2(0, rb.velocity.y);
-                }
-            }
-            else if (!Actions.airborne && opponentMove.Actions.airborne && !hittingWall && opponentMove.rb.velocity.y < 0)
-            {
-                if (opponent.position.x > transform.position.x + .1f)
-                {
-                    transform.position = new Vector3(transform.position.x - (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                }
-                else if (opponent.position.x < transform.position.x - .1f)
-                {
-                    transform.position = new Vector3(transform.position.x + (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                }
-                else
-                {
-                    if (facingRight)
-                        transform.position = new Vector3(transform.position.x - (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
-                    else
-                        transform.position = new Vector3(transform.position.x + (.5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
                 }
             }
             else
@@ -444,6 +445,11 @@ public class MovementHandler : MonoBehaviour
                     rb.AddForce(new Vector2(-.05f, 0), ForceMode2D.Impulse);
             }
         }
+        else if (other.CompareTag("Wall"))
+        {
+            hittingWall = true;
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
         else if (other.CompareTag("Bound"))
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
@@ -455,13 +461,7 @@ public class MovementHandler : MonoBehaviour
     {
         if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
-            collideCount--;
-            if (collideCount <= 0)
-            {
-                allowHit = true;
-                collideCount = 0;
-                pushBox.isTrigger = false;
-            }
+            pushBox.isTrigger = false;
         }
         else if (other.CompareTag("Wall"))
         {
@@ -476,7 +476,7 @@ public class MovementHandler : MonoBehaviour
         {
             if(!horiAxisInUse)
             {
-                if (Actions.acceptMove && Actions.standing && inputTime > 0 && dashButtonCount == 1/*Number of Taps Minus One*/)
+                if (Actions.acceptMove && Actions.standing && inputTime > 0 && !anim.GetBool(crouchID) && dashButtonCount == 1/*Number of Taps Minus One*/)
                 {
                     //Has double tapped
                     anim.SetTrigger(backDashID);
@@ -496,7 +496,7 @@ public class MovementHandler : MonoBehaviour
         {
             if (!horiAxisInUse)
             {
-                if (Actions.acceptMove && runInputTime > 0 && buttonCount == 1/*Number of Taps Minus One*/)
+                if (Actions.acceptMove && runInputTime > 0 && !anim.GetBool(crouchID) && buttonCount == 1/*Number of Taps Minus One*/)
                 {
                     //Has double tapped
                     anim.SetBool(runID, true);

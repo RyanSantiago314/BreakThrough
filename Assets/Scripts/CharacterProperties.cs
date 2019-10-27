@@ -6,8 +6,8 @@ public class CharacterProperties : MonoBehaviour
 {
     public HitDetector HitDetect;
 
-    public int maxHealth;
-    public int currentHealth;
+    public float maxHealth;
+    public float currentHealth;
     public int armor;
     public int durability;
     public float comboTimer;
@@ -53,14 +53,15 @@ public class CharacterProperties : MonoBehaviour
         }
         else
             HitDetect.Actions.anim.SetBool(KOID, false);
+
         if (currentHealth > 0)
         {
             if (HitDetect.hitStun > 0 && armor <= 0)
-                comboTimer += .5f;
+                comboTimer += .45f;
             if (HitDetect.Actions.grabbed)
                 comboTimer = 0;
 
-            if (comboTimer >= 40) //recovers armor if in hitstun for a certain amount of time, but can also be forced to refill in other ways
+            if (comboTimer >= 50) //recovers armor if in hitstun for a certain amount of time, but can also be forced to refill in other ways
                 refill = true;
 
             if (HitDetect.Actions.anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || HitDetect.Actions.anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup") ||
@@ -71,16 +72,14 @@ public class CharacterProperties : MonoBehaviour
                     //make character dizzy if armor is less than zero, usually triggered by throws but also possible through other means
                     comboTimer = 0;
                     armor = 0;
-                    Debug.Log("DIZZY");
-                    HitDetect.Actions.DisableAll();
                     HitDetect.Actions.anim.SetBool(dizzyID, true);
                 }
                 else if (armor == 0 && refill)
                 {
                     //refill armor based on amount of time spent in hitstun on wake-up or aerial recovery
-                    if (comboTimer < 300)
+                    if (comboTimer < 200)
                         armor = 2;
-                    else if (comboTimer < 400)
+                    else if (comboTimer < 300)
                         armor = 3;
                     else
                         armor = 4;
@@ -94,11 +93,11 @@ public class CharacterProperties : MonoBehaviour
             else if (HitDetect.Actions.acceptMove && refill)
             {
                 //refill armor based on amount of time spent in hitstun when returning to neutral
-                if (comboTimer < 200)
+                if (comboTimer < 100)
                     armor = 1;
-                else if (comboTimer < 300)
+                else if (comboTimer < 200)
                     armor = 2;
-                else if (comboTimer < 400)
+                else if (comboTimer < 300)
                     armor = 3;
                 else
                     armor = 4;
@@ -179,5 +178,7 @@ public class CharacterProperties : MonoBehaviour
         {
             durability = 0;
         }
+        if (armor > 4)
+            armor = 4;
     }
 }
