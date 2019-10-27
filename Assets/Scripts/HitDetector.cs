@@ -344,11 +344,12 @@ public class HitDetector : MonoBehaviour
                 }
                 else if (piercing && Actions.Move.OpponentProperties.armor > 0)
                 { 
-                    Actions.Move.OpponentProperties.armor -= armorDamage;
-                    Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                    OpponentDetector.armorHit = true;
-                    if (Actions.Move.OpponentProperties.armor < 0)
-                        OpponentDetector.Actions.anim.SetBool(dizzyID, true);
+                    if (armorDamage > 0 || durabilityDamage > 0)
+                    {
+                        Actions.Move.OpponentProperties.armor -= armorDamage;
+                        Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                        OpponentDetector.armorHit = true;
+                    }
                     HitSuccess(other);
                     ApplyHitStop(0);
                 }
@@ -383,18 +384,15 @@ public class HitDetector : MonoBehaviour
             else if (((OpponentDetector.hitStun == 0 && OpponentDetector.blockStun == 0) || OpponentDetector.Actions.grabbed) && hitStun == 0 && !currentState.IsName("Deflected"))
             {
                 Actions.throwTech = false;
-                if(!OpponentDetector.anim.GetBool(dizzyID))
+                HitSuccess(other);
+                ApplyHitStop(0);
+                if (!OpponentDetector.anim.GetBool(dizzyID))
                 {
                     Actions.Move.OpponentProperties.armor -= armorDamage;
                     Actions.Move.OpponentProperties.durability -= durabilityDamage;
                     if (Actions.Move.OpponentProperties.armor == 0)
                         Actions.Move.OpponentProperties.durability = 0;
-
-                    if (Actions.Move.OpponentProperties.armor < 0)
-                        OpponentDetector.Actions.anim.SetBool(dizzyID, true);
                 }
-                HitSuccess(other);
-                ApplyHitStop(0);
             }
             allowHit = false;
             hit = true;

@@ -75,15 +75,20 @@ public class AcceptInputs : MonoBehaviour
         }
 
         //characters are throw invincible for ten frames after throw teching
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("ThrowReject"))
-        {
-            throwInvulnCounter = 10;
-        }
-        else if (throwInvulnCounter > 0)
+        if (throwInvulnCounter > 0)
         {
             throwInvincible = true;
             throwInvulnCounter--;
         }
+        else if (throwInvulnCounter <= 0)
+        {
+            throwInvincible = false;
+        }
+
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("ThrowReject"))
+            throwInvulnCounter = 10;
+        else if ((anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup")) && !anim.GetBool(dizzyID))
+            throwInvulnCounter = 6;
 
 
         //change character properties based on current animation state
