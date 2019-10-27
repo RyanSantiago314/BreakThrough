@@ -4,42 +4,53 @@ using UnityEngine;
 
 public class MaxInput : MonoBehaviour
 {
-    public bool AI;
-    public bool training;
+    public bool AI; // Turns on traditional AI for player 2
+    public bool neural; // Turns on neural network AI for player 2
+    public bool training; //Take over both players with neural networks, for training purposes
 
-    public float horizontal;
-    public float vertical;
-    public bool square;
-    public bool triangle;
-    public bool circle;
-    public bool cross;
-    public bool rBumper;
-    public bool rTrigger;
-    public bool lBumper;
-    public bool lTrigger;
+    private float horizontal;
+    private float vertical;
+    private bool square;
+    private bool triangle;
+    private bool circle;
+    private bool cross;
+    private bool rBumper;
+    private bool rTrigger;
+    private bool lBumper;
+    private bool lTrigger;
     public FighterAgent player2;
 
-    public float horizontal1;
-    public float vertical1;
-    public bool square1;
-    public bool triangle1;
-    public bool circle1;
-    public bool cross1;
-    public bool rBumper1;
-    public bool rTrigger1;
-    public bool lBumper1;
-    public bool lTrigger1;
+    private float horizontal1;
+    private float vertical1;
+    private bool square1;
+    private bool triangle1;
+    private bool circle1;
+    private bool cross1;
+    private bool rBumper1;
+    private bool rTrigger1;
+    private bool lBumper1;
+    private bool lTrigger1;
     public FighterAgent player1;
 
     void Start()
     {
         ClearInput("Player1");
         ClearInput("Player2");
+
+        if (neural)
+        {
+            player1.enabled = false;
+        }
+        else if (!training)
+        {
+            player1.enabled = false;
+            player2.enabled = false;
+        }
     }
 
     public float GetAxisRaw(string axis)
     {
-        if ((!AI || axis.Contains("P1")) && !training)
+        if (((!AI && !neural) || axis.Contains("P1")) && !training)
         {
             return Input.GetAxisRaw(axis);
         }
@@ -70,7 +81,7 @@ public class MaxInput : MonoBehaviour
 
     public float GetAxis(string axis)
     {
-        if ((!AI || axis.Contains("P1")) && !training)
+        if (((!AI && !neural) || axis.Contains("P1")) && !training)
         {
             return Input.GetAxis(axis);
         }
@@ -101,7 +112,7 @@ public class MaxInput : MonoBehaviour
 
     public bool GetButtonDown(string button)
     {
-        if ((!AI || button.Contains("P1")) && !training)
+        if (((!AI && !neural) || button.Contains("P1")) && !training)
         {
             return Input.GetButtonDown(button);
         }
@@ -152,7 +163,7 @@ public class MaxInput : MonoBehaviour
 
     public bool GetButton(string button)
     {
-        if ((!AI || button.Contains("P1")) && !training)
+        if (((!AI && !neural) || button.Contains("P1")) && !training)
         {
             return Input.GetButton(button);
         }
@@ -203,7 +214,7 @@ public class MaxInput : MonoBehaviour
 
     public void Hit(string player)
     {
-        if (training || AI)
+        if (training)
         {
             if (player == "Player1")
             {

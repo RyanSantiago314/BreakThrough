@@ -128,9 +128,12 @@ public class FighterAgent : Agent
 
     public override void AgentReset()
     {
-        Debug.Log("Resetting");
-        myChar.transform.position = new Vector3(0, 0, 0);
-        myChar.currentHealth = myChar.maxHealth;
-        timer = 0;
+        if (MaxInput.training)
+        {
+            Debug.Log("Resetting");
+            myChar.transform.position = myChar.transform.parent.position;
+            myChar.currentHealth = myChar.maxHealth;
+            timer = 0;
+        }
     }
 }
