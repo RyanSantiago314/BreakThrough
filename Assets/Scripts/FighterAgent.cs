@@ -12,25 +12,36 @@ public class FighterAgent : Agent
     public CharacterProperties myChar;
     public CharacterProperties opponent;
 
+    private bool hitRegistered;
+
     public override void CollectObservations()
     {
         AddVectorObs(number);
     }
 
+    public void GotHit()
+    {
+        AddReward(-0.05f);
+        hitRegistered = true;
+    }
+
+    public void HitEnemy()
+    {
+        Debug.Log(Name + " hit Enemy");
+        AddReward(.2f);
+        hitRegistered = true;
+    }
+
     public override void AgentAction(float[] vectorAction, string textAction)
     {
 
-        if (MaxInput.LastHit(Name))
+        if (!hitRegistered)
         {
-            AddReward(-0.05f);
-        }
-        else if (MaxInput.LastHit(opponent.GetComponentInParent<Transform>().name))
-        {
-            AddReward(.2f);
+            AddReward(-0.001f);
         }
         else
         {
-            AddReward(-0.001f);
+            hitRegistered = false;
         }
 
         if (myChar.currentHealth == 0)
@@ -45,7 +56,7 @@ public class FighterAgent : Agent
         }
 
         timer += Time.deltaTime;
-        if (timer > 120)
+        if (timer > 240)
         {
             timer = 0;
             Done();
@@ -87,35 +98,27 @@ public class FighterAgent : Agent
         {
             case 1:
                 MaxInput.Square(Name);
-                Debug.Log(name + " is taking actions: " + horizontal + vertical + ", Square");
                 break;
             case 2:
                 MaxInput.Triangle(Name);
-                Debug.Log(name + " is taking actions: " + horizontal + vertical + ", Triangle");
                 break;
             case 3:
                 MaxInput.Circle(Name);
-                Debug.Log(name + " is taking actions: " + horizontal + vertical + ", Circle");
                 break;
             case 4:
                 MaxInput.Cross(Name);
-                Debug.Log(name + " is taking actions: " + horizontal + vertical + ", Cross");
                 break;
             case 5:
                 MaxInput.RBumper(Name);
-                Debug.Log(name + " is taking actions: " + horizontal + vertical + ", RBumper");
                 break;
             case 6:
                 MaxInput.RTrigger(Name);
-                Debug.Log(name + " is taking actions: " + horizontal + vertical + ", RTrigger");
                 break;
             case 7:
                 MaxInput.LBumper(Name);
-                Debug.Log(name + " is taking actions: " + horizontal + vertical + ", LBumper");
                 break;
             case 8:
                 MaxInput.LTrigger(Name);
-                Debug.Log(name + " is taking actions: " + horizontal + vertical + ", LTrigger");
                 break;
             case 0:
                 //Not attacking
@@ -128,5 +131,6 @@ public class FighterAgent : Agent
         Debug.Log("Resetting");
         myChar.transform.position = new Vector3(0, 0, 0);
         myChar.currentHealth = myChar.maxHealth;
+        timer = 0;
     }
 }

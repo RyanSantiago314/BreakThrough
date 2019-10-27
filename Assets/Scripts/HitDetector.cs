@@ -443,7 +443,7 @@ public class HitDetector : MonoBehaviour
 
     void HitSuccess(Collider2D other)
     {
-        MaxInput.Hit(OpponentDetector.gameObject.name);
+        MaxInput.Hit(OpponentDetector.transform.parent.parent.name);
         //if the attack successfully hit the opponent
         anim.SetTrigger(successID);
 

@@ -17,7 +17,7 @@ public class MaxInput : MonoBehaviour
     public bool rTrigger;
     public bool lBumper;
     public bool lTrigger;
-    public bool player2Hit;
+    public FighterAgent player2;
 
     public float horizontal1;
     public float vertical1;
@@ -29,10 +29,7 @@ public class MaxInput : MonoBehaviour
     public bool rTrigger1;
     public bool lBumper1;
     public bool lTrigger1;
-    public bool player1Hit;
-
-    private bool p1Clear;
-    private bool p2Clear;
+    public FighterAgent player1;
 
     void Start()
     {
@@ -206,28 +203,19 @@ public class MaxInput : MonoBehaviour
 
     public void Hit(string player)
     {
-        if (player == "Player1")
+        if (training || AI)
         {
-            player1Hit = true;
+            if (player == "Player1")
+            {
+                player1.GotHit();
+                player2.HitEnemy();
+            }
+            else if (player == "Player2")
+            {
+                player2.GotHit();
+                player1.HitEnemy();
+            }
         }
-        else if (player == "Player2")
-        {
-            player2Hit = true;
-        }
-    }
-
-    public bool LastHit(string player)
-    {
-        if (player == "Player1")
-        {
-            return player1Hit;
-        }
-        else if (player == "Player2")
-        {
-            return player2Hit;
-        }
-
-        return false;
     }
 
     public void ClearInput(string name)
@@ -246,8 +234,6 @@ public class MaxInput : MonoBehaviour
             rTrigger = false;
             lBumper = false;
             lTrigger = false;
-
-            p2Clear = true;
         }
         else if (name == "Player1")
         {
@@ -261,16 +247,6 @@ public class MaxInput : MonoBehaviour
             rTrigger1 = false;
             lBumper1 = false;
             lTrigger1 = false;
-
-            p1Clear = true;
-        }
-
-        if (p1Clear && p2Clear)
-        {
-            player1Hit = false;
-            player2Hit = false;
-            p2Clear = false;
-            p1Clear = false;
         }
 }
 
