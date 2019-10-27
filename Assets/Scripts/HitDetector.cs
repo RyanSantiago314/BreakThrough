@@ -345,6 +345,8 @@ public class HitDetector : MonoBehaviour
                 { 
                     Actions.Move.OpponentProperties.armor -= armorDamage;
                     Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                    if (Actions.Move.OpponentProperties.armor < 0)
+                        OpponentDetector.Actions.anim.SetBool(dizzyID, true);
                     HitSuccess(other);
                     ApplyHitStop(-2);
                 }
@@ -382,10 +384,12 @@ public class HitDetector : MonoBehaviour
                 if(!OpponentDetector.anim.GetBool(dizzyID))
                 {
                     Actions.Move.OpponentProperties.armor -= armorDamage;
-                    if (Actions.Move.OpponentProperties.armor > 0)
-                        Actions.Move.OpponentProperties.durability = 100;
-                    else
+                    Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                    if (Actions.Move.OpponentProperties.armor == 0)
                         Actions.Move.OpponentProperties.durability = 0;
+
+                    if (Actions.Move.OpponentProperties.armor < 0)
+                        OpponentDetector.Actions.anim.SetBool(dizzyID, true);
                 }
                 HitSuccess(other);
                 ApplyHitStop(0);
@@ -549,7 +553,7 @@ public class HitDetector : MonoBehaviour
         {
             OpponentDetector.anim.SetBool(launchID, true);
         }
-        else if ((crumple || OpponentDetector.Actions.CharProp.currentHealth <= 0) && !OpponentDetector.Actions.airborne)
+        else if (crumple && !OpponentDetector.Actions.airborne)
         {
             OpponentDetector.anim.SetTrigger(crumpleID);
         }
@@ -558,6 +562,8 @@ public class HitDetector : MonoBehaviour
             OpponentDetector.anim.SetBool(sweepID, true);
             OpponentDetector.Actions.airborne = true;
         }
+        else if (OpponentDetector.Actions.CharProp.currentHealth <= 0 && !OpponentDetector.Actions.airborne)
+            OpponentDetector.anim.SetTrigger(crumpleID);
 
         OpponentDetector.Actions.groundBounce = allowGroundBounce;
         OpponentDetector.Actions.wallBounce = allowWallBounce;
@@ -581,11 +587,11 @@ public class HitDetector : MonoBehaviour
         {
             if (Actions.Move.OpponentProperties.comboTimer >= 400)
                 OpponentDetector.hitStun = 6 * potentialHitStun / 10;
-            else if (Actions.Move.OpponentProperties.comboTimer >= 300)
+            else if (Actions.Move.OpponentProperties.comboTimer > 300)
                 OpponentDetector.hitStun = 7 * potentialHitStun / 10;
-            else if (Actions.Move.OpponentProperties.comboTimer >= 200)
+            else if (Actions.Move.OpponentProperties.comboTimer > 200)
                 OpponentDetector.hitStun = 8 * potentialHitStun / 10;
-            else if (Actions.Move.OpponentProperties.comboTimer >= 100)
+            else if (Actions.Move.OpponentProperties.comboTimer > 100)
                 OpponentDetector.hitStun = 9 * potentialHitStun / 10;
         }
 
