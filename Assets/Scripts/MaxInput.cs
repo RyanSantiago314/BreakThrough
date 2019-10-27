@@ -37,7 +37,11 @@ public class MaxInput : MonoBehaviour
         ClearInput("Player1");
         ClearInput("Player2");
 
-        if (neural)
+        if (AI && neural)
+        {
+            player2.enabled = false;
+        }
+        else if (neural)
         {
             player1.enabled = false;
         }
@@ -51,7 +55,7 @@ public class MaxInput : MonoBehaviour
 
     public float GetAxisRaw(string axis)
     {
-        if (((!AI && !neural) || axis.Contains("P1")) && !training)
+        if ((!training && !AI && !neural) || axis.Contains("P1") && !training && (!neural || !AI))
         {
             return Input.GetAxisRaw(axis);
         }
@@ -82,7 +86,7 @@ public class MaxInput : MonoBehaviour
 
     public float GetAxis(string axis)
     {
-        if (((!AI && !neural) || axis.Contains("P1")) && !training)
+        if ((!training && !AI && !neural) || axis.Contains("P1") && !training && (!neural || !AI))
         {
             return Input.GetAxis(axis);
         }
@@ -113,7 +117,7 @@ public class MaxInput : MonoBehaviour
 
     public bool GetButtonDown(string button)
     {
-        if (((!AI && !neural) || button.Contains("P1")) && !training)
+        if ((!training && !AI && !neural) || button.Contains("P1") && !training && (!neural || !AI))
         {
             return Input.GetButtonDown(button);
         }
@@ -164,7 +168,7 @@ public class MaxInput : MonoBehaviour
 
     public bool GetButton(string button)
     {
-        if (((!AI && !neural) || button.Contains("P1")) && !training)
+        if ((!training && !AI && !neural) || button.Contains("P1") && !training && (!neural || !AI))
         {
             return Input.GetButton(button);
         }
