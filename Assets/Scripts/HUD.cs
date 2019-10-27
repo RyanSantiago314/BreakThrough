@@ -12,7 +12,9 @@ public class HUD : MonoBehaviour
     public Text Player1Durability;
     public Text Player2Durability;
     public Image P1HealthUI;
+    public Image P1RedHealth;
     public Image P2HealthUI;
+    public Image P2RedHealth;
     public Image P1ArmorUI;
     public Image P1DurabilityUI;
     public Image P2ArmorUI;
@@ -61,6 +63,11 @@ public class HUD : MonoBehaviour
         P2ArmorUI.fillAmount = (float)P2Prop.armor / 4f;
         P1DurabilityUI.fillAmount = P1Prop.durability / 100f;
         P2DurabilityUI.fillAmount = P2Prop.durability / 100f;
+
+        if(P1hit.comboCount == 0)
+            P2RedHealth.fillAmount = (float)(P2Prop.currentHealth / P2Prop.maxHealth);
+        if(P2hit.comboCount == 0)
+            P1RedHealth.fillAmount = (float)(P1Prop.currentHealth / P1Prop.maxHealth);
 
         //player 1 combo timer
 
