@@ -57,6 +57,7 @@ public class HitDetector : MonoBehaviour
     bool allowHit = false;
     int collideCount = 0;
     public bool hit = false;
+    public bool armorHit = false;
     public int comboCount;
     float specialProration;
     float comboProration;
@@ -345,18 +346,19 @@ public class HitDetector : MonoBehaviour
                 { 
                     Actions.Move.OpponentProperties.armor -= armorDamage;
                     Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                    OpponentDetector.armorHit = true;
                     if (Actions.Move.OpponentProperties.armor < 0)
                         OpponentDetector.Actions.anim.SetBool(dizzyID, true);
                     HitSuccess(other);
-                    ApplyHitStop(-2);
+                    ApplyHitStop(0);
                 }
                 else if(Actions.Move.OpponentProperties.armor > 0)
                 {
                     //if the opponent has armor, deal armor and durability damage
                     Actions.Move.OpponentProperties.armor -= armorDamage;
                     Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                    ApplyHitStop(-2);
-                    OpponentDetector.anim.SetTrigger(armorHitID);
+                    ApplyHitStop(0);
+                    OpponentDetector.armorHit = true;
                 }
                 else
                 {

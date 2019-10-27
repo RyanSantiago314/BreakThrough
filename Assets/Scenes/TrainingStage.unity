@@ -1242,6 +1242,7 @@ MonoBehaviour:
   usingSuper: 0
   usingSpecial: 0
   hit: 0
+  armorHit: 0
   comboCount: 0
 --- !u!1 &537094130
 GameObject:
@@ -1909,6 +1910,7 @@ MonoBehaviour:
   usingSuper: 0
   usingSpecial: 0
   hit: 0
+  armorHit: 0
   comboCount: 0
 --- !u!61 &725700278
 BoxCollider2D:
@@ -2185,6 +2187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2ff091835e4c654c88c8a7d05d7a28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HitDetect: {fileID: 0}
   colorNum: 1
 --- !u!1 &782122327
 GameObject:
@@ -2542,6 +2545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2ff091835e4c654c88c8a7d05d7a28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HitDetect: {fileID: 515295540}
   colorNum: 1
 --- !u!1 &1176899220
 GameObject:
@@ -4299,6 +4303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2ff091835e4c654c88c8a7d05d7a28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HitDetect: {fileID: 0}
   colorNum: 1
 --- !u!4 &2023619590
 Transform:
@@ -4696,6 +4701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2ff091835e4c654c88c8a7d05d7a28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HitDetect: {fileID: 725700277}
   colorNum: 2
 --- !u!212 &2054260352
 SpriteRenderer:
