@@ -49,7 +49,7 @@ public class AI : MonoBehaviour
 
         //Setting random variable and manipulating timer variables
         var rand = new System.Random();
-        MaxInput.ClearInput();
+        MaxInput.ClearInput("Player2");
         if (crouchTimer > 0) {
             crouchTimer -= Time.deltaTime;
         }
@@ -107,23 +107,23 @@ public class AI : MonoBehaviour
             isCrouching = false;
         }
         else {
-            MaxInput.Crouch();
+            MaxInput.Crouch("Player2");
         }
 
         //When timer is greater than 4 then either crouch or jump and maybe jump twice
         if (timer > 4)
         {
             if (rand.Next(0,4) == 2 && Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)) < 1) {
-               MaxInput.Crouch();
+               MaxInput.Crouch("Player2");
                isCrouching = true;
                crouchTimer = 3;
                timer = 0;
             }
             else {
-               MaxInput.Jump();
+               MaxInput.Jump("Player2");
                isJumping = true;
                if(rand.Next(0,4) == 4) {
-                    MaxInput.Jump();
+                    MaxInput.Jump("Player2");
                 }
                timer = 0;
             }
@@ -133,63 +133,63 @@ public class AI : MonoBehaviour
         if (!isCrouching) {
             if (p1x - p2x < 0) {
                 faceLeft = true;
-                MaxInput.moveLeft();
+                MaxInput.moveLeft("Player2");
             }
             else {
                 faceLeft = false;
-                MaxInput.moveRight();
+                MaxInput.moveRight("Player2");
             }
         }
 
         //If player is above ai sometimes jump and maybe jump twice
         if (GameObject.Find("Player2").transform.GetChild(0).transform.position.y <
             GameObject.Find("Player1").transform.GetChild(0).transform.position.y - 0.5 && rand.Next(0,4) == 1){
-            MaxInput.Jump();
+            MaxInput.Jump("Player2");
             isJumping = true;
             if(rand.Next(0,3) == 1) {
-                MaxInput.Jump();
+                MaxInput.Jump("Player2");
             }
         }
 
         //If ai is 3 units away and jumping, do a double jump
         if (Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)) > 3 && isJumping == true) {
-            MaxInput.Jump();
+            MaxInput.Jump("Player2");
         }
 
         //7 in 8 chance that ai does an attack based on distance from player in x units and some good old rng
         if (rand.Next(0, 8) != 1) {
             //Grab attack
             if (Math.Abs(p1x - p2x) > 0.01 && Math.Abs(p1x - p2x) < 0.1 && grabTimer <= 0) {
-                MaxInput.LBumper();
+                MaxInput.LBumper("Player2");
                 if (rand.Next(0, 3) == 2) {
                     grabTimer = 2;
                 }
             }
             //Light attack
             else if(Math.Abs(p1x - p2x) >= 0.1 && Math.Abs(p1x - p2x) < 0.3 && lightTimer <= 0) {
-                MaxInput.Square();
+                MaxInput.Square("Player2");
                 /*if (rand.Next(0, 30) == 2) {
                     lightTimer = 1;
                 }*/
             }
             //Medium attack
             else if(Math.Abs(p1x - p2x) >= 0.3 && Math.Abs(p1x - p2x) < 0.6 && mediumTimer <= 0) {
-                MaxInput.Triangle();
+                MaxInput.Triangle("Player2");
                 /*if (rand.Next(0, 30) == 2) {
                     mediumTimer = 1;
                 }*/
             }
             //Heavy attack
             else if(Math.Abs(p1x - p2x) >= 0.6 && Math.Abs(p1x - p2x) < 0.9 && heavyTimer <= 0) {
-                MaxInput.ClearInput();
-                MaxInput.Circle();
+                MaxInput.ClearInput("Player2");
+                MaxInput.Circle("Player2");
                 /*if (rand.Next(0, 30) == 2) {
                     heavyTimer = 1;
                 }*/
             }
             //Special attack
             else if(Math.Abs(p1x - p2x) >= 0.9 && Math.Abs(p1x - p2x) < 0.92 && specialTimer <= 0) {
-                MaxInput.Cross();
+                MaxInput.Cross("Player2");
                 if (rand.Next(0, 5) == 2) {
                     specialTimer = 1;
                 }
@@ -198,13 +198,13 @@ public class AI : MonoBehaviour
             /*if (Math.Abs(p1x - p2x) > 1) {
                 if(p1x - p2x < 0) {
                     faceLeft = true;
-                    MaxInput.ClearInput();
+                    MaxInput.ClearInput("Player2");
                     MaxInput.moveLeft();
                 }
                 else {
                     Debug.Log("here");
                     faceLeft = false;
-                    MaxInput.ClearInput();
+                    MaxInput.ClearInput("Player2");
                     MaxInput.moveRight();
                 }
             }*/
