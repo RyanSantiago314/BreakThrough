@@ -2680,6 +2680,7 @@ MonoBehaviour:
     resetOnDone: 1
     onDemandDecision: 0
     numberOfActionsBetweenDecisions: 20
+  matchTime: 120
   MaxInput: {fileID: 1948197657}
   Name: Player1
   number: 1
@@ -3858,6 +3859,7 @@ MonoBehaviour:
     resetOnDone: 1
     onDemandDecision: 0
     numberOfActionsBetweenDecisions: 20
+  matchTime: 120
   MaxInput: {fileID: 1948197657}
   Name: Player2
   number: 2

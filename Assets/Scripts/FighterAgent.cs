@@ -6,11 +6,14 @@ using MLAgents;
 public class FighterAgent : Agent
 {
     private float timer;
+    public float matchTime;
     public MaxInput MaxInput;
     public string Name;
     public int number;
     public CharacterProperties myChar;
     public CharacterProperties opponent;
+    private float myHealth;
+    private float theirHealth;
 
     private bool hitRegistered;
 
@@ -19,44 +22,47 @@ public class FighterAgent : Agent
         AddVectorObs(number);
     }
 
-    public void GotHit()
-    {
-        AddReward(-0.05f);
-        hitRegistered = true;
-    }
-
-    public void HitEnemy()
-    {
-        Debug.Log(Name + " hit Enemy");
-        AddReward(.2f);
-        hitRegistered = true;
-    }
-
     public override void AgentAction(float[] vectorAction, string textAction)
     {
-
-        if (!hitRegistered)
-        {
-            AddReward(-0.001f);
-        }
-        else
-        {
-            hitRegistered = false;
-        }
+        
 
         if (myChar.currentHealth == 0)
         {
             SetReward(-0.5f);
             Done();
         }
+        else if (myChar.currentHealth < myHealth)
+        {
+            float healthLoss = myHealth - myChar.currentHealth;
+            AddReward(-0.25f * healthLoss / myChar.maxHealth);
+            myHealth = myChar.currentHealth;
+            hitRegistered = true;
+        }
+
         if (opponent.currentHealth == 0)
         {
             SetReward(1f);
             Done();
         }
+        else if (opponent.currentHealth < theirHealth)
+        {
+            float damage = theirHealth - opponent.currentHealth;
+            AddReward(damage / opponent.maxHealth);
+            theirHealth = opponent.currentHealth;
+            hitRegistered = true;
+        }
+
+        if (!hitRegistered)
+        {
+            AddReward(-1 * timer / (matchTime * 60)); //the 60 in the bottom is to keep the sum around 1
+        }
+        else
+        {
+            hitRegistered = false;
+        }
 
         timer += Time.deltaTime;
-        if (timer > 240)
+        if (timer > matchTime)
         {
             timer = 0;
             Done();
@@ -130,10 +136,11 @@ public class FighterAgent : Agent
     {
         if (MaxInput.training)
         {
-            Debug.Log("Resetting");
             myChar.transform.position = myChar.transform.parent.position;
             myChar.currentHealth = myChar.maxHealth;
             timer = 0;
         }
+        myHealth = myChar.currentHealth;
+        theirHealth = opponent.currentHealth;
     }
 }

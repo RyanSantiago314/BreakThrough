@@ -45,6 +45,7 @@ public class MaxInput : MonoBehaviour
         {
             player1.enabled = false;
             player2.enabled = false;
+            GetComponent<FighterAcademy>().enabled = false;
         }
     }
 
@@ -212,27 +213,8 @@ public class MaxInput : MonoBehaviour
         }
     }
 
-    public void Hit(string player)
-    {
-        if (training)
-        {
-            if (player == "Player1")
-            {
-                player1.GotHit();
-                player2.HitEnemy();
-            }
-            else if (player == "Player2")
-            {
-                player2.GotHit();
-                player1.HitEnemy();
-            }
-        }
-    }
-
     public void ClearInput(string name)
     {
-        Debug.Log(name);
-
         if (name == "Player2")
         {
             horizontal = 0;
