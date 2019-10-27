@@ -39,6 +39,7 @@ public class AcceptInputs : MonoBehaviour
     public CharacterProperties CharProp;
 
     MaxInput MaxInput;
+    SpriteRenderer sprite;
     MovementHandler opponentMove;
 
     static int airID;
@@ -46,7 +47,6 @@ public class AcceptInputs : MonoBehaviour
     static int dizzyID;
 
     float zPos;
-    float zPosHit;
 
     void Start()
     {
@@ -54,19 +54,19 @@ public class AcceptInputs : MonoBehaviour
         standID = Animator.StringToHash("Standing");
         dizzyID = Animator.StringToHash("Dizzy");
         zPos = transform.position.z;
-        zPosHit = zPos + .05f;
 
+        sprite = GetComponent<SpriteRenderer>();
         opponentMove = Move.opponent.GetComponent<MovementHandler>();
         MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
     }
 
     void Update()
     {
-        //moves the defending character slightly farther back to allow visibility on attacking character
+        //draws the defending character first to allow visibility on attacking character
         if (comboHits > 0 || grabbed)
-            transform.position = new Vector3(transform.position.x, transform.position.y, zPosHit);
-        else
-            transform.position = new Vector3(transform.position.x, transform.position.y, zPos);
+            sprite.sortingOrder = 0;
+        else if (acceptMove)
+            sprite.sortingOrder = 1;
 
         if (anim.GetBool(dizzyID) || grabbed || Move.HitDetect.hitStun > 0 || anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected"))
         {
