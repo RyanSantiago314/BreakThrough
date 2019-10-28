@@ -4066,7 +4066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34759b8f05b343a40a448855bc4158e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AI: 1
+  AI: 0
   neural: 0
   training: 0
   player2: {fileID: 1817658471}
@@ -4112,7 +4112,8 @@ MonoBehaviour:
   broadcastHub:
     broadcastingBrains:
     - {fileID: 11400000, guid: 1385b0963866c984796bf6d1fb00e6a4, type: 2}
-    m_BrainsToControl: []
+    m_BrainsToControl:
+    - {fileID: 11400000, guid: 1385b0963866c984796bf6d1fb00e6a4, type: 2}
   m_TrainingConfiguration:
     width: 160
     height: 80

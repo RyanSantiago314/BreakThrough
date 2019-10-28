@@ -3,6 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using MLAgents;
 
+/*
+ * Things that can be done to improve AI:
+ *
+ * Doublecheck what it is the network is seeing, might be
+ * getting some cropping on their image
+ *
+ * train more
+ *
+ * try to get imitation learning to work
+ *
+ * check out ways to only show the fighters
+ * (Camera from the opposite angle?)
+ *
+ * Command used: mlagents-learn ModelsBrains/fighter.yaml --run-id=IterationXX --train --slow
+ * The --slow is needed so the training and the fighting system run at the same speed.
+ */
+
 public class FighterAgent : Agent
 {
     private float timer;
@@ -15,6 +32,8 @@ public class FighterAgent : Agent
     private float myHealth;
     private float theirHealth;
 
+    //private float totalTime;
+
     private bool hitRegistered;
 
     public override void CollectObservations()
@@ -24,7 +43,7 @@ public class FighterAgent : Agent
 
     public override void AgentAction(float[] vectorAction, string textAction)
     {
-        
+
 
         if (myChar.currentHealth == 0)
         {
@@ -34,7 +53,9 @@ public class FighterAgent : Agent
         else if (myChar.currentHealth < myHealth)
         {
             float healthLoss = myHealth - myChar.currentHealth;
-            AddReward(-0.25f * healthLoss / myChar.maxHealth);
+            float penalty = -0.25f * (healthLoss / myChar.maxHealth);
+            AddReward(penalty);
+            //Debug.Log("Hit Penalty: " + penalty);
             myHealth = myChar.currentHealth;
             hitRegistered = true;
         }
@@ -47,14 +68,19 @@ public class FighterAgent : Agent
         else if (opponent.currentHealth < theirHealth)
         {
             float damage = theirHealth - opponent.currentHealth;
-            AddReward(damage / opponent.maxHealth);
+            float reward = damage / opponent.maxHealth;
+            AddReward(reward);
+            //Debug.Log("Hit Reward: " + reward);
             theirHealth = opponent.currentHealth;
             hitRegistered = true;
         }
 
         if (!hitRegistered)
         {
-            AddReward(-1 * timer / (matchTime * 60)); //the 60 in the bottom is to keep the sum around 1
+            float penalty = -1 * timer / (matchTime * 2000); //the 2000 in the bottom is to keep the sum around 1
+            AddReward(penalty);
+            //totalTime += penalty;
+            //Debug.Log("Time Penalty: " + penalty + " Total time penalty: " + totalTime + " Timer: " + timer);
         }
         else
         {
