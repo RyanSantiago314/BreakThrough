@@ -151,7 +151,7 @@ public class AI : MonoBehaviour
             }
         }
 
-        //If ai is 3 units away and jumping, do a double jump
+        //If ai is 3 x units away and jumping, do a double jump
         if (Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)) > 3 && isJumping == true) {
             MaxInput.Jump("Player2");
         }
@@ -167,6 +167,7 @@ public class AI : MonoBehaviour
             }
             //Light attack
             else if(Math.Abs(p1x - p2x) >= 0.1 && Math.Abs(p1x - p2x) < 0.3 && lightTimer <= 0) {
+                MaxInput.ClearInput("Player2");
                 MaxInput.Square("Player2");
                 /*if (rand.Next(0, 30) == 2) {
                     lightTimer = 1;
@@ -183,16 +184,23 @@ public class AI : MonoBehaviour
             else if(Math.Abs(p1x - p2x) >= 0.6 && Math.Abs(p1x - p2x) < 0.9 && heavyTimer <= 0) {
                 MaxInput.ClearInput("Player2");
                 MaxInput.Circle("Player2");
-                /*if (rand.Next(0, 30) == 2) {
-                    heavyTimer = 1;
-                }*/
+                if (rand.Next(0, 10) == 2) {
+                    MaxInput.Square("Player2");
+                }
             }
             //Special attack
-            else if(Math.Abs(p1x - p2x) >= 0.9 && Math.Abs(p1x - p2x) < 0.92 && specialTimer <= 0) {
+            else if(Math.Abs(p1x - p2x) >= 0.9 && Math.Abs(p1x - p2x) < 1 && specialTimer <= 0) {
                 MaxInput.Cross("Player2");
                 if (rand.Next(0, 5) == 2) {
                     specialTimer = 1;
                 }
+            }
+            //Ranged attack
+            else if(Math.Abs(p1x - p2x) >= 1 && Math.Abs(p1x - p2x) < 1.1 && specialTimer <= 0) {
+                MaxInput.Square("Player2");
+                /*if (rand.Next(0, 5) == 2) {
+                    //specialTimer = 1;
+                }*/
             }
             //Dash logic but still work in progress
             /*if (Math.Abs(p1x - p2x) > 1) {
