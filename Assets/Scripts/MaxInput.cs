@@ -271,6 +271,38 @@ public class MaxInput : MonoBehaviour
         }
     }
 
+    /*public void dashLeft(string name)
+    {
+        if (name == "Player1")
+        {
+            horizontal1 = -3;
+            horizontal1 = 0;
+            horizontal1 = -3;
+        }
+        else
+        {
+            horizontal = -3;
+            horizontal1 = 0;
+            horizontal1 = -3;
+        }
+    }
+
+    public void dashRight(string name)
+    {
+        if (name == "Player1")
+        {
+            horizontal1 = 1;
+            horizontal = 0;
+            horizontal = 1;
+        }
+        else
+        {
+            horizontal = 1;
+            horizontal = 0;
+            horizontal = 1;
+        }
+    }*/
+
     public void Jump(string name)
     {
         if (name == "Player1")

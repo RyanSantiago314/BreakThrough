@@ -22,6 +22,7 @@ public class AI : MonoBehaviour
     bool pauseAI;
 
     private MaxInput MaxInput;
+    private CharacterProperties PlayerProp;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +45,7 @@ public class AI : MonoBehaviour
         {
             enabled = false;
         }
+        PlayerProp = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
     }
     void Update() {
 
@@ -80,19 +82,9 @@ public class AI : MonoBehaviour
             p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0 + 0.914;
         }
 
-        //Stops ai if player has not moved x position within time frame
-        if (deadTimer <= 0) {
-            if (deadCheck == p1x && p1x - 1.5 >= -8 && p1x - 1.5 <= 11) {
-                pauseAI = true;
-                deadCheck = p1x;
-                deadTimer = 1;
-
-            }
-            else {
-                pauseAI = false;
-                deadCheck = p1x;
-                deadTimer = 3;
-            }
+        //Stops ai if player has lost
+        if (PlayerProp.currentHealth <= 0) {
+            pauseAI = true;
         }
 
         if (!pauseAI) {
@@ -203,17 +195,14 @@ public class AI : MonoBehaviour
                 }*/
             }
             //Dash logic but still work in progress
-            /*if (Math.Abs(p1x - p2x) > 1) {
+            /*if (Math.Abs(p1x - p2x) > 1.5) {
                 if(p1x - p2x < 0) {
                     faceLeft = true;
-                    MaxInput.ClearInput("Player2");
-                    MaxInput.moveLeft();
+                    MaxInput.dashLeft("Player2");
                 }
                 else {
-                    Debug.Log("here");
                     faceLeft = false;
-                    MaxInput.ClearInput("Player2");
-                    MaxInput.moveRight();
+                    MaxInput.dashRight("Player2");
                 }
             }*/
         }
