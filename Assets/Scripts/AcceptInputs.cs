@@ -81,7 +81,7 @@ public class AcceptInputs : MonoBehaviour
             sprite.sortingOrder = 2;
         else if (comboHits > 0 || grabbed)
             sprite.sortingOrder = 0;
-        else if (acceptMove)
+        else
             sprite.sortingOrder = 1;
 
         if (anim.GetBool(dizzyID) || grabbed || Move.HitDetect.hitStun > 0 || anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected"))
@@ -89,11 +89,15 @@ public class AcceptInputs : MonoBehaviour
             DisableAll();
             DisableBlitz();
             armorActive = false;
+            attacking = false;
+            recovering = false;
         }
 
         if (attacking || armorGuard)
         {
             armorActive = true;
+            if (armorGuard)
+                CharProp.durability--;
         }
         else if (!attacking)
             armorActive = false;
