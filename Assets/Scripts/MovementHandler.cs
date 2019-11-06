@@ -349,6 +349,25 @@ public class MovementHandler : MonoBehaviour
         {
             WallStates();
         }
+        else if (collision.collider.CompareTag("Player") && collision.collider.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
+        {
+            MovementHandler opponentMove = opponent.GetComponent<MovementHandler>();
+            if (Actions.airborne && !opponentMove.Actions.airborne)
+            {
+                pushBox.isTrigger = true;
+                if (rb.velocity.y <= 0 && opponentMove.hittingWall)
+                {
+                    if (opponentMove.facingRight)
+                        transform.position = new Vector3(opponent.position.x + (.5f * opponentMove.pushBox.size.x + .5f * pushBox.size.x), transform.position.y, transform.position.z);
+                    else
+                        transform.position = new Vector3(opponent.position.x - (.5f * opponentMove.pushBox.size.x + .5f * pushBox.size.x), transform.position.y, transform.position.z);
+                }
+                if (((opponent.position.x > transform.position.x && facingRight) || (opponent.position.x < transform.position.x && !facingRight)) && rb.velocity.y < 0)
+                {
+                    rb.velocity = new Vector2(0, rb.velocity.y);
+                }
+            }
+        }
     }
 
     void OnCollisionExit2D(Collision2D collision)

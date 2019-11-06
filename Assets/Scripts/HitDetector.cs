@@ -553,6 +553,11 @@ public class HitDetector : MonoBehaviour
         OpponentDetector.Actions.CharProp.currentHealth -= (int)damageToOpponent;
         minDamage = 0;
 
+        //meter gain
+        OpponentDetector.Actions.CharProp.durability += damage / 5;
+        if (Actions.CharProp.durabilityRefillRate > 3)
+            Actions.CharProp.durability += damage / 10;
+
         // initialproration is applied if it is the first hit of a combo
         // some moves will force damage scaling in forcedProration
         if (comboCount == 0)

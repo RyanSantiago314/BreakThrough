@@ -772,7 +772,6 @@ public class HitboxDHA : MonoBehaviour
         hit5.size = new Vector2(.21f, .76f);
 
         HitDetect.damage = 85;
-        HitDetect.armorDamage = 1;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialKnockBack = new Vector2(2f, 0f);
         HitDetect.potentialAirKnockBack = new Vector2(2f, 2f);
