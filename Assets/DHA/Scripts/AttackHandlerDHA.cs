@@ -9,6 +9,7 @@ public class AttackHandlerDHA : MonoBehaviour
     public AcceptInputs Actions;
     public CharacterProperties CharProp;
     public MaxInput MaxInput;
+    public HitboxDHA Hitboxes;
 
     ColorSwapDHA colorControl;
 
@@ -72,14 +73,19 @@ public class AttackHandlerDHA : MonoBehaviour
     static int ID5B;
     static int ID2B;
     static int BreakCharge;
+    static int IDBloodBrave;
 
     static int runID;
     static int IDRec;
     static int IDBlitz;
     static int IDThrow;
 
+    static int lowGuardID;
+    static int highGuardID;
+    static int airGuardID;
     static int dizzyID;
     public int dizzyTime;
+    int blitzActive;
 
     AnimatorStateInfo currentState;  
 
@@ -98,6 +104,11 @@ public class AttackHandlerDHA : MonoBehaviour
         ID5B = Animator.StringToHash("5B");
         ID2B = Animator.StringToHash("2B");
         BreakCharge = Animator.StringToHash("BreakCharge");
+        IDBloodBrave = Animator.StringToHash("BloodBrave");
+
+        lowGuardID = Animator.StringToHash("LowGuard");
+        highGuardID = Animator.StringToHash("HighGuard");
+        airGuardID = Animator.StringToHash("AirGuard");
         dizzyID = Animator.StringToHash("Dizzy");
 
         runID = Animator.StringToHash("Run");
@@ -168,6 +179,7 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.ResetTrigger(ID5B);
             anim.ResetTrigger(ID2B);
             anim.ResetTrigger(IDThrow);
+            anim.ResetTrigger(IDBloodBrave);
         }
 
         if (lightButton > 0)
@@ -295,17 +307,17 @@ public class AttackHandlerDHA : MonoBehaviour
         {
             if (MaxInput.GetAxis(Vertical) < 0)
             {
-                if (Move.facingRight) 
+                if (Move.transform.position.x < Move.opponent.position.x)
                     // pressing down-forward
                     dir3 = directionBufferTime;
-                else
+                else if (Move.transform.position.x > Move.opponent.position.x)
                     // pressing down-back
                     dir1 = directionBufferTime;
             }
-            if (Move.facingRight)
+            if (Move.transform.position.x < Move.opponent.position.x)
                 //forward if facing right
                 dir6 = directionBufferTime;
-            else
+            else if (Move.transform.position.x > Move.opponent.position.x)
                 //back if facing left
                 dir4 = directionBufferTime;
         }
@@ -374,22 +386,39 @@ public class AttackHandlerDHA : MonoBehaviour
         }
 
         //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
-        if (Actions.blitzCancel && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 1)
+        if (blitzActive > 0)
+            blitzActive--;
+        else if (blitzActive == 1)
+            Hitboxes.ClearHitBox();
+
+        Actions.armorGuard = false;
+        if ((anim.GetBool(highGuardID) || anim.GetBool(lowGuardID) || Move.HitDetect.hitStun > 0) && CharProp.armor > 0 && 
+            ((MaxInput.GetButton(Heavy) && MaxInput.GetButton(Medium)) || MaxInput.GetButton(MH)))
         {
-            if (!Actions.airborne)
-                Move.rb.velocity = new Vector2(0, Move.rb.velocity.y);
+            Actions.armorGuard = true;
+            heavyButton = 0;
+            mediumButton = 0;
+            Debug.Log("Armor Guard");
+        }
+        else if (!anim.GetBool(highGuardID) && !anim.GetBool(lowGuardID) && Actions.blitzCancel && 
+            Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
+            heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 1)
+        {
             anim.SetTrigger(IDBlitz);
+            Hitboxes.BlitzCancel();
+
             Debug.Log("BLITZ CANCEL");
             //cost for executing blitz cancel
             CharProp.armor--;
             if (CharProp.armor > 0)
-                CharProp.durability = 100;
+                CharProp.durability = 50;
             else
                 CharProp.durability = 0;
+            blitzActive = 5;
             CharProp.durabilityRefillTimer = 0;
             heavyButton = 0;
             mediumButton = 0;
-        }
+        }    
         // basic throw performed by pressing both light and break attack
         else if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0)
         {
@@ -401,6 +430,13 @@ public class AttackHandlerDHA : MonoBehaviour
                 else
                     Actions.backThrow = false;
             }
+        }
+        else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF())
+        {
+            anim.SetTrigger(IDBloodBrave);
+            Actions.TurnAroundCheck();
+            breakButton = 0;
+            QCFSuccess();
         }
         else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop == 0)
         {
@@ -629,5 +665,31 @@ public class AttackHandlerDHA : MonoBehaviour
         FLF = true;
 
         Move.jumped = false;
+    }
+
+    bool QCF()
+    {
+        //check if the player has executed a quarter circle forward with the control stick
+        return dir2 > 0 && dir3 > 0 && dir6 > 0 && dir6 > dir3 && dir3 > dir2;
+    }
+
+    bool QCB()
+    {
+        //check if the player has executed a quarter circle back with the control stick
+        return dir2 > 0 && dir1 > 0 && dir4 > 0 && dir4 > dir1 && dir1 > dir2;
+    }
+
+    void QCFSuccess()
+    {
+        dir2 = 0;
+        dir3 = 0;
+        dir6 = 0;
+    }
+
+    void QCBSuccess()
+    {
+        dir2 = 0;
+        dir1 = 0;
+        dir4 = 0;
     }
 }

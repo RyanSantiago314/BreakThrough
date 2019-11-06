@@ -115,14 +115,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: DisableAll
+    functionName: Crouching
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0
-    functionName: Crouching
+    functionName: DisableAll
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -135,8 +135,8 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.2
-    functionName: CrouchHeavyActive
+  - time: 0
+    functionName: Attacking
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -149,8 +149,22 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.2
+    functionName: CrouchHeavyActive
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.26666668
     functionName: ClearHitBox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.26666668
+    functionName: StopAttacking
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

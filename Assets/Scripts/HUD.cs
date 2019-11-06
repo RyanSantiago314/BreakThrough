@@ -117,7 +117,7 @@ public class HUD : MonoBehaviour
 
         if (displayTime2 > 0)
         {
-            Player2Combo.text = hitNum1 + " hits";
+            Player2Combo.text = hitNum2 + " hits";
             displayTime2 -= Time.fixedDeltaTime;
         }
         else

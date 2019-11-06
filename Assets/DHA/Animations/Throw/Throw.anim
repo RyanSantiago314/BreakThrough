@@ -326,13 +326,6 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.95
-    functionName: EndGrab
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.95
     functionName: ThrowThirdHit
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -340,6 +333,13 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.95
+    functionName: EndGrab
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.98333335
     functionName: EnableBlitz
     data: 
     objectReferenceParameter: {fileID: 0}

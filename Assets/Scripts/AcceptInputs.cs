@@ -17,10 +17,14 @@ public class AcceptInputs : MonoBehaviour
     public bool blitzCancel = true;
     public bool airborne = false;
     public bool standing = true;
+    public bool armorGuard = false;
+    public bool armorActive = false;
+    public bool attacking = false;
+    public bool recovering = false;
     public bool throwInvincible = false;
 
-    public bool usingSpecial = false;
     public bool shattered = false;
+    public int blitzed = 0;
     public int wallStick = 0;
     public bool groundBounce = false;
     public bool wallBounce = false;
@@ -44,15 +48,25 @@ public class AcceptInputs : MonoBehaviour
 
     static int airID;
     static int standID;
+    static int crouchID;
     static int dizzyID;
+    static int lowGuardID;
+    static int highGuardID;
+    static int airGuardID;
 
     float zPos;
 
     void Start()
     {
+        Application.targetFrameRate = 60;
+
         airID = Animator.StringToHash("Airborne");
         standID = Animator.StringToHash("Standing");
+        crouchID = Animator.StringToHash("Crouch");
         dizzyID = Animator.StringToHash("Dizzy");
+        lowGuardID = Animator.StringToHash("LowGuard");
+        highGuardID = Animator.StringToHash("HighGuard");
+        airGuardID = Animator.StringToHash("AirGuard");
         zPos = transform.position.z;
 
         sprite = GetComponent<SpriteRenderer>();
@@ -63,7 +77,9 @@ public class AcceptInputs : MonoBehaviour
     void Update()
     {
         //draws the defending character first to allow visibility on attacking character
-        if (comboHits > 0 || grabbed)
+        if (shattered && CharProp.currentHealth > 0)
+            sprite.sortingOrder = 2;
+        else if (comboHits > 0 || grabbed)
             sprite.sortingOrder = 0;
         else if (acceptMove)
             sprite.sortingOrder = 1;
@@ -72,7 +88,16 @@ public class AcceptInputs : MonoBehaviour
         {
             DisableAll();
             DisableBlitz();
+            armorActive = false;
         }
+
+        if (attacking || armorGuard)
+        {
+            armorActive = true;
+        }
+        else if (!attacking)
+            armorActive = false;
+        
 
         //characters are throw invincible for ten frames after throw teching
         if (throwInvulnCounter > 0)
@@ -102,6 +127,9 @@ public class AcceptInputs : MonoBehaviour
         if(wallStick == 0)
             anim.SetBool("WallStick", false);
 
+        if (blitzed > 0 && Move.HitDetect.hitStop == 0)
+            blitzed--;
+
         anim.SetBool(airID, airborne);
         anim.SetBool(standID, standing);
 
@@ -110,9 +138,9 @@ public class AcceptInputs : MonoBehaviour
         comboHits = Move.OpponentProperties.HitDetect.comboCount;
         if (comboHits == 0)
             gravScale = 1;
-        else if (comboHits > 30)
+        else if (comboHits > 40)
             gravScale = 1.3f;
-        else if (comboHits > 25)
+        else if (comboHits > 30)
             gravScale = 1.25f;
         else if (comboHits > 20)
             gravScale = 1.2f;
@@ -120,8 +148,6 @@ public class AcceptInputs : MonoBehaviour
             gravScale = 1.15f;
         else if (comboHits > 10)
             gravScale = 1.1f;
-        else if (comboHits > 5)
-            gravScale = 1.05f;
     }
 
     public void DisableAll()
@@ -166,6 +192,18 @@ public class AcceptInputs : MonoBehaviour
         wallBounce = false;
         grabbed = false;
         throwInvincible = false;
+        recovering = false;
+    }
+
+    public void Attacking()
+    {
+        attacking = true;
+        recovering = true;
+    }
+
+    public void StopAttacking()
+    {
+        attacking = false;
     }
     public void DisableMovement()
     {
@@ -199,6 +237,13 @@ public class AcceptInputs : MonoBehaviour
         standing = false;
     }
 
+    public void Grounded()
+    {
+        airborne = false;
+        standing = true;
+        Move.jumps = 0;
+    }
+
     public void TurnAroundCheck()
     {
         if(Move.opponent.transform.position.x < transform.position.x - .1f)
@@ -219,11 +264,17 @@ public class AcceptInputs : MonoBehaviour
         acceptSuper = false;
         jumpCancel = false;
         DisableBlitz();
+
+        wallStick = 0;
+        groundBounce = false;
+        wallBounce = false;
+        grabbed = false;
+        throwInvincible = false;
     }
 
     public void Advance(float x)
     {
-        Move.rb.velocity = Vector2.zero;
+        Move.rb.velocity = new Vector2(0, Move.rb.velocity.y);
         if (Move.facingRight)
             Move.rb.AddForce(new Vector2(x, 0), ForceMode2D.Impulse);
         else
@@ -232,7 +283,13 @@ public class AcceptInputs : MonoBehaviour
 
     public void Rise(float y)
     {
+        Move.rb.velocity = new Vector2(Move.rb.velocity.x, 0);
         Move.rb.AddForce(new Vector2(0, y), ForceMode2D.Impulse);
+    }
+
+    public void ForceCrouch()
+    {
+        anim.SetBool(crouchID, true);
     }
 
     public void Recover()
@@ -240,13 +297,13 @@ public class AcceptInputs : MonoBehaviour
         Move.rb.velocity = new Vector2(.2f * Move.rb.velocity.x, 0);
 
         if(MaxInput.GetAxis(Move.Horizontal) > 0)
-            Move.rb.AddForce(new Vector2(.5f * Move.backDashForce, .5f*Move.jumpPower), ForceMode2D.Impulse);
+            Move.HitDetect.KnockBack = new Vector2(.5f * Move.backDashForce, .5f*Move.jumpPower);
         else if (MaxInput.GetAxis(Move.Horizontal) < 0)
-            Move.rb.AddForce(new Vector2(-.5f * Move.backDashForce, .5f*Move.jumpPower), ForceMode2D.Impulse);
+            Move.HitDetect.KnockBack = new Vector2(-.5f * Move.backDashForce, .5f*Move.jumpPower);
         else if (MaxInput.GetAxis(Move.Vertical) < 0 && transform.position.y > 1.5f)
-            Move.rb.AddForce(new Vector2(0, -.5f*Move.jumpPower), ForceMode2D.Impulse);
+            Move.HitDetect.KnockBack = new Vector2(0, -.5f*Move.jumpPower);
         else
-            Move.rb.AddForce(new Vector2(0, .5f * Move.jumpPower), ForceMode2D.Impulse);
+            Move.HitDetect.KnockBack = new Vector2(0, .5f * Move.jumpPower);
     }
 
     public void Dash()
@@ -316,8 +373,6 @@ public class AcceptInputs : MonoBehaviour
                 else
                     Move.opponent.position = new Vector3(Move.transform.position.x + distance, Move.opponent.position.y, Move.opponent.position.z);
             }
-            TurnAroundCheck();
-            opponentMove.Actions.TurnAroundCheck();
             backThrow = false;
         }
         else
@@ -338,6 +393,8 @@ public class AcceptInputs : MonoBehaviour
             }
 
         }
+        TurnAroundCheck();
+        opponentMove.Actions.TurnAroundCheck();
     }
 
     public void GetUp()

@@ -22,6 +22,7 @@ public class MovementHandler : MonoBehaviour
     int dashButtonCount = 0;
     int buttonCount = 0;
     int wallStickTimer;
+    public int justDefenseTime = 6;
     public bool hittingWall = false;
     public bool jumping = false;
     public bool jumped = false;
@@ -31,6 +32,7 @@ public class MovementHandler : MonoBehaviour
     bool vertAxisInUse = false;
     bool horiAxisInUse = false;
 
+    public float weight;
     public float walkSpeed;
     public float walkBackSpeed;
     public float backDashForce;
@@ -153,7 +155,7 @@ public class MovementHandler : MonoBehaviour
         }
 
         pushTrigger.offset = new Vector2(pushBox.offset.x, pushBox.offset.y);
-        pushTrigger.size = new Vector2(pushBox.size.x, pushBox.size.y + .2f);
+        pushTrigger.size = new Vector2(pushBox.size.x, pushBox.size.y + .3f);
 
         if (transform.position.y < minPosY)
         {
@@ -206,7 +208,11 @@ public class MovementHandler : MonoBehaviour
         if (MaxInput.GetAxisRaw(Horizontal) == 0)
         {
             horiAxisInUse = false;
+            justDefenseTime = 4;
         }
+
+        if (horiAxisInUse)
+            justDefenseTime--;
 
         Blocking();
         WallStick();
@@ -292,10 +298,15 @@ public class MovementHandler : MonoBehaviour
             if (Actions.groundBounce)
             { 
                 anim.SetTrigger(groundBounceID);
-                rb.velocity = new Vector2(1.5f, 5.25f);
-
+                rb.velocity = Vector2.zero;
                 if (facingRight)
-                    rb.velocity *= new Vector2(-1, 1);
+                {
+                    HitDetect.KnockBack = new Vector2(-1f, 3.3f);
+                }
+                else
+                {
+                    HitDetect.KnockBack = new Vector2(1f, 3.3f);
+                }
                 Actions.groundBounce = false;
             }
             //for landing on the ground if the opponent is not supposed to bounce
@@ -322,9 +333,17 @@ public class MovementHandler : MonoBehaviour
     {
         if (collision.collider.CompareTag("Floor"))
         {
-            Actions.airborne = false;
-            if(Actions.standing)
-                jumps = 0;
+            if (Actions.groundBounce && rb.velocity.y <= 0 && !Actions.standing)
+            {
+                anim.SetTrigger(groundBounceID);
+                Actions.groundBounce = false;
+            }
+            else
+            {
+                Actions.airborne = false;
+                if (Actions.standing)
+                    jumps = 0;
+            }
         }
         else if (collision.collider.CompareTag("Wall"))
         {
@@ -354,25 +373,45 @@ public class MovementHandler : MonoBehaviour
                 MovementHandler opponentMove = opponent.GetComponent<MovementHandler>();
             if (!Actions.airborne && opponentMove.Actions.airborne && !hittingWall && opponentMove.rb.velocity.y < 0)
             {
-                if (opponent.position.x > transform.position.x + .1f)
+                if (opponent.position.x > transform.position.x)
                 {
                     if (transform.position.x + .5f * pushBox.size.x > opponent.position.x - .5f * opponentMove.pushBox.size.x)
                     {
-                        float translateX = (transform.position.x + .5f * pushBox.size.x) - (opponent.position.x - .5f * opponentMove.pushBox.size.x);
-                        transform.position = new Vector3(transform.position.x - 1.2f*translateX, transform.position.y, transform.position.z);
+                        float translateX = (transform.position.x + .51f * pushBox.size.x) - (opponent.position.x - .51f * opponentMove.pushBox.size.x);
+                        transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
                     }
                     else
-                        rb.AddForce(new Vector2(-.3f, 0), ForceMode2D.Impulse);
+                        rb.AddForce(new Vector2(-.25f, 0), ForceMode2D.Impulse);
                 }
-                else if (opponent.position.x < transform.position.x - .1f)
+                else if (opponent.position.x < transform.position.x)
                 {
                     if (transform.position.x - .5f * pushBox.size.x < opponent.position.x + .5f * opponentMove.pushBox.size.x)
                     {
-                        float translateX = (transform.position.x - .5f * pushBox.size.x) - (opponent.position.x + .5f * opponentMove.pushBox.size.x);
-                        transform.position = new Vector3(transform.position.x - 1.2f*translateX, transform.position.y, transform.position.z);
+                        float translateX = (transform.position.x - .51f * pushBox.size.x) - (opponent.position.x + .51f * opponentMove.pushBox.size.x);
+                        transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
                     }
                     else
-                        rb.AddForce(new Vector2(.3f, 0), ForceMode2D.Impulse);
+                        rb.AddForce(new Vector2(.25f, 0), ForceMode2D.Impulse);
+                }
+                else if (facingRight)
+                {
+                    if (transform.position.x - .5f * pushBox.size.x < opponent.position.x + .5f * opponentMove.pushBox.size.x)
+                    {
+                        float translateX = (transform.position.x - .51f * pushBox.size.x) - (opponent.position.x + .51f * opponentMove.pushBox.size.x);
+                        transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
+                    }
+                    else
+                        rb.AddForce(new Vector2(.25f, 0), ForceMode2D.Impulse);
+                }
+                else
+                {
+                    if (transform.position.x + .5f * pushBox.size.x > opponent.position.x - .5f * opponentMove.pushBox.size.x)
+                    {
+                        float translateX = (transform.position.x + .51f * pushBox.size.x) - (opponent.position.x - .51f * opponentMove.pushBox.size.x);
+                        transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
+                    }
+                    else
+                        rb.AddForce(new Vector2(-.25f, 0), ForceMode2D.Impulse);
                 }
             }
         }
@@ -385,7 +424,10 @@ public class MovementHandler : MonoBehaviour
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
             if (!opponent.GetComponent<MovementHandler>().hittingWall)
+            {
                 hittingWall = true;
+                pushBox.isTrigger = false;
+            }
         }
     }
 
@@ -397,12 +439,10 @@ public class MovementHandler : MonoBehaviour
             if (transform.position.y > opponent.position.y && (transform.position.y - opponent.position.y) > (.5f * pushBox.size.y + .5f * opponentMove.pushBox.size.y))
             {
                 pushBox.isTrigger = true;
-                Debug.Log("Pushbox triggered");
             }
             else if ((Actions.airborne && opponentMove.Actions.airborne))
             {
                 pushBox.isTrigger = false;
-                Debug.Log("Pushbox not triggered");
                 if (Mathf.Abs(transform.position.x - opponent.position.x) < pushBox.size.x && Mathf.Abs(transform.position.y - opponent.position.y) <= pushBox.size.y && opponentMove.hittingWall)
                 {
                     if (facingRight)
@@ -414,12 +454,10 @@ public class MovementHandler : MonoBehaviour
             else if (Actions.airborne && !opponentMove.Actions.airborne && hittingWall && transform.position.y - opponent.position.y < .5f * pushBox.size.y)
             {
                 pushBox.isTrigger = false;
-                Debug.Log("Pushbox not triggered");
             }
             else if(Actions.airborne && !opponentMove.Actions.airborne)
             {
                 pushBox.isTrigger = true;
-                Debug.Log("Pushbox triggered");
                 if (rb.velocity.y <= 0 && opponentMove.hittingWall)
                 {
                    if (opponentMove.facingRight)
@@ -658,9 +696,13 @@ public class MovementHandler : MonoBehaviour
             Actions.groundBounce = false;
             rb.velocity = Vector2.zero;
             if (facingRight)
-                rb.AddForce(new Vector2(.6f, 1.5f), ForceMode2D.Impulse);
+            {
+                HitDetect.KnockBack = new Vector2(.6f, 1.5f);
+            }
             else
-                rb.AddForce(new Vector2(-.6f, 1.5f), ForceMode2D.Impulse);
+            {
+                HitDetect.KnockBack = new Vector2(-.6f, 1.5f);
+            }
             anim.SetTrigger(wallBounceID);
             //set off wall hit effect
         }

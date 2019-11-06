@@ -24,6 +24,8 @@ public class CharacterProperties : MonoBehaviour
     public bool refill = false;
     int refillCounter;
 
+    AnimatorStateInfo currentState;
+
     static int crouchID;
     static int dizzyID;
     static int KOID;
@@ -44,68 +46,48 @@ public class CharacterProperties : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        currentState = HitDetect.anim.GetCurrentAnimatorStateInfo(0);
         if (currentHealth < 0)
             currentHealth = 0;
         if (currentHealth == 0)
         {
-            HitDetect.Actions.anim.SetBool(KOID, true);
+            HitDetect.anim.SetBool(KOID, true);
             HitDetect.Actions.DisableAll();
         }
         else
-            HitDetect.Actions.anim.SetBool(KOID, false);
+            HitDetect.anim.SetBool(KOID, false);
 
         if (currentHealth > 0)
         {
-            if (HitDetect.hitStun > 0 && armor <= 0)
-                comboTimer += .45f;
-            if (HitDetect.Actions.grabbed)
+            if (HitDetect.hitStun > 0)
+                comboTimer += Time.deltaTime;
+            else if (!HitDetect.anim.GetBool(dizzyID))
                 comboTimer = 0;
-
-            if (comboTimer >= 50) //recovers armor if in hitstun for a certain amount of time, but can also be forced to refill in other ways
-                refill = true;
-
-            if (HitDetect.Actions.anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || HitDetect.Actions.anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup") ||
-                HitDetect.Actions.anim.GetCurrentAnimatorStateInfo(0).IsName("AirRecovery"))
+            if (HitDetect.Actions.grabbed)
             {
-                if (armor < 0)
+                comboTimer = 0;
+                durabilityRefillTimer = 0;
+            }
+
+            if (currentState.IsName("FUGetup") || currentState.IsName("FDGetup") || currentState.IsName("AirRecovery"))
+            {
+                if (currentHealth == maxHealth)
+                {
+                    armor = 4;
+                    durability = 100;
+                    comboTimer = 0;
+                }
+                else if (armor < 0)
                 {
                     //make character dizzy if armor is less than zero, usually triggered by throws but also possible through other means
                     comboTimer = 0;
                     armor = 0;
                     HitDetect.anim.SetBool(dizzyID, true);
                 }
-                else if (armor == 0 && refill)
-                {
-                    //refill armor based on amount of time spent in hitstun on wake-up or aerial recovery
-                    if (comboTimer < 200)
-                        armor = 2;
-                    else if (comboTimer < 300)
-                        armor = 3;
-                    else
-                        armor = 4;
-
-                    durability = 100;
-                    comboTimer = 0;
-
-                    refill = false;
-                }
-            }
-            else if (HitDetect.Actions.acceptMove && refill)
-            {
-                //refill armor based on amount of time spent in hitstun when returning to neutral
-                if (comboTimer < 100)
-                    armor = 1;
-                else if (comboTimer < 200)
-                    armor = 2;
-                else if (comboTimer < 300)
-                    armor = 3;
                 else
-                    armor = 4;
-
-                durability = 100;
-                comboTimer = 0;
-
-                refill = false;
+                {
+                    comboTimer = 0;
+                }
             }
 
             //increase durability refill rate and damage scaling based on health remaining
@@ -125,17 +107,19 @@ public class CharacterProperties : MonoBehaviour
             {
                 currentValor = valor50;
                 if (durabilityRefillRate == 1)
-                    refillInterval = 5;
+                    refillInterval = 3;
             }
             else
             {
                 currentValor = 1;
                 if (durabilityRefillRate == 1)
-                    refillInterval = 10;
+                    refillInterval = 5;
             }
 
-            //durability starts refilling after not being in hit or blockstun for three seconds
-            if (HitDetect.hitStun == 0 && HitDetect.blockStun == 0)
+            //durability starts refilling after not being in blockstun for three seconds
+            if (HitDetect.Actions.shattered)
+                durabilityRefillTimer = 3;
+            else if (HitDetect.blockStun == 0 || HitDetect.anim.GetBool(dizzyID))
                 durabilityRefillTimer += Time.deltaTime;
             else
                 durabilityRefillTimer = 0;
