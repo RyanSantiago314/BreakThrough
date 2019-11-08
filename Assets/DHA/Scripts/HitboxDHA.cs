@@ -37,6 +37,7 @@ public class HitboxDHA : MonoBehaviour
         if (HitDetect.hit)
         {
             ClearHitBox();
+            HitDetect.Actions.StopAttacking();
             HitDetect.hit = false;
         }
 
@@ -161,7 +162,7 @@ public class HitboxDHA : MonoBehaviour
 
         HitDetect.damage = 50;
         HitDetect.armorDamage = 0;
-        HitDetect.durabilityDamage = 50;
+        HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv3;
         HitDetect.potentialHitStop = hitStopLv1;
         HitDetect.potentialKnockBack = new Vector2(1.5f, 0f);
@@ -455,7 +456,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv4;
-        HitDetect.potentialHitStop = 8;
+        HitDetect.potentialHitStop = 5;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 0f);
         HitDetect.potentialAirKnockBack = new Vector2(.8f, 1.5f);
         HitDetect.initialProration = .8f;
@@ -493,7 +494,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv3;
-        HitDetect.potentialHitStop = 8;
+        HitDetect.potentialHitStop = 5;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 0f);
         HitDetect.potentialAirKnockBack = new Vector2(1f, 1f);
         HitDetect.initialProration = .85f;
@@ -530,7 +531,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv4;
-        HitDetect.potentialHitStop = 8;
+        HitDetect.potentialHitStop = 5;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 0f);
         HitDetect.potentialAirKnockBack = new Vector2(1f, 1f);
         HitDetect.initialProration = .9f;
@@ -844,35 +845,6 @@ public class HitboxDHA : MonoBehaviour
 
         HitDetect.piercing = true;
         HitDetect.allowWallBounce = true;
-    }
-
-    void BBCycleHit1()
-    {
-        ClearHitBox();
-        hit1.enabled = true;
-        hit2.enabled = true;
-        hit3.enabled = true;
-
-        hit1.offset = new Vector2(0f, .87f);
-        hit1.size = new Vector2(.94f, .7f);
-        hit2.offset = new Vector2(-.09f, -.67f);
-        hit2.size = new Vector2(.84f, .55f);
-        hit3.offset = new Vector2(-.47f, -.32f);
-        hit3.size = new Vector2(.51f, .74f);
-
-        HitDetect.damage = 15;
-        HitDetect.armorDamage = 0;
-        HitDetect.durabilityDamage = 50;
-        HitDetect.potentialKnockBack = new Vector2(.5f, 0f);
-        HitDetect.potentialAirKnockBack = new Vector2(.5f, -.75f);
-        HitDetect.potentialHitStun = hitStunLv2;
-        HitDetect.potentialHitStop = 1;
-        HitDetect.initialProration = .7f;
-        HitDetect.attackLevel = 3;
-        HitDetect.guard = "Overhead";
-
-        HitDetect.usingSpecial = true;
-        HitDetect.allowSuper = true;
     }
 
     void BBCycleHit3()

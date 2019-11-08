@@ -391,16 +391,7 @@ public class AttackHandlerDHA : MonoBehaviour
         else if (blitzActive == 1)
             Hitboxes.ClearHitBox();
 
-        Actions.armorGuard = false;
-        if ((anim.GetBool(highGuardID) || anim.GetBool(lowGuardID)) && CharProp.armor > 0 && 
-            ((MaxInput.GetButton(Heavy) && MaxInput.GetButton(Medium)) || MaxInput.GetButton(MH)))
-        {
-            Actions.armorGuard = true;
-            heavyButton = 0;
-            mediumButton = 0;
-            Debug.Log("Armor Guard");
-        }
-        else if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
+        if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
             heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 1)
         {
             anim.SetTrigger(IDBlitz);
