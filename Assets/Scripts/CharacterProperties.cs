@@ -28,6 +28,7 @@ public class CharacterProperties : MonoBehaviour
 
     static int crouchID;
     static int dizzyID;
+    static int runID;
     static int KOID;
 
     // Start is called before the first frame update
@@ -35,6 +36,7 @@ public class CharacterProperties : MonoBehaviour
     {
         crouchID = Animator.StringToHash("Crouch");
         dizzyID = Animator.StringToHash("Dizzy");
+        runID = Animator.StringToHash("Run");
         KOID = Animator.StringToHash("KOed");
 
         armor = 4;
@@ -84,6 +86,12 @@ public class CharacterProperties : MonoBehaviour
                     armor = 0;
                     HitDetect.anim.SetBool(dizzyID, true);
                 }
+                else if (armor == 0)
+                {
+                    comboTimer = 0;
+                    armor = 1;
+                    durability = 100;
+                }
                 else
                 {
                     comboTimer = 0;
@@ -94,13 +102,13 @@ public class CharacterProperties : MonoBehaviour
             if (currentHealth <= maxHealth / 10)
             {
                 currentValor = valor10;
-                if (durabilityRefillRate == 1)
+                if (durabilityRefillRate > 0)
                     refillInterval = 1;
             }
             else if (currentHealth <= maxHealth / 4)
             {
                 currentValor = valor25;
-                if (durabilityRefillRate == 1)
+                if (durabilityRefillRate > 0)
                     refillInterval = 2;
             }
             else if (currentHealth <= maxHealth / 2)
@@ -112,7 +120,7 @@ public class CharacterProperties : MonoBehaviour
             else
             {
                 currentValor = 1;
-                if (durabilityRefillRate == 1)
+                if (durabilityRefillRate > 0)
                     refillInterval = 5;
             }
 
@@ -164,5 +172,14 @@ public class CharacterProperties : MonoBehaviour
         }
         if (armor > 4)
             armor = 4;
+
+        // increase durability recovery if running forward to promote offensive play
+        if (durabilityRefillRate >= 0)
+        {
+            if (HitDetect.anim.GetBool(runID))
+                durabilityRefillRate = 2;
+            else
+                durabilityRefillRate = 1;
+        }
     }
 }

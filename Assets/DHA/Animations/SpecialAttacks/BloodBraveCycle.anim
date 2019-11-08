@@ -86,27 +86,20 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0
-    functionName: BBCycleHit1
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
     functionName: EnableBlitz
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.1
+  - time: 0.05
     functionName: BBCycleHit3
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.2
+  - time: 0.15
     functionName: BBCycleHit5
     data: 
     objectReferenceParameter: {fileID: 0}

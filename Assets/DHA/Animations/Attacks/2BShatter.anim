@@ -100,14 +100,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.083333336
-    functionName: CrouchBreakActive
+    functionName: CrouchingBFullChargeHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.083333336
-    functionName: CrouchingBFullChargeHitBox
+    functionName: CrouchBreakActive
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -120,7 +120,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.18333334
+  - time: 0.2
     functionName: StopAttacking
     data: 
     objectReferenceParameter: {fileID: 0}

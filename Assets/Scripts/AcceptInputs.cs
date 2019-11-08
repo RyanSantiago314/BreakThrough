@@ -17,7 +17,6 @@ public class AcceptInputs : MonoBehaviour
     public bool blitzCancel = true;
     public bool airborne = false;
     public bool standing = true;
-    public bool armorGuard = false;
     public bool armorActive = false;
     public bool attacking = false;
     public bool recovering = false;
@@ -93,15 +92,10 @@ public class AcceptInputs : MonoBehaviour
             recovering = false;
         }
 
-        if (attacking || armorGuard)
-        {
+        if ((attacking || anim.GetBool(highGuardID) || anim.GetBool(lowGuardID)) && CharProp.armor > 0)
             armorActive = true;
-            if (armorGuard)
-                CharProp.durability--;
-        }
-        else if (!attacking)
+        else
             armorActive = false;
-        
 
         //characters are throw invincible for ten frames after throw teching
         if (throwInvulnCounter > 0)
@@ -116,8 +110,6 @@ public class AcceptInputs : MonoBehaviour
 
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("ThrowReject"))
             throwInvulnCounter = 10;
-        else if ((anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup")) && !anim.GetBool(dizzyID))
-            throwInvulnCounter = 6;
 
 
         //change character properties based on current animation state
