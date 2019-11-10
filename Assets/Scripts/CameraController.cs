@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
     Transform Character1;
     Transform Character2;
 
+    float screenShake;
     float zPos;
     float zPosZoom;
     float zPosZoomOut;
@@ -74,6 +75,25 @@ public class CameraController : MonoBehaviour
             rightBound.enabled = true;
 
             smooth = 7;
+
+            if (Character1.GetComponent<MovementHandler>().wallStickTimer == 35 || Character2.GetComponent<MovementHandler>().wallStickTimer == 35)
+            {
+                screenShake = .1f;
+            }
+
+            if (screenShake > 0)
+            {
+                float randX = Random.Range(-1f, 1f);
+                float randY = Random.Range(-1f, 1f);
+                if (cameraPos.x < -8.5)
+                    randX = Random.Range(0f, 1f);
+                else if (cameraPos.x > 8.5)
+                    randX = Random.Range(-1f, 0f);
+
+                cameraPos = new Vector3(cameraPos.x + randX * 1.5f, cameraPos.y + randY * .3f, zPos);
+                smooth = 10;
+            }
+            screenShake -= Time.deltaTime;
 
             if (cameraPos.x < -8.5)
                 cameraPos = new Vector3(-8.5f, cameraPos.y, cameraPos.z);

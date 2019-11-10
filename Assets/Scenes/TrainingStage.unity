@@ -547,7 +547,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 925070596}
-  m_PlaneDistance: 5
+  m_PlaneDistance: 1
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -2582,7 +2582,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1186604105}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 1.15, z: -3}
+  m_LocalPosition: {x: -1.3, y: 1.15, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2128405692}
@@ -3760,7 +3760,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1817658469}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 1.15, z: -3}
+  m_LocalPosition: {x: 1.3, y: 1.15, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1961740823}
@@ -4152,6 +4152,8 @@ MonoBehaviour:
   minPosY: 1.1
   justDefenseTime: 6
   hittingWall: 0
+  playing: 0
+  wallStickTimer: 0
   jumping: 0
   jumped: 0
   backDash: 0
@@ -4162,6 +4164,7 @@ MonoBehaviour:
   facingRight: 1
   Horizontal: Horizontal_P1
   Vertical: Vertical_P1
+  L3: L3_P1
 --- !u!61 &1961740826
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4956,6 +4959,8 @@ MonoBehaviour:
   minPosY: 1.1
   justDefenseTime: 6
   hittingWall: 0
+  playing: 0
+  wallStickTimer: 0
   jumping: 0
   jumped: 0
   backDash: 0
@@ -4966,6 +4971,7 @@ MonoBehaviour:
   facingRight: 1
   Horizontal: Horizontal_P1
   Vertical: Vertical_P1
+  L3: L3_P1
 --- !u!50 &2128405694
 Rigidbody2D:
   serializedVersion: 4
@@ -5026,7 +5032,7 @@ MonoBehaviour:
   comboTimer: 0
   valor50: 0.75
   valor25: 0.55
-  valor10: 0.25
+  valor10: 0.3
   currentValor: 0
   durabilityRefillTimer: 0
   durabilityRefillRate: 1
@@ -5231,7 +5237,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 925070596}
-  m_PlaneDistance: 5
+  m_PlaneDistance: 1
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0

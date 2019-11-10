@@ -29,12 +29,13 @@ public class MovementHandler : MonoBehaviour
     public float minPosY;
     public int justDefenseTime = 6;
     public bool hittingWall = false;
+    public bool playing;
 
     float inputTime = 0.3f;
     float runInputTime = 0.3f;
     int dashButtonCount = 0;
     int buttonCount = 0;
-    int wallStickTimer;
+    public int wallStickTimer;
     public float jumping = 0;
     public bool jumped = false;
     public bool backDash = false;
@@ -52,6 +53,7 @@ public class MovementHandler : MonoBehaviour
     public bool facingRight = true;
     public string Horizontal = "Horizontal_P1";
     public string Vertical = "Vertical_P1";
+    public string L3 = "L3_P1";
 
     static int airID;
     static int crouchID;
@@ -76,12 +78,14 @@ public class MovementHandler : MonoBehaviour
         {
             Horizontal = "Horizontal_P1";
             Vertical = "Vertical_P1";
+            L3 = "L3_P1";
             opponent = GameObject.Find("Player2").transform.GetChild(0).transform;
         }
         else
         {
             Horizontal = "Horizontal_P2";
             Vertical = "Vertical_P2";
+            L3 = "L3_P2";
             opponent = GameObject.Find("Player1").transform.GetChild(0).transform;
         }
         OpponentProperties = opponent.GetComponent<CharacterProperties>();
@@ -162,44 +166,51 @@ public class MovementHandler : MonoBehaviour
             transform.position = new Vector3(transform.position.x, minPosY, transform.position.z);
             Actions.airborne = false;
         }
-
-        if ((MaxInput.GetAxis(Vertical) < 0 && Actions.acceptMove && Actions.standing)|| (anim.GetBool(crouchID) && !Actions.acceptMove && Actions.standing))
-            anim.SetBool(crouchID, true);
-        else
-            anim.SetBool(crouchID, false);
-
-        if(Actions.acceptMove && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)) && !Actions.airborne && !anim.GetBool(runID))
+        if (playing)
         {
-            anim.SetBool(walkFID, true);
+            if ((MaxInput.GetAxis(Vertical) < 0 && Actions.acceptMove && Actions.standing) || (anim.GetBool(crouchID) && !Actions.acceptMove && Actions.standing))
+                anim.SetBool(crouchID, true);
+            else
+                anim.SetBool(crouchID, false);
+
+            if (Actions.acceptMove && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)) && !Actions.airborne && !anim.GetBool(runID))
+            {
+                anim.SetBool(walkFID, true);
+            }
+            else
+            {
+                anim.SetBool(walkFID, false);
+            }
+
+            if (Actions.acceptMove && ((MaxInput.GetAxis(Horizontal) < 0 && facingRight) || (MaxInput.GetAxis(Horizontal) > 0 && !facingRight)) && !Actions.airborne && !backDash)
+            {
+                anim.SetBool(walkBID, true);
+            }
+            else
+                anim.SetBool(walkBID, false);
+
+            DoubleTapActions();
+
+            if (Actions.jumpCancel && jumps < maxJumps && MaxInput.GetAxis(Vertical) > 0 && !vertAxisInUse)
+            {
+                Actions.EnableAll();
+                pushBox.isTrigger = true;
+                jumps++;
+                jumping = .4f;
+
+
+                if (MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
+                    jumpRight = true;
+                else if (MaxInput.GetAxis(Horizontal) < 0 && !anim.GetBool(runID))
+                    jumpLeft = true;
+
+                vertAxisInUse = true;
+            }
         }
         else
         {
-            anim.SetBool(walkFID, false);
-        }
-
-        if(Actions.acceptMove && ((MaxInput.GetAxis(Horizontal) < 0 && facingRight) || (MaxInput.GetAxis(Horizontal) > 0 && !facingRight)) && !Actions.airborne && !backDash)
-        {
-            anim.SetBool(walkBID, true);
-        }
-        else 
-            anim.SetBool(walkBID, false);
-
-        DoubleTapActions();
-
-        if (Actions.jumpCancel && jumps < maxJumps && MaxInput.GetAxis(Vertical) > 0 && !vertAxisInUse)
-        {
-            Actions.EnableAll();
-            pushBox.isTrigger = true;
-            jumps++;
-            jumping = .4f;
-
-
-            if(MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
-                jumpRight = true;
-            else if(MaxInput.GetAxis(Horizontal) < 0 && !anim.GetBool(runID))
-                jumpLeft = true;
-
-            vertAxisInUse = true;
+            Actions.DisableAll();
+            Actions.DisableBlitz();
         }
 
         if (MaxInput.GetAxisRaw(Vertical) == 0)
@@ -209,7 +220,7 @@ public class MovementHandler : MonoBehaviour
         if (MaxInput.GetAxisRaw(Horizontal) == 0)
         {
             horiAxisInUse = false;
-            justDefenseTime = 4;
+            justDefenseTime = 3;
         }
 
         if (horiAxisInUse)
@@ -241,6 +252,7 @@ public class MovementHandler : MonoBehaviour
         if (jumping > 0 && anim.GetFloat("AnimSpeed") == 1 && HitDetect.hitStun == 0 && HitDetect.blockStun == 0)
         {
             anim.SetTrigger(jumpID);
+            Actions.TurnAroundCheck();
             if(Actions.airborne)
                 rb.velocity = new Vector2(0, 0);
             else
@@ -307,7 +319,7 @@ public class MovementHandler : MonoBehaviour
         {
             //bouncing against the ground
             if (Actions.groundBounce)
-            { 
+            {
                 anim.SetTrigger(groundBounceID);
                 rb.velocity = Vector2.zero;
                 if (facingRight)
@@ -321,23 +333,32 @@ public class MovementHandler : MonoBehaviour
                 Actions.groundBounce = false;
             }
             //for landing on the ground if the opponent is not supposed to bounce
-            else 
+            else
             {
                 Actions.airborne = false;
                 jumps = 0;
                 pushBox.isTrigger = false;
             }
-        } 
+        }
         else if (collision.collider.CompareTag("Wall"))
         {
             WallStates();
-            if(!opponent.GetComponent<MovementHandler>().hittingWall)
+            if (!opponent.GetComponent<MovementHandler>().hittingWall)
                 hittingWall = true;
+        }
+        else if (collision.collider.CompareTag("Player") && collision.collider.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
+        {
+            MovementHandler opponentMove = opponent.GetComponent<MovementHandler>();
+            if (Actions.airborne && !opponentMove.Actions.airborne)
+            {
+                pushBox.isTrigger = true;
+            }
         }
         else if (collision.collider.CompareTag("Bound") && Actions.wallBounce && Actions.wallStick == 0)
         {
             WallStates();
         }
+
     }
 
     void OnCollisionStay2D(Collision2D collision)
@@ -586,6 +607,19 @@ public class MovementHandler : MonoBehaviour
             }   
         }
 
+        if (MaxInput.GetButton(L3) && MaxInput.GetAxis(Horizontal) != 0)
+        {
+            Debug.Log("L3 pressed");
+            if (((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)) && !Actions.airborne)
+            {
+                if (Actions.acceptMove && !anim.GetBool(crouchID))
+                {
+                    anim.SetBool(runID, true);
+                    buttonCount = 0;
+                }
+            }
+        }
+
         if (inputTime > 0)
         {
             inputTime -= Time.deltaTime ;
@@ -708,6 +742,10 @@ public class MovementHandler : MonoBehaviour
                     anim.SetBool(airGuardID, false);
                 }
             }
+            if (opponent.GetComponent<MovementHandler>().Actions.attacking && Vector3.Distance(transform.position, opponent.position) <= 2 && HitDetect.blockStun == 0)
+                anim.SetBool("ForceBlock", true);
+            else
+                anim.SetBool("ForceBlock", false);
         }
         else
         {
@@ -756,7 +794,7 @@ public class MovementHandler : MonoBehaviour
             }
             wallStickTimer--;
         }
-        else
+        else if (Actions.blitzed % 2 == 0)
         {
             wallStickTimer = 36;
         }

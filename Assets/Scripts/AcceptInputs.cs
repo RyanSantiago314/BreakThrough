@@ -52,6 +52,7 @@ public class AcceptInputs : MonoBehaviour
     static int lowGuardID;
     static int highGuardID;
     static int airGuardID;
+    static int runID;
 
     float zPos;
 
@@ -66,6 +67,7 @@ public class AcceptInputs : MonoBehaviour
         lowGuardID = Animator.StringToHash("LowGuard");
         highGuardID = Animator.StringToHash("HighGuard");
         airGuardID = Animator.StringToHash("AirGuard");
+        runID = Animator.StringToHash("Run");
         zPos = transform.position.z;
 
         sprite = GetComponent<SpriteRenderer>();
@@ -87,14 +89,17 @@ public class AcceptInputs : MonoBehaviour
         {
             DisableAll();
             DisableBlitz();
-            armorActive = false;
-            attacking = false;
-            recovering = false;
+            if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected"))
+            {
+                armorActive = false;
+                attacking = false;
+                recovering = false;
+            }   
         }
 
         if ((attacking || anim.GetBool(highGuardID) || anim.GetBool(lowGuardID)) && CharProp.armor > 0)
             armorActive = true;
-        else
+        else if (recovering)
             armorActive = false;
 
         //characters are throw invincible for ten frames after throw teching
@@ -166,6 +171,7 @@ public class AcceptInputs : MonoBehaviour
         CharProp.HitDetect.allowSpecial = false;
         CharProp.HitDetect.allowSuper = false;
         CharProp.HitDetect.jumpCancellable = false;
+        anim.SetBool(runID, false);
     }
     public void EnableAll()
     {
@@ -194,12 +200,17 @@ public class AcceptInputs : MonoBehaviour
     public void Attacking()
     {
         attacking = true;
-        recovering = true;
+    }
+
+    public void AttackActive()
+    {
+        attacking = false;
     }
 
     public void StopAttacking()
     {
         attacking = false;
+        recovering = true;
     }
     public void DisableMovement()
     {

@@ -21,21 +21,21 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: b76310f4d572dac488f903332775b004, type: 3}
-    - time: 0.06666667
+    - time: 0.083333336
       value: {fileID: 21300000, guid: d211865502913f840b0f7b88fdfdf5c1, type: 3}
-    - time: 0.2
+    - time: 0.21666667
       value: {fileID: 21300000, guid: 8b6a8d99e5114374e95ed5b23bcd9547, type: 3}
-    - time: 0.26666668
+    - time: 0.28333333
       value: {fileID: 21300000, guid: 57bb12ae165e65549b8621d05930f7fe, type: 3}
-    - time: 0.36666667
+    - time: 0.38333333
       value: {fileID: 21300000, guid: 803961db68069e54d8b90ce72204c321, type: 3}
-    - time: 0.41666666
+    - time: 0.43333334
       value: {fileID: 21300000, guid: 80da219fbf5296a4a94798a4c8fc5142, type: 3}
-    - time: 0.45
+    - time: 0.46666667
       value: {fileID: 21300000, guid: f08513b7ab9bf0443b02c7baa68ff248, type: 3}
-    - time: 0.48333332
+    - time: 0.5
       value: {fileID: 21300000, guid: 85668158cc062e549ae2a9933c40a5d8, type: 3}
-    - time: 0.53333336
+    - time: 0.55
       value: {fileID: 21300000, guid: 85668158cc062e549ae2a9933c40a5d8, type: 3}
     attribute: m_Sprite
     path: 
@@ -44,11 +44,11 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 0}
-    - time: 0.2
+    - time: 0.21666667
       value: {fileID: 21300000, guid: d8e2e156c274a2a46807984be8058113, type: 3}
-    - time: 0.25
+    - time: 0.26666668
       value: {fileID: 21300000, guid: e9555d8eef6de5744af1778736609d73, type: 3}
-    - time: 0.55
+    - time: 0.56666666
       value: {fileID: 0}
     attribute: m_Sprite
     path: CharEffects1
@@ -94,7 +94,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.56666666
+    m_StopTime: 0.5833333
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -142,35 +142,35 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.2
+  - time: 0.21666667
     functionName: CrouchingHHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.2
+  - time: 0.21666667
     functionName: CrouchHeavyActive
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.26666668
+  - time: 0.28333333
     functionName: ClearHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.28333333
+  - time: 0.3
     functionName: StopAttacking
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.41666666
+  - time: 0.43333334
     functionName: Crouching
     data: 
     objectReferenceParameter: {fileID: 0}

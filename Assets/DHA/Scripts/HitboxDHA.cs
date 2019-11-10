@@ -106,6 +106,7 @@ public class HitboxDHA : MonoBehaviour
     void StandingLHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
         hit1.enabled = true;
         hit1.offset = new Vector2(.48f, .15f);
         hit1.size = new Vector2(.55f, .15f);
@@ -129,6 +130,7 @@ public class HitboxDHA : MonoBehaviour
     void CrouchingLHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
         hit1.enabled = true;
         hit1.offset = new Vector2(.5f, -.23f);
         hit1.size = new Vector2(.55f, .15f);
@@ -152,6 +154,7 @@ public class HitboxDHA : MonoBehaviour
     void FLFirstHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
         hit1.enabled = true;
         hit2.enabled = true;
 
@@ -180,6 +183,7 @@ public class HitboxDHA : MonoBehaviour
     void FLExtraHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
         hit1.enabled = true;
         hit2.enabled = true;
 
@@ -205,6 +209,7 @@ public class HitboxDHA : MonoBehaviour
     void FLLastHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
         hit1.enabled = true;
         hit2.enabled = true;
 
@@ -230,6 +235,8 @@ public class HitboxDHA : MonoBehaviour
     void JumpLHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit1.offset = new Vector2(.55f, .3f);
         hit1.size = new Vector2(.57f, .17f);
@@ -256,6 +263,8 @@ public class HitboxDHA : MonoBehaviour
     void StandingMHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit1.offset = new Vector2(.61f, -.41f);
         hit1.size = new Vector2(.81f, .271f);
@@ -279,6 +288,8 @@ public class HitboxDHA : MonoBehaviour
     void CrouchingMHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit1.offset = new Vector2(.68f, -.78f);
         hit1.size = new Vector2(.92f, .087f);
@@ -302,6 +313,8 @@ public class HitboxDHA : MonoBehaviour
     void JumpMHitBoxFirst()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit2.enabled = true;
         hit1.offset = new Vector2(.51f, -.12f);
@@ -331,6 +344,8 @@ public class HitboxDHA : MonoBehaviour
     void JumpMHitBoxSecond()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit1.offset = new Vector2(-.44f, -.06f);
         hit1.size = new Vector2(.76f, .33f);
@@ -357,6 +372,7 @@ public class HitboxDHA : MonoBehaviour
     void StandingHHitBoxFirst()
     {
         ClearHitBox();
+
         hit1.enabled = true;
         hit1.offset = new Vector2(.75f, -.23f);
         hit1.size = new Vector2(.73f, .32f);
@@ -382,6 +398,8 @@ public class HitboxDHA : MonoBehaviour
     void StandingHHitBoxSecond()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit1.offset = new Vector2(.86f, .22f);
         hit1.size = new Vector2(.95f, .33f);
@@ -405,6 +423,8 @@ public class HitboxDHA : MonoBehaviour
     void CrouchingHHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit2.enabled = true;
         hit3.enabled = true;
@@ -435,6 +455,8 @@ public class HitboxDHA : MonoBehaviour
     void JumpHFirstHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit2.enabled = true;
         hit3.enabled = true;
@@ -456,7 +478,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv4;
-        HitDetect.potentialHitStop = 5;
+        HitDetect.potentialHitStop = 6;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 0f);
         HitDetect.potentialAirKnockBack = new Vector2(.8f, 1.5f);
         HitDetect.initialProration = .8f;
@@ -473,6 +495,8 @@ public class HitboxDHA : MonoBehaviour
     void JumpHSecondHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit2.enabled = true;
         hit3.enabled = true;
@@ -494,7 +518,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv3;
-        HitDetect.potentialHitStop = 5;
+        HitDetect.potentialHitStop = 6;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 0f);
         HitDetect.potentialAirKnockBack = new Vector2(1f, 1f);
         HitDetect.initialProration = .85f;
@@ -510,6 +534,8 @@ public class HitboxDHA : MonoBehaviour
     void JumpHThirdHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit2.enabled = true;
         hit3.enabled = true;
@@ -531,7 +557,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv4;
-        HitDetect.potentialHitStop = 5;
+        HitDetect.potentialHitStop = 6;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 0f);
         HitDetect.potentialAirKnockBack = new Vector2(1f, 1f);
         HitDetect.initialProration = .9f;
@@ -547,6 +573,8 @@ public class HitboxDHA : MonoBehaviour
     void JumpHFourthHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit2.enabled = true;
         hit3.enabled = true;
@@ -574,11 +602,10 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.armorDamage = 1;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv4;
-        HitDetect.potentialHitStop = hitStopLv3;
+        HitDetect.potentialHitStop = hitStopLv1;
         HitDetect.potentialKnockBack = new Vector2(1f, 3f);
         HitDetect.potentialAirKnockBack = new Vector2(1.2f, 3f);
         HitDetect.initialProration = 1.2f;
-        HitDetect.forcedProration = .70f;
         HitDetect.attackLevel = 3;
         HitDetect.guard = "Overhead";
 
@@ -596,6 +623,8 @@ public class HitboxDHA : MonoBehaviour
     void StandingBHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit2.enabled = true;
         hit3.enabled = true;
@@ -646,6 +675,8 @@ public class HitboxDHA : MonoBehaviour
     void StandingBFullChargeHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit2.enabled = true;
         hit3.enabled = true;
@@ -690,6 +721,8 @@ public class HitboxDHA : MonoBehaviour
     void CrouchBHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
 
         hit1.offset = new Vector2(.91f, -.72f);
@@ -719,6 +752,8 @@ public class HitboxDHA : MonoBehaviour
     void CrouchingBFullChargeHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit2.enabled = true;
         hit3.enabled = true;
@@ -755,6 +790,8 @@ public class HitboxDHA : MonoBehaviour
     void JumpBHitBox()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit2.enabled = true;
         hit3.enabled = true;
@@ -789,6 +826,8 @@ public class HitboxDHA : MonoBehaviour
     void ThrowInit()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
 
 
@@ -850,6 +889,8 @@ public class HitboxDHA : MonoBehaviour
     void BBCycleHit3()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit2.enabled = true;
         hit3.enabled = true;
@@ -879,6 +920,8 @@ public class HitboxDHA : MonoBehaviour
     void BBCycleHit5()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit2.enabled = true;
         hit3.enabled = true;
@@ -908,6 +951,8 @@ public class HitboxDHA : MonoBehaviour
     void BBFinalHit()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
         hit2.enabled = true;
         hit3.enabled = true;
