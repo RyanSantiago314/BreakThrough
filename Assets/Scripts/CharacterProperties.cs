@@ -49,12 +49,14 @@ public class CharacterProperties : MonoBehaviour
     void Update()
     {
         currentState = HitDetect.anim.GetCurrentAnimatorStateInfo(0);
-        if (currentHealth < 0)
-            currentHealth = 0;
-        if (currentHealth == 0)
+        if (currentHealth <= 0 && HitDetect.hitStop == 0)
         {
+            currentHealth = 0;
             HitDetect.anim.SetBool(KOID, true);
             HitDetect.Actions.DisableAll();
+            HitDetect.Actions.DisableBlitz();
+            HitDetect.Actions.Move.playing = false;
+            HitDetect.Actions.Move.opponent.GetComponent<MovementHandler>().playing = false;
         }
         else
             HitDetect.anim.SetBool(KOID, false);

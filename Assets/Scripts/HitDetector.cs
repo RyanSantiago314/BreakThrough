@@ -90,6 +90,7 @@ public class HitDetector : MonoBehaviour
     static int armorHitID;
     static int throwRejectID;
     static int dizzyID;
+    static int KOID;
 
     void Start()
     {
@@ -119,6 +120,7 @@ public class HitDetector : MonoBehaviour
         armorHitID = Animator.StringToHash("ArmorHit");
         throwRejectID = Animator.StringToHash("ThrowReject");
         dizzyID = Animator.StringToHash("Dizzy");
+        KOID = Animator.StringToHash("KOed");
     }
 
     void Update()
@@ -192,7 +194,7 @@ public class HitDetector : MonoBehaviour
             }
             else if (Actions.blitzed > 1)
             {
-                //simulate slow motion if within range of a blitz cancel
+                //simulate slow motion if within range of a blitz cancel or blitz attack
                 if (Actions.blitzed == 59 && Actions.airborne)
                 {
                      rb.velocity *= new Vector2(.5f, .5f);
@@ -230,7 +232,7 @@ public class HitDetector : MonoBehaviour
             if (KnockBack != Vector2.zero)
             {
                 //apply knockback/pushback once hitstop has ceased
-                if (((hitStun > 0 || blockStun > 0) && Actions.airborne) || 
+                if (((hitStun > 0 || blockStun > 0) && Actions.airborne) || ((hitStun > 0 || blockStun > 0) && Actions.comboHits <= 1 && Actions.standing) ||
                     (Actions.Move.facingRight && Actions.Move.rb.velocity.x > 0 && hitStun > 0) || (!Actions.Move.facingRight && Actions.Move.rb.velocity.x < 0 && hitStun > 0))
                     rb.velocity = Vector2.zero;
                 if (Actions.blitzed > 0)
@@ -271,10 +273,10 @@ public class HitDetector : MonoBehaviour
             {
                 OpponentDetector.anim.SetTrigger("Blocked");
                 OpponentDetector.blockStun = potentialHitStun - potentialHitStun/10;
-                if (OpponentDetector.blockStun > 24)
-                    OpponentDetector.blockStun = 24;
+                if (OpponentDetector.blockStun > 30)
+                    OpponentDetector.blockStun = 30;
                 // guarding right as the attack lands (just defend) reduces blockstun and negates chip damage
-                if(OpponentDetector.Actions.Move.justDefenseTime > 0)
+                if(OpponentDetector.Actions.Move.justDefenseTime > 0 && OpponentDetector.Actions.standing)
                 {
                     OpponentDetector.blockStun -= OpponentDetector.blockStun / 3;
                     OpponentDetector.Actions.CharProp.durability += 15;
@@ -288,9 +290,9 @@ public class HitDetector : MonoBehaviour
                 if(OpponentDetector.Actions.Move.hittingWall)
                 {
                     if (potentialKnockBack.x > potentialKnockBack.y)
-                        KnockBack = potentialKnockBack * new Vector2(1.2f, 0);
+                        KnockBack = new Vector2(1.1f * potentialKnockBack.x , 0);
                     else
-                        KnockBack = new Vector2(1.2f * potentialKnockBack.y, 0);
+                        KnockBack = new Vector2(1.1f * potentialKnockBack.y, 0);
                 }
                 else if (Actions.Move.hittingWall)
                 {
@@ -303,18 +305,18 @@ public class HitDetector : MonoBehaviour
                 {
                     if (potentialKnockBack.x > potentialKnockBack.y)
                     {
-                        KnockBack = potentialKnockBack * new Vector2(1f, 0);
-                        OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.4f, 0);
+                        KnockBack = potentialKnockBack * new Vector2(.5f, 0);
+                        OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.9f, 0);
                     }
                     else
                     {
-                        KnockBack = new Vector2(potentialKnockBack.y, 0);
-                        OpponentDetector.KnockBack = new Vector2(.4f * potentialKnockBack.y, 0);
+                        KnockBack = new Vector2(.5f * potentialKnockBack.y, 0);
+                        OpponentDetector.KnockBack = new Vector2(.9f * potentialKnockBack.y, 0);
                     }
                     
                 }
 
-                if(OpponentDetector.anim.GetBool(AirGuard) && OpponentDetector.Actions.Move.justDefenseTime <= 0)
+                if(OpponentDetector.anim.GetBool(AirGuard))
                 {
                     //apply special knockback to airborne guards
                     if (potentialAirKnockBack != Vector2.zero)
@@ -346,7 +348,7 @@ public class HitDetector : MonoBehaviour
 
                     }
                 }
-                else if (OpponentDetector.Actions.Move.justDefenseTime <= 0)
+                else if (OpponentDetector.Actions.Move.justDefenseTime <= 0 && OpponentDetector.Actions.standing)
                 {
                     if (Actions.Move.OpponentProperties.armor > 0)
                     {
@@ -370,6 +372,9 @@ public class HitDetector : MonoBehaviour
                     KnockBack *= new Vector2(-1, 1);
                 else
                     OpponentDetector.KnockBack *= new Vector2(-1, 1);
+
+                if (usingSpecial || usingSuper)
+                    KnockBack *= .5f;
             }
             else
             {
@@ -813,12 +818,13 @@ public class HitDetector : MonoBehaviour
         currentVelocity = rb.velocity;
         OpponentDetector.currentVelocity = OpponentDetector.rb.velocity;
 
-        if (Actions.Move.OpponentProperties.currentHealth <= 0)
+        if (Actions.Move.OpponentProperties.currentHealth <= 0 && !OpponentDetector.anim.GetBool(KOID))
         {
             hitStop = 90;
             OpponentDetector.hitStop = 90;
+            Actions.Move.OpponentProperties.currentHealth = 0;
         }
-        else
+        else if (Actions.Move.OpponentProperties.currentHealth > 0)
         {
             hitStop = potentialHitStop + i;
             OpponentDetector.hitStop = potentialHitStop + i;

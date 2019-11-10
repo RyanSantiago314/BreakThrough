@@ -52,12 +52,6 @@ public class HurtboxDHA : MonoBehaviour
         CharProp = transform.GetComponentInParent<CharacterProperties>();
     }
 
-    void Update()
-    {
-        if (CharProp.currentHealth <= 0)
-            Invincible();
-    }
-
     public void Standing()
     {
         Invincible();

@@ -32,6 +32,8 @@ public class AttackHandlerDHA : MonoBehaviour
     float mediumButton;
     float heavyButton;
     float breakButton;
+    float QCF;
+    float QCB;
 
     //directional variables using numpad notation
     float dir1;
@@ -162,6 +164,10 @@ public class AttackHandlerDHA : MonoBehaviour
             Move.OpponentProperties.currentHealth = Move.OpponentProperties.maxHealth;
             Move.OpponentProperties.armor = 4;
             Move.OpponentProperties.durability = 100;
+
+            //will take out later
+            Move.playing = true;
+            Move.opponent.GetComponent<MovementHandler>().playing = true;
         }
 
         if (Move.HitDetect.hitStun > 0)
@@ -239,6 +245,8 @@ public class AttackHandlerDHA : MonoBehaviour
             dir4 -= Time.deltaTime;
         if (dir6 > 0)
             dir6 -= Time.deltaTime;
+        if (QCF > 0)
+            QCF -= Time.deltaTime;
 
 
         //record buttons pressed
@@ -270,6 +278,8 @@ public class AttackHandlerDHA : MonoBehaviour
             mediumButton = bufferTime;
             heavyButton = bufferTime;
         }
+        QCFCheck();
+        QCBCheck();
 
         //record directional input
         //float dir# corresponds to numpad notation for character facing to the right
@@ -421,12 +431,12 @@ public class AttackHandlerDHA : MonoBehaviour
                     Actions.backThrow = false;
             }
         }
-        else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF())
+        else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0)
         {
             anim.SetTrigger(IDBloodBrave);
             Actions.TurnAroundCheck();
             breakButton = 0;
-            QCFSuccess();
+            QCF = 0;
         }
         else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop == 0)
         {
@@ -657,29 +667,27 @@ public class AttackHandlerDHA : MonoBehaviour
         Move.jumped = false;
     }
 
-    bool QCF()
+    void QCFCheck()
     {
         //check if the player has executed a quarter circle forward with the control stick
-        return dir2 > 0 && dir3 > 0 && dir6 > 0 && dir6 > dir3 && dir3 > dir2;
+        if(dir2 > 0 && dir3 > 0 && dir6 > 0 && dir6 > dir3 && dir3 > dir2)
+        {
+            QCF = directionBufferTime;
+            dir2 = 0;
+            dir3 = 0;
+            dir6 = 0;
+        }
     }
 
-    bool QCB()
+    void QCBCheck()
     {
         //check if the player has executed a quarter circle back with the control stick
-        return dir2 > 0 && dir1 > 0 && dir4 > 0 && dir4 > dir1 && dir1 > dir2;
-    }
-
-    void QCFSuccess()
-    {
-        dir2 = 0;
-        dir3 = 0;
-        dir6 = 0;
-    }
-
-    void QCBSuccess()
-    {
-        dir2 = 0;
-        dir1 = 0;
-        dir4 = 0;
+        if (dir2 > 0 && dir1 > 0 && dir4 > 0 && dir4 > dir1 && dir1 > dir2)
+        {
+            QCB = directionBufferTime;
+            dir2 = 0;
+            dir1 = 0;
+            dir4 = 0;
+        }
     }
 }
