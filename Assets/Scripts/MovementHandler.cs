@@ -372,7 +372,8 @@ public class MovementHandler : MonoBehaviour
             }
             else
             {
-                //Actions.airborne = false;
+                if (HitDetect.hitStun == 0 && Actions.airborne)
+                    Actions.airborne = false;
                 if (Actions.standing)
                     jumps = 0;
             }
