@@ -372,7 +372,7 @@ public class MovementHandler : MonoBehaviour
             }
             else
             {
-                Actions.airborne = false;
+                //Actions.airborne = false;
                 if (Actions.standing)
                     jumps = 0;
             }
@@ -465,7 +465,7 @@ public class MovementHandler : MonoBehaviour
                         rb.AddForce(new Vector2(-.25f, 0), ForceMode2D.Impulse);
                 }
             }
-            else if ((Actions.airborne && opponentMove.Actions.airborne))
+            else if (Actions.airborne && opponentMove.Actions.airborne && HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0)
             {
                 if (Mathf.Abs(transform.position.x - opponent.position.x) < pushBox.size.x && opponentMove.hittingWall)
                 {
@@ -748,6 +748,13 @@ public class MovementHandler : MonoBehaviour
                 anim.SetBool("ForceBlock", false);
         }
         else
+        {
+            anim.SetBool(lowGuardID, false);
+            anim.SetBool(highGuardID, false);
+            anim.SetBool(airGuardID, false);
+        }
+
+        if (MaxInput.GetAxis(Horizontal) == 0)
         {
             anim.SetBool(lowGuardID, false);
             anim.SetBool(highGuardID, false);
