@@ -11,6 +11,10 @@ public class AttackHandlerDHA : MonoBehaviour
     public MaxInput MaxInput;
     public HitboxDHA Hitboxes;
 
+    public GameObject Prefab;
+    public GameObject Projectile;
+    
+
     ColorSwapDHA colorControl;
 
     private string Horizontal;
@@ -36,11 +40,11 @@ public class AttackHandlerDHA : MonoBehaviour
     float QCB;
 
     //directional variables using numpad notation
-    float dir1;
-    float dir2;
-    float dir3;
-    float dir4;
-    float dir6;
+    public float dir1;
+    public float dir2;
+    public float dir3;
+    public float dir4;
+    public float dir6;
 
 
     private int StandL = 3;
@@ -76,6 +80,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int ID2B;
     static int BreakCharge;
     static int IDBloodBrave;
+    static int IDPatissiere;
 
     static int runID;
     static int IDRec;
@@ -107,6 +112,7 @@ public class AttackHandlerDHA : MonoBehaviour
         ID2B = Animator.StringToHash("2B");
         BreakCharge = Animator.StringToHash("BreakCharge");
         IDBloodBrave = Animator.StringToHash("BloodBrave");
+        IDPatissiere = Animator.StringToHash("Patissiere");
 
         lowGuardID = Animator.StringToHash("LowGuard");
         highGuardID = Animator.StringToHash("HighGuard");
@@ -150,6 +156,9 @@ public class AttackHandlerDHA : MonoBehaviour
         }
 
         colorControl = transform.GetChild(0).GetComponent<ColorSwapDHA>();
+
+        Projectile = Instantiate(Prefab, new Vector3(0, 5, -3), Quaternion.identity, transform.root);
+        Projectile.SetActive(false);
     }
 
     void Update()
@@ -186,6 +195,7 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.ResetTrigger(ID2B);
             anim.ResetTrigger(IDThrow);
             anim.ResetTrigger(IDBloodBrave);
+            anim.ResetTrigger(IDPatissiere);
         }
 
         if (lightButton > 0)
@@ -433,9 +443,18 @@ public class AttackHandlerDHA : MonoBehaviour
         }
         else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0)
         {
+            // Blood Brave special attack, executed by doing a QCF and pressing B
             anim.SetTrigger(IDBloodBrave);
             Actions.TurnAroundCheck();
             breakButton = 0;
+            QCF = 0;
+        }
+        else if (Actions.acceptSpecial && lightButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && Actions.standing && !Projectile.activeSelf)
+        {
+            // Patissiere projectile special attack, executed by doing a QCF and pressing L
+            anim.SetTrigger(IDPatissiere);
+            Actions.TurnAroundCheck();
+            lightButton = 0;
             QCF = 0;
         }
         else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop == 0)

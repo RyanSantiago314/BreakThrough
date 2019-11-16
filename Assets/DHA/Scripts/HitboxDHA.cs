@@ -13,6 +13,7 @@ public class HitboxDHA : MonoBehaviour
     public BoxCollider2D hit7;
 
     public HitDetector HitDetect;
+    public AttackHandlerDHA AttackHandler;
 
     int hitStunLv1 = 10;
     int hitStunLv2 = 14;
@@ -102,6 +103,60 @@ public class HitboxDHA : MonoBehaviour
 
         HitDetect.blitz = true;
     }
+
+    public void SummonPastry()
+    {
+        //Pastry projectile, angle of throw changes based on direction held after execution
+        AttackHandler.Projectile.SetActive(true);
+        AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetInteger("Pastry", Random.Range(0, 2));
+        AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetTrigger("Activate");
+        AttackHandler.Projectile.GetComponent<ProjectileProperties>().projectileActive = true;
+        AttackHandler.Projectile.GetComponent<ProjectileProperties>().rb.velocity = Vector2.zero;
+        AttackHandler.Projectile.GetComponent<ProjectileProperties>().rb.angularVelocity = 0;
+        AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentHits = 0;
+        AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife;
+        if(HitDetect.Actions.Move.facingRight)
+            AttackHandler.Projectile.transform.position = new Vector3(transform.position.x + .5f, transform.position.y + .45f, transform.position.z);
+        else
+            AttackHandler.Projectile.transform.position = new Vector3(transform.position.x - .5f, transform.position.y + .45f, transform.position.z);
+
+        if (AttackHandler.MaxInput.GetAxis(HitDetect.Actions.Move.Horizontal) < 0)
+        {
+            if (HitDetect.Actions.Move.facingRight)
+            {
+                AttackHandler.Projectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(.35f, 2.5f), ForceMode2D.Impulse);
+            }
+            else
+            {
+                AttackHandler.Projectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(-2, 1), ForceMode2D.Impulse);
+                AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife -= 30;
+            }
+        }
+        else if (AttackHandler.MaxInput.GetAxis(HitDetect.Actions.Move.Horizontal) > 0)
+        {
+            if (HitDetect.Actions.Move.facingRight)
+            {
+                AttackHandler.Projectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(2, 1), ForceMode2D.Impulse);
+                AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife -= 30;
+            }
+            else
+            {
+                AttackHandler.Projectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(-.35f, 2.5f), ForceMode2D.Impulse);
+            }
+        }
+        else
+        {
+            if (HitDetect.Actions.Move.facingRight)
+                AttackHandler.Projectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(1f, 1.5f), ForceMode2D.Impulse);
+            else
+                AttackHandler.Projectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(-1f, 1.5f), ForceMode2D.Impulse);
+        }
+
+        if (HitDetect.Actions.Move.facingRight)
+            AttackHandler.Projectile.GetComponent<Rigidbody2D>().AddTorque(-.01f, ForceMode2D.Impulse);
+        else
+            AttackHandler.Projectile.GetComponent<Rigidbody2D>().AddTorque(.01f, ForceMode2D.Impulse);
+    }
     //push damage values, knockback, and proration to hitdetector from hitbox events
     void StandingLHitBox()
     {
@@ -117,6 +172,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStop = hitStopLv1;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 0);
         HitDetect.initialProration = .7f;
+        HitDetect.forcedProration = .8f;
         HitDetect.attackLevel = 0;
         HitDetect.guard = "Mid";
 
@@ -141,6 +197,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStop = hitStopLv1;
         HitDetect.potentialKnockBack = new Vector2(1f, 0);
         HitDetect.initialProration = .65f;
+        HitDetect.forcedProration = .8f;
         HitDetect.attackLevel = 0;
         HitDetect.guard = "Mid";
 
@@ -831,8 +888,8 @@ public class HitboxDHA : MonoBehaviour
         hit1.enabled = true;
 
 
-        hit1.offset = new Vector2(.25f, -.09f);
-        hit1.size = new Vector2(.18f, .9f);
+        hit1.offset = new Vector2(.29f, -.09f);
+        hit1.size = new Vector2(.27f, .9f);
 
         HitDetect.armorDamage = 1;
         HitDetect.durabilityDamage = 50;

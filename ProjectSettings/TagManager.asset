@@ -11,6 +11,7 @@ TagManager:
   - Legs
   - Wall
   - Bound
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - HitHurtBox
   - Walls
   - Bounds
-  - 
+  - Projectiles
   - 
   - 
   - 

@@ -97,9 +97,9 @@ public class AcceptInputs : MonoBehaviour
             }   
         }
 
-        if ((attacking || anim.GetBool(highGuardID) || anim.GetBool(lowGuardID)) && CharProp.armor > 0)
+        if ((attacking || anim.GetBool(highGuardID) || anim.GetBool(lowGuardID)) && CharProp.armor > 0 && !recovering)
             armorActive = true;
-        else if (recovering)
+        else
             armorActive = false;
 
         //characters are throw invincible for ten frames after throw teching
