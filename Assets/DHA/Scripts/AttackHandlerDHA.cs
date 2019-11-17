@@ -158,7 +158,7 @@ public class AttackHandlerDHA : MonoBehaviour
         colorControl = transform.GetChild(0).GetComponent<ColorSwapDHA>();
 
         Projectile = Instantiate(Prefab, new Vector3(0, 5, -3), Quaternion.identity, transform.root);
-        Projectile.SetActive(false);
+        Projectile.gameObject.SetActive(false);
     }
 
     void Update()

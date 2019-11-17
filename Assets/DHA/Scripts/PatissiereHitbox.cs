@@ -19,6 +19,7 @@ public class PatissiereHitbox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Application.targetFrameRate = 60;
         AwakenBox();
         collider0.enabled = false;
         collider1.enabled = false;
@@ -30,7 +31,8 @@ public class PatissiereHitbox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PHitDetect.ProjProp.currentLife != 0 && PHitDetect.ProjProp.currentLife < 30 && PHitDetect.ProjProp.currentLife % 5 == 0)
+
+        if (PHitDetect.ProjProp.currentLife != 0 && PHitDetect.ProjProp.currentLife < 30 && PHitDetect.ProjProp.currentLife % 4 == 0)
             sprite.color = Color.red;
         else
             sprite.color = Color.white;
@@ -97,7 +99,7 @@ public class PatissiereHitbox : MonoBehaviour
     {
         ClearHitBox();
         hit1.enabled = true;
-        hit1.size = new Vector2(30f, 30f);
+        hit1.size = new Vector2(1000f, 1000f);
     }
 
     void InitialHitBox()
@@ -131,8 +133,8 @@ public class PatissiereHitbox : MonoBehaviour
         PHitDetect.durabilityDamage = 100;
         PHitDetect.potentialHitStun = 42;
         PHitDetect.potentialHitStop = 6;
-        PHitDetect.potentialKnockBack = new Vector2(1.5f, 3.2f);
-        PHitDetect.potentialAirKnockBack = new Vector2(1.5f, 3.2f);
+        PHitDetect.potentialKnockBack = new Vector2(1.5f, 3f);
+        PHitDetect.potentialAirKnockBack = new Vector2(1.5f, 3f);
         PHitDetect.initialProration = .85f;
         PHitDetect.forcedProration = 1.1f;
         PHitDetect.attackLevel = 3;
@@ -143,21 +145,24 @@ public class PatissiereHitbox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Floor") && PHitDetect.ProjProp.currentHits == 0)
+        if (hit1.size.x < 1000)
         {
-            ClearHitBox();
-            PHitDetect.rb.velocity = new Vector2(0.5f * PHitDetect.rb.velocity.x, PHitDetect.rb.velocity.y);
-            PHitDetect.rb.angularVelocity *= .5f;
-            PHitDetect.ProjProp.currentHits++;
-        }
-        else if (other.CompareTag("Wall"))
-        {
-            PHitDetect.rb.velocity = new Vector2(0.7f * PHitDetect.rb.velocity.x, PHitDetect.rb.velocity.y);
-            PHitDetect.rb.angularVelocity *= .7f;
-        }
-        else if (other.gameObject.transform.parent.parent == PHitDetect.Actions.Move.opponent)
-        {
-            PHitDetect.rb.velocity = new Vector2(-0.2f * PHitDetect.rb.velocity.x, PHitDetect.rb.velocity.y);
-        }
+            if (other.CompareTag("Floor") && PHitDetect.ProjProp.currentHits == 0)
+            {
+                ClearHitBox();
+                PHitDetect.rb.velocity = new Vector2(0.5f * PHitDetect.rb.velocity.x, PHitDetect.rb.velocity.y);
+                PHitDetect.rb.angularVelocity *= .5f;
+                PHitDetect.ProjProp.currentHits++;
+            }
+            else if (other.CompareTag("Wall"))
+            {
+                PHitDetect.rb.velocity = new Vector2(0.7f * PHitDetect.rb.velocity.x, PHitDetect.rb.velocity.y);
+                PHitDetect.rb.angularVelocity *= .7f;
+            }
+            else if (other.gameObject.transform.parent.parent != null && other.gameObject.transform.parent.parent == PHitDetect.Actions.Move.opponent)
+            {
+                PHitDetect.rb.velocity = new Vector2(-0.2f * PHitDetect.rb.velocity.x, PHitDetect.rb.velocity.y);
+            }
+        }  
     }
 }
