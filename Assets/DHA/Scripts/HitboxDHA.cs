@@ -890,7 +890,7 @@ public class HitboxDHA : MonoBehaviour
 
 
         hit1.offset = new Vector2(.29f, -.09f);
-        hit1.size = new Vector2(.23f, .9f);
+        hit1.size = new Vector2(.28f, .9f);
 
         HitDetect.armorDamage = 1;
         HitDetect.durabilityDamage = 50;

@@ -440,6 +440,7 @@ public class HitDetector : MonoBehaviour
             Contact(other);
         }
         else if (allowHit && (grab || commandGrab) && other.CompareTag("Body") && !OpponentDetector.Actions.throwInvincible &&
+            other.gameObject.transform.parent.parent == Actions.Move.opponent &&
             ((Actions.standing && OpponentDetector.Actions.standing) || (Actions.airborne && OpponentDetector.Actions.airborne)))
         {
             if ((OpponentDetector.Actions.throwTech && !commandGrab))

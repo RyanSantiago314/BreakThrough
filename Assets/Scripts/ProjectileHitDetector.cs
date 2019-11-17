@@ -151,6 +151,7 @@ public class ProjectileHitDetector : MonoBehaviour
         if (hitStop == 0)
         {
             anim.ResetTrigger(successID);
+            HitDetect.anim.ResetTrigger(successID);
         }
     }
 
