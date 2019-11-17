@@ -128,7 +128,7 @@ public class PatissiereHitbox : MonoBehaviour
 
         hit1.enabled = true;
         hit1.offset = Vector2.zero;
-        hit1.size = new Vector2(30f, 30f);
+        hit1.size = new Vector2(28f, 28f);
         PHitDetect.damage = 95;
         PHitDetect.durabilityDamage = 100;
         PHitDetect.potentialHitStun = 42;

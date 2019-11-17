@@ -562,7 +562,7 @@ public class ProjectileHitDetector : MonoBehaviour
             else
                 OpponentDetector.ProjectileKnockBack = potentialKnockBack;
 
-            if (Mathf.Abs(transform.position.x - OpponentDetector.Actions.Move.transform.position.x) < .3f)
+            if (Mathf.Abs(transform.position.x - OpponentDetector.Actions.Move.transform.position.x) < .3f || OpponentDetector.Actions.Move.hittingWall)
                 OpponentDetector.ProjectileKnockBack *= new Vector2(0f, 1);
             else if (transform.position.x > OpponentDetector.Actions.Move.transform.position.x)
                 OpponentDetector.ProjectileKnockBack *= new Vector2(-1f, 1);
