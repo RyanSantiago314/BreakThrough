@@ -561,17 +561,10 @@ public class ProjectileHitDetector : MonoBehaviour
             else
                 OpponentDetector.ProjectileKnockBack = potentialKnockBack;
 
-
-            if (Actions.airborne)
-            {
-                if (transform.position.x > OpponentDetector.Actions.Move.transform.position.x)
-                    OpponentDetector.ProjectileKnockBack *= new Vector2(-1f, 1);
-            }
-            else
-            {
-                if (transform.position.x > OpponentDetector.Actions.Move.transform.position.x)
-                    OpponentDetector.ProjectileKnockBack *= new Vector2(-1f, 1);
-            }
+            if (Mathf.Abs(transform.position.x - OpponentDetector.Actions.Move.transform.position.x) < .3f)
+                OpponentDetector.ProjectileKnockBack *= new Vector2(0f, 1);
+            else if (transform.position.x > OpponentDetector.Actions.Move.transform.position.x)
+                OpponentDetector.ProjectileKnockBack *= new Vector2(-1f, 1);
         }
 
         if (potentialHitStun != 0)

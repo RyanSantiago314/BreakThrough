@@ -6,23 +6,64 @@ public class PatissiereHitbox : MonoBehaviour
 {
     public BoxCollider2D hit1;
 
+    public SpriteRenderer sprite;
+
+    public PolygonCollider2D collider0;
+    public PolygonCollider2D collider1;
+    public PolygonCollider2D collider2;
+    public PolygonCollider2D collider3;
+    public PolygonCollider2D collider4;
+
     public ProjectileHitDetector PHitDetect;
 
     // Start is called before the first frame update
     void Start()
     {
         AwakenBox();
+        collider0.enabled = false;
+        collider1.enabled = false;
+        collider2.enabled = false;
+        collider3.enabled = false;
+        collider4.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (PHitDetect.ProjProp.currentLife != 0 && PHitDetect.ProjProp.currentLife < 30 && PHitDetect.ProjProp.currentLife % 5 == 0)
+            sprite.color = Color.red;
+        else
+            sprite.color = Color.white;
+
         if (PHitDetect.hit)
         {
             ClearHitBox();
             PHitDetect.currentVelocity *= new Vector2(-.25f, .75f);
             PHitDetect.hit = false;
         }
+
+        if (PHitDetect.ProjProp.currentLife == 0)
+            PHitDetect.rb.angularVelocity = 0;
+    }
+
+    public void ChangeCollider(int i)
+    {
+        collider0.enabled = false;
+        collider1.enabled = false;
+        collider2.enabled = false;
+        collider3.enabled = false;
+        collider4.enabled = false;
+
+        if (i == 0)
+            collider0.enabled = true;
+        else if (i == 1)
+            collider1.enabled = true;
+        else if (i == 2)
+            collider2.enabled = true;
+        else if (i == 3)
+            collider3.enabled = true;
+        else if (i == 4)
+            collider4.enabled = true;
     }
 
     public void ClearHitBox()
@@ -56,7 +97,7 @@ public class PatissiereHitbox : MonoBehaviour
     {
         ClearHitBox();
         hit1.enabled = true;
-        hit1.size = new Vector2(10f, 10f);
+        hit1.size = new Vector2(30f, 30f);
     }
 
     void InitialHitBox()
@@ -85,11 +126,11 @@ public class PatissiereHitbox : MonoBehaviour
 
         hit1.enabled = true;
         hit1.offset = Vector2.zero;
-        hit1.size = new Vector2(20f, 20f);
+        hit1.size = new Vector2(30f, 30f);
         PHitDetect.damage = 95;
         PHitDetect.durabilityDamage = 100;
         PHitDetect.potentialHitStun = 42;
-        PHitDetect.potentialHitStop = 8;
+        PHitDetect.potentialHitStop = 6;
         PHitDetect.potentialKnockBack = new Vector2(1.5f, 3.2f);
         PHitDetect.potentialAirKnockBack = new Vector2(1.5f, 3.2f);
         PHitDetect.initialProration = .85f;
