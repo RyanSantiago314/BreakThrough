@@ -12,8 +12,7 @@ public class AI : MonoBehaviour
     float mediumTimer;
     float heavyTimer;
     float specialTimer;
-    float deadTimer;
-    double deadCheck;
+    float backDashTimer;
     double p1x;
     double p2x;
     bool faceLeft;
@@ -34,8 +33,7 @@ public class AI : MonoBehaviour
         mediumTimer = 0;
         heavyTimer = 0;
         specialTimer = 0;
-        deadTimer = 5;
-        deadCheck = 0;
+        backDashTimer = 0;
         isJumping = false;
         isCrouching = false;
         faceLeft = true;
@@ -70,8 +68,8 @@ public class AI : MonoBehaviour
         if (specialTimer > 0) {
             specialTimer -= Time.deltaTime;
         }
-        if (deadTimer > 0) {
-            deadTimer -= Time.deltaTime;
+        if (backDashTimer > 0) {
+            backDashTimer -= Time.deltaTime;
         }
         timer += Time.deltaTime;
 
@@ -122,7 +120,7 @@ public class AI : MonoBehaviour
         }
 
         //If ai is not crouching move in direction of player
-        if (!isCrouching) {
+        if (!isCrouching && backDashTimer <= 0) {
             if (p1x - p2x < 0) {
                 faceLeft = true;
                 MaxInput.moveLeft("Player2");
@@ -189,14 +187,20 @@ public class AI : MonoBehaviour
             }
             //Ranged attack
             else if(Math.Abs(p1x - p2x) >= 1 && Math.Abs(p1x - p2x) < 1.1 && specialTimer <= 0) {
+                if(faceLeft == true) {
+                    MaxInput.moveLeft("Player2");
+                }
+                else {
+                    MaxInput.moveRight("Player2");
+                }
                 MaxInput.Square("Player2");
-                /*if (rand.Next(0, 5) == 2) {
-                    //specialTimer = 1;
-                }*/
             }
             //Back Dash
-            /*else if(Math.Abs(p1x - p2x) >= 1.1 && Math.Abs(p1x - p2x) < 1.5 && specialTimer <= 0) {
+            /*else if(Math.Abs(p1x - p2x) >= 1.1 && Math.Abs(p1x - p2x) < 1.5 && backDashTimer <= 0) {
+                backDashTimer = 2;
                 if(faceLeft == true) {
+                    MaxInput.moveRight("Player2");
+                    MaxInput.ClearInput("Player2");
                     MaxInput.moveRight("Player2");
                     MaxInput.LStick("Player2");
                 }
@@ -225,10 +229,6 @@ public class AI : MonoBehaviour
                     MaxInput.ClearInput("Player2");
                     MaxInput.LightSpecialRight("Player2");
                     MaxInput.ClearInput("Player2");
-                }
-                
-                if (rand.Next(0, 5) == 2) {
-                    //specialTimer = 1;
                 }
             }*/
             //Foward Dash
