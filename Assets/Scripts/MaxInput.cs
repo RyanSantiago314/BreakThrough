@@ -18,6 +18,7 @@ public class MaxInput : MonoBehaviour
     private bool rTrigger;
     private bool lBumper;
     private bool lTrigger;
+    private bool lstick;
     public FighterAgent player2;
 
     private float horizontal1;
@@ -30,6 +31,7 @@ public class MaxInput : MonoBehaviour
     private bool rTrigger1;
     private bool lBumper1;
     private bool lTrigger1;
+    private bool lstick1;
     public FighterAgent player1;
 
     void Start()
@@ -141,6 +143,8 @@ public class MaxInput : MonoBehaviour
                     return lBumper;
                 case "L2_P2":
                     return lTrigger;
+                case "L3_P2":
+                    return lstick;
                 case "Square_P1":
                     return square1;
                 case "Triangle_P1":
@@ -157,6 +161,8 @@ public class MaxInput : MonoBehaviour
                     return lBumper1;
                 case "L2_P1":
                     return lTrigger1;
+                case "L3_P1":
+                    return lstick1;
                 case "Start_P2":
                 case "Select_P2":
                     return false;
@@ -192,6 +198,8 @@ public class MaxInput : MonoBehaviour
                     return lBumper;
                 case "L2_P2":
                     return lTrigger;
+                case "L3_P2":
+                    return lstick;
                 case "Square_P1":
                     return square1;
                 case "Triangle_P1":
@@ -208,6 +216,8 @@ public class MaxInput : MonoBehaviour
                     return lBumper1;
                 case "L2_P1":
                     return lTrigger1;
+                case "L3_P1":
+                    return lstick1;
                 case "Start_P2":
                 case "Select_P2":
                     return false;
@@ -231,6 +241,7 @@ public class MaxInput : MonoBehaviour
             rTrigger = false;
             lBumper = false;
             lTrigger = false;
+            lstick = false;
         }
         else if (name == "Player1")
         {
@@ -244,6 +255,7 @@ public class MaxInput : MonoBehaviour
             rTrigger1 = false;
             lBumper1 = false;
             lTrigger1 = false;
+            lstick1 = false;
         }
 }
 
@@ -422,4 +434,15 @@ public class MaxInput : MonoBehaviour
         }
     }
 
+    public void LStick(string name)
+    {
+        if (name == "Player1")
+        {
+            lstick1 = true;
+        }
+        else
+        {
+            lstick = true;
+        }
+    }
 }
