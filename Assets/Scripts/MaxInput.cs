@@ -55,6 +55,10 @@ public class MaxInput : MonoBehaviour
         }
     }
 
+    void Update() {
+        
+    }
+
     public float GetAxisRaw(string axis)
     {
         if ((!training && !AI && !neural) || axis.Contains("P1") && !training && (!neural || !AI))
@@ -257,7 +261,7 @@ public class MaxInput : MonoBehaviour
             lTrigger1 = false;
             lstick1 = false;
         }
-}
+    }
 
     public void moveLeft(string name)
     {
@@ -283,38 +287,6 @@ public class MaxInput : MonoBehaviour
         }
     }
 
-    /*public void dashLeft(string name)
-    {
-        if (name == "Player1")
-        {
-            horizontal1 = -3;
-            horizontal1 = 0;
-            horizontal1 = -3;
-        }
-        else
-        {
-            horizontal = -3;
-            horizontal1 = 0;
-            horizontal1 = -3;
-        }
-    }
-
-    public void dashRight(string name)
-    {
-        if (name == "Player1")
-        {
-            horizontal1 = 1;
-            horizontal = 0;
-            horizontal = 1;
-        }
-        else
-        {
-            horizontal = 1;
-            horizontal = 0;
-            horizontal = 1;
-        }
-    }*/
-
     public void Jump(string name)
     {
         if (name == "Player1")
@@ -332,10 +304,66 @@ public class MaxInput : MonoBehaviour
         if (name == "Player1")
         {
             vertical1 = -1;
+            horizontal1 = 0;
+        }
+        else
+        {
+            horizontal = 0;
+            vertical = -1;
+        }
+    }
+
+    public void Stand(string name)
+    {
+        if (name == "Player1")
+        {
+            horizontal1 = 0;
+            vertical1 = 0;
+        }
+        else
+        {
+            horizontal = 0;
+            vertical = 0;
+        }
+    }
+
+    public void DownLeft(string name)
+    {
+        if (name == "Player1")
+        {
+            vertical1 = -1;
+            horizontal = -1;
         }
         else
         {
             vertical = -1;
+            horizontal = -1;
+        }
+    }
+
+    public void DownRight(string name)
+    {
+        if (name == "Player1")
+        {
+            vertical1 = -1;
+            horizontal = 1;
+        }
+        else
+        {
+            vertical = -1;
+            horizontal = 1;
+        }
+    }
+
+    public void DownMove(string name)
+    {
+        if (name == "Player1")
+        {
+            vertical1 = 0;
+        }
+        else
+        {
+            vertical = 0;
         }
     }
 
@@ -350,6 +378,7 @@ public class MaxInput : MonoBehaviour
             square = true;
         }
     }
+
     public void Triangle(string name)
     {
         if (name == "Player1")
