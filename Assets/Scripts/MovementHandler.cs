@@ -610,7 +610,6 @@ public class MovementHandler : MonoBehaviour
 
         if (MaxInput.GetButton(L3) && MaxInput.GetAxis(Horizontal) != 0)
         {
-            Debug.Log("L3 pressed");
             if (((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)) && !Actions.airborne)
             {
                 if (Actions.acceptMove && !anim.GetBool(crouchID))
