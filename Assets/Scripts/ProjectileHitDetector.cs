@@ -621,6 +621,7 @@ public class ProjectileHitDetector : MonoBehaviour
         if (Actions.Move.OpponentProperties.currentHealth <= 0 && !OpponentDetector.anim.GetBool(KOID))
         {
             hitStop = 90;
+            HitDetect.hitStop = 90;
             OpponentDetector.hitStop = 90;
             Actions.Move.OpponentProperties.currentHealth = 0;
         }
