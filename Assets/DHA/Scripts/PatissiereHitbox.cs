@@ -7,6 +7,7 @@ public class PatissiereHitbox : MonoBehaviour
     public BoxCollider2D hit1;
 
     public SpriteRenderer sprite;
+    public Light flash;
 
     public PolygonCollider2D collider0;
     public PolygonCollider2D collider1;
@@ -31,6 +32,8 @@ public class PatissiereHitbox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (flash.intensity > 0)
+            flash.intensity -= .75f;
 
         if (PHitDetect.ProjProp.currentLife != 0 && PHitDetect.ProjProp.currentLife < 30 && PHitDetect.ProjProp.currentLife % 4 == 0)
             sprite.color = Color.red;
@@ -105,7 +108,6 @@ public class PatissiereHitbox : MonoBehaviour
     void InitialHitBox()
     {
         ClearHitBox();
-
         hit1.enabled = true;
         hit1.offset = Vector2.zero;
         hit1.size = new Vector2(3.5f, 3.5f);
@@ -120,6 +122,11 @@ public class PatissiereHitbox : MonoBehaviour
         PHitDetect.guard = "Mid";
 
         PHitDetect.allowSuper = true;
+    }
+
+    void Explode()
+    {
+        flash.intensity = 6;
     }
 
     void ExplosionHitBox()
