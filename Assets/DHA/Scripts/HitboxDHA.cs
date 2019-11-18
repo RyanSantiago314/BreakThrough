@@ -108,6 +108,7 @@ public class HitboxDHA : MonoBehaviour
     {
         //Pastry projectile, angle of throw changes based on direction held after execution
         AttackHandler.Projectile.SetActive(true);
+        AttackHandler.Projectile.GetComponent<PatissiereHitbox>().flash.intensity = 0;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetInteger("Pastry", Random.Range(0, 5));
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetTrigger("Activate");
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().projectileActive = true;
