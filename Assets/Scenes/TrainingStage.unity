@@ -1129,6 +1129,7 @@ MonoBehaviour:
   OpponentDetector: {fileID: 0}
   hit: 0
   armorHit: 0
+  justDefense: 0
   comboCount: 0
   specialProration: 0
   comboProration: 0
@@ -2583,6 +2584,7 @@ MonoBehaviour:
   OpponentDetector: {fileID: 0}
   hit: 0
   armorHit: 0
+  justDefense: 0
   comboCount: 0
   specialProration: 0
   comboProration: 0
@@ -2993,7 +2995,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1462430421
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3776,7 +3778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34759b8f05b343a40a448855bc4158e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AI: 1
+  AI: 0
   neural: 0
   training: 0
   player2: {fileID: 1817658471}

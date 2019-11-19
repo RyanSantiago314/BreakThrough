@@ -27,7 +27,7 @@ public class MovementHandler : MonoBehaviour
     public int maxJumps;
     public int jumps = 0;
     public float minPosY;
-    public int justDefenseTime = 6;
+    public int justDefenseTime = 4;
     public bool hittingWall = false;
     public bool playing;
 
@@ -94,6 +94,8 @@ public class MovementHandler : MonoBehaviour
 
     void Start()
     {
+        Application.targetFrameRate = 60;
+
         pushBox.enabled = true;
         pushBox.offset = pushCenter;
         pushBox.size = pushSize;
@@ -220,7 +222,7 @@ public class MovementHandler : MonoBehaviour
         if (MaxInput.GetAxisRaw(Horizontal) == 0)
         {
             horiAxisInUse = false;
-            justDefenseTime = 3;
+            justDefenseTime = 4;
         }
 
         if (horiAxisInUse)

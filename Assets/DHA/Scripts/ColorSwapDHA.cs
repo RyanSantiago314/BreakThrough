@@ -76,6 +76,12 @@ public class ColorSwapDHA : MonoBehaviour
             StartArmorHitFlash();
             HitDetect.armorHit = false;
         }
+        if (HitDetect.justDefense && gameObject.name == "Sprite")
+        {
+            StartRecoverFlash();
+
+            HitDetect.justDefense = false;
+        }
     }
 
     public void InitColorSwapTex()

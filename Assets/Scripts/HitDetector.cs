@@ -62,6 +62,7 @@ public class HitDetector : MonoBehaviour
     int collideCount = 0;
     public bool hit = false;
     public bool armorHit = false;
+    public bool justDefense = false;
     public int comboCount;
     public float specialProration;
     public float comboProration;
@@ -286,7 +287,11 @@ public class HitDetector : MonoBehaviour
                 (guard == "Overhead" && (OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))))
             {
                 OpponentDetector.anim.SetTrigger("Blocked");
-                OpponentDetector.blockStun = potentialHitStun - potentialHitStun/10;
+                if (potentialHitStun <= 19)
+                    OpponentDetector.blockStun = potentialHitStun - 1;
+                else
+                    OpponentDetector.blockStun = potentialHitStun - potentialHitStun/10;
+
                 if (OpponentDetector.blockStun > 30)
                     OpponentDetector.blockStun = 30;
                 // guarding right as the attack lands (just defend) reduces blockstun and negates chip damage
@@ -294,6 +299,7 @@ public class HitDetector : MonoBehaviour
                 {
                     OpponentDetector.blockStun -= OpponentDetector.blockStun / 3;
                     OpponentDetector.Actions.CharProp.durability += 15;
+                    OpponentDetector.justDefense = true;
                     Debug.Log("JUST DEFEND");
                 }
                 OpponentDetector.anim.SetInteger(blockStunID, OpponentDetector.blockStun);
@@ -304,9 +310,9 @@ public class HitDetector : MonoBehaviour
                 if(OpponentDetector.Actions.Move.hittingWall)
                 {
                     if (potentialKnockBack.x > potentialKnockBack.y)
-                        KnockBack = new Vector2(1.1f * potentialKnockBack.x , 0);
+                        KnockBack = new Vector2(1.3f * potentialKnockBack.x , 0);
                     else
-                        KnockBack = new Vector2(1.1f * potentialKnockBack.y, 0);
+                        KnockBack = new Vector2(1.3f * potentialKnockBack.y, 0);
                 }
                 else if (Actions.Move.hittingWall)
                 {
@@ -319,12 +325,12 @@ public class HitDetector : MonoBehaviour
                 {
                     if (potentialKnockBack.x > potentialKnockBack.y)
                     {
-                        KnockBack = potentialKnockBack * new Vector2(.5f, 0);
+                        KnockBack = potentialKnockBack * new Vector2(.8f, 0);
                         OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.9f, 0);
                     }
                     else
                     {
-                        KnockBack = new Vector2(.5f * potentialKnockBack.y, 0);
+                        KnockBack = new Vector2(.8f * potentialKnockBack.y, 0);
                         OpponentDetector.KnockBack = new Vector2(.9f * potentialKnockBack.y, 0);
                     }
                     
