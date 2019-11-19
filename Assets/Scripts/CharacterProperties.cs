@@ -128,9 +128,7 @@ public class CharacterProperties : MonoBehaviour
             }
 
             //durability starts refilling after not being in blockstun for three seconds
-            if (HitDetect.Actions.shattered)
-                durabilityRefillTimer = 3;
-            else if (HitDetect.blockStun == 0 || HitDetect.anim.GetBool(dizzyID))
+            if (HitDetect.blockStun == 0 || HitDetect.anim.GetBool(dizzyID))
                 durabilityRefillTimer += Time.deltaTime;
             else
                 durabilityRefillTimer = 0;
