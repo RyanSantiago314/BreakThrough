@@ -357,7 +357,6 @@ public class AttackHandlerDHA : MonoBehaviour
         if (dizzyTime == 0 && anim.GetBool(dizzyID))
         {
             dizzyTime = 300;
-            Debug.Log("DIZZY");
         }
         else if (!anim.GetBool(dizzyID))
         {
@@ -417,7 +416,6 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.SetTrigger(IDBlitz);
             Hitboxes.BlitzCancel();
 
-            Debug.Log("BLITZ CANCEL");
             //cost for executing blitz cancel
             CharProp.armor -= 2;
             if (CharProp.armor > 0)
