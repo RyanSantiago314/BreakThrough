@@ -411,13 +411,13 @@ public class AttackHandlerDHA : MonoBehaviour
             Hitboxes.ClearHitBox();
 
         if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
-            heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 1)
+            heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 2)
         {
             anim.SetTrigger(IDBlitz);
             Hitboxes.BlitzCancel();
 
             //cost for executing blitz cancel
-            CharProp.armor--;
+            CharProp.armor -= 2;
             if (CharProp.armor > 0)
                 CharProp.durability = 50;
             else

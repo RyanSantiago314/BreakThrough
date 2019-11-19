@@ -96,7 +96,7 @@ public class HitboxDHA : MonoBehaviour
         ClearHitBox();
         hit1.enabled = true;
         hit1.offset = new Vector2(.0f, .0f);
-        hit1.size = new Vector2(4f, 4f);
+        hit1.size = new Vector2(3.8f, 3.8f);
 
         HitDetect.attackLevel = 0;
         HitDetect.guard = "Unblockable";
@@ -108,6 +108,7 @@ public class HitboxDHA : MonoBehaviour
     {
         //Pastry projectile, angle of throw changes based on direction held after execution
         AttackHandler.Projectile.SetActive(true);
+        AttackHandler.Projectile.GetComponent<PatissiereHitbox>().flash.intensity = 0;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetInteger("Pastry", Random.Range(0, 5));
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetTrigger("Activate");
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().projectileActive = true;
@@ -173,7 +174,6 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStop = hitStopLv1;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 0);
         HitDetect.initialProration = .7f;
-        HitDetect.forcedProration = .8f;
         HitDetect.attackLevel = 0;
         HitDetect.guard = "Mid";
 
@@ -198,7 +198,6 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStop = hitStopLv1;
         HitDetect.potentialKnockBack = new Vector2(1f, 0);
         HitDetect.initialProration = .65f;
-        HitDetect.forcedProration = .8f;
         HitDetect.attackLevel = 0;
         HitDetect.guard = "Mid";
 
@@ -497,13 +496,13 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv4;
         HitDetect.potentialHitStop = hitStopLv2;
-        HitDetect.potentialKnockBack = new Vector2(.5f, 4f);
-        HitDetect.potentialAirKnockBack = new Vector2(.5f, 3f);
+        HitDetect.potentialKnockBack = new Vector2(2f, 0f);
+        HitDetect.potentialAirKnockBack = new Vector2(.2f, 3f);
         HitDetect.initialProration = .8f;
         HitDetect.attackLevel = 2;
         HitDetect.guard = "Mid";
-
-        HitDetect.launch = true;
+        if (HitDetect.OpponentDetector.Actions.airborne)
+            HitDetect.launch = true;
         HitDetect.allowBreak = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;

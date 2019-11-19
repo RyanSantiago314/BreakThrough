@@ -387,6 +387,9 @@ public class HitDetector : MonoBehaviour
                 else
                     OpponentDetector.KnockBack *= new Vector2(-1, 1);
 
+                if (OpponentDetector.Actions.Move.justDefenseTime > 0 && OpponentDetector.Actions.standing)
+                    OpponentDetector.KnockBack *= .5f;
+
                 if (usingSpecial || usingSuper)
                     KnockBack *= .5f;
             }
