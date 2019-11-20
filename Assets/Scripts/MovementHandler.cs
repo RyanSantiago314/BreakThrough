@@ -554,6 +554,10 @@ public class MovementHandler : MonoBehaviour
             rb.velocity = new Vector2(0, rb.velocity.y);
             pushBox.isTrigger = false;
         }
+        else if (other.CompareTag("Floor"))
+        {
+            pushBox.isTrigger = false;
+        }
     }
 
     void OnTriggerExit2D(Collider2D other)

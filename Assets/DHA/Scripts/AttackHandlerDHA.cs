@@ -66,6 +66,8 @@ public class AttackHandlerDHA : MonoBehaviour
     private int FLx = 2;
     private bool FLF = true;
 
+    private bool blitzAble = true;
+
     static int ID5L;
     static int ID2L;
     static int ID6L;
@@ -411,13 +413,13 @@ public class AttackHandlerDHA : MonoBehaviour
             Hitboxes.ClearHitBox();
 
         if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
-            heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 2)
+            heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 2 && blitzAble)
         {
             anim.SetTrigger(IDBlitz);
             Hitboxes.BlitzCancel();
 
             //cost for executing blitz cancel
-            CharProp.armor -= 2;
+            CharProp.armor -= 1;
             if (CharProp.armor > 0)
                 CharProp.durability = 50;
             else
@@ -426,6 +428,7 @@ public class AttackHandlerDHA : MonoBehaviour
             CharProp.durabilityRefillTimer = 0;
             heavyButton = 0;
             mediumButton = 0;
+            blitzAble = false;
         }    
         // basic throw performed by pressing both light and break attack
         else if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0)
@@ -680,6 +683,8 @@ public class AttackHandlerDHA : MonoBehaviour
         FL = true;
         FLx = 2;
         FLF = true;
+        if (Move.HitDetect.comboCount == 0)
+            blitzAble = true;
 
         Move.jumped = false;
     }
