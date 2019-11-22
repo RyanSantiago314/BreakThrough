@@ -251,7 +251,7 @@ public class MovementHandler : MonoBehaviour
         }
 
         //Jump logic
-        if (jumping > 0 && anim.GetFloat("AnimSpeed") == 1 && HitDetect.hitStun == 0 && HitDetect.blockStun == 0)
+        if (jumping > 0 && anim.GetFloat("AnimSpeed") > 0 && HitDetect.hitStun == 0 && HitDetect.blockStun == 0)
         {
             anim.SetTrigger(jumpID);
             Actions.TurnAroundCheck();
@@ -272,15 +272,24 @@ public class MovementHandler : MonoBehaviour
             if (jumpRight)
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
-                rb.AddForce(new Vector2(.3f * jumpPower, 0), ForceMode2D.Impulse);
+                if (Actions.blitzed > 0)
+                    rb.AddForce(new Vector2(.15f * jumpPower, 0), ForceMode2D.Impulse);
+                else
+                    rb.AddForce(new Vector2(.3f * jumpPower, 0), ForceMode2D.Impulse);
             }
             else if(jumpLeft)
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
-                rb.AddForce(new Vector2(-.3f * jumpPower, 0), ForceMode2D.Impulse);
+                if (Actions.blitzed > 0)
+                    rb.AddForce(new Vector2(-.15f * jumpPower, 0), ForceMode2D.Impulse);
+                else
+                    rb.AddForce(new Vector2(-.3f * jumpPower, 0), ForceMode2D.Impulse);
             }
 
-            rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
+            if (Actions.blitzed > 0)
+                rb.AddForce(new Vector2(0, .5f * jumpPower), ForceMode2D.Impulse);
+            else
+                rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
             
             jumping = 0;
             jumpRight = false;
@@ -302,10 +311,20 @@ public class MovementHandler : MonoBehaviour
         //Run acceleration
         if(anim.GetBool(runID) && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)) && !anim.GetBool(crouchID))
         {
-            if(facingRight)
-                rb.AddForce(new Vector2(runAcceleration, 0), ForceMode2D.Impulse);
+            if (Actions.blitzed > 0)
+            {
+                if (facingRight)
+                    rb.AddForce(new Vector2(runAcceleration, 0), ForceMode2D.Impulse);
+                else
+                    rb.AddForce(new Vector2(-runAcceleration, 0), ForceMode2D.Impulse);
+            }
             else
-                rb.AddForce(new Vector2(-runAcceleration, 0), ForceMode2D.Impulse);
+            {
+                if (facingRight)
+                    rb.AddForce(new Vector2(runAcceleration, 0), ForceMode2D.Impulse);
+                else
+                    rb.AddForce(new Vector2(-runAcceleration, 0), ForceMode2D.Impulse);
+            }
         }
         else
         { 
@@ -649,10 +668,20 @@ public class MovementHandler : MonoBehaviour
         if(anim.GetBool(runID) || (Actions.airborne && Actions.acceptMove))
         {
             //keeps character movement speed from reaching insane levels
-            if(rb.velocity.x > maxVelocity && facingRight)
-                rb.velocity = new Vector2(maxVelocity, rb.velocity.y);
-            else if (rb.velocity.x < -maxVelocity)
-                rb.velocity = new Vector2(-maxVelocity, rb.velocity.y);
+            if (Actions.blitzed > 0)
+            {
+                if (rb.velocity.x > maxVelocity/2 && facingRight)
+                    rb.velocity = new Vector2(maxVelocity/2, rb.velocity.y);
+                else if (rb.velocity.x < -maxVelocity/2)
+                    rb.velocity = new Vector2(-maxVelocity/2, rb.velocity.y);
+            }
+            else
+            {
+                if (rb.velocity.x > maxVelocity && facingRight)
+                    rb.velocity = new Vector2(maxVelocity, rb.velocity.y);
+                else if (rb.velocity.x < -maxVelocity)
+                    rb.velocity = new Vector2(-maxVelocity, rb.velocity.y);
+            } 
         }
         else if (!Actions.airborne && !Actions.acceptMove)
         {

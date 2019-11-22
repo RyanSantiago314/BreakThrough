@@ -355,6 +355,9 @@ public class AttackHandlerDHA : MonoBehaviour
             RefreshMoveList();
         }
 
+        if (Move.HitDetect.comboCount == 0)
+            blitzAble = true;
+
         //dizzy state, mash buttons to get out of it faster
         if (dizzyTime == 0 && anim.GetBool(dizzyID))
         {
@@ -413,7 +416,7 @@ public class AttackHandlerDHA : MonoBehaviour
             Hitboxes.ClearHitBox();
 
         if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
-            heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 2 && blitzAble)
+            heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 1 && blitzAble)
         {
             anim.SetTrigger(IDBlitz);
             Hitboxes.BlitzCancel();
@@ -683,8 +686,7 @@ public class AttackHandlerDHA : MonoBehaviour
         FL = true;
         FLx = 2;
         FLF = true;
-        if (Move.HitDetect.comboCount == 0)
-            blitzAble = true;
+        
 
         Move.jumped = false;
     }

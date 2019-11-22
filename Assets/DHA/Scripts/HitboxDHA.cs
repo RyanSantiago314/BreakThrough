@@ -96,7 +96,7 @@ public class HitboxDHA : MonoBehaviour
         ClearHitBox();
         hit1.enabled = true;
         hit1.offset = new Vector2(.0f, .0f);
-        hit1.size = new Vector2(3.8f, 3.8f);
+        hit1.size = new Vector2(3.5f, 3.5f);
 
         HitDetect.attackLevel = 0;
         HitDetect.guard = "Unblockable";
