@@ -198,7 +198,12 @@ public class HitDetector : MonoBehaviour
                 {
                      rb.velocity *= new Vector2(.5f, .5f);
                 }
-                anim.SetFloat(animSpeedID, .5f);
+
+                if (Actions.airborne)
+                    anim.SetFloat(animSpeedID, .5f);
+                else
+                    anim.SetFloat(animSpeedID, 0f);
+
                 rb.mass = Actions.Move.weight * .7f;
                 rb.gravityScale = .6f * Actions.gravScale;
 
@@ -639,7 +644,7 @@ public class HitDetector : MonoBehaviour
 
         //manipulate opponent's state based on attack properties
         //defender can enter unique states of stun if hit by an attack with corresponding property
-        if (blitz)
+        if (blitz && OpponentDetector.hitStun > 0)
         {
             OpponentDetector.Actions.blitzed = 60;
             if (Actions.Move.OpponentProperties.comboTimer > 0)

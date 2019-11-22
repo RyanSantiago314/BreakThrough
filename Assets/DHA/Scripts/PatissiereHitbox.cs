@@ -40,6 +40,9 @@ public class PatissiereHitbox : MonoBehaviour
         else
             sprite.color = Color.white;
 
+        if (PHitDetect.HitDetect.hitStun > 0)
+            PHitDetect.ProjProp.Deactivate();
+
         if (PHitDetect.hit)
         {
             ClearHitBox();

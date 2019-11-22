@@ -39,7 +39,7 @@ public class ProjectileProperties : MonoBehaviour
             currentLife--;        
     }
 
-    void Deactivate()
+    public void Deactivate()
     {
         transform.gameObject.SetActive(false);
     }

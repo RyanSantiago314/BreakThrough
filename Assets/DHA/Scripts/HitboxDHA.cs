@@ -118,9 +118,9 @@ public class HitboxDHA : MonoBehaviour
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife;
         AttackHandler.Projectile.transform.localRotation = Quaternion.identity;
         if (HitDetect.Actions.Move.facingRight)
-            AttackHandler.Projectile.transform.position = new Vector3(transform.position.x + .5f, transform.position.y + .45f, transform.position.z);
+            AttackHandler.Projectile.transform.position = new Vector3(transform.position.x + .4f, transform.position.y + .45f, transform.position.z);
         else
-            AttackHandler.Projectile.transform.position = new Vector3(transform.position.x - .5f, transform.position.y + .45f, transform.position.z);
+            AttackHandler.Projectile.transform.position = new Vector3(transform.position.x - .4f, transform.position.y + .45f, transform.position.z);
 
         if (AttackHandler.MaxInput.GetAxis(HitDetect.Actions.Move.Horizontal) < 0)
         {
@@ -285,6 +285,8 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.initialProration = .85f;
         HitDetect.attackLevel = 3;
         HitDetect.guard = "Mid";
+
+        HitDetect.allowWallBounce = true;
 
         HitDetect.allowSuper = true;
     }
