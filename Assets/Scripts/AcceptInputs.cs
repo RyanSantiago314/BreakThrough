@@ -282,14 +282,26 @@ public class AcceptInputs : MonoBehaviour
     public void Advance(float x)
     {
         Move.rb.velocity = new Vector2(0, Move.rb.velocity.y);
-        if (Move.facingRight)
-            Move.rb.AddForce(new Vector2(x, 0), ForceMode2D.Impulse);
+        if (blitzed > 0)
+        {
+            if (Move.facingRight)
+                Move.rb.AddForce(new Vector2(x * .5f, 0), ForceMode2D.Impulse);
+            else
+                Move.rb.AddForce(new Vector2(-x * .5f, 0), ForceMode2D.Impulse);
+        }
         else
-            Move.rb.AddForce(new Vector2(-x, 0), ForceMode2D.Impulse);
+        {
+            if (Move.facingRight)
+                Move.rb.AddForce(new Vector2(x, 0), ForceMode2D.Impulse);
+            else
+                Move.rb.AddForce(new Vector2(-x, 0), ForceMode2D.Impulse);
+        }
     }
 
     public void Rise(float y)
     {
+        if (blitzed > 0)
+            y /= 2;
         Move.rb.velocity = new Vector2(Move.rb.velocity.x, 0);
         Move.rb.AddForce(new Vector2(0, y), ForceMode2D.Impulse);
     }
@@ -302,15 +314,29 @@ public class AcceptInputs : MonoBehaviour
     public void Recover()
     {
         Move.rb.velocity = new Vector2(.2f * Move.rb.velocity.x, 0);
-
-        if(MaxInput.GetAxis(Move.Horizontal) > 0)
-            Move.HitDetect.KnockBack = new Vector2(.5f * Move.backDashForce, .5f*Move.jumpPower);
-        else if (MaxInput.GetAxis(Move.Horizontal) < 0)
-            Move.HitDetect.KnockBack = new Vector2(-.5f * Move.backDashForce, .5f*Move.jumpPower);
-        else if (MaxInput.GetAxis(Move.Vertical) < 0 && transform.position.y > 1.5f)
-            Move.HitDetect.KnockBack = new Vector2(0, -.5f*Move.jumpPower);
+        
+        if (blitzed > 0)
+        {
+            if (MaxInput.GetAxis(Move.Horizontal) > 0)
+                Move.HitDetect.KnockBack = new Vector2(.25f * Move.backDashForce, .25f * Move.jumpPower);
+            else if (MaxInput.GetAxis(Move.Horizontal) < 0)
+                Move.HitDetect.KnockBack = new Vector2(-.25f * Move.backDashForce, .25f * Move.jumpPower);
+            else if (MaxInput.GetAxis(Move.Vertical) < 0 && transform.position.y > 1.5f)
+                Move.HitDetect.KnockBack = new Vector2(0, -.25f * Move.jumpPower);
+            else
+                Move.HitDetect.KnockBack = new Vector2(0, .25f * Move.jumpPower);
+        }
         else
-            Move.HitDetect.KnockBack = new Vector2(0, .5f * Move.jumpPower);
+        {
+            if (MaxInput.GetAxis(Move.Horizontal) > 0)
+                Move.HitDetect.KnockBack = new Vector2(.5f * Move.backDashForce, .5f * Move.jumpPower);
+            else if (MaxInput.GetAxis(Move.Horizontal) < 0)
+                Move.HitDetect.KnockBack = new Vector2(-.5f * Move.backDashForce, .5f * Move.jumpPower);
+            else if (MaxInput.GetAxis(Move.Vertical) < 0 && transform.position.y > 1.5f)
+                Move.HitDetect.KnockBack = new Vector2(0, -.5f * Move.jumpPower);
+            else
+                Move.HitDetect.KnockBack = new Vector2(0, .5f * Move.jumpPower);
+        }  
     }
 
     public void Dash()

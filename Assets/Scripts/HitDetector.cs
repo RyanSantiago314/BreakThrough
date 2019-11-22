@@ -141,11 +141,6 @@ public class HitDetector : MonoBehaviour
             pushBackScale = 0;
         }
 
-        if (hitStun == 0)
-        {
-            Actions.blitzed = 0;
-        }
-
         if (currentState.IsName("Launch"))
             anim.SetBool(launchID, false);
         else if (currentState.IsName("SweepHit"))
@@ -199,13 +194,13 @@ public class HitDetector : MonoBehaviour
             else if (Actions.blitzed > 1)
             {
                 //simulate slow motion if within range of a blitz cancel or blitz attack
-                if (Actions.blitzed == 59 && Actions.airborne)
+                if (Actions.blitzed == 59)
                 {
                      rb.velocity *= new Vector2(.5f, .5f);
                 }
                 anim.SetFloat(animSpeedID, .5f);
-                rb.mass = Actions.Move.weight / 2;
-                rb.gravityScale = .65f * Actions.gravScale;
+                rb.mass = Actions.Move.weight * .7f;
+                rb.gravityScale = .6f * Actions.gravScale;
 
             }
             else if (Actions.shattered && hitStun > 0)
@@ -239,18 +234,20 @@ public class HitDetector : MonoBehaviour
                 if (((hitStun > 0 || blockStun > 0) && Actions.airborne) || ((hitStun > 0 || blockStun > 0) && Actions.comboHits <= 1 && Actions.standing) ||
                     (Actions.Move.facingRight && Actions.Move.rb.velocity.x > 0 && hitStun > 0) || (!Actions.Move.facingRight && Actions.Move.rb.velocity.x < 0 && hitStun > 0))
                     rb.velocity = Vector2.zero;
-                if (Actions.blitzed > 0)
-                {
-                    KnockBack *= new Vector2(.5f, .5f);
-                    ProjectileKnockBack *= new Vector2(.5f, .5f);
-                }
+                
                 if (Mathf.Abs(ProjectileKnockBack.x) > Mathf.Abs(KnockBack.x) || Mathf.Abs(ProjectileKnockBack.y) > Mathf.Abs(KnockBack.y))
                 {
-                    rb.AddForce(ProjectileKnockBack, ForceMode2D.Impulse);
+                    if (Actions.blitzed > 0)
+                        rb.AddForce(ProjectileKnockBack * .5f, ForceMode2D.Impulse);
+                    else
+                        rb.AddForce(ProjectileKnockBack, ForceMode2D.Impulse);
                 }
                 else
                 {
-                    rb.AddForce(KnockBack, ForceMode2D.Impulse);
+                    if (Actions.blitzed > 0)
+                        rb.AddForce(KnockBack * .5f, ForceMode2D.Impulse);
+                    else
+                        rb.AddForce(KnockBack, ForceMode2D.Impulse);
                 }
                 KnockBack = Vector2.zero;
                 ProjectileKnockBack = Vector2.zero;
@@ -642,10 +639,11 @@ public class HitDetector : MonoBehaviour
 
         //manipulate opponent's state based on attack properties
         //defender can enter unique states of stun if hit by an attack with corresponding property
-        if (blitz && OpponentDetector.hitStun > 0)
+        if (blitz)
         {
             OpponentDetector.Actions.blitzed = 60;
-            Actions.Move.OpponentProperties.comboTimer -= 1.5f;
+            if (Actions.Move.OpponentProperties.comboTimer > 0)
+                Actions.Move.OpponentProperties.comboTimer -= 1.5f;
         }
         else
             OpponentDetector.Actions.blitzed = 0;
