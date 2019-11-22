@@ -5,8 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void PlayGame() {
+    public void PlayGameVsPlayer() {
     	SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    	MaxInput.disableAI();
+    }
+
+    public void PlayGameVsAI() {
+    	SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    	MaxInput.enableAI();
     }
 
     public void QuitGame() {

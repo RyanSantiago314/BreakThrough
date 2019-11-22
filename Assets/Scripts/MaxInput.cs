@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MaxInput : MonoBehaviour
 {
-    public bool AI; // Turns on traditional AI for player 2
+    static public bool AI; // Turns on traditional AI for player 2
     public bool neural; // Turns on neural network AI for player 2
     public bool training; //Take over both players with neural networks, for training purposes
 
@@ -33,6 +33,14 @@ public class MaxInput : MonoBehaviour
     private bool lTrigger1;
     private bool lstick1;
     public FighterAgent player1;
+
+    static public void enableAI() {
+        AI = true;
+    }
+
+    static public void disableAI() {
+        AI = false;
+    }
 
     void Start()
     {
