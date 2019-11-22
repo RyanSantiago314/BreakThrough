@@ -337,7 +337,7 @@ public class MaxInput : MonoBehaviour
         else
         {
             vertical = -1;
-            horizontal = -1;
+            horizontal = 1;
         }
     }
 
