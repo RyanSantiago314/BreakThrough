@@ -4491,7 +4491,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.53
+  m_Mass: 0.52
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 1
@@ -4685,7 +4685,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34759b8f05b343a40a448855bc4158e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AI: 0
   neural: 0
   training: 0
   player2: {fileID: 1817658471}
@@ -5026,7 +5025,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.53
+  m_Mass: 0.52
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 1

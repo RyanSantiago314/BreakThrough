@@ -272,24 +272,15 @@ public class MovementHandler : MonoBehaviour
             if (jumpRight)
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
-                if (Actions.blitzed > 0)
-                    rb.AddForce(new Vector2(.15f * jumpPower, 0), ForceMode2D.Impulse);
-                else
-                    rb.AddForce(new Vector2(.3f * jumpPower, 0), ForceMode2D.Impulse);
+                rb.AddForce(new Vector2(.3f * jumpPower, 0), ForceMode2D.Impulse);
             }
             else if(jumpLeft)
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
-                if (Actions.blitzed > 0)
-                    rb.AddForce(new Vector2(-.15f * jumpPower, 0), ForceMode2D.Impulse);
-                else
-                    rb.AddForce(new Vector2(-.3f * jumpPower, 0), ForceMode2D.Impulse);
+                rb.AddForce(new Vector2(-.3f * jumpPower, 0), ForceMode2D.Impulse);
             }
 
-            if (Actions.blitzed > 0)
-                rb.AddForce(new Vector2(0, .5f * jumpPower), ForceMode2D.Impulse);
-            else
-                rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
             
             jumping = 0;
             jumpRight = false;
@@ -311,6 +302,11 @@ public class MovementHandler : MonoBehaviour
         //Run acceleration
         if(anim.GetBool(runID) && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)) && !anim.GetBool(crouchID))
         {
+            if (facingRight && rb.velocity.x < walkSpeed)
+                rb.velocity = new Vector2(walkSpeed, rb.velocity.y);
+            else if (!facingRight && rb.velocity.x > -walkSpeed)
+                rb.velocity = new Vector2(-walkSpeed, rb.velocity.y);
+
             if (Actions.blitzed > 0)
             {
                 if (facingRight)

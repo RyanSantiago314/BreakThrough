@@ -948,7 +948,6 @@ public class HitboxDHA : MonoBehaviour
     void BBCycleHit3()
     {
         ClearHitBox();
-        HitDetect.Actions.AttackActive();
 
         hit1.enabled = true;
         hit2.enabled = true;
@@ -981,7 +980,6 @@ public class HitboxDHA : MonoBehaviour
     void BBCycleHit5()
     {
         ClearHitBox();
-        HitDetect.Actions.AttackActive();
 
         hit1.enabled = true;
         hit2.enabled = true;

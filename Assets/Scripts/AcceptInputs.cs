@@ -97,7 +97,7 @@ public class AcceptInputs : MonoBehaviour
             }   
         }
 
-        if ((attacking || anim.GetBool(highGuardID) || anim.GetBool(lowGuardID)) && CharProp.armor > 0 && !recovering)
+        if ((attacking || anim.GetBool(highGuardID) || anim.GetBool(lowGuardID) || anim.GetBool(runID)) && CharProp.armor > 0 && !recovering)
             armorActive = true;
         else
             armorActive = false;
