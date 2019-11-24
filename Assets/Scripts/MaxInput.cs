@@ -57,9 +57,9 @@ public class MaxInput : MonoBehaviour
         }
         else if (!training)
         {
-            player1.enabled = false;
-            player2.enabled = false;
-            GetComponent<FighterAcademy>().enabled = false;
+            //player1.enabled = false;
+            //player2.enabled = false;
+            //GetComponent<FighterAcademy>().enabled = false;
         }
     }
 
