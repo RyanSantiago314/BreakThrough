@@ -8,15 +8,16 @@ public class StartText : MonoBehaviour
 	static public bool startReady;
     public TextMeshProUGUI startText;
     public GameObject thisText;
+    private AudioSource music;
     float timer;
 
     // Start is called before the first frame update
     void Start()
     {
-        startReady = false;
         timer = 5;
         startText.text = "Get Ready!";
         thisText.SetActive(true);
+        music = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -26,7 +27,6 @@ public class StartText : MonoBehaviour
             timer -= Time.deltaTime;
         }
         if (timer <= 0) {
-            startText.text = "Fight";
             thisText.SetActive(false);
         }
         if (timer <= 3.5f && timer > 2.5f) {
@@ -37,6 +37,7 @@ public class StartText : MonoBehaviour
         }
         else if (timer <= 1.5f && timer > 0.5f) {
             startText.text = "1";
+            music.Play();
         }
         else if (timer <= 0.5f && timer > 0) {
             startText.text = "Fight!";

@@ -15,11 +15,14 @@ public class GameOver : MonoBehaviour
     private GameObject child2;
     public TextMeshProUGUI p1WinCount;
     public TextMeshProUGUI p2WinCount;
+    public TextMeshProUGUI roundTimerText;
     static public int p1Win;
     static public int p2Win;
     float endTimer;
     float replayTimer;
+    float roundTimer;
     bool replaying;
+    bool timerStart;
 
 	void Start() {
 		PlayerProp1 = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
@@ -28,6 +31,8 @@ public class GameOver : MonoBehaviour
 		child2 = p2menu.transform.GetChild(0).gameObject;
 		endTimer = -2;
 		replayTimer = -2;
+		roundTimer = 100;
+		roundTimerText.text = roundTimer.ToString("F2");
 		replaying = false;
 		if (p1Win == 2 || p2Win == 2) {
     		p1Win = 0;
@@ -35,16 +40,25 @@ public class GameOver : MonoBehaviour
     	}
     	p1WinCount.text = p1Win.ToString();
     	p2WinCount.text = p2Win.ToString();
+    	timerStart = false;
 	}
 
 	void Update() {
 		if (endTimer > 0) {
+			timerStart = false;
 			endTimer -= Time.deltaTime;
 		}
 		if (replayTimer > 0) {
 			replayTimer -= Time.deltaTime;
 		}
-
+		if (StartText.startReady == true) {
+			timerStart = true;
+			StartText.startReady = false;
+		}
+		if (roundTimer > 0 && timerStart) {
+			roundTimer -= Time.deltaTime;
+		}
+		roundTimerText.text = roundTimer.ToString("F2");
 		if (PlayerProp1.currentHealth <= 0 && p2Win == 2) {
 			if (endTimer == -2) {
 				endTimer = 3;
@@ -61,6 +75,17 @@ public class GameOver : MonoBehaviour
 			child1.SetActive(true);
 			}
         }
+        if (roundTimer <= 0) {
+        	roundTimer = 0;
+			timerStart = false;
+			if (PlayerProp1.currentHealth > PlayerProp2.currentHealth) {
+	        	PlayerProp2.currentHealth = 0;
+	        }
+	        if (PlayerProp2.currentHealth > PlayerProp1.currentHealth) {
+	        	PlayerProp1.currentHealth = 0;
+	        }
+		}
+        
         if (allowRounds) {
 	        if (PlayerProp1.currentHealth <= 0 && replaying == false && p2Win != 2) {
 				++p2Win;

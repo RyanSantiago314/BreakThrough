@@ -174,11 +174,10 @@ public class AttackHandlerDHA : MonoBehaviour
             Move.OpponentProperties.armor = 4;
             Move.OpponentProperties.durability = 100;
         }
-        
+
         if (StartText.startReady) {
             Move.playing = true;
             Move.opponent.GetComponent<MovementHandler>().playing = true;
-            StartText.startReady = false;
         }
 
         if (Move.HitDetect.hitStun > 0)
