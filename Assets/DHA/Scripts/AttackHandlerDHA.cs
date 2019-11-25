@@ -66,8 +66,6 @@ public class AttackHandlerDHA : MonoBehaviour
     private int FLx = 2;
     private bool FLF = true;
 
-    private bool blitzAble = true;
-
     static int ID5L;
     static int ID2L;
     static int ID6L;
@@ -355,9 +353,6 @@ public class AttackHandlerDHA : MonoBehaviour
             RefreshMoveList();
         }
 
-        if (Move.HitDetect.comboCount == 0)
-            blitzAble = true;
-
         //dizzy state, mash buttons to get out of it faster
         if (dizzyTime == 0 && anim.GetBool(dizzyID))
         {
@@ -409,20 +404,20 @@ public class AttackHandlerDHA : MonoBehaviour
             breakButton = 0;
         }
 
-        //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
+        //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of two hits of armor
         if (blitzActive > 0)
             blitzActive--;
         else if (blitzActive == 1)
             Hitboxes.ClearHitBox();
 
         if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
-            heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 1 && blitzAble)
+            heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 2)
         {
             anim.SetTrigger(IDBlitz);
             Hitboxes.BlitzCancel();
 
             //cost for executing blitz cancel
-            CharProp.armor -= 1;
+            CharProp.armor -= 2;
             if (CharProp.armor > 0)
                 CharProp.durability = 50;
             else
@@ -431,7 +426,6 @@ public class AttackHandlerDHA : MonoBehaviour
             CharProp.durabilityRefillTimer = 0;
             heavyButton = 0;
             mediumButton = 0;
-            blitzAble = false;
         }    
         // basic throw performed by pressing both light and break attack
         else if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0)

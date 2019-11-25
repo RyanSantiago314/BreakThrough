@@ -650,7 +650,7 @@ public class HitDetector : MonoBehaviour
             if (Actions.Move.OpponentProperties.comboTimer > 0)
                 Actions.Move.OpponentProperties.comboTimer -= 1.5f;
         }
-        else
+        else if (OpponentDetector.Actions.blitzed <= 30)
             OpponentDetector.Actions.blitzed = 0;
 
         if (launch)

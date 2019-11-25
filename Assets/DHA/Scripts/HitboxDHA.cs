@@ -38,7 +38,6 @@ public class HitboxDHA : MonoBehaviour
         if (HitDetect.hit)
         {
             ClearHitBox();
-            HitDetect.Actions.StopAttacking();
             HitDetect.hit = false;
         }
 
