@@ -31,7 +31,7 @@ public class GameOver : MonoBehaviour
 		child2 = p2menu.transform.GetChild(0).gameObject;
 		endTimer = -2;
 		replayTimer = -2;
-		roundTimer = 100;
+		roundTimer = 150;
 		roundTimerText.text = roundTimer.ToString("F2");
 		replaying = false;
 		if (p1Win == 2 || p2Win == 2) {

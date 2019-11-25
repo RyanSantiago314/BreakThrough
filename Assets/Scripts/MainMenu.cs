@@ -6,22 +6,23 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
 	private AudioSource music;
+	private LoadingScreen loadScreen;
 
 	void start() {
 		music = GetComponent<AudioSource>();
 		music.Play();
+		loadScreen = GetComponent<LoadingScreen>();
 	}
 
     public void PlayGameVsPlayer() {
-    	SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    	SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+    	//loadScreen.startLoad(SceneManager.GetActiveScene().buildIndex + 1);
     	MaxInput.disableAI();
-    	music.Stop();
     }
 
     public void PlayGameVsAI() {
-    	SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    	SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     	MaxInput.enableAI();
-    	music.Stop();
     }
 
     public void QuitGame() {
