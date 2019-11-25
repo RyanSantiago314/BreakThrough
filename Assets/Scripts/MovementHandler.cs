@@ -389,6 +389,8 @@ public class MovementHandler : MonoBehaviour
             }
             else
             {
+                if (!Actions.standing && Actions.blitzed > 0 && !Actions.groundBounce)
+                    Actions.blitzed = 0;
                 if (HitDetect.hitStun == 0 && Actions.airborne)
                     Actions.airborne = false;
                 if (Actions.standing)
