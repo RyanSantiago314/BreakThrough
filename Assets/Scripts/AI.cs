@@ -297,19 +297,6 @@ public class AI : MonoBehaviour
                     finishMove = true;
                     keepInput = true;
                 }
-                //Another backwards dash but further back
-                /*else if(Math.Abs(p1x - p2x) >= 1.7 && Math.Abs(p1x - p2x) < 2.3 && backDashTimer <= 0) {
-                    backDashTimer = 10;
-                    multiInputTimer = 0.15f;
-                    if(faceLeft == true) {
-                        MaxInput.moveRight("Player2");
-                    }
-                    else {
-                        MaxInput.moveLeft("Player2");
-                    }
-                    finishMove = true;
-                    
-                }*/
                 //Foward Dash
                 if (Math.Abs(p1x - p2x) >= 2 && rand.Next(3) == 1) {
                     if(faceLeft == true) {

@@ -703,6 +703,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 039f6cdbb1cc8ef4a803d06b51e65603, type: 3}
   - {fileID: 21300000, guid: d53f18fbe2f030f448c249798a63b481, type: 3}
   - {fileID: 21300000, guid: d736141cf946c0646b64530f1ca969a5, type: 3}
+  - {fileID: 21300000, guid: b7e71e1cb241ab642990bff0693bc266, type: 3}
   - {fileID: 21300000, guid: 8eb4382cd1200a54fa3999a1c9a77a73, type: 3}
   - {fileID: 21300000, guid: a455773cac3f2f4449bf5c249ae1cb30, type: 3}
   - {fileID: 21300000, guid: 6298f93c54d174e45bf35e4c51f78e06, type: 3}
@@ -1043,6 +1044,7 @@ SpriteAtlas:
   - 2B_04
   - FUDown_04
   - 2B_02
+  - ThrowAttempt_07
   - LoGuardTrans_02
   - 2B_01
   - Jump_02
