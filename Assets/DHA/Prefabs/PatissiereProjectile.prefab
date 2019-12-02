@@ -169,7 +169,7 @@ MonoBehaviour:
   PHitDetect: {fileID: 3611628415020929531}
   maxLife: 150
   currentLife: 0
-  maxHits: 2
+  maxHits: 3
   currentHits: 0
   projectileActive: 1
 --- !u!60 &7386567585179197127
