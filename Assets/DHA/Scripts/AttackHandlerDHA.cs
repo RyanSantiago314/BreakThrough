@@ -15,6 +15,7 @@ public class AttackHandlerDHA : MonoBehaviour
     public GameObject BlitzPrefab;
     public GameObject Projectile;
     public GameObject BlitzEffect;
+    SpriteRenderer BlitzImage;
     
 
     ColorSwapDHA colorControl;
@@ -161,6 +162,7 @@ public class AttackHandlerDHA : MonoBehaviour
 
         Projectile = Instantiate(Prefab, new Vector3(0, 5, -3), Quaternion.identity, transform.root);
         BlitzEffect = Instantiate(BlitzPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
+        BlitzImage = BlitzEffect.transform.GetChild(0).GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -420,8 +422,10 @@ public class AttackHandlerDHA : MonoBehaviour
             Hitboxes.BlitzCancel();
 
             anim.SetBool(runID, false);
-            BlitzEffect.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = anim.gameObject.GetComponent<SpriteRenderer>().sprite;
+            BlitzImage.sprite = anim.gameObject.GetComponent<SpriteRenderer>().sprite;
+            BlitzImage.color = new Color(BlitzImage.color.r, BlitzImage.color.g, BlitzImage.color.b, .75f);
             BlitzEffect.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            BlitzEffect.transform.rotation = transform.rotation;
 
             //cost for executing blitz cancel
             CharProp.armor -= 2;

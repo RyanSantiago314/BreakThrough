@@ -17,11 +17,15 @@ public class BlitzImage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (OpponentActions.blitzed > 0)
+        if (OpponentActions.blitzed > 30)
         {
-            AfterImage.color = new Color(AfterImage.color.r, AfterImage.color.g, AfterImage.color.b, .5f);
+            AfterImage.color = new Color(AfterImage.color.r, AfterImage.color.g, AfterImage.color.b, .7f);
         }
-        else if (OpponentActions.blitzed <= 0 && AfterImage.color.a > 0)
+        else if (OpponentActions.blitzed > 0)
+        {
+            AfterImage.color = new Color(AfterImage.color.r, AfterImage.color.g, AfterImage.color.b, AfterImage.color.a - .02f);
+        }
+        else if (AfterImage.color.a > 0)
         {
             AfterImage.color = new Color(AfterImage.color.r, AfterImage.color.g, AfterImage.color.b, AfterImage.color.a - .05f);
         }
