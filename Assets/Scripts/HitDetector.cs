@@ -198,8 +198,10 @@ public class HitDetector : MonoBehaviour
                 {
                      rb.velocity *= new Vector2(.5f, .5f);
                 }
-
-                anim.SetFloat(animSpeedID, .5f);
+                if (Actions.airborne)
+                    anim.SetFloat(animSpeedID, .5f);
+                else
+                    anim.SetFloat(animSpeedID, .35f);
 
                 rb.mass = Actions.Move.weight * .65f;
                 rb.gravityScale = .6f * Actions.gravScale;
