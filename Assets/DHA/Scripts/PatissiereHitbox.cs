@@ -169,10 +169,12 @@ public class PatissiereHitbox : MonoBehaviour
                 PHitDetect.rb.velocity = new Vector2(0.7f * PHitDetect.rb.velocity.x, PHitDetect.rb.velocity.y);
                 PHitDetect.rb.angularVelocity *= .7f;
             }
-            else if (other.gameObject.transform.parent.parent != null && other.gameObject.transform.parent.parent == PHitDetect.Actions.Move.opponent)
+            else if (other.CompareTag("HurtBox") && other.gameObject.transform.parent.parent == PHitDetect.Actions.Move.opponent)
             {
                 PHitDetect.rb.velocity = new Vector2(-0.2f * PHitDetect.rb.velocity.x, PHitDetect.rb.velocity.y);
             }
-        }  
+        }
+        else if (other.CompareTag("HurtBox") && other.gameObject.transform.parent.parent == PHitDetect.Actions.Move.opponent)
+            transform.gameObject.SetActive(false);
     }
 }

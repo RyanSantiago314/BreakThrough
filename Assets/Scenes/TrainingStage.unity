@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657892, g: 0.49641252, b: 0.574819, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465794, g: 0.4964134, b: 0.57481974, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -575,9 +575,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 778fde6a509129f4282af920b295329f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5f8ebdb799b6da1478a54dc81edd6723, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.202
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5771,7 +5771,10 @@ MonoBehaviour:
   MaxInput: {fileID: 1948197657}
   Hitboxes: {fileID: 575799682}
   Prefab: {fileID: 235034411126170589, guid: c3b4e8879788b2248924c40639c5be61, type: 3}
+  BlitzPrefab: {fileID: 5624907148042030614, guid: eb89495abd7591d4296e898d5ff395c3,
+    type: 3}
   Projectile: {fileID: 0}
+  BlitzEffect: {fileID: 0}
   dir1: 0
   dir2: 0
   dir3: 0
@@ -6757,7 +6760,10 @@ MonoBehaviour:
   MaxInput: {fileID: 1948197657}
   Hitboxes: {fileID: 1026248760}
   Prefab: {fileID: 235034411126170589, guid: c3b4e8879788b2248924c40639c5be61, type: 3}
+  BlitzPrefab: {fileID: 5624907148042030614, guid: eb89495abd7591d4296e898d5ff395c3,
+    type: 3}
   Projectile: {fileID: 0}
+  BlitzEffect: {fileID: 0}
   dir1: 0
   dir2: 0
   dir3: 0
@@ -6889,15 +6895,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1132291094756303826, guid: 256af52d0b7bef24a8349a57abdc9d7a,
-        type: 3}
-      propertyPath: m_NormalizedViewPortRect.width
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1132291094202872603, guid: 256af52d0b7bef24a8349a57abdc9d7a,
         type: 3}
       propertyPath: m_Name
       value: CameraPos
+      objectReference: {fileID: 0}
+    - target: {fileID: 1132291094756303826, guid: 256af52d0b7bef24a8349a57abdc9d7a,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1132291094202872602, guid: 256af52d0b7bef24a8349a57abdc9d7a,
         type: 3}

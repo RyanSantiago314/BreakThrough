@@ -199,10 +199,7 @@ public class HitDetector : MonoBehaviour
                      rb.velocity *= new Vector2(.5f, .5f);
                 }
 
-                if (Actions.airborne)
-                    anim.SetFloat(animSpeedID, .5f);
-                else
-                    anim.SetFloat(animSpeedID, 0f);
+                anim.SetFloat(animSpeedID, .5f);
 
                 rb.mass = Actions.Move.weight * .65f;
                 rb.gravityScale = .6f * Actions.gravScale;
@@ -650,8 +647,6 @@ public class HitDetector : MonoBehaviour
             if (Actions.Move.OpponentProperties.comboTimer > 0)
                 Actions.Move.OpponentProperties.comboTimer -= 1.5f;
         }
-        else if (OpponentDetector.Actions.blitzed <= 30)
-            OpponentDetector.Actions.blitzed = 0;
 
         if (launch)
         {
