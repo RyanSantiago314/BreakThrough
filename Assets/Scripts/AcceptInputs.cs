@@ -126,7 +126,11 @@ public class AcceptInputs : MonoBehaviour
             standing = true;
         }
         else if (anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup"))
+        {
             Guard();
+            standing = true;
+            Move.HitDetect.hitStun = 0;
+        }
 
         if(wallStick == 0)
             anim.SetBool("WallStick", false);

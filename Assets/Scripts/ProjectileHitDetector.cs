@@ -138,6 +138,30 @@ public class ProjectileHitDetector : MonoBehaviour
                 rb.constraints = RigidbodyConstraints2D.None;
             }
 
+            if (Actions.blitzed > 1)
+            {
+                //simulate slow motion if within range of a blitz cancel or blitz attack
+                if (Actions.blitzed == 59)
+                {
+                    rb.velocity *= new Vector2(.5f, .5f);
+                }
+                
+                anim.SetFloat(animSpeedID, .5f);
+
+                rb.mass *= .65f;
+                rb.gravityScale *= .6f;
+
+            }
+            else if (Actions.blitzed == 1)
+            {
+                rb.velocity *= new Vector2(1.35f, 1.35f);
+                Actions.blitzed = 0;
+
+                rb.mass /= .65f;
+                rb.gravityScale /= .6f;
+                anim.SetFloat(animSpeedID, 1f);
+            }
+
             if (currentVelocity != Vector2.zero)
             {
                 //retain velocity after hitStop occurs
@@ -210,7 +234,7 @@ public class ProjectileHitDetector : MonoBehaviour
                     {
                         if (usingSuper)
                         {
-                            Actions.Move.OpponentProperties.durability -= 3;
+                            Actions.Move.OpponentProperties.durability -= 4;
                         }
                         else
                             Actions.Move.OpponentProperties.durability -= damage / 3;
@@ -235,7 +259,7 @@ public class ProjectileHitDetector : MonoBehaviour
                         //durability damage
                         if (usingSuper)
                         {
-                            Actions.Move.OpponentProperties.durability -= 1;
+                            Actions.Move.OpponentProperties.durability -= 2;
                         }
                         else
                             Actions.Move.OpponentProperties.durability -= damage / 5;
@@ -464,8 +488,6 @@ public class ProjectileHitDetector : MonoBehaviour
             OpponentDetector.Actions.blitzed = 60;
             Actions.Move.OpponentProperties.comboTimer -= 1.5f;
         }
-        else
-            OpponentDetector.Actions.blitzed = 0;
 
         if (launch)
         {

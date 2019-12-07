@@ -777,8 +777,6 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.guard = "Mid";
 
         HitDetect.allowGroundBounce = true;
-        if (HitDetect.OpponentDetector.Actions.standing)
-            HitDetect.allowWallBounce = true;
         HitDetect.shatter = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
