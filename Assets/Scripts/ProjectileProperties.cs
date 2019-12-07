@@ -15,6 +15,7 @@ public class ProjectileProperties : MonoBehaviour
     public int currentHits;
 
     public bool projectileActive = true;
+    public bool hasLifeSpan = true;
 
     static int deactivateID;
 
@@ -35,7 +36,7 @@ public class ProjectileProperties : MonoBehaviour
             projectileActive = false;
         }
 
-        if (currentLife > 0 && PHitDetect.hitStop == 0)
+        if (currentLife > 0 && PHitDetect.hitStop == 0 && hasLifeSpan)
             currentLife--;        
     }
 

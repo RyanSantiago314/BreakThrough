@@ -208,7 +208,12 @@ public class ProjectileHitDetector : MonoBehaviour
                     //double chip damage/durability damage on airguard
                     if (Actions.Move.OpponentProperties.armor > 0)
                     {
-                        Actions.Move.OpponentProperties.durability -= damage / 3;
+                        if (usingSuper)
+                        {
+                            Actions.Move.OpponentProperties.durability -= 3;
+                        }
+                        else
+                            Actions.Move.OpponentProperties.durability -= damage / 3;
                     }
                     else
                     {
@@ -228,7 +233,12 @@ public class ProjectileHitDetector : MonoBehaviour
                     if (Actions.Move.OpponentProperties.armor > 0)
                     {
                         //durability damage
-                        Actions.Move.OpponentProperties.durability -= damage / 5;
+                        if (usingSuper)
+                        {
+                            Actions.Move.OpponentProperties.durability -= 1;
+                        }
+                        else
+                            Actions.Move.OpponentProperties.durability -= damage / 5;
                     }
                     else
                     {

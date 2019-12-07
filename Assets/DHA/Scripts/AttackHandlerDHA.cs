@@ -12,8 +12,11 @@ public class AttackHandlerDHA : MonoBehaviour
     public HitboxDHA Hitboxes;
 
     public GameObject Prefab;
+    public GameObject ToasterPrefab;
     public GameObject BlitzPrefab;
+
     public GameObject Projectile;
+    public GameObject Toaster;
     public GameObject BlitzEffect;
     SpriteRenderer BlitzImage;
     
@@ -84,6 +87,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int BreakCharge;
     static int IDBloodBrave;
     static int IDPatissiere;
+    static int IDToaster;
 
     static int runID;
     static int IDRec;
@@ -116,6 +120,8 @@ public class AttackHandlerDHA : MonoBehaviour
         BreakCharge = Animator.StringToHash("BreakCharge");
         IDBloodBrave = Animator.StringToHash("BloodBrave");
         IDPatissiere = Animator.StringToHash("Patissiere");
+
+        IDToaster = Animator.StringToHash("Toaster");
 
         lowGuardID = Animator.StringToHash("LowGuard");
         highGuardID = Animator.StringToHash("HighGuard");
@@ -161,6 +167,7 @@ public class AttackHandlerDHA : MonoBehaviour
         colorControl = transform.GetChild(0).GetComponent<ColorSwapDHA>();
 
         Projectile = Instantiate(Prefab, new Vector3(0, 5, -3), Quaternion.identity, transform.root);
+        Toaster = Instantiate(ToasterPrefab, new Vector3(0, 5, -3), Quaternion.identity, transform.root);
         BlitzEffect = Instantiate(BlitzPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
         BlitzImage = BlitzEffect.transform.GetChild(0).GetComponent<SpriteRenderer>();
     }
@@ -449,6 +456,20 @@ public class AttackHandlerDHA : MonoBehaviour
                 else
                     Actions.backThrow = false;
             }
+        }
+        else if (Actions.acceptSuper && heavyButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && CharProp.armor >= 2)
+        {
+            // Blood Brave special attack, executed by doing a QCF and pressing B
+            anim.SetTrigger(IDToaster);
+            if (CharProp.armor > 0)
+                CharProp.durability = 50;
+            else
+                CharProp.durability = 0;
+            CharProp.durabilityRefillTimer = 0;
+            breakButton = 0;
+            heavyButton = 0;
+            QCF = 0;
+            CharProp.armor -= 2;
         }
         else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0)
         {

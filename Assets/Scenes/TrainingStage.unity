@@ -1391,7 +1391,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -5
   m_Sprite: {fileID: 21300000, guid: 6f85d13f56541644c8c5f9b3abb967e4, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
   m_FlipX: 0
@@ -1673,7 +1673,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -5
   m_Sprite: {fileID: 21300000, guid: 6f85d13f56541644c8c5f9b3abb967e4, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
   m_FlipX: 0
@@ -2589,7 +2589,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: da0a74bbace948e4b949b8f35486adbc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6f85d13f56541644c8c5f9b3abb967e4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3477,7 +3477,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: f1130dc0ff4073d438fc7144c2623bc2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d115e721f96a1d84ba0b68aaef565585, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5771,9 +5771,11 @@ MonoBehaviour:
   MaxInput: {fileID: 1948197657}
   Hitboxes: {fileID: 575799682}
   Prefab: {fileID: 235034411126170589, guid: c3b4e8879788b2248924c40639c5be61, type: 3}
+  ToasterPrefab: {fileID: 0}
   BlitzPrefab: {fileID: 5624907148042030614, guid: eb89495abd7591d4296e898d5ff395c3,
     type: 3}
   Projectile: {fileID: 0}
+  Toaster: {fileID: 0}
   BlitzEffect: {fileID: 0}
   dir1: 0
   dir2: 0
@@ -6760,9 +6762,12 @@ MonoBehaviour:
   MaxInput: {fileID: 1948197657}
   Hitboxes: {fileID: 1026248760}
   Prefab: {fileID: 235034411126170589, guid: c3b4e8879788b2248924c40639c5be61, type: 3}
+  ToasterPrefab: {fileID: 1571492460223486441, guid: 5f9b7301a36581f48b3f9cc059c890a0,
+    type: 3}
   BlitzPrefab: {fileID: 5624907148042030614, guid: eb89495abd7591d4296e898d5ff395c3,
     type: 3}
   Projectile: {fileID: 0}
+  Toaster: {fileID: 0}
   BlitzEffect: {fileID: 0}
   dir1: 0
   dir2: 0
