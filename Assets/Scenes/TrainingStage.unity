@@ -5771,7 +5771,8 @@ MonoBehaviour:
   MaxInput: {fileID: 1948197657}
   Hitboxes: {fileID: 575799682}
   Prefab: {fileID: 235034411126170589, guid: c3b4e8879788b2248924c40639c5be61, type: 3}
-  ToasterPrefab: {fileID: 0}
+  ToasterPrefab: {fileID: 1571492460223486441, guid: 5f9b7301a36581f48b3f9cc059c890a0,
+    type: 3}
   BlitzPrefab: {fileID: 5624907148042030614, guid: eb89495abd7591d4296e898d5ff395c3,
     type: 3}
   Projectile: {fileID: 0}

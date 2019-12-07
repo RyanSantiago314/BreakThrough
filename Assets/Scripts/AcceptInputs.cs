@@ -121,9 +121,12 @@ public class AcceptInputs : MonoBehaviour
         if (airborne || anim.GetCurrentAnimatorStateInfo(0).IsName("SweepHit"))
             standing = false;
 
-        if(anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand")||anim.GetCurrentAnimatorStateInfo(0).IsName("IdleCrouch")||anim.GetCurrentAnimatorStateInfo(0).IsName("StandUp")||
-            anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup")||anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup"))
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") || anim.GetCurrentAnimatorStateInfo(0).IsName("IdleCrouch") || anim.GetCurrentAnimatorStateInfo(0).IsName("StandUp"))
+        {
             standing = true;
+        }
+        else if (anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup"))
+            Guard();
 
         if(wallStick == 0)
             anim.SetBool("WallStick", false);
