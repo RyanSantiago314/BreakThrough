@@ -125,6 +125,7 @@ public class PatissiereHitbox : MonoBehaviour
         PHitDetect.guard = "Mid";
 
         PHitDetect.allowSuper = true;
+        PHitDetect.usingSpecial = true;
     }
 
     void Explode()
@@ -151,6 +152,7 @@ public class PatissiereHitbox : MonoBehaviour
         PHitDetect.guard = "Mid";
 
         PHitDetect.allowSuper = true;
+        PHitDetect.usingSpecial = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

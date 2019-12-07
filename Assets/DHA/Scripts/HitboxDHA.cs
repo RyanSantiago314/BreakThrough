@@ -158,6 +158,18 @@ public class HitboxDHA : MonoBehaviour
         else
             AttackHandler.Projectile.GetComponent<Rigidbody2D>().AddTorque(.01f, ForceMode2D.Impulse);
     }
+
+    public void SummonToaster()
+    {
+        AttackHandler.Toaster.SetActive(true);
+        AttackHandler.Toaster.GetComponent<ProjectileProperties>().anim.SetTrigger("Summon");
+        AttackHandler.Toaster.GetComponent<ProjectileProperties>().projectileActive = true;
+        AttackHandler.Toaster.GetComponent<ProjectileProperties>().currentHits = 0;
+        AttackHandler.Toaster.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife;
+        AttackHandler.Toaster.transform.rotation = transform.rotation;
+        AttackHandler.Toaster.transform.position = transform.position;
+    }
+
     //push damage values, knockback, and proration to hitdetector from hitbox events
     void StandingLHitBox()
     {
@@ -963,7 +975,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.damage = 15;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 50;
-        HitDetect.potentialKnockBack = new Vector2(.5f, 0f);
+        HitDetect.potentialKnockBack = new Vector2(.5f, .5f);
         HitDetect.potentialAirKnockBack = new Vector2(.5f, -.75f);
         HitDetect.potentialHitStun = hitStunLv2;
         HitDetect.potentialHitStop = 1;
@@ -995,7 +1007,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.damage = 15;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 50;
-        HitDetect.potentialKnockBack = new Vector2(.5f, 0f);
+        HitDetect.potentialKnockBack = new Vector2(.5f, .5f);
         HitDetect.potentialAirKnockBack = new Vector2(.5f, -.75f);
         HitDetect.potentialHitStun = hitStunLv2;
         HitDetect.potentialHitStop = 1;

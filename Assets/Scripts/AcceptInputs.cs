@@ -81,7 +81,7 @@ public class AcceptInputs : MonoBehaviour
         if (shattered && CharProp.currentHealth > 0)
             sprite.sortingOrder = 2;
         else if (comboHits > 0 || grabbed)
-            sprite.sortingOrder = 0;
+            sprite.sortingOrder = -2;
         else
             sprite.sortingOrder = 1;
 

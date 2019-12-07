@@ -568,8 +568,27 @@ public class MovementHandler : MonoBehaviour
         }
         else if (other.CompareTag("Bound"))
         {
-            rb.velocity = new Vector2(0, rb.velocity.y);
-            pushBox.isTrigger = false;
+            if (Actions.wallBounce && HitDetect.hitStun > 0 && transform.position.y > 1.3f)
+            {
+                Actions.groundBounce = false;
+                Actions.wallBounce = false;
+                rb.velocity = Vector2.zero;
+                if (facingRight)
+                {
+                    HitDetect.KnockBack = new Vector2(.6f, 1.5f);
+                }
+                else
+                {
+                    HitDetect.KnockBack = new Vector2(-.6f, 1.5f);
+                }
+                anim.SetTrigger(wallBounceID);
+                //set off wall hit effect
+            }
+            else
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+                pushBox.isTrigger = false;
+            }
         }
         else if (other.CompareTag("Floor"))
         {

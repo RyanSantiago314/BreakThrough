@@ -172,6 +172,7 @@ MonoBehaviour:
   maxHits: 3
   currentHits: 0
   projectileActive: 1
+  hasLifeSpan: 1
 --- !u!60 &7386567585179197127
 PolygonCollider2D:
   m_ObjectHideFlags: 0
