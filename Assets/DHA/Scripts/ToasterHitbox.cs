@@ -29,14 +29,17 @@ public class ToasterHitbox : MonoBehaviour
             ClearHitBox();
             PHitDetect.hit = false;
         }
-        if (lightSource.range == 9 && lightSource.intensity > 0)
-            lightSource.intensity -= .2f;
-        else if (lightSource.range == 11)
-            lightSource.enabled = false;
-        else if (lightSource.range == 5)
-            lightSource.intensity = Random.Range(1f, 2.5f);
-        else if (lightSource.range == 8)
-            lightSource.intensity = Random.Range(1f, 7f);
+        if (transform.position.y > 0)
+        {
+            if (lightSource.range == 9 && lightSource.intensity > 0)
+                lightSource.intensity -= .2f;
+            else if (lightSource.range == 11)
+                lightSource.enabled = false;
+            else if (lightSource.range == 5)
+                lightSource.intensity = Random.Range(1f, 2.5f);
+            else if (lightSource.range == 8)
+                lightSource.intensity = Random.Range(1f, 7f);
+        }
     }
 
     public void ChargeLight()
