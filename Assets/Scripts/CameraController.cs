@@ -46,14 +46,17 @@ public class CameraController : MonoBehaviour
            (Character2.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character2.GetComponent<CharacterProperties>().currentHealth <= 0) ||
            (Character1.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character1.GetComponent<CharacterProperties>().currentHealth <= 0) ||
             (Character2.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character2.GetComponent<MovementHandler>().Actions.shattered) ||
-            (Character1.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character1.GetComponent<MovementHandler>().Actions.shattered))
+            (Character1.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character1.GetComponent<MovementHandler>().Actions.shattered) ||
+            Character1.GetComponent<MovementHandler>().Actions.superFlash > 10 || Character2.GetComponent<MovementHandler>().Actions.superFlash > 10)
         {
             //zooming in "dynamic/cinematic" camera
             cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2, zPosZoom);
 
-            if ((Character2.GetComponent<MovementHandler>().Actions.shattered || Character2.GetComponent<CharacterProperties>().currentHealth <= 0))
+            if ((Character2.GetComponent<MovementHandler>().Actions.shattered || Character2.GetComponent<CharacterProperties>().currentHealth <= 0) || 
+                Character2.GetComponent<MovementHandler>().Actions.superFlash > 10)
                 cameraPos = new Vector3(Character2.position.x, Character2.position.y, zPosZoom);
-            else if (Character1.GetComponent<MovementHandler>().Actions.shattered || Character1.GetComponent<CharacterProperties>().currentHealth <= 0)
+            else if (Character1.GetComponent<MovementHandler>().Actions.shattered || Character1.GetComponent<CharacterProperties>().currentHealth <= 0 ||
+                    Character1.GetComponent<MovementHandler>().Actions.superFlash > 10)
                 cameraPos = new Vector3(Character1.position.x, Character1.position.y, zPosZoom);
 
             leftBound.enabled = false;
@@ -71,8 +74,12 @@ public class CameraController : MonoBehaviour
                 cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2 + yOffset, zPosZoomOut);
             else
                 cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2 + yOffset, zPos);
-            leftBound.enabled = true;
-            rightBound.enabled = true;
+
+            if ((Mathf.Abs(Character1.position.x - Character2.position.x) < 3.5 && transform.position.z >= zPos) || (Mathf.Abs(Character1.position.x - Character2.position.x) > 3.5 && transform.position.z >= zPosZoomOut))
+            {
+                leftBound.enabled = true;
+                rightBound.enabled = true;
+            }
 
             smooth = 7;
 

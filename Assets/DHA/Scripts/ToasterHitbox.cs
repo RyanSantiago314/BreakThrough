@@ -9,6 +9,7 @@ public class ToasterHitbox : MonoBehaviour
 
     public BoxCollider2D collide;
 
+    public Light lightSource;
 
     Animator charAnim;
 
@@ -28,6 +29,30 @@ public class ToasterHitbox : MonoBehaviour
             ClearHitBox();
             PHitDetect.hit = false;
         }
+        if (lightSource.range == 9 && lightSource.intensity > 0)
+            lightSource.intensity -= .2f;
+        else if (lightSource.range == 11)
+            lightSource.enabled = false;
+        else if (lightSource.range == 5)
+            lightSource.intensity = Random.Range(1f, 2.5f);
+        else if (lightSource.range == 8)
+            lightSource.intensity = Random.Range(1f, 7f);
+    }
+
+    public void ChargeLight()
+    {
+        lightSource.enabled = true;
+        lightSource.range = 5;
+    }
+
+    public void FiringLight()
+    {
+        lightSource.range = 8;
+    }
+
+    public void EndLight()
+    {
+        lightSource.range = 9;
     }
 
     public void ClearHitBox()

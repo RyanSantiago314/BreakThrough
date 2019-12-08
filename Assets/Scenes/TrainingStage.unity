@@ -2480,6 +2480,7 @@ MonoBehaviour:
   blitzCancel: 1
   airborne: 0
   standing: 1
+  superFlash: 0
   armorActive: 0
   attacking: 0
   recovering: 0
@@ -3531,6 +3532,7 @@ MonoBehaviour:
   blitzCancel: 1
   airborne: 0
   standing: 1
+  superFlash: 0
   armorActive: 0
   attacking: 0
   recovering: 0
@@ -4943,7 +4945,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1462430421
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class ProjectileHitDetector : MonoBehaviour
     public AcceptInputs Actions;
     public HitDetector HitDetect;
     public ProjectileProperties ProjProp;
+    public Collider2D hitBox1;
 
     public Vector2 currentVelocity;
     public float currentAngularVelocity;
@@ -327,7 +328,7 @@ public class ProjectileHitDetector : MonoBehaviour
                     ApplyHitStop(0);
                 }
             }
-            Contact();
+            Contact(other);
         }
         else if (allowHit && !blitz && other.transform.parent.CompareTag("Projectile") && other.CompareTag("HitBox"))
         {
@@ -364,7 +365,7 @@ public class ProjectileHitDetector : MonoBehaviour
                 HitDetect.anim.SetTrigger(parryID); 
                 Actions.jumpCancel = true;
                 OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;
-                Contact();
+                Contact(other);
             }
             else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
             {
@@ -604,7 +605,7 @@ public class ProjectileHitDetector : MonoBehaviour
             HitDetect.comboCount++;
     }
 
-    public void Contact()
+    public void Contact(Collider2D other)
     {
         //execute if an attack makes contact with a opponent
         if (allowLight)
@@ -623,6 +624,8 @@ public class ProjectileHitDetector : MonoBehaviour
 
         allowHit = false;
         hit = true;
+
+        HitDetect.hitTrack.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
 
         if (OpponentDetector.hitStun == 0)
             OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;

@@ -790,6 +790,7 @@ MonoBehaviour:
   Actions: {fileID: 0}
   HitDetect: {fileID: 0}
   ProjProp: {fileID: 881983294373427703}
+  hitBox1: {fileID: 1584707654266886322}
   currentVelocity: {x: 0, y: 0}
   currentAngularVelocity: 0
   damage: 0
