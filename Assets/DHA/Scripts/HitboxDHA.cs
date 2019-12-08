@@ -111,6 +111,8 @@ public class HitboxDHA : MonoBehaviour
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetInteger("Pastry", Random.Range(0, 5));
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetTrigger("Activate");
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().projectileActive = true;
+        AttackHandler.Projectile.GetComponent<ProjectileProperties>().rb.mass = .45f;
+        AttackHandler.Projectile.GetComponent<ProjectileProperties>().rb.gravityScale = .7f;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().rb.velocity = Vector2.zero;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().rb.angularVelocity = 0;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentHits = 0;

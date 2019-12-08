@@ -32,6 +32,16 @@ public class PatissiereHitbox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PHitDetect.Actions.superFlash > 0)
+        {
+            PHitDetect.hitStop = 2;
+            if (PHitDetect.currentVelocity == Vector2.zero)
+            {
+                PHitDetect.currentVelocity = PHitDetect.rb.velocity;
+                PHitDetect.currentAngularVelocity = PHitDetect.rb.angularVelocity;
+            }
+        }
+
         if (flash.intensity > 0)
             flash.intensity -= .75f;
 
@@ -131,6 +141,7 @@ public class PatissiereHitbox : MonoBehaviour
     void Explode()
     {
         flash.intensity = 6;
+        PHitDetect.rb.mass = .45f;
     }
 
     void ExplosionHitBox()

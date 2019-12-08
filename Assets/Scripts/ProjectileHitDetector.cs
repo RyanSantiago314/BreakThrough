@@ -139,27 +139,26 @@ public class ProjectileHitDetector : MonoBehaviour
                 rb.constraints = RigidbodyConstraints2D.None;
             }
 
-            if (Actions.blitzed > 1)
+            if (OpponentDetector.Actions.blitzed > 1)
             {
-                //simulate slow motion if within range of a blitz cancel or blitz attack
-                if (Actions.blitzed == 59)
+                //simulate slow motion on projectile if within range of a blitz cancel or blitz attack
+                if (OpponentDetector.Actions.blitzed == 59)
                 {
-                    rb.velocity *= new Vector2(.5f, .5f);
+                    rb.velocity *= .5f;
+                    rb.angularVelocity *= .75f;
+                    rb.mass *= .5f;
+                    rb.gravityScale *= .5f;
                 }
                 
                 anim.SetFloat(animSpeedID, .5f);
-
-                rb.mass *= .65f;
-                rb.gravityScale *= .6f;
-
             }
-            else if (Actions.blitzed == 1)
+            else if (OpponentDetector.Actions.blitzed == 2)
             {
-                rb.velocity *= new Vector2(1.35f, 1.35f);
-                Actions.blitzed = 0;
+                rb.velocity /=  .5f;
+                rb.angularVelocity /= .5f;
 
-                rb.mass /= .65f;
-                rb.gravityScale /= .6f;
+                rb.mass /= .5f;
+                rb.gravityScale /= .5f;
                 anim.SetFloat(animSpeedID, 1f);
             }
 
@@ -176,7 +175,6 @@ public class ProjectileHitDetector : MonoBehaviour
         if (hitStop == 0)
         {
             anim.ResetTrigger(successID);
-            HitDetect.anim.ResetTrigger(successID);
         }
     }
 
@@ -409,7 +407,7 @@ public class ProjectileHitDetector : MonoBehaviour
         if (forceCrouch && !OpponentDetector.Actions.airborne)
             OpponentDetector.anim.SetBool("Crouch", true);
 
-        if (!(blitz && potentialHitStun == 0))
+        if (!(blitz && potentialHitStun == 0) && !OpponentDetector.Actions.grabbed)
         {
             OpponentDetector.anim.SetTrigger(hitID);
             if (OpponentDetector.Actions.standing && !launch && !sweep && !crumple)
@@ -489,22 +487,24 @@ public class ProjectileHitDetector : MonoBehaviour
             OpponentDetector.Actions.blitzed = 60;
             Actions.Move.OpponentProperties.comboTimer -= 1.5f;
         }
-
-        if (launch)
+        if (!OpponentDetector.Actions.grabbed)
         {
-            OpponentDetector.anim.SetBool(launchID, true);
+            if (launch)
+            {
+                OpponentDetector.anim.SetBool(launchID, true);
+            }
+            else if (crumple && !OpponentDetector.Actions.airborne)
+            {
+                OpponentDetector.anim.SetTrigger(crumpleID);
+            }
+            else if (sweep && !OpponentDetector.Actions.airborne)
+            {
+                OpponentDetector.anim.SetBool(sweepID, true);
+                OpponentDetector.Actions.airborne = true;
+            }
+            else if (OpponentDetector.Actions.CharProp.currentHealth <= 0 && !OpponentDetector.Actions.airborne)
+                OpponentDetector.anim.SetTrigger(crumpleID);
         }
-        else if (crumple && !OpponentDetector.Actions.airborne)
-        {
-            OpponentDetector.anim.SetTrigger(crumpleID);
-        }
-        else if (sweep && !OpponentDetector.Actions.airborne)
-        {
-            OpponentDetector.anim.SetBool(sweepID, true);
-            OpponentDetector.Actions.airborne = true;
-        }
-        else if (OpponentDetector.Actions.CharProp.currentHealth <= 0 && !OpponentDetector.Actions.airborne)
-            OpponentDetector.anim.SetTrigger(crumpleID);
 
         if (!blitz && potentialHitStun > 0)
         {
@@ -531,7 +531,7 @@ public class ProjectileHitDetector : MonoBehaviour
         {
             OpponentDetector.hitStun += 1;
         }
-        else
+        else if (!OpponentDetector.Actions.grabbed)
         {
             OpponentDetector.hitStun = potentialHitStun;
             if (OpponentDetector.Actions.airborne && !usingSpecial && !usingSuper)
@@ -558,7 +558,7 @@ public class ProjectileHitDetector : MonoBehaviour
         }
 
         //apply knockback
-        if (potentialAirKnockBack != Vector2.zero || potentialKnockBack != Vector2.zero)
+        if ((potentialAirKnockBack != Vector2.zero || potentialKnockBack != Vector2.zero) && !OpponentDetector.Actions.grabbed)
         {
             if (OpponentDetector.currentState.IsName("Crumple"))
             {
