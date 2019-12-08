@@ -187,6 +187,11 @@ public class HitDetector : MonoBehaviour
             if (rb.constraints == RigidbodyConstraints2D.FreezeAll)
                 rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
+            if (Actions.superFlash > 0)
+            {
+                OpponentDetector.hitStop = 2;
+            }
+
             if(currentState.IsName("WallStick"))
             {
                 rb.velocity = Vector2.zero;

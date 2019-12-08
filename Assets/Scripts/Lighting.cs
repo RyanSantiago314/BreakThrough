@@ -28,7 +28,8 @@ public class Lighting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Character1Sprite.GetComponent<AcceptInputs>().blitzed > 0 || Character2Sprite.GetComponent<AcceptInputs>().blitzed > 0)
+        if (Character1Sprite.GetComponent<AcceptInputs>().blitzed > 0 || Character2Sprite.GetComponent<AcceptInputs>().blitzed > 0 || 
+            Character1Sprite.GetComponent<AcceptInputs>().superFlash > 0 || Character2Sprite.GetComponent<AcceptInputs>().superFlash > 0)
         {
             enviroLight.intensity = Mathf.Lerp(enviroLight.intensity, 0f, Time.deltaTime * 25);
         }

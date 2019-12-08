@@ -17,6 +17,7 @@ public class AcceptInputs : MonoBehaviour
     public bool blitzCancel = true;
     public bool airborne = false;
     public bool standing = true;
+    public int superFlash;
     public bool armorActive = false;
     public bool attacking = false;
     public bool recovering = false;
@@ -116,6 +117,9 @@ public class AcceptInputs : MonoBehaviour
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("ThrowReject"))
             throwInvulnCounter = 10;
 
+        if (superFlash > 0)
+            superFlash--;
+
 
         //change character properties based on current animation state
         if (airborne || anim.GetCurrentAnimatorStateInfo(0).IsName("SweepHit"))
@@ -126,7 +130,11 @@ public class AcceptInputs : MonoBehaviour
             standing = true;
         }
         else if (anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup"))
+        {
             Guard();
+            standing = true;
+            Move.HitDetect.hitStun = 0;
+        }
 
         if(wallStick == 0)
             anim.SetBool("WallStick", false);
@@ -215,6 +223,12 @@ public class AcceptInputs : MonoBehaviour
         attacking = false;
         recovering = true;
     }
+
+    public void StartSuperFlash(int i)
+    {
+        superFlash = i;
+    }
+
     public void DisableMovement()
     {
         acceptMove = false;

@@ -9,6 +9,7 @@ public class ProjectileHitDetector : MonoBehaviour
     public AcceptInputs Actions;
     public HitDetector HitDetect;
     public ProjectileProperties ProjProp;
+    public Collider2D hitBox1;
 
     public Vector2 currentVelocity;
     public float currentAngularVelocity;
@@ -138,6 +139,30 @@ public class ProjectileHitDetector : MonoBehaviour
                 rb.constraints = RigidbodyConstraints2D.None;
             }
 
+            if (Actions.blitzed > 1)
+            {
+                //simulate slow motion if within range of a blitz cancel or blitz attack
+                if (Actions.blitzed == 59)
+                {
+                    rb.velocity *= new Vector2(.5f, .5f);
+                }
+                
+                anim.SetFloat(animSpeedID, .5f);
+
+                rb.mass *= .65f;
+                rb.gravityScale *= .6f;
+
+            }
+            else if (Actions.blitzed == 1)
+            {
+                rb.velocity *= new Vector2(1.35f, 1.35f);
+                Actions.blitzed = 0;
+
+                rb.mass /= .65f;
+                rb.gravityScale /= .6f;
+                anim.SetFloat(animSpeedID, 1f);
+            }
+
             if (currentVelocity != Vector2.zero)
             {
                 //retain velocity after hitStop occurs
@@ -210,7 +235,7 @@ public class ProjectileHitDetector : MonoBehaviour
                     {
                         if (usingSuper)
                         {
-                            Actions.Move.OpponentProperties.durability -= 3;
+                            Actions.Move.OpponentProperties.durability -= 4;
                         }
                         else
                             Actions.Move.OpponentProperties.durability -= damage / 3;
@@ -235,7 +260,7 @@ public class ProjectileHitDetector : MonoBehaviour
                         //durability damage
                         if (usingSuper)
                         {
-                            Actions.Move.OpponentProperties.durability -= 1;
+                            Actions.Move.OpponentProperties.durability -= 2;
                         }
                         else
                             Actions.Move.OpponentProperties.durability -= damage / 5;
@@ -303,7 +328,7 @@ public class ProjectileHitDetector : MonoBehaviour
                     ApplyHitStop(0);
                 }
             }
-            Contact();
+            Contact(other);
         }
         else if (allowHit && !blitz && other.transform.parent.CompareTag("Projectile") && other.CompareTag("HitBox"))
         {
@@ -340,7 +365,7 @@ public class ProjectileHitDetector : MonoBehaviour
                 HitDetect.anim.SetTrigger(parryID); 
                 Actions.jumpCancel = true;
                 OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;
-                Contact();
+                Contact(other);
             }
             else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
             {
@@ -464,8 +489,6 @@ public class ProjectileHitDetector : MonoBehaviour
             OpponentDetector.Actions.blitzed = 60;
             Actions.Move.OpponentProperties.comboTimer -= 1.5f;
         }
-        else
-            OpponentDetector.Actions.blitzed = 0;
 
         if (launch)
         {
@@ -582,7 +605,7 @@ public class ProjectileHitDetector : MonoBehaviour
             HitDetect.comboCount++;
     }
 
-    public void Contact()
+    public void Contact(Collider2D other)
     {
         //execute if an attack makes contact with a opponent
         if (allowLight)
@@ -601,6 +624,8 @@ public class ProjectileHitDetector : MonoBehaviour
 
         allowHit = false;
         hit = true;
+
+        HitDetect.hitTrack.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
 
         if (OpponentDetector.hitStun == 0)
             OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;

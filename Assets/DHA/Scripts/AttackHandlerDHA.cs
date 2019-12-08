@@ -167,7 +167,7 @@ public class AttackHandlerDHA : MonoBehaviour
         colorControl = transform.GetChild(0).GetComponent<ColorSwapDHA>();
 
         Projectile = Instantiate(Prefab, new Vector3(0, 5, -3), Quaternion.identity, transform.root);
-        Toaster = Instantiate(ToasterPrefab, new Vector3(0, 5, -3), Quaternion.identity, transform.root);
+        Toaster = Instantiate(ToasterPrefab, new Vector3(0, -5, -3), Quaternion.identity, transform.root);
         BlitzEffect = Instantiate(BlitzPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
         BlitzImage = BlitzEffect.transform.GetChild(0).GetComponent<SpriteRenderer>();
     }
