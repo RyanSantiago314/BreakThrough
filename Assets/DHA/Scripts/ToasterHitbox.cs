@@ -37,7 +37,7 @@ public class ToasterHitbox : MonoBehaviour
                 lightSource.enabled = false;
             else if (lightSource.range == 5)
                 lightSource.intensity = Random.Range(1f, 2.5f);
-            else if (lightSource.range == 8)
+            else if (lightSource.range == 8 && PHitDetect.hitStop == 0)
                 lightSource.intensity = Random.Range(1f, 7f);
         }
     }

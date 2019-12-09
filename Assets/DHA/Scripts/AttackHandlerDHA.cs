@@ -19,6 +19,7 @@ public class AttackHandlerDHA : MonoBehaviour
     public GameObject Toaster;
     public GameObject BlitzEffect;
     SpriteRenderer BlitzImage;
+    Animator BlitzWave;
     
 
     ColorSwapDHA colorControl;
@@ -170,6 +171,7 @@ public class AttackHandlerDHA : MonoBehaviour
         Toaster = Instantiate(ToasterPrefab, new Vector3(0, -5, -3), Quaternion.identity, transform.root);
         BlitzEffect = Instantiate(BlitzPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
         BlitzImage = BlitzEffect.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        BlitzWave = BlitzEffect.transform.GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -426,6 +428,7 @@ public class AttackHandlerDHA : MonoBehaviour
             heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 2)
         {
             anim.SetTrigger(IDBlitz);
+            BlitzWave.SetTrigger(IDBlitz);
             Hitboxes.BlitzCancel();
 
             anim.SetBool(runID, false);
