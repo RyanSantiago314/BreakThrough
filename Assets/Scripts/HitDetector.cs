@@ -764,11 +764,11 @@ public class HitDetector : MonoBehaviour
             if (!usingSpecial && !usingSuper)
             {
                 if (comboCount < 2)
-                    pushBackScale = .7f;
-                else if (comboCount < 10)
-                    pushBackScale = .85f;
-                else if (comboCount < 15)
                     pushBackScale = 1f;
+                else if (comboCount < 10)
+                    pushBackScale = 1.05f;
+                else if (comboCount < 15)
+                    pushBackScale = 1.1f;
                 else if (comboCount < 25)
                     pushBackScale = 1.15f;
                 else if (comboCount < 30)

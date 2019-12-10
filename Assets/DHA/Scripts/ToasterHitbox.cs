@@ -119,7 +119,7 @@ public class ToasterHitbox : MonoBehaviour
         hit1.enabled = true;
         hit1.offset = new Vector2(40f, 2.5f);
         hit1.size = new Vector2(77f, 8.5f);
-        PHitDetect.damage = 35;
+        PHitDetect.damage = 30;
         PHitDetect.durabilityDamage = 50;
         PHitDetect.potentialHitStun = 36;
         PHitDetect.potentialHitStop = 0;
@@ -137,7 +137,7 @@ public class ToasterHitbox : MonoBehaviour
         hit1.enabled = true;
         hit1.offset = new Vector2(40f, 2.5f);
         hit1.size = new Vector2(77f, 8.5f);
-        PHitDetect.damage = 40;
+        PHitDetect.damage = 30;
         PHitDetect.durabilityDamage = 50;
         PHitDetect.potentialHitStun = 36;
         PHitDetect.potentialHitStop = 0;
