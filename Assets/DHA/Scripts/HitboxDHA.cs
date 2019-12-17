@@ -1139,7 +1139,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv4;
-        HitDetect.potentialHitStop = 5;
+        HitDetect.potentialHitStop = hitStopLv1;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 3f);
         HitDetect.potentialAirKnockBack = new Vector2(.8f, 3f);
         HitDetect.attackLevel = 3;
@@ -1166,7 +1166,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialHitStun = hitStunLv4;
-        HitDetect.potentialHitStop = hitStopLv2;
+        HitDetect.potentialHitStop = hitStopLv4;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 3f);
         HitDetect.attackLevel = 5;
         HitDetect.guard = "Mid";
@@ -1196,7 +1196,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialHitStun = 100;
-        HitDetect.potentialHitStop = hitStopLv4;
+        HitDetect.potentialHitStop = 15;
         HitDetect.potentialKnockBack = new Vector2(1.5f, 5.5f);
         HitDetect.attackLevel = 5;
         HitDetect.guard = "Mid";
