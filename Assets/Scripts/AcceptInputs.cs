@@ -26,6 +26,7 @@ public class AcceptInputs : MonoBehaviour
     public bool shattered = false;
     public int blitzed = 0;
     public int wallStick = 0;
+    public int landingLag = 0;
     public bool groundBounce = false;
     public bool wallBounce = false;
 
@@ -54,6 +55,7 @@ public class AcceptInputs : MonoBehaviour
     static int highGuardID;
     static int airGuardID;
     static int runID;
+    static int landLagID;
 
     float zPos;
 
@@ -69,6 +71,7 @@ public class AcceptInputs : MonoBehaviour
         highGuardID = Animator.StringToHash("HighGuard");
         airGuardID = Animator.StringToHash("AirGuard");
         runID = Animator.StringToHash("Run");
+        landLagID = Animator.StringToHash("LandingLag");
         zPos = transform.position.z;
 
         sprite = GetComponent<SpriteRenderer>();
@@ -85,6 +88,15 @@ public class AcceptInputs : MonoBehaviour
             sprite.sortingOrder = -2;
         else
             sprite.sortingOrder = 1;
+
+        if (landingLag > 0)
+        {
+            DisableAll();
+            anim.SetBool(crouchID, true);
+            if (!airborne)
+                landingLag--;
+        }
+        anim.SetInteger(landLagID, landingLag);
 
         if (anim.GetBool(dizzyID) || grabbed || Move.HitDetect.hitStun > 0 || anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected"))
         {
@@ -127,7 +139,7 @@ public class AcceptInputs : MonoBehaviour
 
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") || anim.GetCurrentAnimatorStateInfo(0).IsName("IdleCrouch") || anim.GetCurrentAnimatorStateInfo(0).IsName("StandUp"))
         {
-            standing = true;
+            standing = true;           
         }
         else if (anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup"))
         {
@@ -235,6 +247,12 @@ public class AcceptInputs : MonoBehaviour
         acceptGuard = false;
     }
 
+    public void SetLandLag(int x)
+    {
+        landingLag = x;
+        anim.SetInteger(landLagID, landingLag);
+    }
+
     public void DisableBlitz()
     {
         blitzCancel = false;
@@ -294,6 +312,14 @@ public class AcceptInputs : MonoBehaviour
         wallBounce = false;
         grabbed = false;
         throwInvincible = false;
+    }
+
+    public void ChangeHVelocity(float x)
+    {
+        if (Move.facingRight)
+            Move.rb.velocity = new Vector2(x, Move.rb.velocity.y);
+        else
+            Move.rb.velocity = new Vector2(-x, Move.rb.velocity.y);
     }
 
     public void Advance(float x)

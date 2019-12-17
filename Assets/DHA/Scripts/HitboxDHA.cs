@@ -692,6 +692,12 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.anim.SetInteger("SinCharge", sinCharge);
     }
 
+    void ResetCharge()
+    {
+        sinCharge = 0;
+        HitDetect.anim.SetInteger("SinCharge", sinCharge);
+    }
+
     void StandingBHitBox()
     {
         ClearHitBox();
@@ -1056,6 +1062,147 @@ public class HitboxDHA : MonoBehaviour
             HitDetect.launch = true;
         HitDetect.allowGroundBounce = true;
 
+        HitDetect.usingSpecial = true;
+        HitDetect.allowSuper = true;
+    }
+
+    void HRCycleHit()
+    {
+        ClearHitBox();
+
+        hit1.enabled = true;
+
+        hit1.offset = new Vector2(.65f, -.55f);
+        hit1.size = new Vector2(.38f, .55f);
+
+        HitDetect.damage = 22;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 100;
+        HitDetect.potentialKnockBack = new Vector2(1f, 0f);
+        HitDetect.potentialAirKnockBack = new Vector2(2f, 1.5f);
+        HitDetect.forcedProration = 1.1f;
+        HitDetect.potentialHitStun = 24;
+        HitDetect.potentialHitStop = 1;
+        HitDetect.attackLevel = 3;
+        HitDetect.guard = "Low";
+
+        HitDetect.usingSpecial = true;
+        HitDetect.allowSuper = true;
+    }
+
+    void HRLaunchHit()
+    {
+        ClearHitBox();
+
+        hit1.enabled = true;
+
+        hit1.offset = new Vector2(.65f, -.55f);
+        hit1.size = new Vector2(.38f, .55f);
+
+        HitDetect.damage = 0;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 100;
+        HitDetect.potentialKnockBack = new Vector2(0f, 2f);
+        HitDetect.potentialAirKnockBack = new Vector2(2f, 2f);
+        HitDetect.potentialHitStun = 24;
+        HitDetect.potentialHitStop = 0;
+        HitDetect.attackLevel = 3;
+        HitDetect.guard = "Low";
+
+        HitDetect.usingSpecial = true;
+        HitDetect.allowSuper = true;
+    }
+
+    void HRSlashHit()
+    {
+        ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
+        hit1.enabled = true;
+        hit2.enabled = true;
+        hit3.enabled = true;
+        hit4.enabled = true;
+        hit5.enabled = true;
+
+        hit1.offset = new Vector2(.59f, -.09f);
+        hit1.size = new Vector2(.52f, .26f);
+        hit2.offset = new Vector2(.91f, .027f);
+        hit2.size = new Vector2(.27f, .26f);
+        hit3.offset = new Vector2(.88f, .265f);
+        hit3.size = new Vector2(.275f, .228f);
+        hit4.offset = new Vector2(.76f, .41f);
+        hit4.size = new Vector2(.22f, .08f);
+        hit5.offset = new Vector2(.56f, .49f);
+        hit5.size = new Vector2(.37f, .087f);
+
+        HitDetect.damage = 50;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 100;
+        HitDetect.potentialHitStun = hitStunLv4;
+        HitDetect.potentialHitStop = 5;
+        HitDetect.potentialKnockBack = new Vector2(1.2f, 3f);
+        HitDetect.potentialAirKnockBack = new Vector2(.8f, 3f);
+        HitDetect.attackLevel = 3;
+        HitDetect.guard = "Mid";
+
+        HitDetect.usingSpecial = true;
+        HitDetect.allowSuper = true;
+    }
+
+    void HRUpperHit1()
+    {
+        ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
+        hit1.enabled = true;
+        hit2.enabled = true;
+
+        hit1.offset = new Vector2(.66f, .4f);
+        hit1.size = new Vector2(.36f, .74f);
+        hit2.offset = new Vector2(.57f, -.08f);
+        hit2.size = new Vector2(.25f, .76f);
+
+        HitDetect.damage = 80;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 0;
+        HitDetect.potentialHitStun = hitStunLv4;
+        HitDetect.potentialHitStop = hitStopLv2;
+        HitDetect.potentialKnockBack = new Vector2(1.2f, 3f);
+        HitDetect.attackLevel = 5;
+        HitDetect.guard = "Mid";
+
+        HitDetect.shatter = true;
+        HitDetect.usingSpecial = true;
+        HitDetect.allowSuper = true;
+    }
+
+    void HRUpperHit2()
+    {
+        ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
+        hit1.enabled = true;
+        hit2.enabled = true;
+        hit3.enabled = true;
+
+        hit1.offset = new Vector2(.4f, .87f);
+        hit1.size = new Vector2(.82f, .75f);
+        hit2.offset = new Vector2(.75f, .51f);
+        hit2.size = new Vector2(.61f, .69f);
+        hit3.offset = new Vector2(.79f, -.02f);
+        hit3.size = new Vector2(.28f, .56f);
+
+        HitDetect.damage = 120;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 0;
+        HitDetect.potentialHitStun = 100;
+        HitDetect.potentialHitStop = hitStopLv4;
+        HitDetect.potentialKnockBack = new Vector2(1.5f, 5.5f);
+        HitDetect.attackLevel = 5;
+        HitDetect.guard = "Mid";
+
+        HitDetect.shatter = true;
+        HitDetect.launch = true;
         HitDetect.usingSpecial = true;
         HitDetect.allowSuper = true;
     }

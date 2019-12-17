@@ -137,6 +137,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.016666668
+    functionName: Grounded
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.06666667
     functionName: BBRecovery
     data: 
@@ -146,13 +153,6 @@ AnimationClip:
     messageOptions: 0
   - time: 0.06666667
     functionName: ForceCrouch
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.06666667
-    functionName: Grounded
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

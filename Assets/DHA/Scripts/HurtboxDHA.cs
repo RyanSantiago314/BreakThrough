@@ -692,7 +692,6 @@ public class HurtboxDHA : MonoBehaviour
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
-        legs2.enabled = true;
 
         head.offset = new Vector2(.6f, .34f);
         head.size = new Vector2(.3f, .41f);
@@ -717,7 +716,6 @@ public class HurtboxDHA : MonoBehaviour
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
-        legs2.enabled = true;
 
         head.offset = new Vector2(.134f, -.1f);
         head.size = new Vector2(.56f, .32f);
@@ -725,5 +723,38 @@ public class HurtboxDHA : MonoBehaviour
         body.size = new Vector2(.66f, .5f);
         legs1.offset = new Vector2(.08f, -.8f);
         legs1.size = new Vector2(2f, .22f);
+    }
+
+    public void HRCycle()
+    {
+        Invincible();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+
+        head.offset = new Vector2(.66f, -.42f);
+        head.size = new Vector2(.27f, .32f);
+        body.offset = new Vector2(0.32f, -.6f);
+        body.size = new Vector2(.75f, .64f);
+        legs1.offset = new Vector2(-.21f, -.76f);
+        legs1.size = new Vector2(1.1f, .3f);
+    }
+
+    public void HRUpper()
+    {
+        Invincible();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(.1f, .54f);
+        head.size = new Vector2(.3f, .24f);
+        body.offset = new Vector2(-0.03f, .175f);
+        body.size = new Vector2(.68f, .55f);
+        legs1.offset = new Vector2(-.07f, -.24f);
+        legs1.size = new Vector2(.5f, .3f);
+        legs2.offset = new Vector2(-.3f, -.5f);
+        legs2.size = new Vector2(.35f, .38f);
     }
 }

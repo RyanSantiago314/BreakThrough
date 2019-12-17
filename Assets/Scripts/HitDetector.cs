@@ -204,11 +204,11 @@ public class HitDetector : MonoBehaviour
                      rb.velocity *= new Vector2(.5f, .5f);
                 }
                 if (Actions.airborne)
-                    anim.SetFloat(animSpeedID, .5f);
+                    anim.SetFloat(animSpeedID, .4f);
                 else
                     anim.SetFloat(animSpeedID, .35f);
 
-                rb.mass = Actions.Move.weight * .65f;
+                rb.mass = Actions.Move.weight * .75f;
                 rb.gravityScale = .6f * Actions.gravScale;
 
             }
@@ -222,7 +222,7 @@ public class HitDetector : MonoBehaviour
             {
                 if (Actions.blitzed == 1)
                 {
-                    rb.velocity *= new Vector2(1.35f, 1.35f);
+                    rb.velocity *= new Vector2(1.35f, 1f);
                     Actions.blitzed = 0;
                 }
                 rb.mass = Actions.Move.weight;
@@ -699,7 +699,16 @@ public class HitDetector : MonoBehaviour
         else
         {
             OpponentDetector.hitStun = potentialHitStun;
-            if (OpponentDetector.Actions.airborne && !usingSpecial && !usingSuper)
+            if (OpponentDetector.Actions.airborne && usingSpecial)
+            {
+                if (Actions.Move.OpponentProperties.comboTimer > 16)
+                    OpponentDetector.hitStun = 7 * potentialHitStun / 10;
+                if (Actions.Move.OpponentProperties.comboTimer >= 13)
+                    OpponentDetector.hitStun = 8 * potentialHitStun / 10;
+                else if (Actions.Move.OpponentProperties.comboTimer > 10)
+                    OpponentDetector.hitStun = 9 * potentialHitStun / 10;
+            }
+            else if (OpponentDetector.Actions.airborne && !usingSuper)
             {
                 if (Actions.Move.OpponentProperties.comboTimer > 16)
                     OpponentDetector.hitStun = 6 * potentialHitStun/10;

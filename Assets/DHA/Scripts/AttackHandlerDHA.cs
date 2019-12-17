@@ -38,13 +38,14 @@ public class AttackHandlerDHA : MonoBehaviour
     private string Select;
 
     float bufferTime = .25f;
-    float directionBufferTime = .25f;
+    float directionBufferTime = .35f;
     float lightButton;
     float mediumButton;
     float heavyButton;
     float breakButton;
     float QCF;
     float QCB;
+    float HCB;
 
     //directional variables using numpad notation
     public float dir1;
@@ -88,6 +89,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int BreakCharge;
     static int IDBloodBrave;
     static int IDPatissiere;
+    static int IDHeadRush;
     static int IDToaster;
 
     static int runID;
@@ -121,6 +123,7 @@ public class AttackHandlerDHA : MonoBehaviour
         BreakCharge = Animator.StringToHash("BreakCharge");
         IDBloodBrave = Animator.StringToHash("BloodBrave");
         IDPatissiere = Animator.StringToHash("Patissiere");
+        IDHeadRush = Animator.StringToHash("HeadRush");
 
         IDToaster = Animator.StringToHash("Toaster");
 
@@ -210,6 +213,8 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.ResetTrigger(IDThrow);
             anim.ResetTrigger(IDBloodBrave);
             anim.ResetTrigger(IDPatissiere);
+            anim.ResetTrigger(IDHeadRush);
+            anim.ResetTrigger(IDToaster);
         }
 
         if (lightButton > 0)
@@ -273,6 +278,8 @@ public class AttackHandlerDHA : MonoBehaviour
             QCF -= Time.deltaTime;
         if (QCB > 0)
             QCB -= Time.deltaTime;
+        if (HCB > 0)
+            HCB -= Time.deltaTime;
 
 
         //record buttons pressed
@@ -306,6 +313,7 @@ public class AttackHandlerDHA : MonoBehaviour
         }
         QCFCheck();
         QCBCheck();
+        HCBCheck();
 
         //record directional input
         //float dir# corresponds to numpad notation for character facing to the right
@@ -432,6 +440,7 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.SetTrigger(IDBlitz);
             BlitzWave.SetTrigger(IDBlitz);
             Hitboxes.BlitzCancel();
+            Actions.landingLag = 0;
 
             anim.SetBool(runID, false);
             BlitzImage.sprite = anim.gameObject.GetComponent<SpriteRenderer>().sprite;
@@ -462,7 +471,7 @@ public class AttackHandlerDHA : MonoBehaviour
                     Actions.backThrow = false;
             }
         }
-        else if (Actions.acceptSuper && heavyButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && CharProp.armor >= 2 && !Toaster.activeSelf)
+        else if (Actions.acceptSuper && heavyButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && CharProp.armor >= 2 && Actions.standing && !Toaster.activeSelf)
         {
             // Toaster super attack, executed by doing a QCF and pressing H and B
             anim.SetTrigger(IDToaster);
@@ -481,8 +490,15 @@ public class AttackHandlerDHA : MonoBehaviour
             // Blood Brave special attack, executed by doing a QCB and pressing H
             anim.SetTrigger(IDBloodBrave);
             Actions.TurnAroundCheck();
-            breakButton = 0;
+            heavyButton = 0;
             QCB = 0;
+        }
+        else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop == 0 && HCB > 0 && Actions.standing)
+        {
+            // Head Rush special attack, executed by doing a HCB and pressing M
+            anim.SetTrigger(IDHeadRush);
+            mediumButton = 0;
+            HCB = 0;
         }
         else if (Actions.acceptSpecial && lightButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && Actions.standing && !Projectile.activeSelf)
         {
@@ -727,7 +743,7 @@ public class AttackHandlerDHA : MonoBehaviour
         //check if the player has executed a quarter circle forward with the control stick
         if(dir2 > 0 && dir3 > 0 && dir6 > 0 && dir6 > dir3 && dir3 > dir2)
         {
-            QCF = .1f;
+            QCF = .15f;
             dir2 = 0;
             dir3 = 0;
             dir6 = 0;
@@ -739,9 +755,21 @@ public class AttackHandlerDHA : MonoBehaviour
         //check if the player has executed a quarter circle back with the control stick
         if (dir2 > 0 && dir1 > 0 && dir4 > 0 && dir4 > dir1 && dir1 > dir2)
         {
-            QCB = .1f;
+            QCB = .15f;
             dir2 = 0;
             dir1 = 0;
+            dir4 = 0;
+        }
+    }
+
+    void HCBCheck()
+    {
+        //check if the player has executed a quarter circle back with the control stick
+        if (dir6 > 0 && dir2 > 0 && dir4 > 0 && dir4 > dir2 && dir2 > dir6)
+        {
+            HCB = .15f;
+            dir2 = 0;
+            dir6 = 0;
             dir4 = 0;
         }
     }
