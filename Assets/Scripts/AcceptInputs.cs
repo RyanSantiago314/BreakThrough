@@ -240,6 +240,7 @@ public class AcceptInputs : MonoBehaviour
     {
         superFlash = i;
         Move.HitDetect.OpponentDetector.currentVelocity = Move.HitDetect.OpponentDetector.rb.velocity;
+        Move.HitDetect.OpponentDetector.Actions.blitzed = 1;
     }
 
     public void DisableMovement()
