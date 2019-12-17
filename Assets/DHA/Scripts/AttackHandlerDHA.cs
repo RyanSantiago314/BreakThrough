@@ -38,7 +38,7 @@ public class AttackHandlerDHA : MonoBehaviour
     private string Select;
 
     float bufferTime = .25f;
-    float directionBufferTime = .35f;
+    float directionBufferTime = .25f;
     float lightButton;
     float mediumButton;
     float heavyButton;
@@ -271,6 +271,8 @@ public class AttackHandlerDHA : MonoBehaviour
             dir6 -= Time.deltaTime;
         if (QCF > 0)
             QCF -= Time.deltaTime;
+        if (QCB > 0)
+            QCB -= Time.deltaTime;
 
 
         //record buttons pressed
@@ -460,9 +462,9 @@ public class AttackHandlerDHA : MonoBehaviour
                     Actions.backThrow = false;
             }
         }
-        else if (Actions.acceptSuper && heavyButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && CharProp.armor >= 2)
+        else if (Actions.acceptSuper && heavyButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && CharProp.armor >= 2 && !Toaster.activeSelf)
         {
-            // Blood Brave special attack, executed by doing a QCF and pressing B
+            // Toaster super attack, executed by doing a QCF and pressing H and B
             anim.SetTrigger(IDToaster);
             if (CharProp.armor > 0)
                 CharProp.durability = 50;
@@ -474,13 +476,13 @@ public class AttackHandlerDHA : MonoBehaviour
             QCF = 0;
             CharProp.armor -= 2;
         }
-        else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0)
+        else if (Actions.acceptSpecial && heavyButton > 0 && Move.HitDetect.hitStop == 0 && QCB > 0)
         {
-            // Blood Brave special attack, executed by doing a QCF and pressing B
+            // Blood Brave special attack, executed by doing a QCB and pressing H
             anim.SetTrigger(IDBloodBrave);
             Actions.TurnAroundCheck();
             breakButton = 0;
-            QCF = 0;
+            QCB = 0;
         }
         else if (Actions.acceptSpecial && lightButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && Actions.standing && !Projectile.activeSelf)
         {
@@ -725,7 +727,7 @@ public class AttackHandlerDHA : MonoBehaviour
         //check if the player has executed a quarter circle forward with the control stick
         if(dir2 > 0 && dir3 > 0 && dir6 > 0 && dir6 > dir3 && dir3 > dir2)
         {
-            QCF = directionBufferTime;
+            QCF = .1f;
             dir2 = 0;
             dir3 = 0;
             dir6 = 0;
@@ -737,7 +739,7 @@ public class AttackHandlerDHA : MonoBehaviour
         //check if the player has executed a quarter circle back with the control stick
         if (dir2 > 0 && dir1 > 0 && dir4 > 0 && dir4 > dir1 && dir1 > dir2)
         {
-            QCB = directionBufferTime;
+            QCB = .1f;
             dir2 = 0;
             dir1 = 0;
             dir4 = 0;
