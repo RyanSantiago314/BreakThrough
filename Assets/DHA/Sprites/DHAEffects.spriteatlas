@@ -129,103 +129,187 @@ SpriteAtlas:
     - {fileID: 2800000, guid: f185c8cffab26b045a2a5afc259d594d, type: 3}
     - {fileID: 2800000, guid: 8bc3f459ef2d86a49a1d3ea2624d0632, type: 3}
     - {fileID: 2800000, guid: 643d9bac82f38bf41a71e40592d93b4b, type: 3}
-    totalSpriteSurfaceArea: 114066175
+    totalSpriteSurfaceArea: 250450687
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: e1f190c4a0800a6757ef7f8b64a8c1c4
+      Hash: 136a7410c760b597139d4f76a0e91304
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 77a66e102ae9399428c326060afc0b96, type: 3}
+  - {fileID: 21300000, guid: 23d84920b17f3254ca0782b255bcd983, type: 3}
+  - {fileID: 21300000, guid: 3c18f7600502093499620a43822a7fec, type: 3}
   - {fileID: 21300000, guid: c0dbdc7001fc7674f9dd072a173ddf0b, type: 3}
   - {fileID: 21300000, guid: 4031a09016fa6544cb4421c9f8552a9c, type: 3}
   - {fileID: 21300000, guid: c85fc5218367cae43b2062ede26cd9c2, type: 3}
+  - {fileID: 21300000, guid: d115e721f96a1d84ba0b68aaef565585, type: 3}
   - {fileID: 21300000, guid: 49698b2182e91c54e8b969a56ef72a0e, type: 3}
   - {fileID: 21300000, guid: 1cfa27417af108b4eab69f1b104b18fc, type: 3}
   - {fileID: 21300000, guid: 757be291643912a4dbb105032b27ed48, type: 3}
+  - {fileID: 21300000, guid: 7b2264c125ac9f64c8e2ca3160eda7d6, type: 3}
   - {fileID: 21300000, guid: c7e87b02cd52d4a4dba7317679bd2c5b, type: 3}
+  - {fileID: 21300000, guid: caf6b4228d221874e9ab7cad114e132b, type: 3}
   - {fileID: 21300000, guid: 87245c223036111408be4e2ca2003ef3, type: 3}
   - {fileID: 21300000, guid: f85170628ba66c949b1046fbc81231ed, type: 3}
   - {fileID: 21300000, guid: c9b51282285fc6d42a913530075fb86c, type: 3}
   - {fileID: 21300000, guid: 61635eb234469bd4aac6ada0e28ad662, type: 3}
+  - {fileID: 21300000, guid: db7507d26fd9a634fb5ea4f0372efed7, type: 3}
   - {fileID: 21300000, guid: 4633490352cdf4b4cb07d02c9dc05e90, type: 3}
   - {fileID: 21300000, guid: b07ef2e334b55654ab8ffd5874e62308, type: 3}
+  - {fileID: 21300000, guid: b9faab240faf55d4a9310adcf1c84334, type: 3}
   - {fileID: 21300000, guid: 718d2e2403fcf8e438e60d39770a03b3, type: 3}
+  - {fileID: 21300000, guid: 468fb034c797b1b4c93ea36943641111, type: 3}
   - {fileID: 21300000, guid: b43d2a34fdd26c94f850808256450fce, type: 3}
   - {fileID: 21300000, guid: 8448175422a485245a208ccbd457f06c, type: 3}
+  - {fileID: 21300000, guid: cd9505641f86b7745b75563eff069dcc, type: 3}
+  - {fileID: 21300000, guid: 532907f4a1fe8a542819b77fc90546fc, type: 3}
   - {fileID: 21300000, guid: bebfed05ffb5eee4fa58bdfe71667a93, type: 3}
   - {fileID: 21300000, guid: f10faf053ce456243bfbde27aaedfe35, type: 3}
   - {fileID: 21300000, guid: 674b126585ecc8745adaa9927ac037e8, type: 3}
+  - {fileID: 21300000, guid: f438c765d987a4f42bf3cd006c2a7a7e, type: 3}
   - {fileID: 21300000, guid: 5a74abc53bc76f7458cb237a57a8433f, type: 3}
   - {fileID: 21300000, guid: 2848651681608cf4e81b5b3cb6432e38, type: 3}
   - {fileID: 21300000, guid: 3431b746ef5b7554483fdfff1de35db8, type: 3}
+  - {fileID: 21300000, guid: eb1002567817a9a4e879a4262b5a8adf, type: 3}
+  - {fileID: 21300000, guid: 9b1b0e967da14b840b1d36058e2a14a7, type: 3}
   - {fileID: 21300000, guid: c365c8c61da0b044f87b1a0d8c56dd79, type: 3}
+  - {fileID: 21300000, guid: 6162aed64a103c841ba0c13e3e29c7d7, type: 3}
+  - {fileID: 21300000, guid: d12b5d679d28f2e438c9609a2b04fa23, type: 3}
   - {fileID: 21300000, guid: e5dd8287da65ed94bb3bdaf636a81906, type: 3}
+  - {fileID: 21300000, guid: c48024a79c8d4db4f98df18dabfef199, type: 3}
+  - {fileID: 21300000, guid: 0304bfd704fc04046bf194db0bbb7aaa, type: 3}
+  - {fileID: 21300000, guid: 01d636f7d062a134faddecd8e932a760, type: 3}
   - {fileID: 21300000, guid: a1557e08b85d26d4e84a8ce935ce08d8, type: 3}
+  - {fileID: 21300000, guid: e2d89a98cd0eaf6498844dc317bd5869, type: 3}
+  - {fileID: 21300000, guid: 0210e6a88411e0247832bdb3dc93b142, type: 3}
+  - {fileID: 21300000, guid: f42aa1c84432c8d4bbc86159733951b5, type: 3}
   - {fileID: 21300000, guid: 1d10811960ba0674f93765f7fb61a14c, type: 3}
   - {fileID: 21300000, guid: 76067f19519c8ee44872b6e2a7e27fb9, type: 3}
+  - {fileID: 21300000, guid: 3347b8294c06ac54aac900a5ab20f3b3, type: 3}
+  - {fileID: 21300000, guid: 8bc3f459ef2d86a49a1d3ea2624d0632, type: 3}
   - {fileID: 21300000, guid: ef503189867dea041b8840dc50ec77f0, type: 3}
   - {fileID: 21300000, guid: ae27fe993d9fcd54f9d66afddc9c0b5b, type: 3}
   - {fileID: 21300000, guid: d7b456a93d2b6f04d89a879161d42004, type: 3}
   - {fileID: 21300000, guid: 1b7b0da9d7314d448b9b1d075a7ade6d, type: 3}
+  - {fileID: 21300000, guid: 8d638a1a1e2ddc74cbdad9d520a6ee28, type: 3}
   - {fileID: 21300000, guid: fe41f68a3a3b1fb4cb368e2b0684e4b3, type: 3}
+  - {fileID: 21300000, guid: 082d498ab58dc954ea2573b6b314e60d, type: 3}
   - {fileID: 21300000, guid: a9d3e39a20a292d41b25f7803cdb348f, type: 3}
+  - {fileID: 21300000, guid: cccea4aa5ef89f54cbb4f29af20f0c4c, type: 3}
   - {fileID: 21300000, guid: e43488fac15841740b08e715662c54cd, type: 3}
+  - {fileID: 21300000, guid: 3936c50bcbee3e74495a501f2ea379cc, type: 3}
+  - {fileID: 21300000, guid: 2fe5ca4bd1810c54c85f5847903fc47f, type: 3}
   - {fileID: 21300000, guid: 65cbb09b5f6edc3409ff49d75ffa111d, type: 3}
   - {fileID: 21300000, guid: 92b418dbcc7e27f439464c43d8356dd8, type: 3}
+  - {fileID: 21300000, guid: f17b102c445e4bc489291d94a6972205, type: 3}
+  - {fileID: 21300000, guid: 15acab5c76393b449a0de1a3c3456280, type: 3}
+  - {fileID: 21300000, guid: 643d9bac82f38bf41a71e40592d93b4b, type: 3}
   - {fileID: 21300000, guid: 7a7fb0ec6137f564082e6467a6f3e3d0, type: 3}
   - {fileID: 21300000, guid: 7d29b2fc1e1c1cf4b8f4a08426f88726, type: 3}
   - {fileID: 21300000, guid: a5da1c2d698ceae46902343d6cd2ea9c, type: 3}
+  - {fileID: 21300000, guid: e9f7780e5b604d74c9a3b4ec35e2cf3f, type: 3}
+  - {fileID: 21300000, guid: d2062e3e564ec064f9aebab3eae78b59, type: 3}
   - {fileID: 21300000, guid: e9555d8eef6de5744af1778736609d73, type: 3}
   - {fileID: 21300000, guid: ab68dd9ef02e26149816b0516fd3957a, type: 3}
+  - {fileID: 21300000, guid: 148207ae6ab24724cb9cfc06ceeb0798, type: 3}
   - {fileID: 21300000, guid: 5fca58ae78023174f8afdba44c5dad7f, type: 3}
+  - {fileID: 21300000, guid: 8903c0beb524cea4e86168a8902429c9, type: 3}
   - {fileID: 21300000, guid: 8a7d21be42d075542b1bf2d81a2f1368, type: 3}
+  - {fileID: 21300000, guid: 7e39f5de4b4fa24478d916a339428332, type: 3}
+  - {fileID: 21300000, guid: d576880ff1fb9e34aa82b687fe968ab7, type: 3}
+  - {fileID: 21300000, guid: b9cc890fe87266f409ddf146da97df83, type: 3}
+  - {fileID: 21300000, guid: 853c451fd4d120c47ab6ab99bac23a0e, type: 3}
   - {fileID: 21300000, guid: c1ee852fb0380b349b81365b4e1745f7, type: 3}
   - {fileID: 21300000, guid: 8db55f4f6eb1ec7489952af5f156359f, type: 3}
+  - {fileID: 21300000, guid: f185c8cffab26b045a2a5afc259d594d, type: 3}
+  - {fileID: 21300000, guid: 45fa0beff0ca49b44b5a423ab6cd48db, type: 3}
   m_PackedSpriteNamesToIndex:
+  - Baguette_07_2
+  - Baguette_26
+  - BaguetteBeam_03
   - Brioche
   - Explosion_05
   - ThrowSin_05
+  - Baguette_19
   - Canele
   - BloodBraveEndSin_03
   - BloodBraveEndSin_07
+  - Baguette_17
   - ThrowSin_09
+  - BaguetteBeam_08
   - jH3_02 (just smear)
   - ThrowSin_13
   - Flash_03
   - Explosion_01
+  - Baguette_15
   - BloodBraveEndSin_04
   - Flash_01
+  - Baguette_07
   - Palmier
+  - Baguette_05_2
   - jH3_03 (just smear)
   - jH2_02 (smear)
+  - BaguetteBeam_07
+  - BaguetteBeam_05
   - jH1_04(smear)
   - ThrowSin_03
   - jH2_03(smear)
+  - Baguette_11
   - BloodBraveEndSin_06
   - ThrowSin_15
   - Explosion_03
+  - Baguette_12
+  - BaguetteBeam_01
   - Explosion_06
+  - Baguette_18
+  - Baguette_09
   - BloodBraveEndSin_05
+  - Baguette_06
+  - BaguetteBeamEnd_02
+  - Baguette_04
   - ThrowSin_12
+  - Baguette_24
+  - Baguette_13
+  - Baguette_06_2
   - jH4_02(smear)
   - ThrowSin_06
+  - Baguette_02
+  - BaguetteBeamEnd_04
   - ThrowSin_16
   - ThrowSin_07
   - ThrowSin_14
   - ThrowSin_17
+  - BaguetteBeam_04
   - Explosion_04
+  - Baguette_08
   - ThrowSin_11
+  - Baguette_05
   - ThrowSin_02
+  - Baguette_23
+  - Baguette_10
   - ThrowSin_08
   - ThrowSin_01
+  - Baguette_20
+  - BaguetteBeam_02
+  - BaguetteBeamStartup_01
   - ThrowSin_04
   - Explosion_07
   - Eclair
+  - Baguette_01
+  - Baguette_21
   - ThrowSin_x
   - Croissant
+  - Baguette_16
   - ThrowSin_10
+  - Baguette_22
   - Flash_02
+  - BaguetteBeamEnd_01
+  - Baguette_03
+  - Baguette_14
+  - BaguetteBeam_06
   - Explosion_02
   - jH1_03(just smear)
+  - BaguetteBeamEnd_03
+  - Baguette_25
   m_Tag: DHAEffects
   m_IsVariant: 0
