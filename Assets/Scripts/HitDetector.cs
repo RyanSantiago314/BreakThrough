@@ -770,7 +770,7 @@ public class HitDetector : MonoBehaviour
                 OpponentDetector.KnockBack = potentialKnockBack;
 
             //apply pushback based on certain conditions
-            if (!usingSpecial && !usingSuper)
+            if (!usingSpecial && !usingSuper && guard != "Unblockable")
             {
                 if (comboCount < 2)
                     pushBackScale = 1f;
