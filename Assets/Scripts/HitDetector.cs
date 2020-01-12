@@ -487,13 +487,13 @@ public class HitDetector : MonoBehaviour
         else if (allowHit && !blitz && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
         {
             //clash/deflect system
-            if ((OpponentDetector.attackLevel - attackLevel) > 1 && potentialHitStun > 0)
+            if (attackLevel > OpponentDetector.attackLevel && (attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
             {
                 //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
                 ApplyHitStop(2);
                 Debug.Log("DEFLECTED!");
-                OpponentDetector.anim.SetTrigger(parryID);
-                anim.SetTrigger(deflectID);
+                anim.SetTrigger(parryID);
+                OpponentDetector.anim.SetTrigger(deflectID);
                 OpponentDetector.Actions.jumpCancel = true;
                 Actions.CharProp.durabilityRefillTimer = 0;
                 OpponentDetector.Contact(other);

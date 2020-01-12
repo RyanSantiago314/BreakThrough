@@ -553,7 +553,6 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStop = 6;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 0f);
         HitDetect.potentialAirKnockBack = new Vector2(.8f, 1.5f);
-        HitDetect.initialProration = .8f;
         HitDetect.attackLevel = 2;
         HitDetect.guard = "Overhead";
 
@@ -593,7 +592,6 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStop = 6;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 0f);
         HitDetect.potentialAirKnockBack = new Vector2(1f, 1f);
-        HitDetect.initialProration = .85f;
         HitDetect.attackLevel = 2;
         HitDetect.guard = "Overhead";
 
@@ -632,7 +630,6 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStop = 6;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 0f);
         HitDetect.potentialAirKnockBack = new Vector2(1f, 1f);
-        HitDetect.initialProration = .9f;
         HitDetect.attackLevel = 2;
         HitDetect.guard = "Overhead";
 
@@ -867,6 +864,88 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.anim.SetBool("5B", false);
     }
 
+    void FBHitbox()
+    {
+        ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
+        hit1.enabled = true;
+
+        hit1.offset = new Vector2(1.05f, -.35f);
+        hit1.size = new Vector2(.92f, .76f);
+
+        HitDetect.damage = 85 + (10 * sinCharge);
+        HitDetect.durabilityDamage = 100;
+        HitDetect.potentialKnockBack = new Vector2(2f, 0f);
+        HitDetect.potentialHitStun = hitStunLv4 + sinCharge;
+        HitDetect.potentialHitStop = hitStopLv4;
+        HitDetect.attackLevel = 3;
+        HitDetect.guard = "Overhead";
+
+        HitDetect.allowSuper = true;
+
+        sinCharge = 0;
+        HitDetect.anim.SetInteger("SinCharge", sinCharge);
+    }
+
+    void FBFullChargeHitbox1()
+    {
+        ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
+        hit1.enabled = true;
+        hit2.enabled = true;
+
+        hit1.offset = new Vector2(1.3f, -.28f);
+        hit1.size = new Vector2(1f, 1f);
+        hit2.offset = new Vector2(.6f, -.34f);
+        hit2.size = new Vector2(.9f, 64f);
+
+        HitDetect.damage = 150;
+        HitDetect.durabilityDamage = 0;
+        HitDetect.potentialKnockBack = new Vector2(-.5f, 3f);
+        HitDetect.potentialHitStun = 40;
+        HitDetect.potentialHitStop = hitStopLv4;
+        HitDetect.attackLevel = 5;
+        HitDetect.guard = "Overhead";
+
+        HitDetect.shatter = true;
+        HitDetect.launch = true;
+        HitDetect.allowSpecial = true;
+        HitDetect.allowSuper = true;
+
+        sinCharge = 0;
+        HitDetect.anim.SetInteger("SinCharge", sinCharge);
+    }
+
+    void FBFullChargeHitbox2()
+    {
+        if (HitDetect.OpponentDetector.hitStun == 0)
+        {
+            hit1.enabled = true;
+            hit2.enabled = true;
+
+            hit1.offset = new Vector2(1.3f, -.2f);
+            hit1.size = new Vector2(1f, 1.2f);
+            hit2.offset = new Vector2(.6f, -.34f);
+            hit2.size = new Vector2(.9f, 64f);
+
+            HitDetect.damage = 150;
+            HitDetect.durabilityDamage = 0;
+            HitDetect.potentialKnockBack = new Vector2(-.5f, 3f);
+            HitDetect.potentialHitStun = 60;
+            HitDetect.potentialHitStop = hitStopLv4;
+            HitDetect.initialProration = 1.1f;
+            HitDetect.attackLevel = 5;
+            HitDetect.guard = "Overhead";
+
+            HitDetect.shatter = true;
+            HitDetect.launch = true;
+            HitDetect.allowSpecial = true;
+            HitDetect.allowSuper = true;
+        }      
+    }
+
     void JumpBHitBox()
     {
         ClearHitBox();
@@ -953,7 +1032,7 @@ public class HitboxDHA : MonoBehaviour
 
         hit1.offset = new Vector2(1.4f, .5f);
         hit1.size = new Vector2(1.3f, .47f);
-        HitDetect.damage = 35;
+        HitDetect.damage = 70;
         HitDetect.initialProration = .7f;
         HitDetect.forcedProration = .7f;
         HitDetect.potentialAirKnockBack = new Vector2(2.5f, 2f);

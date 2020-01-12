@@ -146,31 +146,34 @@ public class PatissiereHitbox : MonoBehaviour
 
     void ExplosionHitBox()
     {
-        ClearHitBox();
+        if (PHitDetect.ProjProp.currentLife > -1)
+        {
+            ClearHitBox();
 
-        hit1.enabled = true;
-        hit1.offset = Vector2.zero;
-        hit1.size = new Vector2(28f, 28f);
-        PHitDetect.damage = 95;
-        PHitDetect.durabilityDamage = 100;
-        PHitDetect.potentialHitStun = 42;
-        PHitDetect.potentialHitStop = 6;
-        PHitDetect.potentialKnockBack = new Vector2(1.5f, 3f);
-        PHitDetect.potentialAirKnockBack = new Vector2(1.5f, 3f);
-        PHitDetect.initialProration = .85f;
-        PHitDetect.forcedProration = 1.1f;
-        PHitDetect.attackLevel = 3;
-        PHitDetect.guard = "Mid";
+            hit1.enabled = true;
+            hit1.offset = Vector2.zero;
+            hit1.size = new Vector2(28f, 28f);
+            PHitDetect.damage = 95;
+            PHitDetect.durabilityDamage = 100;
+            PHitDetect.potentialHitStun = 42;
+            PHitDetect.potentialHitStop = 6;
+            PHitDetect.potentialKnockBack = new Vector2(1.5f, 3f);
+            PHitDetect.potentialAirKnockBack = new Vector2(1.5f, 3f);
+            PHitDetect.initialProration = .85f;
+            PHitDetect.forcedProration = 1.1f;
+            PHitDetect.attackLevel = 3;
+            PHitDetect.guard = "Mid";
 
-        PHitDetect.allowSuper = true;
-        PHitDetect.usingSpecial = true;
+            PHitDetect.allowSuper = true;
+            PHitDetect.usingSpecial = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (hit1.size.x < 1000)
         {
-            if (other.CompareTag("Floor") && PHitDetect.ProjProp.currentHits == 0)
+            if (other.CompareTag("Floor") && !PHitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("Explode"))
             {
                 ClearHitBox();
                 PHitDetect.rb.velocity = new Vector2(0.5f * PHitDetect.rb.velocity.x, PHitDetect.rb.velocity.y);
