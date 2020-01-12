@@ -73,6 +73,7 @@ public class AttackHandlerDHA : MonoBehaviour
     private bool FL = true;
     private int FLx = 2;
     private bool FLF = true;
+    private bool FB = true;
 
     static int ID5L;
     static int ID2L;
@@ -86,6 +87,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int ID2H;
     static int ID5B;
     static int ID2B;
+    static int ID6B;
     static int BreakCharge;
     static int IDBloodBrave;
     static int IDPatissiere;
@@ -120,6 +122,7 @@ public class AttackHandlerDHA : MonoBehaviour
         ID2H = Animator.StringToHash("2H");
         ID5B = Animator.StringToHash("5B");
         ID2B = Animator.StringToHash("2B");
+        ID6B = Animator.StringToHash("6B");
         BreakCharge = Animator.StringToHash("BreakCharge");
         IDBloodBrave = Animator.StringToHash("BloodBrave");
         IDPatissiere = Animator.StringToHash("Patissiere");
@@ -522,6 +525,15 @@ public class AttackHandlerDHA : MonoBehaviour
                         Actions.TurnAroundCheck();
                     }
                 }
+                else if (dir6 == directionBufferTime)
+                {
+                    if (FB)
+                    {
+                        anim.SetTrigger(ID6B);
+                        FB = false;
+                        anim.SetBool(runID, false);
+                    }
+                }
                 else
                 {
                     if(StandB)
@@ -733,6 +745,7 @@ public class AttackHandlerDHA : MonoBehaviour
         FL = true;
         FLx = 2;
         FLF = true;
+        FB = true;
         
 
         Move.jumped = false;

@@ -36,7 +36,7 @@ public class ProjectileProperties : MonoBehaviour
             projectileActive = false;
         }
 
-        if (currentLife > 0 && PHitDetect.hitStop == 0 && hasLifeSpan && PHitDetect.Actions.blitzed % 2 == 0)
+        if (projectileActive && currentLife > 0 && PHitDetect.hitStop == 0 && hasLifeSpan && PHitDetect.Actions.blitzed % 2 == 0)
             currentLife--;        
     }
 
