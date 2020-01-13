@@ -41,7 +41,6 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (Character1.GetComponent<MovementHandler>().Actions.grabbed || Character2.GetComponent<MovementHandler>().Actions.grabbed ||
            (Character2.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character2.GetComponent<CharacterProperties>().currentHealth <= 0) ||
            (Character1.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character1.GetComponent<CharacterProperties>().currentHealth <= 0) ||
@@ -119,6 +118,12 @@ public class CameraController : MonoBehaviour
 
         transform.position = Vector3.Lerp(transform.position, cameraPos, Time.smoothDeltaTime * smooth);
 
-        
+        if (!Character1.GetComponent<MovementHandler>().playing || !Character2.GetComponent<MovementHandler>().playing)
+        {
+            leftBound.enabled = false;
+            rightBound.enabled = false;
+        }
+
+
     }
 }

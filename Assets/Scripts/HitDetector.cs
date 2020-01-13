@@ -44,6 +44,7 @@ public class HitDetector : MonoBehaviour
     public bool commandGrab = false;
 
     public bool blitz = false;
+
     public bool piercing = false;
     public bool launch = false;
     public bool crumple = false;
