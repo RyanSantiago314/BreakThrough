@@ -664,7 +664,7 @@ public class MovementHandler : MonoBehaviour
 
         if (inputTime > 0)
         {
-            inputTime -= Time.deltaTime ;
+            inputTime -= Time.deltaTime;
         }
         else
         {
