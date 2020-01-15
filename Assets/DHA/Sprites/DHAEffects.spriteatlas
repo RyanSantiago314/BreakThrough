@@ -129,6 +129,31 @@ SpriteAtlas:
     - {fileID: 2800000, guid: f185c8cffab26b045a2a5afc259d594d, type: 3}
     - {fileID: 2800000, guid: 8bc3f459ef2d86a49a1d3ea2624d0632, type: 3}
     - {fileID: 2800000, guid: 643d9bac82f38bf41a71e40592d93b4b, type: 3}
+    - {fileID: 2800000, guid: 5234fc1f52445174f9bd0b3b7dc30840, type: 3}
+    - {fileID: 2800000, guid: 51a50348aad856b48965b66f8051ff4a, type: 3}
+    - {fileID: 2800000, guid: dc12782619410784faac7544a4bf3acc, type: 3}
+    - {fileID: 2800000, guid: 6b60c80b4978d5b43b1cc3b148220dd3, type: 3}
+    - {fileID: 2800000, guid: a657424cc1fc58f44bbc888623d9b99b, type: 3}
+    - {fileID: 2800000, guid: c68a9a329f8e9a4459a6e4b3b37f0fdd, type: 3}
+    - {fileID: 2800000, guid: af71f7eccece82348a80676934857809, type: 3}
+    - {fileID: 2800000, guid: aa6bcbf6866975c48a7c026fd04ad00c, type: 3}
+    - {fileID: 2800000, guid: 7e36189c08f482e45bc6d57d894d6f27, type: 3}
+    - {fileID: 2800000, guid: f4a21c27fe6428f429bbafa7b090d39f, type: 3}
+    - {fileID: 2800000, guid: fd6bac4fc9defce4bbc1085e647c4774, type: 3}
+    - {fileID: 2800000, guid: 0058166bc4e785b468b22c8d226b77db, type: 3}
+    - {fileID: 2800000, guid: 00a4275b2ff05604fbd41a022dab288a, type: 3}
+    - {fileID: 2800000, guid: c7111502219e4284c8d0bd1cdbf98e5e, type: 3}
+    - {fileID: 2800000, guid: 6d45f090a42077341a253aa31f50a08a, type: 3}
+    - {fileID: 2800000, guid: ca54f283176c033449923ba7f71681ad, type: 3}
+    - {fileID: 2800000, guid: fd66821e97538594da51351dd9338d7e, type: 3}
+    - {fileID: 2800000, guid: 814ae89776d0d9d44afe3cb8d1473177, type: 3}
+    - {fileID: 2800000, guid: c14682afe5ce5f7489464a7f547f861b, type: 3}
+    - {fileID: 2800000, guid: 812cc840c57fba54381aa3c7ac0d14c9, type: 3}
+    - {fileID: 2800000, guid: 3f340fddbb17bc545ac354aec6610c6d, type: 3}
+    - {fileID: 2800000, guid: bb7774f45c45d464398d20976ce79a20, type: 3}
+    - {fileID: 2800000, guid: 71a66da046e50634c96782de35abb822, type: 3}
+    - {fileID: 2800000, guid: a91451f5ed9f2df429af17818594bd46, type: 3}
+    - {fileID: 2800000, guid: 58d1a8d9bb966154f885c1177a96693e, type: 3}
     totalSpriteSurfaceArea: 250450687
     bindAsDefault: 1
     storedHash:
