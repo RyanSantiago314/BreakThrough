@@ -33,7 +33,7 @@ public class GameOver : MonoBehaviour
 		endTimer = -2;
 		replayTimer = -2;
 		roundTimer = 99;
-		roundTimerText.text = roundTimer.ToString("F2");
+		roundTimerText.text = roundTimer.ToString("F0");
 		replaying = false;
 		if (p1Win == 2 || p2Win == 2)
 		{
@@ -65,7 +65,7 @@ public class GameOver : MonoBehaviour
 		{
 			roundTimer -= Time.deltaTime;
 		}
-		roundTimerText.text = roundTimer.ToString("F2");
+		roundTimerText.text = roundTimer.ToString("F0");
 		if (PlayerProp1.currentHealth <= 0 && p2Win == 2)
 		{
 			if (endTimer == -2)
