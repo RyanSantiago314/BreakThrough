@@ -416,7 +416,9 @@ public class AttackHandlerDHA : MonoBehaviour
         {
             anim.SetBool(dizzyID, false);
             CharProp.refill = true;
-            CharProp.comboTimer = 400;
+            CharProp.comboTimer = 0;
+            CharProp.armor = 2;
+            CharProp.durability = 50;
         }
 
         //aerial recovery, press a button after hitstun ends
@@ -438,7 +440,7 @@ public class AttackHandlerDHA : MonoBehaviour
             Hitboxes.ClearHitBox();
 
         if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
-            heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 2)
+            heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 1)
         {
             anim.SetTrigger(IDBlitz);
             BlitzWave.SetTrigger(IDBlitz);
@@ -452,7 +454,7 @@ public class AttackHandlerDHA : MonoBehaviour
             BlitzEffect.transform.rotation = transform.rotation;
 
             //cost for executing blitz cancel
-            CharProp.armor -= 2;
+            CharProp.armor--;
             if (CharProp.armor > 0)
                 CharProp.durability = 50;
             else
@@ -777,7 +779,7 @@ public class AttackHandlerDHA : MonoBehaviour
 
     void HCBCheck()
     {
-        //check if the player has executed a quarter circle back with the control stick
+        //check if the player has executed a half circle back with the control stick
         if (dir6 > 0 && dir2 > 0 && dir4 > 0 && dir4 > dir2 && dir2 > dir6)
         {
             HCB = .15f;

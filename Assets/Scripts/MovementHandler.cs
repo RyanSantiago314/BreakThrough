@@ -521,7 +521,7 @@ public class MovementHandler : MonoBehaviour
             {
                 pushBox.isTrigger = true;
             }
-            else if (Actions.airborne && opponentMove.Actions.airborne && HitDetect.hitStun == 0)
+            else if (Actions.airborne && opponentMove.Actions.airborne && HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0)
             {
                 pushBox.isTrigger = false;
                 if (transform.position.y < opponent.position.y)

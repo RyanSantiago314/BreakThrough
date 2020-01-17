@@ -64,7 +64,7 @@ public class CharacterProperties : MonoBehaviour
 
         if (currentHealth > 0)
         {
-            if (HitDetect.hitStun > 0)
+            if (HitDetect.hitStun > 0 && !HitDetect.Actions.shattered)
                 comboTimer += Time.deltaTime;
             else if (!HitDetect.anim.GetBool(dizzyID))
                 comboTimer = 0;
@@ -93,7 +93,7 @@ public class CharacterProperties : MonoBehaviour
                 {
                     comboTimer = 0;
                     armor = 1;
-                    durability = 100;
+                    durability = 50;
                 }
                 else
                 {
@@ -167,7 +167,7 @@ public class CharacterProperties : MonoBehaviour
             armor--;
             durability = 100;
         }
-        else if (armor == 0 && durabilityRefillTimer < 3)
+        else if (armor == 0 && durability < 0)
         {
             durability = 0;
         }
