@@ -72,7 +72,7 @@ public class AI : MonoBehaviour
         if (crouchTimer > 0)
 		  {
             crouchTimer -= Time.deltaTime;
-        } 
+        }
         if (grabTimer > 0)
 		  {
             grabTimer -= Time.deltaTime;
@@ -125,7 +125,7 @@ public class AI : MonoBehaviour
         //If AI has not been paused
         if (!pauseAI)
 		  {
-            //Down-Left/Right input of of QCF combo
+            //Down-Left/Right input of QCF combo
             if (multiInputTimer <= 0 && finishMove == true)
 				{
                 if (faceLeft == true)
