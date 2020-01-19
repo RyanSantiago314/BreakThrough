@@ -24,17 +24,19 @@ public class GameOver : MonoBehaviour
     bool replaying;
     bool timerStart;
 
-	void Start() {
+	void Start()
+	{
 		PlayerProp1 = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
 		PlayerProp2 = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
 		child1 = p1menu.transform.GetChild(0).gameObject;
 		child2 = p2menu.transform.GetChild(0).gameObject;
 		endTimer = -2;
 		replayTimer = -2;
-		roundTimer = 150;
-		roundTimerText.text = roundTimer.ToString("F2");
+		roundTimer = 99;
+		roundTimerText.text = roundTimer.ToString("F0");
 		replaying = false;
-		if (p1Win == 2 || p2Win == 2) {
+		if (p1Win == 2 || p2Win == 2)
+		{
     		p1Win = 0;
     		p2Win = 0;
     	}
@@ -43,74 +45,94 @@ public class GameOver : MonoBehaviour
     	timerStart = false;
 	}
 
-	void Update() {
-		if (endTimer > 0) {
+	void Update()
+	{
+		if (endTimer > 0)
+		{
 			timerStart = false;
 			endTimer -= Time.deltaTime;
 		}
-		if (replayTimer > 0) {
+		if (replayTimer > 0)
+		{
 			replayTimer -= Time.deltaTime;
 		}
-		if (StartText.startReady == true) {
+		if (StartText.startReady == true)
+		{
 			timerStart = true;
 			StartText.startReady = false;
 		}
-		if (roundTimer > 0 && timerStart) {
+		if (roundTimer > 0 && timerStart)
+		{
 			roundTimer -= Time.deltaTime;
 		}
-		roundTimerText.text = roundTimer.ToString("F2");
-		if (PlayerProp1.currentHealth <= 0 && p2Win == 2) {
-			if (endTimer == -2) {
+		roundTimerText.text = roundTimer.ToString("F0");
+		if (PlayerProp1.currentHealth <= 0 && p2Win == 2)
+		{
+			if (endTimer == -2)
+			{
 				endTimer = 3;
 			}
-			if (endTimer <=  0 && endTimer > -2) {
+			if (endTimer <=  0 && endTimer > -2)
+			{
 			child2.SetActive(true);
 			}
         }
-        else if (PlayerProp2.currentHealth <= 0 && p1Win == 2) {
-        	if (endTimer == -2) {
+        else if (PlayerProp2.currentHealth <= 0 && p1Win == 2)
+        {
+        	if (endTimer == -2)
+        	{
 				endTimer = 3;
 			}
-            if (endTimer <=  0 && endTimer > -2) {
+            if (endTimer <=  0 && endTimer > -2)
+            {
 			child1.SetActive(true);
 			}
         }
-        if (roundTimer <= 0) {
+        if (roundTimer <= 0)
+        {
         	roundTimer = 0;
 			timerStart = false;
-			if (PlayerProp1.currentHealth > PlayerProp2.currentHealth) {
+			if (PlayerProp1.currentHealth > PlayerProp2.currentHealth)
+			{
 	        	PlayerProp2.currentHealth = 0;
 	        }
-	        if (PlayerProp2.currentHealth > PlayerProp1.currentHealth) {
+	        if (PlayerProp2.currentHealth > PlayerProp1.currentHealth)
+	        {
 	        	PlayerProp1.currentHealth = 0;
 	        }
 		}
         
-        if (allowRounds) {
-	        if (PlayerProp1.currentHealth <= 0 && replaying == false && p2Win != 2) {
+        if (allowRounds)
+        {
+	        if (PlayerProp1.currentHealth <= 0 && replaying == false && p2Win != 2)
+	        {
 				++p2Win;
 				replayTimer = 5;
 				replaying = true;
 				p2WinCount.text = p2Win.ToString();
 			}
-			else if (PlayerProp2.currentHealth <= 0 && replaying == false && p1Win != 2) {
+			else if (PlayerProp2.currentHealth <= 0 && replaying == false && p1Win != 2)
+			{
 				++p1Win;
 				replayTimer = 5;
 				replaying = true;
 				p1WinCount.text = p1Win.ToString();
 			}
-			if (replayTimer <= 0 && replayTimer > -2 && p1Win != 2 && p2Win != 2) {
+			if (replayTimer <= 0 && replayTimer > -2 && p1Win != 2 && p2Win != 2)
+			{
 				replaying = false;
 				ReplayGame();
 			}
 		}
 	}
 
-    public void ReplayGame() {
+    public void ReplayGame()
+    {
     	SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void QuitToMenu() {
+    public void QuitToMenu()
+    {
     	SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 }
