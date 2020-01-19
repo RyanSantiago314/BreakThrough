@@ -7,6 +7,7 @@ public class HitDetector : MonoBehaviour
     public Animator anim;
     public Rigidbody2D rb;
     public AcceptInputs Actions;
+    PauseMenu pauseScreen;
 
     public Collider2D hitBox1;
     public Transform hitTrack;
@@ -126,6 +127,8 @@ public class HitDetector : MonoBehaviour
         throwRejectID = Animator.StringToHash("ThrowReject");
         dizzyID = Animator.StringToHash("Dizzy");
         KOID = Animator.StringToHash("KOed");
+
+        pauseScreen = GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>();
     }
 
     void Update()
@@ -158,14 +161,15 @@ public class HitDetector : MonoBehaviour
         {
             anim.SetBool(runID, false);
             //hitStun only counts down if not in the groundbounce or crumple animations
-            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0)
+            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0 && !pauseScreen.isPaused)
                 hitStun--;
             anim.SetInteger(hitStunID, hitStun);
         }
         if(blockStun > 0 && hitStop == 0)
         {
             Actions.Guard();
-            blockStun--;
+            if (!pauseScreen.isPaused)
+                blockStun--;
             anim.SetInteger(blockStunID, blockStun);
         }
 
@@ -174,7 +178,8 @@ public class HitDetector : MonoBehaviour
             //hitStop to give hits more impact and allow time to input next move
             anim.SetFloat(animSpeedID, 0f);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            hitStop--;
+            if (!pauseScreen.isPaused)
+                hitStop--;
         }
         else if (Actions.grabbed)
         {
