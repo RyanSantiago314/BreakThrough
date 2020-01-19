@@ -5,6 +5,10 @@ using System;
 
 public class AI : MonoBehaviour
 {
+    // Player data
+    
+
+    // AI data
     float timer;
     float crouchTimer;
     float grabTimer;
@@ -26,6 +30,7 @@ public class AI : MonoBehaviour
     bool finishDash;
     bool pauseAI;
     bool keepInput;
+
 
     private MaxInput MaxInput;
     private CharacterProperties PlayerProp;
@@ -72,7 +77,7 @@ public class AI : MonoBehaviour
         if (crouchTimer > 0)
 		  {
             crouchTimer -= Time.deltaTime;
-        } 
+        }
         if (grabTimer > 0)
 		  {
             grabTimer -= Time.deltaTime;
