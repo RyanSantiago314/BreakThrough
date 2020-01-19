@@ -142,12 +142,12 @@ MonoBehaviour:
   anim: {fileID: 1571492460223486445}
   rb: {fileID: 1571492460223486444}
   PHitDetect: {fileID: 1571492461831992422}
-  maxLife: 9999
+  maxLife: 600
   currentLife: 0
   maxHits: 24
   currentHits: 0
   projectileActive: 1
-  hasLifeSpan: 0
+  hasLifeSpan: 1
 --- !u!114 &1571492460223489552
 MonoBehaviour:
   m_ObjectHideFlags: 0

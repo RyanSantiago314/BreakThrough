@@ -218,6 +218,7 @@ public class AcceptInputs : MonoBehaviour
         grabbed = false;
         throwInvincible = false;
         recovering = false;
+        attacking = false;
     }
 
     public void Attacking()

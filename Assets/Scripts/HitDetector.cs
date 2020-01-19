@@ -158,7 +158,7 @@ public class HitDetector : MonoBehaviour
         {
             anim.SetBool(runID, false);
             //hitStun only counts down if not in the groundbounce or crumple animations
-            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && !Actions.shattered && Actions.blitzed % 2 == 0)
+            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0)
                 hitStun--;
             anim.SetInteger(hitStunID, hitStun);
         }
@@ -210,7 +210,8 @@ public class HitDetector : MonoBehaviour
                     anim.SetFloat(animSpeedID, .35f);
 
                 rb.mass = Actions.Move.weight * .75f;
-                rb.gravityScale = .6f * Actions.gravScale;
+                if (rb.velocity.y <= 0)
+                    rb.gravityScale = .6f * Actions.gravScale;
 
             }
             else if (Actions.shattered && hitStun > 0)
@@ -377,7 +378,7 @@ public class HitDetector : MonoBehaviour
                 }
                 else if (OpponentDetector.Actions.Move.justDefenseTime <= 0 && OpponentDetector.Actions.standing)
                 {
-                    if (Actions.Move.OpponentProperties.armor > 0)
+                    if (Actions.Move.OpponentProperties.durability > 0)
                     {
                         //durability damage
                         Actions.Move.OpponentProperties.durability -= damage/5;
