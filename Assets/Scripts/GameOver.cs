@@ -6,8 +6,10 @@ using TMPro;
 
 public class GameOver : MonoBehaviour
 {
+	//Variables for character properties for both player 1 and 2
     private CharacterProperties PlayerProp1;
     private CharacterProperties PlayerProp2;
+    //Menu object variables
     public GameObject p1menu;
     public GameObject p2menu;
     public bool allowRounds;
@@ -81,6 +83,7 @@ public class GameOver : MonoBehaviour
 			{
 			child2.SetActive(true);
 			}
+			StartText.roundCount = 0;
         }
         else if (PlayerProp2.currentHealth <= 0 && p1Win == 2)
         {
@@ -92,6 +95,7 @@ public class GameOver : MonoBehaviour
             {
 			child1.SetActive(true);
 			}
+			StartText.roundCount = 0;
         }
         if (roundTimer <= 0)
         {
