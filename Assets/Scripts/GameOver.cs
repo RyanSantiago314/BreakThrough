@@ -39,10 +39,16 @@ public class GameOver : MonoBehaviour
 		{
     		p1Win = 0;
     		p2Win = 0;
+    		PlayerProp1.armor = 4;
+    		PlayerProp2.armor = 4;
+    		PlayerProp1.durability = 100;
+    		PlayerProp2.durability = 10;
     	}
     	p1WinCount.text = p1Win.ToString();
     	p2WinCount.text = p2Win.ToString();
     	timerStart = false;
+    	child1.SetActive(false);
+    	child2.SetActive(false);
 	}
 
 	void Update()
@@ -59,7 +65,6 @@ public class GameOver : MonoBehaviour
 		if (StartText.startReady == true)
 		{
 			timerStart = true;
-			StartText.startReady = false;
 		}
 		if (roundTimer > 0 && timerStart)
 		{
@@ -120,7 +125,6 @@ public class GameOver : MonoBehaviour
 			}
 			if (replayTimer <= 0 && replayTimer > -2 && p1Win != 2 && p2Win != 2)
 			{
-				replaying = false;
 				ReplayGame();
 			}
 		}
@@ -128,7 +132,15 @@ public class GameOver : MonoBehaviour
 
     public void ReplayGame()
     {
-    	SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    	PlayerProp1.currentHealth = PlayerProp1.maxHealth;
+    	PlayerProp2.currentHealth = PlayerProp2.maxHealth;
+    	Vector3 p1Start = new Vector3(-1.3f, 1.15f, -3);
+    	Vector3 p2Start = new Vector3(1.3f, 1.15f, -3);
+    	GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
+    	GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
+    	StartText.startReady = false;
+    	replaying = false;
+    	Start();
     }
 
     public void QuitToMenu()
