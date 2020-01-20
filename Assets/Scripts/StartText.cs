@@ -80,7 +80,7 @@ public class StartText : MonoBehaviour
             timer = -2;
         }
         //Checking to see if countdown is ready
-        if (beginCountdown == true)
+        if (beginCountdown)
         {
             //If its the first round do long countdown
             if (isFirstRound)
