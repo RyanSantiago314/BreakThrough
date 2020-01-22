@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657922, g: 0.4964128, b: 0.57481915, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465794, g: 0.4964134, b: 0.57481974, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2722,6 +2722,7 @@ MonoBehaviour:
   anim: {fileID: 1026248757}
   rb: {fileID: 2128405694}
   Actions: {fileID: 1026248758}
+  pauseScreen: {fileID: 0}
   hitBox1: {fileID: 515295539}
   hitTrack: {fileID: 1462430422}
   currentVelocity: {x: 0, y: 0}
@@ -5091,6 +5092,7 @@ MonoBehaviour:
   anim: {fileID: 575799686}
   rb: {fileID: 1653018575}
   Actions: {fileID: 575799681}
+  pauseScreen: {fileID: 0}
   hitBox1: {fileID: 1251302586}
   hitTrack: {fileID: 1462430422}
   currentVelocity: {x: 0, y: 0}
@@ -6748,7 +6750,7 @@ MonoBehaviour:
   MaxInput: {fileID: 1948197657}
   opponent: {fileID: 0}
   OpponentProperties: {fileID: 0}
-  weight: 0.53
+  weight: 0.52
   walkSpeed: 1.75
   walkBackSpeed: 1.6
   backDashForce: 1.9
@@ -7943,7 +7945,7 @@ MonoBehaviour:
   MaxInput: {fileID: 1948197657}
   opponent: {fileID: 0}
   OpponentProperties: {fileID: 0}
-  weight: 0.53
+  weight: 0.52
   walkSpeed: 1.75
   walkBackSpeed: 1.6
   backDashForce: 1.9
