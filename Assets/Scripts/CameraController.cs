@@ -70,7 +70,7 @@ public class CameraController : MonoBehaviour
             else
                 cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2 + yOffset, zPos);
 
-            if (transform.position.x < (Character1.position.x + Character2.position.x) / 2 + .5f && transform.position.x > (Character1.position.x + Character2.position.x) / 2 - .5f)
+            if (transform.position.x < (Character1.position.x + Character2.position.x) / 2 + .75f && transform.position.x > (Character1.position.x + Character2.position.x) / 2 - .75f)
                 ScreenBound.transform.position = transform.position;
 
             smooth = 10;

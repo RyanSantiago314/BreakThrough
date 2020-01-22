@@ -7,7 +7,7 @@ public class HitDetector : MonoBehaviour
     public Animator anim;
     public Rigidbody2D rb;
     public AcceptInputs Actions;
-    PauseMenu pauseScreen;
+    public PauseMenu pauseScreen;
 
     public Collider2D hitBox1;
     public Transform hitTrack;

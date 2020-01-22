@@ -151,7 +151,7 @@ public class AcceptInputs : MonoBehaviour
         if(wallStick == 0)
             anim.SetBool("WallStick", false);
 
-        if (blitzed > 0 && Move.HitDetect.hitStop == 0)
+        if (blitzed > 0 && Move.HitDetect.hitStop == 0 && !Move.HitDetect.pauseScreen.isPaused)
             blitzed--;
 
         anim.SetBool(airID, airborne);
