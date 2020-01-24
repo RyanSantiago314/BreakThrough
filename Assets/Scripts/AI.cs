@@ -14,6 +14,7 @@ public class AI : MonoBehaviour
     bool pIsBlocking;
     bool pIsJumping;
     bool pIsCrouching;
+    bool pIsAttacking;
 
     // AI data
     int armor;
@@ -46,6 +47,8 @@ public class AI : MonoBehaviour
     private CharacterProperties PlayerProp;
     private CharacterProperties AIProp;
 
+    private string [] actions = {   }
+
     // Start is called before the first frame update
     void Start()
 	{
@@ -53,6 +56,7 @@ public class AI : MonoBehaviour
         pIsBlocking = false;
         pIsJumping = false;
         pIsCrouching = false;
+        pIsAttacking = false;
 
         // AI data
         timer = 0;
@@ -100,23 +104,20 @@ public class AI : MonoBehaviour
             // Getting all the current player data
             pArmor = PlayerProp.armor;
             pDurability = PlayerProp.durability;
-            /*
-            bool pIsBlocking;
-            bool pIsJumping;
-            bool pIsCrouching;
-            p1y
-            */
+            pIsBlocking = false;    // Ask Ryan how to get this
+            pIsJumping = false;  // Ask Ryan how to get this
+            pIsCrouching = false;   // Ask Ryan how to get this
+            p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x + 1.5;
+            p1y = GameObject.Find("Player1").transform.GetChild(0).transform.position.y;
 
             // Getting all the current AI data
             armor = AIProp.armor;
             durability = AIProp.durability;
             health = AIProp.currentHealth;
-            // p2y
-
-            //Setting variables representing the x and y locations of player and ai (ai location adjusted based on direction its facing)
-            p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x + 1.5;
             p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0;
-            //faceLeft = false;
+            p2y = GameObject.Find("Player2").transform.GetChild(0).transform.position.y + 1.0;
+
+            // AI location adjusted based on direction its facing)
             if (faceLeft == false)
     		{
                 p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0 + 0.914;
