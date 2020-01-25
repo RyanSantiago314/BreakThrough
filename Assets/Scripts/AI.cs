@@ -47,9 +47,21 @@ public class AI : MonoBehaviour
     private CharacterProperties PlayerProp;
     private CharacterProperties AIProp;
 
-    private string [] actions = {   }
+    // Still deciding on how to do this.
+    // Things it must have:
+    // Features- value to be decided in calculations
+    // Weight of each feature
+    // feature x weight
 
-    // Start is called before the first frame update
+    //private string [] actions = {"punch", "kick", "slash", "shatter", "moveLeft", "moveRight",
+    //                            "Jump", "Crouch", "Defend", "Grab", "Blitz"}
+    var actions = new Dictionary<string,int>();
+    actions.Add("Attack", 0);
+    actions.Add("Defend", 0);
+    actions.Add("MoveLeft", 0);
+    actions.Add("MoveRight", 0);
+
+    // Registering the values' initial states
     void Start()
 	{
         // Player data
@@ -101,27 +113,7 @@ public class AI : MonoBehaviour
         //If AI has not been paused
         if (!pauseAI)
 		{
-            // Getting all the current player data
-            pArmor = PlayerProp.armor;
-            pDurability = PlayerProp.durability;
-            pIsBlocking = false;    // Ask Ryan how to get this
-            pIsJumping = false;  // Ask Ryan how to get this
-            pIsCrouching = false;   // Ask Ryan how to get this
-            p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x + 1.5;
-            p1y = GameObject.Find("Player1").transform.GetChild(0).transform.position.y;
-
-            // Getting all the current AI data
-            armor = AIProp.armor;
-            durability = AIProp.durability;
-            health = AIProp.currentHealth;
-            p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0;
-            p2y = GameObject.Find("Player2").transform.GetChild(0).transform.position.y + 1.0;
-
-            // AI location adjusted based on direction its facing)
-            if (faceLeft == false)
-    		{
-                p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0 + 0.914;
-            }
+            updateProperties();
 
             //Setting random variable and manipulating timer variables
             var rand = new System.Random();
@@ -406,6 +398,31 @@ public class AI : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    void updateProperties()
+    {
+        // Getting all the current player data
+        pArmor = PlayerProp.armor;
+        pDurability = PlayerProp.durability;
+        pIsBlocking = false;    // Ask Ryan/Jack how to get this
+        pIsJumping = false;     // Ask Ryan/Jack how to get this
+        pIsCrouching = false;   // Ask Ryan/Jack how to get this
+        p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x + 1.5;
+        p1y = GameObject.Find("Player1").transform.GetChild(0).transform.position.y;
+
+        // Getting all the current AI data
+        armor = AIProp.armor;
+        durability = AIProp.durability;
+        health = AIProp.currentHealth;
+        p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0;
+        p2y = GameObject.Find("Player2").transform.GetChild(0).transform.position.y + 1.0;
+
+        // AI location adjusted based on direction its facing)
+        if (faceLeft == false)
+        {
+            p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0 + 0.914;
         }
     }
 }
