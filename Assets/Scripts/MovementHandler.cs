@@ -76,9 +76,19 @@ public class MovementHandler : MonoBehaviour
     {
         if (transform.parent.name == "Player1")
         {
+            
             Horizontal = "Horizontal_P1";
             Vertical = "Vertical_P1";
             L3 = "L3_P1";
+            if(Input.GetJoystickNames().Length >= 1)
+            {
+                if(Input.GetJoystickNames()[0].Contains("Xbox"))
+                {
+                    Horizontal = "Horizontal_P1_Xbox";
+                    Vertical = "Vertical_P1_Xbox";
+                    L3 = "L3_P1_Xbox";
+                }
+            }
             opponent = GameObject.Find("Player2").transform.GetChild(0).transform;
         }
         else
@@ -86,6 +96,15 @@ public class MovementHandler : MonoBehaviour
             Horizontal = "Horizontal_P2";
             Vertical = "Vertical_P2";
             L3 = "L3_P2";
+            if (Input.GetJoystickNames().Length >= 2)
+            {
+                if (Input.GetJoystickNames()[1].Contains("Xbox"))
+                {
+                    Horizontal = "Horizontal_P2_Xbox";
+                    Vertical = "Vertical_P2_Xbox";
+                    L3 = "L3_P2_Xbox";
+                }
+            }
             opponent = GameObject.Find("Player1").transform.GetChild(0).transform;
         }
         OpponentProperties = opponent.GetComponent<CharacterProperties>();
