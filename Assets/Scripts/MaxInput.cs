@@ -46,6 +46,7 @@ public class MaxInput : MonoBehaviour
     {
         ClearInput("Player1");
         ClearInput("Player2");
+        AI = true;
 
         if (AI && neural)
         {
@@ -62,7 +63,7 @@ public class MaxInput : MonoBehaviour
             //GetComponent<FighterAcademy>().enabled = false;
         }
     }
-    
+
     public float GetAxisRaw(string axis)
     {
         if ((!training && !AI && !neural) || axis.Contains("P1") && !training && (!neural || !AI))

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class AI : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class AI : MonoBehaviour
     double p1x;
     double p1y;
     bool pIsBlocking;
-    bool pIsJumping;
+    bool pIsAirborne;
     bool pIsCrouching;
     bool pIsAttacking;
 
@@ -53,20 +54,18 @@ public class AI : MonoBehaviour
     // Weight of each feature
     // feature x weight
 
-    //private string [] actions = {"punch", "kick", "slash", "shatter", "moveLeft", "moveRight",
+    // private string [] actions = {"punch", "kick", "slash", "shatter", "moveLeft", "moveRight",
     //                            "Jump", "Crouch", "Defend", "Grab", "Blitz"}
-    var actions = new Dictionary<string,int>();
-    actions.Add("Attack", 0);
-    actions.Add("Defend", 0);
-    actions.Add("MoveLeft", 0);
-    actions.Add("MoveRight", 0);
+    // To change value use myDictionary[myKey] = myNewValue;
+    public Dictionary<string, int> actions = new Dictionary<string, int>();
+
 
     // Registering the values' initial states
     void Start()
 	{
         // Player data
         pIsBlocking = false;
-        pIsJumping = false;
+        pIsAirborne = false;
         pIsCrouching = false;
         pIsAttacking = false;
 
@@ -99,10 +98,16 @@ public class AI : MonoBehaviour
         }
         PlayerProp = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
         AIProp = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
+
+        actions.Add("Attack", 5);
+        actions.Add("Defend", 10);
+        actions.Add("MoveLeft", 0);
+        actions.Add("MoveRight", 0);
     }
 
     void Update()
 	{
+        //if (pIsAirborne) Debug.Log("Holy crap it worked");
         //Stops ai if player has lost
         pHealth = PlayerProp.currentHealth;
         if (pHealth <= 0)
@@ -114,6 +119,15 @@ public class AI : MonoBehaviour
         if (!pauseAI)
 		{
             updateProperties();
+
+            // var max = actions.First();
+            // foreach(var kvp in actions)
+            // {
+            //     if (kvp.Value > max.Value)
+            //         max = kvp;
+            // }
+            var max = actions.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;   // Gets key with highest value
+            Debug.Log(max);
 
             //Setting random variable and manipulating timer variables
             var rand = new System.Random();
@@ -406,9 +420,14 @@ public class AI : MonoBehaviour
         // Getting all the current player data
         pArmor = PlayerProp.armor;
         pDurability = PlayerProp.durability;
+
+        GameObject playerInput = GameObject.Find("Player1").transform.GetChild(0).GetChild(0).gameObject;
+        GameObject playerHit = GameObject.Find("Player1").transform.GetChild(0).GetChild(2).gameObject;
+
         pIsBlocking = false;    // Ask Ryan/Jack how to get this
-        pIsJumping = false;     // Ask Ryan/Jack how to get this
+        pIsAirborne = playerInput.GetComponent<AcceptInputs>().airborne;
         pIsCrouching = false;   // Ask Ryan/Jack how to get this
+        pIsAttacking = playerInput.GetComponent<AcceptInputs>().attacking;
         p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x + 1.5;
         p1y = GameObject.Find("Player1").transform.GetChild(0).transform.position.y;
 
