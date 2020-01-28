@@ -46,7 +46,7 @@ public class MaxInput : MonoBehaviour
     {
         ClearInput("Player1");
         ClearInput("Player2");
-        AI = true;
+        AI = true;  // DELETE THIS LATER WHEN FINISHED TESTING AIIIIIIIIIII
 
         if (AI && neural)
         {
