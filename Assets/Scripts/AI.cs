@@ -120,12 +120,8 @@ public class AI : MonoBehaviour
 		{
             updateProperties();
 
-            // var max = actions.First();
-            // foreach(var kvp in actions)
-            // {
-            //     if (kvp.Value > max.Value)
-            //         max = kvp;
-            // }
+            resetActionValues();       // May not always do this every time?
+
             var max = actions.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;   // Gets key with highest value
             Debug.Log(max);
 
@@ -443,5 +439,13 @@ public class AI : MonoBehaviour
         {
             p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0 + 0.914;
         }
+    }
+
+    void resetActionValues()
+    {
+        actions["Attack"] = 0;
+        actions["Defend"] = 0;
+        actions["MoveLeft"] = 0;
+        actions["MoveRight"] = 0;
     }
 }
