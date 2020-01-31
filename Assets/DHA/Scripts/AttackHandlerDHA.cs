@@ -194,9 +194,15 @@ public class AttackHandlerDHA : MonoBehaviour
             Move.OpponentProperties.durability = 100;
         }
 
-        if (StartText.startReady) {
+        if (StartText.startReady)
+        {
             Move.playing = true;
             Move.opponent.GetComponent<MovementHandler>().playing = true;
+        }
+        if (!StartText.startReady)
+        {
+            Move.playing = false;
+            Move.opponent.GetComponent<MovementHandler>().playing = false;
         }
 
         if (Move.HitDetect.hitStun > 0)
@@ -332,35 +338,35 @@ public class AttackHandlerDHA : MonoBehaviour
                     down
          */
         // pressing left on the d pad or stick, considered backward if facing right, considered forward if facing left
-        if (MaxInput.GetAxis(Horizontal) < 0) 
+        if (MaxInput.GetAxis(Horizontal) < 0 && MaxInput.GetAxis(Vertical) < 0)
         {
-            if(MaxInput.GetAxis(Vertical) < 0) // diagonal directions
-            {
-                if (Move.facingRight) 
-                    // 1 : pressing down-back
-                    dir1 = directionBufferTime;
-                else // 3 : pressing down-forward
-                    dir3 = directionBufferTime;
-            }
-            else if (Move.facingRight) 
+            if (Move.transform.position.x < Move.opponent.position.x)
+                // 1 : pressing down-back
+                dir1 = directionBufferTime;
+            else if (Move.transform.position.x > Move.opponent.position.x)// 3 : pressing down-forward
+                dir3 = directionBufferTime;
+        }
+        else if (MaxInput.GetAxis(Horizontal) > 0 && MaxInput.GetAxis(Vertical) < 0)
+        {
+            if (Move.transform.position.x < Move.opponent.position.x)
+                // pressing down-forward
+                dir3 = directionBufferTime;
+            else if (Move.transform.position.x > Move.opponent.position.x)
+                // pressing down-back
+                dir1 = directionBufferTime;
+        }
+        else if (MaxInput.GetAxis(Horizontal) < 0)
+        {
+            if (Move.transform.position.x < Move.opponent.position.x)
                 // pressing back if facing right
                 dir4 = directionBufferTime;
-            else 
+            else if (Move.transform.position.x > Move.opponent.position.x)
                 // pressing forward if facing left
                 dir6 = directionBufferTime;
         }
         // pressing right on the d pad/stick, considered forward if facing right, considered backward if facing left
-        else if (MaxInput.GetAxis(Horizontal) > 0) 
+        else if (MaxInput.GetAxis(Horizontal) > 0)
         {
-            if (MaxInput.GetAxis(Vertical) < 0)
-            {
-                if (Move.transform.position.x < Move.opponent.position.x)
-                    // pressing down-forward
-                    dir3 = directionBufferTime;
-                else if (Move.transform.position.x > Move.opponent.position.x)
-                    // pressing down-back
-                    dir1 = directionBufferTime;
-            }
             if (Move.transform.position.x < Move.opponent.position.x)
                 //forward if facing right
                 dir6 = directionBufferTime;
@@ -416,7 +422,9 @@ public class AttackHandlerDHA : MonoBehaviour
         {
             anim.SetBool(dizzyID, false);
             CharProp.refill = true;
-            CharProp.comboTimer = 400;
+            CharProp.comboTimer = 0;
+            CharProp.armor = 2;
+            CharProp.durability = 50;
         }
 
         //aerial recovery, press a button after hitstun ends
@@ -438,7 +446,7 @@ public class AttackHandlerDHA : MonoBehaviour
             Hitboxes.ClearHitBox();
 
         if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
-            heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 2)
+            heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 1)
         {
             anim.SetTrigger(IDBlitz);
             BlitzWave.SetTrigger(IDBlitz);
@@ -452,7 +460,7 @@ public class AttackHandlerDHA : MonoBehaviour
             BlitzEffect.transform.rotation = transform.rotation;
 
             //cost for executing blitz cancel
-            CharProp.armor -= 2;
+            CharProp.armor--;
             if (CharProp.armor > 0)
                 CharProp.durability = 50;
             else
@@ -777,12 +785,14 @@ public class AttackHandlerDHA : MonoBehaviour
 
     void HCBCheck()
     {
-        //check if the player has executed a quarter circle back with the control stick
-        if (dir6 > 0 && dir2 > 0 && dir4 > 0 && dir4 > dir2 && dir2 > dir6)
+        //check if the player has executed a half circle back with the control stick
+        if (dir6 > 0 && (dir1 > 0 || dir2 > 0 || dir3 > 0) && dir4 > 0 && ((dir4 > dir2 && dir2 > dir6)|| (dir4 > dir1 && dir1 > dir6) || (dir4 > dir3 && dir3 > dir6)))
         {
             HCB = .15f;
-            dir2 = 0;
             dir6 = 0;
+            dir3 = 0;
+            dir2 = 0;
+            dir1 = 0;
             dir4 = 0;
         }
     }

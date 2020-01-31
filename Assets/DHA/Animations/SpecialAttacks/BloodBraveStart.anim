@@ -124,6 +124,6 @@ AnimationClip:
     functionName: Rise
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 3.5
+    floatParameter: 2.85
     intParameter: 0
     messageOptions: 0

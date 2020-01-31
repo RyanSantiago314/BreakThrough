@@ -95,7 +95,7 @@ public class HitboxDHA : MonoBehaviour
         ClearHitBox();
         hit1.enabled = true;
         hit1.offset = new Vector2(.0f, .0f);
-        hit1.size = new Vector2(3.5f, 3.5f);
+        hit1.size = new Vector2(4f, 4f);
 
         HitDetect.attackLevel = 0;
         HitDetect.guard = "Unblockable";
@@ -511,13 +511,16 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv4;
         HitDetect.potentialHitStop = hitStopLv2;
-        HitDetect.potentialKnockBack = new Vector2(2f, 0f);
+        HitDetect.potentialKnockBack = new Vector2(.7f, 3.5f);
         HitDetect.potentialAirKnockBack = new Vector2(.5f, 3f);
         HitDetect.initialProration = .8f;
+        if (HitDetect.OpponentDetector.Actions.standing)
+            HitDetect.forcedProration = .8f;
         HitDetect.attackLevel = 2;
         HitDetect.guard = "Mid";
-        if (HitDetect.OpponentDetector.Actions.airborne)
-            HitDetect.launch = true;
+
+        HitDetect.launch = true;
+
         HitDetect.allowBreak = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
@@ -774,7 +777,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialKnockBack = new Vector2(3f, 2f);
         HitDetect.potentialAirKnockBack = new Vector2(2f, -1f);
-        HitDetect.potentialHitStun = 60;
+        HitDetect.potentialHitStun = 45;
         HitDetect.potentialHitStop = hitStopLv4;
         HitDetect.initialProration = 1f;
         HitDetect.forcedProration = .85f;
@@ -782,7 +785,9 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.guard = "Mid";
 
         HitDetect.allowGroundBounce = true;
-        if (HitDetect.OpponentDetector.Actions.standing)
+        if (HitDetect.OpponentDetector.Actions.recovering || HitDetect.OpponentDetector.Actions.armorActive)
+            HitDetect.allowWallStick = true;
+        else if (HitDetect.OpponentDetector.Actions.standing)
             HitDetect.allowWallBounce = true;
 
         HitDetect.shatter = true;
@@ -1032,7 +1037,7 @@ public class HitboxDHA : MonoBehaviour
 
         hit1.offset = new Vector2(1.4f, .5f);
         hit1.size = new Vector2(1.3f, .47f);
-        HitDetect.damage = 70;
+        HitDetect.damage = 100;
         HitDetect.initialProration = .7f;
         HitDetect.forcedProration = .7f;
         HitDetect.potentialAirKnockBack = new Vector2(2.5f, 2f);

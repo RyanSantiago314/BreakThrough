@@ -521,13 +521,21 @@ public class MovementHandler : MonoBehaviour
             {
                 pushBox.isTrigger = true;
             }
-            else if (Actions.airborne && opponentMove.Actions.airborne && HitDetect.hitStun == 0)
+            else if (Actions.airborne && opponentMove.Actions.airborne && HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0)
             {
                 pushBox.isTrigger = false;
-                    if (facingRight)
+                if (transform.position.y < opponent.position.y)
+                {
+                    if (transform.position.x < opponent.position.x - .05f)
+                        transform.position = new Vector3(opponent.position.x - (.51f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                    else if (transform.position.x > opponent.position.x + .05f)
+                        transform.position = new Vector3(opponent.position.x + (.51f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                    else if (facingRight)
                         transform.position = new Vector3(opponent.position.x - (.51f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
                     else
                         transform.position = new Vector3(opponent.position.x + (.51f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                    pushBox.isTrigger = true;
+                }
             }
             else if (Actions.airborne && !opponentMove.Actions.airborne && hittingWall && transform.position.y - opponent.position.y < .5f * pushBox.size.y)
             {

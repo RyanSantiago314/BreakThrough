@@ -7,8 +7,7 @@ public class CameraController : MonoBehaviour
     GameObject Player1;
     GameObject Player2;
 
-    public BoxCollider2D leftBound;
-    public BoxCollider2D rightBound;
+    public GameObject ScreenBound;
 
     Transform Character1;
     Transform Character2;
@@ -58,9 +57,6 @@ public class CameraController : MonoBehaviour
                     Character1.GetComponent<MovementHandler>().Actions.superFlash > 10)
                 cameraPos = new Vector3(Character1.position.x, Character1.position.y, zPosZoom);
 
-            leftBound.enabled = false;
-            rightBound.enabled = false;
-
             smooth = 5;
 
             if (cameraPos.y < 1)
@@ -74,13 +70,10 @@ public class CameraController : MonoBehaviour
             else
                 cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2 + yOffset, zPos);
 
-            if ((Mathf.Abs(Character1.position.x - Character2.position.x) < 3.5 && transform.position.z >= zPos) || (Mathf.Abs(Character1.position.x - Character2.position.x) > 3.5 && transform.position.z >= zPosZoomOut))
-            {
-                leftBound.enabled = true;
-                rightBound.enabled = true;
-            }
+            if (transform.position.x < (Character1.position.x + Character2.position.x) / 2 + .75f && transform.position.x > (Character1.position.x + Character2.position.x) / 2 - .75f)
+                ScreenBound.transform.position = transform.position;
 
-            smooth = 7;
+            smooth = 10;
 
             if (Character1.GetComponent<MovementHandler>().wallStickTimer == 35 || Character2.GetComponent<MovementHandler>().wallStickTimer == 35)
             {
@@ -117,12 +110,6 @@ public class CameraController : MonoBehaviour
             cameraPos = new Vector3(cameraPos.x, 4f, cameraPos.z);
 
         transform.position = Vector3.Lerp(transform.position, cameraPos, Time.smoothDeltaTime * smooth);
-
-        if (!Character1.GetComponent<MovementHandler>().playing || !Character2.GetComponent<MovementHandler>().playing)
-        {
-            leftBound.enabled = false;
-            rightBound.enabled = false;
-        }
 
 
     }

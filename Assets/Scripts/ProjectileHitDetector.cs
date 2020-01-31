@@ -9,6 +9,8 @@ public class ProjectileHitDetector : MonoBehaviour
     public AcceptInputs Actions;
     public HitDetector HitDetect;
     public ProjectileProperties ProjProp;
+    PauseMenu pauseScreen;
+
     public Collider2D hitBox1;
 
     public Vector2 currentVelocity;
@@ -116,6 +118,8 @@ public class ProjectileHitDetector : MonoBehaviour
         throwRejectID = Animator.StringToHash("ThrowReject");
         dizzyID = Animator.StringToHash("Dizzy");
         KOID = Animator.StringToHash("KOed");
+
+        pauseScreen = GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>();
     }
 
     // Update is called once per frame
@@ -123,12 +127,24 @@ public class ProjectileHitDetector : MonoBehaviour
     {
         opponentValor = Actions.Move.OpponentProperties.currentValor;
 
+        if ((Input.GetButtonDown("Start_P1") || Input.GetButtonDown("Start_P2")) && pauseScreen.isPaused)
+        {
+            currentVelocity = rb.velocity;
+            currentAngularVelocity = rb.angularVelocity;
+        }
+
+        if (pauseScreen.isPaused && hitStop == 0)
+        {
+            hitStop = 1;
+        }
+
         if (hitStop > 0)
         {
             //hitStop to give hits more impact and allow time to input next move
             anim.SetFloat(animSpeedID, 0f);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            hitStop--;
+            if (!pauseScreen.isPaused)
+                hitStop--;
         }
         else
         {

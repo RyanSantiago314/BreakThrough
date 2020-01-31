@@ -7,6 +7,7 @@ public class HitDetector : MonoBehaviour
     public Animator anim;
     public Rigidbody2D rb;
     public AcceptInputs Actions;
+    public PauseMenu pauseScreen;
 
     public Collider2D hitBox1;
     public Transform hitTrack;
@@ -126,6 +127,8 @@ public class HitDetector : MonoBehaviour
         throwRejectID = Animator.StringToHash("ThrowReject");
         dizzyID = Animator.StringToHash("Dizzy");
         KOID = Animator.StringToHash("KOed");
+
+        pauseScreen = GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>();
     }
 
     void Update()
@@ -158,14 +161,15 @@ public class HitDetector : MonoBehaviour
         {
             anim.SetBool(runID, false);
             //hitStun only counts down if not in the groundbounce or crumple animations
-            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && !Actions.shattered && Actions.blitzed % 2 == 0)
+            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0 && !Actions.shattered && !pauseScreen.isPaused)
                 hitStun--;
             anim.SetInteger(hitStunID, hitStun);
         }
         if(blockStun > 0 && hitStop == 0)
         {
             Actions.Guard();
-            blockStun--;
+            if (!pauseScreen.isPaused)
+                blockStun--;
             anim.SetInteger(blockStunID, blockStun);
         }
 
@@ -174,7 +178,8 @@ public class HitDetector : MonoBehaviour
             //hitStop to give hits more impact and allow time to input next move
             anim.SetFloat(animSpeedID, 0f);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            hitStop--;
+            if (!pauseScreen.isPaused)
+                hitStop--;
         }
         else if (Actions.grabbed)
         {
@@ -210,7 +215,8 @@ public class HitDetector : MonoBehaviour
                     anim.SetFloat(animSpeedID, .35f);
 
                 rb.mass = Actions.Move.weight * .75f;
-                rb.gravityScale = .6f * Actions.gravScale;
+                if (rb.velocity.y <= 0)
+                    rb.gravityScale = .6f * Actions.gravScale;
 
             }
             else if (Actions.shattered && hitStun > 0)
@@ -317,16 +323,16 @@ public class HitDetector : MonoBehaviour
                 if(OpponentDetector.Actions.Move.hittingWall)
                 {
                     if (potentialKnockBack.x > potentialKnockBack.y)
-                        KnockBack = new Vector2(1.3f * potentialKnockBack.x , 0);
+                        KnockBack = new Vector2(potentialKnockBack.x , 0);
                     else
-                        KnockBack = new Vector2(1.3f * potentialKnockBack.y, 0);
+                        KnockBack = new Vector2((potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
                 }
                 else if (Actions.Move.hittingWall)
                 {
                     if (potentialKnockBack.x > potentialKnockBack.y)
-                        OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.8f, 0);
+                        OpponentDetector.KnockBack = potentialKnockBack * new Vector2(1f, 0);
                     else
-                        OpponentDetector.KnockBack = new Vector2(.8f * potentialKnockBack.y, 0);
+                        OpponentDetector.KnockBack = new Vector2((potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
                 }
                 else
                 {
@@ -337,8 +343,8 @@ public class HitDetector : MonoBehaviour
                     }
                     else
                     {
-                        KnockBack = new Vector2(.8f * potentialKnockBack.y, 0);
-                        OpponentDetector.KnockBack = new Vector2(.9f * potentialKnockBack.y, 0);
+                        KnockBack = new Vector2((potentialKnockBack.y + potentialKnockBack.x)/2, 0);
+                        OpponentDetector.KnockBack = new Vector2(.8f * (potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
                     }
                     
                 }
@@ -377,7 +383,7 @@ public class HitDetector : MonoBehaviour
                 }
                 else if (OpponentDetector.Actions.Move.justDefenseTime <= 0 && OpponentDetector.Actions.standing)
                 {
-                    if (Actions.Move.OpponentProperties.armor > 0)
+                    if (Actions.Move.OpponentProperties.durability > 0)
                     {
                         //durability damage
                         Actions.Move.OpponentProperties.durability -= damage/5;
@@ -664,7 +670,7 @@ public class HitDetector : MonoBehaviour
         {
             OpponentDetector.anim.SetTrigger(crumpleID);
         }
-        else if (sweep && !OpponentDetector.Actions.airborne)
+        else if (sweep)
         {
             OpponentDetector.anim.SetBool(sweepID, true);
             OpponentDetector.Actions.airborne = true;
