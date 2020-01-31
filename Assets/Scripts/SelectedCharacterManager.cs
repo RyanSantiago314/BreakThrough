@@ -21,11 +21,4 @@ public class SelectedCharacterManager : MonoBehaviour
             Destroy(this.gameObject);
         }      
     }
-
-    void start()
-    {
-        //set strings for characters
-        P1Character = "Dhalia";
-        P2Character = "Dhalia";
-    }
 }

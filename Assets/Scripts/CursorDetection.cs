@@ -6,7 +6,7 @@ public class CursorDetection : MonoBehaviour
 {
     public GameObject[] borders;
     private bool isOverlap;
-    private string currentChar;
+    public string currentChar;
     private int charNum;
     public bool P1Selected;
     public bool P2Selected;
@@ -26,6 +26,7 @@ public class CursorDetection : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collider)
     {
         borders[charNum].SetActive(false);
+        currentChar = "";
         isOverlap = false;
     }
 
@@ -37,11 +38,14 @@ public class CursorDetection : MonoBehaviour
             if (Input.GetButtonDown("Cross_P1") && this.name == "P1Cursor")
             {
                 P1Selected = true;
+                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = currentChar; 
             }
 
             if (Input.GetButtonDown("Cross_P2") && this.name == "P2Cursor")
             {
                 P2Selected = true;
+                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = currentChar;
+
             }
         }
 
@@ -49,11 +53,13 @@ public class CursorDetection : MonoBehaviour
         if (P1Selected && Input.GetButtonDown("Circle_P1"))
         {
             P1Selected = false;
+            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
         }
 
         if (P2Selected && Input.GetButtonDown("Circle_P2"))
         {
             P2Selected = false;
+            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
         }
     }
 }

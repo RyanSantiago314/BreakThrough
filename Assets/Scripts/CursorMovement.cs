@@ -5,24 +5,31 @@ using UnityEngine.SceneManagement;
 
 public class CursorMovement : MonoBehaviour {
 
+    private int playerPaused;
     private float speed;
     public bool isPaused;
-    public GameObject backMenuUI;
-    private int playerPaused;
-    public GameObject P1Cursor;
-    public GameObject P2Cursor;
     public bool P1Selected;
     public bool P2Selected;
 
-    void Update () {
+    public GameObject backMenuUI;
+    public GameObject P1Cursor;
+    public GameObject P2Cursor;
+    public GameObject fightButton;
+
+    public CursorDetection P1;
+    public CursorDetection P2;
+
+
+    void Update()
+    {
 
         //Set cursor speed to be constant with resolution
-        speed = Screen.width/1.5f;
-        
+        speed = Screen.width / 1.5f;
+
         //Manage Back Menu interations
         if (isPaused == false)
         {
-            if (!P1Selected)
+            if (!P1.P1Selected)
             {
                 //Manage P1Cursor movement
                 float x = Input.GetAxis("Horizontal_P1");
@@ -34,7 +41,7 @@ public class CursorMovement : MonoBehaviour {
                 Mathf.Clamp(P1Cursor.transform.position.y, Screen.height / 20, Screen.height),
                 P1Cursor.transform.position.z);
             }
-            if (!P2Selected)
+            if (!P2.P2Selected)
             {
                 //Manage P2Cursor movement
                 float x2 = Input.GetAxis("Horizontal_P2");
@@ -48,53 +55,64 @@ public class CursorMovement : MonoBehaviour {
             }
         }
 
+        if (P1.P1Selected && P2.P2Selected)
+        {
+            fightButton.SetActive(true);
+        }
+        else
+        {
+            fightButton.SetActive(false);
+        }
+
         //Manage Back Menu
-        if (isPaused)
-        {
-            ActivateMenu();
-            //Unpause the game (Only the player that paused can unpause)
-            if (Input.GetButtonDown("Circle_P1") && playerPaused == 1)
-            {
-                isPaused = !isPaused;
-                playerPaused = 0;
-            }
-            if (Input.GetButtonDown("Circle_P2") && playerPaused == 2)
-            {
-                isPaused = !isPaused;
-                playerPaused = 0;
-            }
-        }
-        else if (!isPaused)
-        {
-            DeactivateMenu();
-            //Record which player paused
-            if (Input.GetButtonDown("Circle_P1") && playerPaused == 0 && !transform.GetChild(0).GetComponent<CursorDetection>().P1Selected)
-            {
-                isPaused = !isPaused;
-                playerPaused = 1;
-            }
-            if (Input.GetButtonDown("Circle_P2") && playerPaused == 0 && !P2Selected)
-            {
-                isPaused = !isPaused;
-                playerPaused = 2;
-            }
-        }
-    }
+        /* if (isPaused)
+         {
+             ActivateMenu();
+             //Unpause the game (Only the player that paused can unpause)
+             if (Input.GetButtonDown("Circle_P1") && playerPaused == 1)
+             {
+                 isPaused = !isPaused;
+                 playerPaused = 0;
+             }
+             if (Input.GetButtonDown("Circle_P2") && playerPaused == 2)
+             {
+                 isPaused = !isPaused;
+                 playerPaused = 0;
+             }
+         }
+         else if (!isPaused)
+         {
+             DeactivateMenu();
+             //Record which player paused
+             if (Input.GetButtonDown("Circle_P1") && playerPaused == 0 && !P1.P1Selected)
+             {
+                 isPaused = !isPaused;
+                 playerPaused = 1;
+             }
+             if (Input.GetButtonDown("Circle_P2") && playerPaused == 0 && !P2.P2Selected)
+             {
+                 isPaused = !isPaused;
+                 playerPaused = 2;
+             }
+         }*/
+     }
+     
 
-    public void ActivateMenu()
-    {
-        backMenuUI.SetActive(true);
-    }
+     public void ActivateMenu()
+     {
+         backMenuUI.SetActive(true);
+     }
 
-    public void DeactivateMenu()
-    {
-        backMenuUI.SetActive(false);
-        isPaused = false;
-        playerPaused = 0;
-    }
+     public void DeactivateMenu()
+     {
+         backMenuUI.SetActive(false);
+         isPaused = false;
+         playerPaused = 0;
+     }
 
-    public void QuitToMenu()
-    {
-        SceneManager.LoadScene(0);
-    }
+     public void QuitToMenu()
+     {
+         SceneManager.LoadScene(0);
+     }
+    
 }
