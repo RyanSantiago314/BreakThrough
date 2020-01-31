@@ -133,18 +133,21 @@ public class CharacterProperties : MonoBehaviour
             else
                 durabilityRefillTimer = 0;
 
-            if (durabilityRefillTimer >= 3 && refillCounter == refillInterval)
+            if (!HitDetect.pauseScreen.isPaused)
             {
-                durability += durabilityRefillRate;
-                refillCounter = 0;
-            }
-            else if (durabilityRefillTimer > 3)
-            {
-                refillCounter++;
-            }
-            else
-            {
-                refillCounter = 0;
+                if (durabilityRefillTimer >= 3 && refillCounter == refillInterval)
+                {
+                    durability += durabilityRefillRate;
+                    refillCounter = 0;
+                }
+                else if (durabilityRefillTimer > 3)
+                {
+                    refillCounter++;
+                }
+                else
+                {
+                    refillCounter = 0;
+                }
             }
         }
 

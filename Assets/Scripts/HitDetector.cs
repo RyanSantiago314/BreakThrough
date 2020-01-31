@@ -161,7 +161,7 @@ public class HitDetector : MonoBehaviour
         {
             anim.SetBool(runID, false);
             //hitStun only counts down if not in the groundbounce or crumple animations
-            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0 && !pauseScreen.isPaused)
+            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0 && !Actions.shattered && !pauseScreen.isPaused)
                 hitStun--;
             anim.SetInteger(hitStunID, hitStun);
         }
@@ -323,16 +323,16 @@ public class HitDetector : MonoBehaviour
                 if(OpponentDetector.Actions.Move.hittingWall)
                 {
                     if (potentialKnockBack.x > potentialKnockBack.y)
-                        KnockBack = new Vector2(1.3f * potentialKnockBack.x , 0);
+                        KnockBack = new Vector2(potentialKnockBack.x , 0);
                     else
-                        KnockBack = new Vector2(1.3f * potentialKnockBack.y, 0);
+                        KnockBack = new Vector2((potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
                 }
                 else if (Actions.Move.hittingWall)
                 {
                     if (potentialKnockBack.x > potentialKnockBack.y)
-                        OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.8f, 0);
+                        OpponentDetector.KnockBack = potentialKnockBack * new Vector2(1f, 0);
                     else
-                        OpponentDetector.KnockBack = new Vector2(.8f * potentialKnockBack.y, 0);
+                        OpponentDetector.KnockBack = new Vector2((potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
                 }
                 else
                 {
@@ -343,8 +343,8 @@ public class HitDetector : MonoBehaviour
                     }
                     else
                     {
-                        KnockBack = new Vector2(.8f * potentialKnockBack.y, 0);
-                        OpponentDetector.KnockBack = new Vector2(.9f * potentialKnockBack.y, 0);
+                        KnockBack = new Vector2((potentialKnockBack.y + potentialKnockBack.x)/2, 0);
+                        OpponentDetector.KnockBack = new Vector2(.8f * (potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
                     }
                     
                 }
@@ -670,7 +670,7 @@ public class HitDetector : MonoBehaviour
         {
             OpponentDetector.anim.SetTrigger(crumpleID);
         }
-        else if (sweep && !OpponentDetector.Actions.airborne)
+        else if (sweep)
         {
             OpponentDetector.anim.SetBool(sweepID, true);
             OpponentDetector.Actions.airborne = true;
