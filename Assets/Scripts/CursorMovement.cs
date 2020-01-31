@@ -110,6 +110,11 @@ public class CursorMovement : MonoBehaviour {
          playerPaused = 0;
      }
 
+    public void StartGame()
+    {
+        SceneManager.LoadScene(3);
+    }
+
      public void QuitToMenu()
      {
          SceneManager.LoadScene(0);
