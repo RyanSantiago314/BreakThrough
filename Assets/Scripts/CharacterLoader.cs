@@ -7,22 +7,33 @@ public class CharacterLoader : MonoBehaviour
     public GameObject P1Character;
     public GameObject P2Character;
     public GameObject HitMarker;
+    private string P1Char;
+    private string P2Char;
 
     void Awake()
     {
-        //**Make Switch Statements when more characters are added
+        switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
+        {
+            case "Dhalia":
+                P1Char = "Characters/Dhalia";
+                break;
+        }
+
+        switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
+        {
+            case "Dhalia":
+                P2Char = "Characters/Dhalia";
+                break;
+        }
+
         setP1Properties();
         setP2Properties();
-    }
-
-    void start() {
-        
     }
 
     void setP1Properties()
     {
         //Load Character and set name
-        P1Character = Instantiate(Resources.Load("Characters/Dhalia", typeof(GameObject)), GameObject.Find("Player1").transform) as GameObject;
+        P1Character = Instantiate(Resources.Load(P1Char, typeof(GameObject)), GameObject.Find("Player1").transform) as GameObject;
         P1Character.name = "Dhalia";
 
         //Set Character color
@@ -39,7 +50,7 @@ public class CharacterLoader : MonoBehaviour
     void setP2Properties()
     {
         //Load Character and set name
-        P2Character = Instantiate(Resources.Load("Characters/Dhalia", typeof(GameObject)), GameObject.Find("Player2").transform) as GameObject;
+        P2Character = Instantiate(Resources.Load(P2Char, typeof(GameObject)), GameObject.Find("Player2").transform) as GameObject;
         P2Character.name = "Dhalia";
 
         //Set Character color

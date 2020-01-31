@@ -1,39 +1,93 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CursorMovement : MonoBehaviour {
 
     private float speed;
+    public bool isPaused;
+    public GameObject backMenuUI;
+    private int playerPaused;
+    public GameObject P1Cursor;
+    public GameObject P2Cursor;
 
-	void Update () {
+    void Update () {
         //Set cursor speed to be constant with resolution
         speed = Screen.width/1.5f;
-
-        //Manage P1Cursor movement
-        if (this.name == "P1Cursor")
+        
+        if (isPaused == false)
         {
+            //Manage P1Cursor movement
             float x = Input.GetAxis("Horizontal_P1");
             float y = Input.GetAxis("Vertical_P1");
 
-            transform.position += new Vector3(x, y, 0) * Time.deltaTime * speed;
+            P1Cursor.transform.position += new Vector3(x, y, 0) * Time.deltaTime * speed;
 
-            transform.position = new Vector3(Mathf.Clamp(transform.position.x, Screen.width/100, Screen.width),
-            Mathf.Clamp(transform.position.y, Screen.height/20, Screen.height),
-            transform.position.z);
+            P1Cursor.transform.position = new Vector3(Mathf.Clamp(P1Cursor.transform.position.x, Screen.width/100, Screen.width),
+            Mathf.Clamp(P1Cursor.transform.position.y, Screen.height/20, Screen.height),
+            P1Cursor.transform.position.z);
 
-        //Manage P2Cursor movement
-        } else if (this.name == "P2Cursor")
-        {
-            float x = Input.GetAxis("Horizontal_P2");
-            float y = Input.GetAxis("Vertical_P2");
+           //Manage P2Cursor movement
+            float x2 = Input.GetAxis("Horizontal_P2");
+            float y2 = Input.GetAxis("Vertical_P2");
 
-            transform.position += new Vector3(x, y, 0) * Time.deltaTime * speed;
+            P2Cursor.transform.position += new Vector3(x2, y2, 0) * Time.deltaTime * speed;
 
-            transform.position = new Vector3(Mathf.Clamp(transform.position.x, Screen.width / 100, Screen.width),
-            Mathf.Clamp(transform.position.y, Screen.height / 20, Screen.height),
-            transform.position.z);
+            P2Cursor.transform.position = new Vector3(Mathf.Clamp(P2Cursor.transform.position.x, Screen.width / 100, Screen.width),
+            Mathf.Clamp(P2Cursor.transform.position.y, Screen.height / 20, Screen.height),
+            P2Cursor.transform.position.z);
         }
-        
+
+        //Manage Back Menu
+        if (isPaused)
+        {
+            ActivateMenu();
+            //Record which player paused
+            if (Input.GetButtonDown("Circle_P1") && playerPaused == 1)
+            {
+                isPaused = !isPaused;
+                playerPaused = 0;
+            }
+            if (Input.GetButtonDown("Circle_P2") && playerPaused == 2)
+            {
+                isPaused = !isPaused;
+                playerPaused = 0;
+            }
+        }
+        else if (!isPaused)
+        {
+            DeactivateMenu();
+            //Unpause the game (Only the player that paused can unpause)
+            if (Input.GetButtonDown("Circle_P1") && playerPaused == 0)
+            {
+                isPaused = !isPaused;
+                playerPaused = 1;
+            }
+            if (Input.GetButtonDown("Circle_P2") && playerPaused == 0)
+            {
+                isPaused = !isPaused;
+                playerPaused = 2;
+            }
+        }
+
+
+    }
+
+    public void ActivateMenu()
+    {
+        backMenuUI.SetActive(true);
+    }
+
+    public void DeactivateMenu()
+    {
+        backMenuUI.SetActive(false);
+        isPaused = false;
+        playerPaused = 0;
+    }
+
+    public void QuitToMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }

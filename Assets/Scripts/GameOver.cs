@@ -185,6 +185,6 @@ public class GameOver : MonoBehaviour
     //Function to load main menu scene
     public void QuitToMenu()
     {
-    	SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    	SceneManager.LoadScene(0);
     }
 }
