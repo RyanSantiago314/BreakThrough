@@ -59,11 +59,9 @@ public class AI : MonoBehaviour
     // Weight of each feature
     // feature x weight
 
-    // private string [] states = {"punch", "kick", "slash", "shatter", "moveLeft", "moveRight",
-    //                            "Jump", "Crouch", "Defend", "Grab", "Blitz"}
     // To change value use myDictionary[myKey] = myNewValue;
     public Dictionary<string, double> states = new Dictionary<string, double>();
-
+    public Dictionary<string, double> attackStates = new Dictionary<string, double>();
 
     // Registering the values' initial states
     void Start()
@@ -157,12 +155,13 @@ public class AI : MonoBehaviour
     void attack()
     {
         Debug.Log("attack state");
-        if (!pIsBlocking) MaxInput.Square("Player2");
-        if (pIsBlocking)
+        if (distanceBetweenX <= 0.25)
         {
             Debug.Log("grabbed");
             MaxInput.LBumper("Player2");
+            return;
         }
+        //MaxInput.Square("Player2");
     }
 
     void defend()
