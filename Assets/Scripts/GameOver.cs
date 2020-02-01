@@ -13,8 +13,14 @@ public class GameOver : MonoBehaviour
     //Menu object variables
     public GameObject p1menu;
     public GameObject p2menu;
+    public GameObject roundOverMenu;
+    public GameObject KOMenu;
+    public GameObject overtimeMenu;
     private GameObject child1;
     private GameObject child2;
+    private GameObject child3;
+    private GameObject child4;
+    private GameObject child5;
     public TextMeshProUGUI p1WinCount;
     public TextMeshProUGUI p2WinCount;
     public TextMeshProUGUI roundTimerText;
@@ -23,13 +29,14 @@ public class GameOver : MonoBehaviour
     static public int p2Win;
 
     static public bool dizzyKO;
-
+    static public bool matchOver;
     static public bool lockInputs;
 
     //Various float timer variables
     float endTimer;
     float replayTimer;
     float roundTimer;
+    float overtimeTimer;
     //Bool variable checking if replay is about to occur
     bool replaying;
     //Bool variable deciding if timer should be running or not
@@ -44,9 +51,13 @@ public class GameOver : MonoBehaviour
 		//Setting private menu child game obejcts to their appropriate menu children respectively
 		child1 = p1menu.transform.GetChild(0).gameObject;
 		child2 = p2menu.transform.GetChild(0).gameObject;
+		child3 = roundOverMenu.transform.GetChild(0).gameObject;
+		child4 = KOMenu.transform.GetChild(0).gameObject;
+		child5 = overtimeMenu.transform.GetChild(0).gameObject;
 		//Setting timers to an arbitrarily picked -2 for standby
 		endTimer = -2;
 		replayTimer = -2;
+		overtimeTimer = -2;
 		//Setting round timer to 99 (eventually will make it into a public variable for easier manipulation/access)
 		roundTimer = 99;
 		//Setting round timer text to be represented as a float with zero decimal places
@@ -70,11 +81,15 @@ public class GameOver : MonoBehaviour
     	//Setting menu children to inactive
     	child1.SetActive(false);
     	child2.SetActive(false);
+    	child3.SetActive(false);
+    	child4.SetActive(false);
+    	child5.SetActive(false);
 
     	//Setting color of the panel to transparent
  		GameObject.Find("Canvas/BlackScreen").GetComponent<Image>().color = new Color(0,0,0,0);
 
  		dizzyKO = false;
+ 		matchOver = false;
 	}
 
 	void Update()
@@ -87,6 +102,7 @@ public class GameOver : MonoBehaviour
 		}
 		//Decrementing replay timer
 		if (replayTimer > 0) replayTimer -= Time.deltaTime;
+		if (overtimeTimer > 0) overtimeTimer -= Time.deltaTime;
 		//If inputs are being allowed the game has started and so should the timer (this is a global variable)
 		if (StartText.startReady) timerStart = true;
 		//If round time is still greater than 0 and timer is allowed to be on, time ticks
@@ -96,10 +112,16 @@ public class GameOver : MonoBehaviour
 		//If player 1 lost and player 2 has 2 wins, display player 2 wins screen
 		if (PlayerProp1.currentHealth <= 0 && p2Win == 2)
 		{
+			child4.SetActive(true);
 			//If end timer is on standby, set it at 3 and it will begin
 			if (endTimer == -2) endTimer = 3;
 			//If end timer is finished and its not on standby, display player 2 win screen
-			if (endTimer <=  0 && endTimer > -2) child2.SetActive(true);
+			if (endTimer <=  0 && endTimer > -2)
+			{
+				child4.SetActive(false);
+				child2.SetActive(true);
+				matchOver = true;
+			}
 			//Global round count set to 0
 			StartText.roundCount = 0;
 
@@ -107,16 +129,26 @@ public class GameOver : MonoBehaviour
         //If player 2 lost and player 1 has 2 wins, display player 1 wins screen
         else if (PlayerProp2.currentHealth <= 0 && p1Win == 2)
         {
+        	child4.SetActive(true);
         	//If end timer is on standby, set it at 3 and it will begin
         	if (endTimer == -2) endTimer = 3;
 			//If end timer is finished and its not on standby, display player 1 win screen
-            if (endTimer <=  0 && endTimer > -2) child1.SetActive(true);
+            if (endTimer <=  0 && endTimer > -2)
+            {
+				child4.SetActive(false);
+            	child1.SetActive(true);
+            	matchOver = true;
+            }
 			//Global round count set to 0
 			StartText.roundCount = 0;
         }
         //If the round timer runs out decide who wins
         if (roundTimer <= 0)
         {
+        	if (overtimeTimer == -2) overtimeTimer = 1.5f;
+        	if ((overtimeTimer > 0 || overtimeTimer == -2) && !replaying && PlayerProp1.currentHealth == PlayerProp2.currentHealth) child5.SetActive(true);
+        	else child5.SetActive(false);
+        	
        		//Setting roundTimer to round 0
         	roundTimer = 0;
         	//Stopping timer
@@ -136,6 +168,7 @@ public class GameOver : MonoBehaviour
 			replaying = true;
 			p2WinCount.text = p2Win.ToString();
 			lockInputs = true;
+			if (p2Win != 2) child3.SetActive(true);
 		}
 		//If player 2 loses then player 1 gets a win and reset round after 6 seconds
 		else if (PlayerProp2.currentHealth <= 0 && replaying == false && p1Win != 2)
@@ -145,6 +178,7 @@ public class GameOver : MonoBehaviour
 			replaying = true;
 			p1WinCount.text = p1Win.ToString();
 			lockInputs = true;
+			if (p1Win != 2) child3.SetActive(true);
 		}
 		//Sets screen black when round ends and new one starts
 		if (replayTimer > 0 && replayTimer < 1 && p1Win != 2 && p2Win != 2) GoBlack();
@@ -168,6 +202,7 @@ public class GameOver : MonoBehaviour
     	StartText.startReady = false;
     	//Setting replaying to false for some reason I cant remember
     	replaying = false;
+    	matchOver = false;
     	//Running start again
     	Start();
     }
@@ -183,6 +218,7 @@ public class GameOver : MonoBehaviour
     //Function setting color of the panel to black
     void GoBlack()
  	{
+ 		child3.SetActive(false);
  		GameObject.Find("Canvas/BlackScreen").GetComponent<Image>().color = new Color(0,0,0,255);
  	}
 }
