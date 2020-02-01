@@ -30,8 +30,14 @@ public class CursorMovement : MonoBehaviour {
     public CursorDetection P1;
     public CursorDetection P2;
 
+    void Start()
+    {
+        Time.timeScale = 1;
+    }
+
     void Update()
     {
+        Debug.Log(Time.timeScale);
         //Set cursor speed to be constant with resolution
         speed = Screen.width / 1.5f;
 
@@ -44,7 +50,7 @@ public class CursorMovement : MonoBehaviour {
                 float x = Input.GetAxis("Horizontal_P1");
                 float y = Input.GetAxis("Vertical_P1");
 
-                P1Cursor.transform.position += new Vector3(x, y, 0) * Time.deltaTime * speed;
+                P1Cursor.transform.position += new Vector3(x, y, 0) * 1/50 * speed;
 
                 P1Cursor.transform.position = new Vector3(Mathf.Clamp(P1Cursor.transform.position.x, Screen.width / 100, Screen.width),
                 Mathf.Clamp(P1Cursor.transform.position.y, Screen.height / 20, Screen.height),
@@ -56,7 +62,7 @@ public class CursorMovement : MonoBehaviour {
                 float x2 = Input.GetAxis("Horizontal_P2");
                 float y2 = Input.GetAxis("Vertical_P2");
 
-                P2Cursor.transform.position += new Vector3(x2, y2, 0) * Time.deltaTime * speed;
+                P2Cursor.transform.position += new Vector3(x2, y2, 0) * 1/50 * speed;
 
                 P2Cursor.transform.position = new Vector3(Mathf.Clamp(P2Cursor.transform.position.x, Screen.width / 100, Screen.width),
                 Mathf.Clamp(P2Cursor.transform.position.y, Screen.height / 20, Screen.height),
@@ -288,7 +294,6 @@ public class CursorMovement : MonoBehaviour {
         P1ReadyText.SetActive(false);
         P2ReadyText.SetActive(false);
         start = true;
-
         SceneManager.LoadScene(3);
     }
 
