@@ -5,7 +5,10 @@ using UnityEngine;
 public class CursorDetection : MonoBehaviour
 {
     public GameObject[] borders;
-    private bool isOverlap;
+    public GameObject[] P1Models;
+    public GameObject[] P2Models;
+    public CursorMovement CursorMovement;
+    public bool isOverlap;
     public string currentChar;
     private int charNum;
     public bool P1Selected;
@@ -28,6 +31,14 @@ public class CursorDetection : MonoBehaviour
         borders[charNum].SetActive(false);
         currentChar = "";
         isOverlap = false;
+        if (this.name == "P1Cursor")
+        {
+            P1Models[charNum].SetActive(false);
+        }
+        else
+        {
+            P2Models[charNum].SetActive(false);
+        }
     }
 
     void Update()
@@ -35,28 +46,24 @@ public class CursorDetection : MonoBehaviour
         if (isOverlap)
         {
             borders[charNum].SetActive(true);
-            if (Input.GetButtonDown("Cross_P1") && this.name == "P1Cursor")
+            if (this.name == "P1Cursor")
             {
-                P1Selected = true;
-                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = currentChar; 
+                P1Models[charNum].SetActive(true);
             }
-
-            if (Input.GetButtonDown("Cross_P2") && this.name == "P2Cursor")
+            else
             {
-                P2Selected = true;
-                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = currentChar;
-
+                P2Models[charNum].SetActive(true);
             }
         }
 
         //Manage Character Deselection Interactions
-        if (P1Selected && Input.GetButtonDown("Circle_P1"))
+        if (P1Selected && Input.GetButtonDown("Circle_P1") && !CursorMovement.P1Ready)
         {
             P1Selected = false;
             GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
         }
 
-        if (P2Selected && Input.GetButtonDown("Circle_P2"))
+        if (P2Selected && Input.GetButtonDown("Circle_P2") && !CursorMovement.P2Ready)
         {
             P2Selected = false;
             GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";

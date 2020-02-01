@@ -7,6 +7,9 @@ public class SelectedCharacterManager : MonoBehaviour
 {
     public string P1Character;
     public string P2Character;
+    public int P1Color;
+    public int P2Color;
+
     private static bool created = false;
 
     void Awake()

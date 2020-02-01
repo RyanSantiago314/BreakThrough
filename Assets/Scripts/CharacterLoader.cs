@@ -34,10 +34,10 @@ public class CharacterLoader : MonoBehaviour
     {
         //Load Character and set name
         P1Character = Instantiate(Resources.Load(P1Char, typeof(GameObject)), GameObject.Find("Player1").transform) as GameObject;
-        P1Character.name = "Dhalia";
+        P1Character.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character;
 
         //Set Character color
-        P1Character.transform.GetChild(0).GetComponent<ColorSwapDHA>().colorNum = 1;
+        P1Character.transform.GetChild(0).GetComponent<ColorSwapDHA>().colorNum = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color;
 
         //Assign CharacterHandlers
         GameObject.Find("Player1").GetComponent<FighterAgent>().myChar = P1Character.GetComponent<CharacterProperties>();
@@ -51,10 +51,10 @@ public class CharacterLoader : MonoBehaviour
     {
         //Load Character and set name
         P2Character = Instantiate(Resources.Load(P2Char, typeof(GameObject)), GameObject.Find("Player2").transform) as GameObject;
-        P2Character.name = "Dhalia";
+        P2Character.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character;
 
         //Set Character color
-        P2Character.transform.GetChild(0).GetComponent<ColorSwapDHA>().colorNum = 2;
+        P2Character.transform.GetChild(0).GetComponent<ColorSwapDHA>().colorNum = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color;
 
         //Assign CharacterHandlers
         P2Character.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
