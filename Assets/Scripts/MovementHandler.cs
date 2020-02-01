@@ -485,7 +485,7 @@ public class MovementHandler : MonoBehaviour
                         rb.AddForce(new Vector2(-.25f, 0), ForceMode2D.Impulse);
                 }
             }
-            else if (Actions.airborne && opponentMove.Actions.airborne && HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0)
+            else if (Actions.airborne && opponentMove.Actions.airborne && ((HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0)||(HitDetect.OpponentDetector.hitStun != 0 && HitDetect.hitStun == 0)))
             {
                 if (Mathf.Abs(transform.position.x - opponent.position.x) < pushBox.size.x && opponentMove.hittingWall)
                 {
