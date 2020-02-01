@@ -175,7 +175,7 @@ public class GameOver : MonoBehaviour
     //Function to load main menu scene
     void QuitToMenu()
     {
-    	SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex - 1);
+    	SceneManager.LoadSceneAsync(0);
     	lockInputs = false;
     	StartText.startReady = false;
     }
