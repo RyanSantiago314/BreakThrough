@@ -157,7 +157,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: Standing
+    functionName: FBreak
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -179,6 +179,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0.21666667
     functionName: StopAttacking
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.51666665
+    functionName: Standing
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
