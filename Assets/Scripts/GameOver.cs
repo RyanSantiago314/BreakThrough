@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameOver : MonoBehaviour
@@ -20,6 +21,11 @@ public class GameOver : MonoBehaviour
     //Global variables keeping track of each players win count
     static public int p1Win;
     static public int p2Win;
+
+    static public bool dizzyKO;
+
+    static public bool lockInputs;
+
     //Various float timer variables
     float endTimer;
     float replayTimer;
@@ -34,6 +40,7 @@ public class GameOver : MonoBehaviour
 		//Setting private character property variables to their appropriate player 1 and 2 child respectively
 		PlayerProp1 = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
 		PlayerProp2 = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
+
 		//Setting private menu child game obejcts to their appropriate menu children respectively
 		child1 = p1menu.transform.GetChild(0).gameObject;
 		child2 = p2menu.transform.GetChild(0).gameObject;
@@ -63,6 +70,11 @@ public class GameOver : MonoBehaviour
     	//Setting menu children to inactive
     	child1.SetActive(false);
     	child2.SetActive(false);
+
+    	//Setting color of the panel to transparent
+ 		GameObject.Find("Canvas/BlackScreen").GetComponent<Image>().color = new Color(0,0,0,0);
+
+ 		dizzyKO = false;
 	}
 
 	void Update()
@@ -74,51 +86,31 @@ public class GameOver : MonoBehaviour
 			endTimer -= Time.deltaTime;
 		}
 		//Decrementing replay timer
-		if (replayTimer > 0)
-		{
-			replayTimer -= Time.deltaTime;
-		}
+		if (replayTimer > 0) replayTimer -= Time.deltaTime;
 		//If inputs are being allowed the game has started and so should the timer (this is a global variable)
-		if (StartText.startReady)
-		{
-			timerStart = true;
-		}
+		if (StartText.startReady) timerStart = true;
 		//If round time is still greater than 0 and timer is allowed to be on, time ticks
-		if (roundTimer > 0 && timerStart)
-		{
-			roundTimer -= Time.deltaTime;
-		}
+		if (roundTimer > 0 && timerStart) roundTimer -= Time.deltaTime;
 		//Setting round timer text to be represented as a float with zero decimal places 
 		roundTimerText.text = roundTimer.ToString("F0");
 		//If player 1 lost and player 2 has 2 wins, display player 2 wins screen
 		if (PlayerProp1.currentHealth <= 0 && p2Win == 2)
 		{
 			//If end timer is on standby, set it at 3 and it will begin
-			if (endTimer == -2)
-			{
-				endTimer = 3;
-			}
+			if (endTimer == -2) endTimer = 3;
 			//If end timer is finished and its not on standby, display player 2 win screen
-			if (endTimer <=  0 && endTimer > -2)
-			{
-			child2.SetActive(true);
-			}
+			if (endTimer <=  0 && endTimer > -2) child2.SetActive(true);
 			//Global round count set to 0
 			StartText.roundCount = 0;
+
         }
         //If player 2 lost and player 1 has 2 wins, display player 1 wins screen
         else if (PlayerProp2.currentHealth <= 0 && p1Win == 2)
         {
         	//If end timer is on standby, set it at 3 and it will begin
-        	if (endTimer == -2)
-        	{
-				endTimer = 3;
-			}
+        	if (endTimer == -2) endTimer = 3;
 			//If end timer is finished and its not on standby, display player 1 win screen
-            if (endTimer <=  0 && endTimer > -2)
-            {
-			child1.SetActive(true);
-			}
+            if (endTimer <=  0 && endTimer > -2) child1.SetActive(true);
 			//Global round count set to 0
 			StartText.roundCount = 0;
         }
@@ -129,42 +121,39 @@ public class GameOver : MonoBehaviour
         	roundTimer = 0;
         	//Stopping timer
 			timerStart = false;
+			//Set dizzy KO to true
+			dizzyKO = true;
 			//If player 1 has more health, player 2 loses
-			if (PlayerProp1.currentHealth > PlayerProp2.currentHealth)
-			{
-	        	PlayerProp2.currentHealth = 0;
-	        }
+			if (PlayerProp1.currentHealth > PlayerProp2.currentHealth) PlayerProp2.currentHealth = 0;
 	        //If player 2 has more health, player 1 loses
-	        if (PlayerProp2.currentHealth > PlayerProp1.currentHealth)
-	        {
-	        	PlayerProp1.currentHealth = 0;
-	        }
+	        else if (PlayerProp2.currentHealth > PlayerProp1.currentHealth) PlayerProp1.currentHealth = 0;
 		}
-		//If player 1 loses then player 2 gets a win and reset round after 5 seconds
+		//If player 1 loses then player 2 gets a win and reset round after 6 seconds
         if (PlayerProp1.currentHealth <= 0 && replaying == false && p2Win != 2)
         {
 			++p2Win;
-			replayTimer = 5;
+			replayTimer = 6;
 			replaying = true;
 			p2WinCount.text = p2Win.ToString();
+			lockInputs = true;
 		}
-		//If player 2 loses then player 1 gets a win and reset round after 5 seconds
+		//If player 2 loses then player 1 gets a win and reset round after 6 seconds
 		else if (PlayerProp2.currentHealth <= 0 && replaying == false && p1Win != 2)
 		{
 			++p1Win;
-			replayTimer = 5;
+			replayTimer = 6;
 			replaying = true;
 			p1WinCount.text = p1Win.ToString();
+			lockInputs = true;
 		}
-		//When the 5 second replay timer is up restart the round
-		if (replayTimer <= 0 && replayTimer > -2 && p1Win != 2 && p2Win != 2)
-		{
-			ReplayGame();
-		}
+		//Sets screen black when round ends and new one starts
+		if (replayTimer > 0 && replayTimer < 1 && p1Win != 2 && p2Win != 2) GoBlack();
+		//When the 6 second replay timer is up restart the round
+		if (replayTimer <= 0 && replayTimer > -2 && p1Win != 2 && p2Win != 2) ReplayGame();
 	}
 
 	//Function that restarts a round
-    public void ReplayGame()
+    void ReplayGame()
     {	
     	//Setting player health to max
     	PlayerProp1.currentHealth = PlayerProp1.maxHealth;
@@ -175,6 +164,7 @@ public class GameOver : MonoBehaviour
     	GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
     	GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
     	//Disabling player inputs
+    	lockInputs = false;
     	StartText.startReady = false;
     	//Setting replaying to false for some reason I cant remember
     	replaying = false;
@@ -183,8 +173,16 @@ public class GameOver : MonoBehaviour
     }
 
     //Function to load main menu scene
-    public void QuitToMenu()
+    void QuitToMenu()
     {
-    	SceneManager.LoadScene(0);
+    	SceneManager.LoadSceneAsync(0);
+    	lockInputs = false;
+    	StartText.startReady = false;
     }
+
+    //Function setting color of the panel to black
+    void GoBlack()
+ 	{
+ 		GameObject.Find("Canvas/BlackScreen").GetComponent<Image>().color = new Color(0,0,0,255);
+ 	}
 }
