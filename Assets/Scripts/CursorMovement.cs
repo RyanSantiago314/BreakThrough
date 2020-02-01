@@ -15,6 +15,7 @@ public class CursorMovement : MonoBehaviour {
     public bool P2Selected;
     public bool P1Ready;
     public bool P2Ready;
+    private bool start;
 
     public GameObject backMenuUI;
     public GameObject P1Cursor;
@@ -126,7 +127,7 @@ public class CursorMovement : MonoBehaviour {
         }
 
         //Set Ready Text
-        if (P1Ready)
+        if (P1Ready && !start)
         {
             P1ReadyText.SetActive(true);
         }
@@ -207,7 +208,7 @@ public class CursorMovement : MonoBehaviour {
         }
 
         //Set Ready Text
-        if (P2Ready)
+        if (P2Ready && !start)
         {
             P2ReadyText.SetActive(true);
         }
@@ -284,6 +285,10 @@ public class CursorMovement : MonoBehaviour {
     public void StartGame()
     {
         loadingScreen.SetActive(true);
+        P1ReadyText.SetActive(false);
+        P2ReadyText.SetActive(false);
+        start = true;
+
         SceneManager.LoadScene(3);
     }
 
