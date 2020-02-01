@@ -197,12 +197,12 @@ public class AttackHandlerDHA : MonoBehaviour
             Move.OpponentProperties.durability = 100;
         }
 
-        if (StartText.startReady)
+        if (StartText.startReady && !GameOver.lockInputs)
         {
             Move.playing = true;
             Move.opponent.GetComponent<MovementHandler>().playing = true;
         }
-        if (!StartText.startReady)
+        if (!StartText.startReady && GameOver.lockInputs)
         {
             Move.playing = false;
             Move.opponent.GetComponent<MovementHandler>().playing = false;

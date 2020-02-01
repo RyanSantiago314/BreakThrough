@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TrainingStage.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/CharacterSelect.unity
+    guid: 109941e33151e334d84a5048f4e12f58
+  - enabled: 1
+    path: Assets/Scenes/TrainingStage2.unity
+    guid: 4b38de5c91a635f43990a30b4420d670
   m_configObjects: {}

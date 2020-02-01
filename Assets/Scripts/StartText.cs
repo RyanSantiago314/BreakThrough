@@ -127,7 +127,7 @@ public class StartText : MonoBehaviour
                     isFirstRound = false;
                 }
             }
-            //If its not first round do slow countdown
+            //If its not first round do fast countdown
             else
             {
                 if (timer > 2.5 && timer < 2.6)

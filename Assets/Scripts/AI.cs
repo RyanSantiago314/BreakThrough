@@ -117,9 +117,13 @@ public class AI : MonoBehaviour
         }
 
         //Stops ai if player has lost
-        if (PlayerProp.currentHealth <= 0)
+        if (PlayerProp.currentHealth <= 0 || !StartText.startReady)
         {
             pauseAI = true;
+        }
+        else
+        {
+            pauseAI = false;
         }
 
         //If AI has not been paused

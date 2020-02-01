@@ -43,16 +43,28 @@ public class CharacterProperties : MonoBehaviour
         durability = 100;
         currentHealth = maxHealth;
         durabilityRefillRate = 1;
+
+        HitDetect.anim.SetBool(dizzyID, false);
+        HitDetect.anim.SetBool(KOID, false);
     }
 
     // Update is called once per frame
     void Update()
     {
         currentState = HitDetect.anim.GetCurrentAnimatorStateInfo(0);
-        if (currentHealth <= 0 && HitDetect.hitStop == 0)
+        if (currentHealth <= 0 && HitDetect.hitStop == 0 || 
+            (GameOver.dizzyKO && currentHealth <= 0 && HitDetect.hitStop == 0))
         {
             currentHealth = 0;
-            HitDetect.anim.SetBool(KOID, true);
+            if (GameOver.dizzyKO)
+            {
+                HitDetect.anim.SetBool(crouchID, false);
+                HitDetect.anim.SetBool(dizzyID, true);
+            }
+            else HitDetect.anim.SetBool(KOID, true);
+
+            GameOver.dizzyKO = false;
+
             HitDetect.Actions.DisableAll();
             HitDetect.Actions.DisableBlitz();
             HitDetect.Actions.Move.playing = false;
@@ -60,10 +72,13 @@ public class CharacterProperties : MonoBehaviour
             HitDetect.Actions.Move.OpponentProperties.HitDetect.anim.SetBool(crouchID, false);
         }
         else
+        {
+            HitDetect.anim.SetBool(dizzyID, false);
             HitDetect.anim.SetBool(KOID, false);
-
+        }
         if (currentHealth > 0)
         {
+
             if (HitDetect.hitStun > 0 && !HitDetect.Actions.shattered)
                 comboTimer += Time.deltaTime;
             else if (!HitDetect.anim.GetBool(dizzyID))
