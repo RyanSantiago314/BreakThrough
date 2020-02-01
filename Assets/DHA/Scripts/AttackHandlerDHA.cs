@@ -155,24 +155,6 @@ public class AttackHandlerDHA : MonoBehaviour
             LB = "L1_P1";
             MH = "L2_P1";
             Select = "Select_P1";
-            if(Input.GetJoystickNames().Length >= 1)
-            {
-                if(Input.GetJoystickNames()[0].Contains("Xbox"))
-                {
-                    Horizontal = "Horizontal_P1_Xbox";
-                    Vertical = "Vertical_P1_Xbox";
-
-                    Light = "Square_P1_Xbox";
-                    Medium = "Triangle_P1_Xbox";
-                    Heavy = "Circle_P1_Xbox";
-                    Break = "Cross_P1_Xbox";
-                    LM = "R1_P1_Xbox";
-                    HB = "R2_P1_Xbox";
-                    LB = "L1_P1_Xbox";
-                    MH = "L2_P1_Xbox";
-                    Select = "Select_P1_Xbox";
-                }
-            }
         }
         else
         {
@@ -188,24 +170,6 @@ public class AttackHandlerDHA : MonoBehaviour
             LB = "L1_P2";
             MH = "L2_P2";
             Select = "Select_P2";
-            if (Input.GetJoystickNames().Length >= 2)
-            {
-                if (Input.GetJoystickNames()[1].Contains("Xbox"))
-                {
-                    Horizontal = "Horizontal_P2_Xbox";
-                    Vertical = "Vertical_P2_Xbox";
-
-                    Light = "Square_P2_Xbox";
-                    Medium = "Triangle_P2_Xbox";
-                    Heavy = "Circle_P2_Xbox";
-                    Break = "Cross_P2_Xbox";
-                    LM = "R1_P2_Xbox";
-                    HB = "R2_P2_Xbox";
-                    LB = "L1_P2_Xbox";
-                    MH = "L2_P2_Xbox";
-                    Select = "Select_P2_Xbox";
-                }
-            }
         }
 
         colorControl = transform.GetChild(0).GetComponent<ColorSwapDHA>();
