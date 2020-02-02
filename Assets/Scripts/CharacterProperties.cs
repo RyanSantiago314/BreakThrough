@@ -86,20 +86,14 @@ public class CharacterProperties : MonoBehaviour
 
             if (currentState.IsName("FUGetup") || currentState.IsName("FDGetup") || currentState.IsName("AirRecovery"))
             {
-                if (currentHealth == maxHealth)
-                {
-                    armor = 4;
-                    durability = 100;
-                    comboTimer = 0;
-                }
-                else if (armor < 0)
+                if (armor < 0)
                 {
                     //make character dizzy if armor is less than zero, usually triggered by throws but also possible through other means
                     comboTimer = 0;
                     armor = 0;
                     HitDetect.anim.SetBool(dizzyID, true);
                 }
-                else if (armor == 0)
+                else if (armor == 0 && HitDetect.anim.GetBool(dizzyID))
                 {
                     comboTimer = 0;
                     armor = 1;
@@ -143,7 +137,7 @@ public class CharacterProperties : MonoBehaviour
             else
                 durabilityRefillTimer = 0;
 
-            if (!HitDetect.pauseScreen.isPaused)
+            if (!HitDetect.pauseScreen.isPaused && !HitDetect.anim.GetBool(KOID) && !HitDetect.OpponentDetector.anim.GetBool(KOID))
             {
                 if (durabilityRefillTimer >= 3 && refillCounter == refillInterval)
                 {
