@@ -197,8 +197,9 @@ public class GameOver : MonoBehaviour
     	Vector3 p2Start = new Vector3(1.3f, 1.15f, -3);
     	GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
     	GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
-    	//Disabling player inputs
-    	lockInputs = false;
+        GameObject.Find("CameraPos").transform.GetChild(1).transform.position = GameObject.Find("CameraPos").transform.position;
+        //Disabling player inputs
+        lockInputs = false;
     	StartText.startReady = false;
     	//Setting replaying to false for some reason I cant remember
     	replaying = false;
