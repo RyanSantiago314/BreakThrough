@@ -81,6 +81,8 @@ public class PauseMenu : MonoBehaviour{
 
     public void QuitToMenu()
     {
+        StartText.startReady = false;
+        GameOver.lockInputs = false;
         SceneManager.LoadScene(0);
     }
 

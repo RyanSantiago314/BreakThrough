@@ -26,7 +26,7 @@ public class MenuInputManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-     buttonIndex = 1.0f;
+     buttonIndex = 1;
      InputTimer = 0;
      xboxInput = "Controller (Xbox One For Windows)";
      ps4Input = "Wireless Controller";
@@ -41,7 +41,7 @@ public class MenuInputManager : MonoBehaviour
     {
     	horizontal = Input.GetAxis("Horizontal_P1");
     	vertical = Input.GetAxis("Vertical_P1");
-
+    	
     	if (InputTimer > 0) InputTimer -= Time.deltaTime;
     	else InputTimer = 0;
 
