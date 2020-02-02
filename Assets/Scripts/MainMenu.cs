@@ -13,11 +13,11 @@ public class MainMenu : MonoBehaviour
 		music = GetComponent<AudioSource>();
 		music.Play();
 		loadScreen = GetComponent<LoadingScreen>();
-	}
+    }
 
     public void PlayGameVsPlayer()
     {
-    	SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+    	SceneManager.LoadSceneAsync(2);
     	//loadScreen.startLoad(SceneManager.GetActiveScene().buildIndex + 1);
     	MaxInput.disableAI();
     }

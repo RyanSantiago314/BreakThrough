@@ -25,6 +25,8 @@ public class StartText : MonoBehaviour
     //Timer variable
     float timer;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,7 +54,7 @@ public class StartText : MonoBehaviour
         }
         //Set text to ready and activate it
         startText.text = "Ready!";
-        thisText.SetActive(true);
+        if (!GameOver.matchOver) thisText.SetActive(true);
         //Countdown is now ready to begin
         beginCountdown = true;
     }
@@ -127,7 +129,7 @@ public class StartText : MonoBehaviour
                     isFirstRound = false;
                 }
             }
-            //If its not first round do slow countdown
+            //If its not first round do fast countdown
             else
             {
                 if (timer > 2.5 && timer < 2.6)

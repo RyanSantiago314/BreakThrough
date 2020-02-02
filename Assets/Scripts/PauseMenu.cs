@@ -8,9 +8,17 @@ public class PauseMenu : MonoBehaviour{
     public bool isPaused;
     private int playerPaused;
 
+    private string pauseCode1 = "Start_P1";
+    private string pauseCode = "Start_P2";
+
+
     void Start()
     {
         playerPaused = 0;
+
+        pauseCode1 += UpdateControls(CheckXbox(0));
+        pauseCode += UpdateControls(CheckXbox(1));
+
     }
 
     // Update is called once per frame
@@ -21,12 +29,12 @@ public class PauseMenu : MonoBehaviour{
             DisableControls(true);
             ActivateMenu();
             //Record which player paused
-            if (Input.GetButtonDown("Start_P1") && playerPaused == 1)
+            if (Input.GetButtonDown(pauseCode1) && playerPaused == 1)
             {
                 isPaused = !isPaused;
                 playerPaused = 0;
             }
-            if (Input.GetButtonDown("Start_P2") && playerPaused == 2)
+            if (Input.GetButtonDown(pauseCode) && playerPaused == 2)
             {
                 isPaused = !isPaused;
                 playerPaused = 0;
@@ -37,12 +45,12 @@ public class PauseMenu : MonoBehaviour{
             DisableControls(false);
             DeactivateMenu();
             //Unpause the game (Only the player that paused can unpause)
-            if (Input.GetButtonDown("Start_P1") && playerPaused == 0)
+            if (Input.GetButtonDown(pauseCode1) && playerPaused == 0)
             {
                 isPaused = !isPaused;
                 playerPaused = 1;
             }
-            if (Input.GetButtonDown("Start_P2") && playerPaused == 0)
+            if (Input.GetButtonDown(pauseCode) && playerPaused == 0)
             {
                 isPaused = !isPaused;
                 playerPaused = 2;
@@ -73,6 +81,28 @@ public class PauseMenu : MonoBehaviour{
 
     public void QuitToMenu()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        StartText.startReady = false;
+        GameOver.lockInputs = false;
+        //Time.timeScale = 1;
+        SceneManager.LoadScene(0);
+    }
+
+    private bool CheckXbox(int player)
+    {
+        if (Input.GetJoystickNames().Length > player)
+        {
+            if (Input.GetJoystickNames()[player].Contains("Xbox"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private string UpdateControls(bool xbox)
+    {
+        if (xbox)
+            return "_Xbox";
+        return "";
     }
 }

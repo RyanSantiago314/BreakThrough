@@ -232,13 +232,16 @@ public class HurtboxDHA : MonoBehaviour
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
+        misc1.enabled = true;
 
         head.offset = headStandOffset;
         head.size = headStandSize;
-        body.offset = new Vector2(.21f, .3f);
-        body.size = new Vector2(1.15f, .47f);
+        body.offset = bodyStandOffset;
+        body.size = bodyStandSize;
         legs1.offset = legsStandOffset;
         legs1.size = legsStandSize;
+        misc1.offset = new Vector2(.21f, .3f);
+        misc1.size = new Vector2(1.1f, .47f);
     }
 
     public void CrouchingLight()
@@ -626,6 +629,18 @@ public class HurtboxDHA : MonoBehaviour
         legs2.size = new Vector2(1.29f, .35f);
     }
 
+    public void FBreak()
+    {
+        Invincible();
+        body.enabled = true;
+        legs1.enabled = true;
+
+        body.offset = bodyStandOffset;
+        body.size = bodyStandSize;
+        legs1.offset = legsStandOffset;
+        legs1.size = legsStandSize;
+    }
+
     public void JumpBreakStartup()
     {
         Invincible();
@@ -756,5 +771,41 @@ public class HurtboxDHA : MonoBehaviour
         legs1.size = new Vector2(.5f, .3f);
         legs2.offset = new Vector2(-.3f, -.5f);
         legs2.size = new Vector2(.35f, .38f);
+    }
+
+    public void BCCharge()
+    {
+        Invincible();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(-.37f, .4f);
+        head.size = new Vector2(.25f, .25f);
+        body.offset = new Vector2(-0.12f, .1f);
+        body.size = new Vector2(.8f, .4f);
+        legs1.offset = new Vector2(-.1f, -.27f);
+        legs1.size = new Vector2(.58f, .375f);
+        legs2.offset = new Vector2(-.02f, -.68f);
+        legs2.size = new Vector2(.9f, .45f);
+    }
+
+    public void BCActive()
+    {
+        Invincible();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(-.33f, .495f);
+        head.size = new Vector2(.33f, .44f);
+        body.offset = new Vector2(-0.3f, .1f);
+        body.size = new Vector2(.38f, .4f);
+        legs1.offset = new Vector2(-.1f, -.27f);
+        legs1.size = new Vector2(.58f, .375f);
+        legs2.offset = new Vector2(-.02f, -.68f);
+        legs2.size = new Vector2(.9f, .45f);
     }
 }
