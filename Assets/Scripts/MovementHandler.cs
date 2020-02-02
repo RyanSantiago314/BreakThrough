@@ -182,6 +182,9 @@ public class MovementHandler : MonoBehaviour
                 pushBox.offset = pushCenter;
                 pushBox.size = pushSize;
             }
+
+            if (jumps == 0)
+                jumps = 1;
         }
 
         pushTrigger.offset = new Vector2(pushBox.offset.x, pushBox.offset.y);

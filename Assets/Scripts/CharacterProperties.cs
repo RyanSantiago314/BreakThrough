@@ -52,8 +52,7 @@ public class CharacterProperties : MonoBehaviour
     void Update()
     {
         currentState = HitDetect.anim.GetCurrentAnimatorStateInfo(0);
-        if (currentHealth <= 0 && HitDetect.hitStop == 0 || 
-            (GameOver.dizzyKO && currentHealth <= 0 && HitDetect.hitStop == 0))
+        if (currentHealth <= 0 && HitDetect.hitStop == 0)
         {
             currentHealth = 0;
             if (GameOver.dizzyKO)
@@ -71,12 +70,7 @@ public class CharacterProperties : MonoBehaviour
             HitDetect.Actions.Move.opponent.GetComponent<MovementHandler>().playing = false;
             HitDetect.Actions.Move.OpponentProperties.HitDetect.anim.SetBool(crouchID, false);
         }
-        else
-        {
-            HitDetect.anim.SetBool(dizzyID, false);
-            HitDetect.anim.SetBool(KOID, false);
-        }
-        if (currentHealth > 0)
+        else if (currentHealth > 0)
         {
 
             if (HitDetect.hitStun > 0 && !HitDetect.Actions.shattered)
