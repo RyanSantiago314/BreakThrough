@@ -145,6 +145,7 @@ public class AttackHandlerDHA : MonoBehaviour
 
         if (transform.parent.name == "Player1")
         {
+
             Horizontal = "Horizontal_P1";
             Vertical = "Vertical_P1";
 

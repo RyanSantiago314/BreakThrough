@@ -78,22 +78,19 @@ public class MovementHandler : MonoBehaviour
         //Original system to use in original Training Stage
         if (SceneManager.GetActiveScene().name == "TrainingStage")
         {
-            if (transform.parent.name == "Player1")
-            {
-                Horizontal = "Horizontal_P1";
-                Vertical = "Vertical_P1";
-                L3 = "L3_P1";
-                opponent = GameObject.Find("Player2").transform.GetChild(0).transform;
-            }
-            else
-            {
-                Horizontal = "Horizontal_P2";
-                Vertical = "Vertical_P2";
-                L3 = "L3_P2";
-                opponent = GameObject.Find("Player1").transform.GetChild(0).transform;
-            }
-            OpponentProperties = opponent.GetComponent<CharacterProperties>();
-        }         
+           Horizontal = "Horizontal_P1";
+            Vertical = "Vertical_P1";
+            L3 = "L3_P1";
+            opponent = GameObject.Find("Player2").transform.GetChild(0).transform;
+        }
+        else
+        {
+            Horizontal = "Horizontal_P2";
+            Vertical = "Vertical_P2";
+            L3 = "L3_P2";
+            opponent = GameObject.Find("Player1").transform.GetChild(0).transform;
+        }
+        OpponentProperties = opponent.GetComponent<CharacterProperties>();
     }
 
     void Start()
