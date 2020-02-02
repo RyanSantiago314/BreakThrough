@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; //Temporary
 
 public class MovementHandler : MonoBehaviour
 {
@@ -74,10 +75,10 @@ public class MovementHandler : MonoBehaviour
     // Set Up inputs, anim variable hashes, and opponent in awake
     void Awake()
     {
-        if (transform.parent.name == "Player1")
+        //Original system to use in original Training Stage
+        if (SceneManager.GetActiveScene().name == "TrainingStage")
         {
-            
-            Horizontal = "Horizontal_P1";
+           Horizontal = "Horizontal_P1";
             Vertical = "Vertical_P1";
             L3 = "L3_P1";
             opponent = GameObject.Find("Player2").transform.GetChild(0).transform;
@@ -90,11 +91,30 @@ public class MovementHandler : MonoBehaviour
             opponent = GameObject.Find("Player1").transform.GetChild(0).transform;
         }
         OpponentProperties = opponent.GetComponent<CharacterProperties>();
-        
     }
 
     void Start()
     {
+        //Added for character loading system. Needs to start here for it to work
+        if (SceneManager.GetActiveScene().name == "TrainingStage2")
+        {
+            if (transform.parent.name == "Player1")
+            {
+                Horizontal = "Horizontal_P1";
+                Vertical = "Vertical_P1";
+                L3 = "L3_P1";
+                opponent = GameObject.Find("Player2").transform.GetChild(0).transform;
+            }
+            else
+            {
+                Horizontal = "Horizontal_P2";
+                Vertical = "Vertical_P2";
+                L3 = "L3_P2";
+                opponent = GameObject.Find("Player1").transform.GetChild(0).transform;
+            }
+            OpponentProperties = opponent.GetComponent<CharacterProperties>();
+        }
+        //
         Application.targetFrameRate = 60;
 
         pushBox.enabled = true;
@@ -159,6 +179,9 @@ public class MovementHandler : MonoBehaviour
                 pushBox.offset = pushCenter;
                 pushBox.size = pushSize;
             }
+
+            if (jumps == 0)
+                jumps = 1;
         }
 
         pushTrigger.offset = new Vector2(pushBox.offset.x, pushBox.offset.y);
@@ -486,7 +509,7 @@ public class MovementHandler : MonoBehaviour
                         rb.AddForce(new Vector2(-.25f, 0), ForceMode2D.Impulse);
                 }
             }
-            else if (Actions.airborne && opponentMove.Actions.airborne && HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0)
+            else if (Actions.airborne && opponentMove.Actions.airborne && ((HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0)||(HitDetect.OpponentDetector.hitStun != 0 && HitDetect.hitStun == 0)))
             {
                 if (Mathf.Abs(transform.position.x - opponent.position.x) < pushBox.size.x && opponentMove.hittingWall)
                 {

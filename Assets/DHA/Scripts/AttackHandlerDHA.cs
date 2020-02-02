@@ -74,6 +74,7 @@ public class AttackHandlerDHA : MonoBehaviour
     private int FLx = 2;
     private bool FLF = true;
     private bool FB = true;
+    private int BCShots = 2;
 
     static int ID5L;
     static int ID2L;
@@ -92,6 +93,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int IDBloodBrave;
     static int IDPatissiere;
     static int IDHeadRush;
+    static int IDBasketCase;
     static int IDToaster;
 
     static int runID;
@@ -127,6 +129,7 @@ public class AttackHandlerDHA : MonoBehaviour
         IDBloodBrave = Animator.StringToHash("BloodBrave");
         IDPatissiere = Animator.StringToHash("Patissiere");
         IDHeadRush = Animator.StringToHash("HeadRush");
+        IDBasketCase = Animator.StringToHash("BasketCase");
 
         IDToaster = Animator.StringToHash("Toaster");
 
@@ -195,12 +198,12 @@ public class AttackHandlerDHA : MonoBehaviour
             Move.OpponentProperties.durability = 100;
         }
 
-        if (StartText.startReady)
+        if (StartText.startReady && !GameOver.lockInputs)
         {
             Move.playing = true;
             Move.opponent.GetComponent<MovementHandler>().playing = true;
         }
-        if (!StartText.startReady)
+        if (!StartText.startReady && GameOver.lockInputs)
         {
             Move.playing = false;
             Move.opponent.GetComponent<MovementHandler>().playing = false;
@@ -236,6 +239,7 @@ public class AttackHandlerDHA : MonoBehaviour
             lightButton = 0;
             anim.ResetTrigger(ID5L);
             anim.ResetTrigger(ID2L);
+            anim.ResetTrigger(ID6L);
         }
 
         if (mediumButton > 0)
@@ -272,6 +276,7 @@ public class AttackHandlerDHA : MonoBehaviour
             breakButton = 0;
             anim.ResetTrigger(ID5B);
             anim.ResetTrigger(ID2B);
+            anim.ResetTrigger(ID6B);
         }
 
         if (dir1 > 0)
@@ -434,6 +439,10 @@ public class AttackHandlerDHA : MonoBehaviour
             (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
         {
             anim.SetTrigger(IDRec);
+        }
+
+        if (currentState.IsName("AirRecovery"))
+        {
             lightButton = 0;
             mediumButton = 0;
             heavyButton = 0;
@@ -496,6 +505,23 @@ public class AttackHandlerDHA : MonoBehaviour
             heavyButton = 0;
             QCF = 0;
             CharProp.armor -= 2;
+        }
+        else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && Actions.standing)
+        {
+            // Basket Case special attack, executed by doing a QCF and pressing B, can be used up to twice in succession
+            anim.SetTrigger(IDBasketCase);
+            Actions.TurnAroundCheck();
+            breakButton = 0;
+            QCF = 0;
+            BCShots--;
+        }
+        else if (Actions.acceptSuper && currentState.IsName("BasketCaseFullShoot") && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && Actions.standing && BCShots > 0)
+        {
+            // Basket special attack, executed by doing a QCF and pressing B (second shot)
+            anim.SetTrigger(IDBasketCase);
+            breakButton = 0;
+            QCF = 0;
+            BCShots--;
         }
         else if (Actions.acceptSpecial && heavyButton > 0 && Move.HitDetect.hitStop == 0 && QCB > 0)
         {
@@ -755,6 +781,7 @@ public class AttackHandlerDHA : MonoBehaviour
         FLx = 2;
         FLF = true;
         FB = true;
+        BCShots = 2;
         
 
         Move.jumped = false;
