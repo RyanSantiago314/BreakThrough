@@ -37,7 +37,6 @@ public class CursorMovement : MonoBehaviour {
 
     void Update()
     {
-        Debug.Log(Time.timeScale);
         //Set cursor speed to be constant with resolution
         speed = Screen.width / 1.5f;
 
