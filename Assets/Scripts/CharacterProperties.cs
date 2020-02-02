@@ -162,7 +162,11 @@ public class CharacterProperties : MonoBehaviour
         }
 
         //gain armor when durability has refilled completely
-        if (durability > 100)
+        if (armor == 0 && durability <= 100)
+        {
+            durability = 100;
+        }
+        else if (durability > 100)
         {
             if (armor < 4)
             {
@@ -180,10 +184,7 @@ public class CharacterProperties : MonoBehaviour
             armor--;
             durability = 100;
         }
-        else if (armor == 0 && durability < 0)
-        {
-            durability = 0;
-        }
+        
         if (armor > 4)
             armor = 4;
 

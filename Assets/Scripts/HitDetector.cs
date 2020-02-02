@@ -308,7 +308,7 @@ public class HitDetector : MonoBehaviour
                 if (OpponentDetector.blockStun > 30)
                     OpponentDetector.blockStun = 30;
                 // guarding right as the attack lands (just defend) reduces blockstun and negates chip damage
-                if(OpponentDetector.Actions.Move.justDefenseTime > 0 && OpponentDetector.Actions.standing)
+                if(OpponentDetector.Actions.Move.justDefenseTime > 0)
                 {
                     OpponentDetector.blockStun -= OpponentDetector.blockStun / 3;
                     OpponentDetector.Actions.CharProp.durability += 15;
@@ -349,7 +349,7 @@ public class HitDetector : MonoBehaviour
                     
                 }
 
-                if(OpponentDetector.anim.GetBool(AirGuard))
+                if(OpponentDetector.anim.GetBool(AirGuard) && OpponentDetector.Actions.Move.justDefenseTime <= 0)
                 {
                     //apply special knockback to airborne guards
                     if (potentialAirKnockBack != Vector2.zero)
@@ -370,47 +370,76 @@ public class HitDetector : MonoBehaviour
                     }
                     else
                     {
+                        //guarding an attack without having any resolve results in getting shattered
+                        shatter = true;
+                        OpponentDetector.blockStun = 0;
+                        Actions.Move.OpponentProperties.armor = 0;
+                        Actions.Move.OpponentProperties.durability = 0;
+                        //trigger shatter effect
+                        OpponentDetector.anim.SetTrigger(shatterID);
+                        OpponentDetector.Actions.shattered = true;
+                        Debug.Log("SHATTERED");
+                        //damage, hitstun, etc.
+                        HitSuccess(other);
+                        ApplyHitStop(2 * potentialHitStop);
+
                         //chip damage
-                        if (Actions.Move.OpponentProperties.currentHealth - damage/5 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
+                        /*if (Actions.Move.OpponentProperties.currentHealth - damage/5 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
                             Actions.Move.OpponentProperties.currentHealth = 1;
                         else
                             Actions.Move.OpponentProperties.currentHealth -= damage/5;
 
                         if (Actions.Move.OpponentProperties.currentHealth <= 0)
-                            OpponentDetector.anim.SetTrigger(hitID);
+                            OpponentDetector.anim.SetTrigger(hitID);*/
 
                     }
                 }
                 else if (OpponentDetector.Actions.Move.justDefenseTime <= 0 && OpponentDetector.Actions.standing)
                 {
-                    if (Actions.Move.OpponentProperties.durability > 0)
+                    if (Actions.Move.OpponentProperties.armor > 0)
                     {
                         //durability damage
                         Actions.Move.OpponentProperties.durability -= damage/5;
                     }
                     else
                     {
+                        //guarding an attack without having any resolve results in getting shattered
+                        shatter = true;
+                        OpponentDetector.blockStun = 0;
+                        Actions.Move.OpponentProperties.armor = 0;
+                        Actions.Move.OpponentProperties.durability = 0;
+                        //trigger shatter effect
+                        OpponentDetector.anim.SetTrigger(shatterID);
+                        OpponentDetector.Actions.shattered = true;
+                        Debug.Log("SHATTERED");
+                        //damage, hitstun, etc.
+                        HitSuccess(other);
+                        ApplyHitStop(2 * potentialHitStop);
+
                         //chip damage
-                        if (Actions.Move.OpponentProperties.currentHealth - damage/10 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
+                        /*if (Actions.Move.OpponentProperties.currentHealth - damage/10 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
                             Actions.Move.OpponentProperties.currentHealth = 1;
                         else
                             Actions.Move.OpponentProperties.currentHealth -= damage/10;
 
                         if (Actions.Move.OpponentProperties.currentHealth <= 0)
-                            OpponentDetector.anim.SetTrigger(crumpleID);
+                            OpponentDetector.anim.SetTrigger(crumpleID);*/
                     }
                 }
-                ApplyHitStop(0);
-                if (Actions.Move.facingRight)
-                    KnockBack *= new Vector2(-1, 1);
-                else
-                    OpponentDetector.KnockBack *= new Vector2(-1, 1);
+                if (OpponentDetector.blockStun > 0)
+                {
+                    ApplyHitStop(0);
+                    if (Actions.Move.facingRight)
+                        KnockBack *= new Vector2(-1, 1);
+                    else
+                        OpponentDetector.KnockBack *= new Vector2(-1, 1);
 
-                if (OpponentDetector.Actions.Move.justDefenseTime > 0 && OpponentDetector.Actions.standing)
-                    OpponentDetector.KnockBack *= .5f;
+                    if (OpponentDetector.Actions.Move.justDefenseTime > 0 && OpponentDetector.Actions.standing)
+                        OpponentDetector.KnockBack *= .5f;
 
-                if (usingSpecial || usingSuper)
-                    KnockBack *= .5f;
+                    if (usingSpecial || usingSuper)
+                        KnockBack *= .5f;
+                }
             }
             else
             {
