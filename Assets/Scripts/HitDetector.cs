@@ -458,6 +458,7 @@ public class HitDetector : MonoBehaviour
                     OpponentDetector.Actions.shattered = true;
                     Debug.Log("SHATTERED");
                     //damage, hitstun, etc.
+                    specialProration *= 1.1f;
                     HitSuccess(other);
                     ApplyHitStop(2 * potentialHitStop);  
                 }
