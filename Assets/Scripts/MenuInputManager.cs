@@ -34,6 +34,7 @@ public class MenuInputManager : MonoBehaviour
      menu = GetComponent<MainMenu>();
      state = "main";
      isXbox = false;
+     Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -41,8 +42,12 @@ public class MenuInputManager : MonoBehaviour
     {
     	horizontal = Input.GetAxis("Horizontal_P1");
     	vertical = Input.GetAxis("Vertical_P1");
-    	
-    	if (InputTimer > 0) InputTimer -= Time.deltaTime;
+
+    	if (InputTimer > 0)
+    	{
+    		Debug.Log("herebish");
+    		InputTimer -= Time.deltaTime;
+    	}
     	else InputTimer = 0;
 
     	//If an input device is detected then establish what device it is in order to properly decipher inputs

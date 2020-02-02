@@ -83,6 +83,7 @@ public class PauseMenu : MonoBehaviour{
     {
         StartText.startReady = false;
         GameOver.lockInputs = false;
+        //Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }
 
