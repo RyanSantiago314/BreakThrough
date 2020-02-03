@@ -160,8 +160,44 @@ public class GameOver : MonoBehaviour
 	        //If player 2 has more health, player 1 loses
 	        else if (PlayerProp2.currentHealth > PlayerProp1.currentHealth) PlayerProp1.currentHealth = 0;
 		}
+		if (PlayerProp1.currentHealth <= 0 && PlayerProp2.currentHealth <= 0 && replaying == false && p1Win != 2 && p2Win != 2)
+        {
+        	if (p1Win == 1 && p2Win < 1)
+        	{
+        		++p1Win;
+				replayTimer = 6;
+				replaying = true;
+				p1WinCount.text = p1Win.ToString();
+				lockInputs = true;
+        	}
+        	else if (p2Win == 1 && p1Win < 1)
+        	{
+        		++p2Win;
+				replayTimer = 6;
+				replaying = true;
+				p2WinCount.text = p2Win.ToString();
+				lockInputs = true;
+        	}
+        	else if (p1Win == 0 && p2Win == 0)
+        	{
+        		++p1Win;
+        		++p2Win;
+				replayTimer = 6;
+				replaying = true;
+				p1WinCount.text = p2Win.ToString();
+				p2WinCount.text = p2Win.ToString();
+				lockInputs = true;
+				child3.SetActive(true);
+        	}
+        	else if (p1Win == 1 && p2Win == 1)
+        	{
+        		PlayerProp1.currentHealth = PlayerProp1.maxHealth;
+        		PlayerProp2.currentHealth = PlayerProp2.maxHealth;
+        		roundTimer = 0;
+        	}
+        }
 		//If player 1 loses then player 2 gets a win and reset round after 6 seconds
-        if (PlayerProp1.currentHealth <= 0 && replaying == false && p2Win != 2)
+        else if (PlayerProp1.currentHealth <= 0 && replaying == false && p2Win != 2)
         {
 			++p2Win;
 			replayTimer = 6;
