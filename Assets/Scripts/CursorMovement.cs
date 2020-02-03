@@ -235,7 +235,7 @@ public class CursorMovement : MonoBehaviour {
         //Bring up Fight button once both players are ready
         if (P1Ready && P2Ready)
         {
-            fightButton.SetActive(true);
+            StartGame();
         }
         else
         {

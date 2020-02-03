@@ -11,6 +11,10 @@ public class PauseMenu : MonoBehaviour{
     private string pauseCode1 = "Start_P1";
     private string pauseCode = "Start_P2";
 
+    private void Awake()
+    {
+        Time.timeScale = 1;
+    }
 
     void Start()
     {

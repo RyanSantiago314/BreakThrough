@@ -25,6 +25,10 @@ public class StartText : MonoBehaviour
     //Timer variable
     float timer;
 
+    void Awake()
+    {
+        roundCount = 0; 
+    }
 
 
     // Start is called before the first frame update
