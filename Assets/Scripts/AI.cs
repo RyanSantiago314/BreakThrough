@@ -317,7 +317,7 @@ public class AI : MonoBehaviour
 
     void QCF()
     {
-        // Will figure this out next spring
+        // Will figure this out next sprint
     }
 
     void calculateAttackWeights()
