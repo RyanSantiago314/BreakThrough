@@ -103,10 +103,10 @@ public class FighterAgent : Agent
         switch (horizontal)
         {
             case 1:
-                MaxInput.moveLeft(Name);
+                MaxInput.MoveLeft(Name);
                 break;
             case 2:
-                MaxInput.moveRight(Name);
+                MaxInput.MoveRight(Name);
                 break;
             case 0:
                 //Not moving side to side

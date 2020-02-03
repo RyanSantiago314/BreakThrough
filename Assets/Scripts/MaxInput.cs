@@ -54,7 +54,7 @@ public class MaxInput : MonoBehaviour
     {
         ClearInput("Player1");
         ClearInput("Player2");
-        AI = true;  // DELETE THIS LATER WHEN FINISHED TESTING AIIIIIIIIIII
+        //AI = true;  // DELETE THIS LATER WHEN FINISHED TESTING AIIIIIIIIIII
 
         xbox1 = CheckXbox(0);
         xbox = CheckXbox(1);
@@ -403,7 +403,7 @@ public class MaxInput : MonoBehaviour
         }
     }
 
-    public void moveLeft(string name)
+    public void MoveLeft(string name)
     {
         if (name == "Player1")
         {
@@ -415,7 +415,7 @@ public class MaxInput : MonoBehaviour
         }
     }
 
-    public void moveRight(string name)
+    public void MoveRight(string name)
     {
         if (name == "Player1")
         {
@@ -552,6 +552,20 @@ public class MaxInput : MonoBehaviour
         else
         {
             cross = true;
+        }
+    }
+
+    public void CircleCross(string name)
+    {
+        if (name == "Player1")
+        {
+            cross1 = true;
+            circle1 = true;
+        }
+        else
+        {
+            cross = true;
+            circle = true;
         }
     }
 
