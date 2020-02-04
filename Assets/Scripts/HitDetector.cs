@@ -285,94 +285,175 @@ public class HitDetector : MonoBehaviour
             anim.SetBool(launchID, false);
             anim.SetBool(sweepID, false);
             anim.ResetTrigger(shatterID);
+            Actions.acceptBurst = true;
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         collideCount++;
-        if (allowHit && !grab && !commandGrab && other.gameObject.transform.parent.parent == Actions.Move.opponent && (potentialHitStun > 0 || blitz))
+        if (!OpponentDetector.Actions.bursting || (Actions.bursting && !OpponentDetector.Actions.counterBursting))
         {
-            OpponentDetector.Actions.shattered = false;
-
-            if ((guard == "Mid" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
-                (guard == "Low" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
-                (guard == "Overhead" && (OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))))
+            if (allowHit && !grab && !commandGrab && other.gameObject.transform.parent.parent == Actions.Move.opponent && (potentialHitStun > 0 || blitz))
             {
-                OpponentDetector.anim.SetTrigger("Blocked");
-                if (potentialHitStun <= 19)
-                    OpponentDetector.blockStun = potentialHitStun - 1;
-                else
-                    OpponentDetector.blockStun = potentialHitStun - potentialHitStun/10;
+                OpponentDetector.Actions.shattered = false;
 
-                if (OpponentDetector.blockStun > 30)
-                    OpponentDetector.blockStun = 30;
-                // guarding right as the attack lands (just defend) reduces blockstun and negates chip damage
-                if(OpponentDetector.Actions.Move.justDefenseTime > 0)
+                if ((guard == "Mid" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
+                    (guard == "Low" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
+                    (guard == "Overhead" && (OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))))
                 {
-                    OpponentDetector.blockStun -= OpponentDetector.blockStun / 3;
-                    OpponentDetector.Actions.CharProp.durability += 15;
-                    OpponentDetector.justDefense = true;
-                    Debug.Log("JUST DEFEND");
-                }
-                OpponentDetector.anim.SetInteger(blockStunID, OpponentDetector.blockStun);
-                //what to do if an attack is blocked
-                //mid can be guarded by any guard, lows must be guarded low, overheads must be guarded high
-                //deal durability/chip damage equaling 10-20% of base damage
-                //apply pushback to both by half of horizontal knockback value
-                if(OpponentDetector.Actions.Move.hittingWall)
-                {
-                    if (potentialKnockBack.x > potentialKnockBack.y)
-                        KnockBack = new Vector2(potentialKnockBack.x , 0);
+                    OpponentDetector.anim.SetTrigger("Blocked");
+                    if (potentialHitStun <= 19)
+                        OpponentDetector.blockStun = potentialHitStun - 1;
                     else
-                        KnockBack = new Vector2((potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
-                }
-                else if (Actions.Move.hittingWall)
-                {
-                    if (potentialKnockBack.x > potentialKnockBack.y)
-                        OpponentDetector.KnockBack = potentialKnockBack * new Vector2(1f, 0);
-                    else
-                        OpponentDetector.KnockBack = new Vector2((potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
-                }
-                else
-                {
-                    if (potentialKnockBack.x > potentialKnockBack.y)
-                    {
-                        KnockBack = potentialKnockBack * new Vector2(.8f, 0);
-                        OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.9f, 0);
-                    }
-                    else
-                    {
-                        KnockBack = new Vector2((potentialKnockBack.y + potentialKnockBack.x)/2, 0);
-                        OpponentDetector.KnockBack = new Vector2(.8f * (potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
-                    }
-                    
-                }
+                        OpponentDetector.blockStun = potentialHitStun - potentialHitStun / 10;
 
-                if(OpponentDetector.anim.GetBool(AirGuard) && OpponentDetector.Actions.Move.justDefenseTime <= 0)
-                {
-                    //apply special knockback to airborne guards
-                    if (potentialAirKnockBack != Vector2.zero)
+                    if (OpponentDetector.blockStun > 30)
+                        OpponentDetector.blockStun = 30;
+                    // guarding right as the attack lands (just defend) reduces blockstun and negates chip damage
+                    if (OpponentDetector.Actions.Move.justDefenseTime > 0)
                     {
-                        //guarding characters should never be spiked toward the ground
-                        if(potentialAirKnockBack.y < 0)
-                            OpponentDetector.KnockBack = potentialAirKnockBack * new Vector2(.4f, 0) + new Vector2(0, .3f);
+                        OpponentDetector.blockStun -= OpponentDetector.blockStun / 3;
+                        OpponentDetector.Actions.CharProp.durability += 15;
+                        OpponentDetector.justDefense = true;
+                        Debug.Log("JUST DEFEND");
+                    }
+                    OpponentDetector.anim.SetInteger(blockStunID, OpponentDetector.blockStun);
+                    //what to do if an attack is blocked
+                    //mid can be guarded by any guard, lows must be guarded low, overheads must be guarded high
+                    //deal durability/chip damage equaling 10-20% of base damage
+                    //apply pushback to both by half of horizontal knockback value
+                    if (OpponentDetector.Actions.Move.hittingWall)
+                    {
+                        if (potentialKnockBack.x > potentialKnockBack.y)
+                            KnockBack = new Vector2(potentialKnockBack.x, 0);
                         else
-                            OpponentDetector.KnockBack = potentialAirKnockBack * new Vector2(.4f, .5f);
+                            KnockBack = new Vector2((potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
+                    }
+                    else if (Actions.Move.hittingWall)
+                    {
+                        if (potentialKnockBack.x > potentialKnockBack.y)
+                            OpponentDetector.KnockBack = potentialKnockBack * new Vector2(1f, 0);
+                        else
+                            OpponentDetector.KnockBack = new Vector2((potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
                     }
                     else
-                        OpponentDetector.KnockBack += new Vector2(0f, .5f);
+                    {
+                        if (potentialKnockBack.x > potentialKnockBack.y)
+                        {
+                            KnockBack = potentialKnockBack * new Vector2(.8f, 0);
+                            OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.9f, 0);
+                        }
+                        else
+                        {
+                            KnockBack = new Vector2((potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
+                            OpponentDetector.KnockBack = new Vector2(.8f * (potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
+                        }
 
-                    //double chip damage/durability damage on airguard
-                    if(Actions.Move.OpponentProperties.armor > 0)
-                    {
-                        Actions.Move.OpponentProperties.durability -= damage/3;
                     }
-                    else
+
+                    if (OpponentDetector.anim.GetBool(AirGuard) && OpponentDetector.Actions.Move.justDefenseTime <= 0)
                     {
-                        //guarding an attack without having any resolve results in getting shattered
-                        shatter = true;
-                        OpponentDetector.blockStun = 0;
+                        //apply special knockback to airborne guards
+                        if (potentialAirKnockBack != Vector2.zero)
+                        {
+                            //guarding characters should never be spiked toward the ground
+                            if (potentialAirKnockBack.y < 0)
+                                OpponentDetector.KnockBack = potentialAirKnockBack * new Vector2(.4f, 0) + new Vector2(0, .3f);
+                            else
+                                OpponentDetector.KnockBack = potentialAirKnockBack * new Vector2(.4f, .5f);
+                        }
+                        else
+                            OpponentDetector.KnockBack += new Vector2(0f, .5f);
+
+                        //double chip damage/durability damage on airguard
+                        if (Actions.Move.OpponentProperties.armor > 0)
+                        {
+                            Actions.Move.OpponentProperties.durability -= damage / 3;
+                        }
+                        else
+                        {
+                            //guarding an attack without having any resolve results in getting shattered
+                            shatter = true;
+                            OpponentDetector.blockStun = 0;
+                            Actions.Move.OpponentProperties.armor = 0;
+                            Actions.Move.OpponentProperties.durability = 0;
+                            //trigger shatter effect
+                            OpponentDetector.anim.SetTrigger(shatterID);
+                            OpponentDetector.Actions.shattered = true;
+                            Debug.Log("SHATTERED");
+                            //damage, hitstun, etc.
+                            HitSuccess(other);
+                            ApplyHitStop(2 * potentialHitStop);
+
+                            //chip damage
+                            /*if (Actions.Move.OpponentProperties.currentHealth - damage/5 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
+                                Actions.Move.OpponentProperties.currentHealth = 1;
+                            else
+                                Actions.Move.OpponentProperties.currentHealth -= damage/5;
+
+                            if (Actions.Move.OpponentProperties.currentHealth <= 0)
+                                OpponentDetector.anim.SetTrigger(hitID);*/
+
+                        }
+                    }
+                    else if (OpponentDetector.Actions.Move.justDefenseTime <= 0 && OpponentDetector.Actions.standing)
+                    {
+                        if (Actions.Move.OpponentProperties.armor > 0)
+                        {
+                            //durability damage
+                            Actions.Move.OpponentProperties.durability -= damage / 5;
+                        }
+                        else
+                        {
+                            //guarding an attack without having any resolve results in getting shattered
+                            shatter = true;
+                            OpponentDetector.blockStun = 0;
+                            Actions.Move.OpponentProperties.armor = 0;
+                            Actions.Move.OpponentProperties.durability = 0;
+                            //trigger shatter effect
+                            OpponentDetector.anim.SetTrigger(shatterID);
+                            OpponentDetector.Actions.shattered = true;
+                            Debug.Log("SHATTERED");
+                            //damage, hitstun, etc.
+                            HitSuccess(other);
+                            ApplyHitStop(2 * potentialHitStop);
+
+                            //chip damage
+                            /*if (Actions.Move.OpponentProperties.currentHealth - damage/10 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
+                                Actions.Move.OpponentProperties.currentHealth = 1;
+                            else
+                                Actions.Move.OpponentProperties.currentHealth -= damage/10;
+
+                            if (Actions.Move.OpponentProperties.currentHealth <= 0)
+                                OpponentDetector.anim.SetTrigger(crumpleID);*/
+                        }
+                    }
+                    if (OpponentDetector.blockStun > 0)
+                    {
+                        ApplyHitStop(0);
+                        if (Actions.Move.facingRight)
+                            KnockBack *= new Vector2(-1, 1);
+                        else
+                            OpponentDetector.KnockBack *= new Vector2(-1, 1);
+
+                        if (OpponentDetector.Actions.Move.justDefenseTime > 0 && OpponentDetector.Actions.standing)
+                            OpponentDetector.KnockBack *= .5f;
+
+                        if (usingSpecial || usingSuper)
+                            KnockBack *= .5f;
+                    }
+                }
+                else
+                {
+                    if (jumpCancellable)
+                    {
+                        Actions.jumpCancel = true;
+                    }
+
+                    if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.recovering))
+                    {
+                        //getting shattered means losing all your meter/armor
                         Actions.Move.OpponentProperties.armor = 0;
                         Actions.Move.OpponentProperties.durability = 0;
                         //trigger shatter effect
@@ -380,174 +461,100 @@ public class HitDetector : MonoBehaviour
                         OpponentDetector.Actions.shattered = true;
                         Debug.Log("SHATTERED");
                         //damage, hitstun, etc.
+                        specialProration *= 1.1f;
                         HitSuccess(other);
                         ApplyHitStop(2 * potentialHitStop);
-
-                        //chip damage
-                        /*if (Actions.Move.OpponentProperties.currentHealth - damage/5 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
-                            Actions.Move.OpponentProperties.currentHealth = 1;
-                        else
-                            Actions.Move.OpponentProperties.currentHealth -= damage/5;
-
-                        if (Actions.Move.OpponentProperties.currentHealth <= 0)
-                            OpponentDetector.anim.SetTrigger(hitID);*/
-
                     }
-                }
-                else if (OpponentDetector.Actions.Move.justDefenseTime <= 0 && OpponentDetector.Actions.standing)
-                {
-                    if (Actions.Move.OpponentProperties.armor > 0)
+                    else if (piercing && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                     {
-                        //durability damage
-                        Actions.Move.OpponentProperties.durability -= damage/5;
+                        if (armorDamage > 0 || durabilityDamage > 0)
+                        {
+                            Actions.Move.OpponentProperties.armor -= armorDamage;
+                            Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                            OpponentDetector.armorHit = true;
+                        }
+                        HitSuccess(other);
+                        ApplyHitStop(0);
+                    }
+                    else if (!blitz && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
+                    {
+                        //if the opponent has armor and is using it, deal armor and durability damage
+                        Actions.Move.OpponentProperties.armor -= armorDamage;
+                        Actions.Move.OpponentProperties.durability -= durabilityDamage;
+                        ApplyHitStop(0);
+                        OpponentDetector.armorHit = true;
+                        Debug.Log("HitArmor");
                     }
                     else
                     {
-                        //guarding an attack without having any resolve results in getting shattered
-                        shatter = true;
-                        OpponentDetector.blockStun = 0;
-                        Actions.Move.OpponentProperties.armor = 0;
-                        Actions.Move.OpponentProperties.durability = 0;
-                        //trigger shatter effect
-                        OpponentDetector.anim.SetTrigger(shatterID);
-                        OpponentDetector.Actions.shattered = true;
-                        Debug.Log("SHATTERED");
-                        //damage, hitstun, etc.
+                        //otherwise deal damage, hitstun, and knockback
                         HitSuccess(other);
-                        ApplyHitStop(2 * potentialHitStop);
-
-                        //chip damage
-                        /*if (Actions.Move.OpponentProperties.currentHealth - damage/10 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
-                            Actions.Move.OpponentProperties.currentHealth = 1;
-                        else
-                            Actions.Move.OpponentProperties.currentHealth -= damage/10;
-
-                        if (Actions.Move.OpponentProperties.currentHealth <= 0)
-                            OpponentDetector.anim.SetTrigger(crumpleID);*/
+                        ApplyHitStop(0);
                     }
                 }
-                if (OpponentDetector.blockStun > 0)
-                {
-                    ApplyHitStop(0);
-                    if (Actions.Move.facingRight)
-                        KnockBack *= new Vector2(-1, 1);
-                    else
-                        OpponentDetector.KnockBack *= new Vector2(-1, 1);
-
-                    if (OpponentDetector.Actions.Move.justDefenseTime > 0 && OpponentDetector.Actions.standing)
-                        OpponentDetector.KnockBack *= .5f;
-
-                    if (usingSpecial || usingSuper)
-                        KnockBack *= .5f;
-                }
+                Contact(other);
             }
-            else
+            else if (allowHit && (grab || commandGrab) && other.CompareTag("Body") && !OpponentDetector.Actions.throwInvincible &&
+                other.gameObject.transform.parent.parent == Actions.Move.opponent &&
+                ((Actions.standing && OpponentDetector.Actions.standing) || (Actions.airborne && OpponentDetector.Actions.airborne)))
             {
-                if (jumpCancellable)
+                if ((OpponentDetector.Actions.throwTech && !commandGrab))
                 {
-                    Actions.jumpCancel = true;
+                    anim.SetTrigger(throwRejectID);
+                    OpponentDetector.anim.SetTrigger(throwRejectID);
+                    KnockBack = new Vector2(2, 0);
+                    if (Actions.Move.facingRight)
+                        KnockBack *= new Vector2(-1, 0);
                 }
-                
-                if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.recovering))
+                else if (((OpponentDetector.hitStun == 0 && OpponentDetector.blockStun == 0) || OpponentDetector.Actions.grabbed) && hitStun == 0 && !currentState.IsName("Deflected"))
                 {
-                    //getting shattered means losing all your meter/armor
-                    Actions.Move.OpponentProperties.armor = 0;
-                    Actions.Move.OpponentProperties.durability = 0;
-                    //trigger shatter effect
-                    OpponentDetector.anim.SetTrigger(shatterID);
-                    OpponentDetector.Actions.shattered = true;
-                    Debug.Log("SHATTERED");
-                    //damage, hitstun, etc.
-                    specialProration *= 1.1f;
-                    HitSuccess(other);
-                    ApplyHitStop(2 * potentialHitStop);  
-                }
-                else if (piercing && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
-                { 
-                    if (armorDamage > 0 || durabilityDamage > 0)
+                    Actions.throwTech = false;
+
+                    if (!OpponentDetector.anim.GetBool(dizzyID) && armorDamage > 0)
                     {
                         Actions.Move.OpponentProperties.armor -= armorDamage;
                         Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                        OpponentDetector.armorHit = true;
+                        if (Actions.Move.OpponentProperties.armor == 0)
+                            Actions.Move.OpponentProperties.durability = 0;
                     }
-                    HitSuccess(other);
-                    ApplyHitStop(0);
-                }
-                else if(!blitz && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
-                {
-                    //if the opponent has armor and is using it, deal armor and durability damage
-                    Actions.Move.OpponentProperties.armor -= armorDamage;
-                    Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                    ApplyHitStop(0);
-                    OpponentDetector.armorHit = true;
-                    Debug.Log("HitArmor");
-                }
-                else
-                {
-                    //otherwise deal damage, hitstun, and knockback
-                    HitSuccess(other);
-                    ApplyHitStop(0);
-                }
-            }
-            Contact(other);
-        }
-        else if (allowHit && (grab || commandGrab) && other.CompareTag("Body") && !OpponentDetector.Actions.throwInvincible &&
-            other.gameObject.transform.parent.parent == Actions.Move.opponent &&
-            ((Actions.standing && OpponentDetector.Actions.standing) || (Actions.airborne && OpponentDetector.Actions.airborne)))
-        {
-            if ((OpponentDetector.Actions.throwTech && !commandGrab))
-            {
-                anim.SetTrigger(throwRejectID);
-                OpponentDetector.anim.SetTrigger(throwRejectID);
-                KnockBack = new Vector2(2, 0);
-                if (Actions.Move.facingRight)
-                    KnockBack *= new Vector2(-1, 0);
-            }
-            else if (((OpponentDetector.hitStun == 0 && OpponentDetector.blockStun == 0) || OpponentDetector.Actions.grabbed) && hitStun == 0 && !currentState.IsName("Deflected"))
-            {
-                Actions.throwTech = false;
-                
-                if (!OpponentDetector.anim.GetBool(dizzyID) && armorDamage > 0)
-                {
-                    Actions.Move.OpponentProperties.armor -= armorDamage;
-                    Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                    if (Actions.Move.OpponentProperties.armor == 0)
-                        Actions.Move.OpponentProperties.durability = 0;
-                }
 
-                HitSuccess(other);
-                ApplyHitStop(0);
+                    HitSuccess(other);
+                    ApplyHitStop(0);
+                }
+                allowHit = false;
+                hit = true;
             }
-            allowHit = false;
-            hit = true;
+            else if (allowHit && !blitz && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
+            {
+                //clash/deflect system
+                if (attackLevel > OpponentDetector.attackLevel && (attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
+                {
+                    //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
+                    ApplyHitStop(2);
+                    Debug.Log("DEFLECTED!");
+                    anim.SetTrigger(parryID);
+                    OpponentDetector.anim.SetTrigger(deflectID);
+                    OpponentDetector.Actions.jumpCancel = true;
+                    Actions.CharProp.durabilityRefillTimer = 0;
+                    OpponentDetector.Contact(other);
+                }
+                else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
+                {
+                    //if the attacks are of similar strength both can immediately input another command
+                    Debug.Log("Clash!");
+                    ApplyHitStop(2);
+                    anim.SetTrigger(clashID);
+                    //no knockback on clashes
+                    Clash();
+                }
+                allowHit = false;
+                hit = true;
+            }
         }
-        else if (allowHit && !blitz && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
+        else if (OpponentDetector.Actions.bursting && Actions.counterBursting)
         {
-            //clash/deflect system
-            if (attackLevel > OpponentDetector.attackLevel && (attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
-            {
-                //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
-                ApplyHitStop(2);
-                Debug.Log("DEFLECTED!");
-                anim.SetTrigger(parryID);
-                OpponentDetector.anim.SetTrigger(deflectID);
-                OpponentDetector.Actions.jumpCancel = true;
-                Actions.CharProp.durabilityRefillTimer = 0;
-                OpponentDetector.Contact(other);
-            }
-            else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
-            {
-                //if the attacks are of similar strength both can immediately input another command
-                Debug.Log("Clash!");
-                ApplyHitStop(2);
-                anim.SetTrigger(clashID);
-                //no knockback on clashes
-                Clash();
-            }
-            allowHit = false;
-            hit = true;
+
         }
-        
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -574,7 +581,8 @@ public class HitDetector : MonoBehaviour
             Actions.acceptSpecial = true;
         if (allowSuper)
             Actions.acceptSuper = true;
-        Actions.blitzCancel = true;
+        if (!Actions.bursting)
+            Actions.blitzCancel = true;
         
         allowHit = false;
         hit = true;
@@ -767,6 +775,11 @@ public class HitDetector : MonoBehaviour
             }
             OpponentDetector.blockStun = 0;
         }
+
+        if (usingSuper)
+            OpponentDetector.Actions.acceptBurst = false;
+        else
+            OpponentDetector.Actions.acceptBurst = true;
 
         //apply knockback
         if ((potentialAirKnockBack != Vector2.zero || potentialKnockBack != Vector2.zero) && ProjectileKnockBack == Vector2.zero)

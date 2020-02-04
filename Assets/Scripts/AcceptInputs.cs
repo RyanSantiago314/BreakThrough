@@ -13,6 +13,7 @@ public class AcceptInputs : MonoBehaviour
     public bool acceptBreak = true;
     public bool acceptSpecial = true;
     public bool acceptSuper = true;
+    public bool acceptBurst = true;
     public bool jumpCancel = true;
     public bool blitzCancel = true;
     public bool airborne = false;
@@ -23,7 +24,11 @@ public class AcceptInputs : MonoBehaviour
     public bool recovering = false;
     public bool throwInvincible = false;
 
+    public bool bursting = false;
+    public bool counterBursting = false;
+
     public bool shattered = false;
+    public bool superHit = false;
     public int blitzed = 0;
     public int wallStick = 0;
     public int landingLag = 0;
@@ -102,15 +107,20 @@ public class AcceptInputs : MonoBehaviour
         {
             DisableAll();
             DisableBlitz();
+            bursting = false;
+            counterBursting = false;
             if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected"))
             {
                 armorActive = false;
                 attacking = false;
                 recovering = false;
-            }   
+            }
         }
 
-        if ((attacking || anim.GetBool(highGuardID) || anim.GetBool(lowGuardID) || anim.GetBool(runID)) && CharProp.armor > 0)
+        if (anim.GetBool(dizzyID) || grabbed || shattered || superHit)
+            acceptBurst = false;
+
+            if ((attacking || anim.GetBool(highGuardID) || anim.GetBool(lowGuardID) || anim.GetBool(runID)) && CharProp.armor > 0)
             armorActive = true;
         else
             armorActive = false;
@@ -235,6 +245,26 @@ public class AcceptInputs : MonoBehaviour
     {
         attacking = false;
         recovering = true;
+    }
+
+    public void StartBurst()
+    {
+        bursting = true;
+    }
+
+    public void EndBurst()
+    {
+        bursting = false;
+    }
+
+    public void StartCounterBurst()
+    {
+        counterBursting = true;
+    }
+
+    public void EndCounterBurst()
+    {
+        counterBursting = false;
     }
 
     public void StartSuperFlash(int i)
