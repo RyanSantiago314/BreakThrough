@@ -229,8 +229,8 @@ public class GameOver : MonoBehaviour
     	PlayerProp1.currentHealth = PlayerProp1.maxHealth;
     	PlayerProp2.currentHealth = PlayerProp2.maxHealth;
     	//Setting players to starting location vectors
-    	Vector3 p1Start = new Vector3(-1.3f, 1.15f, -3);
-    	Vector3 p2Start = new Vector3(1.3f, 1.15f, -3);
+    	Vector3 p1Start = new Vector3(-1.3f, 1.10f, -3);
+    	Vector3 p2Start = new Vector3(1.3f, 1.10f, -3);
     	GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
     	GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
         GameObject.Find("CameraPos").transform.GetChild(1).transform.position = GameObject.Find("CameraPos").transform.position;
