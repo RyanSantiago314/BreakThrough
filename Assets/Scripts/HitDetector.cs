@@ -181,7 +181,7 @@ public class HitDetector : MonoBehaviour
             if (!pauseScreen.isPaused)
                 hitStop--;
         }
-        else if (Actions.grabbed)
+        else if (Actions.grabbed || Actions.bursting)
         {
             //lock character to allow throw animation to work correctly
             anim.SetFloat(animSpeedID, 1f);
@@ -913,6 +913,7 @@ public class HitDetector : MonoBehaviour
             hitStop = 90;
             OpponentDetector.hitStop = 90;
             Actions.Move.OpponentProperties.currentHealth = 0;
+            OpponentDetector.anim.SetBool(KOID, true);
         }
         else if (Actions.Move.OpponentProperties.currentHealth > 0)
         {

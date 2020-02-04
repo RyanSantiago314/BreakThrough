@@ -120,7 +120,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStun = 50;
         HitDetect.potentialHitStop = hitStopLv4;
 
-        HitDetect.potentialKnockBack = new Vector2(4f, 3f);
+        HitDetect.potentialKnockBack = new Vector2(3.5f, 2.5f);
         HitDetect.attackLevel = 10;
         HitDetect.guard = "Unblockable";
 

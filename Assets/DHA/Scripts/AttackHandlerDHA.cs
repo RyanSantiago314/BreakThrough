@@ -106,6 +106,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int highGuardID;
     static int airGuardID;
     static int dizzyID;
+    static int KOID;
     public int dizzyTime;
     int blitzActive;
 
@@ -138,6 +139,7 @@ public class AttackHandlerDHA : MonoBehaviour
         highGuardID = Animator.StringToHash("HighGuard");
         airGuardID = Animator.StringToHash("AirGuard");
         dizzyID = Animator.StringToHash("Dizzy");
+        KOID = Animator.StringToHash("KOed");
 
         runID = Animator.StringToHash("Run");
         IDRec = Animator.StringToHash("Recover");
@@ -395,7 +397,7 @@ public class AttackHandlerDHA : MonoBehaviour
         }
 
         //dizzy state, mash buttons to get out of it faster
-        if (dizzyTime == 0 && anim.GetBool(dizzyID))
+        if ((dizzyTime == 0 && anim.GetBool(dizzyID)) || anim.GetBool(KOID))
         {
             dizzyTime = 300;
         }
@@ -460,6 +462,9 @@ public class AttackHandlerDHA : MonoBehaviour
         if (Actions.acceptBurst && Move.HitDetect.hitStop == 0 && breakButton > 0 && heavyButton > 0 && mediumButton > 0 && lightButton > 0)
         {
             //anim.SetTrigger(IDBurst);
+            //Move.HitDetect.hitStun = 0;
+            //Actions.blitzed = 0;
+
             lightButton = 0;
             mediumButton = 0;
             heavyButton = 0;
