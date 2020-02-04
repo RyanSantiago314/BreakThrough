@@ -19,8 +19,12 @@ public class CursorMovement : MonoBehaviour {
 
     private string p1Cross = "Cross_P1";
     private string p1Circle = "Circle_P1";
+    private string p1Hor = "Horizontal_P1";
+    private string p1Ver = "Vertical_P1";
     private string p2Cross = "Cross_P2";
     private string p2Circle = "Circle_P2";
+    private string p2Hor = "Horizontal_P2";
+    private string p2Ver = "Vertical_P2";
 
     public GameObject backMenuUI;
     public GameObject P1Cursor;
@@ -43,6 +47,10 @@ public class CursorMovement : MonoBehaviour {
         p2Cross += UpdateControls(CheckXbox(1));
         p1Circle += UpdateControls(CheckXbox(0));
         p2Circle += UpdateControls(CheckXbox(1));
+        p1Ver += UpdateControls(CheckXbox(0));
+        p1Hor += UpdateControls(CheckXbox(0));
+        p2Ver += UpdateControls(CheckXbox(1));
+        p2Hor += UpdateControls(CheckXbox(1));
     }
 
     void Update()
@@ -56,8 +64,8 @@ public class CursorMovement : MonoBehaviour {
             if (!P1.P1Selected)
             {
                 //Manage P1Cursor movement
-                float x = Input.GetAxis("Horizontal_P1");
-                float y = Input.GetAxis("Vertical_P1");
+                float x = Input.GetAxis(p1Hor);
+                float y = Input.GetAxis(p1Ver);
 
                 P1Cursor.transform.position += new Vector3(x, y, 0) * 1/50 * speed;
 
@@ -68,8 +76,8 @@ public class CursorMovement : MonoBehaviour {
             if (!P2.P2Selected)
             {
                 //Manage P2Cursor movement
-                float x2 = Input.GetAxis("Horizontal_P2");
-                float y2 = Input.GetAxis("Vertical_P2");
+                float x2 = Input.GetAxis(p2Hor);
+                float y2 = Input.GetAxis(p2Ver);
 
                 P2Cursor.transform.position += new Vector3(x2, y2, 0) * 1/50 * speed;
 
@@ -86,12 +94,12 @@ public class CursorMovement : MonoBehaviour {
             P1ColorSelect.SetActive(true);
 
             //Receive P1 inputs for color select
-            if (Input.GetAxis("Horizontal_P1") < 0)
+            if (Input.GetAxis(p1Hor) < 0)
             {
                 P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
    
             }
-            else if (Input.GetAxis("Horizontal_P1") > 0)
+            else if (Input.GetAxis(p1Hor) > 0)
             {
                 P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
             }
@@ -168,11 +176,11 @@ public class CursorMovement : MonoBehaviour {
             P2ColorSelect.SetActive(true);
 
             //Receive P2 inputs for color select
-            if (Input.GetButtonDown("Horizontal_P2") && Input.GetAxis("Horizontal_P2") < 0)
+            if (Input.GetButtonDown(p2Hor) && Input.GetAxis(p2Hor) < 0)
             {
                 P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
             }
-            else if (Input.GetButtonDown("Horizontal_P2") && Input.GetAxis("Horizontal_P2") > 0)
+            else if (Input.GetButtonDown(p2Hor) && Input.GetAxis(p2Hor) > 0)
             {
                 P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
             }
