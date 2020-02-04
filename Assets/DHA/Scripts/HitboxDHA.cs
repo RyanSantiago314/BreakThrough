@@ -103,6 +103,30 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.blitz = true;
     }
 
+    public void BurstBreaker()
+    {
+        ClearHitBox();
+        hit1.enabled = true;
+        hit2.enabled = true;
+        hit3.enabled = true;
+
+        hit1.offset = new Vector2(.0f, .0f);
+        hit1.size = new Vector2(1.85f, 1f);
+        hit2.offset = new Vector2(.0f, .0f);
+        hit2.size = new Vector2(1.5f, 1.5f);
+        hit3.offset = new Vector2(.0f, .0f);
+        hit3.size = new Vector2(1f, 2f);
+
+        HitDetect.potentialHitStun = 50;
+        HitDetect.potentialHitStop = hitStopLv4;
+
+        HitDetect.potentialKnockBack = new Vector2(4f, 3f);
+        HitDetect.attackLevel = 10;
+        HitDetect.guard = "Unblockable";
+
+        HitDetect.piercing = true;
+    }
+
     public void SummonPastry()
     {
         //Pastry projectile, angle of throw changes based on direction held after execution

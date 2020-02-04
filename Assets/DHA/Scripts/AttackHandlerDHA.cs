@@ -99,6 +99,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int runID;
     static int IDRec;
     static int IDBlitz;
+    static int IDBurst;
     static int IDThrow;
 
     static int lowGuardID;
@@ -141,6 +142,7 @@ public class AttackHandlerDHA : MonoBehaviour
         runID = Animator.StringToHash("Run");
         IDRec = Animator.StringToHash("Recover");
         IDBlitz = Animator.StringToHash("Blitz");
+        IDBurst = Animator.StringToHash("BurstBreaker");
         IDThrow = Animator.StringToHash("Throw");
 
         if (transform.parent.name == "Player1")
@@ -397,7 +399,7 @@ public class AttackHandlerDHA : MonoBehaviour
         {
             dizzyTime = 300;
         }
-        else if (!anim.GetBool(dizzyID))
+        else if (!anim.GetBool(dizzyID) || CharProp.currentHealth == CharProp.maxHealth)
         {
             dizzyTime = 0;
         }
@@ -449,25 +451,38 @@ public class AttackHandlerDHA : MonoBehaviour
             breakButton = 0;
         }
 
-        //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of two hits of armor
+        
         if (blitzActive > 0)
             blitzActive--;
         else if (blitzActive == 1)
             Hitboxes.ClearHitBox();
 
-        if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
+        if (Actions.acceptBurst && Move.HitDetect.hitStop == 0 && breakButton > 0 && heavyButton > 0 && mediumButton > 0 && lightButton > 0)
+        {
+            //anim.SetTrigger(IDBurst);
+            lightButton = 0;
+            mediumButton = 0;
+            heavyButton = 0;
+            breakButton = 0;
+        }
+        //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of two hits of armor
+        else if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
             heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 1)
         {
             anim.SetTrigger(IDBlitz);
             BlitzWave.SetTrigger(IDBlitz);
             Hitboxes.BlitzCancel();
             Actions.landingLag = 0;
+            Move.HitDetect.KnockBack = Vector2.zero;
 
             anim.SetBool(runID, false);
             BlitzImage.sprite = anim.gameObject.GetComponent<SpriteRenderer>().sprite;
             BlitzImage.color = new Color(BlitzImage.color.r, BlitzImage.color.g, BlitzImage.color.b, .75f);
             BlitzEffect.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             BlitzEffect.transform.rotation = transform.rotation;
+
+            if (Actions.airborne && MaxInput.GetAxis(Vertical) < 0)
+                Move.rb.AddForce(new Vector2(0, -3), ForceMode2D.Impulse);
 
             //cost for executing blitz cancel
             CharProp.armor--;
