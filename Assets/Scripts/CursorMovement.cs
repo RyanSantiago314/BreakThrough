@@ -17,6 +17,11 @@ public class CursorMovement : MonoBehaviour {
     public bool P2Ready;
     private bool start;
 
+    private string p1Cross = "Cross_P1";
+    private string p1Circle = "Circle_P1";
+    private string p2Cross = "Cross_P2";
+    private string p2Circle = "Circle_P2";
+
     public GameObject backMenuUI;
     public GameObject P1Cursor;
     public GameObject P2Cursor;
@@ -33,6 +38,11 @@ public class CursorMovement : MonoBehaviour {
     void Start()
     {
         Time.timeScale = 1;
+
+        p1Cross += UpdateControls(CheckXbox(0));
+        p2Cross += UpdateControls(CheckXbox(1));
+        p1Circle += UpdateControls(CheckXbox(0));
+        p2Circle += UpdateControls(CheckXbox(1));
     }
 
     void Update()
@@ -87,7 +97,7 @@ public class CursorMovement : MonoBehaviour {
             }
 
             //Check for P1 confirmation
-            if (Input.GetButtonDown("Cross_P1"))
+            if (Input.GetButtonDown(p1Cross))
             {
                 switch (P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
                 {
@@ -124,7 +134,7 @@ public class CursorMovement : MonoBehaviour {
         }
 
         //Deselect P1 from Color Menu
-        if (Input.GetButtonDown("Circle_P1") && P1Ready)
+        if (Input.GetButtonDown(p1Circle) && P1Ready)
         {
             P1Color = 0;
             P1Ready = false;
@@ -144,7 +154,7 @@ public class CursorMovement : MonoBehaviour {
         //Check for character selection
         if (P1.isOverlap)
         {
-            if (Input.GetButtonDown("Cross_P1"))
+            if (Input.GetButtonDown(p1Cross))
             {
                 P1.P1Selected = true;
                 GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = P1.currentChar;
@@ -168,7 +178,7 @@ public class CursorMovement : MonoBehaviour {
             }
 
             //Check for P2 confirmation
-            if (Input.GetButtonDown("Cross_P2"))
+            if (Input.GetButtonDown(p2Cross))
             {
                 switch (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
                 {
@@ -205,7 +215,7 @@ public class CursorMovement : MonoBehaviour {
         }
 
         //Deselect P2 from Color Menu
-        if (Input.GetButtonDown("Circle_P2") && P2Ready)
+        if (Input.GetButtonDown(p2Circle) && P2Ready)
         {
             P2Color = 0;
             P2Ready = false;
@@ -225,7 +235,7 @@ public class CursorMovement : MonoBehaviour {
         //Check for character selection
         if (P2.isOverlap)
         {
-            if (Input.GetButtonDown("Cross_P2"))
+            if (Input.GetButtonDown(p2Cross))
             {
                 P2.P2Selected = true;
                 GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = P2.currentChar;
@@ -247,12 +257,12 @@ public class CursorMovement : MonoBehaviour {
          {
              ActivateMenu();
              //Unpause the game (Only the player that paused can unpause)
-             if (Input.GetButtonDown("Circle_P1") && playerPaused == 1)
+             if (Input.GetButtonDown(p1Circle) && playerPaused == 1)
              {
                  isPaused = !isPaused;
                  playerPaused = 0;
              }
-             if (Input.GetButtonDown("Circle_P2") && playerPaused == 2)
+             if (Input.GetButtonDown(p2Circle) && playerPaused == 2)
              {
                  isPaused = !isPaused;
                  playerPaused = 0;
@@ -262,20 +272,20 @@ public class CursorMovement : MonoBehaviour {
          {
              DeactivateMenu();
              //Record which player paused
-             if (Input.GetButtonDown("Circle_P1") && playerPaused == 0 && !P1.P1Selected)
+             if (Input.GetButtonDown(p1Circle) && playerPaused == 0 && !P1.P1Selected)
              {
                  isPaused = !isPaused;
                  playerPaused = 1;
              }
-             if (Input.GetButtonDown("Circle_P2") && playerPaused == 0 && !P2.P2Selected)
+             if (Input.GetButtonDown(p2Circle) && playerPaused == 0 && !P2.P2Selected)
              {
                  isPaused = !isPaused;
                  playerPaused = 2;
              }
          }*/
-     }
+    }
 
-     public void ActivateMenu()
+    public void ActivateMenu()
      {
          backMenuUI.SetActive(true);
      }
@@ -300,4 +310,23 @@ public class CursorMovement : MonoBehaviour {
      {
          SceneManager.LoadScene(0);
      }
+
+    private bool CheckXbox(int player)
+    {
+        if (Input.GetJoystickNames().Length > player)
+        {
+            if (Input.GetJoystickNames()[player].Contains("Xbox"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private string UpdateControls(bool xbox)
+    {
+        if (xbox)
+            return "_Xbox";
+        return "";
+    }
 }
