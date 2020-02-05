@@ -41,7 +41,6 @@ public class SelectedCharacterManager : MonoBehaviour
             P1Color = 0;
             P2Color = 0;
             reset = true;
-            Debug.Log("t");
         }
         else if (SceneManager.GetActiveScene().name != "CharacterSelect")
         {
