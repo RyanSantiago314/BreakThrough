@@ -515,20 +515,4 @@ public class AcceptInputs : MonoBehaviour
         opponentMove.Actions.TurnAroundCheck();
     }
 
-    public void GetUp()
-    {
-        if (CharProp.comboTimer < 200)
-        {
-            CharProp.armor = 2;
-            CharProp.durability = 100;
-        }
-        else
-        {
-            for (float i = CharProp.comboTimer; i >= 100; i -= 100)
-            {
-                CharProp.armor++;
-            }
-            CharProp.durability = (int)CharProp.comboTimer % 100;
-        }
-    }
 }
