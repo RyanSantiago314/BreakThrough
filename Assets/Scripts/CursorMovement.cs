@@ -174,11 +174,11 @@ public class CursorMovement : MonoBehaviour {
             P2ColorSelect.SetActive(true);
 
             //Receive P2 inputs for color select
-            if (Input.GetButtonDown(p2Hor) && Input.GetAxis(p2Hor) < 0)
+            if (Input.GetAxis(p2Hor) < 0)
             {
                 P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
             }
-            else if (Input.GetButtonDown(p2Hor) && Input.GetAxis(p2Hor) > 0)
+            else if (Input.GetAxis(p2Hor) > 0)
             {
                 P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
             }
