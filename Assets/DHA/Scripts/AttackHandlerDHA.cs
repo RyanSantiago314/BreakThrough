@@ -433,8 +433,6 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.SetBool(dizzyID, false);
             CharProp.refill = true;
             CharProp.comboTimer = 0;
-            CharProp.armor = 2;
-            CharProp.durability = 50;
         }
 
         //aerial recovery, press a button after hitstun ends
