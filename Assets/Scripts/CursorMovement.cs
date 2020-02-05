@@ -11,8 +11,6 @@ public class CursorMovement : MonoBehaviour {
     public int P2Color;
     private float speed;
     public bool isPaused;
-    public bool P1Selected;
-    public bool P2Selected;
     public bool P1Ready;
     public bool P2Ready;
     private bool start;

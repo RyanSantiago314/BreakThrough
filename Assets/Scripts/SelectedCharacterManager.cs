@@ -11,6 +11,13 @@ public class SelectedCharacterManager : MonoBehaviour
     public int P2Color;
 
     private static bool created = false;
+    private bool reset = false;
+
+    void Start()
+    {
+
+
+    }
 
     void Awake()
     {
@@ -23,5 +30,22 @@ public class SelectedCharacterManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }      
+    }
+
+    void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "CharacterSelect" && reset == false)
+        {
+            P1Character = "";
+            P2Character = "";
+            P1Color = 0;
+            P2Color = 0;
+            reset = true;
+            Debug.Log("t");
+        }
+        else if (SceneManager.GetActiveScene().name != "CharacterSelect")
+        {
+            reset = false;
+        }
     }
 }
