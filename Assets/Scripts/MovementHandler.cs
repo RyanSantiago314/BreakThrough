@@ -71,6 +71,7 @@ public class MovementHandler : MonoBehaviour
     static int groundBounceID;
     static int wallBounceID;
     static int yVeloID;
+    static int KOID;
 
     // Set Up inputs, anim variable hashes, and opponent in awake
     void Awake()
@@ -139,6 +140,7 @@ public class MovementHandler : MonoBehaviour
         groundBounceID = Animator.StringToHash("GroundBounce");
         wallBounceID = Animator.StringToHash("WallBounce");
         yVeloID = Animator.StringToHash("VertVelocity");
+        KOID = Animator.StringToHash("KOed");
     }
 
     // Update is called once per frame
@@ -157,6 +159,14 @@ public class MovementHandler : MonoBehaviour
                 facingRight = false;
             else if (opponent.transform.position.x > transform.position.x + .1f)
                 facingRight = true;
+        }
+
+        if (anim.GetBool(KOID))
+        {
+            anim.SetBool(crouchID, false);
+            anim.SetBool(walkFID, false);
+            anim.SetBool(walkBID, false);
+            anim.SetBool(runID, false);
         }
 
         if (!Actions.airborne)
@@ -879,7 +889,7 @@ public class MovementHandler : MonoBehaviour
 
     void WallStick()
     {
-        if(currentState.IsName("WallStick"))
+        if(currentState.IsName("WallStick") && !HitDetect.pauseScreen.isPaused)
         {
             if(wallStickTimer == 0)
             {
@@ -888,7 +898,7 @@ public class MovementHandler : MonoBehaviour
             }
             wallStickTimer--;
         }
-        else if (Actions.blitzed % 2 == 0)
+        else if (Actions.blitzed % 2 == 0 && !HitDetect.pauseScreen.isPaused)
         {
             wallStickTimer = 36;
         }

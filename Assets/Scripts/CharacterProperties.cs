@@ -93,10 +93,10 @@ public class CharacterProperties : MonoBehaviour
                     armor = 0;
                     HitDetect.anim.SetBool(dizzyID, true);
                 }
-                else if (armor == 0 && HitDetect.anim.GetBool(dizzyID))
+                else if (armor == 0 || HitDetect.anim.GetBool(dizzyID))
                 {
                     comboTimer = 0;
-                    armor = 1;
+                    armor = 2;
                     durability = 50;
                 }
                 else
@@ -144,7 +144,7 @@ public class CharacterProperties : MonoBehaviour
                     durability += durabilityRefillRate;
                     refillCounter = 0;
                 }
-                else if (durabilityRefillTimer > 3)
+                else if (durabilityRefillTimer >= 3)
                 {
                     refillCounter++;
                 }
@@ -156,11 +156,7 @@ public class CharacterProperties : MonoBehaviour
         }
 
         //gain armor when durability has refilled completely
-        if (armor == 0 && durability <= 100)
-        {
-            durability = 100;
-        }
-        else if (durability > 100)
+        if (durability > 100)
         {
             if (armor < 4)
             {

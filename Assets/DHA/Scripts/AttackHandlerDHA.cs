@@ -192,15 +192,6 @@ public class AttackHandlerDHA : MonoBehaviour
     {
         currentState = anim.GetCurrentAnimatorStateInfo(0);
         anim.ResetTrigger(IDRec);
-        if (Input.GetButtonDown(Select))
-        {
-            CharProp.currentHealth = CharProp.maxHealth;
-            CharProp.armor = 4;
-            CharProp.durability = 100;
-            Move.OpponentProperties.currentHealth = Move.OpponentProperties.maxHealth;
-            Move.OpponentProperties.armor = 4;
-            Move.OpponentProperties.durability = 100;
-        }
 
         if (StartText.startReady && !GameOver.lockInputs)
         {
@@ -433,8 +424,6 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.SetBool(dizzyID, false);
             CharProp.refill = true;
             CharProp.comboTimer = 0;
-            CharProp.armor = 2;
-            CharProp.durability = 50;
         }
 
         //aerial recovery, press a button after hitstun ends
