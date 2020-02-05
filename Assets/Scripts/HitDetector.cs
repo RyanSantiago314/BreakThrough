@@ -195,7 +195,7 @@ public class HitDetector : MonoBehaviour
 
             if (Actions.superFlash > 0)
             {
-                OpponentDetector.hitStop = 2;
+                OpponentDetector.hitStop = 1;
             }
 
             if(currentState.IsName("WallStick"))

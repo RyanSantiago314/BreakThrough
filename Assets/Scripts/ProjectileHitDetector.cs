@@ -133,7 +133,7 @@ public class ProjectileHitDetector : MonoBehaviour
             currentAngularVelocity = rb.angularVelocity;
         }
 
-        if (pauseScreen.isPaused && hitStop == 0)
+        if ((pauseScreen.isPaused && hitStop == 0) || OpponentDetector.Actions.superFlash > 0)
         {
             hitStop = 1;
         }
