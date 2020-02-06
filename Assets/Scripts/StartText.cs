@@ -58,7 +58,7 @@ public class StartText : MonoBehaviour
         }
         //Set text to ready and activate it
         startText.text = "Ready!";
-        if (!GameOver.matchOver) thisText.SetActive(true);
+        if (!GameOver.matchOver && !PauseMenu.pauseQuit) thisText.SetActive(true);
         //Countdown is now ready to begin
         beginCountdown = true;
     }
