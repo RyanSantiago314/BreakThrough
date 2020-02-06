@@ -21,6 +21,10 @@ public class GameOver : MonoBehaviour
     private GameObject child3;
     private GameObject child4;
     private GameObject child5;
+    public Button p1Replay;
+    public Button p1Quit;
+    public Button p2Replay;
+    public Button p2Quit;
     public TextMeshProUGUI p1WinCount;
     public TextMeshProUGUI p2WinCount;
     public TextMeshProUGUI roundTimerText;
@@ -33,14 +37,18 @@ public class GameOver : MonoBehaviour
     static public bool lockInputs;
 
     //Various float timer variables
-    float endTimer;
-    float replayTimer;
-    float roundTimer;
-    float overtimeTimer;
+    private float endTimer;
+    private float replayTimer;
+    private float roundTimer;
+    private float overtimeTimer;
     //Bool variable checking if replay is about to occur
-    bool replaying;
+    private bool replaying;
     //Bool variable deciding if timer should be running or not
-    bool timerStart;
+    private bool timerStart;
+
+    private bool isXbox;
+    private string xboxInput;
+    private string ps4Input;
 
 	void Start()
 	{	
@@ -90,10 +98,14 @@ public class GameOver : MonoBehaviour
 
  		dizzyKO = false;
  		matchOver = false;
+ 		isXbox = false;
+
+ 		xboxInput = "Controller (Xbox One For Windows)";
+     	ps4Input = "Wireless Controller";
 	}
 
 	void Update()
-	{
+	{	
 		//Decrementing end timer
 		if (endTimer > 0)
 		{
@@ -109,6 +121,15 @@ public class GameOver : MonoBehaviour
 		if (roundTimer > 0 && timerStart) roundTimer -= Time.deltaTime;
 		//Setting round timer text to be represented as a float with zero decimal places 
 		roundTimerText.text = roundTimer.ToString("F0");
+
+		//If an input device is detected then establish what device it is in order to properly decipher inputs
+    	if (Input.GetJoystickNames().Length > 0)
+    	{
+	    	if (Input.GetJoystickNames()[0] == xboxInput) isXbox = true;
+	    	else if (Input.GetJoystickNames()[0] == ps4Input) isXbox = false;
+	    	else if (Input.GetJoystickNames()[0] == "") isXbox = false;
+    	}
+
 		//If player 1 lost and player 2 has 2 wins, display player 2 wins screen
 		if (PlayerProp1.currentHealth <= 0 && p2Win == 2)
 		{
@@ -120,8 +141,20 @@ public class GameOver : MonoBehaviour
 			{
 				child4.SetActive(false);
 				child2.SetActive(true);
+				if (matchOver == false) p2Replay.Select();
 				matchOver = true;
 			}
+			if (isXbox)
+			{
+				if (Input.GetAxis("Horizontal_P1") < 0) p2Quit.Select();
+            	else if (Input.GetAxis("Horizontal_P1") > 0) p2Replay.Select();
+			}
+			else
+			{
+				if (Input.GetAxis("Vertical_P1") < 0) p2Quit.Select();
+            	else if (Input.GetAxis("Vertical_P1") > 0) p2Replay.Select();
+        	}
+
 			//Global round count set to 0
 			StartText.roundCount = 0;
 
@@ -137,8 +170,21 @@ public class GameOver : MonoBehaviour
             {
 				child4.SetActive(false);
             	child1.SetActive(true);
+            	if (matchOver == false) p1Replay.Select();
             	matchOver = true;
             }
+
+            if (isXbox)
+			{
+				if (Input.GetAxis("Horizontal_P1") < 0) p1Quit.Select();
+            	else if (Input.GetAxis("Horizontal_P1") > 0) p1Replay.Select();
+			}
+			else
+			{
+				if (Input.GetAxis("Vertical_P1") < 0) p1Quit.Select();
+            	else if (Input.GetAxis("Vertical_P1") > 0) p1Replay.Select();
+        	}
+
 			//Global round count set to 0
 			StartText.roundCount = 0;
         }
@@ -146,7 +192,9 @@ public class GameOver : MonoBehaviour
         if (roundTimer <= 0)
         {
         	if (overtimeTimer == -2) overtimeTimer = 1.5f;
-        	if ((overtimeTimer > 0 || overtimeTimer == -2) && !replaying && PlayerProp1.currentHealth == PlayerProp2.currentHealth) child5.SetActive(true);
+        	if ((overtimeTimer > 0 || overtimeTimer == -2) && !replaying
+        		&& ((int)((PlayerProp1.currentHealth / PlayerProp1.maxHealth) * 100) == 
+        		(int)((PlayerProp2.currentHealth / PlayerProp2.maxHealth) * 100))) child5.SetActive(true);
         	else child5.SetActive(false);
         	
        		//Setting roundTimer to round 0
@@ -247,9 +295,9 @@ public class GameOver : MonoBehaviour
     //Function to load main menu scene
     void QuitToMenu()
     {
-    	SceneManager.LoadSceneAsync(0);
     	lockInputs = false;
     	StartText.startReady = false;
+    	SceneManager.LoadSceneAsync(0);
     }
 
     //Function setting color of the panel to black

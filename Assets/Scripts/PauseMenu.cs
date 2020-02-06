@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour{
     public GameObject pauseMenuUI;
     public bool isPaused;
+    static public bool pauseQuit;
     private int playerPaused;
 
     private string pauseCode1 = "Start_P1";
@@ -23,6 +24,7 @@ public class PauseMenu : MonoBehaviour{
         pauseCode1 += UpdateControls(CheckXbox(0));
         pauseCode += UpdateControls(CheckXbox(1));
 
+        pauseQuit = false;
     }
 
     // Update is called once per frame
@@ -87,8 +89,9 @@ public class PauseMenu : MonoBehaviour{
     {
         StartText.startReady = false;
         GameOver.lockInputs = false;
+        pauseQuit = true;
         //Time.timeScale = 1;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadSceneAsync(0);
     }
 
     private bool CheckXbox(int player)
