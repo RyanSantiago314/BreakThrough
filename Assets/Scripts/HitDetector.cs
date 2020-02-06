@@ -161,7 +161,7 @@ public class HitDetector : MonoBehaviour
         {
             anim.SetBool(runID, false);
             //hitStun only counts down if not in the groundbounce or crumple animations
-            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0 && !Actions.shattered && !pauseScreen.isPaused)
+            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0  && !pauseScreen.isPaused)
                 hitStun--;
             anim.SetInteger(hitStunID, hitStun);
         }
@@ -223,7 +223,7 @@ public class HitDetector : MonoBehaviour
             {
                 //reward attacker for landing a shattering attack
                 rb.gravityScale = .7f;
-                anim.SetFloat(animSpeedID, .85f);
+                anim.SetFloat(animSpeedID, .5f);
             }
             else
             {
@@ -378,6 +378,7 @@ public class HitDetector : MonoBehaviour
                             OpponentDetector.blockStun = 0;
                             Actions.Move.OpponentProperties.armor = 0;
                             Actions.Move.OpponentProperties.durability = 0;
+                            potentialHitStun = 30;
                             //trigger shatter effect
                             OpponentDetector.anim.SetTrigger(shatterID);
                             OpponentDetector.Actions.shattered = true;
@@ -411,6 +412,7 @@ public class HitDetector : MonoBehaviour
                             OpponentDetector.blockStun = 0;
                             Actions.Move.OpponentProperties.armor = 0;
                             Actions.Move.OpponentProperties.durability = 0;
+                            potentialHitStun = 30;
                             //trigger shatter effect
                             OpponentDetector.anim.SetTrigger(shatterID);
                             OpponentDetector.Actions.shattered = true;
@@ -771,7 +773,7 @@ public class HitDetector : MonoBehaviour
             if (OpponentDetector.Actions.shattered || OpponentDetector.Actions.attacking)
             {
                 Actions.Move.OpponentProperties.comboTimer = 0;
-                OpponentDetector.hitStun += OpponentDetector.hitStun / 2;
+                OpponentDetector.hitStun *= 2;
             }
             OpponentDetector.blockStun = 0;
         }

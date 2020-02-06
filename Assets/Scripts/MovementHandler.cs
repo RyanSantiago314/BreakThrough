@@ -161,7 +161,7 @@ public class MovementHandler : MonoBehaviour
                 facingRight = true;
         }
 
-        if (anim.GetBool(KOID))
+        if (anim.GetBool(KOID) || !playing)
         {
             anim.SetBool(crouchID, false);
             anim.SetBool(walkFID, false);
