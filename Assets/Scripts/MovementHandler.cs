@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; //Temporary
 
 public class MovementHandler : MonoBehaviour
 {
@@ -70,30 +71,54 @@ public class MovementHandler : MonoBehaviour
     static int groundBounceID;
     static int wallBounceID;
     static int yVeloID;
+    static int KOID;
 
     // Set Up inputs, anim variable hashes, and opponent in awake
     void Awake()
     {
-        if (transform.parent.name == "Player1")
+        //Original system to use in original Training Stage
+        if (SceneManager.GetActiveScene().name == "TrainingStage")
         {
-            Horizontal = "Horizontal_P1";
-            Vertical = "Vertical_P1";
-            L3 = "L3_P1";
-            opponent = GameObject.Find("Player2").transform.GetChild(0).transform;
+            if (transform.parent.name == "Player1")
+            {
+               Horizontal = "Horizontal_P1";
+                Vertical = "Vertical_P1";
+                L3 = "L3_P1";
+                opponent = GameObject.Find("Player2").transform.GetChild(0).transform;
+            }
+            else
+            {
+                Horizontal = "Horizontal_P2";
+                Vertical = "Vertical_P2";
+                L3 = "L3_P2";
+                opponent = GameObject.Find("Player1").transform.GetChild(0).transform;
+            }
+            OpponentProperties = opponent.GetComponent<CharacterProperties>();
         }
-        else
-        {
-            Horizontal = "Horizontal_P2";
-            Vertical = "Vertical_P2";
-            L3 = "L3_P2";
-            opponent = GameObject.Find("Player1").transform.GetChild(0).transform;
-        }
-        OpponentProperties = opponent.GetComponent<CharacterProperties>();
-        
     }
 
     void Start()
     {
+        //Added for character loading system. Needs to start here for it to work
+        if (SceneManager.GetActiveScene().name == "TrainingStage2")
+        {
+            if (transform.parent.name == "Player1")
+            {
+                Horizontal = "Horizontal_P1";
+                Vertical = "Vertical_P1";
+                L3 = "L3_P1";
+                opponent = GameObject.Find("Player2").transform.GetChild(0).transform;
+            }
+            else
+            {
+                Horizontal = "Horizontal_P2";
+                Vertical = "Vertical_P2";
+                L3 = "L3_P2";
+                opponent = GameObject.Find("Player1").transform.GetChild(0).transform;
+            }
+            OpponentProperties = opponent.GetComponent<CharacterProperties>();
+        }
+        //
         Application.targetFrameRate = 60;
 
         pushBox.enabled = true;
@@ -115,6 +140,7 @@ public class MovementHandler : MonoBehaviour
         groundBounceID = Animator.StringToHash("GroundBounce");
         wallBounceID = Animator.StringToHash("WallBounce");
         yVeloID = Animator.StringToHash("VertVelocity");
+        KOID = Animator.StringToHash("KOed");
     }
 
     // Update is called once per frame
@@ -133,6 +159,14 @@ public class MovementHandler : MonoBehaviour
                 facingRight = false;
             else if (opponent.transform.position.x > transform.position.x + .1f)
                 facingRight = true;
+        }
+
+        if (anim.GetBool(KOID) || !playing)
+        {
+            anim.SetBool(crouchID, false);
+            anim.SetBool(walkFID, false);
+            anim.SetBool(walkBID, false);
+            anim.SetBool(runID, false);
         }
 
         if (!Actions.airborne)
@@ -158,6 +192,9 @@ public class MovementHandler : MonoBehaviour
                 pushBox.offset = pushCenter;
                 pushBox.size = pushSize;
             }
+
+            if (jumps == 0)
+                jumps = 1;
         }
 
         pushTrigger.offset = new Vector2(pushBox.offset.x, pushBox.offset.y);
@@ -485,7 +522,7 @@ public class MovementHandler : MonoBehaviour
                         rb.AddForce(new Vector2(-.25f, 0), ForceMode2D.Impulse);
                 }
             }
-            else if (Actions.airborne && opponentMove.Actions.airborne && HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0)
+            else if (Actions.airborne && opponentMove.Actions.airborne && ((HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0)||(HitDetect.OpponentDetector.hitStun != 0 && HitDetect.hitStun == 0)))
             {
                 if (Mathf.Abs(transform.position.x - opponent.position.x) < pushBox.size.x && opponentMove.hittingWall)
                 {
@@ -521,13 +558,21 @@ public class MovementHandler : MonoBehaviour
             {
                 pushBox.isTrigger = true;
             }
-            else if (Actions.airborne && opponentMove.Actions.airborne && HitDetect.hitStun == 0)
+            else if (Actions.airborne && opponentMove.Actions.airborne && HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0)
             {
                 pushBox.isTrigger = false;
-                    if (facingRight)
+                if (transform.position.y < opponent.position.y)
+                {
+                    if (transform.position.x < opponent.position.x - .05f)
+                        transform.position = new Vector3(opponent.position.x - (.51f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                    else if (transform.position.x > opponent.position.x + .05f)
+                        transform.position = new Vector3(opponent.position.x + (.51f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                    else if (facingRight)
                         transform.position = new Vector3(opponent.position.x - (.51f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
                     else
                         transform.position = new Vector3(opponent.position.x + (.51f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
+                    pushBox.isTrigger = true;
+                }
             }
             else if (Actions.airborne && !opponentMove.Actions.airborne && hittingWall && transform.position.y - opponent.position.y < .5f * pushBox.size.y)
             {
@@ -664,7 +709,7 @@ public class MovementHandler : MonoBehaviour
 
         if (inputTime > 0)
         {
-            inputTime -= Time.deltaTime ;
+            inputTime -= Time.deltaTime;
         }
         else
         {
@@ -844,7 +889,7 @@ public class MovementHandler : MonoBehaviour
 
     void WallStick()
     {
-        if(currentState.IsName("WallStick"))
+        if(currentState.IsName("WallStick") && !HitDetect.pauseScreen.isPaused)
         {
             if(wallStickTimer == 0)
             {
@@ -853,7 +898,7 @@ public class MovementHandler : MonoBehaviour
             }
             wallStickTimer--;
         }
-        else if (Actions.blitzed % 2 == 0)
+        else if (Actions.blitzed % 2 == 0 && !HitDetect.pauseScreen.isPaused)
         {
             wallStickTimer = 36;
         }

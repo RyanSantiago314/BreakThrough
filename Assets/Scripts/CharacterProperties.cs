@@ -43,6 +43,9 @@ public class CharacterProperties : MonoBehaviour
         durability = 100;
         currentHealth = maxHealth;
         durabilityRefillRate = 1;
+
+        HitDetect.anim.SetBool(dizzyID, false);
+        HitDetect.anim.SetBool(KOID, false);
     }
 
     // Update is called once per frame
@@ -52,19 +55,26 @@ public class CharacterProperties : MonoBehaviour
         if (currentHealth <= 0 && HitDetect.hitStop == 0)
         {
             currentHealth = 0;
-            HitDetect.anim.SetBool(KOID, true);
+            if (GameOver.dizzyKO)
+            {
+                HitDetect.anim.SetBool(crouchID, false);
+                HitDetect.anim.SetBool(dizzyID, true);
+            }
+            else
+                HitDetect.anim.SetBool(KOID, true);
+
+            GameOver.dizzyKO = false;
+
             HitDetect.Actions.DisableAll();
             HitDetect.Actions.DisableBlitz();
             HitDetect.Actions.Move.playing = false;
             HitDetect.Actions.Move.opponent.GetComponent<MovementHandler>().playing = false;
             HitDetect.Actions.Move.OpponentProperties.HitDetect.anim.SetBool(crouchID, false);
         }
-        else
-            HitDetect.anim.SetBool(KOID, false);
-
-        if (currentHealth > 0)
+        else if (currentHealth > 0)
         {
-            if (HitDetect.hitStun > 0)
+            HitDetect.anim.SetBool(KOID, false);
+            if (HitDetect.hitStun > 0 && !HitDetect.Actions.shattered)
                 comboTimer += Time.deltaTime;
             else if (!HitDetect.anim.GetBool(dizzyID))
                 comboTimer = 0;
@@ -76,24 +86,18 @@ public class CharacterProperties : MonoBehaviour
 
             if (currentState.IsName("FUGetup") || currentState.IsName("FDGetup") || currentState.IsName("AirRecovery"))
             {
-                if (currentHealth == maxHealth)
-                {
-                    armor = 4;
-                    durability = 100;
-                    comboTimer = 0;
-                }
-                else if (armor < 0)
+                if (armor < 0)
                 {
                     //make character dizzy if armor is less than zero, usually triggered by throws but also possible through other means
                     comboTimer = 0;
                     armor = 0;
                     HitDetect.anim.SetBool(dizzyID, true);
                 }
-                else if (armor == 0)
+                else if (armor == 0 || HitDetect.anim.GetBool(dizzyID))
                 {
                     comboTimer = 0;
-                    armor = 1;
-                    durability = 100;
+                    armor = 2;
+                    durability = 50;
                 }
                 else
                 {
@@ -133,18 +137,21 @@ public class CharacterProperties : MonoBehaviour
             else
                 durabilityRefillTimer = 0;
 
-            if (durabilityRefillTimer >= 3 && refillCounter == refillInterval)
+            if (!HitDetect.pauseScreen.isPaused && !HitDetect.anim.GetBool(KOID) && !HitDetect.OpponentDetector.anim.GetBool(KOID))
             {
-                durability += durabilityRefillRate;
-                refillCounter = 0;
-            }
-            else if (durabilityRefillTimer > 3)
-            {
-                refillCounter++;
-            }
-            else
-            {
-                refillCounter = 0;
+                if (durabilityRefillTimer >= 3 && refillCounter == refillInterval)
+                {
+                    durability += durabilityRefillRate;
+                    refillCounter = 0;
+                }
+                else if (durabilityRefillTimer >= 3)
+                {
+                    refillCounter++;
+                }
+                else
+                {
+                    refillCounter = 0;
+                }
             }
         }
 
@@ -167,10 +174,7 @@ public class CharacterProperties : MonoBehaviour
             armor--;
             durability = 100;
         }
-        else if (armor == 0 && durabilityRefillTimer < 3)
-        {
-            durability = 0;
-        }
+        
         if (armor > 4)
             armor = 4;
 

@@ -8,6 +8,10 @@ public class MaxInput : MonoBehaviour
     public bool neural; // Turns on neural network AI for player 2
     public bool training; //Take over both players with neural networks, for training purposes
 
+    private bool xbox; //check if p2 is xbox controller
+    private bool xboxL = false; //ensure L2/R2 are being used, not just held, used in getButtonDown
+    private bool xboxR = false;
+
     private float horizontal;
     private float vertical;
     private bool square;
@@ -20,6 +24,10 @@ public class MaxInput : MonoBehaviour
     private bool lTrigger;
     private bool lstick;
     public FighterAgent player2;
+
+    private bool xbox1; //check if p1 is xbox controller
+    private bool xboxL1 = false; //ensure L2/R2 are being used, not just held, used in getButtonDown
+    private bool xboxR1 = false;
 
     private float horizontal1;
     private float vertical1;
@@ -46,6 +54,10 @@ public class MaxInput : MonoBehaviour
     {
         ClearInput("Player1");
         ClearInput("Player2");
+        //AI = true;  // DELETE THIS LATER WHEN FINISHED TESTING AIIIIIIIIIII
+
+        xbox1 = CheckXbox(0);
+        xbox = CheckXbox(1);
 
         if (AI && neural)
         {
@@ -62,9 +74,37 @@ public class MaxInput : MonoBehaviour
             //GetComponent<FighterAcademy>().enabled = false;
         }
     }
-    
+
+    private bool CheckXbox(int player)
+    {
+         if(Input.GetJoystickNames().Length > player)
+         {
+             if(Input.GetJoystickNames()[player].Contains("Xbox"))
+             {
+                 return true;
+             }
+         }
+         return false;
+    }
+
+    private string UpdateControls(bool xbox)
+    {
+        if (xbox)
+            return "_Xbox";
+        return "";
+    }
+
     public float GetAxisRaw(string axis)
     {
+        if(axis.Contains("P1"))
+        {
+            axis += UpdateControls(xbox1);
+        }
+        else if(axis.Contains("P2"))
+        {
+            axis += UpdateControls(xbox);
+        }
+
         if ((!training && !AI && !neural) || axis.Contains("P1") && !training && (!neural || !AI))
         {
             return Input.GetAxisRaw(axis);
@@ -96,6 +136,15 @@ public class MaxInput : MonoBehaviour
 
     public float GetAxis(string axis)
     {
+        if (axis.Contains("P1"))
+        {
+            axis += UpdateControls(xbox1);
+        }
+        else if (axis.Contains("P2"))
+        {
+            axis += UpdateControls(xbox);
+        }
+
         if ((!training && !AI && !neural) || axis.Contains("P1") && !training && (!neural || !AI))
         {
             return Input.GetAxis(axis);
@@ -127,8 +176,79 @@ public class MaxInput : MonoBehaviour
 
     public bool GetButtonDown(string button)
     {
+        if (button.Contains("P1"))
+        {
+            button += UpdateControls(xbox1);
+        }
+        else if (button.Contains("P2"))
+        {
+            button += UpdateControls(xbox);
+        }
+
         if ((!training && !AI && !neural) || button.Contains("P1") && !training && (!neural || !AI))
         {
+            if (button.Contains("Xbox"))
+            {
+                //everything within this if statement is to simulate the getButtonDown function for an axis
+                //this will only apply on L2 and R2 for players 1 and 2 on xbox controllers
+                if(button.Contains("L2"))
+                {
+                    if(button.Contains("P1"))
+                    {
+                        if(!xboxL1 && Input.GetAxisRaw(button) != 0)
+                        {
+                            xboxL1 = true;
+                            return true;
+                        }
+                        else if(xboxL1 && Input.GetAxisRaw(button) == 0)
+                        {
+                            xboxL1 = false;
+                        }
+                    }
+                    else if(button.Contains("P2"))
+                    {
+                        if (!xboxL && Input.GetAxisRaw(button) != 0)
+                        {
+                            xboxL = true;
+                            return true;
+                        }
+                        else if (xboxL && Input.GetAxisRaw(button) == 0)
+                        {
+                            xboxL = false;
+                        }
+                    }
+                    return false;
+                }
+                else if(button.Contains("R2"))
+                {
+                    if (button.Contains("P1"))
+                    {
+                        if (!xboxR1 && Input.GetAxisRaw(button) != 0)
+                        {
+                            xboxR1 = true;
+                            return true;
+                        }
+                        else if (xboxR1 && Input.GetAxisRaw(button) == 0)
+                        {
+                            xboxR1 = false;
+                        }
+                    }
+                    else if (button.Contains("P2"))
+                    {
+                        if (!xboxR && Input.GetAxisRaw(button) != 0)
+                        {
+                            xboxR = true;
+                            return true;
+                        }
+                        else if (xboxR && Input.GetAxisRaw(button) == 0)
+                        {
+                            xboxR = false;
+                        }
+                    }
+                    return false;
+                }
+            }
+            //normal return if it's ps4 or a button besides L2 or R2
             return Input.GetButtonDown(button);
         }
         else
@@ -182,8 +302,24 @@ public class MaxInput : MonoBehaviour
 
     public bool GetButton(string button)
     {
+        if (button.Contains("P1"))
+        {
+            button += UpdateControls(xbox1);
+        }
+        else if (button.Contains("P2"))
+        {
+            button += UpdateControls(xbox);
+        }
+
+
         if ((!training && !AI && !neural) || button.Contains("P1") && !training && (!neural || !AI))
         {
+            if (button.Contains("Xbox") && (button.Contains("R2") || button.Contains("L2")))
+            {
+                //print(button + " down as " + Input.GetAxis(button));
+                return Input.GetAxis(button) == 1;
+            }
+
             return Input.GetButton(button);
         }
         else
@@ -267,7 +403,7 @@ public class MaxInput : MonoBehaviour
         }
     }
 
-    public void moveLeft(string name)
+    public void MoveLeft(string name)
     {
         if (name == "Player1")
         {
@@ -279,7 +415,7 @@ public class MaxInput : MonoBehaviour
         }
     }
 
-    public void moveRight(string name)
+    public void MoveRight(string name)
     {
         if (name == "Player1")
         {
@@ -416,6 +552,20 @@ public class MaxInput : MonoBehaviour
         else
         {
             cross = true;
+        }
+    }
+
+    public void CircleCross(string name)
+    {
+        if (name == "Player1")
+        {
+            cross1 = true;
+            circle1 = true;
+        }
+        else
+        {
+            cross = true;
+            circle = true;
         }
     }
 

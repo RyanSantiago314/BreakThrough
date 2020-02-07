@@ -9,6 +9,8 @@ public class ProjectileHitDetector : MonoBehaviour
     public AcceptInputs Actions;
     public HitDetector HitDetect;
     public ProjectileProperties ProjProp;
+    PauseMenu pauseScreen;
+
     public Collider2D hitBox1;
 
     public Vector2 currentVelocity;
@@ -116,6 +118,8 @@ public class ProjectileHitDetector : MonoBehaviour
         throwRejectID = Animator.StringToHash("ThrowReject");
         dizzyID = Animator.StringToHash("Dizzy");
         KOID = Animator.StringToHash("KOed");
+
+        pauseScreen = GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>();
     }
 
     // Update is called once per frame
@@ -123,12 +127,24 @@ public class ProjectileHitDetector : MonoBehaviour
     {
         opponentValor = Actions.Move.OpponentProperties.currentValor;
 
+        if ((Input.GetButtonDown("Start_P1") || Input.GetButtonDown("Start_P2")) && pauseScreen.isPaused)
+        {
+            currentVelocity = rb.velocity;
+            currentAngularVelocity = rb.angularVelocity;
+        }
+
+        if ((pauseScreen.isPaused && hitStop == 0) || OpponentDetector.Actions.superFlash > 0)
+        {
+            hitStop = 1;
+        }
+
         if (hitStop > 0)
         {
             //hitStop to give hits more impact and allow time to input next move
             anim.SetFloat(animSpeedID, 0f);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            hitStop--;
+            if (!pauseScreen.isPaused)
+                hitStop--;
         }
         else
         {
@@ -354,11 +370,11 @@ public class ProjectileHitDetector : MonoBehaviour
         else if (allowHit && !blitz && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
         {
             //clash/deflect system projectile vs physical attack
-            if ((attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
+            if (attackLevel > OpponentDetector.attackLevel && (attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
             {
                 //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
                 ApplyHitStop(2);
-                Debug.Log("DEFLECTED!");
+                Debug.Log("DEFLECTED! by projectile" + attackLevel);
                 OpponentDetector.anim.SetTrigger(deflectID);
                 HitDetect.anim.SetTrigger(parryID); 
                 Actions.jumpCancel = true;

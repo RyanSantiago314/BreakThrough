@@ -13,6 +13,7 @@ public class AcceptInputs : MonoBehaviour
     public bool acceptBreak = true;
     public bool acceptSpecial = true;
     public bool acceptSuper = true;
+    public bool acceptBurst = true;
     public bool jumpCancel = true;
     public bool blitzCancel = true;
     public bool airborne = false;
@@ -23,9 +24,14 @@ public class AcceptInputs : MonoBehaviour
     public bool recovering = false;
     public bool throwInvincible = false;
 
+    public bool bursting = false;
+    public bool counterBursting = false;
+
     public bool shattered = false;
+    public bool superHit = false;
     public int blitzed = 0;
     public int wallStick = 0;
+    public int landingLag = 0;
     public bool groundBounce = false;
     public bool wallBounce = false;
 
@@ -54,6 +60,7 @@ public class AcceptInputs : MonoBehaviour
     static int highGuardID;
     static int airGuardID;
     static int runID;
+    static int landLagID;
 
     float zPos;
 
@@ -69,6 +76,7 @@ public class AcceptInputs : MonoBehaviour
         highGuardID = Animator.StringToHash("HighGuard");
         airGuardID = Animator.StringToHash("AirGuard");
         runID = Animator.StringToHash("Run");
+        landLagID = Animator.StringToHash("LandingLag");
         zPos = transform.position.z;
 
         sprite = GetComponent<SpriteRenderer>();
@@ -86,19 +94,33 @@ public class AcceptInputs : MonoBehaviour
         else
             sprite.sortingOrder = 1;
 
+        if (landingLag > 0)
+        {
+            DisableAll();
+            anim.SetBool(crouchID, true);
+            if (!airborne)
+                landingLag--;
+        }
+        anim.SetInteger(landLagID, landingLag);
+
         if (anim.GetBool(dizzyID) || grabbed || Move.HitDetect.hitStun > 0 || anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected"))
         {
             DisableAll();
             DisableBlitz();
+            bursting = false;
+            counterBursting = false;
             if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected"))
             {
                 armorActive = false;
                 attacking = false;
                 recovering = false;
-            }   
+            }
         }
 
-        if ((attacking || anim.GetBool(highGuardID) || anim.GetBool(lowGuardID) || anim.GetBool(runID)) && CharProp.armor > 0)
+        if (anim.GetBool(dizzyID) || grabbed || shattered || superHit)
+            acceptBurst = false;
+
+            if ((attacking || anim.GetBool(highGuardID) || anim.GetBool(lowGuardID) || anim.GetBool(runID)) && CharProp.armor > 0)
             armorActive = true;
         else
             armorActive = false;
@@ -127,7 +149,7 @@ public class AcceptInputs : MonoBehaviour
 
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") || anim.GetCurrentAnimatorStateInfo(0).IsName("IdleCrouch") || anim.GetCurrentAnimatorStateInfo(0).IsName("StandUp"))
         {
-            standing = true;
+            standing = true;           
         }
         else if (anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup"))
         {
@@ -139,7 +161,7 @@ public class AcceptInputs : MonoBehaviour
         if(wallStick == 0)
             anim.SetBool("WallStick", false);
 
-        if (blitzed > 0 && Move.HitDetect.hitStop == 0)
+        if (blitzed > 0 && Move.HitDetect.hitStop == 0 && !Move.HitDetect.pauseScreen.isPaused)
             blitzed--;
 
         anim.SetBool(airID, airborne);
@@ -206,6 +228,7 @@ public class AcceptInputs : MonoBehaviour
         grabbed = false;
         throwInvincible = false;
         recovering = false;
+        attacking = false;
     }
 
     public void Attacking()
@@ -224,15 +247,43 @@ public class AcceptInputs : MonoBehaviour
         recovering = true;
     }
 
+    public void StartBurst()
+    {
+        bursting = true;
+    }
+
+    public void EndBurst()
+    {
+        bursting = false;
+    }
+
+    public void StartCounterBurst()
+    {
+        counterBursting = true;
+    }
+
+    public void EndCounterBurst()
+    {
+        counterBursting = false;
+    }
+
     public void StartSuperFlash(int i)
     {
         superFlash = i;
+        Move.HitDetect.OpponentDetector.currentVelocity = Move.HitDetect.OpponentDetector.rb.velocity;
+        Move.HitDetect.OpponentDetector.Actions.blitzed = 1;
     }
 
     public void DisableMovement()
     {
         acceptMove = false;
         acceptGuard = false;
+    }
+
+    public void SetLandLag(int x)
+    {
+        landingLag = x;
+        anim.SetInteger(landLagID, landingLag);
     }
 
     public void DisableBlitz()
@@ -296,6 +347,14 @@ public class AcceptInputs : MonoBehaviour
         throwInvincible = false;
     }
 
+    public void ChangeHVelocity(float x)
+    {
+        if (Move.facingRight)
+            Move.rb.velocity = new Vector2(x, Move.rb.velocity.y);
+        else
+            Move.rb.velocity = new Vector2(-x, Move.rb.velocity.y);
+    }
+
     public void Advance(float x)
     {
         Move.rb.velocity = new Vector2(0, Move.rb.velocity.y);
@@ -321,6 +380,15 @@ public class AcceptInputs : MonoBehaviour
             y /= 2;
         Move.rb.velocity = new Vector2(Move.rb.velocity.x, 0);
         Move.rb.AddForce(new Vector2(0, y), ForceMode2D.Impulse);
+    }
+
+    public void BurstRise(float y)
+    {
+        if (!airborne)
+        {
+            Move.rb.velocity = new Vector2(Move.rb.velocity.x, 0);
+            Move.rb.AddForce(new Vector2(0, y), ForceMode2D.Impulse);
+        }
     }
 
     public void ForceCrouch()
@@ -447,20 +515,4 @@ public class AcceptInputs : MonoBehaviour
         opponentMove.Actions.TurnAroundCheck();
     }
 
-    public void GetUp()
-    {
-        if (CharProp.comboTimer < 200)
-        {
-            CharProp.armor = 2;
-            CharProp.durability = 100;
-        }
-        else
-        {
-            for (float i = CharProp.comboTimer; i >= 100; i -= 100)
-            {
-                CharProp.armor++;
-            }
-            CharProp.durability = (int)CharProp.comboTimer % 100;
-        }
-    }
 }

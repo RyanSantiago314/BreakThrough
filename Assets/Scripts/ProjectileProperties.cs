@@ -8,6 +8,8 @@ public class ProjectileProperties : MonoBehaviour
     public Rigidbody2D rb;
     public ProjectileHitDetector PHitDetect;
 
+    PauseMenu pauseScreen;
+
     public int maxLife;
     public int currentLife;
 
@@ -25,6 +27,8 @@ public class ProjectileProperties : MonoBehaviour
         Application.targetFrameRate = 60;
 
         deactivateID = Animator.StringToHash("Deactivate");
+
+        pauseScreen = GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>();
     }
 
     // Update is called once per frame
@@ -36,7 +40,7 @@ public class ProjectileProperties : MonoBehaviour
             projectileActive = false;
         }
 
-        if (currentLife > 0 && PHitDetect.hitStop == 0 && hasLifeSpan && PHitDetect.Actions.blitzed % 2 == 0)
+        if (projectileActive && currentLife > 0 && PHitDetect.hitStop == 0 && hasLifeSpan && PHitDetect.Actions.blitzed % 2 == 0 && !pauseScreen.isPaused)
             currentLife--;        
     }
 

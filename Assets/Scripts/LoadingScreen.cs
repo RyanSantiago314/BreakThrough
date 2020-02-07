@@ -4,11 +4,13 @@ using UnityEngine.SceneManagement;
 
 public class LoadingScreen : MonoBehaviour
 {
-    public void startLoad(int sceneIndex) {
+    public void startLoad(int sceneIndex)
+    {
     	StartCoroutine(LoadAsynchronously(sceneIndex));
     }
 
-    IEnumerator LoadAsynchronously(int sceneIndex) {
+    IEnumerator LoadAsynchronously(int sceneIndex)
+    {
     	AsyncOperation LoadBar = SceneManager.LoadSceneAsync(sceneIndex);
     	while (!LoadBar.isDone){
     		float progress = Mathf.Clamp01(LoadBar.progress / 0.9f);
