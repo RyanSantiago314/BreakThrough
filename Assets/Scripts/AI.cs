@@ -6,6 +6,9 @@ using System.Linq;
 
 public class AI : MonoBehaviour
 {
+    // Character specific AI
+    bool isDhalia;
+
     // Player data
     int pArmor;
     int pDurability;
@@ -164,6 +167,8 @@ public class AI : MonoBehaviour
                 circleTimer -= Time.deltaTime;
             }
 
+            //testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
+
             updateProperties();
 
             resetStateValues();       // May not always do this every time?
@@ -209,22 +214,22 @@ public class AI : MonoBehaviour
             if (rand <= 30 && squareTimer <= 0)
             {
                 MaxInput.Square("Player2");
-                crossTimer = .2f;
+                crossTimer = .25f;
             }
             if (rand > 30 && rand <= 55 && triangleTimer <= 0)
             {
                 MaxInput.Triangle("Player2");
-                circleTimer = .2f;
+                circleTimer = .25f;
             }
             if (rand > 55 && rand <= 80 && circleTimer <= 0)
             {
                 MaxInput.Circle("Player2");
-                triangleTimer = .2f;
+                triangleTimer = .25f;
             }
             if (rand > 80 && crossTimer <= 0)
             {
                 MaxInput.Cross("Player2");
-                squareTimer = .2f;
+                squareTimer = .25f;
             }
         }
 
@@ -233,22 +238,22 @@ public class AI : MonoBehaviour
             if (rand <= 30 && squareTimer <= 0)
             {
                 MaxInput.Square("Player2");
-                crossTimer = .2f;
+                crossTimer = .25f;
             }
             if (rand > 30 && rand <= 55 && triangleTimer <= 0)
             {
                 MaxInput.Triangle("Player2");
-                circleTimer = .2f;
+                circleTimer = .25f;
             }
             if (rand > 55 && rand <= 80 && circleTimer <= 0)
             {
                 MaxInput.Circle("Player2");
-                triangleTimer = .2f;
+                triangleTimer = .25f;
             }
             if (rand > 80 && crossTimer <= 0)
             {
                 MaxInput.Cross("Player2");
-                squareTimer = .2f;
+                squareTimer = .25f;
             }
         }
 
@@ -476,6 +481,22 @@ public class AI : MonoBehaviour
         attackStates["Mid"] = 0;
         attackStates["Low"] = 0;
         attackStates["Grab"] = 0;
+    }
+
+    // Currently testing QCF inputs. Maybe just manually set Dhalia's QCF variable???
+    void testActions()
+    {
+        if(faceLeft == true)
+        {
+            QCF();
+            MaxInput.DownLeft("Player2");
+            MaxInput.Square("Player2");
+        }
+        else
+        {
+            MaxInput.DownRight("Player2");
+            MaxInput.Square("Player2");
+        }
     }
 
     // IEnumerator Delay()
