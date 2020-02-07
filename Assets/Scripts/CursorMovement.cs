@@ -9,7 +9,7 @@ public class CursorMovement : MonoBehaviour {
     //private int playerPaused;
     public int P1Color;
     public int P2Color;
-    private float speed;
+    public float speed;
     public bool isPaused;
     public bool P1Ready;
     public bool P2Ready;
@@ -53,9 +53,6 @@ public class CursorMovement : MonoBehaviour {
 
     void Update()
     {
-        //Set cursor speed to be constant with resolution
-        speed = Screen.width / 1.5f;
-
         //Manage Back Menu interations
         if (isPaused == false)
         {
@@ -65,10 +62,12 @@ public class CursorMovement : MonoBehaviour {
                 float x = Input.GetAxis(p1Hor);
                 float y = Input.GetAxis(p1Ver);
 
-                P1Cursor.transform.position += new Vector3(x, y, 0) * 1/50 * speed;
+                P1Cursor.transform.position += new Vector3(x, y, 0) * Time.deltaTime * speed;
 
-                P1Cursor.transform.position = new Vector3(Mathf.Clamp(P1Cursor.transform.position.x, Screen.width / 100, Screen.width),
-                Mathf.Clamp(P1Cursor.transform.position.y, Screen.height / 20, Screen.height),
+                Vector3 worldSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+
+                P1Cursor.transform.position = new Vector3(Mathf.Clamp(P1Cursor.transform.position.x, -worldSize.x, worldSize.x),
+                Mathf.Clamp(P1Cursor.transform.position.y, -worldSize.y, worldSize.y),
                 P1Cursor.transform.position.z);
             }
             if (!P2.P2Selected)
@@ -77,10 +76,12 @@ public class CursorMovement : MonoBehaviour {
                 float x2 = Input.GetAxis(p2Hor);
                 float y2 = Input.GetAxis(p2Ver);
 
-                P2Cursor.transform.position += new Vector3(x2, y2, 0) * 1/50 * speed;
+                P2Cursor.transform.position += new Vector3(x2, y2, 0) * Time.deltaTime * speed;
 
-                P2Cursor.transform.position = new Vector3(Mathf.Clamp(P2Cursor.transform.position.x, Screen.width / 100, Screen.width),
-                Mathf.Clamp(P2Cursor.transform.position.y, Screen.height / 20, Screen.height),
+                Vector3 worldSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+
+                P2Cursor.transform.position = new Vector3(Mathf.Clamp(P2Cursor.transform.position.x, -worldSize.x, worldSize.x),
+                Mathf.Clamp(P2Cursor.transform.position.y, -worldSize.y, worldSize.y),
                 P2Cursor.transform.position.z);
             }
         }
