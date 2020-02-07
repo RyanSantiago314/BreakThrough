@@ -92,7 +92,7 @@ public class MenuInputManager : MonoBehaviour
 	    		isXbox = false;
     		}
     	}
-    	else if (Input.GetJoystickNames().Length < 0 && InputTimer == 0)
+    	else if (Input.GetJoystickNames().Length == 0 && InputTimer == 0)
     	{
     		if (vertical == -1)
 	    	{
