@@ -54,7 +54,7 @@ public class MaxInput : MonoBehaviour
     {
         ClearInput("Player1");
         ClearInput("Player2");
-        //AI = true;  // DELETE THIS LATER WHEN FINISHED TESTING AIIIIIIIIIII
+        AI = true;  // DELETE THIS LATER WHEN FINISHED TESTING AIIIIIIIIIII
 
         xbox1 = CheckXbox(0);
         xbox = CheckXbox(1);
