@@ -51,58 +51,58 @@ public class MenuInputManager : MonoBehaviour
     	{
 	    	if (Input.GetJoystickNames()[0] == xboxInput && InputTimer == 0)
 	    	{
-	    		if (horizontal == -1)
+	    		if (horizontal < 0)
 	    		{
 	    			buttonIndex += 1;
-	    			InputTimer = 0.25f;
+	    			InputTimer = 0.1f;
 	    		}
-	    		else if (horizontal == 1)
+	    		else if (horizontal > 0)
 	    		{
 	    			buttonIndex -= 1;
-	    			InputTimer = 0.25f;
+	    			InputTimer = 0.1f;
 	    		}
 	    		isXbox = true;
 	    	}
 	    	else if (Input.GetJoystickNames()[0] == ps4Input && InputTimer == 0)
 	    	{
-	    		if (vertical == -1)
+	    		if (vertical < 0)
 	    		{
 	    			buttonIndex += 1;
-	    			InputTimer = 0.25f;
+	    			InputTimer = 0.1f;
 	    		}
-	    		else if (vertical == 1)
+	    		else if (vertical > 0)
 	    		{
 	    			buttonIndex -= 1;
-	    			InputTimer = 0.25f;
+	    			InputTimer = 0.1f;
 	    		}
 	    		isXbox = false;
 	    	}
 	    	else if (Input.GetJoystickNames()[0] == "" && InputTimer == 0)
     		{
-    			if (vertical == -1)
+    			if (vertical < 0)
 	    		{
 	    			buttonIndex += 1;
-	    			InputTimer = 0.25f;
+	    			InputTimer = 0.1f;
 	    		}
-	    		else if (vertical == 1)
+	    		else if (vertical > 0)
 	    		{
 	    			buttonIndex -= 1;
-	    			InputTimer = 0.25f;
+	    			InputTimer = 0.1f;
 	    		}
 	    		isXbox = false;
     		}
     	}
     	else if (Input.GetJoystickNames().Length == 0 && InputTimer == 0)
     	{
-    		if (vertical == -1)
+    		if (vertical < 0)
 	    	{
 	    		buttonIndex += 1;
-	    		InputTimer = 0.25f;
+	    		InputTimer = 0.1f;
 	    	}
-	    	else if (vertical == 1)
+	    	else if (vertical > 0)
 	    	{
 	    		buttonIndex -= 1;
-	    		InputTimer = 0.25f;
+	    		InputTimer = 0.1f;
 	    	}
     	}
     	
