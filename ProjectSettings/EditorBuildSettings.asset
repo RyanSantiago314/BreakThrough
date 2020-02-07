@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TrainingStage2.unity
     guid: 4b38de5c91a635f43990a30b4420d670
+  - enabled: 1
+    path: Assets/Scenes/OnlineLoading.unity
+    guid: 5cab72304126c584082d467b894863b2
   m_configObjects: {}

@@ -45,7 +45,6 @@ public class MenuInputManager : MonoBehaviour
 
     	if (InputTimer > 0) InputTimer -= Time.deltaTime;
     	else InputTimer = 0;
-
     	//If an input device is detected then establish what device it is in order to properly decipher inputs
     	if (Input.GetJoystickNames().Length > 0)
     	{
@@ -54,12 +53,12 @@ public class MenuInputManager : MonoBehaviour
 	    		if (horizontal == -1)
 	    		{
 	    			buttonIndex += 1;
-	    			InputTimer = 0.25f;
+	    			InputTimer = 0.1f;
 	    		}
 	    		else if (horizontal == 1)
 	    		{
 	    			buttonIndex -= 1;
-	    			InputTimer = 0.25f;
+	    			InputTimer = 0.1f;
 	    		}
 	    		isXbox = true;
 	    	}
@@ -68,12 +67,12 @@ public class MenuInputManager : MonoBehaviour
 	    		if (vertical == -1)
 	    		{
 	    			buttonIndex += 1;
-	    			InputTimer = 0.25f;
+	    			InputTimer = 0.1f;
 	    		}
 	    		else if (vertical == 1)
 	    		{
 	    			buttonIndex -= 1;
-	    			InputTimer = 0.25f;
+	    			InputTimer = 0.1f;
 	    		}
 	    		isXbox = false;
 	    	}
@@ -82,27 +81,27 @@ public class MenuInputManager : MonoBehaviour
     			if (vertical == -1)
 	    		{
 	    			buttonIndex += 1;
-	    			InputTimer = 0.25f;
+	    			InputTimer = 0.1f;
 	    		}
 	    		else if (vertical == 1)
 	    		{
 	    			buttonIndex -= 1;
-	    			InputTimer = 0.25f;
+	    			InputTimer = 0.1f;
 	    		}
 	    		isXbox = false;
     		}
     	}
-    	else if (Input.GetJoystickNames().Length < 0 && InputTimer == 0)
+    	else if (Input.GetJoystickNames().Length == 0 && InputTimer == 0)
     	{
     		if (vertical == -1)
 	    	{
 	    		buttonIndex += 1;
-	    		InputTimer = 0.25f;
+	    		InputTimer = 0.1f;
 	    	}
 	    	else if (vertical == 1)
 	    	{
 	    		buttonIndex -= 1;
-	    		InputTimer = 0.25f;
+	    		InputTimer = 0.1f;
 	    	}
     	}
     	

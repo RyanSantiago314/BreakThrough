@@ -402,7 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3809807fb423dcb4ba5663ab4041fb9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplayerSceneIndex: 1
+  multiplayerSceneIndex: 2
   menuSceneIndex: 0
   minPlayersToStart: 1
   roomCountDisplay: {fileID: 36284763}
