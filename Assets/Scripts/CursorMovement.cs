@@ -33,6 +33,7 @@ public class CursorMovement : MonoBehaviour {
     public GameObject P2ColorSelect;
     public GameObject P1ReadyText;
     public GameObject P2ReadyText;
+    public GameObject stageSelect;
 
     public CursorDetection P1;
     public CursorDetection P2;
@@ -252,7 +253,7 @@ public class CursorMovement : MonoBehaviour {
         //Bring up Fight button once both players are ready
         if (P1Ready && P2Ready)
         {
-            StartGame();
+            stageSelect.SetActive(true);
         }
         else
         {
@@ -303,15 +304,6 @@ public class CursorMovement : MonoBehaviour {
          isPaused = false;
          //playerPaused = 0;
      }
-
-    public void StartGame()
-    {
-        loadingScreen.SetActive(true);
-        P1ReadyText.SetActive(false);
-        P2ReadyText.SetActive(false);
-        start = true;
-        SceneManager.LoadScene(3);
-    }
 
      public void QuitToMenu()
      {
