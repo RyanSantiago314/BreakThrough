@@ -22,6 +22,8 @@ public class MenuInputManager : MonoBehaviour
 	private MainMenu menu;
 	private string state;
 	private bool isXbox;
+    public GameObject sideSelectScreen;
+    private string mode;
 
     // Start is called before the first frame update
     void Start()
@@ -106,6 +108,7 @@ public class MenuInputManager : MonoBehaviour
 	    	}
     	}
     	
+        //Main Menu Management
     	if (state == "main")
     	{
 	        if (buttonIndex < 1) buttonIndex = 1;
@@ -180,6 +183,7 @@ public class MenuInputManager : MonoBehaviour
 				}
 			}
 		}
+        //Local Menu Management
 		else if (state == "local")
     	{
 	        if (buttonIndex < 1) buttonIndex = 1;
@@ -190,11 +194,21 @@ public class MenuInputManager : MonoBehaviour
 				PlayVsPlayerButton.Select();
 				if (isXbox)
 				{
-					if (Input.GetButtonDown("Square_P1") || Input.GetButtonDown("Submit")) PlayVsPlayerButton.onClick.Invoke();	
+                    if (Input.GetButtonDown("Square_P1") || Input.GetButtonDown("Submit"))
+                    {
+                        //PlayVsPlayerButton.onClick.Invoke();
+                        sideSelectScreen.SetActive(true);
+                        mode = "PvP";
+                    } 
 				}
 				else
 				{
-					if (Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Submit")) PlayVsPlayerButton.onClick.Invoke();
+                    if (Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Submit"))
+                    {
+                        //PlayVsPlayerButton.onClick.Invoke();
+                        sideSelectScreen.SetActive(true);
+                        mode = "PvP";
+                    } 
 				}
 				
 			}
@@ -203,11 +217,21 @@ public class MenuInputManager : MonoBehaviour
 				PlayVsAiButton.Select();
 				if (isXbox)
 				{
-					if (Input.GetButtonDown("Square_P1") || Input.GetButtonDown("Submit")) PlayVsAiButton.onClick.Invoke();
+                    if (Input.GetButtonDown("Square_P1") || Input.GetButtonDown("Submit"))
+                    {
+                        //PlayVsAiButton.onClick.Invoke();
+                        sideSelectScreen.SetActive(true);
+                        mode = "AI";
+                    } 
 				}
 				else
 				{
-					if (Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Submit")) PlayVsAiButton.onClick.Invoke();
+                    if (Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Submit"))
+                    {
+                        //PlayVsAiButton.onClick.Invoke();
+                        sideSelectScreen.SetActive(true);
+                        mode = "AI";
+                    } 
 				}
 			}
 			else if (buttonIndex == 3)
@@ -252,6 +276,7 @@ public class MenuInputManager : MonoBehaviour
 				}
 			}
 		}
+        //Options Menu Management
 		else if (state == "options")
     	{
 	        if (buttonIndex < 1) buttonIndex = 1;
@@ -299,5 +324,22 @@ public class MenuInputManager : MonoBehaviour
 				}
 			}
 		}
+
+        //SideSelection Management
+        if (sideSelectScreen.activeSelf)
+        {
+            //Handle Player vs. Player side selection
+            if (mode == "PvP")
+            {
+                //Debug.Log("PvP");
+
+            }
+
+            //Handle Player vs. AI selection
+            if (mode == "AI")
+            {
+                //Debug.Log("AI");
+            }
+        }
     }
 }
