@@ -33,6 +33,7 @@ public class CursorMovement : MonoBehaviour {
     public GameObject P2ColorSelect;
     public GameObject P1ReadyText;
     public GameObject P2ReadyText;
+    public GameObject charSelect;
     public GameObject stageSelect;
 
     public CursorDetection P1;
@@ -254,6 +255,7 @@ public class CursorMovement : MonoBehaviour {
         if (P1Ready && P2Ready)
         {
             stageSelect.SetActive(true);
+            charSelect.SetActive(false);
         }
         else
         {

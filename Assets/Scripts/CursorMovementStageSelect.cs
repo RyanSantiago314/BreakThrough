@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CursorMovement2 : MonoBehaviour
+public class CursorMovementStageSelect : MonoBehaviour
 {
     public float speed;
     private int stageNum;
@@ -15,8 +15,12 @@ public class CursorMovement2 : MonoBehaviour
     public GameObject[] borders;
     public GameObject[] stagePreviews;
     public GameObject[] stageNames;
+
     public GameObject loadingScreen;
     public GameObject charSelect;
+    public GameObject stageSelect;
+
+    public CursorMovement cursordata;
 
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -50,7 +54,11 @@ public class CursorMovement2 : MonoBehaviour
         float x = Input.GetAxis("Horizontal_P1");
         float y = Input.GetAxis("Vertical_P1");
 
-        transform.position += new Vector3(x, y, 0) * Time.deltaTime * speed;
+        //Enable P2 to also control cursor
+        float x2 = Input.GetAxis("Horizontal_P2");
+        float y2 = Input.GetAxis("Vertical_P2");
+
+        transform.position += new Vector3(Mathf.Clamp(x+x2,-1,1), Mathf.Clamp(y+y2,-1,1), 0) * Time.deltaTime * speed;
 
         Vector3 worldSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
 
@@ -77,7 +85,15 @@ public class CursorMovement2 : MonoBehaviour
 
         if (Input.GetButtonDown("Circle_P1") || Input.GetButtonDown("Circle_P2"))
         {
-            charSelect.SetActive(false);
+            if (Input.GetButtonDown("Circle_P1"))
+            {
+                cursordata.P1Ready = false;
+            } else if (Input.GetButtonDown("Circle_P2"))
+            {
+                cursordata.P2Ready = false;
+            }
+            stageSelect.SetActive(false);
+            charSelect.SetActive(true);
             resetPosition();
             stageNum = 0;
         }
