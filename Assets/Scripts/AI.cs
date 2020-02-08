@@ -39,6 +39,12 @@ public class AI : MonoBehaviour
     bool finishDash;
     bool pauseAI;
     bool keepInput;
+    string keepAction;
+
+    int doingQCF;
+    int doingQCB;
+    int doingHCF;
+    int doingHCB;
 
     double distanceBetweenX;
     double distanceBetweenY;
@@ -48,6 +54,7 @@ public class AI : MonoBehaviour
     float squareTimer;
     float triangleTimer;
     float crossTimer;
+    float delayTimer;
 
     float crouchTimer;
     float grabTimer;
@@ -90,6 +97,7 @@ public class AI : MonoBehaviour
         squareTimer = 0;
         triangleTimer = 0;
         crossTimer = 0;
+        delayTimer = 0;
 
         crouchTimer = 0;
         grabTimer = 0;
@@ -111,6 +119,12 @@ public class AI : MonoBehaviour
         finishDash = false;
         pauseAI = false;
         keepInput = false;
+        keepAction = "";
+
+        doingQCF = 0;
+        doingQCB = 0;
+        doingHCF = 0;
+        doingHCB = 0;
 
         distanceBetweenX = 0;
         distanceBetweenY = 0;
@@ -166,35 +180,51 @@ public class AI : MonoBehaviour
             {
                 circleTimer -= Time.deltaTime;
             }
-
-            //testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
-
-            updateProperties();
-
-            resetStateValues();       // May not always do this every time?
-
-            calculateWeights();
-
-            var max = states.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;   // Gets key with highest value
-            Debug.Log(max);
-
-            // Evaluate AI's current states
+            if (delayTimer > 0)
+            {
+                delayTimer -= Time.deltaTime;
+            }
 
             if (!keepInput)
-    		{
+            {
                 MaxInput.ClearInput("Player2");
             }
 
-            //If ai is on ground set jumping to false
-            if (GameObject.Find("Player2").transform.GetChild(0).transform.position.y <= 0)
+            if (delayTimer <= 0)
             {
-                isJumping = false;
-            }
+                if (doingQCF > 0)
+                {
+                    Debug.Log("doing QCF");
+                    QCF();
+                }
+                else
+                {
+                    // updateProperties();
+                    //
+                    // resetStateValues();       // May not always do this every time?
+                    //
+                    // calculateWeights();
+                    //
+                    // var max = states.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;   // Gets key with highest value
+                    // Debug.Log(max);
 
-            // Executes AI's state
-            if (max == "Attack") attack();
-            if (max == "Defend") defend();
-            if (max == "MoveCloser") moveCloser();
+                    // Evaluate AI's current states
+
+
+
+                    //If ai is on ground set jumping to false
+                    if (GameObject.Find("Player2").transform.GetChild(0).transform.position.y <= 0)
+                    {
+                        isJumping = false;
+                    }
+
+                    // // // Executes AI's state
+                    // if (max == "Attack") attack();
+                    // if (max == "Defend") defend();
+                    // if (max == "MoveCloser") moveCloser();
+                    testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
+                }
+            }
         }
     }
 
@@ -322,7 +352,30 @@ public class AI : MonoBehaviour
 
     void QCF()
     {
-        // Will figure this out next sprint
+        if (doingQCF == 1)
+        {
+            if (faceLeft == true) MaxInput.DownLeft("Player2");
+            else MaxInput.DownRight("Player2");
+            doingQCF = 2;
+            delayTimer = .1f;
+        }
+        else if (doingQCF == 2)
+        {
+            MaxInput.Stand("Player2");
+            if (faceLeft == true)
+            {
+                MaxInput.MoveLeft("Player2");
+            }
+            else MaxInput.MoveRight("Player2");
+            if (keepAction == "Square") MaxInput.Square("Player2");
+            if (keepAction == "Triangle") MaxInput.Triangle("Player2");
+            if (keepAction == "Circle") MaxInput.Circle("Player2");
+            if (keepAction == "Cross") MaxInput.Cross("Player2");
+
+            doingQCF = 0;
+            keepAction = "";
+            delayTimer = 5f;
+        }
     }
 
     void calculateAttackWeights()
@@ -486,17 +539,11 @@ public class AI : MonoBehaviour
     // Currently testing QCF inputs. Maybe just manually set Dhalia's QCF variable???
     void testActions()
     {
-        if(faceLeft == true)
-        {
-            QCF();
-            MaxInput.DownLeft("Player2");
-            MaxInput.Square("Player2");
-        }
-        else
-        {
-            MaxInput.DownRight("Player2");
-            MaxInput.Square("Player2");
-        }
+        Debug.Log("testAction");
+        MaxInput.Crouch("Player2");
+        keepAction = "Square";
+        doingQCF = 1;
+        delayTimer = .1f;
     }
 
     // IEnumerator Delay()
