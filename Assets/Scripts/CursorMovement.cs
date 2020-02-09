@@ -33,8 +33,9 @@ public class CursorMovement : MonoBehaviour {
     public GameObject P2ColorSelect;
     public GameObject P1ReadyText;
     public GameObject P2ReadyText;
-    public GameObject charSelect;
     public GameObject stageSelect;
+
+    public GameObject[] icons;
 
     public CursorDetection P1;
     public CursorDetection P2;
@@ -314,15 +315,23 @@ public class CursorMovement : MonoBehaviour {
             }
         }
 
-        //Bring up Fight button once both players are ready
+        //Bring up Stage Select once both players are ready
         if (P1Ready && P2Ready)
         {
             stageSelect.SetActive(true);
-            charSelect.SetActive(false);
+            //Disable Icons so hitboxes don't detect in the background
+            for (int i = 0; i < icons.Length; i++)
+            {
+                icons[i].SetActive(false);
+            }
         }
         else
         {
-            fightButton.SetActive(false);
+            //Re-Enable Icons when brought back to character select
+            for (int i = 0; i < icons.Length; i++)
+            {
+                icons[i].SetActive(true);
+            }
         }
 
         //Manage Back Menu (Figure out later)

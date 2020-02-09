@@ -2771,7 +2771,6 @@ MonoBehaviour:
   stageNames:
   - {fileID: 784217176}
   loadingScreen: {fileID: 721080897}
-  charSelect: {fileID: 1227274342}
   stageSelect: {fileID: 1696544978}
   cursordata: {fileID: 1284773172}
 --- !u!58 &1032979622
@@ -3550,8 +3549,9 @@ MonoBehaviour:
   P2ColorSelect: {fileID: 2104712055}
   P1ReadyText: {fileID: 211880796}
   P2ReadyText: {fileID: 1746721333}
-  charSelect: {fileID: 1227274342}
   stageSelect: {fileID: 1696544978}
+  icons:
+  - {fileID: 831217641}
   P1: {fileID: 713610516}
   P2: {fileID: 592413035}
 --- !u!1 &1339062547

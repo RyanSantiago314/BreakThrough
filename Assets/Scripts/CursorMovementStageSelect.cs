@@ -17,7 +17,6 @@ public class CursorMovementStageSelect : MonoBehaviour
     public GameObject[] stageNames;
 
     public GameObject loadingScreen;
-    public GameObject charSelect;
     public GameObject stageSelect;
 
     public CursorMovement cursordata;
@@ -70,7 +69,7 @@ public class CursorMovementStageSelect : MonoBehaviour
         if (isOverlap)
         {
             borders[stageNum].SetActive(true);
-            if (Input.GetButtonDown("Cross_P1"))
+            if (Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Cross_P2"))
             {
                 GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = currentStage;
                 switch (currentStage)
@@ -85,15 +84,8 @@ public class CursorMovementStageSelect : MonoBehaviour
 
         if (Input.GetButtonDown("Circle_P1") || Input.GetButtonDown("Circle_P2"))
         {
-            if (Input.GetButtonDown("Circle_P1"))
-            {
-                cursordata.P1Ready = false;
-            } else if (Input.GetButtonDown("Circle_P2"))
-            {
-                cursordata.P2Ready = false;
-            }
+            
             stageSelect.SetActive(false);
-            charSelect.SetActive(true);
             resetPosition();
             stageNum = 0;
         }
