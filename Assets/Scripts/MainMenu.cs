@@ -24,7 +24,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGameVsAI()
     {
-    	SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+    	SceneManager.LoadSceneAsync(2);
     	MaxInput.enableAI();
     }
 

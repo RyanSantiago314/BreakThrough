@@ -10,6 +10,8 @@ public class SelectedCharacterManager : MonoBehaviour
     public string P2Character;
     public int P1Color;
     public int P2Color;
+    public string P1Side;
+    public string P2Side;
 
     private static bool created = false;
     private bool reset = false;
