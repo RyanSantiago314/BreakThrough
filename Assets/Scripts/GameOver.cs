@@ -96,9 +96,6 @@ public class GameOver : MonoBehaviour
     	//Setting color of the panel to transparent
  		GameObject.Find("Canvas/BlackScreen").GetComponent<Image>().color = new Color(0,0,0,0);
 
-        p1Win = 0;
-        p2Win = 0;
-
  		dizzyKO = false;
  		matchOver = false;
  		isXbox = false;
@@ -314,9 +311,11 @@ public class GameOver : MonoBehaviour
     //Function to load main menu scene
     void QuitToMenu()
     {
-    	lockInputs = false;
+        lockInputs = false;
     	StartText.startReady = false;
     	SceneManager.LoadSceneAsync(0);
+        p1Win = 0;
+        p2Win = 0;
     }
 
     //Function setting color of the panel to black

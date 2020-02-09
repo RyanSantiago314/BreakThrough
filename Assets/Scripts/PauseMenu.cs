@@ -12,6 +12,8 @@ public class PauseMenu : MonoBehaviour{
     private string pauseCode1 = "Start_P1";
     private string pauseCode = "Start_P2";
 
+    public GameOver GameOver;
+
     private void Awake()
     {
         Time.timeScale = 1;
@@ -92,6 +94,8 @@ public class PauseMenu : MonoBehaviour{
         pauseQuit = true;
         //Time.timeScale = 1;
         SceneManager.LoadSceneAsync(0);
+        GameOver.p1Win = 0;
+        GameOver.p2Win = 0;
     }
 
     private bool CheckXbox(int player)
