@@ -41,7 +41,26 @@ public class CursorMovement : MonoBehaviour {
 
     void Start()
     {
+        //Reset Timescale
         Time.timeScale = 1;
+
+        //Check P1 Side
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+        {
+            p1Cross = "Cross_P2";
+            p1Circle = "Circle_P2";
+            p1Hor = "Horizontal_P2";
+            p1Ver = "Vertical_P2";
+        }
+
+        //Check P2Side
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+        {
+            p2Cross = "Cross_P1";
+            p2Circle = "Circle_P1";
+            p2Hor = "Horizontal_P1";
+            p2Ver = "Vertical_P1";
+        }
 
         p1Cross += UpdateControls(CheckXbox(0));
         p2Cross += UpdateControls(CheckXbox(1));
@@ -51,6 +70,8 @@ public class CursorMovement : MonoBehaviour {
         p1Hor += UpdateControls(CheckXbox(0));
         p2Ver += UpdateControls(CheckXbox(1));
         p2Hor += UpdateControls(CheckXbox(1));
+
+
     }
 
     void Update()
@@ -124,14 +145,28 @@ public class CursorMovement : MonoBehaviour {
                 {
                     if ((P1Color == 0 && P2Color == 0) || P1Color != P2Color)
                     {
-                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P1Color;
+                        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+                        {
+                            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P1Color;
+                        }
+                        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+                        {
+                            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P1Color;
+                        }
                         P1Ready = true;
                         P1ColorSelect.SetActive(false);
                     }                 
                 }
                 else
                 {
-                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P1Color;
+                    if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+                    {
+                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P1Color;
+                    }
+                    if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+                    {
+                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P1Color;
+                    }
                     P1Ready = true;
                     P1ColorSelect.SetActive(false);
                 }
@@ -166,7 +201,14 @@ public class CursorMovement : MonoBehaviour {
             if (Input.GetButtonDown(p1Cross))
             {
                 P1.P1Selected = true;
-                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = P1.currentChar;
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+                {
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = P1.currentChar;
+                }
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+                {
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = P1.currentChar;
+                }
             }
         }
 
@@ -205,14 +247,28 @@ public class CursorMovement : MonoBehaviour {
                 {
                     if ((P1Color == 0 && P2Color == 0) || P1Color != P2Color)
                     {
-                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P2Color;
+                        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
+                        {
+                            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P2Color;
+                        }
+                        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+                        {
+                            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P2Color;
+                        }
                         P2Ready = true;
                         P2ColorSelect.SetActive(false);
                     }
                 }
                 else
                 {
-                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P2Color;
+                    if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
+                    {
+                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P2Color;
+                    }
+                    if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+                    {
+                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P2Color;
+                    }
                     P2Ready = true;
                     P2ColorSelect.SetActive(false);
                 }
@@ -247,7 +303,14 @@ public class CursorMovement : MonoBehaviour {
             if (Input.GetButtonDown(p2Cross))
             {
                 P2.P2Selected = true;
-                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = P2.currentChar;
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
+                {
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = P2.currentChar;
+                }
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+                {
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = P2.currentChar;
+                }
             }
         }
 

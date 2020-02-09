@@ -11,6 +11,7 @@ public class MenuInputManager : MonoBehaviour
 	private float vertical;
 	private float horizontal;
 	private float InputTimer;
+	private float InputTimer2;
 	public Button PlayLocalButton;
 	public Button PlayOnlineButton;
 	public Button OptionsButton;
@@ -53,6 +54,9 @@ public class MenuInputManager : MonoBehaviour
 
     	if (InputTimer > 0) InputTimer -= Time.deltaTime;
     	else InputTimer = 0;
+
+        if (InputTimer2 > 0) InputTimer2 -= Time.deltaTime;
+        else InputTimer2 = 0;
 
         if (!sideSelectScreen.activeSelf)
         {
@@ -372,7 +376,7 @@ public class MenuInputManager : MonoBehaviour
                 }
 
                 //Handle P2 Controller Movement
-                if (Input.GetAxis("Horizontal_P2") == -1 && InputTimer == 0)
+                if (Input.GetAxis("Horizontal_P2") == -1 && InputTimer2 == 0)
                 {
                     if (P2Position != -1) {
                         if ((P2Position - 1 == -1 && P1Position != -1) || P2Position - 1 == 0)
@@ -380,9 +384,9 @@ public class MenuInputManager : MonoBehaviour
                             P2Position -= 1;
                         }
                     }
-                    InputTimer = 0.15f;
+                    InputTimer2 = 0.15f;
                 }
-                else if (Input.GetAxis("Horizontal_P2") == 1 && InputTimer == 0)
+                else if (Input.GetAxis("Horizontal_P2") == 1 && InputTimer2 == 0)
                 {
                     if (P2Position != 1)
                     {
@@ -391,7 +395,7 @@ public class MenuInputManager : MonoBehaviour
                             P2Position += 1;
                         }
                     }
-                    InputTimer = 0.15f;
+                    InputTimer2 = 0.15f;
                 }
                 if (Input.GetButtonDown("Circle_P2"))
                 {

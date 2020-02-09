@@ -46,6 +46,18 @@ public class CursorDetection : MonoBehaviour
 
     private void Start()
     {
+        //Check P1 Side
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+        {
+            p1Circle = "Circle_P2";
+        }
+
+        //Check P2Side
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+        {
+            p2Circle = "Circle_P1";
+        }
+
         p1Circle += UpdateControls(CheckXbox(0));
         p2Circle += UpdateControls(CheckXbox(1));
     }
