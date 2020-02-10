@@ -409,6 +409,7 @@ public class MenuInputManager : MonoBehaviour
                     if (Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Cross_P2"))
                     {
                         sideSelectScreen.SetActive(false);
+                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "PvP";
                         PlayVsPlayerButton.onClick.Invoke();
                     }
                 }
@@ -452,6 +453,7 @@ public class MenuInputManager : MonoBehaviour
                     if (Input.GetButtonDown("Cross_P1"))
                     {
                         sideSelectScreen.SetActive(false);
+                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "AI";
                         PlayVsAiButton.onClick.Invoke();
                     }
                 }
@@ -464,12 +466,20 @@ public class MenuInputManager : MonoBehaviour
                 case -1:
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side = "Left";
                     P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(-425, -22, 0);
+                    if (mode == "AI")
+                    {
+                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side = "Right";
+                    }
                     break;
                 case 0:
                     P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
                     break;
                 case 1:
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side = "Right";
+                    if (mode == "AI")
+                    {
+                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side = "Left";
+                    }
                     P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(425, -22, 0);                  
                     break;
             }

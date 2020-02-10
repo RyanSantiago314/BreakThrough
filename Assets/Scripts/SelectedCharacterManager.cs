@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SelectedCharacterManager : MonoBehaviour
 {
+    public string gameMode;
     public string stage;
     public string P1Character;
     public string P2Character;

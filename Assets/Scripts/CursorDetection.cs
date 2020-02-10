@@ -46,20 +46,30 @@ public class CursorDetection : MonoBehaviour
 
     private void Start()
     {
-        //Check P1 Side
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
         {
-            p1Circle = "Circle_P2";
-        }
+            //Check P1 Side
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+            {
+                p1Circle = "Circle_P2";
+            }
 
-        //Check P2Side
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+            //Check P2Side
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+            {
+                p2Circle = "Circle_P1";
+            }
+
+        }
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
         {
-            p2Circle = "Circle_P1";
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+            {
+                p2Circle = "Circle_P1";
+            }
+            p1Circle += UpdateControls(CheckXbox(0));
+            p2Circle += UpdateControls(CheckXbox(1));
         }
-
-        p1Circle += UpdateControls(CheckXbox(0));
-        p2Circle += UpdateControls(CheckXbox(1));
     }
 
     void Update()
@@ -78,7 +88,7 @@ public class CursorDetection : MonoBehaviour
         }
 
         //Manage Character Deselection Interactions
-        if (P1Selected && Input.GetButtonDown(p1Circle) && !CursorMovement.P1Ready)
+        /*if (P1Selected && Input.GetButtonDown(p1Circle) && !CursorMovement.P1Ready)
         {
             P1Selected = false;
             GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
@@ -88,7 +98,7 @@ public class CursorDetection : MonoBehaviour
         {
             P2Selected = false;
             GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
-        }
+        }*/
     }
 
     private bool CheckXbox(int player)
