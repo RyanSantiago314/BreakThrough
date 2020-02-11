@@ -68,13 +68,20 @@ public class CursorMovement : MonoBehaviour {
 
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
         {
-            //Handle P1 Side controls
+            //P1 will control both cursors (one at a time)
+            p2Cross = "Cross_P1";
+            p2Circle = "Circle_P1";
+            p2Hor = "Horizontal_P1";
+            p2Ver = "Vertical_P1";
+
+            //First Deactivate P1/P2 cursor depending on the chosen side
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
             {
-                p2Cross = "Cross_P1";
-                p2Circle = "Circle_P1";
-                p2Hor = "Horizontal_P1";
-                p2Ver = "Vertical_P1";
+                P2Cursor.SetActive(false);
+            }
+            else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+            {
+                P1Cursor.SetActive(false);
             }
         }
 
@@ -92,91 +99,74 @@ public class CursorMovement : MonoBehaviour {
 
     void Update()
     {
-        //PvP Cursor Interactions
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
+        //Manage Back Menu interations
+        if (isPaused == false)
         {
-            //Manage Back Menu interations
-            if (isPaused == false)
+            if (!P1.P1Selected && P1Cursor.activeSelf)
             {
-                if (!P1.P1Selected)
-                {
-                    //Manage P1Cursor movement
-                    float x = Input.GetAxis(p1Hor);
-                    float y = Input.GetAxis(p1Ver);
+                //Manage P1Cursor movement
+                float x = Input.GetAxis(p1Hor);
+                float y = Input.GetAxis(p1Ver);
 
-                    P1Cursor.transform.position += new Vector3(x, y, 0) * Time.deltaTime * speed;
+                P1Cursor.transform.position += new Vector3(x, y, 0) * Time.deltaTime * speed;
 
-                    Vector3 worldSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+                Vector3 worldSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
 
-                    P1Cursor.transform.position = new Vector3(Mathf.Clamp(P1Cursor.transform.position.x, -worldSize.x, worldSize.x),
-                    Mathf.Clamp(P1Cursor.transform.position.y, -worldSize.y, worldSize.y),
-                    P1Cursor.transform.position.z);
-                }
-                if (!P2.P2Selected)
-                {
-                    //Manage P2Cursor movement
-                    float x2 = Input.GetAxis(p2Hor);
-                    float y2 = Input.GetAxis(p2Ver);
+                P1Cursor.transform.position = new Vector3(Mathf.Clamp(P1Cursor.transform.position.x, -worldSize.x, worldSize.x),
+                Mathf.Clamp(P1Cursor.transform.position.y, -worldSize.y, worldSize.y),
+                P1Cursor.transform.position.z);
+            }
+            if (!P2.P2Selected && P2Cursor.activeSelf)
+            {
+                //Manage P2Cursor movement
+                float x2 = Input.GetAxis(p2Hor);
+                float y2 = Input.GetAxis(p2Ver);
 
-                    P2Cursor.transform.position += new Vector3(x2, y2, 0) * Time.deltaTime * speed;
+                P2Cursor.transform.position += new Vector3(x2, y2, 0) * Time.deltaTime * speed;
 
-                    Vector3 worldSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+                Vector3 worldSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
 
-                    P2Cursor.transform.position = new Vector3(Mathf.Clamp(P2Cursor.transform.position.x, -worldSize.x, worldSize.x),
-                    Mathf.Clamp(P2Cursor.transform.position.y, -worldSize.y, worldSize.y),
-                    P2Cursor.transform.position.z);
-                }
+                P2Cursor.transform.position = new Vector3(Mathf.Clamp(P2Cursor.transform.position.x, -worldSize.x, worldSize.x),
+                Mathf.Clamp(P2Cursor.transform.position.y, -worldSize.y, worldSize.y),
+                P2Cursor.transform.position.z);
+            }
+        }
+
+        //P1 MENUS
+        //Bring up P1 Color Select Menu
+        if (P1.P1Selected && !P1Ready)
+        {
+            P1ColorSelect.SetActive(true);
+
+            //Receive P1 inputs for color select
+            if (Input.GetAxis(p1Hor) < 0)
+            {
+                P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
+
+            }
+            else if (Input.GetAxis(p1Hor) > 0)
+            {
+                P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
             }
 
-            //P1 MENUS
-            //Bring up P1 Color Select Menu
-            if (P1.P1Selected && !P1Ready)
+            //Check for P1 confirmation
+            if (Input.GetButtonDown(p1Cross))
             {
-                P1ColorSelect.SetActive(true);
-
-                //Receive P1 inputs for color select
-                if (Input.GetAxis(p1Hor) < 0)
+                switch (P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
                 {
-                    P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
+                    case "< 1 >":
+                        P1Color = 1;
+                        break;
 
-                }
-                else if (Input.GetAxis(p1Hor) > 0)
-                {
-                    P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
+                    case "< 2 >":
+                        P1Color = 2;
+                        break;
                 }
 
-                //Check for P1 confirmation
-                if (Input.GetButtonDown(p1Cross))
+                //Check to ensure no colors are the same
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character == GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
                 {
-                    switch (P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
-                    {
-                        case "< 1 >":
-                            P1Color = 1;
-                            break;
-
-                        case "< 2 >":
-                            P1Color = 2;
-                            break;
-                    }
-
-                    //Check to ensure no colors are the same
-                    if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character == GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
-                    {
-                        if ((P1Color == 0 && P2Color == 0) || P1Color != P2Color)
-                        {
-                            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
-                            {
-                                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P1Color;
-                            }
-                            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
-                            {
-                                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P1Color;
-                            }
-                            P1Ready = true;
-                            P1ColorSelect.SetActive(false);
-                        }
-                    }
-                    else
+                    if ((P1Color == 0 && P2Color == 0) || P1Color != P2Color)
                     {
                         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
                         {
@@ -190,102 +180,132 @@ public class CursorMovement : MonoBehaviour {
                         P1ColorSelect.SetActive(false);
                     }
                 }
-            }
-            else
-            {
-                P1ColorSelect.SetActive(false);
-            }
-
-            //Deselect from the Character
-            if (P1.P1Selected && Input.GetButtonDown(p1Circle) && !P1Ready)
-            {
-                P1.P1Selected = false;
-                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
-            }
-
-            //Deselect P1 from Color Menu
-            if (Input.GetButtonDown(p1Circle) && P1Ready)
-            {
-                P1Color = 0;
-                P1Ready = false;
-                P1ColorSelect.SetActive(true);
-            }
-
-            //Set Ready Text
-            if (P1Ready && !start)
-            {
-                P1ReadyText.SetActive(true);
-            }
-            else
-            {
-                P1ReadyText.SetActive(false);
-            }
-
-            //Check for character selection
-            if (P1.isOverlap)
-            {
-                if (Input.GetButtonDown(p1Cross))
+                else
                 {
-                    P1.P1Selected = true;
                     if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
                     {
-                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = P1.currentChar;
+                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P1Color;
                     }
                     if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
                     {
-                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = P1.currentChar;
+                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P1Color;
                     }
+                    P1Ready = true;
+                    P1ColorSelect.SetActive(false);
                 }
             }
+        }
+        else
+        {
+            P1ColorSelect.SetActive(false);
+        }
 
-            //P2 MENUS
-            //Bring up P2 Color Select Menu
-            if (P2.P2Selected && !P2Ready)
+        //Deselect from the Character
+        if (P1.P1Selected && Input.GetButtonDown(p1Circle) && !P1Ready)
+        {
+            P1.P1Selected = false;
+            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
+        }
+
+        //Deselect P1 from Color Menu
+        if (Input.GetButtonDown(p1Circle) && P1Ready)
+        {
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
             {
-                P2ColorSelect.SetActive(true);
-
-                //Receive P2 inputs for color select
-                if (Input.GetAxis(p2Hor) < 0)
+                P1Color = 0;
+                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = 0;
+                P1Ready = false;
+                P1ColorSelect.SetActive(true);
+            }
+            else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+            {
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left" & !P2.P2Selected)
                 {
-                    P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
+                    P1Color = 0;
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = 0;
+                    P1Ready = false;
+                    P1ColorSelect.SetActive(true);
                 }
-                else if (Input.GetAxis(p2Hor) > 0)
+                else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
                 {
-                    P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
+                    P1Color = 0;
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = 0;
+                    P1Ready = false;
+                    P1ColorSelect.SetActive(true);
+                }
+            }
+            
+        }
+
+        //Set Ready Text
+        if (P1Ready && !start)
+        {
+            P1ReadyText.SetActive(true);
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+            {
+                P2Cursor.SetActive(true);
+            }
+        }
+        else
+        {
+            P1ReadyText.SetActive(false);
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+            {
+                P2Cursor.SetActive(false);
+            }
+        }
+
+        //Check for character selection
+        if (P1.isOverlap)
+        {
+            if (Input.GetButtonDown(p1Cross))
+            {
+                P1.P1Selected = true;
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+                {
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = P1.currentChar;
+                }
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+                {
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = P1.currentChar;
+                }
+            }
+        }
+
+        //P2 MENUS
+        //Bring up P2 Color Select Menu
+        if (P2.P2Selected && !P2Ready)
+        {
+            P2ColorSelect.SetActive(true);
+
+            //Receive P2 inputs for color select
+            if (Input.GetAxis(p2Hor) < 0)
+            {
+                P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
+            }
+            else if (Input.GetAxis(p2Hor) > 0)
+            {
+                P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
+            }
+
+            //Check for P2 confirmation
+            if (Input.GetButtonDown(p2Cross))
+            {
+                switch (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
+                {
+                    case "< 1 >":
+                        P2Color = 1;
+                        break;
+
+                    case "< 2 >":
+                        P2Color = 2;
+                        break;
                 }
 
-                //Check for P2 confirmation
-                if (Input.GetButtonDown(p2Cross))
+                //Check to ensure colors are not the same
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character == GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
                 {
-                    switch (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
-                    {
-                        case "< 1 >":
-                            P2Color = 1;
-                            break;
-
-                        case "< 2 >":
-                            P2Color = 2;
-                            break;
-                    }
-
-                    //Check to ensure colors are not the same
-                    if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character == GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
-                    {
-                        if ((P1Color == 0 && P2Color == 0) || P1Color != P2Color)
-                        {
-                            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
-                            {
-                                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P2Color;
-                            }
-                            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
-                            {
-                                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P2Color;
-                            }
-                            P2Ready = true;
-                            P2ColorSelect.SetActive(false);
-                        }
-                    }
-                    else
+                    if ((P1Color == 0 && P2Color == 0) || P1Color != P2Color)
                     {
                         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
                         {
@@ -299,383 +319,148 @@ public class CursorMovement : MonoBehaviour {
                         P2ColorSelect.SetActive(false);
                     }
                 }
-            }
-            else
-            {
-                P2ColorSelect.SetActive(false);
-            }
-
-            //Deselect from the Character
-            if (P2.P2Selected && Input.GetButtonDown(p2Circle) && !P2Ready)
-            {
-                P2.P2Selected = false;
-                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
-            }
-
-            //Deselect P2 from Color Menu
-            if (Input.GetButtonDown(p2Circle) && P2Ready)
-            {
-                P2Color = 0;
-                P2Ready = false;
-                P2ColorSelect.SetActive(true);
-            }
-
-            //Set Ready Text
-            if (P2Ready && !start)
-            {
-                P2ReadyText.SetActive(true);
-            }
-            else
-            {
-                P2ReadyText.SetActive(false);
-            }
-
-            //Check for character selection
-            if (P2.isOverlap)
-            {
-                if (Input.GetButtonDown(p2Cross))
+                else
                 {
-                    P2.P2Selected = true;
                     if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
                     {
-                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = P2.currentChar;
+                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P2Color;
                     }
                     if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
                     {
-                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = P2.currentChar;
+                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P2Color;
                     }
-                }
-            }
-
-            //Bring up Stage Select once both players are ready
-            if (P1Ready && P2Ready)
-            {
-                stageSelect.SetActive(true);
-                //Disable Icons so hitboxes don't detect in the background
-                for (int i = 0; i < icons.Length; i++)
-                {
-                    icons[i].SetActive(false);
-                }
-            }
-            else
-            {
-                //Re-Enable Icons when brought back to character select
-                for (int i = 0; i < icons.Length; i++)
-                {
-                    icons[i].SetActive(true);
-                }
-            }
-
-            //Manage Back Menu (Figure out later)
-            /* if (isPaused)
-             {
-                 ActivateMenu();
-                 //Unpause the game (Only the player that paused can unpause)
-                 if (Input.GetButtonDown(p1Circle) && playerPaused == 1)
-                 {
-                     isPaused = !isPaused;
-                     playerPaused = 0;
-                 }
-                 if (Input.GetButtonDown(p2Circle) && playerPaused == 2)
-                 {
-                     isPaused = !isPaused;
-                     playerPaused = 0;
-                 }
-             }
-             else if (!isPaused)
-             {
-                 DeactivateMenu();
-                 //Record which player paused
-                 if (Input.GetButtonDown(p1Circle) && playerPaused == 0 && !P1.P1Selected)
-                 {
-                     isPaused = !isPaused;
-                     playerPaused = 1;
-                 }
-                 if (Input.GetButtonDown(p2Circle) && playerPaused == 0 && !P2.P2Selected)
-                 {
-                     isPaused = !isPaused;
-                     playerPaused = 2;
-                 }
-             }*/
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        //AI Cursor Interactions
-        } else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
-        {
-            //Handle Left side menu interactions
-            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
-            {
-                if (!P1Ready)
-                {
-                    P2Cursor.SetActive(false);
-                    if (!P1.P1Selected)
-                    {
-                        //Manage P1Cursor movement
-                        float x = Input.GetAxis(p1Hor);
-                        float y = Input.GetAxis(p1Ver);
-
-                        P1Cursor.transform.position += new Vector3(x, y, 0) * Time.deltaTime * speed;
-
-                        Vector3 worldSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-
-                        P1Cursor.transform.position = new Vector3(Mathf.Clamp(P1Cursor.transform.position.x, -worldSize.x, worldSize.x),
-                        Mathf.Clamp(P1Cursor.transform.position.y, -worldSize.y, worldSize.y),
-                        P1Cursor.transform.position.z);
-                    }
-                    if (P1.P1Selected && !P1Ready)
-                    {
-                        P1ColorSelect.SetActive(true);
-
-                        //Receive P1 inputs for color select
-                        if (Input.GetAxis(p1Hor) < 0)
-                        {
-                            P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
-
-                        }
-                        else if (Input.GetAxis(p1Hor) > 0)
-                        {
-                            P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
-                        }
-
-                        //Check for P1 confirmation
-                        if (Input.GetButtonDown(p1Cross))
-                        {
-                            switch (P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
-                            {
-                                case "< 1 >":
-                                    P1Color = 1;
-                                    break;
-
-                                case "< 2 >":
-                                    P1Color = 2;
-                                    break;
-                            }
-
-                            //Check to ensure no colors are the same
-                            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character == GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
-                            {
-                                if ((P1Color == 0 && P2Color == 0) || P1Color != P2Color)
-                                {
-                                    if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
-                                    {
-                                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P1Color;
-                                    }
-                                    if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
-                                    {
-                                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P1Color;
-                                    }
-                                    P1Ready = true;
-                                    P1ColorSelect.SetActive(false);
-                                }
-                            }
-                            else
-                            {
-                                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
-                                {
-                                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P1Color;
-                                }
-                                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
-                                {
-                                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P1Color;
-                                }
-                                P1Ready = true;
-                                P1ColorSelect.SetActive(false);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        P1ColorSelect.SetActive(false);
-                    }
-
-                    //Check for character selection
-                    if (P1.isOverlap)
-                    {
-                        if (Input.GetButtonDown(p1Cross))
-                        {
-                            P1.P1Selected = true;
-                            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
-                            {
-                                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = P1.currentChar;
-                            }
-                            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
-                            {
-                                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = P1.currentChar;
-                            }
-                        }
-                    }
-                }
-
-                //Deselect from the Character
-                if (P1.P1Selected && Input.GetButtonDown(p1Circle) && !P1Ready)
-                {
-                    P1.P1Selected = false;
-                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
-                }
-
-                //Deselect P1 from Color Menu
-                if (Input.GetButtonDown(p1Circle) && P1Ready && !P2.P2Selected)
-                {
-                    P1Color = 0;
-                    P1Ready = false;
-                    P1ColorSelect.SetActive(true);
-                }
-
-                //Set Ready Text
-                if (P1Ready && !start)
-                {
-                    P1ReadyText.SetActive(true);
-                    P2Cursor.SetActive(true);
-                }
-                else
-                {
-                    P1ReadyText.SetActive(false);
-                    P2Cursor.SetActive(false);
-                }
-                if (!P2Ready && P2Cursor.activeSelf)
-                {
-                    if (!P2.P2Selected)
-                    {
-                        //Manage P2Cursor movement by P1
-                        float x2 = Input.GetAxis(p2Hor);
-                        float y2 = Input.GetAxis(p2Ver);
-
-                        P2Cursor.transform.position += new Vector3(x2, y2, 0) * Time.deltaTime * speed;
-
-                        Vector3 worldSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-
-                        P2Cursor.transform.position = new Vector3(Mathf.Clamp(P2Cursor.transform.position.x, -worldSize.x, worldSize.x),
-                        Mathf.Clamp(P2Cursor.transform.position.y, -worldSize.y, worldSize.y),
-                        P2Cursor.transform.position.z);
-                    }
-                }
-                //Bring up P2 Color Select Menu
-                if (P2.P2Selected && !P2Ready)
-                {
-                    P2ColorSelect.SetActive(true);
-
-                    //Receive P2 inputs for color select
-                    if (Input.GetAxis(p2Hor) < 0)
-                    {
-                        P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
-                    }
-                    else if (Input.GetAxis(p2Hor) > 0)
-                    {
-                        P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
-                    }
-
-                    //Check for P2 confirmation
-                    if (Input.GetButtonDown(p2Cross))
-                    {
-                        switch (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
-                        {
-                            case "< 1 >":
-                                P2Color = 1;
-                                break;
-
-                            case "< 2 >":
-                                P2Color = 2;
-                                break;
-                        }
-
-                        //Check to ensure colors are not the same
-                        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character == GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
-                        {
-                            if ((P1Color == 0 && P2Color == 0) || P1Color != P2Color)
-                            {
-                                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
-                                {
-                                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P2Color;
-                                }
-                                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
-                                {
-                                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P2Color;
-                                }
-                                P2Ready = true;
-                                P2ColorSelect.SetActive(false);
-                            }
-                        }
-                        else
-                        {
-                            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
-                            {
-                                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P2Color;
-                            }
-                            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
-                            {
-                                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P2Color;
-                            }
-                            P2Ready = true;
-                            P2ColorSelect.SetActive(false);
-                        }
-                    }
-                }
-                else
-                {
+                    P2Ready = true;
                     P2ColorSelect.SetActive(false);
-                }
-
-                //Check for character selection
-                if (P2.isOverlap)
-                {
-                    if (Input.GetButtonDown(p2Cross))
-                    {
-                        P2.P2Selected = true;
-                        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
-                        {
-                            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = P2.currentChar;
-                        }
-                        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
-                        {
-                            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = P2.currentChar;
-                        }
-                    }
-                }
-                //Deselect from the Character
-                if (P2.P2Selected && Input.GetButtonDown(p2Circle) && !P2Ready)
-                {
-                    P2.P2Selected = false;
-                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
-                }
-                //Deselect P2 from Color Menu
-                if (Input.GetButtonDown(p2Circle) && P2Ready)
-                {
-                    P2Color = 0;
-                    P2Ready = false;
-                    P2ColorSelect.SetActive(true);
-                }
-
-                //Set Ready Text
-                if (P2Ready && !start)
-                {
-                    P2ReadyText.SetActive(true);
-                }
-                else
-                {
-                    P2ReadyText.SetActive(false);
-                }
-
-                //Bring up Stage Select once both players are ready
-                if (P1Ready && P2Ready)
-                {
-                    stageSelect.SetActive(true);
-                    //Disable Icons so hitboxes don't detect in the background
-                    for (int i = 0; i < icons.Length; i++)
-                    {
-                        icons[i].SetActive(false);
-                    }
-                }
-                else
-                {
-                    //Re-Enable Icons when brought back to character select
-                    for (int i = 0; i < icons.Length; i++)
-                    {
-                        icons[i].SetActive(true);
-                    }
                 }
             }
         }
+        else
+        {
+            P2ColorSelect.SetActive(false);
+        }
+
+        //Deselect from the Character
+        if (P2.P2Selected && Input.GetButtonDown(p2Circle) && !P2Ready)
+        {
+            P2.P2Selected = false;
+            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
+        }
+
+        //Deselect P2 from Color Menu
+        if (Input.GetButtonDown(p2Circle) && P2Ready)
+        {
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
+            {
+                P2Color = 0;
+                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 0;
+                P2Ready = false;
+                P2ColorSelect.SetActive(true);
+            }
+            else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+            {
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+                {
+                    P2Color = 0;
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 0;
+                    P2Ready = false;
+                    P2ColorSelect.SetActive(true);
+                }
+                else if(GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right" && !P1.P1Selected)
+                {
+                    P2Color = 0;
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 0;
+                    P2Ready = false;
+                    P2ColorSelect.SetActive(true);
+                }
+            }
+            
+        }
+
+        //Set Ready Text
+        if (P2Ready && !start)
+        {
+            P2ReadyText.SetActive(true);
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+            {
+                P1Cursor.SetActive(true);
+            }
+        }
+        else
+        {
+            P2ReadyText.SetActive(false);
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+            {
+                P1Cursor.SetActive(false);
+            }
+        }
+
+        //Check for character selection
+        if (P2.isOverlap)
+        {
+            if (Input.GetButtonDown(p2Cross))
+            {
+                P2.P2Selected = true;
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
+                {
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = P2.currentChar;
+                }
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+                {
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = P2.currentChar;
+                }
+            }
+        }
+
+        //Bring up Stage Select once both players are ready
+        if (P1Ready && P2Ready)
+        {
+            stageSelect.SetActive(true);
+            //Disable Icons so hitboxes don't detect in the background
+            for (int i = 0; i < icons.Length; i++)
+            {
+                icons[i].SetActive(false);
+            }
+        }
+        else
+        {
+            //Re-Enable Icons when brought back to character select
+            for (int i = 0; i < icons.Length; i++)
+            {
+                icons[i].SetActive(true);
+            }
+        }
+
+        //Manage Back Menu (Figure out later)
+        /* if (isPaused)
+         {
+             ActivateMenu();
+             //Unpause the game (Only the player that paused can unpause)
+             if (Input.GetButtonDown(p1Circle) && playerPaused == 1)
+             {
+                 isPaused = !isPaused;
+                 playerPaused = 0;
+             }
+             if (Input.GetButtonDown(p2Circle) && playerPaused == 2)
+             {
+                 isPaused = !isPaused;
+                 playerPaused = 0;
+             }
+         }
+         else if (!isPaused)
+         {
+             DeactivateMenu();
+             //Record which player paused
+             if (Input.GetButtonDown(p1Circle) && playerPaused == 0 && !P1.P1Selected)
+             {
+                 isPaused = !isPaused;
+                 playerPaused = 1;
+             }
+             if (Input.GetButtonDown(p2Circle) && playerPaused == 0 && !P2.P2Selected)
+             {
+                 isPaused = !isPaused;
+                 playerPaused = 2;
+             }
+         }*/
     }
 
     private void resetP1Cursor()

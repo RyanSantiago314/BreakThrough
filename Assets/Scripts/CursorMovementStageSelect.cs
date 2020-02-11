@@ -69,25 +69,41 @@ public class CursorMovementStageSelect : MonoBehaviour
         if (isOverlap)
         {
             borders[stageNum].SetActive(true);
-            if (Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Cross_P2"))
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
             {
-                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = currentStage;
-                switch (currentStage)
+                if (Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Cross_P2"))
                 {
-                    case "TrainingStage":
-                        loadingScreen.SetActive(true);
-                        SceneManager.LoadScene(3);
-                        break;
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = currentStage;
+                    switch (currentStage)
+                    {
+                        case "TrainingStage":
+                            loadingScreen.SetActive(true);
+                            SceneManager.LoadScene(3);
+                            break;
+                    }
+                }
+            } else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+            {
+                if (Input.GetButtonDown("Cross_P1"))
+                {
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = currentStage;
+                    switch (currentStage)
+                    {
+                        case "TrainingStage":
+                            loadingScreen.SetActive(true);
+                            SceneManager.LoadScene(3);
+                            break;
+                    }
                 }
             }
+            
         }
 
         if (Input.GetButtonDown("Circle_P1") || Input.GetButtonDown("Circle_P2"))
         {
-            
-            stageSelect.SetActive(false);
-            resetPosition();
-            stageNum = 0;
+                stageSelect.SetActive(false);
+                resetPosition();
+                stageNum = 0;       
         }
     }
 
