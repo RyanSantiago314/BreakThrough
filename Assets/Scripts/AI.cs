@@ -190,6 +190,12 @@ public class AI : MonoBehaviour
                 MaxInput.ClearInput("Player2");
             }
 
+            updateProperties();
+
+            resetStateValues();       // May not always do this every time?
+
+            calculateWeights();
+
             if (delayTimer <= 0)
             {
                 if (doingQCF > 0)
@@ -199,18 +205,11 @@ public class AI : MonoBehaviour
                 }
                 else
                 {
-                    // updateProperties();
-                    //
-                    // resetStateValues();       // May not always do this every time?
-                    //
-                    // calculateWeights();
-                    //
-                    // var max = states.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;   // Gets key with highest value
-                    // Debug.Log(max);
+
+                    var max = states.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;   // Gets key with highest value
+                    Debug.Log(max);
 
                     // Evaluate AI's current states
-
-
 
                     //If ai is on ground set jumping to false
                     if (GameObject.Find("Player2").transform.GetChild(0).transform.position.y <= 0)
@@ -219,10 +218,10 @@ public class AI : MonoBehaviour
                     }
 
                     // // // Executes AI's state
-                    // if (max == "Attack") attack();
-                    // if (max == "Defend") defend();
-                    // if (max == "MoveCloser") moveCloser();
-                    testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
+                    if (max == "Attack") attack();
+                    if (max == "Defend") defend();
+                    if (max == "MoveCloser") moveCloser();
+                    // testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
                 }
             }
         }
@@ -307,80 +306,89 @@ public class AI : MonoBehaviour
             return;
         }
 
-        // Disabled until I figure out how to get command inputs working
-        // if (maxAttack == "Zone")
-        // {
-        //     // Pastry Throw
-        //     if (rand >= 20)
-        //     {
-        //         if(faceLeft == true)
-        //         {
-        //             QCF();
-        //             MaxInput.DownLeft("Player2");
-        //             MaxInput.Square("Player2");
-        //         }
-        //         else
-        //         {
-        //             MaxInput.DownRight("Player2");
-        //             MaxInput.Square("Player2");
-        //         }
-        //     }
-        //     // I'M FIRING MY LAZARRRRR
-        //     else if (rand < 2 && armor >= 2)
-        //     {
-        //         if(faceLeft == true)
-        //         {
-        //             MaxInput.DownLeft("Player2");
-        //             //StartCoroutine(Delay(0.25f));
-        //             MaxInput.DownMove("Player2");
-        //             MaxInput.MoveLeft("Player2");
-        //             //StartCoroutine(Delay(0.25f));
-        //             MaxInput.CircleCross("Player2");
-        //         }
-        //         else
-        //         {
-        //             MaxInput.DownRight("Player2");
-        //             //StartCoroutine(Delay(0.25f));
-        //             MaxInput.DownMove("Player2");
-        //             MaxInput.MoveRight("Player2");
-        //             //StartCoroutine(Delay(0.25f));
-        //             MaxInput.CircleCross("Player2");
-        //         }
-        //     }
-        // }
+        if (maxAttack == "Zone")
+        {
+            // Pastry Throw
+            if (rand >= 20)
+            {
+                MaxInput.Crouch("Player2");
+                keepAction = "Square";
+                keepInput = true;
+                doingQCF = 1;
+                delayTimer = .1f;
+            }
+            // I'M FIRING MY LAZARRRRR
+            else if (rand < 20 && armor >= 2)
+            {
+                if(faceLeft == true)
+                {
+                    MaxInput.DownLeft("Player2");
+                    //StartCoroutine(Delay(0.25f));
+                    MaxInput.DownMove("Player2");
+                    MaxInput.MoveLeft("Player2");
+                    //StartCoroutine(Delay(0.25f));
+                    MaxInput.CircleCross("Player2");
+                }
+                else
+                {
+                    MaxInput.DownRight("Player2");
+                    //StartCoroutine(Delay(0.25f));
+                    MaxInput.DownMove("Player2");
+                    MaxInput.MoveRight("Player2");
+                    //StartCoroutine(Delay(0.25f));
+                    MaxInput.CircleCross("Player2");
+                }
+            }
+        }
     }
 
     void QCF()
     {
         if (doingQCF == 1)
         {
-            if (faceLeft == true) MaxInput.DownLeft("Player2");
-            else MaxInput.DownRight("Player2");
+            if (faceLeft == true)
+            {
+                Debug.Log("DownLeft");
+                MaxInput.DownLeft("Player2");
+            }
+            else
+            {
+                Debug.Log("DownRight");
+                MaxInput.DownRight("Player2");
+            }
             doingQCF = 2;
             delayTimer = .1f;
         }
         else if (doingQCF == 2)
         {
-            MaxInput.Stand("Player2");
+            MaxInput.DownMove("Player2");
             if (faceLeft == true)
             {
+                Debug.Log("Left");
                 MaxInput.MoveLeft("Player2");
             }
-            else MaxInput.MoveRight("Player2");
+            else
+            {
+                Debug.Log("Right");
+                MaxInput.MoveRight("Player2");
+            }
             if (keepAction == "Square") MaxInput.Square("Player2");
             if (keepAction == "Triangle") MaxInput.Triangle("Player2");
             if (keepAction == "Circle") MaxInput.Circle("Player2");
             if (keepAction == "Cross") MaxInput.Cross("Player2");
+            if (keepAction == "RTrigger") MaxInput.RTrigger("Player2");
 
             doingQCF = 0;
             keepAction = "";
-            delayTimer = 5f;
+            keepInput = false;
+            //delayTimer = 5f;
         }
     }
 
     void calculateAttackWeights()
     {
-        if (distanceBetweenX >= 3) attackStates["Zone"] -= 10000000000; // Disabled until I figure out how to get commands inputs working
+        //if (distanceBetweenX >= 3)
+        attackStates["Zone"] += 10000000000; // Disabled until I figure out how to get commands inputs working
         if (pGuard == "Low") attackStates["Overhead"] += 1 + new System.Random().NextDouble() * 2;
         if (pGuard == "High") attackStates["Low"] += 1 + new System.Random().NextDouble() * 2;
         attackStates["Grab"] += (1 - distanceBetweenX) - (distanceBetweenY * 2);
@@ -539,9 +547,10 @@ public class AI : MonoBehaviour
     // Currently testing QCF inputs. Maybe just manually set Dhalia's QCF variable???
     void testActions()
     {
-        Debug.Log("testAction");
+        //Debug.Log("Crouch");
         MaxInput.Crouch("Player2");
-        keepAction = "Square";
+        keepAction = "CircleCross";
+        keepInput = true;
         doingQCF = 1;
         delayTimer = .1f;
     }
