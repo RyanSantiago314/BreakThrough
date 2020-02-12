@@ -86,19 +86,6 @@ public class CursorDetection : MonoBehaviour
                 P2Models[charNum].SetActive(true);
             }
         }
-
-        //Manage Character Deselection Interactions
-        /*if (P1Selected && Input.GetButtonDown(p1Circle) && !CursorMovement.P1Ready)
-        {
-            P1Selected = false;
-            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
-        }
-
-        if (P2Selected && Input.GetButtonDown(p2Circle) && !CursorMovement.P2Ready)
-        {
-            P2Selected = false;
-            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
-        }*/
     }
 
     private bool CheckXbox(int player)

@@ -14,6 +14,7 @@ public class CursorMovement : MonoBehaviour {
     public bool P1Ready;
     public bool P2Ready;
     private bool start;
+    private bool preventDeselect = true;
 
     private string p1Cross = "Cross_P1";
     private string p1Circle = "Circle_P1";
@@ -166,18 +167,23 @@ public class CursorMovement : MonoBehaviour {
                 //Check to ensure no colors are the same
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character == GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
                 {
-                    if ((P1Color == 0 && P2Color == 0) || P1Color != P2Color)
+                    if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
                     {
-                        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+                        if ((P1Color == 0 && P2Color == 0) || P1Color != GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color)
                         {
                             GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P1Color;
+                            P1Ready = true;
+                            P1ColorSelect.SetActive(false);
                         }
-                        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+                    }
+                    else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+                    {
+                        if ((P1Color == 0 && P2Color == 0) || P1Color != GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color)
                         {
                             GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P1Color;
+                            P1Ready = true;
+                            P1ColorSelect.SetActive(false);
                         }
-                        P1Ready = true;
-                        P1ColorSelect.SetActive(false);
                     }
                 }
                 else
@@ -200,22 +206,50 @@ public class CursorMovement : MonoBehaviour {
             P1ColorSelect.SetActive(false);
         }
 
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+        {
+            if (!P1.P1Selected && Input.GetButtonDown(p1Circle) && P2Ready)
+            {
+                preventDeselect = false;
+            }
+        }       
+
         //Deselect from the Character
         if (P1.P1Selected && Input.GetButtonDown(p1Circle) && !P1Ready)
         {
             P1.P1Selected = false;
-            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+            {
+                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
+            }
+            else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+            {
+                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
+            }
         }
 
-        //Deselect P1 from Color Menu
-        if (Input.GetButtonDown(p1Circle) && P1Ready)
+
+
+            //Deselect P1 from Color Menu
+            if (Input.GetButtonDown(p1Circle) && P1Ready)
         {
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
             {
-                P1Color = 0;
-                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = 0;
-                P1Ready = false;
-                P1ColorSelect.SetActive(true);
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+                {
+                    P1Color = 0;
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = 0;
+                    P1Ready = false;
+                    P1ColorSelect.SetActive(true);
+                }
+                else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+                {
+                    P1Color = 0;
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 0;
+                    P1Ready = false;
+                    P1ColorSelect.SetActive(true);
+                }
+
             }
             else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
             {
@@ -229,7 +263,7 @@ public class CursorMovement : MonoBehaviour {
                 else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
                 {
                     P1Color = 0;
-                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = 0;
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 0;
                     P1Ready = false;
                     P1ColorSelect.SetActive(true);
                 }
@@ -305,18 +339,24 @@ public class CursorMovement : MonoBehaviour {
                 //Check to ensure colors are not the same
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character == GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
                 {
-                    if ((P1Color == 0 && P2Color == 0) || P1Color != P2Color)
+                    if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
                     {
-                        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
+                        if ((P1Color == 0 && P2Color == 0) || P2Color != GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color)
+                        {                           
+                            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P2Color;
+                            P2Ready = true;
+                            P2ColorSelect.SetActive(false);
+                            preventDeselect = true;
+                        }
+                    }
+                    else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
+                    {
+                        if ((P1Color == 0 && P2Color == 0) || P2Color != GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color)
                         {
                             GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P2Color;
+                            P2Ready = true;
+                            P2ColorSelect.SetActive(false);
                         }
-                        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
-                        {
-                            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P2Color;
-                        }
-                        P2Ready = true;
-                        P2ColorSelect.SetActive(false);
                     }
                 }
                 else
@@ -328,6 +368,7 @@ public class CursorMovement : MonoBehaviour {
                     if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
                     {
                         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P2Color;
+                        preventDeselect = true;
                     }
                     P2Ready = true;
                     P2ColorSelect.SetActive(false);
@@ -343,7 +384,14 @@ public class CursorMovement : MonoBehaviour {
         if (P2.P2Selected && Input.GetButtonDown(p2Circle) && !P2Ready)
         {
             P2.P2Selected = false;
-            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+            {
+                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
+            }
+            else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
+            {
+                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
+            }         
         }
 
         //Deselect P2 from Color Menu
@@ -351,10 +399,19 @@ public class CursorMovement : MonoBehaviour {
         {
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
             {
-                P2Color = 0;
-                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 0;
-                P2Ready = false;
-                P2ColorSelect.SetActive(true);
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+                {
+                    P2Color = 0;
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = 0;
+                    P2Ready = false;
+                    P2ColorSelect.SetActive(true);
+                } else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
+                {
+                    P2Color = 0;
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 0;
+                    P2Ready = false;
+                    P2ColorSelect.SetActive(true);
+                }
             }
             else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
             {
@@ -365,15 +422,14 @@ public class CursorMovement : MonoBehaviour {
                     P2Ready = false;
                     P2ColorSelect.SetActive(true);
                 }
-                else if(GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right" && !P1.P1Selected)
+                else if(GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right" && preventDeselect == false)
                 {
                     P2Color = 0;
-                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 0;
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = 0;
                     P2Ready = false;
                     P2ColorSelect.SetActive(true);
                 }
-            }
-            
+            }         
         }
 
         //Set Ready Text
