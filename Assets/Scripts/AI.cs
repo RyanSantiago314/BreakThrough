@@ -41,14 +41,17 @@ public class AI : MonoBehaviour
     public bool keepInput;
     public string keepAction;
 
+    // Command inputs
     public int doingQCF;
     public int doingQCB;
     public int doingHCF;
     public int doingHCB;
 
+    // Distance between players
     double distanceBetweenX;
     double distanceBetweenY;
 
+    // Timers
     float timer;
     float circleTimer;
     float squareTimer;
@@ -56,15 +59,15 @@ public class AI : MonoBehaviour
     float crossTimer;
     public float delayTimer;
 
-    float crouchTimer;
-    float grabTimer;
-    float lightTimer;
-    float mediumTimer;
-    float heavyTimer;
-    float specialTimer;
-    float backDashTimer;
-    float multiInputTimer;
-    float moveTimer;
+    // float crouchTimer;
+    // float grabTimer;
+    // float lightTimer;
+    // float mediumTimer;
+    // float heavyTimer;
+    // float specialTimer;
+    // float backDashTimer;
+    // float multiInputTimer;
+    // float moveTimer;
 
     public AIInput AIInput;
     private MaxInput MaxInput;
@@ -87,22 +90,6 @@ public class AI : MonoBehaviour
         pGuard = "";
 
         // AI data
-        timer = 0;
-        circleTimer = 0;
-        squareTimer = 0;
-        triangleTimer = 0;
-        crossTimer = 0;
-        delayTimer = 0;
-
-        crouchTimer = 0;
-        grabTimer = 0;
-        lightTimer = 0;
-        mediumTimer = 0;
-        heavyTimer = 0;
-        specialTimer = 0;
-        backDashTimer = 0;
-        multiInputTimer = 0;
-        moveTimer = 0;
         faceLeft = true;
         isJumping = false;
         isCrouching = false;
@@ -116,13 +103,33 @@ public class AI : MonoBehaviour
         keepInput = false;
         keepAction = "";
 
+        // Command inputs
         doingQCF = 0;
         doingQCB = 0;
         doingHCF = 0;
         doingHCB = 0;
 
+        // Distance between players
         distanceBetweenX = 0;
         distanceBetweenY = 0;
+
+        // Timers
+        timer = 0;
+        circleTimer = 0;
+        squareTimer = 0;
+        triangleTimer = 0;
+        crossTimer = 0;
+        delayTimer = 0;
+
+        // crouchTimer = 0;
+        // grabTimer = 0;
+        // lightTimer = 0;
+        // mediumTimer = 0;
+        // heavyTimer = 0;
+        // specialTimer = 0;
+        // backDashTimer = 0;
+        // multiInputTimer = 0;
+        // moveTimer = 0;
 
         MaxInput = GetComponent<MaxInput>();
         if (!MaxInput.AI)
@@ -187,9 +194,11 @@ public class AI : MonoBehaviour
 
             updateProperties();
 
-            resetStateValues();       // May not always do this every time?
+            resetStateValues();
 
             calculateWeights();
+
+            Debug.Log("faceLeft = " + faceLeft);
 
             if (delayTimer <= 0)
             {
@@ -202,6 +211,16 @@ public class AI : MonoBehaviour
                 {
                     Debug.Log("doing QCB");
                     AIInput.QCB();
+                }
+                else if (doingHCF > 0)
+                {
+                    Debug.Log("doing HCF");
+                    AIInput.HCF();
+                }
+                else if (doingHCB > 0)
+                {
+                    Debug.Log("doing HCB");
+                    AIInput.HCB();
                 }
                 else
                 {
@@ -218,10 +237,10 @@ public class AI : MonoBehaviour
                     }
 
                     // // // Executes AI's state
-                    if (max == "Attack") attack();
-                    if (max == "Defend") defend();
-                    if (max == "MoveCloser") moveCloser();
-                    // testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
+                    // if (max == "Attack") attack();
+                    // if (max == "Defend") defend();
+                    // if (max == "MoveCloser") moveCloser();
+                    testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
                 }
             }
         }
@@ -311,20 +330,16 @@ public class AI : MonoBehaviour
             // Pastry Throw
             if (rand >= 20)
             {
-                MaxInput.Crouch("Player2");
                 keepAction = "Square";
-                keepInput = true;
                 doingQCF = 1;
-                delayTimer = .1f;
+                AIInput.QCF();
             }
             // I'M FIRING MY LAZARRRRR
             else if (rand < 20 && armor >= 2)
             {
-                MaxInput.Crouch("Player2");
                 keepAction = "RTrigger";
-                keepInput = true;
                 doingQCF = 1;
-                delayTimer = .1f;
+                AIInput.QCF();
             }
         }
     }
@@ -466,6 +481,17 @@ public class AI : MonoBehaviour
         p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0;
         p2y = GameObject.Find("Player2").transform.GetChild(0).transform.position.y;
 
+        if (p1x - p2x < 0)
+        {
+            faceLeft = true;
+
+        }
+        else
+        {
+            faceLeft = false;
+
+        }
+
         // AI location adjusted based on direction its facing)
         if (faceLeft == false)
         {
@@ -488,15 +514,15 @@ public class AI : MonoBehaviour
         attackStates["Grab"] = 0;
     }
 
-    // Currently testing QCF inputs. Maybe just manually set Dhalia's QCF variable???
+    // Testing specific actions
+    // MAYBE REMOVE DIAGONALY INPUTS FOR HALF CIRCLE3S
+    // MAYBE SOME DELAY BETWEEN ACTUALLY PUSHINS THE ATTACK BUTTON?
+    // FACELEFT NEEDS TO UPDATE EVERY FRAME
     void testActions()
     {
-        //Debug.Log("Crouch");
-        MaxInput.Crouch("Player2");
-        keepAction = "CircleCross";
-        keepInput = true;
-        doingQCF = 1;
-        delayTimer = .1f;
+        keepAction = "Triangle";
+        doingHCB = 1;
+        AIInput.HCB();
     }
 
     // IEnumerator Delay()
