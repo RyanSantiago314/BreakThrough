@@ -28,7 +28,7 @@ public class AI : MonoBehaviour
     float health;
     double p2x;
     double p2y;
-    bool faceLeft;
+    public bool faceLeft;
     bool isJumping;
     bool isCrouching;
     bool isAttacking;
@@ -38,13 +38,13 @@ public class AI : MonoBehaviour
     bool comboEnd;
     bool finishDash;
     bool pauseAI;
-    bool keepInput;
-    string keepAction;
+    public bool keepInput;
+    public string keepAction;
 
-    int doingQCF;
-    int doingQCB;
-    int doingHCF;
-    int doingHCB;
+    public int doingQCF;
+    public int doingQCB;
+    public int doingHCF;
+    public int doingHCB;
 
     double distanceBetweenX;
     double distanceBetweenY;
@@ -54,7 +54,7 @@ public class AI : MonoBehaviour
     float squareTimer;
     float triangleTimer;
     float crossTimer;
-    float delayTimer;
+    public float delayTimer;
 
     float crouchTimer;
     float grabTimer;
@@ -66,17 +66,12 @@ public class AI : MonoBehaviour
     float multiInputTimer;
     float moveTimer;
 
+    public AIInput AIInput;
     private MaxInput MaxInput;
     private CharacterProperties PlayerProp;
     private CharacterProperties AIProp;
 
-    // Still deciding on how to do this.
-    // Things it must have:
-    // Features- value to be decided in calculations
-    // Weight of each feature
-    // feature x weight
 
-    // To change value use myDictionary[myKey] = myNewValue;
     public Dictionary<string, double> states = new Dictionary<string, double>();
     public Dictionary<string, double> attackStates = new Dictionary<string, double>();
 
@@ -201,7 +196,12 @@ public class AI : MonoBehaviour
                 if (doingQCF > 0)
                 {
                     Debug.Log("doing QCF");
-                    QCF();
+                    AIInput.QCF();
+                }
+                else if (doingQCB > 0)
+                {
+                    Debug.Log("doing QCB");
+                    AIInput.QCB();
                 }
                 else
                 {
@@ -320,68 +320,12 @@ public class AI : MonoBehaviour
             // I'M FIRING MY LAZARRRRR
             else if (rand < 20 && armor >= 2)
             {
-                if(faceLeft == true)
-                {
-                    MaxInput.DownLeft("Player2");
-                    //StartCoroutine(Delay(0.25f));
-                    MaxInput.DownMove("Player2");
-                    MaxInput.MoveLeft("Player2");
-                    //StartCoroutine(Delay(0.25f));
-                    MaxInput.CircleCross("Player2");
-                }
-                else
-                {
-                    MaxInput.DownRight("Player2");
-                    //StartCoroutine(Delay(0.25f));
-                    MaxInput.DownMove("Player2");
-                    MaxInput.MoveRight("Player2");
-                    //StartCoroutine(Delay(0.25f));
-                    MaxInput.CircleCross("Player2");
-                }
+                MaxInput.Crouch("Player2");
+                keepAction = "RTrigger";
+                keepInput = true;
+                doingQCF = 1;
+                delayTimer = .1f;
             }
-        }
-    }
-
-    void QCF()
-    {
-        if (doingQCF == 1)
-        {
-            if (faceLeft == true)
-            {
-                Debug.Log("DownLeft");
-                MaxInput.DownLeft("Player2");
-            }
-            else
-            {
-                Debug.Log("DownRight");
-                MaxInput.DownRight("Player2");
-            }
-            doingQCF = 2;
-            delayTimer = .1f;
-        }
-        else if (doingQCF == 2)
-        {
-            MaxInput.DownMove("Player2");
-            if (faceLeft == true)
-            {
-                Debug.Log("Left");
-                MaxInput.MoveLeft("Player2");
-            }
-            else
-            {
-                Debug.Log("Right");
-                MaxInput.MoveRight("Player2");
-            }
-            if (keepAction == "Square") MaxInput.Square("Player2");
-            if (keepAction == "Triangle") MaxInput.Triangle("Player2");
-            if (keepAction == "Circle") MaxInput.Circle("Player2");
-            if (keepAction == "Cross") MaxInput.Cross("Player2");
-            if (keepAction == "RTrigger") MaxInput.RTrigger("Player2");
-
-            doingQCF = 0;
-            keepAction = "";
-            keepInput = false;
-            //delayTimer = 5f;
         }
     }
 
