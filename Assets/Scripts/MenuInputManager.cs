@@ -211,7 +211,7 @@ public class MenuInputManager : MonoBehaviour
 				PlayVsPlayerButton.Select();
 				if (isXbox)
 				{
-                    if (Input.GetButtonDown("Square_P1") || Input.GetButtonDown("Submit"))
+                    if ((Input.GetButtonDown("Square_P1") || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
                     {
                         x = 0;
                         y = 126;
@@ -225,7 +225,7 @@ public class MenuInputManager : MonoBehaviour
 				}
 				else
 				{
-                    if (Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Submit"))
+                    if ((Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
                     {
                         x = 0;
                         y = 126;
@@ -244,7 +244,7 @@ public class MenuInputManager : MonoBehaviour
 				PlayVsAiButton.Select();
 				if (isXbox)
 				{
-                    if (Input.GetButtonDown("Square_P1") || Input.GetButtonDown("Submit"))
+                    if ((Input.GetButtonDown("Square_P1") || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
                     {
                         x = 0;
                         y = 126;
@@ -255,7 +255,7 @@ public class MenuInputManager : MonoBehaviour
 				}
 				else
 				{
-                    if (Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Submit"))
+                    if ((Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
                     {
                         x = 0;
                         y = 126;
