@@ -31,6 +31,10 @@ public class MenuInputManager : MonoBehaviour
     public GameObject P2COMText;
     private int P1Position;
     private int P2Position;
+    private float x;
+    private float y = 126;
+    private float x2;
+    private float y2 = -205;
 
     // Start is called before the first frame update
     void Start()
@@ -209,6 +213,12 @@ public class MenuInputManager : MonoBehaviour
 				{
                     if (Input.GetButtonDown("Square_P1") || Input.GetButtonDown("Submit"))
                     {
+                        x = 0;
+                        y = 126;
+                        P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
+                        x2 = 0;
+                        y2 = -205;
+                        P2Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, -205, 0);
                         sideSelectScreen.SetActive(true);
                         mode = "PvP";
                     } 
@@ -217,6 +227,12 @@ public class MenuInputManager : MonoBehaviour
 				{
                     if (Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Submit"))
                     {
+                        x = 0;
+                        y = 126;
+                        P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
+                        x2 = 0;
+                        y2 = -205;
+                        P2Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, -205, 0);
                         sideSelectScreen.SetActive(true);
                         mode = "PvP";
                     } 
@@ -230,6 +246,9 @@ public class MenuInputManager : MonoBehaviour
 				{
                     if (Input.GetButtonDown("Square_P1") || Input.GetButtonDown("Submit"))
                     {
+                        x = 0;
+                        y = 126;
+                        P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
                         sideSelectScreen.SetActive(true);
                         mode = "AI";
                     } 
@@ -238,6 +257,9 @@ public class MenuInputManager : MonoBehaviour
 				{
                     if (Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Submit"))
                     {
+                        x = 0;
+                        y = 126;
+                        P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
                         sideSelectScreen.SetActive(true);
                         mode = "AI";
                     } 
@@ -422,7 +444,7 @@ public class MenuInputManager : MonoBehaviour
                 P1COMText.SetActive(true);
                 P2COMText.SetActive(true);
                 P2Controller.SetActive(false);
-
+                
                 //Handle P1 Controller Movement
                 if (Input.GetAxis("Horizontal_P1") == -1 && InputTimer == 0)
                 {
@@ -465,22 +487,57 @@ public class MenuInputManager : MonoBehaviour
             {
                 case -1:
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side = "Left";
-                    P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(-425, -22, 0);
+                    //Smoothly move controller icon
+                    if (x > -425)
+                    {
+                        x -= 85;
+                        
+                    }
+                    if (y > -21)
+                    {
+                        y -= 29.6f;
+                    }
+                    P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(x, y, 0);
                     if (mode == "AI")
                     {
                         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side = "Right";
                     }
                     break;
                 case 0:
-                    P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
+                    //Smoothly move controller icon
+                    if (x > 0)
+                    {
+                        x -= 85;
+
+                    }
+                    else if (x < 0)
+                    {
+                        x += 85;
+
+                    }
+                    if (y < 126)
+                    {
+                        y += 29.6f;
+                    }
+                    P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(x, y, 0);
                     break;
                 case 1:
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side = "Right";
+                    //Smoothly move controller icon
+                    if (x < 425)
+                    {
+                        x += 85;
+
+                    }
+                    if (y > -21)
+                    {
+                        y -= 29.6f;
+                    }
                     if (mode == "AI")
                     {
                         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side = "Left";
                     }
-                    P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(425, -22, 0);                  
+                    P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(x, y, 0);                  
                     break;
             }
 
@@ -489,14 +546,50 @@ public class MenuInputManager : MonoBehaviour
             {
                 case -1:
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side = "Left";
-                    P2Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(-425, -22, 0);                   
+                    //Smoothly move controller icon
+                    if (x2 > -425)
+                    {
+                        x2 -= 85;
+
+                    }
+                    if (y2 < -22)
+                    {
+                        y2 += 36.6f;
+                    }
+                    P2Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(x2, y2, 0);                  
                     break;
                 case 0:
-                    P2Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, -205, 0);
+                    //P2Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, -205, 0);
+                    //Smoothly move controller icon
+                    if (x2 > 0)
+                    {
+                        x2 -= 85;
+
+                    }
+                    else if (x2 < 0)
+                    {
+                        x2 += 85;
+
+                    }
+                    if (y2 > -205)
+                    {
+                        y2 -= 36.6f;
+                    }
+                    P2Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(x2, y2, 0);
                     break;
                 case 1:
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side = "Right";
-                    P2Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(425, -22, 0);                    
+                    //Smoothly move controller icon
+                    if (x2 < 425)
+                    {
+                        x2 += 85;
+
+                    }
+                    if (y2 < -22)
+                    {
+                        y2 += 36.6f;
+                    }
+                    P2Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(x2, y2, 0);                  
                     break;
             }
         }
