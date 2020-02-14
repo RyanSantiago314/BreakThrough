@@ -1081,6 +1081,7 @@ public class HitboxDHA : MonoBehaviour
 
         HitDetect.piercing = true;
         HitDetect.allowWallBounce = true;
+        HitDetect.allowSuper = true;
     }
 
     void BBCycleHit3()
@@ -1382,5 +1383,36 @@ public class HitboxDHA : MonoBehaviour
 
         sinCharge = 0;
         HitDetect.anim.SetInteger("SinCharge", sinCharge);
+    }
+
+    void JSabreHitbox()
+    {
+        ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
+        hit1.enabled = true;
+        hit2.enabled = true;
+        hit3.enabled = true;
+
+        hit1.offset = new Vector2(.145f,1.4f);
+        hit1.size = new Vector2(.57f, 1.46f);
+        hit2.offset = new Vector2(.58f, .56f);
+        hit2.size = new Vector2(.33f, 2.6f);
+        hit3.offset = new Vector2(.91f, .63f);
+        hit3.size = new Vector2(.375f, 1.8f);
+
+        HitDetect.damage = 300;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 0;
+        HitDetect.potentialHitStun = 600;
+        HitDetect.potentialHitStop = 24;
+        HitDetect.potentialKnockBack = new Vector2(.5f, 8f);
+        HitDetect.forcedProration = .8f;
+        HitDetect.attackLevel = 10;
+        HitDetect.guard = "Mid";
+
+        HitDetect.launch = true;
+        HitDetect.shatter = true;
+        HitDetect.usingSuper = true;
     }
 }

@@ -808,4 +808,40 @@ public class HurtboxDHA : MonoBehaviour
         legs2.offset = new Vector2(-.02f, -.68f);
         legs2.size = new Vector2(.9f, .45f);
     }
+
+    public void JSActive()
+    {
+        Invincible();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(.12f, .675f);
+        head.size = new Vector2(.33f, .83f);
+        body.offset = new Vector2(0.17f, .22f);
+        body.size = new Vector2(.45f, .87f);
+        legs1.offset = new Vector2(.1f, -.3f);
+        legs1.size = new Vector2(.72f, .28f);
+        legs2.offset = new Vector2(-.07f, -.66f);
+        legs2.size = new Vector2(1f, .45f);
+    }
+
+    public void JSRecovery()
+    {
+        Invincible();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(-.025f, .21f);
+        head.size = new Vector2(.85f, .32f);
+        body.offset = new Vector2(-0.03f, -.07f);
+        body.size = new Vector2(.64f, .275f);
+        legs1.offset = new Vector2(.047f, -.3f);
+        legs1.size = new Vector2(.61f, .28f);
+        legs2.offset = new Vector2(.135f, -.66f);
+        legs2.size = new Vector2(1f, .48f);
+    }
 }

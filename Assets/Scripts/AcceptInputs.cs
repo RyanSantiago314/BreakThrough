@@ -140,7 +140,10 @@ public class AcceptInputs : MonoBehaviour
             throwInvulnCounter = 10;
 
         if (superFlash > 0)
+        {
+            Move.rb.velocity = Vector2.zero;
             superFlash--;
+        }
 
 
         //change character properties based on current animation state

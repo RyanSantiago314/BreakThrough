@@ -508,30 +508,30 @@ public class AttackHandlerDHA : MonoBehaviour
             Move.jumping = 0;
             // Judgment Sabre super attack, executed by doing a QCB and pressing L and M together
             anim.SetTrigger(IDSabre);
+            CharProp.armor -= 2;
             if (CharProp.armor > 0)
                 CharProp.durability = 50;
             else
-                CharProp.durability = 0;
+                CharProp.durability = 70;
             CharProp.durabilityRefillTimer = 0;
             lightButton = 0;
             mediumButton = 0;
             QCB = 0;
-            CharProp.armor -= 2;
         }
         else if (Actions.acceptSuper && heavyButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && CharProp.armor >= 2 && Actions.standing && !Toaster.activeSelf)
         {
             Move.jumping = 0;
             // Toaster super attack, executed by doing a QCF and pressing H and B
             anim.SetTrigger(IDToaster);
+            CharProp.armor -= 2;
             if (CharProp.armor > 0)
                 CharProp.durability = 50;
             else
-                CharProp.durability = 0;
+                CharProp.durability = 70;
             CharProp.durabilityRefillTimer = 0;
             breakButton = 0;
             heavyButton = 0;
             QCF = 0;
-            CharProp.armor -= 2;
         }
         else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && Actions.standing)
         {
