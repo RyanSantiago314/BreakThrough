@@ -599,6 +599,7 @@ public class HitDetector : MonoBehaviour
     {
         //if the attack successfully hit the opponent
         anim.SetTrigger(successID);
+        OpponentDetector.Actions.TurnAroundCheck();
 
         //special properties if hitting a dizzied opponent
         if(OpponentDetector.anim.GetBool(dizzyID))
