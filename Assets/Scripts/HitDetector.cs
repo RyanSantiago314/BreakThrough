@@ -215,7 +215,7 @@ public class HitDetector : MonoBehaviour
                     anim.SetFloat(animSpeedID, .35f);
 
                 rb.mass = Actions.Move.weight * .65f;
-                if (rb.velocity.y < 0)
+                if (rb.velocity.y < 0.5f)
                     rb.gravityScale = .5f * Actions.gravScale;
 
             }
