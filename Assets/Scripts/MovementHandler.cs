@@ -235,7 +235,7 @@ public class MovementHandler : MonoBehaviour
                 Actions.EnableAll();
                 pushBox.isTrigger = true;
                 jumps++;
-                jumping = .4f;
+                jumping = .2f;
 
 
                 if (MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
@@ -693,6 +693,18 @@ public class MovementHandler : MonoBehaviour
                 }
                 horiAxisInUse = true;
             }   
+        }
+
+        if (MaxInput.GetButton(L3) && MaxInput.GetAxis(Horizontal) != 0)
+        {
+            if (((MaxInput.GetAxis(Horizontal) < 0 && facingRight) || (MaxInput.GetAxis(Horizontal) > 0 && !facingRight)) && !Actions.airborne)
+            {
+                if (Actions.acceptMove)
+                {
+                    anim.SetTrigger(backDashID);
+                    buttonCount = 0;
+                }
+            }
         }
 
         if (MaxInput.GetButton(L3) && MaxInput.GetAxis(Horizontal) != 0)

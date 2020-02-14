@@ -425,12 +425,18 @@ public class AcceptInputs : MonoBehaviour
     }
 
     public void Dash()
-    {
+    {           
         if (Move.facingRight)
-            Move.rb.AddForce(new Vector2(-Move.backDashForce, .4f*Move.backDashForce), ForceMode2D.Impulse);
+        {
+            Move.rb.velocity = new Vector2(-.5f * Move.walkBackSpeed, 0);
+            Move.rb.AddForce(new Vector2(-Move.backDashForce, .4f * Move.backDashForce), ForceMode2D.Impulse);
+        }
         else
-            Move.rb.AddForce(new Vector2(Move.backDashForce, .4f*Move.backDashForce), ForceMode2D.Impulse);
-            Move.backDash = false;
+        {
+            Move.rb.velocity = new Vector2(.5f * Move.walkBackSpeed, 0);
+            Move.rb.AddForce(new Vector2(Move.backDashForce, .4f * Move.backDashForce), ForceMode2D.Impulse);
+        }
+        Move.backDash = false;
     }
 
     public void Throwing()

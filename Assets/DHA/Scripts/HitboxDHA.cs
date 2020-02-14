@@ -43,8 +43,8 @@ public class HitboxDHA : MonoBehaviour
 
         if (HitDetect.hitStun > 0)
         {
-            sinCharge = 0;
-            HitDetect.anim.SetInteger("SinCharge", sinCharge);
+            /*sinCharge = 0;
+            HitDetect.anim.SetInteger("SinCharge", sinCharge);*/
             ClearHitBox();
         }
     }
