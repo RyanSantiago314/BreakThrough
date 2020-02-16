@@ -38,7 +38,6 @@ public class MovementHandler : MonoBehaviour
     int buttonCount = 0;
     public int wallStickTimer;
     public float jumping = 0;
-    public bool jumped = false;
     public bool backDash = false;
     private bool jumpRight = false;
     private bool jumpLeft = false;
@@ -322,7 +321,6 @@ public class MovementHandler : MonoBehaviour
             jumping = 0;
             jumpRight = false;
             jumpLeft = false;
-            jumped = true;
         }
         else
         {

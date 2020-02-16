@@ -25,7 +25,6 @@ public class AcceptInputs : MonoBehaviour
     public bool throwInvincible = false;
 
     public bool bursting = false;
-    public bool counterBursting = false;
 
     public bool shattered = false;
     public bool superHit = false;
@@ -108,7 +107,6 @@ public class AcceptInputs : MonoBehaviour
             DisableAll();
             DisableBlitz();
             bursting = false;
-            counterBursting = false;
             if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected"))
             {
                 armorActive = false;
@@ -258,16 +256,6 @@ public class AcceptInputs : MonoBehaviour
     public void EndBurst()
     {
         bursting = false;
-    }
-
-    public void StartCounterBurst()
-    {
-        counterBursting = true;
-    }
-
-    public void EndCounterBurst()
-    {
-        counterBursting = false;
     }
 
     public void StartSuperFlash(int i)

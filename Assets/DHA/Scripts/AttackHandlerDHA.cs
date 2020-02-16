@@ -383,7 +383,7 @@ public class AttackHandlerDHA : MonoBehaviour
             dir2 = directionBufferTime;
         }
 
-        if (Actions.acceptMove || currentState.IsName("StandUp") || Move.jumped)
+        if (Actions.acceptMove || currentState.IsName("StandUp") || currentState.IsName("Jump"))
         {
             //refresh possible moves when in certain states
             RefreshMoveList();
@@ -501,6 +501,8 @@ public class AttackHandlerDHA : MonoBehaviour
                     Actions.backThrow = true;
                 else
                     Actions.backThrow = false;
+
+                Actions.throwTech = true;
             }
         }
         else if (Actions.acceptSuper && lightButton > 0 && mediumButton > 0 && Move.HitDetect.hitStop == 0 && QCB > 0 && CharProp.armor >= 2 && Actions.standing)
@@ -814,9 +816,6 @@ public class AttackHandlerDHA : MonoBehaviour
         FLF = true;
         FB = true;
         BCShots = 2;
-        
-
-        Move.jumped = false;
     }
 
     void QCFCheck()

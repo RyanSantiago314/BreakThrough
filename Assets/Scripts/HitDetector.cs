@@ -195,7 +195,7 @@ public class HitDetector : MonoBehaviour
 
             if (Actions.superFlash > 0)
             {
-                OpponentDetector.hitStop = 1;
+                OpponentDetector.hitStop = 2;
             }
 
             if(currentState.IsName("WallStick"))
@@ -216,7 +216,7 @@ public class HitDetector : MonoBehaviour
 
                 rb.mass = Actions.Move.weight * .65f;
                 if (rb.velocity.y < 0.5f)
-                    rb.gravityScale = .5f * Actions.gravScale;
+                    rb.gravityScale = .65f * Actions.gravScale;
 
             }
             else if (Actions.shattered && hitStun > 0)
@@ -292,7 +292,7 @@ public class HitDetector : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         collideCount++;
-        if (!OpponentDetector.Actions.bursting || (Actions.bursting && !OpponentDetector.Actions.counterBursting))
+        if (!OpponentDetector.Actions.bursting || Actions.bursting)
         {
             if (allowHit && !grab && !commandGrab && other.gameObject.transform.parent.parent == Actions.Move.opponent && (potentialHitStun > 0 || blitz))
             {
@@ -434,16 +434,21 @@ public class HitDetector : MonoBehaviour
                     if (OpponentDetector.blockStun > 0)
                     {
                         ApplyHitStop(0);
-                        if (Actions.Move.facingRight)
-                            KnockBack *= new Vector2(-1, 1);
-                        else
-                            OpponentDetector.KnockBack *= new Vector2(-1, 1);
 
                         if (OpponentDetector.Actions.Move.justDefenseTime > 0 && OpponentDetector.Actions.standing)
                             OpponentDetector.KnockBack *= .5f;
 
                         if (usingSpecial || usingSuper)
                             KnockBack *= .5f;
+                        if (KnockBack.x < -2)
+                            KnockBack = new Vector2(-2, KnockBack.y);
+                        if (OpponentDetector.KnockBack.x > 2)
+                            OpponentDetector.KnockBack = new Vector2(2, KnockBack.y);
+
+                        if (Actions.Move.facingRight)
+                            KnockBack *= new Vector2(-1, 1);
+                        else
+                            OpponentDetector.KnockBack *= new Vector2(-1, 1);
                     }
                 }
                 else
@@ -532,7 +537,7 @@ public class HitDetector : MonoBehaviour
                 if (attackLevel > OpponentDetector.attackLevel && (attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
                 {
                     //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
-                    ApplyHitStop(2);
+                    ApplyHitStop(potentialHitStop / 2);
                     Debug.Log("DEFLECTED!");
                     anim.SetTrigger(parryID);
                     OpponentDetector.anim.SetTrigger(deflectID);
@@ -544,7 +549,7 @@ public class HitDetector : MonoBehaviour
                 {
                     //if the attacks are of similar strength both can immediately input another command
                     Debug.Log("Clash!");
-                    ApplyHitStop(2);
+                    ApplyHitStop(potentialHitStop);
                     anim.SetTrigger(clashID);
                     //no knockback on clashes
                     Clash();
@@ -552,10 +557,6 @@ public class HitDetector : MonoBehaviour
                 allowHit = false;
                 hit = true;
             }
-        }
-        else if (OpponentDetector.Actions.bursting && Actions.counterBursting)
-        {
-
         }
     }
 
@@ -793,13 +794,13 @@ public class HitDetector : MonoBehaviour
                 {
                     OpponentDetector.KnockBack = potentialKnockBack;
                     if (potentialKnockBack.y == 0)
-                        OpponentDetector.KnockBack += new Vector2(0, 1.5f);
+                        OpponentDetector.KnockBack += new Vector2(0, 2f);
                 }
                 else if (potentialAirKnockBack == Vector2.zero)
                 {
                     OpponentDetector.KnockBack = potentialKnockBack;
                     if (potentialKnockBack.y == 0)
-                        OpponentDetector.KnockBack += new Vector2(0, 1.5f);
+                        OpponentDetector.KnockBack += new Vector2(0, 2f);
                 }
                 else
                 {
@@ -812,7 +813,7 @@ public class HitDetector : MonoBehaviour
                 {
                     OpponentDetector.KnockBack = potentialKnockBack;
                     if (potentialKnockBack.y == 0)
-                        OpponentDetector.KnockBack += new Vector2(0, 1.5f);
+                        OpponentDetector.KnockBack += new Vector2(0, 2f);
                 }
                 else
                 {
