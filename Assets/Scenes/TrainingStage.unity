@@ -3117,7 +3117,6 @@ MonoBehaviour:
   recovering: 0
   throwInvincible: 0
   bursting: 0
-  counterBursting: 0
   shattered: 0
   superHit: 0
   blitzed: 0
@@ -3934,7 +3933,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 25, y: 25}
+  m_Size: {x: 30.55, y: 31.95}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -4584,7 +4583,6 @@ MonoBehaviour:
   recovering: 0
   throwInvincible: 0
   bursting: 0
-  counterBursting: 0
   shattered: 0
   superHit: 0
   blitzed: 0
@@ -7939,7 +7937,6 @@ MonoBehaviour:
   playing: 0
   wallStickTimer: 0
   jumping: 0
-  jumped: 0
   backDash: 0
   pushCenter: {x: 0, y: -0.51}
   pushSize: {x: 0.4, y: 0.8}
@@ -8622,7 +8619,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 25, y: 25}
+  m_Size: {x: 30.55, y: 31.95}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -9614,7 +9611,7 @@ MonoBehaviour:
   weight: 0.52
   walkSpeed: 1.75
   walkBackSpeed: 1.6
-  backDashForce: 1.9
+  backDashForce: 1.5
   runAcceleration: 0.7
   jumpPower: 3.8
   maxVelocity: 6
@@ -9626,7 +9623,6 @@ MonoBehaviour:
   playing: 0
   wallStickTimer: 0
   jumping: 0
-  jumped: 0
   backDash: 0
   pushCenter: {x: 0, y: -0.51}
   pushSize: {x: 0.4, y: 0.8}

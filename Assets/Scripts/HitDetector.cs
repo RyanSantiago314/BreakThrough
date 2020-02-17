@@ -471,6 +471,7 @@ public class HitDetector : MonoBehaviour
                         specialProration *= 1.1f;
                         HitSuccess(other);
                         ApplyHitStop(2 * potentialHitStop);
+                        Contact(other);
                     }
                     else if (piercing && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                     {
@@ -482,6 +483,7 @@ public class HitDetector : MonoBehaviour
                         }
                         HitSuccess(other);
                         ApplyHitStop(0);
+                        Contact(other);
                     }
                     else if (!blitz && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                     {
@@ -572,13 +574,13 @@ public class HitDetector : MonoBehaviour
     public void Contact(Collider2D other)
     {
         //execute if an attack makes contact with a opponent
-        if (allowLight)
+        if (allowLight && !OpponentDetector.armorHit)
             Actions.acceptLight = true;
-        if (allowMedium)
+        if (allowMedium && !OpponentDetector.armorHit)
             Actions.acceptMedium = true;
-        if (allowHeavy)
+        if (allowHeavy && !OpponentDetector.armorHit)
             Actions.acceptHeavy = true;
-        if (allowBreak)
+        if (allowBreak && !OpponentDetector.armorHit)
             Actions.acceptBreak = true;
         if (allowSpecial)
             Actions.acceptSpecial = true;

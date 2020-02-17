@@ -134,7 +134,7 @@ public class AcceptInputs : MonoBehaviour
             throwInvincible = false;
         }
 
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("ThrowReject"))
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("ThrowReject") || anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup"))
             throwInvulnCounter = 10;
 
         if (superFlash > 0)
@@ -413,21 +413,6 @@ public class AcceptInputs : MonoBehaviour
             else
                 Move.HitDetect.KnockBack = new Vector2(0, .5f * Move.jumpPower);
         }  
-    }
-
-    public void Dash()
-    {           
-        if (Move.facingRight)
-        {
-            Move.rb.velocity = new Vector2(-.5f * Move.walkBackSpeed, 0);
-            Move.rb.AddForce(new Vector2(-Move.backDashForce, .4f * Move.backDashForce), ForceMode2D.Impulse);
-        }
-        else
-        {
-            Move.rb.velocity = new Vector2(.5f * Move.walkBackSpeed, 0);
-            Move.rb.AddForce(new Vector2(Move.backDashForce, .4f * Move.backDashForce), ForceMode2D.Impulse);
-        }
-        Move.backDash = false;
     }
 
     public void Throwing()
