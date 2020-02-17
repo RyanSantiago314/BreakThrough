@@ -46,8 +46,8 @@ public class MenuInputManager : MonoBehaviour
     {
         buttonIndex = 1;
         InputTimer = 0;
-        //xboxInput = "Controller (Xbox One For Windows)";
-        //ps4Input = "Wireless Controller";
+        xboxInput = "Controller (Xbox One For Windows)";
+        ps4Input = "Wireless Controller";
         PlayLocalButton.Select();
         menu = GetComponent<MainMenu>();
         state = "main";
