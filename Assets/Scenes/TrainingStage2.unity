@@ -2603,7 +2603,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: NaN, y: -1.2254264e+36, z: 4.5905e-41, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -5523,6 +5523,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 363720816}
   isPaused: 0
+  GameOver: {fileID: 1487550135}
+  P1Character: {fileID: 1675239644}
+  P2Character: {fileID: 423239632}
 --- !u!1 &1845197047
 GameObject:
   m_ObjectHideFlags: 0

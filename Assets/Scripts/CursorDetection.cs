@@ -46,8 +46,30 @@ public class CursorDetection : MonoBehaviour
 
     private void Start()
     {
-        p1Circle += UpdateControls(CheckXbox(0));
-        p2Circle += UpdateControls(CheckXbox(1));
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
+        {
+            //Check P1 Side
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+            {
+                p1Circle = "Circle_P2";
+            }
+
+            //Check P2Side
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+            {
+                p2Circle = "Circle_P1";
+            }
+
+        }
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+        {
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+            {
+                p2Circle = "Circle_P1";
+            }
+            p1Circle += UpdateControls(CheckXbox(0));
+            p2Circle += UpdateControls(CheckXbox(1));
+        }
     }
 
     void Update()
@@ -63,19 +85,6 @@ public class CursorDetection : MonoBehaviour
             {
                 P2Models[charNum].SetActive(true);
             }
-        }
-
-        //Manage Character Deselection Interactions
-        if (P1Selected && Input.GetButtonDown(p1Circle) && !CursorMovement.P1Ready)
-        {
-            P1Selected = false;
-            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
-        }
-
-        if (P2Selected && Input.GetButtonDown(p2Circle) && !CursorMovement.P2Ready)
-        {
-            P2Selected = false;
-            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
         }
     }
 

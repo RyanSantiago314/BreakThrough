@@ -276,11 +276,27 @@ public class GameOver : MonoBehaviour
     	//Setting player health to max
     	PlayerProp1.currentHealth = PlayerProp1.maxHealth;
     	PlayerProp2.currentHealth = PlayerProp2.maxHealth;
-    	//Setting players to starting location vectors
-    	Vector3 p1Start = new Vector3(-1.3f, 1.10f, -3);
-    	Vector3 p2Start = new Vector3(1.3f, 1.10f, -3);
-    	GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
-    	GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
+        //Setting players to starting location vectors
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+        {
+            Vector3 p1Start = new Vector3(-1.3f, 1.10f, -3);
+            GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
+        }
+        else
+        {
+            Vector3 p1Start = new Vector3(1.3f, 1.10f, -3);
+            GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
+        }
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
+        {
+            Vector3 p2Start = new Vector3(1.3f, 1.10f, -3);
+            GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
+        }
+        else
+        {
+            Vector3 p2Start = new Vector3(-1.3f, 1.10f, -3);
+            GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
+        }
         GameObject.Find("CameraPos").transform.GetChild(1).transform.position = GameObject.Find("CameraPos").transform.position;
         //Disabling player inputs
         lockInputs = false;
@@ -295,9 +311,11 @@ public class GameOver : MonoBehaviour
     //Function to load main menu scene
     void QuitToMenu()
     {
-    	lockInputs = false;
+        lockInputs = false;
     	StartText.startReady = false;
     	SceneManager.LoadSceneAsync(0);
+        p1Win = 0;
+        p2Win = 0;
     }
 
     //Function setting color of the panel to black
