@@ -38,7 +38,6 @@ public class MovementHandler : MonoBehaviour
     int buttonCount = 0;
     public int wallStickTimer;
     public float jumping = 0;
-    public bool jumped = false;
     public bool backDash = false;
     private bool jumpRight = false;
     private bool jumpLeft = false;
@@ -287,6 +286,19 @@ public class MovementHandler : MonoBehaviour
                 rb.velocity *= new Vector2(-1, 1);
         }
 
+        if (backDash)
+        {
+            if (facingRight)
+            {
+                rb.AddForce(new Vector2(-backDashForce, .5f * backDashForce), ForceMode2D.Impulse);
+            }
+            else
+            {
+                rb.AddForce(new Vector2(backDashForce, .5f * backDashForce), ForceMode2D.Impulse);
+            }
+            backDash = false;
+        }
+
         //Jump logic
         if (jumping > 0 && anim.GetFloat("AnimSpeed") > 0 && HitDetect.hitStun == 0 && HitDetect.blockStun == 0)
         {
@@ -322,7 +334,6 @@ public class MovementHandler : MonoBehaviour
             jumping = 0;
             jumpRight = false;
             jumpLeft = false;
-            jumped = true;
         }
         else
         {
@@ -702,6 +713,7 @@ public class MovementHandler : MonoBehaviour
                 if (Actions.acceptMove)
                 {
                     anim.SetTrigger(backDashID);
+                    backDash = true;
                     buttonCount = 0;
                 }
             }
@@ -851,8 +863,12 @@ public class MovementHandler : MonoBehaviour
                     anim.SetBool(airGuardID, false);
                 }
             }
-            if (opponent.GetComponent<MovementHandler>().Actions.attacking && Vector3.Distance(transform.position, opponent.position) <= 2 && HitDetect.blockStun == 0)
+            if (opponent.GetComponent<MovementHandler>().Actions.attacking && Vector3.Distance(transform.position, opponent.position) <= 2 && HitDetect.blockStun == 0 && 
+                ((facingRight && MaxInput.GetAxis(Horizontal) < 0)||(!facingRight && MaxInput.GetAxis(Horizontal) > 0)))
+            {
+                Actions.acceptMove = false;
                 anim.SetBool("ForceBlock", true);
+            }
             else
                 anim.SetBool("ForceBlock", false);
         }

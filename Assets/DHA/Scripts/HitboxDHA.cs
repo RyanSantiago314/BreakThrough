@@ -43,9 +43,13 @@ public class HitboxDHA : MonoBehaviour
 
         if (HitDetect.hitStun > 0)
         {
-            /*sinCharge = 0;
-            HitDetect.anim.SetInteger("SinCharge", sinCharge);*/
             ClearHitBox();
+        }
+
+        if (HitDetect.Actions.shattered)
+        {
+            sinCharge = 0;
+            HitDetect.anim.SetInteger("SinCharge", sinCharge);
         }
     }
 
@@ -426,7 +430,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStun = hitStunLv2;
         HitDetect.potentialHitStop = hitStopLv2;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 0);
-        HitDetect.potentialAirKnockBack = new Vector2(1.2f, 1.5f);
+        HitDetect.potentialAirKnockBack = new Vector2(1.2f, 2f);
         HitDetect.initialProration = .85f;
         HitDetect.attackLevel = 1;
         HitDetect.guard = "Overhead";
@@ -539,7 +543,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStun = hitStunLv4;
         HitDetect.potentialHitStop = hitStopLv2;
         HitDetect.potentialKnockBack = new Vector2(.7f, 3.5f);
-        HitDetect.potentialAirKnockBack = new Vector2(.5f, 3f);
+        HitDetect.potentialAirKnockBack = new Vector2(.3f, 3f);
         HitDetect.initialProration = .8f;
         if (HitDetect.OpponentDetector.Actions.standing)
             HitDetect.forcedProration = .8f;
@@ -1406,7 +1410,8 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialHitStun = 600;
         HitDetect.potentialHitStop = 24;
-        HitDetect.potentialKnockBack = new Vector2(.5f, 8f);
+        HitDetect.potentialKnockBack = new Vector2(.7f, 8f);
+        HitDetect.initialProration = .8f;
         HitDetect.forcedProration = .8f;
         HitDetect.attackLevel = 10;
         HitDetect.guard = "Mid";

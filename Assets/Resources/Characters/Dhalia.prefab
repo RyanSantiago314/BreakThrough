@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 5672348969353512145}
   - component: {fileID: 5672348969353512110}
   m_Layer: 8
-  m_Name: DHA
+  m_Name: Dhalia
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,7 +232,7 @@ MonoBehaviour:
   weight: 0.53
   walkSpeed: 1.75
   walkBackSpeed: 1.6
-  backDashForce: 1.9
+  backDashForce: 1.6
   runAcceleration: 0.7
   jumpPower: 3.8
   maxVelocity: 6
@@ -244,7 +244,6 @@ MonoBehaviour:
   playing: 0
   wallStickTimer: 0
   jumping: 0
-  jumped: 0
   backDash: 0
   pushCenter: {x: 0, y: -0.51}
   pushSize: {x: 0.4, y: 0.8}
@@ -874,6 +873,7 @@ MonoBehaviour:
   acceptBreak: 1
   acceptSpecial: 1
   acceptSuper: 1
+  acceptBurst: 1
   jumpCancel: 1
   blitzCancel: 1
   airborne: 0
@@ -883,7 +883,9 @@ MonoBehaviour:
   attacking: 0
   recovering: 0
   throwInvincible: 0
+  bursting: 0
   shattered: 0
+  superHit: 0
   blitzed: 0
   wallStick: 0
   landingLag: 0
@@ -1341,6 +1343,7 @@ MonoBehaviour:
   anim: {fileID: 5672348970482479195}
   rb: {fileID: 5672348969353512144}
   Actions: {fileID: 5672348970482479192}
+  pauseScreen: {fileID: 0}
   hitBox1: {fileID: 5672348970961381725}
   hitTrack: {fileID: 0}
   currentVelocity: {x: 0, y: 0}

@@ -96,7 +96,7 @@ public class CharacterProperties : MonoBehaviour
                 else if (armor == 0 || HitDetect.anim.GetBool(dizzyID))
                 {
                     comboTimer = 0;
-                    armor = 2;
+                    armor = 1;
                     durability = 50;
                 }
                 else
