@@ -5,8 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour{
     public GameObject pauseMenuUI;
+    public GameObject moveListUI;
     public bool isPaused;
     static public bool pauseQuit;
+    public bool moveList;
     private int playerPaused;
 
     private string pauseCode1 = "Start_P1";
@@ -25,6 +27,7 @@ public class PauseMenu : MonoBehaviour{
         pauseCode += UpdateControls(CheckXbox(1));
 
         pauseQuit = false;
+        moveList = false;
     }
 
     // Update is called once per frame
@@ -74,7 +77,10 @@ public class PauseMenu : MonoBehaviour{
     public void ActivateMenu()
     {
         Time.timeScale = 0;
-        pauseMenuUI.SetActive(true);
+        if (!moveList)
+            pauseMenuUI.SetActive(true);
+        else
+            moveListUI.SetActive(true);
     }
 
     public void DeactivateMenu()
@@ -83,6 +89,19 @@ public class PauseMenu : MonoBehaviour{
         pauseMenuUI.SetActive(false);
         isPaused = false;
         playerPaused = 0;
+    }
+
+    public void MoveList()
+    {
+        pauseMenuUI.SetActive(false);
+        moveList = true;
+        //moveListUI.SetActive(true);
+    }
+
+    public void MoveListBack()
+    {
+        moveList = false;
+        moveListUI.SetActive(false);
     }
 
     public void QuitToMenu()
