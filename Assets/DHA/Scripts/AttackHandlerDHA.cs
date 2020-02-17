@@ -95,6 +95,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int IDHeadRush;
     static int IDBasketCase;
     static int IDToaster;
+    static int IDSabre;
 
     static int runID;
     static int IDRec;
@@ -134,6 +135,7 @@ public class AttackHandlerDHA : MonoBehaviour
         IDBasketCase = Animator.StringToHash("BasketCase");
 
         IDToaster = Animator.StringToHash("Toaster");
+        IDSabre = Animator.StringToHash("JudgmentSabre");
 
         lowGuardID = Animator.StringToHash("LowGuard");
         highGuardID = Animator.StringToHash("HighGuard");
@@ -459,9 +461,9 @@ public class AttackHandlerDHA : MonoBehaviour
             heavyButton = 0;
             breakButton = 0;
         }
-        //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of two hits of armor
+        //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
         else if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
-            heavyButton > 0 && mediumButton > 0 && CharProp.armor >= 1)
+            heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f && CharProp.armor >= 1)
         {
             anim.SetTrigger(IDBlitz);
             BlitzWave.SetTrigger(IDBlitz);
@@ -483,7 +485,7 @@ public class AttackHandlerDHA : MonoBehaviour
             if (CharProp.armor > 0)
                 CharProp.durability = 50;
             else
-                CharProp.durability = 0;
+                CharProp.durability = 80;
             blitzActive = 5;
             CharProp.durabilityRefillTimer = 0;
             heavyButton = 0;
@@ -501,22 +503,39 @@ public class AttackHandlerDHA : MonoBehaviour
                     Actions.backThrow = false;
             }
         }
-        else if (Actions.acceptSuper && heavyButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && CharProp.armor >= 2 && Actions.standing && !Toaster.activeSelf)
+        else if (Actions.acceptSuper && lightButton > 0 && mediumButton > 0 && Move.HitDetect.hitStop == 0 && QCB > 0 && CharProp.armor >= 2 && Actions.standing)
         {
-            // Toaster super attack, executed by doing a QCF and pressing H and B
-            anim.SetTrigger(IDToaster);
+            Move.jumping = 0;
+            // Judgment Sabre super attack, executed by doing a QCB and pressing L and M together
+            anim.SetTrigger(IDSabre);
+            CharProp.armor -= 2;
             if (CharProp.armor > 0)
                 CharProp.durability = 50;
             else
-                CharProp.durability = 0;
+                CharProp.durability = 70;
+            CharProp.durabilityRefillTimer = 0;
+            lightButton = 0;
+            mediumButton = 0;
+            QCB = 0;
+        }
+        else if (Actions.acceptSuper && heavyButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && CharProp.armor >= 2 && Actions.standing && !Toaster.activeSelf)
+        {
+            Move.jumping = 0;
+            // Toaster super attack, executed by doing a QCF and pressing H and B
+            anim.SetTrigger(IDToaster);
+            CharProp.armor -= 2;
+            if (CharProp.armor > 0)
+                CharProp.durability = 50;
+            else
+                CharProp.durability = 70;
             CharProp.durabilityRefillTimer = 0;
             breakButton = 0;
             heavyButton = 0;
             QCF = 0;
-            CharProp.armor -= 2;
         }
         else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && Actions.standing)
         {
+            Move.jumping = 0;
             // Basket Case special attack, executed by doing a QCF and pressing B, can be used up to twice in succession
             anim.SetTrigger(IDBasketCase);
             Actions.TurnAroundCheck();
@@ -526,6 +545,7 @@ public class AttackHandlerDHA : MonoBehaviour
         }
         else if (Actions.acceptSuper && currentState.IsName("BasketCaseFullShoot") && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && Actions.standing && BCShots > 0)
         {
+            Move.jumping = 0;
             // Basket special attack, executed by doing a QCF and pressing B (second shot)
             anim.SetTrigger(IDBasketCase);
             breakButton = 0;
@@ -534,6 +554,7 @@ public class AttackHandlerDHA : MonoBehaviour
         }
         else if (Actions.acceptSpecial && heavyButton > 0 && Move.HitDetect.hitStop == 0 && QCB > 0)
         {
+            Move.jumping = 0;
             // Blood Brave special attack, executed by doing a QCB and pressing H
             anim.SetTrigger(IDBloodBrave);
             Actions.TurnAroundCheck();
@@ -542,6 +563,7 @@ public class AttackHandlerDHA : MonoBehaviour
         }
         else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop == 0 && HCB > 0 && Actions.standing)
         {
+            Move.jumping = 0;
             // Head Rush special attack, executed by doing a HCB and pressing M
             anim.SetTrigger(IDHeadRush);
             mediumButton = 0;
@@ -549,6 +571,7 @@ public class AttackHandlerDHA : MonoBehaviour
         }
         else if (Actions.acceptSpecial && lightButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && Actions.standing && !Projectile.activeSelf)
         {
+            Move.jumping = 0;
             // Patissiere projectile special attack, executed by doing a QCF and pressing L
             anim.SetTrigger(IDPatissiere);
             Actions.TurnAroundCheck();

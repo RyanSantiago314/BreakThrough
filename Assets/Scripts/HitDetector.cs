@@ -214,16 +214,16 @@ public class HitDetector : MonoBehaviour
                 else
                     anim.SetFloat(animSpeedID, .35f);
 
-                rb.mass = Actions.Move.weight * .75f;
-                if (rb.velocity.y <= 0)
-                    rb.gravityScale = .6f * Actions.gravScale;
+                rb.mass = Actions.Move.weight * .65f;
+                if (rb.velocity.y < 0.5f)
+                    rb.gravityScale = .5f * Actions.gravScale;
 
             }
             else if (Actions.shattered && hitStun > 0)
             {
                 //reward attacker for landing a shattering attack
                 rb.gravityScale = .7f;
-                anim.SetFloat(animSpeedID, .5f);
+                anim.SetFloat(animSpeedID, .75f);
             }
             else
             {
@@ -254,14 +254,14 @@ public class HitDetector : MonoBehaviour
                 if (Mathf.Abs(ProjectileKnockBack.x) > Mathf.Abs(KnockBack.x) || Mathf.Abs(ProjectileKnockBack.y) > Mathf.Abs(KnockBack.y))
                 {
                     if (Actions.blitzed > 0)
-                        rb.AddForce(ProjectileKnockBack * .5f, ForceMode2D.Impulse);
+                        rb.AddForce(ProjectileKnockBack * .55f, ForceMode2D.Impulse);
                     else
                         rb.AddForce(ProjectileKnockBack, ForceMode2D.Impulse);
                 }
                 else
                 {
                     if (Actions.blitzed > 0)
-                        rb.AddForce(KnockBack * .5f, ForceMode2D.Impulse);
+                        rb.AddForce(KnockBack * .6f, ForceMode2D.Impulse);
                     else
                         rb.AddForce(KnockBack, ForceMode2D.Impulse);
                 }
@@ -599,6 +599,7 @@ public class HitDetector : MonoBehaviour
     {
         //if the attack successfully hit the opponent
         anim.SetTrigger(successID);
+        OpponentDetector.Actions.TurnAroundCheck();
 
         //special properties if hitting a dizzied opponent
         if(OpponentDetector.anim.GetBool(dizzyID))
