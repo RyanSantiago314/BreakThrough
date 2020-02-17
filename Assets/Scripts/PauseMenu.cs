@@ -14,6 +14,9 @@ public class PauseMenu : MonoBehaviour{
 
     public GameOver GameOver;
 
+    public GameObject P1Character;
+    public GameObject P2Character;
+
     private void Awake()
     {
         Time.timeScale = 1;
@@ -28,6 +31,8 @@ public class PauseMenu : MonoBehaviour{
 
         pauseQuit = false;
     }
+
+
 
     // Update is called once per frame
     void Update(){
@@ -68,9 +73,10 @@ public class PauseMenu : MonoBehaviour{
 
     private void DisableControls(bool enable)
     {
-        GameObject FPC = GameObject.FindWithTag("Player");
-        FPC.transform.GetComponent<AttackHandlerDHA>().enabled = !enable;
-        FPC.transform.GetComponent<MovementHandler>().enabled = !enable;
+        P1Character.transform.GetChild(0).GetComponent<AttackHandlerDHA>().enabled = !enable;
+        P1Character.transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
+        P2Character.transform.GetChild(0).GetComponent<AttackHandlerDHA>().enabled = !enable;
+        P2Character.transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
     }
 
     public void ActivateMenu()
