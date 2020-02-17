@@ -53,6 +53,7 @@ public class AI : MonoBehaviour
 
     // Timers
     float timer;
+    float pastryTimer;
     float circleTimer;
     float squareTimer;
     float triangleTimer;
@@ -115,6 +116,7 @@ public class AI : MonoBehaviour
 
         // Timers
         timer = 0;
+        pastryTimer = 0;
         circleTimer = 0;
         squareTimer = 0;
         triangleTimer = 0;
@@ -166,6 +168,10 @@ public class AI : MonoBehaviour
         //If AI has not been paused
         if (!pauseAI)
 		{
+            if (pastryTimer > 0)
+            {
+                pastryTimer -= Time.deltaTime;
+            }
             if (crossTimer > 0)
             {
                 crossTimer -= Time.deltaTime;
@@ -236,11 +242,11 @@ public class AI : MonoBehaviour
                         isJumping = false;
                     }
 
-                    // // // Executes AI's state
-                    // if (max == "Attack") attack();
-                    // if (max == "Defend") defend();
-                    // if (max == "MoveCloser") moveCloser();
-                    testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
+                    // Executes AI's state
+                    if (max == "Attack") attack();
+                    if (max == "Defend") defend();
+                    if (max == "MoveCloser") moveCloser();
+                    //testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
                 }
             }
         }
@@ -259,26 +265,34 @@ public class AI : MonoBehaviour
         if (maxAttack == "Low")
         {
             MaxInput.Crouch("Player2");
-            if (rand <= 30 && squareTimer <= 0)
+            if (rand <= 25 && squareTimer <= 0)
             {
                 MaxInput.Square("Player2");
-                crossTimer = .25f;
+                crossTimer = .5f;
             }
-            if (rand > 30 && rand <= 55 && triangleTimer <= 0)
+            else if (rand > 25 && rand <= 50 && triangleTimer <= 0)
             {
                 MaxInput.Triangle("Player2");
-                circleTimer = .25f;
+                circleTimer = .5f;
             }
-            if (rand > 55 && rand <= 80 && circleTimer <= 0)
+            else if (rand > 50 && rand <= 75 && circleTimer <= 0)
             {
                 MaxInput.Circle("Player2");
-                triangleTimer = .25f;
+                triangleTimer = .5f;
             }
-            if (rand > 80 && crossTimer <= 0)
+            else if (rand > 75 && rand <= 85 && crossTimer <= 0)
             {
                 MaxInput.Cross("Player2");
-                squareTimer = .25f;
+                squareTimer = .5f;
             }
+            // Head rush
+            else if (rand > 85)
+            {
+                keepAction = "Triangle";
+                doingHCB = 1;
+                AIInput.HCB();
+            }
+            else MaxInput.Square("Player2");
         }
 
         if (maxAttack == "Mid")
@@ -286,36 +300,47 @@ public class AI : MonoBehaviour
             if (rand <= 30 && squareTimer <= 0)
             {
                 MaxInput.Square("Player2");
-                crossTimer = .25f;
+                crossTimer = .5f;
             }
-            if (rand > 30 && rand <= 55 && triangleTimer <= 0)
+            else if (rand > 30 && rand <= 55 && triangleTimer <= 0)
             {
                 MaxInput.Triangle("Player2");
-                circleTimer = .25f;
+                circleTimer = .5f;
             }
-            if (rand > 55 && rand <= 80 && circleTimer <= 0)
+            else if (rand > 55 && rand <= 80 && circleTimer <= 0)
             {
                 MaxInput.Circle("Player2");
-                triangleTimer = .25f;
+                triangleTimer = .5f;
             }
-            if (rand > 80 && crossTimer <= 0)
+            else if (rand > 80 && crossTimer <= 0)
             {
                 MaxInput.Cross("Player2");
-                squareTimer = .25f;
+                squareTimer = .5f;
             }
+            else MaxInput.Square("Player2");
         }
 
         if (maxAttack == "Overhead")
         {
-            if (faceLeft == true)
+            if (rand > 50)
             {
-                MaxInput.MoveLeft("Player2");
+                if (faceLeft == true)
+                {
+                    MaxInput.MoveLeft("Player2");
+                }
+                else
+                {
+                    MaxInput.MoveRight("Player2");
+                }
+                MaxInput.Cross("Player2");
             }
+            // Blood brave
             else
             {
-                MaxInput.MoveRight("Player2");
+                keepAction = "Circle";
+                doingQCB = 1;
+                AIInput.QCB();
             }
-            MaxInput.Cross("Player2");
         }
 
         if (maxAttack == "Grab")
@@ -328,26 +353,30 @@ public class AI : MonoBehaviour
         if (maxAttack == "Zone")
         {
             // Pastry Throw
-            if (rand >= 20)
+            if (rand >= 2 && pastryTimer <= 0)
             {
                 keepAction = "Square";
                 doingQCF = 1;
                 AIInput.QCF();
+                pastryTimer = 3f;
             }
             // I'M FIRING MY LAZARRRRR
-            else if (rand < 20 && armor >= 2)
+            else if (rand < 2 && armor >= 2)
             {
                 keepAction = "RTrigger";
                 doingQCF = 1;
                 AIInput.QCF();
+            }
+            else if (pastryTimer > 0)
+            {
+                moveCloser();
             }
         }
     }
 
     void calculateAttackWeights()
     {
-        //if (distanceBetweenX >= 3)
-        attackStates["Zone"] += 10000000000; // Disabled until I figure out how to get commands inputs working
+        if (distanceBetweenX >= 2.5) attackStates["Zone"] += 3 + new System.Random().NextDouble() * 2;
         if (pGuard == "Low") attackStates["Overhead"] += 1 + new System.Random().NextDouble() * 2;
         if (pGuard == "High") attackStates["Low"] += 1 + new System.Random().NextDouble() * 2;
         attackStates["Grab"] += (1 - distanceBetweenX) - (distanceBetweenY * 2);
@@ -408,7 +437,7 @@ public class AI : MonoBehaviour
         }
 
         //Foward Dash
-        if (distanceBetweenX >= 1.5 && rand.Next(3) == 1)
+        if (distanceBetweenX >= 1.25 && rand.Next(3) == 1)
         {
             if(faceLeft == true)
             {
@@ -423,7 +452,7 @@ public class AI : MonoBehaviour
         }
 
         // Jumping
-        if (distanceBetweenX < 2 && p2y < p1y - 0.5 && rand.Next(0,4) == 1)
+        if (distanceBetweenX < 2 && p2y < p1y - 0.5 && rand.Next(4) == 1)
         {
             MaxInput.Jump("Player2");
             isJumping = true;
@@ -436,10 +465,13 @@ public class AI : MonoBehaviour
 
     void calculateWeights()
     {
-        if (pIsBlocking) states["Attack"] += 1;
+        var rand = new System.Random();
+
+        states["Attack"] += 0.5;
         if (pIsRecovering) states["Attack"] += 1;
-        states["Attack"] -= distanceBetweenX - distanceBetweenY - 1;
+        states["Attack"] -= distanceBetweenX + distanceBetweenY - 1;
         if (isAttacking) states["Attack"] -= 1;
+        if (distanceBetweenX > 2 && rand.Next(101) <= 5) states["Attack"] += 1.5 * distanceBetweenX;
 
         if (pIsAttacking) states["Defend"] += 3;
 
@@ -515,23 +547,12 @@ public class AI : MonoBehaviour
     }
 
     // Testing specific actions
-    // MAYBE REMOVE DIAGONALY INPUTS FOR HALF CIRCLE3S
-    // MAYBE SOME DELAY BETWEEN ACTUALLY PUSHINS THE ATTACK BUTTON?
-    // FACELEFT NEEDS TO UPDATE EVERY FRAME
     void testActions()
     {
-        keepAction = "Triangle";
-        doingHCB = 1;
-        AIInput.HCB();
+        keepAction = "Square";
+        doingQCF = 1;
+        AIInput.QCF();
     }
-
-    // IEnumerator Delay()
-    // {
-    //     Debug.Log("delayed");
-    //     pauseAI = true;
-    //     yield return new WaitForSeconds(5);
-    //     pauseAI = false;
-    // }
 }
 
 // //Setting random variable and manipulating timer variables

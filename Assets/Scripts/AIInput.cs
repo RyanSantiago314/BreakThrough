@@ -28,12 +28,10 @@ public class AIInput : MonoBehaviour
         {
             if (AI.faceLeft == true)
             {
-                Debug.Log("DownLeft");
                 MaxInput.DownLeft("Player2");
             }
             else
             {
-                Debug.Log("DownRight");
                 MaxInput.DownRight("Player2");
             }
             AI.doingQCF = 3;
@@ -45,14 +43,18 @@ public class AIInput : MonoBehaviour
             MaxInput.DownMove("Player2");
             if (AI.faceLeft == true)
             {
-                Debug.Log("Left");
                 MaxInput.MoveLeft("Player2");
             }
             else
             {
-                Debug.Log("Right");
                 MaxInput.MoveRight("Player2");
             }
+            AI.doingQCF = 4;
+            AI.delayTimer = .1f;
+        }
+        // Step 4: Pressing Attack button
+        else if (AI.doingQCF == 4)
+        {
             if (AI.keepAction == "Square") MaxInput.Square("Player2");
             if (AI.keepAction == "Triangle") MaxInput.Triangle("Player2");
             if (AI.keepAction == "Circle") MaxInput.Circle("Player2");
@@ -106,6 +108,12 @@ public class AIInput : MonoBehaviour
                 Debug.Log("Left");
                 MaxInput.MoveLeft("Player2");
             }
+            AI.doingQCB = 4;
+            AI.delayTimer = .1f;
+        }
+        // Step 4: Pressing attack button
+        else if (AI.doingQCB == 4)
+        {
             if (AI.keepAction == "Square") MaxInput.Square("Player2");
             if (AI.keepAction == "Triangle") MaxInput.Triangle("Player2");
             if (AI.keepAction == "Circle") MaxInput.Circle("Player2");
@@ -132,45 +140,45 @@ public class AIInput : MonoBehaviour
             {
                 MaxInput.MoveLeft("Player2");
             }
-            AI.doingHCF = 2;
+            AI.doingHCF = 3;
             AI.delayTimer = .1f;
             AI.keepInput = true;
         }
-        // Step 2: Down Right/Left movement
-        else if (AI.doingHCF == 2)
-        {
-            if (AI.faceLeft == true)
-            {
-                MaxInput.DownRight("Player2");
-            }
-            else
-            {
-                MaxInput.DownLeft("Player2");
-            }
-            AI.doingHCF = 3;
-            AI.delayTimer = .1f;
-        }
+        // // Step 2: Down Right/Left movement
+        // else if (AI.doingHCF == 2)
+        // {
+        //     if (AI.faceLeft == true)
+        //     {
+        //         MaxInput.DownRight("Player2");
+        //     }
+        //     else
+        //     {
+        //         MaxInput.DownLeft("Player2");
+        //     }
+        //     AI.doingHCF = 3;
+        //     AI.delayTimer = .1f;
+        // }
         // Step 3: Down movement
         else if (AI.doingHCF == 3)
         {
             MaxInput.Crouch("Player2");
-            AI.doingHCF = 4;
-            AI.delayTimer = .1f;
-        }
-        // Step 4: Down Left/Right movement
-        else if (AI.doingHCF == 4)
-        {
-            if (AI.faceLeft == true)
-            {
-                MaxInput.DownLeft("Player2");
-            }
-            else
-            {
-                MaxInput.DownRight("Player2");
-            }
             AI.doingHCF = 5;
             AI.delayTimer = .1f;
         }
+        // // Step 4: Down Left/Right movement
+        // else if (AI.doingHCF == 4)
+        // {
+        //     if (AI.faceLeft == true)
+        //     {
+        //         MaxInput.DownLeft("Player2");
+        //     }
+        //     else
+        //     {
+        //         MaxInput.DownRight("Player2");
+        //     }
+        //     AI.doingHCF = 5;
+        //     AI.delayTimer = .1f;
+        // }
         // Step 5: Left/Right movement
         else if (AI.doingHCF == 5)
         {
@@ -183,6 +191,12 @@ public class AIInput : MonoBehaviour
             {
                 MaxInput.MoveRight("Player2");
             }
+            AI.doingHCF = 6;
+            AI.delayTimer = .1f;
+        }
+        // Step 6: Pressing attack button
+        else if (AI.doingHCF == 6)
+        {
             if (AI.keepAction == "Square") MaxInput.Square("Player2");
             if (AI.keepAction == "Triangle") MaxInput.Triangle("Player2");
             if (AI.keepAction == "Circle") MaxInput.Circle("Player2");
@@ -213,20 +227,20 @@ public class AIInput : MonoBehaviour
             AI.delayTimer = .1f;
             AI.keepInput = true;
         }
-        // Step 2: Down Right/Left movement
-        else if (AI.doingHCB == 2)
-        {
-            if (AI.faceLeft == true)
-            {
-                MaxInput.DownLeft("Player2");
-            }
-            else
-            {
-                MaxInput.DownRight("Player2");
-            }
-            AI.doingHCB = 3;
-            AI.delayTimer = .1f;
-        }
+        // // Step 2: Down Right/Left movement
+        // else if (AI.doingHCB == 2)
+        // {
+        //     if (AI.faceLeft == true)
+        //     {
+        //         MaxInput.DownLeft("Player2");
+        //     }
+        //     else
+        //     {
+        //         MaxInput.DownRight("Player2");
+        //     }
+        //     AI.doingHCB = 3;
+        //     AI.delayTimer = .1f;
+        // }
         // Step 3: Down movement
         else if (AI.doingHCB == 3)
         {
@@ -234,20 +248,20 @@ public class AIInput : MonoBehaviour
             AI.doingHCB = 5;          ////////////////////////////
             AI.delayTimer = .1f;
         }
-        // Step 4: Down Left/Right movement
-        else if (AI.doingHCB == 4)
-        {
-            if (AI.faceLeft == true)
-            {
-                MaxInput.DownRight("Player2");
-            }
-            else
-            {
-                MaxInput.DownLeft("Player2");
-            }
-            AI.doingHCB = 5;
-            AI.delayTimer = .1f;
-        }
+        // // Step 4: Down Left/Right movement
+        // else if (AI.doingHCB == 4)
+        // {
+        //     if (AI.faceLeft == true)
+        //     {
+        //         MaxInput.DownRight("Player2");
+        //     }
+        //     else
+        //     {
+        //         MaxInput.DownLeft("Player2");
+        //     }
+        //     AI.doingHCB = 5;
+        //     AI.delayTimer = .1f;
+        // }
         // Step 5: Left/Right movement
         else if (AI.doingHCB == 5)
         {
@@ -260,10 +274,10 @@ public class AIInput : MonoBehaviour
             {
                 MaxInput.MoveLeft("Player2");
             }
-            AI.doingHCB = 6 ;
+            AI.doingHCB = 6;
             AI.delayTimer = .1f;
         }
-        // Pressing Attack button
+        // Step 6: Pressing Attack button
         else if (AI.doingHCB == 6)
         {
             if (AI.keepAction == "Square") MaxInput.Square("Player2");
@@ -273,6 +287,7 @@ public class AIInput : MonoBehaviour
             if (AI.keepAction == "RTrigger") MaxInput.RTrigger("Player2");
 
             AI.doingHCB = 0;
+            //AI.delayTimer = 5f;
             AI.keepAction = "";
             AI.keepInput = false;
         }
