@@ -28,6 +28,7 @@ public class PauseMenu : MonoBehaviour{
 
         pauseQuit = false;
         moveList = false;
+        moveListUI.SetActive(false);
     }
 
     // Update is called once per frame
@@ -78,9 +79,16 @@ public class PauseMenu : MonoBehaviour{
     {
         Time.timeScale = 0;
         if (!moveList)
+        {
             pauseMenuUI.SetActive(true);
+            moveListUI.SetActive(false);
+        } 
         else
+        {
             moveListUI.SetActive(true);
+            pauseMenuUI.SetActive(false);
+        }
+            
     }
 
     public void DeactivateMenu()
