@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class MenuInputManager : MonoBehaviour
 {
 	private float buttonIndex;
-	private string xboxInput;
-	private string ps4Input;
+	//private string xboxInput;
+	//private string ps4Input;
 	private float vertical;
 	private float horizontal;
 	private float InputTimer;
@@ -41,13 +41,18 @@ public class MenuInputManager : MonoBehaviour
     private string inputHorizontal = "Horizontal_P1";
     private string inputVertical = "Vertical_P1";
 
+    private string inputCross2 = "Cross_P2";
+    private string inputCircle2 = "Circle_P2";
+    private string inputHorizontal2 = "Horizontal_P2";
+    private string inputVertical2 = "Vertical_P2";
+
     // Start is called before the first frame update
     void Start()
     {
         buttonIndex = 1;
         InputTimer = 0;
-        xboxInput = "Controller (Xbox One For Windows)";
-        ps4Input = "Wireless Controller";
+        //xboxInput = "Controller (Xbox One For Windows)";
+        //ps4Input = "Wireless Controller";
         PlayLocalButton.Select();
         menu = GetComponent<MainMenu>();
         state = "main";
@@ -58,6 +63,11 @@ public class MenuInputManager : MonoBehaviour
         inputCircle += UpdateControls(CheckXbox(0));
         inputHorizontal += UpdateControls(CheckXbox(0));
         inputVertical += UpdateControls(CheckXbox(0));
+
+        inputCross2 += UpdateControls(CheckXbox(1));
+        inputCircle2 += UpdateControls(CheckXbox(1));
+        inputHorizontal2 += UpdateControls(CheckXbox(1));
+        inputVertical2 += UpdateControls(CheckXbox(1));
     }
 
     // Update is called once per frame
@@ -73,63 +83,17 @@ public class MenuInputManager : MonoBehaviour
 
         if (!sideSelectScreen.activeSelf)
         {
-            //If an input device is detected then establish what device it is in order to properly decipher inputs
-            if (Input.GetJoystickNames().Length > 0)
+            if (InputTimer == 0)
             {
-                if (Input.GetJoystickNames()[0] == xboxInput && InputTimer == 0)
-                {
-                    if (horizontal == -1)
-                    {
-                        buttonIndex += 1;
-                        InputTimer = 0.25f;
-                    }
-                    else if (horizontal == 1)
-                    {
-                        buttonIndex -= 1;
-                        InputTimer = 0.25f;
-                    }
-                    isXbox = true;
-                }
-                else if (Input.GetJoystickNames()[0] == ps4Input && InputTimer == 0)
-                {
-                    if (vertical == -1)
-                    {
-                        buttonIndex += 1;
-                        InputTimer = 0.25f;
-                    }
-                    else if (vertical == 1)
-                    {
-                        buttonIndex -= 1;
-                        InputTimer = 0.25f;
-                    }
-                    isXbox = false;
-                }
-                else if (Input.GetJoystickNames()[0] == "" && InputTimer == 0)
-                {
-                    if (vertical == -1)
-                    {
-                        buttonIndex += 1;
-                        InputTimer = 0.25f;
-                    }
-                    else if (vertical == 1)
-                    {
-                        buttonIndex -= 1;
-                        InputTimer = 0.25f;
-                    }
-                    isXbox = false;
-                }
-            }
-            else if (Input.GetJoystickNames().Length < 0 && InputTimer == 0)
-            {
-                if (vertical == -1)
+                if (vertical < 0)
                 {
                     buttonIndex += 1;
-                    InputTimer = 0.25f;
+                    InputTimer = 0.1f;
                 }
-                else if (vertical == 1)
+                else if (vertical > 0)
                 {
                     buttonIndex -= 1;
-                    InputTimer = 0.25f;
+                    InputTimer = 0.1f;
                 }
             }
         }   	
@@ -178,102 +142,48 @@ public class MenuInputManager : MonoBehaviour
 			if (buttonIndex == 1)
 			{
 				PlayVsPlayerButton.Select();
-				if (isXbox)
-				{
-                    if ((Input.GetButtonDown("Square_P1") || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
-                    {
-                        x = 0;
-                        y = 126;
-                        P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
-                        x2 = 0;
-                        y2 = -205;
-                        P2Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, -205, 0);
-                        sideSelectScreen.SetActive(true);
-                        mode = "PvP";
-                    } 
-				}
-				else
-				{
-                    if ((Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
-                    {
-                        x = 0;
-                        y = 126;
-                        P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
-                        x2 = 0;
-                        y2 = -205;
-                        P2Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, -205, 0);
-                        sideSelectScreen.SetActive(true);
-                        mode = "PvP";
-                    } 
-				}
-			
+				
+                if ((Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
+                {
+                    x = 0;
+                    y = 126;
+                    P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
+                    x2 = 0;
+                    y2 = -205;
+                    P2Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, -205, 0);
+                    sideSelectScreen.SetActive(true);
+                    mode = "PvP";
+                } 
 			}
 			else if (buttonIndex == 2)
 			{
 				PlayVsAiButton.Select();
-				if (isXbox)
-				{
-                    if ((Input.GetButtonDown("Square_P1") || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
-                    {
-                        x = 0;
-                        y = 126;
-                        P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
-                        sideSelectScreen.SetActive(true);
-                        mode = "AI";
-                    } 
-				}
-				else
-				{
-                    if ((Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
-                    {
-                        x = 0;
-                        y = 126;
-                        P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
-                        sideSelectScreen.SetActive(true);
-                        mode = "AI";
-                    } 
-				}
+                if ((Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
+                {
+                    x = 0;
+                    y = 126;
+                    P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
+                    sideSelectScreen.SetActive(true);
+                    mode = "AI";
+                } 
+				
 			}
 			else if (buttonIndex == 3)
 			{
 				BackButton.Select();
-				if (isXbox)
+				if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
 				{
-					if (Input.GetButtonDown("Square_P1") || Input.GetButtonDown("Submit"))
-					{
-						state = "main";
-						buttonIndex = 1;
-						BackButton.onClick.Invoke();
-					}
-				}
-				else
-				{
-					if (Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Submit"))
-					{
-						state = "main";
-						buttonIndex = 1;
-						BackButton.onClick.Invoke();
-					}
+					state = "main";
+					buttonIndex = 1;
+					BackButton.onClick.Invoke();
 				}
 			}
 
-			if (isXbox)
+			if ((Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel")) && !sideSelectScreen.activeSelf)
 			{
-				if ((Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Cancel")) && !sideSelectScreen.activeSelf)
-				{
-					state = "main";
-					buttonIndex = 1;
-					BackButton.onClick.Invoke();
-				}
-			}
-			if (Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel"))
-			{
-				if ((Input.GetButtonDown("Circle_P1") || Input.GetButtonDown("Cancel")) && !sideSelectScreen.activeSelf)
-				{
-					state = "main";
-					buttonIndex = 1;
-					BackButton.onClick.Invoke();
-				}
+				state = "main";
+				buttonIndex = 1;
+				BackButton.onClick.Invoke();
 			}
 		}
         //Options Menu Management
@@ -312,7 +222,7 @@ public class MenuInputManager : MonoBehaviour
                 P2Controller.SetActive(true);
 
                 //Handle P1 Controller Movement
-                if (Input.GetAxis("Horizontal_P1") == -1 && InputTimer == 0)
+                if (Input.GetAxis(inputHorizontal) == -1 && InputTimer == 0)
                 {
                     if (P1Position != -1)
                     {
@@ -323,7 +233,7 @@ public class MenuInputManager : MonoBehaviour
                     }
                     InputTimer = 0.15f;                   
                 }
-                else if (Input.GetAxis("Horizontal_P1") == 1 && InputTimer == 0)
+                else if (Input.GetAxis(inputHorizontal) == 1 && InputTimer == 0)
                 {
                     if (P1Position != 1)
                     {
@@ -334,7 +244,7 @@ public class MenuInputManager : MonoBehaviour
                     }
                     InputTimer = 0.15f;  
                 }
-                if (Input.GetButtonDown("Circle_P1"))
+                if (Input.GetButtonDown(inputCircle))
                 {
                     sideSelectScreen.SetActive(false);
                     P1Position = 0;
@@ -342,7 +252,7 @@ public class MenuInputManager : MonoBehaviour
                 }
 
                 //Handle P2 Controller Movement
-                if (Input.GetAxis("Horizontal_P2") == -1 && InputTimer2 == 0)
+                if (Input.GetAxis(inputHorizontal2) == -1 && InputTimer2 == 0)
                 {
                     if (P2Position != -1) {
                         if ((P2Position - 1 == -1 && P1Position != -1) || P2Position - 1 == 0)
@@ -352,7 +262,7 @@ public class MenuInputManager : MonoBehaviour
                     }
                     InputTimer2 = 0.15f;
                 }
-                else if (Input.GetAxis("Horizontal_P2") == 1 && InputTimer2 == 0)
+                else if (Input.GetAxis(inputHorizontal2) == 1 && InputTimer2 == 0)
                 {
                     if (P2Position != 1)
                     {
@@ -363,7 +273,7 @@ public class MenuInputManager : MonoBehaviour
                     }
                     InputTimer2 = 0.15f;
                 }
-                if (Input.GetButtonDown("Circle_P2"))
+                if (Input.GetButtonDown(inputCircle2))
                 {
                     sideSelectScreen.SetActive(false);
                     P1Position = 0;
@@ -372,7 +282,7 @@ public class MenuInputManager : MonoBehaviour
 
                 //Accept start input if both players have selected different sides
                 if (P1Position != 0 && P2Position !=0 && P1Position != P2Position) {
-                    if (Input.GetButtonDown("Cross_P1") || Input.GetButtonDown("Cross_P2"))
+                    if (Input.GetButtonDown(inputCross) || Input.GetButtonDown(inputCross2))
                     {
                         sideSelectScreen.SetActive(false);
                         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "PvP";
@@ -390,7 +300,7 @@ public class MenuInputManager : MonoBehaviour
                 P2Controller.SetActive(false);
                 
                 //Handle P1 Controller Movement
-                if (Input.GetAxis("Horizontal_P1") == -1 && InputTimer == 0)
+                if (Input.GetAxis(inputHorizontal) == -1 && InputTimer == 0)
                 {
                     if (P1Position != -1)
                     {
@@ -398,7 +308,7 @@ public class MenuInputManager : MonoBehaviour
                     }
                     InputTimer = 0.15f;
                 }
-                else if (Input.GetAxis("Horizontal_P1") == 1 && InputTimer == 0)
+                else if (Input.GetAxis(inputHorizontal) == 1 && InputTimer == 0)
                 {
                     if (P1Position != 1)
                     {
@@ -406,7 +316,7 @@ public class MenuInputManager : MonoBehaviour
                     }
                     InputTimer = 0.15f;
                 }
-                if (Input.GetButtonDown("Circle_P1"))
+                if (Input.GetButtonDown(inputCircle))
                 {
                     sideSelectScreen.SetActive(false);
                     P1Position = 0;
@@ -416,7 +326,7 @@ public class MenuInputManager : MonoBehaviour
                 //Accept start input if player has selected a side
                 if (P1Position != 0)
                 {
-                    if (Input.GetButtonDown("Cross_P1"))
+                    if (Input.GetButtonDown(inputCross))
                     {
                         sideSelectScreen.SetActive(false);
                         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "AI";
