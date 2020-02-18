@@ -20,6 +20,7 @@ public class AI : MonoBehaviour
     bool pIsCrouching;
     bool pIsAttacking;
     bool pIsRecovering;
+    bool pIsSupering;
     string pGuard;
 
     // AI data
@@ -82,12 +83,15 @@ public class AI : MonoBehaviour
     // Registering the values' initial states
     void Start()
 	{
+        isDhalia = true;
+
         // Player data
         pIsBlocking = false;
         pIsAirborne = false;
         pIsCrouching = false;
         pIsAttacking = false;
         pIsRecovering = false;
+        pIsSupering = false;
         pGuard = "";
 
         // AI data
@@ -204,7 +208,8 @@ public class AI : MonoBehaviour
 
             calculateWeights();
 
-            Debug.Log("faceLeft = " + faceLeft);
+            //Debug.Log("faceLeft = " + faceLeft);
+            //Debug.Log("p1x = " + p1x + " p2x = " + p2x);
 
             if (delayTimer <= 0)
             {
@@ -257,7 +262,7 @@ public class AI : MonoBehaviour
         Debug.Log("attack state");
 
         calculateAttackWeights();
-        var rand = new System.Random().Next(101);    // Random int from 0 to 10
+        var rand = new System.Random().Next(101);    // Random int from 0 to 100
 
         var maxAttack = attackStates.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;   // Gets key with highest value
         Debug.Log(maxAttack);
@@ -353,7 +358,7 @@ public class AI : MonoBehaviour
         if (maxAttack == "Zone")
         {
             // Pastry Throw
-            if (rand >= 2 && pastryTimer <= 0)
+            if (rand >= 1 && pastryTimer <= 0)
             {
                 keepAction = "Square";
                 doingQCF = 1;
@@ -361,7 +366,7 @@ public class AI : MonoBehaviour
                 pastryTimer = 3f;
             }
             // I'M FIRING MY LAZARRRRR
-            else if (rand < 2 && armor >= 2)
+            else if (rand < 1 && armor >= 2)
             {
                 keepAction = "RTrigger";
                 doingQCF = 1;
@@ -473,10 +478,11 @@ public class AI : MonoBehaviour
         if (isAttacking) states["Attack"] -= 1;
         if (distanceBetweenX > 2 && rand.Next(101) <= 5) states["Attack"] += 1.5 * distanceBetweenX;
 
-        if (pIsAttacking) states["Defend"] += 3;
+        if (pIsAttacking) states["Defend"] += 4;
+        if (pIsSupering) states["Defend"] += 4;
 
         // The farther away, the more likely to move closer
-        states["MoveCloser"] += distanceBetweenX * 1 + distanceBetweenY * 2;
+        states["MoveCloser"] += distanceBetweenX * .8 + distanceBetweenY * 2;
     }
 
     void updateProperties()
@@ -488,18 +494,19 @@ public class AI : MonoBehaviour
         GameObject playerInput = GameObject.Find("Player1").transform.GetChild(0).GetChild(0).gameObject;
         GameObject playerHit = GameObject.Find("Player1").transform.GetChild(0).GetChild(2).gameObject;
 
-        pIsBlocking = playerInput.GetComponent<Animator>().GetBool("Blocked");  // only true if I've blocked an attack, not working as intended
+        pIsBlocking = playerInput.GetComponent<Animator>().GetBool("Blocked");
         pIsAirborne = playerInput.GetComponent<AcceptInputs>().airborne;
         pIsCrouching = playerInput.GetComponent<Animator>().GetBool("Crouch");
         pIsAttacking = playerInput.GetComponent<AcceptInputs>().attacking;
         pIsRecovering = playerInput.GetComponent<AcceptInputs>().recovering;
+        pIsSupering = GameObject.Find("Player1").transform.GetChild(2).gameObject.activeSelf;
 
         if (playerInput.GetComponent<Animator>().GetBool("HighGuard") == true) pGuard = "High";
         else if (playerInput.GetComponent<Animator>().GetBool("LowGuard") == true) pGuard = "Low";
         else pGuard = "None";
 
-        Debug.Log("I am guarding " + pGuard);
-        p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x + 1.5;
+        //Debug.Log("I am guarding " + pGuard);
+        p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x;
         p1y = GameObject.Find("Player1").transform.GetChild(0).transform.position.y;
 
         GameObject aiInput = GameObject.Find("Player2").transform.GetChild(0).GetChild(0).gameObject;
@@ -509,8 +516,7 @@ public class AI : MonoBehaviour
         durability = AIProp.durability;
         health = AIProp.currentHealth;
         isAttacking = aiInput.GetComponent<AcceptInputs>().attacking;
-        //Debug.Log("AI is " + isAttacking);
-        p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0;
+        p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x;
         p2y = GameObject.Find("Player2").transform.GetChild(0).transform.position.y;
 
         if (p1x - p2x < 0)
@@ -525,10 +531,10 @@ public class AI : MonoBehaviour
         }
 
         // AI location adjusted based on direction its facing)
-        if (faceLeft == false)
-        {
-            p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0 + 0.914;
-        }
+        // if (faceLeft == false)
+        // {
+        //     p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0 + 0.914;
+        // }
         distanceBetweenX = Math.Abs(p1x - p2x);
         distanceBetweenY = Math.Abs(p1y - p2y);
     }
