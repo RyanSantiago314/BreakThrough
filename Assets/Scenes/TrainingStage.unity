@@ -11375,6 +11375,7 @@ GameObject:
   - component: {fileID: 1948197658}
   - component: {fileID: 1948197657}
   - component: {fileID: 1948197659}
+  - component: {fileID: 1948197661}
   - component: {fileID: 1948197660}
   m_Layer: 0
   m_Name: MaxInput
@@ -11425,6 +11426,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bddeebde644bc0d45b9d06cbdf1ca9d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  faceLeft: 0
+  keepInput: 0
+  keepAction: 
+  doingQCF: 0
+  doingQCB: 0
+  doingHCF: 0
+  doingHCB: 0
+  delayTimer: 0
+  AIInput: {fileID: 1948197661}
 --- !u!114 &1948197660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11456,6 +11466,19 @@ MonoBehaviour:
     targetFrameRate: 60
   resetParameters:
     m_ResetParameters: []
+--- !u!114 &1948197661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948197656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d50fff44fd15854c93c74c47116fa45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AI: {fileID: 1948197659}
 --- !u!1 &1957560255
 GameObject:
   m_ObjectHideFlags: 0
