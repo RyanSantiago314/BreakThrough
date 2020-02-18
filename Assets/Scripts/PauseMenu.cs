@@ -5,17 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour{
     public GameObject pauseMenuUI;
+    public GameObject moveListUI;
     public bool isPaused;
     static public bool pauseQuit;
+    public bool moveList;
     private int playerPaused;
 
     private string pauseCode1 = "Start_P1";
     private string pauseCode = "Start_P2";
-
-    public GameOver GameOver;
-
-    public GameObject P1Character;
-    public GameObject P2Character;
 
     private void Awake()
     {
@@ -30,9 +27,9 @@ public class PauseMenu : MonoBehaviour{
         pauseCode += UpdateControls(CheckXbox(1));
 
         pauseQuit = false;
+        moveList = false;
+        moveListUI.SetActive(false);
     }
-
-
 
     // Update is called once per frame
     void Update(){
@@ -73,16 +70,25 @@ public class PauseMenu : MonoBehaviour{
 
     private void DisableControls(bool enable)
     {
-        P1Character.transform.GetChild(0).GetComponent<AttackHandlerDHA>().enabled = !enable;
-        P1Character.transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
-        P2Character.transform.GetChild(0).GetComponent<AttackHandlerDHA>().enabled = !enable;
-        P2Character.transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
+        GameObject FPC = GameObject.FindWithTag("Player");
+        FPC.transform.GetComponent<AttackHandlerDHA>().enabled = !enable;
+        FPC.transform.GetComponent<MovementHandler>().enabled = !enable;
     }
 
     public void ActivateMenu()
     {
         Time.timeScale = 0;
-        pauseMenuUI.SetActive(true);
+        if (!moveList)
+        {
+            pauseMenuUI.SetActive(true);
+            moveListUI.SetActive(false);
+        } 
+        else
+        {
+            moveListUI.SetActive(true);
+            pauseMenuUI.SetActive(false);
+        }
+            
     }
 
     public void DeactivateMenu()
@@ -93,6 +99,19 @@ public class PauseMenu : MonoBehaviour{
         playerPaused = 0;
     }
 
+    public void MoveList()
+    {
+        pauseMenuUI.SetActive(false);
+        moveList = true;
+        //moveListUI.SetActive(true);
+    }
+
+    public void MoveListBack()
+    {
+        moveList = false;
+        moveListUI.SetActive(false);
+    }
+
     public void QuitToMenu()
     {
         StartText.startReady = false;
@@ -100,8 +119,6 @@ public class PauseMenu : MonoBehaviour{
         pauseQuit = true;
         //Time.timeScale = 1;
         SceneManager.LoadSceneAsync(0);
-        GameOver.p1Win = 0;
-        GameOver.p2Win = 0;
     }
 
     private bool CheckXbox(int player)
