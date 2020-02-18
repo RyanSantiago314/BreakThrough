@@ -478,7 +478,10 @@ public class AttackHandlerDHA : MonoBehaviour
             BlitzEffect.transform.rotation = transform.rotation;
 
             if (Actions.airborne && MaxInput.GetAxis(Vertical) < 0)
+            {
+                Move.rb.velocity = new Vector2(Move.rb.velocity.x, 0);
                 Move.rb.AddForce(new Vector2(0, -3), ForceMode2D.Impulse);
+            }
 
             //cost for executing blitz cancel
             CharProp.armor--;
