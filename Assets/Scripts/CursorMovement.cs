@@ -28,6 +28,9 @@ public class CursorMovement : MonoBehaviour {
     private string p2Hor = "Horizontal_P2";
     private string p2Ver = "Vertical_P2";
 
+    private int p1Num = 0;
+    private int p2Num = 1;
+
     public GameObject backMenuUI;
     public GameObject P1Cursor;
     public GameObject P2Cursor;
@@ -61,6 +64,8 @@ public class CursorMovement : MonoBehaviour {
                 p1Circle = "Circle_P2";
                 p1Hor = "Horizontal_P2";
                 p1Ver = "Vertical_P2";
+
+                p1Num = 1;
             }
 
             //Check P2Side
@@ -70,6 +75,8 @@ public class CursorMovement : MonoBehaviour {
                 p2Circle = "Circle_P1";
                 p2Hor = "Horizontal_P1";
                 p2Ver = "Vertical_P1";
+
+                p2Num = 0;
             }
         }
 
@@ -81,6 +88,8 @@ public class CursorMovement : MonoBehaviour {
             p2Hor = "Horizontal_P1";
             p2Ver = "Vertical_P1";
 
+            p2Num = 0;
+
             //First Deactivate P1/P2 cursor depending on the chosen side
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
             {
@@ -91,15 +100,15 @@ public class CursorMovement : MonoBehaviour {
                 P1Cursor.SetActive(false);
             }
         }
-
-        p1Cross += UpdateControls(CheckXbox(0));
-        p2Cross += UpdateControls(CheckXbox(1));
-        p1Circle += UpdateControls(CheckXbox(0));
-        p2Circle += UpdateControls(CheckXbox(1));
-        p1Ver += UpdateControls(CheckXbox(0));
-        p1Hor += UpdateControls(CheckXbox(0));
-        p2Ver += UpdateControls(CheckXbox(1));
-        p2Hor += UpdateControls(CheckXbox(1));
+        
+        p1Cross += UpdateControls(CheckXbox(p1Num));
+        p2Cross += UpdateControls(CheckXbox(p2Num));
+        p1Circle += UpdateControls(CheckXbox(p1Num));
+        p2Circle += UpdateControls(CheckXbox(p2Num));
+        p1Ver += UpdateControls(CheckXbox(p1Num));
+        p1Hor += UpdateControls(CheckXbox(p1Num));
+        p2Ver += UpdateControls(CheckXbox(p2Num));
+        p2Hor += UpdateControls(CheckXbox(p2Num));
 
 
     }
