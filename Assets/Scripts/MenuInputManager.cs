@@ -18,6 +18,7 @@ public class MenuInputManager : MonoBehaviour
 	public Button QuitButton;
 	public Button PlayVsPlayerButton;
 	public Button PlayVsAiButton;
+	public Button PracticeButton;
 	public Button BackButton;
 	public Button OptionsBackButton;
 	private MainMenu menu;
@@ -138,7 +139,7 @@ public class MenuInputManager : MonoBehaviour
 		else if (state == "local")
     	{
 	        if (buttonIndex < 1) buttonIndex = 1;
-			else if (buttonIndex > 3) buttonIndex = 3;
+			else if (buttonIndex > 4) buttonIndex = 4;
 			if (buttonIndex == 1)
 			{
 				PlayVsPlayerButton.Select();
@@ -168,7 +169,20 @@ public class MenuInputManager : MonoBehaviour
                 } 
 				
 			}
-			else if (buttonIndex == 3)
+            else if (buttonIndex == 3)
+            {
+                PracticeButton.Select();
+                if ((Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
+                {
+                    x = 0;
+                    y = 126;
+                    P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
+                    sideSelectScreen.SetActive(true);
+                    mode = "Practice";
+                }
+
+            }
+            else if (buttonIndex == 4)
 			{
 				BackButton.Select();
 				if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
@@ -333,7 +347,50 @@ public class MenuInputManager : MonoBehaviour
                         PlayVsAiButton.onClick.Invoke();
                     }
                 }
+            }
 
+            //Handle Practice Selection
+            if (mode == "Practice")
+            {
+                //Enable Computer Text for AI Mode
+                P1COMText.SetActive(false);
+                P2COMText.SetActive(false);
+                P2Controller.SetActive(false);
+
+                //Handle P1 Controller Movement
+                if (Input.GetAxis(inputHorizontal) == -1 && InputTimer == 0)
+                {
+                    if (P1Position != -1)
+                    {
+                        P1Position -= 1;
+                    }
+                    InputTimer = 0.15f;
+                }
+                else if (Input.GetAxis(inputHorizontal) == 1 && InputTimer == 0)
+                {
+                    if (P1Position != 1)
+                    {
+                        P1Position += 1;
+                    }
+                    InputTimer = 0.15f;
+                }
+                if (Input.GetButtonDown(inputCircle))
+                {
+                    sideSelectScreen.SetActive(false);
+                    P1Position = 0;
+                    P2Position = 0;
+                }
+
+                //Accept start input if player has selected a side
+                if (P1Position != 0)
+                {
+                    if (Input.GetButtonDown(inputCross))
+                    {
+                        sideSelectScreen.SetActive(false);
+                        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "Practice";
+                        PlayVsPlayerButton.onClick.Invoke();
+                    }
+                }
             }
 
             //Update P1Controller Position
@@ -352,7 +409,7 @@ public class MenuInputManager : MonoBehaviour
                         y -= 29.6f;
                     }
                     P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(x, y, 0);
-                    if (mode == "AI")
+                    if (mode == "AI" || mode == "Practice")
                     {
                         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side = "Right";
                     }
@@ -387,7 +444,7 @@ public class MenuInputManager : MonoBehaviour
                     {
                         y -= 29.6f;
                     }
-                    if (mode == "AI")
+                    if (mode == "AI" || mode == "Practice")
                     {
                         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side = "Left";
                     }
