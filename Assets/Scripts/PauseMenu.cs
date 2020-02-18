@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour{
+
+    public GameOver GameOver;
+
     public GameObject pauseMenuUI;
     public GameObject moveListUI;
     public bool isPaused;
@@ -116,7 +119,10 @@ public class PauseMenu : MonoBehaviour{
     {
         StartText.startReady = false;
         GameOver.lockInputs = false;
+        GameOver.p1Win = 0;
+        GameOver.p2Win = 0;
         pauseQuit = true;
+
         //Time.timeScale = 1;
         SceneManager.LoadSceneAsync(0);
     }
