@@ -86,7 +86,8 @@ public class HitDetector : MonoBehaviour
     static int deflectID;
     static int parryID;
     static int successID;
-    static int hitID;   
+    static int hitID;
+    static int hitAirID;
     static int hitBodyID;
     static int hitLegsID;
     static int launchID;
@@ -116,7 +117,8 @@ public class HitDetector : MonoBehaviour
         deflectID = Animator.StringToHash("Deflected");
         parryID = Animator.StringToHash("Parry");
         successID = Animator.StringToHash("HitSuccess");
-        hitID = Animator.StringToHash("Hit");   
+        hitID = Animator.StringToHash("Hit");
+        hitAirID = Animator.StringToHash("HitAir");
         hitBodyID = Animator.StringToHash("HitBody");
         hitLegsID = Animator.StringToHash("HitLegs");
         launchID = Animator.StringToHash("Launch");
@@ -279,6 +281,7 @@ public class HitDetector : MonoBehaviour
             anim.ResetTrigger(parryID);
             anim.ResetTrigger(successID);
             anim.ResetTrigger(hitID);
+            anim.ResetTrigger(hitAirID);
             anim.ResetTrigger(hitBodyID);
             anim.ResetTrigger(hitLegsID);
             anim.ResetTrigger(crumpleID);
@@ -627,6 +630,7 @@ public class HitDetector : MonoBehaviour
         if (!(blitz && potentialHitStun == 0))
         {
             OpponentDetector.anim.SetTrigger(hitID);
+            OpponentDetector.anim.SetTrigger(hitAirID);
             if (OpponentDetector.Actions.standing && !launch && !sweep && !crumple)
             {
                 //determine whether to play a low hit or high hit animation
