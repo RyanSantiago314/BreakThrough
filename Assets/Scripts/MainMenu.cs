@@ -18,13 +18,12 @@ public class MainMenu : MonoBehaviour
     public void PlayGameVsPlayer()
     {
     	SceneManager.LoadSceneAsync(2);
-    	//loadScreen.startLoad(SceneManager.GetActiveScene().buildIndex + 1);
     	MaxInput.disableAI();
     }
 
     public void PlayGameVsAI()
     {
-    	SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+    	SceneManager.LoadSceneAsync(2);
     	MaxInput.enableAI();
     }
 

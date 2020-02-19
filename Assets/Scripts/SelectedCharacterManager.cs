@@ -5,19 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class SelectedCharacterManager : MonoBehaviour
 {
+    public string gameMode;
+    public string stage;
     public string P1Character;
     public string P2Character;
     public int P1Color;
     public int P2Color;
+    public string P1Side;
+    public string P2Side;
 
     private static bool created = false;
     private bool reset = false;
-
-    void Start()
-    {
-
-
-    }
 
     void Awake()
     {
@@ -36,6 +34,7 @@ public class SelectedCharacterManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "CharacterSelect" && reset == false)
         {
+            stage = "";
             P1Character = "";
             P2Character = "";
             P1Color = 0;
