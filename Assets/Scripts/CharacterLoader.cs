@@ -44,7 +44,17 @@ public class CharacterLoader : MonoBehaviour
         P1Character.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
         P1Character.GetComponent<AttackHandlerDHA>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
         P1Character.transform.GetChild(2).GetComponent<HitDetector>().hitTrack = HitMarker.transform;
-        
+
+        //Set Character Position
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+        {
+            GameObject.Find("Player1").transform.position = new Vector3(-1.3f, 1.15f, -3);
+        }
+        else
+        {
+            GameObject.Find("Player1").transform.position = new Vector3(1.3f, 1.15f, -3);
+        }
+
     }
 
     void setP2Properties()
@@ -61,5 +71,15 @@ public class CharacterLoader : MonoBehaviour
         P2Character.GetComponent<AttackHandlerDHA>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
         P2Character.transform.GetChild(2).GetComponent<HitDetector>().hitTrack = HitMarker.transform;
         GameObject.Find("Player2").GetComponent<FighterAgent>().opponent = P1Character.GetComponent<CharacterProperties>(); //<- Is this needed?
+
+        //Set Character Position
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
+        {
+            GameObject.Find("Player2").transform.position = new Vector3(1.3f, 1.15f, -3);
+        }
+        else
+        {
+            GameObject.Find("Player2").transform.position = new Vector3(-1.3f, 1.15f, -3);
+        }
     }
 }
