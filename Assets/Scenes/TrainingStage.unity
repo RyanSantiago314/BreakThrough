@@ -10847,6 +10847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc7276b11d164c44bb9fe0b020b2d8fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameOver: {fileID: 0}
   pauseMenuUI: {fileID: 363720816}
   moveListUI: {fileID: 48446821}
   isPaused: 0
@@ -12446,16 +12447,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 925070596}
-    - target: {fileID: 2462057963169085636, guid: 20e5bef897f4df947a2950df8a46ea41,
-        type: 3}
-      propertyPath: m_PlaneDistance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2462057963169085636, guid: 20e5bef897f4df947a2950df8a46ea41,
-        type: 3}
-      propertyPath: m_PixelPerfect
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5186534163179033247, guid: 20e5bef897f4df947a2950df8a46ea41,
         type: 3}
       propertyPath: m_Camera
@@ -12464,7 +12455,7 @@ PrefabInstance:
     - target: {fileID: 8128983341096828862, guid: 20e5bef897f4df947a2950df8a46ea41,
         type: 3}
       propertyPath: m_MatchWidthOrHeight
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20e5bef897f4df947a2950df8a46ea41, type: 3}

@@ -9066,5 +9066,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: HUD
       objectReference: {fileID: 0}
+    - target: {fileID: 2462057963169085636, guid: 20e5bef897f4df947a2950df8a46ea41,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 925070596}
+    - target: {fileID: 5186534163179033247, guid: 20e5bef897f4df947a2950df8a46ea41,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 925070596}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20e5bef897f4df947a2950df8a46ea41, type: 3}
