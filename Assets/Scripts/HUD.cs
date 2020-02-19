@@ -63,6 +63,7 @@ public class HUD : MonoBehaviour
 
     static int regen;
     static int shatter;
+    int flickerTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -98,6 +99,47 @@ public class HUD : MonoBehaviour
             P2HealthUI.fillAmount = (float)(P2Prop.currentHealth / P2Prop.maxHealth);
         else if (P2HealthUI.fillAmount < (float)(P2Prop.currentHealth / P2Prop.maxHealth))
             P2HealthUI.fillAmount += .015f;
+
+        if ((float)(P1Prop.currentHealth / P1Prop.maxHealth) == 1)
+            P1HealthUI.color = new Color32(93, 255, 175, 255);
+        else if ((float)(P1Prop.currentHealth / P1Prop.maxHealth) <= .1f)
+        {
+            if (P1HealthUI.color == new Color32(255, 175, 175, 255) && flickerTimer <= 0)
+            {
+                P1HealthUI.color = new Color32(255, 76, 98, 255);
+            }
+            else if (flickerTimer <= 0)
+            {
+                P1HealthUI.color = new Color32(255, 175, 175, 255);
+            }
+        }
+        else if ((float)(P1Prop.currentHealth / P1Prop.maxHealth) <= .25f)
+            P1HealthUI.color = new Color32(255, 76, 98, 255);
+        else if ((float)(P1Prop.currentHealth / P1Prop.maxHealth) < 1f)
+            P1HealthUI.color = new Color32(255, 223, 105, 255);
+
+        if ((float)(P2Prop.currentHealth / P2Prop.maxHealth) == 1)
+            P2HealthUI.color = new Color32(93, 255, 175, 255);
+        else if ((float)(P2Prop.currentHealth / P2Prop.maxHealth) <= .1f)
+        {
+            if (P2HealthUI.color == new Color32(255, 175, 175, 255) && flickerTimer <= 0)
+            {
+                P2HealthUI.color = new Color32(255, 76, 98, 255);
+            }
+            else if (flickerTimer <= 0)
+            {
+                P2HealthUI.color = new Color32(255, 175, 175, 255);
+            }
+        }
+        else if ((float)(P2Prop.currentHealth / P2Prop.maxHealth) <= .25f)
+            P2HealthUI.color = new Color32(255, 76, 98, 255);
+        else if ((float)(P2Prop.currentHealth / P2Prop.maxHealth) < 1f)
+            P2HealthUI.color = new Color32(255, 223, 105, 255);
+
+        if (flickerTimer <= 0)
+            flickerTimer = 4;
+        else
+            flickerTimer--;
 
         if (P1Prop.armor > 0)
         {
@@ -276,6 +318,7 @@ public class HUD : MonoBehaviour
         else if (P2hit.comboCount == 0 && P1RedHealth.fillAmount < P1HealthUI.fillAmount)
             P1RedHealth.fillAmount = P1HealthUI.fillAmount;
 
+
         //player 1 combo timer
 
         if (P2hit.hitStun > 0)
@@ -339,7 +382,7 @@ public class HUD : MonoBehaviour
             Player2Combo.text = "";
         }
 
-
+        /*
         //Player1 Valor flames
         P1Flame1.SetFloat("LifePercent", (float)(P1Prop.currentHealth / P1Prop.maxHealth));
         P1Flame2.SetFloat("LifePercent", (float)(P1Prop.currentHealth / P1Prop.maxHealth));
@@ -450,6 +493,6 @@ public class HUD : MonoBehaviour
             {
                 P2Flame1.SetTrigger("On");
             }
-        }
+        }*/
     }
 }
