@@ -123,7 +123,7 @@ public class AcceptInputs : MonoBehaviour
         else
             armorActive = false;
 
-        //characters are throw invincible for ten frames after throw teching
+        //characters are throw invincible for eight frames after throw teching
         if (throwInvulnCounter > 0)
         {
             throwInvincible = true;
@@ -135,7 +135,7 @@ public class AcceptInputs : MonoBehaviour
         }
 
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("ThrowReject") || anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup"))
-            throwInvulnCounter = 10;
+            throwInvulnCounter = 8;
 
         if (superFlash > 0)
         {
@@ -154,7 +154,6 @@ public class AcceptInputs : MonoBehaviour
         }
         else if (anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup"))
         {
-            Guard();
             standing = true;
             Move.HitDetect.hitStun = 0;
         }
