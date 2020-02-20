@@ -15,12 +15,18 @@ public class HUD : MonoBehaviour
     public Image P1RedHealth;
     public Image P2HealthUI;
     public Image P2RedHealth;
-    //public Image P1ArmorUI;
+
+    public Animator p1Icon1;
+    public Animator p1Icon2;
+
+    public Animator p2Icon1;
+    public Animator p2Icon2;
+
     public Image P1Dura1;
     public Image P1Dura2;
     public Image P1Dura3;
     public Image P1Dura4;
-    //public Image P2ArmorUI;
+
     public Image P2Dura1;
     public Image P2Dura2;
     public Image P2Dura3;
@@ -318,6 +324,40 @@ public class HUD : MonoBehaviour
         else if (P2hit.comboCount == 0 && P1RedHealth.fillAmount < P1HealthUI.fillAmount)
             P1RedHealth.fillAmount = P1HealthUI.fillAmount;
 
+        //round icons
+        if (GameOver.p1Win > 0)
+        {
+            if (!p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("StillIcon"))
+            {
+                p1Icon1.SetTrigger("Activate");
+            }
+            if (GameOver.p1Win > 1 && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon"))
+                p1Icon2.SetTrigger("Activate");
+        }
+        else
+        {
+            if (!p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                p1Icon1.SetTrigger("Disappear");
+            if (!p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                p1Icon2.SetTrigger("Disappear");
+        }
+
+        if (GameOver.p2Win > 0)
+        {
+            if (!p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("StillIcon"))
+            {
+                p2Icon1.SetTrigger("Activate");
+            }
+            if (GameOver.p2Win > 1 && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon"))
+                p2Icon2.SetTrigger("Activate");
+        }
+        else
+        {
+            if (!p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                p2Icon1.SetTrigger("Disappear");
+            if (!p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                p2Icon2.SetTrigger("Disappear");
+        }
 
         //player 1 combo timer
 

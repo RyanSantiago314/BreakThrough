@@ -10230,7 +10230,7 @@ MonoBehaviour:
   weight: 0.52
   walkSpeed: 1.75
   walkBackSpeed: 1.6
-  backDashForce: 1.9
+  backDashForce: 1.5
   runAcceleration: 0.7
   jumpPower: 3.8
   maxVelocity: 6
@@ -12431,6 +12431,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -487.40002
+      objectReference: {fileID: 0}
+    - target: {fileID: 1345849008463639104, guid: 20e5bef897f4df947a2950df8a46ea41,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1345849008842612752, guid: 20e5bef897f4df947a2950df8a46ea41,
         type: 3}

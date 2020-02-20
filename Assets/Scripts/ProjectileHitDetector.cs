@@ -75,6 +75,7 @@ public class ProjectileHitDetector : MonoBehaviour
     static int parryID;
     static int successID;
     static int hitID;
+    static int hitAirID;
     static int hitBodyID;
     static int hitLegsID;
     static int launchID;
@@ -108,6 +109,7 @@ public class ProjectileHitDetector : MonoBehaviour
         parryID = Animator.StringToHash("Parry");
         successID = Animator.StringToHash("HitSuccess");
         hitID = Animator.StringToHash("Hit");
+        hitAirID = Animator.StringToHash("HitAir");
         hitBodyID = Animator.StringToHash("HitBody");
         hitLegsID = Animator.StringToHash("HitLegs");
         launchID = Animator.StringToHash("Launch");
@@ -426,8 +428,9 @@ public class ProjectileHitDetector : MonoBehaviour
         if (!(blitz && potentialHitStun == 0) && !OpponentDetector.Actions.grabbed)
         {
             OpponentDetector.anim.SetTrigger(hitID);
-            if (OpponentDetector.Actions.standing && !launch && !sweep && !crumple)
+            if (OpponentDetector.Actions.standing && !launch && !sweep && !crumple && potentialKnockBack.y == 0)
             {
+                OpponentDetector.anim.ResetTrigger(hitID);
                 //determine whether to play a low hit or high hit animation
                 if (other.CompareTag("Body") || other.CompareTag("HurtBox"))
                 {
@@ -437,6 +440,10 @@ public class ProjectileHitDetector : MonoBehaviour
                 {
                     OpponentDetector.anim.SetTrigger(hitLegsID);
                 }
+            }
+            else if (!crumple && !sweep && !launch)
+            {
+                OpponentDetector.anim.SetTrigger(hitAirID);
             }
         }
 
@@ -511,9 +518,10 @@ public class ProjectileHitDetector : MonoBehaviour
             }
             else if (crumple && !OpponentDetector.Actions.airborne)
             {
+                OpponentDetector.anim.ResetTrigger(hitID);
                 OpponentDetector.anim.SetTrigger(crumpleID);
             }
-            else if (sweep && !OpponentDetector.Actions.airborne)
+            else if (sweep)
             {
                 OpponentDetector.anim.SetBool(sweepID, true);
                 OpponentDetector.Actions.airborne = true;
