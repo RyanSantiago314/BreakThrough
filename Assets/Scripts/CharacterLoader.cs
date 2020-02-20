@@ -6,7 +6,7 @@ public class CharacterLoader : MonoBehaviour
 {
     public GameObject P1Character;
     public GameObject P2Character;
-    public GameObject HitMarker;
+    //public GameObject HitMarker;
     private string P1Char;
     private string P2Char;
 
@@ -43,7 +43,7 @@ public class CharacterLoader : MonoBehaviour
         GameObject.Find("Player1").GetComponent<FighterAgent>().myChar = P1Character.GetComponent<CharacterProperties>();
         P1Character.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
         P1Character.GetComponent<AttackHandlerDHA>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
-        P1Character.transform.GetChild(2).GetComponent<HitDetector>().hitTrack = HitMarker.transform;
+        //P1Character.transform.GetChild(2).GetComponent<HitDetector>().hitTrack = HitMarker.transform;
 
         //Set Character Position
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
@@ -69,7 +69,7 @@ public class CharacterLoader : MonoBehaviour
         //Assign CharacterHandlers
         P2Character.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
         P2Character.GetComponent<AttackHandlerDHA>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
-        P2Character.transform.GetChild(2).GetComponent<HitDetector>().hitTrack = HitMarker.transform;
+        //P2Character.transform.GetChild(2).GetComponent<HitDetector>().hitTrack = HitMarker.transform;
         GameObject.Find("Player2").GetComponent<FighterAgent>().opponent = P1Character.GetComponent<CharacterProperties>(); //<- Is this needed?
 
         //Set Character Position

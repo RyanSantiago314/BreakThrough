@@ -1345,7 +1345,10 @@ MonoBehaviour:
   Actions: {fileID: 5672348970482479192}
   pauseScreen: {fileID: 0}
   hitBox1: {fileID: 5672348970961381725}
-  hitTrack: {fileID: 0}
+  HitFXPrefab: {fileID: 5174994306379917580, guid: ad62b15845ea14547b6daf89f2651db2,
+    type: 3}
+  HitFX: {fileID: 0}
+  hitEffect: {fileID: 0}
   currentVelocity: {x: 0, y: 0}
   damage: 0
   initialProration: 0
@@ -1384,6 +1387,7 @@ MonoBehaviour:
   allowWallBounce: 0
   usingSuper: 0
   usingSpecial: 0
+  slash: 0
   OpponentDetector: {fileID: 0}
   hit: 0
   armorHit: 0

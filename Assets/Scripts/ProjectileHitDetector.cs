@@ -232,70 +232,95 @@ public class ProjectileHitDetector : MonoBehaviour
                     OpponentDetector.ProjectileKnockBack = new Vector2(.5f * potentialKnockBack.y, 0);
                 }
 
-                if (OpponentDetector.anim.GetBool(AirGuard))
-                {
-                    //apply special knockback to airborne guards
-                    if (potentialAirKnockBack != Vector2.zero)
+                if (OpponentDetector.anim.GetBool(AirGuard) && OpponentDetector.Actions.Move.justDefenseTime <= 0)
                     {
-                        //guarding characters should never be spiked toward the ground
-                        if (potentialAirKnockBack.y < 0)
-                            OpponentDetector.ProjectileKnockBack = potentialAirKnockBack * new Vector2(.4f, 0) + new Vector2(0, .3f);
-                        else
-                            OpponentDetector.ProjectileKnockBack = potentialAirKnockBack * new Vector2(.4f, .5f);
-                    }
-                    else
-                        OpponentDetector.ProjectileKnockBack += new Vector2(0f, .5f);
-
-                    //double chip damage/durability damage on airguard
-                    if (Actions.Move.OpponentProperties.armor > 0)
-                    {
-                        if (usingSuper)
+                        //apply special knockback to airborne guards
+                        if (potentialAirKnockBack != Vector2.zero)
                         {
-                            Actions.Move.OpponentProperties.durability -= 4;
+                            //guarding characters should never be spiked toward the ground
+                            if (potentialAirKnockBack.y < 0)
+                                OpponentDetector.ProjectileKnockBack = potentialAirKnockBack * new Vector2(.4f, 0) + new Vector2(0, .3f);
+                            else
+                                OpponentDetector.ProjectileKnockBack = potentialAirKnockBack * new Vector2(.4f, .5f);
                         }
                         else
+                            OpponentDetector.ProjectileKnockBack += new Vector2(0f, .5f);
+
+                        //double chip damage/durability damage on airguard
+                        if (Actions.Move.OpponentProperties.armor > 0)
+                        {
                             Actions.Move.OpponentProperties.durability -= damage / 3;
-                    }
-                    else
-                    {
-                        //chip damage
-                        if (Actions.Move.OpponentProperties.currentHealth - damage / 5 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
-                            Actions.Move.OpponentProperties.currentHealth = 1;
-                        else
-                            Actions.Move.OpponentProperties.currentHealth -= damage / 5;
-
-                        if (Actions.Move.OpponentProperties.currentHealth <= 0)
-                            OpponentDetector.anim.SetTrigger(hitID);
-
-                    }
-                }
-                else if (OpponentDetector.Actions.Move.justDefenseTime <= 0 && OpponentDetector.Actions.standing)
-                {
-                    if (Actions.Move.OpponentProperties.armor > 0)
-                    {
-                        //durability damage
-                        if (usingSuper)
-                        {
-                            Actions.Move.OpponentProperties.durability -= 2;
                         }
                         else
-                            Actions.Move.OpponentProperties.durability -= damage / 5;
-                    }
-                    else
-                    {
-                        //chip damage
-                        if (Actions.Move.OpponentProperties.currentHealth - damage / 10 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
-                            Actions.Move.OpponentProperties.currentHealth = 1;
-                        else
-                            Actions.Move.OpponentProperties.currentHealth -= damage / 10;
+                        {
+                            //guarding an attack without having any resolve results in getting shattered
+                            shatter = true;
+                            OpponentDetector.blockStun = 0;
+                            Actions.Move.OpponentProperties.armor = 0;
+                            Actions.Move.OpponentProperties.durability = 0;
+                            potentialHitStun = 30;
+                            //trigger shatter effect
+                            OpponentDetector.anim.SetTrigger(shatterID);
+                            OpponentDetector.Actions.shattered = true;
+                            Debug.Log("SHATTERED");
+                            //damage, hitstun, etc.
+                            HitSuccess(other);
+                            ApplyHitStop(2 * potentialHitStop);
 
-                        if (Actions.Move.OpponentProperties.currentHealth <= 0)
-                            OpponentDetector.anim.SetTrigger(crumpleID);
+                            //chip damage
+                            /*if (Actions.Move.OpponentProperties.currentHealth - damage/5 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
+                                Actions.Move.OpponentProperties.currentHealth = 1;
+                            else
+                                Actions.Move.OpponentProperties.currentHealth -= damage/5;
+
+                            if (Actions.Move.OpponentProperties.currentHealth <= 0)
+                                OpponentDetector.anim.SetTrigger(hitID);*/
+
+                        }
                     }
-                }
-                ApplyHitStop(0);
-                if (!Actions.Move.facingRight)
-                    OpponentDetector.ProjectileKnockBack *= new Vector2(-1, 1);
+                    else if (OpponentDetector.Actions.Move.justDefenseTime <= 0 && OpponentDetector.Actions.standing)
+                    {
+                        if (Actions.Move.OpponentProperties.armor > 0)
+                        {
+                            //durability damage
+                            Actions.Move.OpponentProperties.durability -= damage / 5;
+                        }
+                        else
+                        {
+                            //guarding an attack without having any resolve results in getting shattered
+                            shatter = true;
+                            OpponentDetector.blockStun = 0;
+                            Actions.Move.OpponentProperties.armor = 0;
+                            Actions.Move.OpponentProperties.durability = 0;
+                            potentialHitStun = 30;
+                            //trigger shatter effect
+                            OpponentDetector.anim.SetTrigger(shatterID);
+                            OpponentDetector.Actions.shattered = true;
+                            Debug.Log("SHATTERED");
+                            //damage, hitstun, etc.
+                            HitSuccess(other);
+                            ApplyHitStop(2 * potentialHitStop);
+
+                            //chip damage
+                            /*if (Actions.Move.OpponentProperties.currentHealth - damage/10 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
+                                Actions.Move.OpponentProperties.currentHealth = 1;
+                            else
+                                Actions.Move.OpponentProperties.currentHealth -= damage/10;
+
+                            if (Actions.Move.OpponentProperties.currentHealth <= 0)
+                                OpponentDetector.anim.SetTrigger(crumpleID);*/
+                        }
+                    }
+                    if (OpponentDetector.blockStun > 0)
+                    {
+                        ApplyHitStop(0);
+
+                        if (OpponentDetector.Actions.Move.justDefenseTime > 0 && OpponentDetector.Actions.standing)
+                            OpponentDetector.ProjectileKnockBack *= .5f;
+
+                        if (!Actions.Move.facingRight)
+                            OpponentDetector.ProjectileKnockBack *= new Vector2(-1, 1);
+                    }
             }
             else
             {
@@ -624,6 +649,12 @@ public class ProjectileHitDetector : MonoBehaviour
             else if (transform.position.x > OpponentDetector.Actions.Move.transform.position.x)
                 OpponentDetector.ProjectileKnockBack *= new Vector2(-1f, 1);
         }
+        if (shatter)
+            HitDetect.hitEffect.SetTrigger(shatterID);
+        else if (HitDetect.slash)
+            HitDetect.hitEffect.SetTrigger("Slash");
+        else
+            HitDetect.hitEffect.SetTrigger("Strike");
 
         if (potentialHitStun != 0)
             HitDetect.comboCount++;
@@ -649,7 +680,8 @@ public class ProjectileHitDetector : MonoBehaviour
         allowHit = false;
         hit = true;
 
-        HitDetect.hitTrack.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+        HitDetect.hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+        HitDetect.hitEffect.SetInteger("AttackLevel", attackLevel);
 
         if (OpponentDetector.hitStun == 0)
             OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;

@@ -10,7 +10,10 @@ public class HitDetector : MonoBehaviour
     public PauseMenu pauseScreen;
 
     public Collider2D hitBox1;
-    public Transform hitTrack;
+
+    public GameObject HitFXPrefab;
+    public GameObject HitFX;
+    public Animator hitEffect;
 
     public AnimatorStateInfo currentState;
     public Vector2 currentVelocity;
@@ -57,6 +60,8 @@ public class HitDetector : MonoBehaviour
     public bool allowWallBounce = false;
     public bool usingSuper;
     public bool usingSpecial;
+
+    public bool slash = false;
 
     public HitDetector OpponentDetector;
 
@@ -131,6 +136,9 @@ public class HitDetector : MonoBehaviour
         KOID = Animator.StringToHash("KOed");
 
         pauseScreen = GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>();
+
+        HitFX = Instantiate(HitFXPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
+        hitEffect = HitFX.GetComponent<Animator>();
     }
 
     void Update()
@@ -192,6 +200,7 @@ public class HitDetector : MonoBehaviour
         else 
         {
             anim.SetFloat(animSpeedID, 1.0f);
+            hitEffect.SetFloat(animSpeedID, 1.0f);
             if (rb.constraints == RigidbodyConstraints2D.FreezeAll)
                 rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
@@ -300,6 +309,7 @@ public class HitDetector : MonoBehaviour
             if (allowHit && !grab && !commandGrab && other.gameObject.transform.parent.parent == Actions.Move.opponent && (potentialHitStun > 0 || blitz))
             {
                 OpponentDetector.Actions.shattered = false;
+                hitEffect.transform.eulerAngles = Vector3.zero;
 
                 if ((guard == "Mid" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
                     (guard == "Low" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
@@ -598,7 +608,9 @@ public class HitDetector : MonoBehaviour
         if (OpponentDetector.hitStun == 0)
             OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;
 
-        hitTrack.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+        //hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+        hitEffect.transform.position = hitBox1.bounds.ClosestPoint(OpponentDetector.transform.position + new Vector3(other.offset.x, other.offset.y, 0));
+        hitEffect.SetInteger("AttackLevel", attackLevel);
     }
 
     void HitSuccess(Collider2D other)
@@ -801,6 +813,7 @@ public class HitDetector : MonoBehaviour
         {
             if (OpponentDetector.currentState.IsName("Crumple"))
             {
+                OpponentDetector.anim.SetTrigger(hitAirID);
                 if (potentialAirKnockBack.y < 0)
                 {
                     OpponentDetector.KnockBack = potentialKnockBack;
@@ -900,6 +913,20 @@ public class HitDetector : MonoBehaviour
             }
         }
 
+        //set hit effect to play based on attack properties
+        if (!blitz && !grab)
+        {
+            if (shatter)
+                hitEffect.SetTrigger(shatterID);
+            else if (slash)
+                hitEffect.SetTrigger("Slash");
+            else
+                hitEffect.SetTrigger("Strike");
+
+            if (!shatter)
+                hitEffect.transform.eulerAngles = new Vector3(hitEffect.transform.eulerAngles.x, hitEffect.transform.eulerAngles.y, Random.Range(0, 359));
+        }
+
         if (!grab && potentialHitStun != 0)
             comboCount++;
     }
@@ -929,6 +956,7 @@ public class HitDetector : MonoBehaviour
             OpponentDetector.hitStop = 90;
             Actions.Move.OpponentProperties.currentHealth = 0;
             OpponentDetector.anim.SetBool(KOID, true);
+            hitEffect.SetFloat(animSpeedID, 0);
         }
         else if (Actions.Move.OpponentProperties.currentHealth > 0)
         {
