@@ -279,22 +279,22 @@ public class GameOver : MonoBehaviour
         //Setting players to starting location vectors
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
-            Vector3 p1Start = new Vector3(-1.3f, 1.10f, -3);
+            Vector3 p1Start = new Vector3(-1f, 1.10f, -3);
             GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
         }
         else
         {
-            Vector3 p1Start = new Vector3(1.3f, 1.10f, -3);
+            Vector3 p1Start = new Vector3(1f, 1.10f, -3);
             GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
         }
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
         {
-            Vector3 p2Start = new Vector3(1.3f, 1.10f, -3);
+            Vector3 p2Start = new Vector3(1f, 1.10f, -3);
             GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
         }
         else
         {
-            Vector3 p2Start = new Vector3(-1.3f, 1.10f, -3);
+            Vector3 p2Start = new Vector3(-1f, 1.10f, -3);
             GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
         }
         GameObject.Find("CameraPos").transform.GetChild(1).transform.position = GameObject.Find("CameraPos").transform.position;
