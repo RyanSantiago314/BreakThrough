@@ -66,6 +66,7 @@ public class MovementHandler : MonoBehaviour
     static int lowGuardID;
     static int highGuardID;
     static int airGuardID;
+    static int hitAirID;
     static int wallStickID;
     static int groundBounceID;
     static int wallBounceID;
@@ -135,6 +136,7 @@ public class MovementHandler : MonoBehaviour
         lowGuardID = Animator.StringToHash("LowGuard");
         highGuardID = Animator.StringToHash("HighGuard");
         airGuardID = Animator.StringToHash("AirGuard");
+        hitAirID = Animator.StringToHash("HitAir");
         wallStickID = Animator.StringToHash("WallStick");
         groundBounceID = Animator.StringToHash("GroundBounce");
         wallBounceID = Animator.StringToHash("WallBounce");
@@ -907,6 +909,7 @@ public class MovementHandler : MonoBehaviour
             {
                 HitDetect.KnockBack = new Vector2(-.6f, 1.5f);
             }
+            anim.ResetTrigger(hitAirID);
             anim.SetTrigger(wallBounceID);
             //set off wall hit effect
         }
