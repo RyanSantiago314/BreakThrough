@@ -85,6 +85,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.shatter = false;
         HitDetect.usingSuper = false;
         HitDetect.usingSpecial = false;
+        HitDetect.slash = false;
     }
 
     void AwakenBox()
@@ -1080,7 +1081,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialAirKnockBack = new Vector2(2.5f, 2f);
         HitDetect.potentialHitStun = 60;
         HitDetect.potentialHitStop = 7;
-        HitDetect.attackLevel = 0;
+        HitDetect.attackLevel = 4;
         HitDetect.guard = "Unblockable";
 
         HitDetect.piercing = true;

@@ -290,6 +290,11 @@ public class MovementHandler : MonoBehaviour
 
         if (backDash)
         {
+            if (facingRight && rb.velocity.x > -walkBackSpeed)
+                rb.velocity = new Vector2(-walkBackSpeed, rb.velocity.y);
+            else if (!facingRight && rb.velocity.x < walkBackSpeed)
+                rb.velocity = new Vector2(walkBackSpeed, rb.velocity.y);
+
             if (facingRight)
             {
                 rb.AddForce(new Vector2(-backDashForce, .5f * backDashForce), ForceMode2D.Impulse);
@@ -758,16 +763,16 @@ public class MovementHandler : MonoBehaviour
             //keeps character movement speed from reaching insane levels
                 if (rb.velocity.x > maxVelocity && facingRight)
                     rb.velocity = new Vector2(maxVelocity, rb.velocity.y);
-                else if (rb.velocity.x < -maxVelocity)
+                else if (rb.velocity.x < -maxVelocity && !facingRight)
                     rb.velocity = new Vector2(-maxVelocity, rb.velocity.y);
         }
-        else if (currentState.IsName("BackDash"))
+        /*else if (currentState.IsName("BackDash") && !Actions.airborne)
         {
             if (rb.velocity.x > .5f * maxVelocity && facingRight)
                 rb.velocity = new Vector2(.5f * maxVelocity, rb.velocity.y);
-            else if (rb.velocity.x < -.5f * maxVelocity)
+            else if (rb.velocity.x < -.5f * maxVelocity && !facingRight)
                 rb.velocity = new Vector2(-.5f * maxVelocity, rb.velocity.y);
-        }
+        }*/
         else if (!Actions.airborne && !Actions.acceptMove)
         {
             //friction for on the ground while attacking or getting hit, uses character's walking back speed to determine deceleration
@@ -775,7 +780,7 @@ public class MovementHandler : MonoBehaviour
             {
                 rb.AddForce(new Vector2(-.12f * walkBackSpeed, 0), ForceMode2D.Impulse);
             }
-            else if(rb.velocity.x < -.8f)
+            else if(rb.velocity.x < -.85f)
             {
                 rb.AddForce(new Vector2(.12f * walkBackSpeed, 0), ForceMode2D.Impulse);
             }
