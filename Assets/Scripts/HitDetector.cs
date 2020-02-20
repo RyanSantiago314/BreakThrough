@@ -643,7 +643,7 @@ public class HitDetector : MonoBehaviour
                     OpponentDetector.anim.SetTrigger(hitLegsID);
                 }
             }
-            else
+            else if (!crumple && !sweep && !launch)
             {
                 OpponentDetector.anim.SetTrigger(hitAirID);
             }
@@ -717,11 +717,11 @@ public class HitDetector : MonoBehaviour
         if (launch)
         {
             OpponentDetector.anim.SetBool(launchID, true);
-            OpponentDetector.anim.ResetTrigger(hitAirID);
         }
         else if (crumple && !OpponentDetector.Actions.airborne)
         {
-            OpponentDetector.anim.SetTrigger(crumpleID);
+            OpponentDetector.anim.ResetTrigger(hitID);
+            OpponentDetector.anim.SetTrigger(crumpleID);           
         }
         else if (sweep)
         {
