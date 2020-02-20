@@ -630,9 +630,9 @@ public class HitDetector : MonoBehaviour
         if (!(blitz && potentialHitStun == 0))
         {
             OpponentDetector.anim.SetTrigger(hitID);
-            OpponentDetector.anim.SetTrigger(hitAirID);
-            if (OpponentDetector.Actions.standing && !launch && !sweep && !crumple)
+            if (OpponentDetector.Actions.standing && !launch && !sweep && !crumple && potentialKnockBack.y == 0)
             {
+                OpponentDetector.anim.ResetTrigger(hitID);
                 //determine whether to play a low hit or high hit animation
                 if (other.CompareTag("Body") || other.CompareTag("HurtBox"))
                 {
@@ -642,6 +642,10 @@ public class HitDetector : MonoBehaviour
                 {
                     OpponentDetector.anim.SetTrigger(hitLegsID);
                 }
+            }
+            else
+            {
+                OpponentDetector.anim.SetTrigger(hitAirID);
             }
         }
 
@@ -713,6 +717,7 @@ public class HitDetector : MonoBehaviour
         if (launch)
         {
             OpponentDetector.anim.SetBool(launchID, true);
+            OpponentDetector.anim.ResetTrigger(hitAirID);
         }
         else if (crumple && !OpponentDetector.Actions.airborne)
         {

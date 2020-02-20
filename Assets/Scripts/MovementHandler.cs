@@ -754,20 +754,17 @@ public class MovementHandler : MonoBehaviour
         if(anim.GetBool(runID) || (Actions.airborne && Actions.acceptMove))
         {
             //keeps character movement speed from reaching insane levels
-            if (Actions.blitzed > 0)
-            {
-                if (rb.velocity.x > maxVelocity/2 && facingRight)
-                    rb.velocity = new Vector2(maxVelocity/2, rb.velocity.y);
-                else if (rb.velocity.x < -maxVelocity/2)
-                    rb.velocity = new Vector2(-maxVelocity/2, rb.velocity.y);
-            }
-            else
-            {
                 if (rb.velocity.x > maxVelocity && facingRight)
                     rb.velocity = new Vector2(maxVelocity, rb.velocity.y);
                 else if (rb.velocity.x < -maxVelocity)
                     rb.velocity = new Vector2(-maxVelocity, rb.velocity.y);
-            } 
+        }
+        else if (currentState.IsName("BackDash"))
+        {
+            if (rb.velocity.x > .5f * maxVelocity && facingRight)
+                rb.velocity = new Vector2(.5f * maxVelocity, rb.velocity.y);
+            else if (rb.velocity.x < -.5f * maxVelocity)
+                rb.velocity = new Vector2(-.5f * maxVelocity, rb.velocity.y);
         }
         else if (!Actions.airborne && !Actions.acceptMove)
         {
