@@ -551,7 +551,7 @@ public class ProjectileHitDetector : MonoBehaviour
                 OpponentDetector.anim.SetBool(sweepID, true);
                 OpponentDetector.Actions.airborne = true;
             }
-            else if (OpponentDetector.Actions.CharProp.currentHealth <= 0 && !OpponentDetector.Actions.airborne)
+            else if (OpponentDetector.Actions.CharProp.currentHealth <= 0 && !OpponentDetector.Actions.airborne && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
                 OpponentDetector.anim.SetTrigger(crumpleID);
         }
 
@@ -709,14 +709,14 @@ public class ProjectileHitDetector : MonoBehaviour
         currentAngularVelocity = rb.angularVelocity;
         OpponentDetector.currentVelocity = OpponentDetector.rb.velocity;
 
-        if (Actions.Move.OpponentProperties.currentHealth <= 0 && !OpponentDetector.anim.GetBool(KOID))
+        if (Actions.Move.OpponentProperties.currentHealth <= 0 && !OpponentDetector.anim.GetBool(KOID) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
         {
             hitStop = 90;
             HitDetect.hitStop = 90;
             OpponentDetector.hitStop = 90;
             Actions.Move.OpponentProperties.currentHealth = 0;
         }
-        else if (Actions.Move.OpponentProperties.currentHealth > 0)
+        else if (Actions.Move.OpponentProperties.currentHealth > 0 || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
             hitStop = potentialHitStop + i;
             OpponentDetector.hitStop = potentialHitStop + i;

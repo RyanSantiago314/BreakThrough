@@ -16,6 +16,10 @@ public class PracticeMode : MonoBehaviour
     private bool P2inHitstun;
 
     private bool enableArmorRefill = true;
+    public int P1ValorSetting;
+    public int P2ValorSetting;
+    private int P1CurrentValor;
+    private int P2CurrentValor;
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +43,7 @@ public class PracticeMode : MonoBehaviour
         //Practice Mode Handler
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
-            //Refill Armor Meters
+            //Refill Armor Meters Option
             if (enableArmorRefill)
             {
                 //Refill P1 Armor when P1 (true) combo finishes
@@ -67,7 +71,54 @@ public class PracticeMode : MonoBehaviour
                     P2Prop.durability = 100;
                 }
             }
-            
+
+            //Reset Health if Valor setting has changed
+            if (P1CurrentValor != P1ValorSetting)
+            {
+                P1CurrentValor = P1ValorSetting;
+                if (P1CurrentValor == 0)
+                {
+                    P1Prop.currentHealth = P1Prop.maxHealth;
+                }
+                else if (P1CurrentValor == 1)
+                {
+                    P1Prop.currentHealth = P1Prop.maxHealth / 2;
+                }
+                else if (P1CurrentValor == 2)
+                {
+                    P1Prop.currentHealth = P1Prop.maxHealth / 4;
+                }
+                else if (P1CurrentValor == 3)
+                {
+                    P1Prop.currentHealth = P1Prop.maxHealth / 10;
+                }               
+            }
+
+            if (P2CurrentValor != P2ValorSetting)
+            {
+                P2CurrentValor = P2ValorSetting;
+                if (P2CurrentValor == 0)
+                {
+                    P2Prop.currentHealth = P2Prop.maxHealth;
+                }
+                else if (P2CurrentValor == 1)
+                {
+                    P2Prop.currentHealth = P2Prop.maxHealth / 2;
+                }
+                else if (P2CurrentValor == 2)
+                {
+                    P2Prop.currentHealth = P2Prop.maxHealth / 4;
+                }
+                else if (P2CurrentValor == 3)
+                {
+                    P2Prop.currentHealth = P2Prop.maxHealth / 10;
+                }
+                else if (P2CurrentValor == 4)
+                {
+                    P2Prop.currentHealth = 1;
+                }
+            }
+
             //Refill Health Meters            
             //Refill P1 HP after P2 (true) combo finishes
             if (P1Prop.HitDetect.hitStun >= 0)
@@ -78,11 +129,26 @@ public class PracticeMode : MonoBehaviour
                 }
                 else if (P1Prop.HitDetect.hitStun == 0 && P1inHitstun)
                 {
-                    P1Prop.currentHealth = P2Prop.maxHealth;
+                    if (P1CurrentValor == 0)
+                    {
+                        P1Prop.currentHealth = P1Prop.maxHealth;
+                    }
+                    else if (P1CurrentValor == 1)
+                    {
+                        P1Prop.currentHealth = P1Prop.maxHealth / 2;
+                    }
+                    else if (P1CurrentValor == 2)
+                    {
+                        P1Prop.currentHealth = P1Prop.maxHealth / 4;
+                    }
+                    else if (P1CurrentValor == 3)
+                    {
+                        P1Prop.currentHealth = P1Prop.maxHealth / 10;
+                    }
                     P1inHitstun = false;
                 }
             }
-            //Refill P2 HP after P1 (true) combo finishes           
+            //Refill P2 HP after P1 (true) combo finishes  
             if (P2Prop.HitDetect.hitStun >= 0)
             {
                 if (P2Prop.HitDetect.hitStun > 0)
@@ -91,13 +157,29 @@ public class PracticeMode : MonoBehaviour
                 }
                 else if (P2Prop.HitDetect.hitStun == 0 && P2inHitstun)
                 {
-                    P2Prop.currentHealth = P2Prop.maxHealth;
-                    //P1Prop.armor = 4;
-                    //P1Prop.durability = 100;
+                    if (P2CurrentValor == 0)
+                    {
+                        P2Prop.currentHealth = P2Prop.maxHealth;
+                    }
+                    else if (P2CurrentValor == 1)
+                    {
+                        P2Prop.currentHealth = P2Prop.maxHealth / 2;
+                    }
+                    else if (P2CurrentValor == 2)
+                    {
+                        P2Prop.currentHealth = P2Prop.maxHealth / 4;
+                    }
+                    else if (P2CurrentValor == 3)
+                    {
+                        P2Prop.currentHealth = P2Prop.maxHealth / 10;
+                    }
+                    else if (P2CurrentValor == 4)
+                    {
+                        P2Prop.currentHealth = 1;
+                    }
                     P2inHitstun = false;
                 }
             }
-
             //Reset Positions back to start
             if (Input.GetButtonDown("Select_P1"))
             {

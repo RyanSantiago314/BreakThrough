@@ -54,22 +54,25 @@ public class CharacterProperties : MonoBehaviour
         currentState = HitDetect.anim.GetCurrentAnimatorStateInfo(0);
         if (currentHealth <= 0 && HitDetect.hitStop == 0)
         {
-            currentHealth = 0;
-            if (GameOver.dizzyKO)
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
             {
-                HitDetect.anim.SetBool(crouchID, false);
-                HitDetect.anim.SetBool(dizzyID, true);
-            }
-            else
-                HitDetect.anim.SetBool(KOID, true);
+                currentHealth = 0;
+                if (GameOver.dizzyKO)
+                {
+                    HitDetect.anim.SetBool(crouchID, false);
+                    HitDetect.anim.SetBool(dizzyID, true);
+                }
+                else
+                    HitDetect.anim.SetBool(KOID, true);
 
-            GameOver.dizzyKO = false;
+                GameOver.dizzyKO = false;
 
-            HitDetect.Actions.DisableAll();
-            HitDetect.Actions.DisableBlitz();
-            HitDetect.Actions.Move.playing = false;
-            HitDetect.Actions.Move.opponent.GetComponent<MovementHandler>().playing = false;
-            HitDetect.Actions.Move.OpponentProperties.HitDetect.anim.SetBool(crouchID, false);
+                HitDetect.Actions.DisableAll();
+                HitDetect.Actions.DisableBlitz();
+                HitDetect.Actions.Move.playing = false;
+                HitDetect.Actions.Move.opponent.GetComponent<MovementHandler>().playing = false;
+                HitDetect.Actions.Move.OpponentProperties.HitDetect.anim.SetBool(crouchID, false);
+            }           
         }
         else if (currentHealth > 0)
         {
