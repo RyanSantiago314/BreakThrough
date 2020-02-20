@@ -60,6 +60,7 @@ public class AIInput : MonoBehaviour
             if (AI.keepAction == "Circle") MaxInput.Circle("Player2");
             if (AI.keepAction == "Cross") MaxInput.Cross("Player2");
             if (AI.keepAction == "RTrigger") MaxInput.RTrigger("Player2");
+            if (AI.keepAction == "RBumper") MaxInput.RBumper("Player2");
 
             AI.doingQCF = 0;
             AI.keepAction = "";
@@ -119,6 +120,7 @@ public class AIInput : MonoBehaviour
             if (AI.keepAction == "Circle") MaxInput.Circle("Player2");
             if (AI.keepAction == "Cross") MaxInput.Cross("Player2");
             if (AI.keepAction == "RTrigger") MaxInput.RTrigger("Player2");
+            if (AI.keepAction == "RBumper") MaxInput.RBumper("Player2");
 
             AI.doingQCB = 0;
             AI.keepAction = "";
@@ -202,6 +204,7 @@ public class AIInput : MonoBehaviour
             if (AI.keepAction == "Circle") MaxInput.Circle("Player2");
             if (AI.keepAction == "Cross") MaxInput.Cross("Player2");
             if (AI.keepAction == "RTrigger") MaxInput.RTrigger("Player2");
+            if (AI.keepAction == "RBumper") MaxInput.RBumper("Player2");
 
             AI.doingHCF = 0;
             AI.keepAction = "";
@@ -285,6 +288,7 @@ public class AIInput : MonoBehaviour
             if (AI.keepAction == "Circle") MaxInput.Circle("Player2");
             if (AI.keepAction == "Cross") MaxInput.Cross("Player2");
             if (AI.keepAction == "RTrigger") MaxInput.RTrigger("Player2");
+            if (AI.keepAction == "RBumper") MaxInput.RBumper("Player2");
 
             AI.doingHCB = 0;
             //AI.delayTimer = 5f;

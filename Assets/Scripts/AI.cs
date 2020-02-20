@@ -317,10 +317,16 @@ public class AI : MonoBehaviour
                 MaxInput.Circle("Player2");
                 triangleTimer = .5f;
             }
-            else if (rand > 80 && crossTimer <= 0)
+            else if (rand > 80 && rand <= 99 && crossTimer <= 0)
             {
                 MaxInput.Cross("Player2");
                 squareTimer = .5f;
+            }
+            else if (rand > 99)
+            {
+                keepAction = "RBumper";
+                doingQCB = 1;
+                AIInput.HCB();
             }
             else MaxInput.Square("Player2");
         }
@@ -555,9 +561,9 @@ public class AI : MonoBehaviour
     // Testing specific actions
     void testActions()
     {
-        keepAction = "Square";
-        doingQCF = 1;
-        AIInput.QCF();
+        keepAction = "RBumper";
+        doingQCB = 1;
+        AIInput.QCB();
     }
 }
 
