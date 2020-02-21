@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PracticeMode : MonoBehaviour
 {
@@ -26,10 +27,28 @@ public class PracticeMode : MonoBehaviour
 
     private int P1CurrentValor;
     private int P2CurrentValor;
+    private float P1PrevHealth;
+    private float P2PrevHealth;
+    private float P1CurrentHitDamage;
+    private float P2CurrentHitDamage;
+    private float P1CurrentComboTotalDamage;
+    private float P2CurrentComboTotalDamage;
+    private float P1HighestComboDamage;
+    private float P2HighestComboDamage;
+
+    public Text P1HitDamage;
+    public Text P2HitDamage;
+    public Text P1ComboDamage;
+    public Text P2ComboDamage;
+    public Text P1HighComboDamage;
+    public Text P2HighComboDamage;
+
+    public GameObject DamageDisplays;
 
     // Start is called before the first frame update
     void Start()
     {
+        DamageDisplays.SetActive(true);
         Player1 = GameObject.Find("Player1");
         Player2 = GameObject.Find("Player2");
         P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
@@ -39,6 +58,15 @@ public class PracticeMode : MonoBehaviour
         P1Input = GameObject.Find("Player1").transform.GetChild(0).transform.GetComponentInChildren<AcceptInputs>();
         P2Input = GameObject.Find("Player2").transform.GetChild(0).transform.GetComponentInChildren<AcceptInputs>();
         HUD = GameObject.Find("HUD").GetComponent<HUD>();
+        P1PrevHealth = P1Prop.maxHealth;
+        P2PrevHealth = P2Prop.maxHealth;
+        P1HitDamage.text = "";
+        P2HitDamage.text = "";
+        P1ComboDamage.text = "";
+        P2ComboDamage.text = "";
+        P1HighComboDamage.text = "Highest Combo Damage: 0";
+        P2HighComboDamage.text = "Highest Combo Damage: 0";
+
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
             GameOverManager = GameObject.Find("GameOverManager");
@@ -149,6 +177,9 @@ public class PracticeMode : MonoBehaviour
                     P1Prop.currentHealth = P1Prop.maxHealth / 10;
                 }
                 P1inCombo = false;
+                P2CurrentHitDamage = 0;
+                P1PrevHealth = P1Prop.currentHealth;
+                P2CurrentComboTotalDamage = 0;
             }
             //Refill P2 HP after P1 combo finishes  
             if (P2Prop.HitDetect.hitStun > 0)
@@ -174,7 +205,64 @@ public class PracticeMode : MonoBehaviour
                     P2Prop.currentHealth = P2Prop.maxHealth / 10;
                 }
                 P2inCombo = false;
+                P1CurrentHitDamage = 0;
+                P2PrevHealth = P2Prop.currentHealth;
+                P1CurrentComboTotalDamage = 0;
             }
+
+            //Manage Hit/Combo Damage Display
+            //Display P1 current hit damage
+            if (P2Prop.currentHealth < P2PrevHealth)
+            {
+                P1CurrentHitDamage = P2PrevHealth - P2Prop.currentHealth;
+                P1CurrentComboTotalDamage += P1CurrentHitDamage;
+                P1HitDamage.text = "";
+                P1HitDamage.text = "Damage: ";               
+                P1HitDamage.text += P1CurrentHitDamage;
+                P1ComboDamage.text = "";
+                P1ComboDamage.text = "Total Damage : ";
+                P1ComboDamage.text += P1CurrentComboTotalDamage;
+                P2PrevHealth = P2Prop.currentHealth;              
+            }
+            if (HUD.Player1Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
+            {
+                P1HitDamage.text = "";
+                P1ComboDamage.text = "";               
+            }
+            //Display P2 current hit damage
+            if (P1Prop.currentHealth < P1PrevHealth)
+            {
+                P2CurrentHitDamage = P1PrevHealth - P1Prop.currentHealth;
+                P2CurrentComboTotalDamage += P2CurrentHitDamage;
+                P2HitDamage.text = "";
+                P2HitDamage.text = "Damage: ";
+                P2HitDamage.text += P2CurrentHitDamage;
+                P2ComboDamage.text = "";
+                P2ComboDamage.text = "Total Damage : ";
+                P2ComboDamage.text += P2CurrentComboTotalDamage;
+                P1PrevHealth = P1Prop.currentHealth;
+            }
+            if (HUD.Player2Combo.text == "" && P2Prop.HitDetect.comboCount != 1)
+            {
+                P2HitDamage.text = "";
+                P2ComboDamage.text = "";
+            }
+            //Update Highest Combo Damage
+            if (P1CurrentComboTotalDamage > P1HighestComboDamage)
+            {
+                P1HighestComboDamage = P1CurrentComboTotalDamage;
+                P1HighComboDamage.text = "";
+                P1HighComboDamage.text = "Highest Combo Damage: ";
+                P1HighComboDamage.text += P1HighestComboDamage;
+            }
+            if (P2CurrentComboTotalDamage > P2HighestComboDamage)
+            {
+                P2HighestComboDamage = P2CurrentComboTotalDamage;
+                P2HighComboDamage.text = "";
+                P2HighComboDamage.text = "Highest Combo Damage: ";
+                P2HighComboDamage.text += P2HighestComboDamage;
+            }
+
             //Reset Positions back to start
             if (Input.GetButtonDown("Select_P1"))
             {
