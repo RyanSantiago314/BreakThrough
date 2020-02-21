@@ -13,10 +13,11 @@ public class PracticeMode : MonoBehaviour
     HitDetector P2hit;
     AcceptInputs P1Input;
     AcceptInputs P2Input;
+    HUD HUD;
     public GameObject GameOverManager;
 
-    private bool P1inHitstun;
-    private bool P2inHitstun;
+    private bool P1inCombo;
+    private bool P2inCombo;
 
     public bool enableArmorRefill = true;
 
@@ -37,6 +38,7 @@ public class PracticeMode : MonoBehaviour
         P2hit = GameObject.Find("Player2").transform.GetComponentInChildren<HitDetector>();
         P1Input = GameObject.Find("Player1").transform.GetChild(0).transform.GetComponentInChildren<AcceptInputs>();
         P2Input = GameObject.Find("Player2").transform.GetChild(0).transform.GetComponentInChildren<AcceptInputs>();
+        HUD = GameObject.Find("HUD").GetComponent<HUD>();
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
             GameOverManager = GameObject.Find("GameOverManager");
@@ -53,26 +55,26 @@ public class PracticeMode : MonoBehaviour
             //Refill Armor Meters Option
             if (enableArmorRefill)
             {
-                //Refill P1 Armor when P1 (true) combo finishes
-                if (P2Prop.HitDetect.hitStun == 0 && P2inHitstun)
+                //Refill P1 Armor when P1 combo finishes
+                if (HUD.combogauge1.enabled == false && P2inCombo)
                 {
                     P1Prop.armor = 4;
                     P1Prop.durability = 100;
                 }
-                //Refill P2 Armor when P2 (true) combo finishes
-                if (P1Prop.HitDetect.hitStun == 0 && P1inHitstun)
+                //Refill P2 Armor when P2 combo finishes
+                if (HUD.combogauge2.enabled == false && P2inCombo)
                 {
                     P2Prop.armor = 4;
                     P2Prop.durability = 100;
                 }
-                //Refill P1 armor if moves whiffed
-                if (P1Prop.HitDetect.Actions.acceptSuper && !P2inHitstun)
+                //Refill P1 armor after move whiffed
+                if (P1Prop.HitDetect.Actions.acceptSuper && !P2inCombo)
                 {
                     P1Prop.armor = 4;
                     P1Prop.durability = 100;
                 }
-                //Refill P2 armor if moves whiffed
-                if (P2Prop.HitDetect.Actions.acceptSuper && !P1inHitstun)
+                //Refill P2 armor after move whiffed
+                if (P2Prop.HitDetect.Actions.acceptSuper && !P2inCombo)
                 {
                     P2Prop.armor = 4;
                     P2Prop.durability = 100;
@@ -122,62 +124,56 @@ public class PracticeMode : MonoBehaviour
                 }
             }
 
-            //Refill Health Meters            
-            //Refill P1 HP after P2 (true) combo finishes
-            if (P1Prop.HitDetect.hitStun >= 0)
+            //Refill Health Meters/Manage whiff detection for Armor refill            
+            //Refill P1 HP after P2 combo finishes
+            if (P1Prop.HitDetect.hitStun > 0)
             {
-                if (P1Prop.HitDetect.hitStun > 0)
-                {
-                    P1inHitstun = true;
-                }
-                else if (P1Prop.HitDetect.hitStun == 0 && P1inHitstun)
-                {
-                    if (P1CurrentValor == 0)
-                    {
-                        P1Prop.currentHealth = P1Prop.maxHealth;
-                    }
-                    else if (P1CurrentValor == 1)
-                    {
-                        P1Prop.currentHealth = P1Prop.maxHealth / 2;
-                    }
-                    else if (P1CurrentValor == 2)
-                    {
-                        P1Prop.currentHealth = P1Prop.maxHealth / 4;
-                    }
-                    else if (P1CurrentValor == 3)
-                    {
-                        P1Prop.currentHealth = P1Prop.maxHealth / 10;
-                    }
-                    P1inHitstun = false;
-                }
+                P1inCombo = true;
             }
-            //Refill P2 HP after P1 (true) combo finishes  
-            if (P2Prop.HitDetect.hitStun >= 0)
+            if (P2Prop.HitDetect.comboCount == 0)
             {
-                if (P2Prop.HitDetect.hitStun > 0)
+                if (P1CurrentValor == 0)
                 {
-                    P2inHitstun = true;
+                    P1Prop.currentHealth = P1Prop.maxHealth;
                 }
-                else if (P2Prop.HitDetect.hitStun == 0 && P2inHitstun)
+                else if (P1CurrentValor == 1)
                 {
-                    if (P2CurrentValor == 0)
-                    {
-                        P2Prop.currentHealth = P2Prop.maxHealth;
-                    }
-                    else if (P2CurrentValor == 1)
-                    {
-                        P2Prop.currentHealth = P2Prop.maxHealth / 2;
-                    }
-                    else if (P2CurrentValor == 2)
-                    {
-                        P2Prop.currentHealth = P2Prop.maxHealth / 4;
-                    }
-                    else if (P2CurrentValor == 3)
-                    {
-                        P2Prop.currentHealth = P2Prop.maxHealth / 10;
-                    }
-                    P2inHitstun = false;
+                    P1Prop.currentHealth = P1Prop.maxHealth / 2;
                 }
+                else if (P1CurrentValor == 2)
+                {
+                    P1Prop.currentHealth = P1Prop.maxHealth / 4;
+                }
+                else if (P1CurrentValor == 3)
+                {
+                    P1Prop.currentHealth = P1Prop.maxHealth / 10;
+                }
+                P1inCombo = false;
+            }
+            //Refill P2 HP after P1 combo finishes  
+            if (P2Prop.HitDetect.hitStun > 0)
+            {
+                P2inCombo = true;
+            }
+            if (P1Prop.HitDetect.comboCount == 0)
+            {
+                if (P2CurrentValor == 0)
+                {
+                    P2Prop.currentHealth = P2Prop.maxHealth;
+                }
+                else if (P2CurrentValor == 1)
+                {
+                    P2Prop.currentHealth = P2Prop.maxHealth / 2;
+                }
+                else if (P2CurrentValor == 2)
+                {
+                    P2Prop.currentHealth = P2Prop.maxHealth / 4;
+                }
+                else if (P2CurrentValor == 3)
+                {
+                    P2Prop.currentHealth = P2Prop.maxHealth / 10;
+                }
+                P2inCombo = false;
             }
             //Reset Positions back to start
             if (Input.GetButtonDown("Select_P1"))
@@ -189,21 +185,6 @@ public class PracticeMode : MonoBehaviour
 
     void resetPositions()
     {        
-        //Sets players meters (health, armor, durability) to full
-        P1Prop.currentHealth = P1Prop.maxHealth;
-        P1Prop.armor = 4;
-        P1Prop.durability = 100;
-        P1Prop.HitDetect.currentVelocity = Vector2.zero;
-        P1Prop.HitDetect.KnockBack = Vector2.zero;
-        P1Prop.HitDetect.ProjectileKnockBack = Vector2.zero;
-
-        P2Prop.currentHealth = P2Prop.maxHealth;
-        P2Prop.armor = 4;
-        P2Prop.durability = 100;
-        P2Prop.HitDetect.currentVelocity = Vector2.zero;
-        P2Prop.HitDetect.KnockBack = Vector2.zero;
-        P2Prop.HitDetect.ProjectileKnockBack = Vector2.zero;
-
         //Setting players to starting location vectors
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
