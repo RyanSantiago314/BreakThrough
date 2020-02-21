@@ -47,8 +47,7 @@ public class PracticeMode : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-        DamageDisplays.SetActive(true);
+    {       
         Player1 = GameObject.Find("Player1");
         Player2 = GameObject.Find("Player2");
         P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
@@ -71,6 +70,7 @@ public class PracticeMode : MonoBehaviour
         {
             GameOverManager = GameObject.Find("GameOverManager");
             GameOverManager.SetActive(false);
+            DamageDisplays.SetActive(true);
         }       
     }
 
