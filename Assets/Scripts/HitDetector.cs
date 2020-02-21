@@ -608,8 +608,8 @@ public class HitDetector : MonoBehaviour
         if (OpponentDetector.hitStun == 0)
             OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;
 
-        //hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
-        hitEffect.transform.position = hitBox1.bounds.ClosestPoint(OpponentDetector.transform.position + new Vector3(other.offset.x, other.offset.y, 0));
+        hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+        //hitEffect.transform.position = hitBox1.bounds.ClosestPoint(OpponentDetector.transform.position + new Vector3(other.offset.x, other.offset.y, 0));
         hitEffect.SetInteger("AttackLevel", attackLevel);
     }
 
@@ -916,7 +916,7 @@ public class HitDetector : MonoBehaviour
         //set hit effect to play based on attack properties
         if (!blitz && !grab)
         {
-            if (shatter)
+            if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive||OpponentDetector.Actions.recovering))
                 hitEffect.SetTrigger(shatterID);
             else if (slash)
                 hitEffect.SetTrigger("Slash");
