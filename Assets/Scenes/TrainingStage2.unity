@@ -465,8 +465,9 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier:
   GameOverManager: {fileID: 0}
+  enableArmorRefill: 1
   P1ValorSetting: 0
-  P2ValorSetting: 4
+  P2ValorSetting: 0
 --- !u!1 &121571650
 GameObject:
   m_ObjectHideFlags: 0

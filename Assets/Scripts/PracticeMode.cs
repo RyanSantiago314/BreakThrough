@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PracticeMode : MonoBehaviour
 {
+    GameObject Player1;
+    GameObject Player2;
+
     CharacterProperties P1Prop;
     CharacterProperties P2Prop;
     HitDetector P1hit;
@@ -15,15 +18,19 @@ public class PracticeMode : MonoBehaviour
     private bool P1inHitstun;
     private bool P2inHitstun;
 
-    private bool enableArmorRefill = true;
+    public bool enableArmorRefill = true;
+
     public int P1ValorSetting;
     public int P2ValorSetting;
+
     private int P1CurrentValor;
     private int P2CurrentValor;
 
     // Start is called before the first frame update
     void Start()
     {
+        Player1 = GameObject.Find("Player1");
+        Player2 = GameObject.Find("Player2");
         P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
         P2Prop = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
         P1hit = GameObject.Find("Player1").transform.GetComponentInChildren<HitDetector>();
@@ -113,10 +120,6 @@ public class PracticeMode : MonoBehaviour
                 {
                     P2Prop.currentHealth = P2Prop.maxHealth / 10;
                 }
-                else if (P2CurrentValor == 4)
-                {
-                    P2Prop.currentHealth = 1;
-                }
             }
 
             //Refill Health Meters            
@@ -173,10 +176,6 @@ public class PracticeMode : MonoBehaviour
                     {
                         P2Prop.currentHealth = P2Prop.maxHealth / 10;
                     }
-                    else if (P2CurrentValor == 4)
-                    {
-                        P2Prop.currentHealth = 1;
-                    }
                     P2inHitstun = false;
                 }
             }
@@ -189,21 +188,21 @@ public class PracticeMode : MonoBehaviour
     }
 
     void resetPositions()
-    {
-        //MAKE CHARACTERS IN NEUTRAL POSITION
-
+    {        
         //Sets players meters (health, armor, durability) to full
         P1Prop.currentHealth = P1Prop.maxHealth;
         P1Prop.armor = 4;
         P1Prop.durability = 100;
         P1Prop.HitDetect.currentVelocity = Vector2.zero;
-        P1Input.anim.SetBool(Animator.StringToHash("Standing"), true);
+        P1Prop.HitDetect.KnockBack = Vector2.zero;
+        P1Prop.HitDetect.ProjectileKnockBack = Vector2.zero;
 
         P2Prop.currentHealth = P2Prop.maxHealth;
         P2Prop.armor = 4;
         P2Prop.durability = 100;
         P2Prop.HitDetect.currentVelocity = Vector2.zero;
-        P2Input.anim.SetBool(Animator.StringToHash("Standing"), true);
+        P2Prop.HitDetect.KnockBack = Vector2.zero;
+        P2Prop.HitDetect.ProjectileKnockBack = Vector2.zero;
 
         //Setting players to starting location vectors
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
@@ -227,5 +226,34 @@ public class PracticeMode : MonoBehaviour
             GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
         }
         GameObject.Find("CameraPos").transform.GetChild(1).transform.position = GameObject.Find("CameraPos").transform.position;
+
+        //MAKE CHARACTERS IN NEUTRAL POSITION
+        switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
+        {
+            case "Dhalia":
+                resetDhalia(Player1);
+                break;
+        }
+
+        switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
+        {
+            case "Dhalia":
+                resetDhalia(Player2);
+                break;
+        }
+    }
+
+    //Character Specific Reset Properties
+    private void resetDhalia(GameObject player)
+    {
+        //reset velocity??
+        //camera reset for toaster
+        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetTrigger(Animator.StringToHash("Blitz"));
+        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Hitboxes.BlitzCancel();
+        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Actions.landingLag = 0;
+        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Move.HitDetect.KnockBack = Vector2.zero;
+        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetBool(Animator.StringToHash("Run"), false);
+        player.transform.GetChild(1).gameObject.SetActive(false);
+        player.transform.GetChild(2).gameObject.SetActive(false);
     }
 }
