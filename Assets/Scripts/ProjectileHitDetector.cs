@@ -649,12 +649,24 @@ public class ProjectileHitDetector : MonoBehaviour
             else if (transform.position.x > OpponentDetector.Actions.Move.transform.position.x)
                 OpponentDetector.ProjectileKnockBack *= new Vector2(-1f, 1);
         }
-        if (shatter)
+        if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.recovering))
             HitDetect.hitEffect.SetTrigger(shatterID);
         else if (HitDetect.slash)
             HitDetect.hitEffect.SetTrigger("Slash");
         else
+        {
             HitDetect.hitEffect.SetTrigger("Strike");
+            HitDetect.hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(1f, 1.5f), Random.Range(-1f, 1f), 1);
+        }
+
+        if (!shatter)
+            HitDetect.hitEffect.transform.eulerAngles = new Vector3(HitDetect.hitEffect.transform.eulerAngles.x, HitDetect.hitEffect.transform.eulerAngles.y, Random.Range(0, 359));
+
+        HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
+        if (!Actions.Move.facingRight)
+            HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles = new Vector3(0, 180, 0);
+        if(OpponentDetector.KnockBack.y > 2)
+            HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles += new Vector3(0, 0, Random.Range(30f, 60f));
 
         if (potentialHitStun != 0)
             HitDetect.comboCount++;
@@ -715,11 +727,14 @@ public class ProjectileHitDetector : MonoBehaviour
             HitDetect.hitStop = 90;
             OpponentDetector.hitStop = 90;
             Actions.Move.OpponentProperties.currentHealth = 0;
+            HitDetect.hitEffect.SetFloat(animSpeedID, 0);
         }
         else if (Actions.Move.OpponentProperties.currentHealth > 0)
         {
             hitStop = potentialHitStop + i;
             OpponentDetector.hitStop = potentialHitStop + i;
+            if (usingSuper)
+                HitDetect.hitEffect.SetFloat(animSpeedID, 0);
         }
     }
 }

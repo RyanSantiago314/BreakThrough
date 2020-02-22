@@ -171,7 +171,7 @@ public class HitDetector : MonoBehaviour
         {
             anim.SetBool(runID, false);
             //hitStun only counts down if not in the groundbounce or crumple animations
-            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0  && !pauseScreen.isPaused)
+            if(!Actions.groundBounce && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0  && !pauseScreen.isPaused)
                 hitStun--;
             anim.SetInteger(hitStunID, hitStun);
         }
@@ -916,15 +916,30 @@ public class HitDetector : MonoBehaviour
         //set hit effect to play based on attack properties
         if (!blitz && !grab)
         {
-            if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive||OpponentDetector.Actions.recovering))
+            hitEffect.transform.GetChild(0).transform.localScale = Vector3.one;
+
+            if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.recovering))
                 hitEffect.SetTrigger(shatterID);
             else if (slash)
                 hitEffect.SetTrigger("Slash");
             else
+            {
                 hitEffect.SetTrigger("Strike");
+                if (attackLevel < 3)
+                    hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(.5f, .75f), Random.Range(-.5f, .5f), 1);
+                else
+                    hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(1f, 1.5f), Random.Range(-1.5f, 1.5f), 1);
+            }
 
             if (!shatter)
                 hitEffect.transform.eulerAngles = new Vector3(hitEffect.transform.eulerAngles.x, hitEffect.transform.eulerAngles.y, Random.Range(0, 359));
+
+            hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
+            if (!Actions.Move.facingRight)
+                hitEffect.transform.GetChild(0).transform.eulerAngles = new Vector3(0, 180, 0);
+
+            if (OpponentDetector.KnockBack.y > 2)
+                hitEffect.transform.GetChild(0).transform.eulerAngles += new Vector3(0, 0, Random.Range(30f, 60f));
         }
 
         if (!grab && potentialHitStun != 0)
@@ -962,6 +977,8 @@ public class HitDetector : MonoBehaviour
         {
             hitStop = potentialHitStop + i;
             OpponentDetector.hitStop = potentialHitStop + i;
+            if (usingSuper)
+                hitEffect.SetFloat(animSpeedID, 0);
         }
     }
 }
