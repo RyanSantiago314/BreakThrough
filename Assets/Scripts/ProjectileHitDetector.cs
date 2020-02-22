@@ -87,6 +87,8 @@ public class ProjectileHitDetector : MonoBehaviour
     static int dizzyID;
     static int KOID;
 
+    static int guardID;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -120,6 +122,8 @@ public class ProjectileHitDetector : MonoBehaviour
         throwRejectID = Animator.StringToHash("ThrowReject");
         dizzyID = Animator.StringToHash("Dizzy");
         KOID = Animator.StringToHash("KOed");
+
+        guardID = Animator.StringToHash("Guard");
 
         pauseScreen = GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>();
     }
@@ -649,24 +653,6 @@ public class ProjectileHitDetector : MonoBehaviour
             else if (transform.position.x > OpponentDetector.Actions.Move.transform.position.x)
                 OpponentDetector.ProjectileKnockBack *= new Vector2(-1f, 1);
         }
-        if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.recovering))
-            HitDetect.hitEffect.SetTrigger(shatterID);
-        else if (HitDetect.slash)
-            HitDetect.hitEffect.SetTrigger("Slash");
-        else
-        {
-            HitDetect.hitEffect.SetTrigger("Strike");
-            HitDetect.hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(1f, 1.5f), Random.Range(-1f, 1f), 1);
-        }
-
-        if (!shatter)
-            HitDetect.hitEffect.transform.eulerAngles = new Vector3(HitDetect.hitEffect.transform.eulerAngles.x, HitDetect.hitEffect.transform.eulerAngles.y, Random.Range(0, 359));
-
-        HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
-        if (!Actions.Move.facingRight)
-            HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles = new Vector3(0, 180, 0);
-        if(OpponentDetector.KnockBack.y > 2)
-            HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles += new Vector3(0, 0, Random.Range(30f, 60f));
 
         if (potentialHitStun != 0)
             HitDetect.comboCount++;
@@ -694,6 +680,38 @@ public class ProjectileHitDetector : MonoBehaviour
 
         HitDetect.hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
         HitDetect.hitEffect.SetInteger("AttackLevel", attackLevel);
+
+        HitDetect.hitEffect.transform.eulerAngles = Vector3.zero;
+        HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
+        if (OpponentDetector.blockStun > 0)
+        {
+            HitDetect.hitEffect.SetTrigger(guardID);
+            if (!Actions.Move.facingRight)
+                HitDetect.hitEffect.transform.eulerAngles += new Vector3(0, 180, 0);
+        }
+        else if (OpponentDetector.hitStun > 0)
+        {
+            if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.recovering))
+                HitDetect.hitEffect.SetTrigger(shatterID);
+            else if (HitDetect.slash)
+                HitDetect.hitEffect.SetTrigger("Slash");
+            else
+            {
+                HitDetect.hitEffect.SetTrigger("Strike");
+                if (attackLevel < 4)
+                    HitDetect.hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(.5f, .75f), Random.Range(-.5f, .5f), 1);
+                else
+                    HitDetect.hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(1f, 1.5f), Random.Range(-1.5f, 1.5f), 1);
+                if (!shatter)
+                    HitDetect.hitEffect.transform.eulerAngles = new Vector3(HitDetect.hitEffect.transform.eulerAngles.x, HitDetect.hitEffect.transform.eulerAngles.y, Random.Range(0, 359));
+            }
+        }
+
+        HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
+        if (!Actions.Move.facingRight)
+            HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles = new Vector3(0, 180, 0);
+        if (OpponentDetector.KnockBack.y > 2)
+            HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles += new Vector3(0, 0, Random.Range(30f, 70f));
 
         if (OpponentDetector.hitStun == 0)
             OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;

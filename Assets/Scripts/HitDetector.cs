@@ -104,6 +104,8 @@ public class HitDetector : MonoBehaviour
     static int dizzyID;
     static int KOID;
 
+    static int guardID;
+
     void Start()
     {
         Application.targetFrameRate = 60;
@@ -134,6 +136,8 @@ public class HitDetector : MonoBehaviour
         throwRejectID = Animator.StringToHash("ThrowReject");
         dizzyID = Animator.StringToHash("Dizzy");
         KOID = Animator.StringToHash("KOed");
+        
+        guardID = Animator.StringToHash("Guard");
 
         pauseScreen = GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>();
 
@@ -309,7 +313,6 @@ public class HitDetector : MonoBehaviour
             if (allowHit && !grab && !commandGrab && other.gameObject.transform.parent.parent == Actions.Move.opponent && (potentialHitStun > 0 || blitz))
             {
                 OpponentDetector.Actions.shattered = false;
-                hitEffect.transform.eulerAngles = Vector3.zero;
 
                 if ((guard == "Mid" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
                     (guard == "Low" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
@@ -484,7 +487,6 @@ public class HitDetector : MonoBehaviour
                         specialProration *= 1.1f;
                         HitSuccess(other);
                         ApplyHitStop(2 * potentialHitStop);
-                        Contact(other);
                     }
                     else if (piercing && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                     {
@@ -496,7 +498,6 @@ public class HitDetector : MonoBehaviour
                         }
                         HitSuccess(other);
                         ApplyHitStop(0);
-                        Contact(other);
                     }
                     else if (!blitz && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                     {
@@ -611,6 +612,42 @@ public class HitDetector : MonoBehaviour
         hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
         //hitEffect.transform.position = hitBox1.bounds.ClosestPoint(OpponentDetector.transform.position + new Vector3(other.offset.x, other.offset.y, 0));
         hitEffect.SetInteger("AttackLevel", attackLevel);
+
+        //set hit effect to play based on attack properties
+        if (!blitz && !grab)
+        {
+            hitEffect.transform.eulerAngles = Vector3.zero;
+            hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
+            if (OpponentDetector.blockStun > 0)
+            {
+                hitEffect.SetTrigger(guardID);
+                if (!Actions.Move.facingRight)
+                    hitEffect.transform.eulerAngles += new Vector3(0, 180, 0);
+            }
+            else if (OpponentDetector.hitStun > 0)
+            {
+                if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.recovering))
+                    hitEffect.SetTrigger(shatterID);
+                else if (slash)
+                    hitEffect.SetTrigger("Slash");
+                else
+                {
+                    hitEffect.SetTrigger("Strike");
+                    if (attackLevel < 4)
+                        hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(.5f, .75f), Random.Range(-.5f, .5f), 1);
+                    else
+                        hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(1f, 1.5f), Random.Range(-1.5f, 1.5f), 1);
+                    if (!shatter)
+                        hitEffect.transform.eulerAngles = new Vector3(hitEffect.transform.eulerAngles.x, hitEffect.transform.eulerAngles.y, Random.Range(0, 359));
+                }
+            }
+
+            hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
+            if (!Actions.Move.facingRight)
+                hitEffect.transform.GetChild(0).transform.eulerAngles = new Vector3(0, 180, 0);
+            if (OpponentDetector.KnockBack.y > 2)
+                hitEffect.transform.GetChild(0).transform.eulerAngles += new Vector3(0, 0, Random.Range(30f, 70f));
+        }
     }
 
     void HitSuccess(Collider2D other)
@@ -911,35 +948,6 @@ public class HitDetector : MonoBehaviour
                 else if (OpponentDetector.Actions.Move.facingRight)
                     OpponentDetector.KnockBack *= new Vector2(-1f, 1);
             }
-        }
-
-        //set hit effect to play based on attack properties
-        if (!blitz && !grab)
-        {
-            hitEffect.transform.GetChild(0).transform.localScale = Vector3.one;
-
-            if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.recovering))
-                hitEffect.SetTrigger(shatterID);
-            else if (slash)
-                hitEffect.SetTrigger("Slash");
-            else
-            {
-                hitEffect.SetTrigger("Strike");
-                if (attackLevel < 3)
-                    hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(.5f, .75f), Random.Range(-.5f, .5f), 1);
-                else
-                    hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(1f, 1.5f), Random.Range(-1.5f, 1.5f), 1);
-            }
-
-            if (!shatter)
-                hitEffect.transform.eulerAngles = new Vector3(hitEffect.transform.eulerAngles.x, hitEffect.transform.eulerAngles.y, Random.Range(0, 359));
-
-            hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
-            if (!Actions.Move.facingRight)
-                hitEffect.transform.GetChild(0).transform.eulerAngles = new Vector3(0, 180, 0);
-
-            if (OpponentDetector.KnockBack.y > 2)
-                hitEffect.transform.GetChild(0).transform.eulerAngles += new Vector3(0, 0, Random.Range(30f, 60f));
         }
 
         if (!grab && potentialHitStun != 0)
