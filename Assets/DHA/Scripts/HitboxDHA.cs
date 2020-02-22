@@ -1018,7 +1018,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStun = 25;
         HitDetect.potentialHitStop = hitStopLv4;
         HitDetect.initialProration = .9f;
-        HitDetect.attackLevel = 3;
+        HitDetect.attackLevel = 4;
         HitDetect.guard = "Overhead";
 
         HitDetect.allowSpecial = true;
