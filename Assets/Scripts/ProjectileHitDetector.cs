@@ -699,7 +699,7 @@ public class ProjectileHitDetector : MonoBehaviour
             {
                 HitDetect.hitEffect.SetTrigger("Strike");
                 if (attackLevel < 4)
-                    HitDetect.hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(.5f, .75f), Random.Range(-.5f, .5f), 1);
+                    HitDetect.hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(.5f, .75f), Random.Range(-1f, 1f), 1);
                 else
                     HitDetect.hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(1f, 1.5f), Random.Range(-1.5f, 1.5f), 1);
                 if (!shatter)

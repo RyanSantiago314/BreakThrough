@@ -366,6 +366,11 @@ public class HitDetector : MonoBehaviour
                             OpponentDetector.KnockBack = new Vector2(.8f * (potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
                         }
 
+                        if (Actions.airborne && KnockBack.x > 1f)
+                        {
+                            KnockBack = new Vector2(1f, KnockBack.y);
+                        }
+
                     }
 
                     if (OpponentDetector.anim.GetBool(AirGuard) && OpponentDetector.Actions.Move.justDefenseTime <= 0)
