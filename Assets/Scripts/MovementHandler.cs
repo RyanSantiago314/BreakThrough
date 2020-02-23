@@ -263,7 +263,7 @@ public class MovementHandler : MonoBehaviour
             justDefenseTime = 4;
         }
 
-        if (horiAxisInUse)
+        if ((opponent.position.x > transform.position.x && MaxInput.GetAxis(Horizontal) < 0)|| (opponent.position.x < transform.position.x && MaxInput.GetAxis(Horizontal) > 0))
             justDefenseTime--;
 
         Blocking();
