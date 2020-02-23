@@ -24,7 +24,7 @@ MonoBehaviour:
     Protocol: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  PunLogging: 0
+  PunLogging: 2
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
@@ -34,6 +34,11 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - RPC_SendP1Armor
+  - RPC_SendP1Health
+  - RPC_SendP2Armor
+  - RPC_SendP2Health
+  - RPC_SendRoundTimer
   - RPC_SendTimer
   DisableAutoOpenWizard: 1
   ShowSettings: 0

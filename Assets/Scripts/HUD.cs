@@ -1,10 +1,14 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HUD : MonoBehaviour
+public class HUD : MonoBehaviourPunCallbacks
 {
+    private PhotonView myPhotonView;
+
     public Text Player1Health;
     public Text Player2Health;
     public Text Player1Armor;
@@ -38,6 +42,7 @@ public class HUD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        myPhotonView = GetComponent<PhotonView>();
         P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
         P2Prop = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
 		P1hit = GameObject.Find("Player1").transform.GetComponentInChildren<HitDetector>();
@@ -126,6 +131,41 @@ public class HUD : MonoBehaviour
             Player2Combo.text = "";
         }
 
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("RPC City");
+            myPhotonView.RPC("RPC_SendP1Health", RpcTarget.Others, P1Prop.currentHealth, P1Prop.maxHealth);
+            myPhotonView.RPC("RPC_SendP2Health", RpcTarget.Others, P2Prop.currentHealth, P2Prop.maxHealth);
+            myPhotonView.RPC("RPC_SendP1Armor", RpcTarget.Others, P1Prop.armor);
+            myPhotonView.RPC("RPC_SendP2Armor", RpcTarget.Others, P2Prop.armor);
+        }
+    }
 
+    [PunRPC]
+    private void RPC_SendP1Health(int currentHealthIn, int maxHealthIn)
+    {
+        Debug.Log("RPC_SendP1Health");
+        Player1Health.text = currentHealthIn + " / " + maxHealthIn;
+    }
+
+    [PunRPC]
+    private void RPC_SendP2Health(int currentHealthIn, int maxHealthIn)
+    {
+        Debug.Log("RPC_SendP2Health");
+        Player2Health.text = currentHealthIn + " / " + maxHealthIn;
+    }
+
+    [PunRPC]
+    private void RPC_SendP1Armor(int armorIn)
+    {
+        Debug.Log("RPC_SendP1Armor");
+        Player1Armor.text = "Armor:" + armorIn;
+    }
+
+    [PunRPC]
+    private void RPC_SendP2Armor(int armorIn)
+    {
+        Debug.Log("RPC_SendP2Armor");
+        Player2Armor.text = "Armor:" + armorIn;
     }
 }

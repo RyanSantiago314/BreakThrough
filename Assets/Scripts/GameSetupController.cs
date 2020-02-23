@@ -6,24 +6,36 @@ public class GameSetupController : MonoBehaviour
 {
 	public PhotonView p1;
 	public PhotonView p2;
+	public GameObject P1Character;
+    public GameObject P2Character;
+    public GameObject HitMarker;
+    private string P1Char;
+    private string P2Char;
+
     void Start()
     {
     	CreatePlayer();
     }
     private void CreatePlayer()
     {
-    	Debug.Log("Creating Player");
-  //   	if(PhotonNetwork.IsMasterClient)
-		// {
-		 	Debug.Log("Creating Player1");
-		 	PhotonNetwork.Instantiate(Path.Combine("Prefabs", "DHA.prefab"), new Vector3(1.3f, 1.10f, -3f), Quaternion.identity);
-		// }
-		// else
-		// {
-		// 	Debug.Log("Creating Player2");
-		// 	PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player2"), new Vector3(-1.3f, 1.10f, -3f), Quaternion.identity);
-		// }
-		//p1.TransferOwnership(PhotonNetwork.PlayerList[0]);
-		//p2.TransferOwnership(PhotonNetwork.PlayerList[1]);
+    	//Debug.Log(PhotonNetwork.PlayerList[0]);
+		if (PhotonNetwork.IsMasterClient)
+		{
+			P1Character = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "OnlineDhalia"), new Vector3(1.3f, 1.15f, -3f), Quaternion.identity);
+
+			GameObject.Find("Player1").GetComponent<FighterAgent>().myChar = P1Character.GetComponent<CharacterProperties>();
+        	P1Character.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
+        	P1Character.GetComponent<AttackHandlerDHA>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
+        	P1Character.transform.GetChild(2).GetComponent<HitDetector>().hitTrack = HitMarker.transform;
+		}
+		else
+		{
+			P2Character = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "OnlineDhalia"), new Vector3(-1.3f, 1.15f, -3f), Quaternion.identity);
+
+			GameObject.Find("Player2").GetComponent<FighterAgent>().myChar = P2Character.GetComponent<CharacterProperties>();
+        	P2Character.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
+        	P2Character.GetComponent<AttackHandlerDHA>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
+        	P2Character.transform.GetChild(2).GetComponent<HitDetector>().hitTrack = HitMarker.transform;
+		}
     }
 }

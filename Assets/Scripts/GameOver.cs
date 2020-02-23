@@ -1,3 +1,5 @@
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,8 +7,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class GameOver : MonoBehaviour
+public class GameOver : MonoBehaviourPunCallbacks
 {
+	private PhotonView myPhotonView;
 	//Variables for character properties for both player 1 and 2
     private CharacterProperties PlayerProp1;
     private CharacterProperties PlayerProp2;
@@ -52,6 +55,8 @@ public class GameOver : MonoBehaviour
 
 	void Start()
 	{	
+		myPhotonView = GetComponent<PhotonView>();
+
 		//Setting private character property variables to their appropriate player 1 and 2 child respectively
 		PlayerProp1 = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
 		PlayerProp2 = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
@@ -268,6 +273,11 @@ public class GameOver : MonoBehaviour
 		if (replayTimer > 0 && replayTimer < 1 && p1Win != 2 && p2Win != 2) GoBlack();
 		//When the 6 second replay timer is up restart the round
 		if (replayTimer <= 0 && replayTimer > -2 && p1Win != 2 && p2Win != 2) ReplayGame();
+
+		if (PhotonNetwork.IsMasterClient)
+        {
+            myPhotonView.RPC("RPC_SendRoundTimer", RpcTarget.Others, roundTimer);
+        }
 	}
 
 	//Function that restarts a round
@@ -306,4 +316,11 @@ public class GameOver : MonoBehaviour
  		child3.SetActive(false);
  		GameObject.Find("Canvas/BlackScreen").GetComponent<Image>().color = new Color(0,0,0,255);
  	}
+
+ 	[PunRPC]
+    private void RPC_SendRoundTimer(float timerIn)
+    {
+    	Debug.Log("RPC_SendRoundTimer");
+        roundTimer = timerIn;
+    }
 }
