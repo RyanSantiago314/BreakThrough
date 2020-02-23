@@ -697,7 +697,7 @@ public class ProjectileHitDetector : MonoBehaviour
         }
         else if (OpponentDetector.hitStun > 0)
         {
-            if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.recovering))
+            if (OpponentDetector.Actions.shattered)
                 HitDetect.hitEffect.SetTrigger(shatterID);
             else if (HitDetect.slash)
                 HitDetect.hitEffect.SetTrigger("Slash");
