@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BurstBreaker
+  m_Name: Shattered
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -21,50 +21,60 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: c4229656d6a4bb5468b05947cd88e4c4, type: 3}
-    - time: 0.044444446
+    - time: 0.02
       value: {fileID: 21300000, guid: cf8b4f13726e5984abc7948f162757ef, type: 3}
-    - time: 0.08888889
+    - time: 0.04
       value: {fileID: 21300000, guid: a9fb334200cd5c042a4bbead4c9fe97b, type: 3}
-    - time: 0.13333334
+    - time: 0.06
       value: {fileID: 21300000, guid: 4c99b626488bfff4187e9e11404feb79, type: 3}
-    - time: 0.17777778
+    - time: 0.08
       value: {fileID: 21300000, guid: b39961ba26a41284290c6c8f38dfbb82, type: 3}
-    - time: 0.22222222
+    - time: 0.1
       value: {fileID: 21300000, guid: 385326a59ebc11a43937e6f44f51a03b, type: 3}
-    - time: 0.26666668
+    - time: 0.12
       value: {fileID: 21300000, guid: fb137d791feb2e54d8fbfc58f2159e57, type: 3}
-    - time: 0.31111112
+    - time: 0.14
       value: {fileID: 21300000, guid: cc518e1bf0db8b240867b8c1d57d223c, type: 3}
-    - time: 0.35555556
+    - time: 0.16
       value: {fileID: 21300000, guid: 01466522e659e8e488a27132971fbdbc, type: 3}
-    - time: 0.4
+    - time: 0.22
       value: {fileID: 21300000, guid: 986237bc5118795468f91c4374edc9b9, type: 3}
-    - time: 0.44444445
+    - time: 0.28
       value: {fileID: 21300000, guid: cc5a70c8f078977468e7f8d93d8f83d7, type: 3}
-    - time: 0.4888889
+    - time: 0.34
       value: {fileID: 21300000, guid: 6201fa749242fcb4a8c1a0700c8359c4, type: 3}
-    - time: 0.53333336
+    - time: 0.4
       value: {fileID: 21300000, guid: 0ef486757e3816c4f91414f13ac91d80, type: 3}
-    - time: 0.5777778
+    - time: 0.46
       value: {fileID: 21300000, guid: db24cc0e8f684ce41bf2ad0fa89a0bae, type: 3}
-    - time: 0.62222224
-      value: {fileID: 21300000, guid: 64d1cca9c44c8554b8ce0b376b36f736, type: 3}
-    - time: 1.3111111
-      value: {fileID: 0}
-    attribute: m_Sprite
-    path: CharEffects1
-    classID: 212
-    script: {fileID: 0}
-  - curve:
-    - time: 0
-      value: {fileID: 21300000, guid: 64d1cca9c44c8554b8ce0b376b36f736, type: 3}
-    - time: 1.3111111
-      value: {fileID: 21300000, guid: c3946c70992f19144b607fbc933642c5, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: db24cc0e8f684ce41bf2ad0fa89a0bae, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 45
+  - curve:
+    - time: 0
+      value: {fileID: 0}
+    - time: 0.16
+      value: {fileID: 21300000, guid: 77e4e0dca7c88494f9b6e27bb163a7ef, type: 3}
+    - time: 0.22
+      value: {fileID: 21300000, guid: b3c3a053436ae57478141b173c934a97, type: 3}
+    - time: 0.28
+      value: {fileID: 21300000, guid: 5e462fe594e303d42bbc39281a8a9f2b, type: 3}
+    - time: 0.34
+      value: {fileID: 21300000, guid: 6144f6b32441a024796f5069967aef40, type: 3}
+    - time: 0.4
+      value: {fileID: 21300000, guid: e3fd72e0a4933d245a2e1ed47326ebc5, type: 3}
+    - time: 0.46
+      value: {fileID: 21300000, guid: 2602b472b2ee89d4199836495ef8b8ae, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: 64d1cca9c44c8554b8ce0b376b36f736, type: 3}
+    attribute: m_Sprite
+    path: ExtraChannel
+    classID: 212
+    script: {fileID: 0}
+  m_SampleRate: 50
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -72,14 +82,14 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 529285965
+      path: 0
       attribute: 0
       script: {fileID: 0}
       typeID: 212
       customType: 23
       isPPtrCurve: 1
     - serializedVersion: 2
-      path: 0
+      path: 1516942088
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -100,16 +110,21 @@ AnimationClip:
     - {fileID: 21300000, guid: 6201fa749242fcb4a8c1a0700c8359c4, type: 3}
     - {fileID: 21300000, guid: 0ef486757e3816c4f91414f13ac91d80, type: 3}
     - {fileID: 21300000, guid: db24cc0e8f684ce41bf2ad0fa89a0bae, type: 3}
-    - {fileID: 21300000, guid: 64d1cca9c44c8554b8ce0b376b36f736, type: 3}
+    - {fileID: 21300000, guid: db24cc0e8f684ce41bf2ad0fa89a0bae, type: 3}
     - {fileID: 0}
+    - {fileID: 21300000, guid: 77e4e0dca7c88494f9b6e27bb163a7ef, type: 3}
+    - {fileID: 21300000, guid: b3c3a053436ae57478141b173c934a97, type: 3}
+    - {fileID: 21300000, guid: 5e462fe594e303d42bbc39281a8a9f2b, type: 3}
+    - {fileID: 21300000, guid: 6144f6b32441a024796f5069967aef40, type: 3}
+    - {fileID: 21300000, guid: e3fd72e0a4933d245a2e1ed47326ebc5, type: 3}
+    - {fileID: 21300000, guid: 2602b472b2ee89d4199836495ef8b8ae, type: 3}
     - {fileID: 21300000, guid: 64d1cca9c44c8554b8ce0b376b36f736, type: 3}
-    - {fileID: 21300000, guid: c3946c70992f19144b607fbc933642c5, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.3333334
+    m_StopTime: 0.52
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -128,74 +143,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0
-    functionName: Invincible
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
-    functionName: DisableBlitz
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
-    functionName: DisableAll
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
-    functionName: Advance
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
-    functionName: BurstRise
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 2
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.17777778
-    functionName: StartBurst
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.35555556
-    functionName: BurstBreaker
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.35555556
-    functionName: HitAir
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.4888889
-    functionName: ClearHitBox
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.8888889
-    functionName: EndBurst
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []

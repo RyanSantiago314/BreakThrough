@@ -406,7 +406,10 @@ public class HitDetector : MonoBehaviour
                             Debug.Log("SHATTERED");
                             //damage, hitstun, etc.
                             HitSuccess(other);
-                            ApplyHitStop(2 * potentialHitStop);
+                            if (potentialHitStop > 0)
+                                ApplyHitStop(2 * potentialHitStop);
+                            else
+                                ApplyHitStop(30);
 
                             //chip damage
                             /*if (Actions.Move.OpponentProperties.currentHealth - damage/5 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
@@ -616,14 +619,25 @@ public class HitDetector : MonoBehaviour
 
         hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
         //hitEffect.transform.position = hitBox1.bounds.ClosestPoint(OpponentDetector.transform.position + new Vector3(other.offset.x, other.offset.y, 0));
-        hitEffect.SetInteger("AttackLevel", attackLevel);
+        if (piercing)
+            hitEffect.SetInteger("AttackLevel", 4);
+        else
+            hitEffect.SetInteger("AttackLevel", attackLevel);
 
         //set hit effect to play based on attack properties
         if (!blitz && !grab)
         {
             hitEffect.transform.eulerAngles = Vector3.zero;
             hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
-            if (OpponentDetector.armorHit)
+            if (OpponentDetector.Actions.shattered)
+            {
+                hitEffect.SetTrigger(shatterID);
+                hitEffect.transform.position = OpponentDetector.Actions.Move.transform.position;
+                if (OpponentDetector.Actions.Move.anim.GetBool("Crouch"))
+                    hitEffect.transform.position = new Vector3(hitEffect.transform.position.x, hitEffect.transform.position.y - .5f, hitEffect.transform.position.z);
+                hitEffect.transform.GetChild(0).transform.localScale = new Vector3(2, 2, 1);
+            }
+            else if (OpponentDetector.armorHit)
             {
                 hitEffect.SetTrigger(armorHitID);
                 if (!Actions.Move.facingRight)
@@ -637,9 +651,7 @@ public class HitDetector : MonoBehaviour
             }
             else if (OpponentDetector.hitStun > 0)
             {
-                if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.recovering))
-                    hitEffect.SetTrigger(shatterID);
-                else if (slash)
+                if (slash)
                     hitEffect.SetTrigger("Slash");
                 else
                 {
@@ -648,7 +660,7 @@ public class HitDetector : MonoBehaviour
                         hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(.5f, .75f), Random.Range(-.5f, .5f), 1);
                     else
                         hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(1f, 1.5f), Random.Range(-1.5f, 1.5f), 1);
-                    if (!shatter)
+
                         hitEffect.transform.eulerAngles = new Vector3(hitEffect.transform.eulerAngles.x, hitEffect.transform.eulerAngles.y, Random.Range(0, 359));
                 }
             }

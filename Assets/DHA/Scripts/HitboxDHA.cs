@@ -942,7 +942,7 @@ public class HitboxDHA : MonoBehaviour
         hit1.offset = new Vector2(1.3f, -.28f);
         hit1.size = new Vector2(1f, 1f);
         hit2.offset = new Vector2(.6f, -.34f);
-        hit2.size = new Vector2(.9f, 64f);
+        hit2.size = new Vector2(.9f, .64f);
 
         HitDetect.damage = 135;
         HitDetect.durabilityDamage = 0;
@@ -971,7 +971,7 @@ public class HitboxDHA : MonoBehaviour
             hit1.offset = new Vector2(1.3f, -.2f);
             hit1.size = new Vector2(1f, 1.2f);
             hit2.offset = new Vector2(.6f, -.34f);
-            hit2.size = new Vector2(.9f, 64f);
+            hit2.size = new Vector2(.9f, .64f);
 
             HitDetect.damage = 150;
             HitDetect.durabilityDamage = 0;

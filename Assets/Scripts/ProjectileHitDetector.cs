@@ -303,7 +303,10 @@ public class ProjectileHitDetector : MonoBehaviour
                             Debug.Log("SHATTERED");
                             //damage, hitstun, etc.
                             HitSuccess(other);
-                            ApplyHitStop(2 * potentialHitStop);
+                            if (potentialHitStop > 0)
+                                ApplyHitStop(2 * potentialHitStop);
+                            else
+                                ApplyHitStop(30);
 
                             //chip damage
                             /*if (Actions.Move.OpponentProperties.currentHealth - damage/10 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
@@ -679,11 +682,21 @@ public class ProjectileHitDetector : MonoBehaviour
         hit = true;
 
         HitDetect.hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
-        HitDetect.hitEffect.SetInteger("AttackLevel", attackLevel);
+        if (piercing)
+            HitDetect.hitEffect.SetInteger("AttackLevel", 4);
+        else
+            HitDetect.hitEffect.SetInteger("AttackLevel", attackLevel);
 
         HitDetect.hitEffect.transform.eulerAngles = Vector3.zero;
         HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
-        if (OpponentDetector.armorHit)
+        if (OpponentDetector.Actions.shattered)
+        {
+            HitDetect.hitEffect.SetTrigger(shatterID);
+            HitDetect.hitEffect.transform.position = OpponentDetector.Actions.Move.transform.position;
+            if (OpponentDetector.Actions.Move.anim.GetBool("Crouch"))
+                HitDetect.hitEffect.transform.position = new Vector3(HitDetect.hitEffect.transform.position.x, HitDetect.hitEffect.transform.position.y - .5f, HitDetect.hitEffect.transform.position.z);
+        }    
+        else if (OpponentDetector.armorHit)
         {
             HitDetect.hitEffect.SetTrigger(armorHitID);
             if (!Actions.Move.facingRight)
@@ -697,9 +710,8 @@ public class ProjectileHitDetector : MonoBehaviour
         }
         else if (OpponentDetector.hitStun > 0)
         {
-            if (OpponentDetector.Actions.shattered)
-                HitDetect.hitEffect.SetTrigger(shatterID);
-            else if (HitDetect.slash)
+            
+            if (HitDetect.slash)
                 HitDetect.hitEffect.SetTrigger("Slash");
             else
             {
