@@ -502,14 +502,14 @@ public class HitDetector : MonoBehaviour
                             OpponentDetector.armorHit = true;
                         }
                         HitSuccess(other);
-                        ApplyHitStop(0);
+                        ApplyHitStop(potentialHitStop/2);
                     }
                     else if (!blitz && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                     {
                         //if the opponent has armor and is using it, deal armor and durability damage
                         Actions.Move.OpponentProperties.armor -= armorDamage;
                         Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                        ApplyHitStop(0);
+                        ApplyHitStop(potentialHitStop/2);
                         OpponentDetector.armorHit = true;
                         Debug.Log("HitArmor");
                     }
@@ -623,7 +623,13 @@ public class HitDetector : MonoBehaviour
         {
             hitEffect.transform.eulerAngles = Vector3.zero;
             hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
-            if (OpponentDetector.blockStun > 0)
+            if (OpponentDetector.armorHit)
+            {
+                hitEffect.SetTrigger(armorHitID);
+                if (!Actions.Move.facingRight)
+                    hitEffect.transform.eulerAngles += new Vector3(0, 180, 0);
+            }
+            else if (OpponentDetector.blockStun > 0)
             {
                 hitEffect.SetTrigger(guardID);
                 if (!Actions.Move.facingRight)
