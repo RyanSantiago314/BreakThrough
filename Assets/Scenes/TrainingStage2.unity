@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657916, g: 0.49641287, b: 0.57481915, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465794, g: 0.4964134, b: 0.57481974, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -476,8 +476,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3696672b8ed9fc4aae7f8b4bf13b24d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxInput: {fileID: 1948197657}
+  MaxInputObject: {fileID: 1948197656}
   GameOverManager: {fileID: 0}
   enableArmorRefill: 1
+  enableP2Controller: 0
+  dummyState: Stand
   P1ValorSetting: 0
   P2ValorSetting: 0
   P1HitDamage: {fileID: 777982075}

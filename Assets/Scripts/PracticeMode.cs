@@ -15,12 +15,18 @@ public class PracticeMode : MonoBehaviour
     AcceptInputs P1Input;
     AcceptInputs P2Input;
     HUD HUD;
+    public MaxInput MaxInput;
+    public GameObject MaxInputObject;
     public GameObject GameOverManager;
 
     private bool P1inCombo;
     private bool P2inCombo;
+    double p1x;
+    double p2x;
 
     public bool enableArmorRefill = true;
+    public bool enableP2Controller = false;
+    public string dummyState = "Stand";
 
     public int P1ValorSetting;
     public int P2ValorSetting;
@@ -61,8 +67,8 @@ public class PracticeMode : MonoBehaviour
         P2PrevHealth = P2Prop.maxHealth;
         P1HitDamage.text = "";
         P2HitDamage.text = "";
-        P1ComboDamage.text = "";
-        P2ComboDamage.text = "";
+        P1ComboDamage.text = "Total Damage: ";
+        P2ComboDamage.text = "Total Damage: ";
         P1HighComboDamage.text = "Highest Combo Damage: 0";
         P2HighComboDamage.text = "Highest Combo Damage: 0";
 
@@ -128,7 +134,7 @@ public class PracticeMode : MonoBehaviour
                 else if (P1CurrentValor == 3)
                 {
                     P1Prop.currentHealth = P1Prop.maxHealth / 10;
-                }               
+                }
             }
 
             if (P2CurrentValor != P2ValorSetting)
@@ -217,17 +223,16 @@ public class PracticeMode : MonoBehaviour
                 P1CurrentHitDamage = P2PrevHealth - P2Prop.currentHealth;
                 P1CurrentComboTotalDamage += P1CurrentHitDamage;
                 P1HitDamage.text = "";
-                P1HitDamage.text = "Damage: ";               
+                P1HitDamage.text = "Damage: ";
                 P1HitDamage.text += P1CurrentHitDamage;
                 P1ComboDamage.text = "";
                 P1ComboDamage.text = "Total Damage : ";
                 P1ComboDamage.text += P1CurrentComboTotalDamage;
-                P2PrevHealth = P2Prop.currentHealth;              
+                P2PrevHealth = P2Prop.currentHealth;
             }
             if (HUD.Player1Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
             {
                 P1HitDamage.text = "";
-                P1ComboDamage.text = "";               
             }
             //Display P2 current hit damage
             if (P1Prop.currentHealth < P1PrevHealth)
@@ -245,7 +250,6 @@ public class PracticeMode : MonoBehaviour
             if (HUD.Player2Combo.text == "" && P2Prop.HitDetect.comboCount != 1)
             {
                 P2HitDamage.text = "";
-                P2ComboDamage.text = "";
             }
             //Update Highest Combo Damage
             if (P1CurrentComboTotalDamage > P1HighestComboDamage)
@@ -263,7 +267,52 @@ public class PracticeMode : MonoBehaviour
                 P2HighComboDamage.text += P2HighestComboDamage;
             }
 
-            //Reset Positions back to start
+            //Handle Dummy State
+            p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x;
+            p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x;
+            switch (dummyState)
+            {
+                case "CPU"://DELETE THESE COMMENTS LATER** CPU Complete
+                    MaxInput.enableAI();
+                    MaxInputObject.GetComponent<AI>().enabled = true;
+                    break;
+                case "Stand"://Add Tech command whenever possible
+                    MaxInput.enableAI();
+                    MaxInputObject.GetComponent<AI>().enabled = false;
+                    break;
+                case "Crouch"://Crouch Complete
+                    MaxInput.enableAI();                   
+                    MaxInputObject.GetComponent<AI>().enabled = false;
+                    MaxInput.Crouch("Player2");
+                    break;
+                case "Jump":
+                    MaxInput.enableAI();
+                    MaxInputObject.GetComponent<AI>().enabled = false;
+                    MaxInput.Jump("Player2");//repeat it
+                    break;
+                case "Guard":
+                    MaxInput.enableAI();
+                    MaxInputObject.GetComponent<AI>().enabled = false;
+                    break;
+                case "LowGuard":
+                    MaxInput.enableAI();                    
+                    MaxInputObject.GetComponent<AI>().enabled = false;
+                    MaxInput.Crouch("Player2");
+                    if (p1x - p2x < 0)
+                    {
+                        MaxInput.MoveRight("Player2");
+                    }
+                    else
+                    {
+                        MaxInput.MoveLeft("Player2");
+                    }
+                    break;
+                case "Player": //Player Complete
+                    MaxInput.disableAI();
+                    break;
+            }
+
+            //Reset Positions back to start **Still needs Refinement
             if (Input.GetButtonDown("Select_P1"))
             {
                 resetPositions();
