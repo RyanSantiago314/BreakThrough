@@ -21,6 +21,7 @@ public class PracticeMode : MonoBehaviour
 
     private bool P1inCombo;
     private bool P2inCombo;
+    private float InputTimer;
     double p1x;
     double p2x;
 
@@ -270,31 +271,43 @@ public class PracticeMode : MonoBehaviour
             //Handle Dummy State
             p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x;
             p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x;
+            if (InputTimer > 0) InputTimer -= Time.deltaTime;
+            else InputTimer = 0;
             switch (dummyState)
             {
-                case "CPU"://DELETE THESE COMMENTS LATER** CPU Complete
+                case "CPU":
                     MaxInput.enableAI();
                     MaxInputObject.GetComponent<AI>().enabled = true;
                     break;
-                case "Stand"://Add Tech command whenever possible
+                case "Stand":
+                    MaxInput.ClearInput("Player2");
                     MaxInput.enableAI();
                     MaxInputObject.GetComponent<AI>().enabled = false;
                     break;
-                case "Crouch"://Crouch Complete
-                    MaxInput.enableAI();                   
+                case "Crouch":
+                    MaxInput.ClearInput("Player2");
+                    MaxInput.enableAI();
                     MaxInputObject.GetComponent<AI>().enabled = false;
                     MaxInput.Crouch("Player2");
                     break;
                 case "Jump":
+                    MaxInput.ClearInput("Player2");
                     MaxInput.enableAI();
                     MaxInputObject.GetComponent<AI>().enabled = false;
-                    MaxInput.Jump("Player2");//repeat it
+                   
+                    if (InputTimer == 0)
+                    {
+                        MaxInput.Jump("Player2");
+                        InputTimer = 1.0f;
+                    }                  
                     break;
                 case "Guard":
+                    MaxInput.ClearInput("Player2");
                     MaxInput.enableAI();
                     MaxInputObject.GetComponent<AI>().enabled = false;
                     break;
                 case "LowGuard":
+                    MaxInput.ClearInput("Player2");
                     MaxInput.enableAI();                    
                     MaxInputObject.GetComponent<AI>().enabled = false;
                     MaxInput.Crouch("Player2");
@@ -308,6 +321,7 @@ public class PracticeMode : MonoBehaviour
                     }
                     break;
                 case "Player": //Player Complete
+                    MaxInput.ClearInput("Player2");
                     MaxInput.disableAI();
                     break;
             }
