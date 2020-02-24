@@ -224,7 +224,14 @@ public class MovementHandler : MonoBehaviour
 
             if (Actions.acceptMove && ((MaxInput.GetAxis(Horizontal) < 0 && facingRight) || (MaxInput.GetAxis(Horizontal) > 0 && !facingRight)) && !Actions.airborne && !backDash)
             {
-                anim.SetBool(walkBID, true);
+                if (GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().dummyState == "Guard" && transform.parent.name == "Player2")
+                {
+                    anim.SetBool(walkBID, false);
+                }
+                else
+                {
+                    anim.SetBool(walkBID, true);
+                }
             }
             else
                 anim.SetBool(walkBID, false);

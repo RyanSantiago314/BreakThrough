@@ -192,6 +192,7 @@ public class PracticeMode : MonoBehaviour
             if (P2Prop.HitDetect.hitStun > 0)
             {
                 P2inCombo = true;
+                InputTimer = 0.0f;
             }
             if (P1Prop.HitDetect.comboCount == 0)
             {
@@ -271,8 +272,14 @@ public class PracticeMode : MonoBehaviour
             //Handle Dummy State
             p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x;
             p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x;
-            if (InputTimer > 0) InputTimer -= Time.deltaTime;
-            else InputTimer = 0;
+            if (InputTimer > 0)
+            {
+                InputTimer -= Time.deltaTime;
+            }
+            else
+            {
+                InputTimer = 0;
+            }
             switch (dummyState)
             {
                 case "CPU":
@@ -295,7 +302,7 @@ public class PracticeMode : MonoBehaviour
                     MaxInput.enableAI();
                     MaxInputObject.GetComponent<AI>().enabled = false;
                    
-                    if (InputTimer == 0)
+                    if (InputTimer == 0 && !P2inCombo)
                     {
                         MaxInput.Jump("Player2");
                         InputTimer = 1.0f;
@@ -305,12 +312,6 @@ public class PracticeMode : MonoBehaviour
                     MaxInput.ClearInput("Player2");
                     MaxInput.enableAI();
                     MaxInputObject.GetComponent<AI>().enabled = false;
-                    break;
-                case "LowGuard":
-                    MaxInput.ClearInput("Player2");
-                    MaxInput.enableAI();                    
-                    MaxInputObject.GetComponent<AI>().enabled = false;
-                    MaxInput.Crouch("Player2");
                     if (p1x - p2x < 0)
                     {
                         MaxInput.MoveRight("Player2");
@@ -318,6 +319,19 @@ public class PracticeMode : MonoBehaviour
                     else
                     {
                         MaxInput.MoveLeft("Player2");
+                    }                        
+                    break;
+                case "LowGuard":
+                    MaxInput.ClearInput("Player2");
+                    MaxInput.enableAI();                    
+                    MaxInputObject.GetComponent<AI>().enabled = false;
+                    if (p1x - p2x < 0)
+                    {
+                        MaxInput.DownRight("Player2");
+                    }
+                    else
+                    {
+                        MaxInput.DownLeft("Player2");
                     }
                     break;
                 case "Player": //Player Complete
