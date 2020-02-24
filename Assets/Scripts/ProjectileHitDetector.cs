@@ -393,10 +393,9 @@ public class ProjectileHitDetector : MonoBehaviour
                 //if the attacks are of similar strength both can immediately input another command
                 Debug.Log("Projectile Clash!");
                 ApplyHitStop(0);
-                HitDetect.anim.SetTrigger(clashID);
                 ProjProp.currentHits++;
                 //no knockback on clashes
-                Clash();
+                Clash(other);
             }
             allowHit = false;
             hit = true;
@@ -423,7 +422,7 @@ public class ProjectileHitDetector : MonoBehaviour
                 HitDetect.anim.SetTrigger(clashID);
                 ProjProp.currentHits++;
                 //no knockback on clashes
-                Clash();
+                Clash(other);
             }
             allowHit = false;
             hit = true;
@@ -687,49 +686,43 @@ public class ProjectileHitDetector : MonoBehaviour
         else
             HitDetect.hitEffect.SetInteger("AttackLevel", attackLevel);
 
-        HitDetect.hitEffect.transform.eulerAngles = Vector3.zero;
-        HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
+        HitDetect.hitEffect.transform.localEulerAngles = Vector3.zero;
         if (OpponentDetector.Actions.shattered)
         {
             HitDetect.hitEffect.SetTrigger(shatterID);
             HitDetect.hitEffect.transform.position = OpponentDetector.Actions.Move.transform.position;
             if (OpponentDetector.Actions.Move.anim.GetBool("Crouch"))
                 HitDetect.hitEffect.transform.position = new Vector3(HitDetect.hitEffect.transform.position.x, HitDetect.hitEffect.transform.position.y - .5f, HitDetect.hitEffect.transform.position.z);
-        }    
+            HitDetect.hitEffect.transform.GetChild(0).transform.localScale = new Vector3(2, 2, 1);
+        }
         else if (OpponentDetector.armorHit)
         {
             HitDetect.hitEffect.SetTrigger(armorHitID);
-            if (!Actions.Move.facingRight)
-                HitDetect.hitEffect.transform.eulerAngles += new Vector3(0, 180, 0);
         }
         else if (OpponentDetector.blockStun > 0)
         {
             HitDetect.hitEffect.SetTrigger(guardID);
-            if (!Actions.Move.facingRight)
-                HitDetect.hitEffect.transform.eulerAngles += new Vector3(0, 180, 0);
         }
         else if (OpponentDetector.hitStun > 0)
         {
-            
             if (HitDetect.slash)
                 HitDetect.hitEffect.SetTrigger("Slash");
             else
             {
                 HitDetect.hitEffect.SetTrigger("Strike");
                 if (attackLevel < 4)
-                    HitDetect.hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(.5f, .75f), Random.Range(-1f, 1f), 1);
+                    HitDetect.hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(.75f, 1f), Random.Range(-1f, 1f), 1);
                 else
                     HitDetect.hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(1f, 1.5f), Random.Range(-1.5f, 1.5f), 1);
-                if (!shatter)
-                    HitDetect.hitEffect.transform.eulerAngles = new Vector3(HitDetect.hitEffect.transform.eulerAngles.x, HitDetect.hitEffect.transform.eulerAngles.y, Random.Range(0, 359));
+
+                HitDetect.hitEffect.transform.localEulerAngles = new Vector3(0, 0, Random.Range(0f, 359f));
             }
         }
 
-        HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
-        if (!Actions.Move.facingRight)
-            HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles = new Vector3(0, 180, 0);
         if (OpponentDetector.KnockBack.y > 2)
-            HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles += new Vector3(0, 0, Random.Range(30f, 70f));
+        {
+            HitDetect.hitEffect.transform.GetChild(0).transform.eulerAngles = new Vector3(HitDetect.hitEffect.transform.eulerAngles.x, HitDetect.hitEffect.transform.eulerAngles.y, Random.Range(-30f, 30f));
+        }
 
         if (OpponentDetector.hitStun == 0)
             OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;
@@ -738,7 +731,7 @@ public class ProjectileHitDetector : MonoBehaviour
         ProjProp.currentHits++;
     }
 
-    void Clash()
+    void Clash(Collider2D other)
     {
         Actions.acceptLight = true;
         Actions.acceptMedium = true;
@@ -749,6 +742,12 @@ public class ProjectileHitDetector : MonoBehaviour
         Actions.jumpCancel = true;
         allowHit = false;
         hit = true;
+
+        HitDetect.hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+
+        HitDetect.hitEffect.transform.GetChild(0).transform.localScale = Vector3.one;
+        HitDetect.hitEffect.transform.GetChild(0).transform.localEulerAngles = new Vector3(0, 0, -30);
+        HitDetect.hitEffect.SetTrigger(clashID);
     }
 
     void ApplyHitStop(int i)

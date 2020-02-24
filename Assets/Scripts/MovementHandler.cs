@@ -410,6 +410,8 @@ public class MovementHandler : MonoBehaviour
             //for landing on the ground if the opponent is not supposed to bounce
             else
             {
+                if (!Actions.standing && Actions.blitzed > 0 && !Actions.groundBounce)
+                    Actions.blitzed = 0;
                 Actions.airborne = false;
                 jumps = 0;
                 pushBox.isTrigger = false;
@@ -447,8 +449,6 @@ public class MovementHandler : MonoBehaviour
             }
             else
             {
-                if (!Actions.standing && Actions.blitzed > 0 && !Actions.groundBounce)
-                    Actions.blitzed = 0;
                 if (HitDetect.hitStun == 0 && Actions.airborne)
                     Actions.airborne = false;
                 if (Actions.standing)

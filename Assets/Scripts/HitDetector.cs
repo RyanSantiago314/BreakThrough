@@ -141,7 +141,7 @@ public class HitDetector : MonoBehaviour
 
         pauseScreen = GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>();
 
-        HitFX = Instantiate(HitFXPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
+        HitFX = Instantiate(HitFXPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root.GetChild(0));
         hitEffect = HitFX.GetComponent<Animator>();
     }
 
@@ -561,7 +561,7 @@ public class HitDetector : MonoBehaviour
                 if (attackLevel > OpponentDetector.attackLevel && (attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
                 {
                     //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
-                    ApplyHitStop(potentialHitStop / 2);
+                    ApplyHitStop(potentialHitStop);
                     Debug.Log("DEFLECTED!");
                     anim.SetTrigger(parryID);
                     OpponentDetector.anim.SetTrigger(deflectID);
@@ -574,9 +574,8 @@ public class HitDetector : MonoBehaviour
                     //if the attacks are of similar strength both can immediately input another command
                     Debug.Log("Clash!");
                     ApplyHitStop(potentialHitStop);
-                    anim.SetTrigger(clashID);
                     //no knockback on clashes
-                    Clash();
+                    Clash(other);
                 }
                 allowHit = false;
                 hit = true;
@@ -618,7 +617,7 @@ public class HitDetector : MonoBehaviour
             OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;
 
         hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
-        //hitEffect.transform.position = hitBox1.bounds.ClosestPoint(OpponentDetector.transform.position + new Vector3(other.offset.x, other.offset.y, 0));
+
         if (piercing)
             hitEffect.SetInteger("AttackLevel", 4);
         else
@@ -627,8 +626,7 @@ public class HitDetector : MonoBehaviour
         //set hit effect to play based on attack properties
         if (!blitz && !grab)
         {
-            hitEffect.transform.eulerAngles = Vector3.zero;
-            hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
+            hitEffect.transform.localEulerAngles = Vector3.zero;
             if (OpponentDetector.Actions.shattered)
             {
                 hitEffect.SetTrigger(shatterID);
@@ -640,14 +638,10 @@ public class HitDetector : MonoBehaviour
             else if (OpponentDetector.armorHit)
             {
                 hitEffect.SetTrigger(armorHitID);
-                if (!Actions.Move.facingRight)
-                    hitEffect.transform.eulerAngles += new Vector3(0, 180, 0);
             }
             else if (OpponentDetector.blockStun > 0)
             {
                 hitEffect.SetTrigger(guardID);
-                if (!Actions.Move.facingRight)
-                    hitEffect.transform.eulerAngles += new Vector3(0, 180, 0);
             }
             else if (OpponentDetector.hitStun > 0)
             {
@@ -657,19 +651,18 @@ public class HitDetector : MonoBehaviour
                 {
                     hitEffect.SetTrigger("Strike");
                     if (attackLevel < 4)
-                        hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(.5f, .75f), Random.Range(-.5f, .5f), 1);
+                        hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(.75f, 1f), Random.Range(-1f, 1f), 1);
                     else
                         hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(1f, 1.5f), Random.Range(-1.5f, 1.5f), 1);
 
-                        hitEffect.transform.eulerAngles = new Vector3(hitEffect.transform.eulerAngles.x, hitEffect.transform.eulerAngles.y, Random.Range(0, 359));
+                        hitEffect.transform.localEulerAngles = new Vector3(0, 0, Random.Range(0f, 359f));
                 }
             }
 
-            hitEffect.transform.GetChild(0).transform.eulerAngles = Vector3.zero;
-            if (!Actions.Move.facingRight)
-                hitEffect.transform.GetChild(0).transform.eulerAngles = new Vector3(0, 180, 0);
             if (OpponentDetector.KnockBack.y > 2)
-                hitEffect.transform.GetChild(0).transform.eulerAngles += new Vector3(0, 0, Random.Range(30f, 70f));
+            {
+                hitEffect.transform.GetChild(0).transform.eulerAngles = new Vector3(hitEffect.transform.eulerAngles.x, hitEffect.transform.eulerAngles.y, Random.Range(-30f, 30f));
+            }
         }
     }
 
@@ -977,7 +970,7 @@ public class HitDetector : MonoBehaviour
             comboCount++;
     }
 
-    void Clash()
+    void Clash(Collider2D other)
     {
         Actions.acceptLight = true;
         Actions.acceptMedium = true;
@@ -988,6 +981,12 @@ public class HitDetector : MonoBehaviour
         Actions.jumpCancel = true;
         allowHit = false;
         hit = true;
+
+        hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+
+        hitEffect.transform.GetChild(0).transform.localScale = Vector3.one;
+        hitEffect.transform.GetChild(0).transform.localEulerAngles = new Vector3(0, 0, -30);
+        hitEffect.SetTrigger(clashID);
     }
 
 
