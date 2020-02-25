@@ -382,7 +382,6 @@ public class PracticeMode : MonoBehaviour
         Player2.transform.GetChild(0).GetComponent<MovementHandler>().HitDetect.KnockBack = new Vector2(0, 0);
         Player2.transform.GetChild(0).GetComponent<MovementHandler>().HitDetect.ProjectileKnockBack = new Vector2(0, 0);
         Player2.transform.GetChild(0).GetComponent<MovementHandler>().rb.velocity = Vector2.zero;
-        //DISABLE BOUNCE
 
         //Reset Camera
         Player1.transform.GetChild(0).GetComponent<MovementHandler>().Actions.superFlash = 0;
