@@ -139,7 +139,6 @@ public class AcceptInputs : MonoBehaviour
 
         if (superFlash > 0)
         {
-            Move.rb.velocity = Vector2.zero;
             superFlash--;
         }
 
