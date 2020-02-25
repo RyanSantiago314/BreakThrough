@@ -127,16 +127,16 @@ public class AIInput : MonoBehaviour
             if (AI.keepAction == "RTrigger") MaxInput.RTrigger("Player2");
             if (AI.keepAction == "RBumper") MaxInput.RBumper("Player2");
 
-            if (!headRush)
-            {
+            //if (!headRush)
+        //    {
                 AI.doingQCB = 0;
                 AI.keepAction = "";
                 AI.keepInput = false;
-            }
-            else        //////////////////////////////// FINISH HEAD RUSH HOLDING BREAK BUTTON
-            {
-                MaxInput.Cross("Player2");
-            }
+            //}
+            //else        //////////////////////////////// FINISH HEAD RUSH HOLDING BREAK BUTTON
+            //{
+            //    MaxInput.Cross("Player2");
+            //}
         }
     }
 
