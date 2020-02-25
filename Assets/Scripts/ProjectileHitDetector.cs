@@ -686,7 +686,7 @@ public class ProjectileHitDetector : MonoBehaviour
         else
             HitDetect.hitEffect.SetInteger("AttackLevel", attackLevel);
 
-        HitDetect.hitEffect.transform.localEulerAngles = Vector3.zero;
+        HitDetect.HitFX.transform.rotation = Actions.Move.transform.rotation;
         if (OpponentDetector.Actions.shattered)
         {
             HitDetect.hitEffect.SetTrigger(shatterID);
@@ -705,8 +705,33 @@ public class ProjectileHitDetector : MonoBehaviour
         }
         else if (OpponentDetector.hitStun > 0)
         {
-            if (HitDetect.slash)
+            if (HitDetect.vertSlash || HitDetect.horiSlash || HitDetect.slash)
+            {
                 HitDetect.hitEffect.SetTrigger("Slash");
+                if (HitDetect.vertSlash)
+                {
+                    if (OpponentDetector.KnockBack.y > 2)
+                        HitDetect.hitEffect.transform.localEulerAngles = new Vector3(0, 0, Random.Range(60f, 80f));
+                    else
+                        HitDetect.hitEffect.transform.localEulerAngles = new Vector3(0, 0, Random.Range(-60f, -80f));
+                }
+                else if (HitDetect.horiSlash)
+                {
+                    HitDetect.hitEffect.transform.localEulerAngles = new Vector3(0, 0, Random.Range(15f, 15f));
+                }
+                else
+                {
+                    HitDetect.hitEffect.transform.localEulerAngles = new Vector3(0, 0, Random.Range(-60f, 60f));
+                    if (OpponentDetector.KnockBack.y > 2)
+                        HitDetect.hitEffect.transform.localEulerAngles = new Vector3(0, 0, Random.Range(60f, 80f));
+                }
+
+                if (attackLevel < 2)
+                    HitDetect.hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(.5f, .75f), Random.Range(-1f, 1f), 1);
+                else
+                    HitDetect.hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(1f, 1.5f), Random.Range(-1.5f, 1.5f), 1);
+
+            }
             else
             {
                 HitDetect.hitEffect.SetTrigger("Strike");

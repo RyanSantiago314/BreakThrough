@@ -3397,6 +3397,8 @@ MonoBehaviour:
   usingSuper: 0
   usingSpecial: 0
   slash: 0
+  vertSlash: 0
+  horiSlash: 0
   OpponentDetector: {fileID: 0}
   hit: 0
   armorHit: 0
@@ -8059,6 +8061,8 @@ MonoBehaviour:
   usingSuper: 0
   usingSpecial: 0
   slash: 0
+  vertSlash: 0
+  horiSlash: 0
   OpponentDetector: {fileID: 0}
   hit: 0
   armorHit: 0
