@@ -481,7 +481,7 @@ MonoBehaviour:
   GameOverManager: {fileID: 0}
   enableArmorRefill: 1
   enableP2Controller: 0
-  dummyState: Guard
+  dummyState: Stand
   P1ValorSetting: 0
   P2ValorSetting: 0
   P1HitDamage: {fileID: 777982075}

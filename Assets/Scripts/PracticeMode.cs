@@ -84,6 +84,7 @@ public class PracticeMode : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(Player1.GetComponent<MovementHandler>().Actions.superFlash);
         //Practice Mode Handler
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
@@ -349,31 +350,46 @@ public class PracticeMode : MonoBehaviour
     }
 
     void resetPositions()
-    {        
+    {
+        InputTimer = 0.0f;
+
         //Setting players to starting location vectors
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
-            Vector3 p1Start = new Vector3(-1.3f, 1.10f, -3);
+            Vector3 p1Start = new Vector3(-1.3f, 1.05f, -3);
             GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
         }
         else
         {
-            Vector3 p1Start = new Vector3(1.3f, 1.10f, -3);
+            Vector3 p1Start = new Vector3(1.3f, 1.05f, -3);
             GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
         }
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
         {
-            Vector3 p2Start = new Vector3(1.3f, 1.10f, -3);
+            Vector3 p2Start = new Vector3(1.3f, 1.05f, -3);
             GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
         }
         else
         {
-            Vector3 p2Start = new Vector3(-1.3f, 1.10f, -3);
+            Vector3 p2Start = new Vector3(-1.3f, 1.05f, -3);
             GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
         }
-        GameObject.Find("CameraPos").transform.GetChild(1).transform.position = GameObject.Find("CameraPos").transform.position;
 
-        //MAKE CHARACTERS IN NEUTRAL POSITION
+        //Reset Player Knockback
+        Player1.transform.GetChild(0).GetComponent<MovementHandler>().HitDetect.KnockBack = new Vector2(0, 0);
+        Player1.transform.GetChild(0).GetComponent<MovementHandler>().HitDetect.ProjectileKnockBack = new Vector2(0, 0);
+        Player1.transform.GetChild(0).GetComponent<MovementHandler>().rb.velocity = Vector2.zero;
+        Player2.transform.GetChild(0).GetComponent<MovementHandler>().HitDetect.KnockBack = new Vector2(0, 0);
+        Player2.transform.GetChild(0).GetComponent<MovementHandler>().HitDetect.ProjectileKnockBack = new Vector2(0, 0);
+        Player2.transform.GetChild(0).GetComponent<MovementHandler>().rb.velocity = Vector2.zero;
+        //DISABLE BOUNCE
+
+        //Reset Camera
+        Player1.transform.GetChild(0).GetComponent<MovementHandler>().Actions.superFlash = 0;
+        Player2.transform.GetChild(0).GetComponent<MovementHandler>().Actions.superFlash = 0;
+        GameObject.Find("CameraPos").transform.GetChild(1).transform.position = GameObject.Find("CameraPos").transform.position;
+       
+        //Reset Character Specific things
         switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
         {
             case "Dhalia":
@@ -391,9 +407,7 @@ public class PracticeMode : MonoBehaviour
 
     //Character Specific Reset Properties
     private void resetDhalia(GameObject player)
-    {
-        //reset velocity??
-        //camera reset for toaster
+    {   
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetTrigger(Animator.StringToHash("Blitz"));
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Hitboxes.BlitzCancel();
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Actions.landingLag = 0;
