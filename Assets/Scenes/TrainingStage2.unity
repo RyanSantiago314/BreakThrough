@@ -621,6 +621,8 @@ MonoBehaviour:
   P1HighComboDamage: {fileID: 1345849008743059378}
   P2HighComboDamage: {fileID: 1345849008743059377}
   DamageDisplays: {fileID: 234829556}
+  P1Displays: {fileID: 546877311}
+  P2Displays: {fileID: 1836955230}
 --- !u!1 &121571650
 GameObject:
   m_ObjectHideFlags: 0
@@ -3079,7 +3081,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &500688647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3470,6 +3472,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 528243360}
   m_CullTransparentMesh: 0
+--- !u!1 &546877311 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1170082114375359218, guid: 20e5bef897f4df947a2950df8a46ea41,
+    type: 3}
+  m_PrefabInstance: {fileID: 1345849008743059376}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &569238694
 GameObject:
   m_ObjectHideFlags: 0
@@ -10340,6 +10348,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823648521}
   m_CullTransparentMesh: 0
+--- !u!1 &1836955230 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1892679193795049972, guid: 20e5bef897f4df947a2950df8a46ea41,
+    type: 3}
+  m_PrefabInstance: {fileID: 1345849008743059376}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1845197047
 GameObject:
   m_ObjectHideFlags: 0

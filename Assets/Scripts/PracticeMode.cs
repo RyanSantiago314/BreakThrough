@@ -326,9 +326,11 @@ public class PracticeMode : MonoBehaviour
                 if (HUD.Player1Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
                 {
                     P1HitDamage.text = "";
+                }
+                if (HUD.Player2Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
+                {
                     P2HitDamage.text = "";
                 }
-
                 //Update Highest Combo Damage
                 if (P1CurrentComboTotalDamage > P1HighestComboDamage)
                 {

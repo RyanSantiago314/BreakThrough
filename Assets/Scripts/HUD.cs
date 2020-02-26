@@ -74,10 +74,21 @@ public class HUD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
-        P2Prop = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
-		P1hit = GameObject.Find("Player1").transform.GetComponentInChildren<HitDetector>();
-		P2hit = GameObject.Find("Player2").transform.GetComponentInChildren<HitDetector>();
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+        {
+            P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
+            P2Prop = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
+            P1hit = GameObject.Find("Player1").transform.GetComponentInChildren<HitDetector>();
+            P2hit = GameObject.Find("Player2").transform.GetComponentInChildren<HitDetector>();
+        }
+        else
+        {
+            P1Prop = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
+            P2Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
+            P1hit = GameObject.Find("Player2").transform.GetComponentInChildren<HitDetector>();
+            P2hit = GameObject.Find("Player1").transform.GetComponentInChildren<HitDetector>();
+        }
+
 		combotimer1.fillAmount = 0;
 		combotimer2.fillAmount = 0;
 		Player1Combo.text = "";
@@ -327,36 +338,80 @@ public class HUD : MonoBehaviour
         //round icons
         if (GameOver.p1Win > 0)
         {
-            if (!p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P1Prop.HitDetect.hitStop == 0)
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
             {
-                p1Icon1.SetTrigger("Activate");
+                if (!p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P1Prop.HitDetect.hitStop == 0)
+                {
+                    p1Icon1.SetTrigger("Activate");
+                }
+                if (GameOver.p1Win > 1 && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P1Prop.HitDetect.hitStop == 0)
+                    p1Icon2.SetTrigger("Activate");
             }
-            if (GameOver.p1Win > 1 && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P1Prop.HitDetect.hitStop == 0)
-                p1Icon2.SetTrigger("Activate");
+            else
+            {
+                if (!p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P1Prop.HitDetect.hitStop == 0)
+                {
+                    p2Icon1.SetTrigger("Activate");
+                }
+                if (GameOver.p1Win > 1 && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P1Prop.HitDetect.hitStop == 0)
+                    p2Icon2.SetTrigger("Activate");
+            }
         }
         else
         {
-            if (!p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
-                p1Icon1.SetTrigger("Disappear");
-            if (!p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
-                p1Icon2.SetTrigger("Disappear");
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+            {
+                if (!p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                    p1Icon1.SetTrigger("Disappear");
+                if (!p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                    p1Icon2.SetTrigger("Disappear");
+            }
+            else
+            {
+                if (!p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                    p2Icon1.SetTrigger("Disappear");
+                if (!p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                    p2Icon2.SetTrigger("Disappear");
+            }
         }
 
         if (GameOver.p2Win > 0)
         {
-            if (!p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
             {
-                p2Icon1.SetTrigger("Activate");
+                if (!p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
+                {
+                    p1Icon1.SetTrigger("Activate");
+                }
+                if (GameOver.p2Win > 1 && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
+                    p1Icon2.SetTrigger("Activate");
             }
-            if (GameOver.p2Win > 1 && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
-                p2Icon2.SetTrigger("Activate");
+            else
+            {
+                if (!p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
+                {
+                    p2Icon1.SetTrigger("Activate");
+                }
+                if (GameOver.p2Win > 1 && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
+                    p2Icon2.SetTrigger("Activate");
+            }
         }
         else
         {
-            if (!p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
-                p2Icon1.SetTrigger("Disappear");
-            if (!p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
-                p2Icon2.SetTrigger("Disappear");
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+            {
+                if (!p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                    p1Icon1.SetTrigger("Disappear");
+                if (!p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                    p1Icon2.SetTrigger("Disappear");
+            }
+            else
+            {
+                if (!p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                    p2Icon1.SetTrigger("Disappear");
+                if (!p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                    p2Icon2.SetTrigger("Disappear");
+            }
         }
 
         //player 1 combo timer
