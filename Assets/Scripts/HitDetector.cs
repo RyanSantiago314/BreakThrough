@@ -558,7 +558,7 @@ public class HitDetector : MonoBehaviour
                 allowHit = false;
                 hit = true;
             }
-            else if (allowHit && !blitz && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
+            else if (allowHit && !grab && !commandGrab && !blitz && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
             {
                 //clash/deflect system
                 if (attackLevel > OpponentDetector.attackLevel && (attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
