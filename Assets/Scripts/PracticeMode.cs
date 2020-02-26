@@ -430,28 +430,6 @@ public class PracticeMode : MonoBehaviour
     {
         InputTimer = 0.0f;
 
-        //Setting players to starting location vectors
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
-        {
-            Vector3 p1Start = new Vector3(-1.3f, 1.00f, -3);
-            GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
-        }
-        else
-        {
-            Vector3 p1Start = new Vector3(1.3f, 1.00f, -3);
-            GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
-        }
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
-        {
-            Vector3 p2Start = new Vector3(1.3f, 1.00f, -3);
-            GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
-        }
-        else
-        {
-            Vector3 p2Start = new Vector3(-1.3f, 1.00f, -3);
-            GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
-        }
-
         //Reset Player Knockback
         Player1.transform.GetChild(0).GetComponent<MovementHandler>().HitDetect.KnockBack = new Vector2(0, 0);
         Player1.transform.GetChild(0).GetComponent<MovementHandler>().HitDetect.ProjectileKnockBack = new Vector2(0, 0);
@@ -484,6 +462,28 @@ public class PracticeMode : MonoBehaviour
             case "Dhalia":
                 resetDhalia(Player2);
                 break;
+        }
+
+        //Setting players to starting location vectors
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+        {
+            Vector3 p1Start = new Vector3(-1.3f, .80f, -3);
+            GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
+        }
+        else
+        {
+            Vector3 p1Start = new Vector3(1.3f, .80f, -3);
+            GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
+        }
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
+        {
+            Vector3 p2Start = new Vector3(1.3f, .80f, -3);
+            GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
+        }
+        else
+        {
+            Vector3 p2Start = new Vector3(-1.3f, .80f, -3);
+            GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
         }
     }
 

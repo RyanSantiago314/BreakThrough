@@ -31,6 +31,8 @@ public class PauseMenu : MonoBehaviour
     private float InputTimer;
     private string inputHorizontal = "Horizontal_P1";
     private string inputVertical = "Vertical_P1";
+    private string p1cross = "Cross_P1";
+    private string p1circle = "Circle_P1";
     private float vertical;
     private float horizontal;
     private bool acceptInputVer;
@@ -63,6 +65,8 @@ public class PauseMenu : MonoBehaviour
 
         inputHorizontal += UpdateControls(CheckXbox(0));
         inputVertical += UpdateControls(CheckXbox(0));
+        p1cross += UpdateControls(CheckXbox(0));
+        p1circle += UpdateControls(CheckXbox(0));
     }
 
     // Update is called once per frame
@@ -112,8 +116,10 @@ public class PauseMenu : MonoBehaviour
                 DisableControls(true);
                 ActivateMenu();
                 isPaused = true;
+                optionIndex = -1;
                 optionIndex = 0;
-            } else if (Input.GetButtonDown(pauseCode1) && isPaused)
+                quitButton.Select();
+            } else if (Input.GetButtonDown(pauseCode1) && isPaused && !moveList)
             {
                 DisableControls(false);
                 DeactivateMenu();
@@ -166,12 +172,18 @@ public class PauseMenu : MonoBehaviour
                 else if (optionIndex == -1)
                 {
                     optionIndex = 6;
-                }               
+                }
 
                 //Resume Button
                 if (optionIndex == 0)
                 {
                     resumeButton.Select();
+                    if (Input.GetButton(p1cross))
+                    {
+                        DisableControls(false);
+                        DeactivateMenu();
+                        isPaused = false;
+                    }
                 }
                 //CPU Action
                 else if (optionIndex == 1)
@@ -243,17 +255,30 @@ public class PauseMenu : MonoBehaviour
                             ArmorRefill += 1;
                             acceptInputHor = false;
                         }
-                    }                   
+                    }
                 }
                 //MoveList
                 else if (optionIndex == 5)
                 {
                     moveListButton.Select();
+                    if (Input.GetButton(p1cross) && !moveList)
+                    {
+                        MoveList();
+                    }
+                    if (Input.GetButton(p1circle) && moveList)
+                    {
+                        MoveListBack();
+                        resumeButton.Select();
+                    }
                 }
                 //Quit Button
                 else if (optionIndex == 6)
                 {
                     quitButton.Select();
+                    if (Input.GetButton(p1cross))
+                    {
+                        QuitToMenu();
+                    }
                 }
 
                 //Options scrolling
@@ -427,15 +452,26 @@ public class PauseMenu : MonoBehaviour
 
     public void MoveList()
     {
-        pauseMenuUI.SetActive(false);
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        {
+            practicePauseMenuUI.SetActive(false);
+        }
+        else
+        {
+            pauseMenuUI.SetActive(false);
+        }
         moveList = true;
-        //moveListUI.SetActive(true);
+        moveListUI.SetActive(true);
     }
 
     public void MoveListBack()
     {
         moveList = false;
         moveListUI.SetActive(false);
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        {
+            practicePauseMenuUI.SetActive(true);
+        }
     }
 
     public void QuitToMenu()
