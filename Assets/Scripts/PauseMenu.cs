@@ -363,9 +363,21 @@ public class PauseMenu : MonoBehaviour
 
     private void DisableControls(bool enable)
     {
-        GameObject FPC = GameObject.FindWithTag("Player");
-        FPC.transform.GetComponent<AttackHandlerDHA>().enabled = !enable;
-        FPC.transform.GetComponent<MovementHandler>().enabled = !enable;
+        switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
+        {
+            case "Dhalia":
+                GameObject.Find("Player1").transform.GetChild(0).GetComponent<AttackHandlerDHA>().enabled = !enable;
+                GameObject.Find("Player1").transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
+                break;
+        }
+
+        switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
+        {
+            case "Dhalia":
+                GameObject.Find("Player2").transform.GetChild(0).GetComponent<AttackHandlerDHA>().enabled = !enable;
+                GameObject.Find("Player2").transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
+                break;
+        }
     }
 
     public void ActivateMenu()

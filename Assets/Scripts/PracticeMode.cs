@@ -52,6 +52,8 @@ public class PracticeMode : MonoBehaviour
     public Text P2HighComboDamage;
 
     public GameObject DamageDisplays;
+    public GameObject P1Displays;
+    public GameObject P2Displays;
 
     // Start is called before the first frame update
     void Start()
@@ -73,6 +75,15 @@ public class PracticeMode : MonoBehaviour
         P2ComboDamage.text = "Total Damage: ";
         P1HighComboDamage.text = "Highest Combo Damage: 0";
         P2HighComboDamage.text = "Highest Combo Damage: 0";
+
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+        {
+            P2Displays.SetActive(false);
+        }
+        else
+        {
+            P1Displays.SetActive(false);
+        }
 
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
@@ -290,7 +301,7 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 //Manage Hit/Combo Damage Display
-                //Display P1 current hit damage
+                //Display Current hit damage
                 if (P2Prop.currentHealth < P2PrevHealth)
                 {
                     P1CurrentHitDamage = P2PrevHealth - P2Prop.currentHealth;
@@ -302,28 +313,22 @@ public class PracticeMode : MonoBehaviour
                     P1ComboDamage.text = "Total Damage : ";
                     P1ComboDamage.text += P1CurrentComboTotalDamage;
                     P2PrevHealth = P2Prop.currentHealth;
+
+                    P2CurrentHitDamage = P2PrevHealth - P2Prop.currentHealth;
+                    P2CurrentComboTotalDamage += P1CurrentHitDamage;
+                    P2HitDamage.text = "";
+                    P2HitDamage.text = "Damage: ";
+                    P2HitDamage.text += P1CurrentHitDamage;
+                    P2ComboDamage.text = "";
+                    P2ComboDamage.text = "Total Damage : ";
+                    P2ComboDamage.text += P1CurrentComboTotalDamage;
                 }
                 if (HUD.Player1Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
                 {
                     P1HitDamage.text = "";
-                }
-                //Display P2 current hit damage
-                if (P1Prop.currentHealth < P1PrevHealth)
-                {
-                    P2CurrentHitDamage = P1PrevHealth - P1Prop.currentHealth;
-                    P2CurrentComboTotalDamage += P2CurrentHitDamage;
-                    P2HitDamage.text = "";
-                    P2HitDamage.text = "Damage: ";
-                    P2HitDamage.text += P2CurrentHitDamage;
-                    P2ComboDamage.text = "";
-                    P2ComboDamage.text = "Total Damage : ";
-                    P2ComboDamage.text += P2CurrentComboTotalDamage;
-                    P1PrevHealth = P1Prop.currentHealth;
-                }
-                if (HUD.Player2Combo.text == "" && P2Prop.HitDetect.comboCount != 1)
-                {
                     P2HitDamage.text = "";
                 }
+
                 //Update Highest Combo Damage
                 if (P1CurrentComboTotalDamage > P1HighestComboDamage)
                 {
@@ -331,13 +336,11 @@ public class PracticeMode : MonoBehaviour
                     P1HighComboDamage.text = "";
                     P1HighComboDamage.text = "Highest Combo Damage: ";
                     P1HighComboDamage.text += P1HighestComboDamage;
-                }
-                if (P2CurrentComboTotalDamage > P2HighestComboDamage)
-                {
-                    P2HighestComboDamage = P2CurrentComboTotalDamage;
+
+                    P2HighestComboDamage = P1CurrentComboTotalDamage;
                     P2HighComboDamage.text = "";
                     P2HighComboDamage.text = "Highest Combo Damage: ";
-                    P2HighComboDamage.text += P2HighestComboDamage;
+                    P2HighComboDamage.text += P1HighestComboDamage;
                 }
 
                 //Handle Dummy State
@@ -428,22 +431,22 @@ public class PracticeMode : MonoBehaviour
         //Setting players to starting location vectors
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
-            Vector3 p1Start = new Vector3(-1.3f, 1.05f, -3);
+            Vector3 p1Start = new Vector3(-1.3f, 1.00f, -3);
             GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
         }
         else
         {
-            Vector3 p1Start = new Vector3(1.3f, 1.05f, -3);
+            Vector3 p1Start = new Vector3(1.3f, 1.00f, -3);
             GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
         }
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
         {
-            Vector3 p2Start = new Vector3(1.3f, 1.05f, -3);
+            Vector3 p2Start = new Vector3(1.3f, 1.00f, -3);
             GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
         }
         else
         {
-            Vector3 p2Start = new Vector3(-1.3f, 1.05f, -3);
+            Vector3 p2Start = new Vector3(-1.3f, 1.00f, -3);
             GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
         }
 
@@ -459,7 +462,13 @@ public class PracticeMode : MonoBehaviour
         Player1.transform.GetChild(0).GetComponent<MovementHandler>().Actions.superFlash = 0;
         Player2.transform.GetChild(0).GetComponent<MovementHandler>().Actions.superFlash = 0;
         GameObject.Find("CameraPos").transform.GetChild(1).transform.position = GameObject.Find("CameraPos").transform.position;
-       
+
+        //Refill Armor
+        P1Prop.armor = 4;
+        P1Prop.durability = 100;
+        P2Prop.armor = 4;
+        P2Prop.durability = 100;
+
         //Reset Character Specific things
         switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
         {
