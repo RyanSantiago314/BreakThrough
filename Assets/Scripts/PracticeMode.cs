@@ -106,7 +106,7 @@ public class PracticeMode : MonoBehaviour
                     dummyState = "Guard";
                     break;
                 case 4:
-                    dummyState = "Low Guard";
+                    dummyState = "LowGuard";
                     break;
                 case 5:
                     dummyState = "CPU";
@@ -156,265 +156,268 @@ public class PracticeMode : MonoBehaviour
                     enableArmorRefill = false;
                     break;
             }
-
-            //Refill Armor Meters Option
-            if (enableArmorRefill)
+            if (!PracticeModeSettings.GetComponent<PauseMenu>().isPaused)
             {
-                //Refill P1 Armor when P1 combo finishes
-                if (HUD.combogauge1.enabled == false && P2inCombo)
+                //Refill Armor Meters Option
+                if (enableArmorRefill)
                 {
-                    P1Prop.armor = 4;
-                    P1Prop.durability = 100;
-                }
-                //Refill P2 Armor when P2 combo finishes
-                if (HUD.combogauge2.enabled == false && P2inCombo)
-                {
-                    P2Prop.armor = 4;
-                    P2Prop.durability = 100;
-                }
-                //Refill P1 armor after move whiffed
-                if (P1Prop.HitDetect.Actions.acceptSuper && !P2inCombo)
-                {
-                    P1Prop.armor = 4;
-                    P1Prop.durability = 100;
-                }
-                //Refill P2 armor after move whiffed
-                if (P2Prop.HitDetect.Actions.acceptSuper && !P2inCombo)
-                {
-                    P2Prop.armor = 4;
-                    P2Prop.durability = 100;
-                }
-            }
-
-            //Reset Health if Valor setting has changed
-            if (P1CurrentValor != P1ValorSetting)
-            {
-                P1CurrentValor = P1ValorSetting;
-                if (P1CurrentValor == 0)
-                {
-                    P1Prop.currentHealth = P1Prop.maxHealth;
-                }
-                else if (P1CurrentValor == 1)
-                {
-                    P1Prop.currentHealth = P1Prop.maxHealth / 2;
-                }
-                else if (P1CurrentValor == 2)
-                {
-                    P1Prop.currentHealth = P1Prop.maxHealth / 4;
-                }
-                else if (P1CurrentValor == 3)
-                {
-                    P1Prop.currentHealth = P1Prop.maxHealth / 10;
-                }
-            }
-
-            if (P2CurrentValor != P2ValorSetting)
-            {
-                P2CurrentValor = P2ValorSetting;
-                if (P2CurrentValor == 0)
-                {
-                    P2Prop.currentHealth = P2Prop.maxHealth;
-                }
-                else if (P2CurrentValor == 1)
-                {
-                    P2Prop.currentHealth = P2Prop.maxHealth / 2;
-                }
-                else if (P2CurrentValor == 2)
-                {
-                    P2Prop.currentHealth = P2Prop.maxHealth / 4;
-                }
-                else if (P2CurrentValor == 3)
-                {
-                    P2Prop.currentHealth = P2Prop.maxHealth / 10;
-                }
-            }
-
-            //Refill Health Meters/Manage whiff detection for Armor refill            
-            //Refill P1 HP after P2 combo finishes
-            if (P1Prop.HitDetect.hitStun > 0)
-            {
-                P1inCombo = true;
-            }
-            if (P2Prop.HitDetect.comboCount == 0)
-            {
-                if (P1CurrentValor == 0)
-                {
-                    P1Prop.currentHealth = P1Prop.maxHealth;
-                }
-                else if (P1CurrentValor == 1)
-                {
-                    P1Prop.currentHealth = P1Prop.maxHealth / 2;
-                }
-                else if (P1CurrentValor == 2)
-                {
-                    P1Prop.currentHealth = P1Prop.maxHealth / 4;
-                }
-                else if (P1CurrentValor == 3)
-                {
-                    P1Prop.currentHealth = P1Prop.maxHealth / 10;
-                }
-                P1inCombo = false;
-                P2CurrentHitDamage = 0;
-                P1PrevHealth = P1Prop.currentHealth;
-                P2CurrentComboTotalDamage = 0;
-            }
-            //Refill P2 HP after P1 combo finishes  
-            if (P2Prop.HitDetect.hitStun > 0)
-            {
-                P2inCombo = true;
-                InputTimer = 0.0f;
-            }
-            if (P1Prop.HitDetect.comboCount == 0)
-            {
-                if (P2CurrentValor == 0)
-                {
-                    P2Prop.currentHealth = P2Prop.maxHealth;
-                }
-                else if (P2CurrentValor == 1)
-                {
-                    P2Prop.currentHealth = P2Prop.maxHealth / 2;
-                }
-                else if (P2CurrentValor == 2)
-                {
-                    P2Prop.currentHealth = P2Prop.maxHealth / 4;
-                }
-                else if (P2CurrentValor == 3)
-                {
-                    P2Prop.currentHealth = P2Prop.maxHealth / 10;
-                }
-                P2inCombo = false;
-                P1CurrentHitDamage = 0;
-                P2PrevHealth = P2Prop.currentHealth;
-                P1CurrentComboTotalDamage = 0;
-            }
-
-            //Manage Hit/Combo Damage Display
-            //Display P1 current hit damage
-            if (P2Prop.currentHealth < P2PrevHealth)
-            {
-                P1CurrentHitDamage = P2PrevHealth - P2Prop.currentHealth;
-                P1CurrentComboTotalDamage += P1CurrentHitDamage;
-                P1HitDamage.text = "";
-                P1HitDamage.text = "Damage: ";
-                P1HitDamage.text += P1CurrentHitDamage;
-                P1ComboDamage.text = "";
-                P1ComboDamage.text = "Total Damage : ";
-                P1ComboDamage.text += P1CurrentComboTotalDamage;
-                P2PrevHealth = P2Prop.currentHealth;
-            }
-            if (HUD.Player1Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
-            {
-                P1HitDamage.text = "";
-            }
-            //Display P2 current hit damage
-            if (P1Prop.currentHealth < P1PrevHealth)
-            {
-                P2CurrentHitDamage = P1PrevHealth - P1Prop.currentHealth;
-                P2CurrentComboTotalDamage += P2CurrentHitDamage;
-                P2HitDamage.text = "";
-                P2HitDamage.text = "Damage: ";
-                P2HitDamage.text += P2CurrentHitDamage;
-                P2ComboDamage.text = "";
-                P2ComboDamage.text = "Total Damage : ";
-                P2ComboDamage.text += P2CurrentComboTotalDamage;
-                P1PrevHealth = P1Prop.currentHealth;
-            }
-            if (HUD.Player2Combo.text == "" && P2Prop.HitDetect.comboCount != 1)
-            {
-                P2HitDamage.text = "";
-            }
-            //Update Highest Combo Damage
-            if (P1CurrentComboTotalDamage > P1HighestComboDamage)
-            {
-                P1HighestComboDamage = P1CurrentComboTotalDamage;
-                P1HighComboDamage.text = "";
-                P1HighComboDamage.text = "Highest Combo Damage: ";
-                P1HighComboDamage.text += P1HighestComboDamage;
-            }
-            if (P2CurrentComboTotalDamage > P2HighestComboDamage)
-            {
-                P2HighestComboDamage = P2CurrentComboTotalDamage;
-                P2HighComboDamage.text = "";
-                P2HighComboDamage.text = "Highest Combo Damage: ";
-                P2HighComboDamage.text += P2HighestComboDamage;
-            }
-
-            //Handle Dummy State
-            p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x;
-            p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x;
-            if (InputTimer > 0)
-            {
-                InputTimer -= Time.deltaTime;
-            }
-            else
-            {
-                InputTimer = 0;
-            }
-            switch (dummyState)
-            {
-                case "CPU":
-                    MaxInput.enableAI();
-                    MaxInputObject.GetComponent<AI>().enabled = true;
-                    break;
-                case "Stand":
-                    MaxInput.ClearInput("Player2");
-                    MaxInput.enableAI();
-                    MaxInputObject.GetComponent<AI>().enabled = false;
-                    break;
-                case "Crouch":
-                    MaxInput.ClearInput("Player2");
-                    MaxInput.enableAI();
-                    MaxInputObject.GetComponent<AI>().enabled = false;
-                    MaxInput.Crouch("Player2");
-                    break;
-                case "Jump":
-                    MaxInput.ClearInput("Player2");
-                    MaxInput.enableAI();
-                    MaxInputObject.GetComponent<AI>().enabled = false;
-                   
-                    if (InputTimer == 0 && !P2inCombo)
+                    //Refill P1 Armor when P1 combo finishes
+                    if (HUD.combogauge1.enabled == false && P2inCombo)
                     {
-                        MaxInput.Jump("Player2");
-                        InputTimer = 1.0f;
-                    }                  
-                    break;
-                case "Guard":
-                    MaxInput.ClearInput("Player2");
-                    MaxInput.enableAI();
-                    MaxInputObject.GetComponent<AI>().enabled = false;
-                    if (p1x - p2x < 0)
-                    {
-                        MaxInput.MoveRight("Player2");
+                        P1Prop.armor = 4;
+                        P1Prop.durability = 100;
                     }
-                    else
+                    //Refill P2 Armor when P2 combo finishes
+                    if (HUD.combogauge2.enabled == false && P2inCombo)
                     {
-                        MaxInput.MoveLeft("Player2");
-                    }                        
-                    break;
-                case "LowGuard":
-                    MaxInput.ClearInput("Player2");
-                    MaxInput.enableAI();                    
-                    MaxInputObject.GetComponent<AI>().enabled = false;
-                    if (p1x - p2x < 0)
-                    {
-                        MaxInput.DownRight("Player2");
+                        P2Prop.armor = 4;
+                        P2Prop.durability = 100;
                     }
-                    else
+                    //Refill P1 armor after move whiffed
+                    if (P1Prop.HitDetect.Actions.acceptSuper && !P2inCombo)
                     {
-                        MaxInput.DownLeft("Player2");
+                        P1Prop.armor = 4;
+                        P1Prop.durability = 100;
                     }
-                    break;
-                case "Player": //Player Complete
-                    MaxInput.ClearInput("Player2");
-                    MaxInput.disableAI();
-                    break;
-            }
+                    //Refill P2 armor after move whiffed
+                    if (P2Prop.HitDetect.Actions.acceptSuper && !P2inCombo)
+                    {
+                        P2Prop.armor = 4;
+                        P2Prop.durability = 100;
+                    }
+                }
 
-            //Reset Positions back to start **Still needs Refinement
-            if (Input.GetButtonDown("Select_P1"))
-            {
-                resetPositions();
+                //Reset Health if Valor setting has changed
+                if (P1CurrentValor != P1ValorSetting)
+                {
+                    P1CurrentValor = P1ValorSetting;
+                    if (P1CurrentValor == 0)
+                    {
+                        P1Prop.currentHealth = P1Prop.maxHealth;
+                    }
+                    else if (P1CurrentValor == 1)
+                    {
+                        P1Prop.currentHealth = P1Prop.maxHealth / 2;
+                    }
+                    else if (P1CurrentValor == 2)
+                    {
+                        P1Prop.currentHealth = P1Prop.maxHealth / 4;
+                    }
+                    else if (P1CurrentValor == 3)
+                    {
+                        P1Prop.currentHealth = P1Prop.maxHealth / 10;
+                    }
+                }
+
+                if (P2CurrentValor != P2ValorSetting)
+                {
+                    P2CurrentValor = P2ValorSetting;
+                    if (P2CurrentValor == 0)
+                    {
+                        P2Prop.currentHealth = P2Prop.maxHealth;
+                    }
+                    else if (P2CurrentValor == 1)
+                    {
+                        P2Prop.currentHealth = P2Prop.maxHealth / 2;
+                    }
+                    else if (P2CurrentValor == 2)
+                    {
+                        P2Prop.currentHealth = P2Prop.maxHealth / 4;
+                    }
+                    else if (P2CurrentValor == 3)
+                    {
+                        P2Prop.currentHealth = P2Prop.maxHealth / 10;
+                    }
+                }
+
+                //Refill Health Meters/Manage whiff detection for Armor refill            
+                //Refill P1 HP after P2 combo finishes
+                if (P1Prop.HitDetect.hitStun > 0)
+                {
+                    P1inCombo = true;
+                }
+                if (P2Prop.HitDetect.comboCount == 0)
+                {
+                    if (P1CurrentValor == 0)
+                    {
+                        P1Prop.currentHealth = P1Prop.maxHealth;
+                    }
+                    else if (P1CurrentValor == 1)
+                    {
+                        P1Prop.currentHealth = P1Prop.maxHealth / 2;
+                    }
+                    else if (P1CurrentValor == 2)
+                    {
+                        P1Prop.currentHealth = P1Prop.maxHealth / 4;
+                    }
+                    else if (P1CurrentValor == 3)
+                    {
+                        P1Prop.currentHealth = P1Prop.maxHealth / 10;
+                    }
+                    P1inCombo = false;
+                    P2CurrentHitDamage = 0;
+                    P1PrevHealth = P1Prop.currentHealth;
+                    P2CurrentComboTotalDamage = 0;
+                }
+                //Refill P2 HP after P1 combo finishes  
+                if (P2Prop.HitDetect.hitStun > 0)
+                {
+                    P2inCombo = true;
+                    InputTimer = 0.0f;
+                }
+                if (P1Prop.HitDetect.comboCount == 0)
+                {
+                    if (P2CurrentValor == 0)
+                    {
+                        P2Prop.currentHealth = P2Prop.maxHealth;
+                    }
+                    else if (P2CurrentValor == 1)
+                    {
+                        P2Prop.currentHealth = P2Prop.maxHealth / 2;
+                    }
+                    else if (P2CurrentValor == 2)
+                    {
+                        P2Prop.currentHealth = P2Prop.maxHealth / 4;
+                    }
+                    else if (P2CurrentValor == 3)
+                    {
+                        P2Prop.currentHealth = P2Prop.maxHealth / 10;
+                    }
+                    P2inCombo = false;
+                    P1CurrentHitDamage = 0;
+                    P2PrevHealth = P2Prop.currentHealth;
+                    P1CurrentComboTotalDamage = 0;
+                }
+
+                //Manage Hit/Combo Damage Display
+                //Display P1 current hit damage
+                if (P2Prop.currentHealth < P2PrevHealth)
+                {
+                    P1CurrentHitDamage = P2PrevHealth - P2Prop.currentHealth;
+                    P1CurrentComboTotalDamage += P1CurrentHitDamage;
+                    P1HitDamage.text = "";
+                    P1HitDamage.text = "Damage: ";
+                    P1HitDamage.text += P1CurrentHitDamage;
+                    P1ComboDamage.text = "";
+                    P1ComboDamage.text = "Total Damage : ";
+                    P1ComboDamage.text += P1CurrentComboTotalDamage;
+                    P2PrevHealth = P2Prop.currentHealth;
+                }
+                if (HUD.Player1Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
+                {
+                    P1HitDamage.text = "";
+                }
+                //Display P2 current hit damage
+                if (P1Prop.currentHealth < P1PrevHealth)
+                {
+                    P2CurrentHitDamage = P1PrevHealth - P1Prop.currentHealth;
+                    P2CurrentComboTotalDamage += P2CurrentHitDamage;
+                    P2HitDamage.text = "";
+                    P2HitDamage.text = "Damage: ";
+                    P2HitDamage.text += P2CurrentHitDamage;
+                    P2ComboDamage.text = "";
+                    P2ComboDamage.text = "Total Damage : ";
+                    P2ComboDamage.text += P2CurrentComboTotalDamage;
+                    P1PrevHealth = P1Prop.currentHealth;
+                }
+                if (HUD.Player2Combo.text == "" && P2Prop.HitDetect.comboCount != 1)
+                {
+                    P2HitDamage.text = "";
+                }
+                //Update Highest Combo Damage
+                if (P1CurrentComboTotalDamage > P1HighestComboDamage)
+                {
+                    P1HighestComboDamage = P1CurrentComboTotalDamage;
+                    P1HighComboDamage.text = "";
+                    P1HighComboDamage.text = "Highest Combo Damage: ";
+                    P1HighComboDamage.text += P1HighestComboDamage;
+                }
+                if (P2CurrentComboTotalDamage > P2HighestComboDamage)
+                {
+                    P2HighestComboDamage = P2CurrentComboTotalDamage;
+                    P2HighComboDamage.text = "";
+                    P2HighComboDamage.text = "Highest Combo Damage: ";
+                    P2HighComboDamage.text += P2HighestComboDamage;
+                }
+
+                //Handle Dummy State
+                p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x;
+                p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x;
+                if (InputTimer > 0)
+                {
+                    InputTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    InputTimer = 0;
+                }
+                switch (dummyState)
+                {
+                    case "CPU":
+                        MaxInput.enableAI();
+                        MaxInputObject.GetComponent<AI>().enabled = true;
+                        break;
+                    case "Stand":
+                        MaxInput.ClearInput("Player2");
+                        MaxInput.enableAI();
+                        MaxInputObject.GetComponent<AI>().enabled = false;
+                        break;
+                    case "Crouch":
+                        MaxInput.ClearInput("Player2");
+                        MaxInput.enableAI();
+                        MaxInputObject.GetComponent<AI>().enabled = false;
+                        MaxInput.Crouch("Player2");
+                        break;
+                    case "Jump":
+                        MaxInput.ClearInput("Player2");
+                        MaxInput.enableAI();
+                        MaxInputObject.GetComponent<AI>().enabled = false;
+
+                        if (InputTimer == 0 && !P2inCombo)
+                        {
+                            MaxInput.Jump("Player2");
+                            InputTimer = 1.0f;
+                        }
+                        break;
+                    case "Guard":
+                        MaxInput.ClearInput("Player2");
+                        MaxInput.enableAI();
+                        MaxInputObject.GetComponent<AI>().enabled = false;
+                        if (p1x - p2x < 0)
+                        {
+                            MaxInput.MoveRight("Player2");
+                        }
+                        else
+                        {
+                            MaxInput.MoveLeft("Player2");
+                        }
+                        break;
+                    case "LowGuard":
+                        MaxInput.ClearInput("Player2");
+                        MaxInput.enableAI();
+                        MaxInputObject.GetComponent<AI>().enabled = false;
+                        if (p1x - p2x < 0)
+                        {
+                            MaxInput.DownRight("Player2");
+                        }
+                        else
+                        {
+                            MaxInput.DownLeft("Player2");
+                        }
+                        break;
+                    case "Player":
+                        MaxInput.ClearInput("Player2");
+                        MaxInput.disableAI();
+                        break;
+                }
+
+                //Reset Positions back to start **Still needs Refinement
+                if (Input.GetButtonDown("Select_P1"))
+                {
+                    resetPositions();
+                }
             }
+            
         }
     }
 
