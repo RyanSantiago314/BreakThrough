@@ -18,6 +18,7 @@ public class PracticeMode : MonoBehaviour
     public MaxInput MaxInput;
     public GameObject MaxInputObject;
     public GameObject GameOverManager;
+    public GameObject PracticeModeSettings;
 
     private bool P1inCombo;
     private bool P2inCombo;
@@ -88,6 +89,74 @@ public class PracticeMode : MonoBehaviour
         //Practice Mode Handler
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
+            //Check Settings from Practice Pause Menu
+            //CPUState Check
+            switch (PracticeModeSettings.GetComponent<PauseMenu>().CPUState)
+            {
+                case 0:
+                    dummyState = "Stand";
+                    break;
+                case 1:
+                    dummyState = "Crouch";
+                    break;
+                case 2:
+                    dummyState = "Jump";
+                    break;
+                case 3:
+                    dummyState = "Guard";
+                    break;
+                case 4:
+                    dummyState = "Low Guard";
+                    break;
+                case 5:
+                    dummyState = "CPU";
+                    break;
+                case 6:
+                    dummyState = "Player";
+                    break;
+            }
+            //P1 Valor Check
+            switch (PracticeModeSettings.GetComponent<PauseMenu>().P1Valor)
+            {
+                case 0:
+                    P1ValorSetting = 0;
+                    break;
+                case 1:
+                    P1ValorSetting = 1;
+                    break;
+                case 2:
+                    P1ValorSetting = 2;
+                    break;
+                case 3:
+                    P1ValorSetting = 3;
+                    break;
+            }
+            //P2 Valor Check
+            switch (PracticeModeSettings.GetComponent<PauseMenu>().P2Valor)
+            {
+                case 0:
+                    P2ValorSetting = 0;
+                    break;
+                case 1:
+                    P2ValorSetting = 1;
+                    break;
+                case 2:
+                    P2ValorSetting = 2;
+                    break;
+                case 3:
+                    P2ValorSetting = 3;
+                    break;
+            }
+            switch(PracticeModeSettings.GetComponent<PauseMenu>().ArmorRefill)
+            {
+                case 0:
+                    enableArmorRefill = true;
+                    break;
+                case 1:
+                    enableArmorRefill = false;
+                    break;
+            }
+
             //Refill Armor Meters Option
             if (enableArmorRefill)
             {
