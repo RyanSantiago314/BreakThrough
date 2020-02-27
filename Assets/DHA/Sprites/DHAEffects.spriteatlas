@@ -182,11 +182,19 @@ SpriteAtlas:
     - {fileID: 2800000, guid: f33bffb99fd4f4a4fb980cb30b27e0a8, type: 3}
     - {fileID: 2800000, guid: 350046636edb3814f803900249403aa8, type: 3}
     - {fileID: 2800000, guid: ecdf7f4c5013f8e4682a8fc9ef61b0d9, type: 3}
-    totalSpriteSurfaceArea: 648540587
+    - {fileID: 2800000, guid: c0ecfd8093ef37e4fae268ecce3f81c7, type: 3}
+    - {fileID: 2800000, guid: 1e63d0aeb676a11468f4f3b716c7d456, type: 3}
+    - {fileID: 2800000, guid: 857cccb85a164994aad93ba69003d624, type: 3}
+    - {fileID: 2800000, guid: 30615843a8d343840b112bf365652eeb, type: 3}
+    - {fileID: 2800000, guid: 6cebaee4e9c5cbe45a350942c32ab68a, type: 3}
+    - {fileID: 2800000, guid: db20cd777a463f442a9a76dc4b985334, type: 3}
+    - {fileID: 2800000, guid: 04c36ed2566b67142b97d18774ce32ff, type: 3}
+    - {fileID: 2800000, guid: 1a6b4b0c8105ba049930dfec237bb562, type: 3}
+    totalSpriteSurfaceArea: 680620459
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: ca81f9b944fcdf824a3cd14bf7039061
+      Hash: f027927ef77a9424e9a7e80178d10bef
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 77a66e102ae9399428c326060afc0b96, type: 3}
@@ -196,6 +204,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 3c18f7600502093499620a43822a7fec, type: 3}
   - {fileID: 21300000, guid: c4c195704565a934b865e0b47f61047e, type: 3}
   - {fileID: 21300000, guid: c0dbdc7001fc7674f9dd072a173ddf0b, type: 3}
+  - {fileID: 21300000, guid: c0ecfd8093ef37e4fae268ecce3f81c7, type: 3}
   - {fileID: 21300000, guid: 4031a09016fa6544cb4421c9f8552a9c, type: 3}
   - {fileID: 21300000, guid: 6d45f090a42077341a253aa31f50a08a, type: 3}
   - {fileID: 21300000, guid: 772f5790efd3ab84a9636fa936f845d7, type: 3}
@@ -216,10 +225,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 61635eb234469bd4aac6ada0e28ad662, type: 3}
   - {fileID: 21300000, guid: 2be0dec2bf66a094fa670aec5dca736e, type: 3}
   - {fileID: 21300000, guid: db7507d26fd9a634fb5ea4f0372efed7, type: 3}
+  - {fileID: 21300000, guid: 04c36ed2566b67142b97d18774ce32ff, type: 3}
   - {fileID: 21300000, guid: a6e140f2ee924794b9633a23cab153cb, type: 3}
   - {fileID: 21300000, guid: 20cc340352691814c86fbcc382f69e81, type: 3}
   - {fileID: 21300000, guid: 4633490352cdf4b4cb07d02c9dc05e90, type: 3}
   - {fileID: 21300000, guid: c8d61f23a86a76143b8177e0ecf03386, type: 3}
+  - {fileID: 21300000, guid: 30615843a8d343840b112bf365652eeb, type: 3}
   - {fileID: 21300000, guid: 350046636edb3814f803900249403aa8, type: 3}
   - {fileID: 21300000, guid: ca54f283176c033449923ba7f71681ad, type: 3}
   - {fileID: 21300000, guid: b07ef2e334b55654ab8ffd5874e62308, type: 3}
@@ -230,6 +241,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b43d2a34fdd26c94f850808256450fce, type: 3}
   - {fileID: 21300000, guid: 8448175422a485245a208ccbd457f06c, type: 3}
   - {fileID: 21300000, guid: cd9505641f86b7745b75563eff069dcc, type: 3}
+  - {fileID: 21300000, guid: 6cebaee4e9c5cbe45a350942c32ab68a, type: 3}
   - {fileID: 21300000, guid: bb7774f45c45d464398d20976ce79a20, type: 3}
   - {fileID: 21300000, guid: 532907f4a1fe8a542819b77fc90546fc, type: 3}
   - {fileID: 21300000, guid: bebfed05ffb5eee4fa58bdfe71667a93, type: 3}
@@ -249,6 +261,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: aa6bcbf6866975c48a7c026fd04ad00c, type: 3}
   - {fileID: 21300000, guid: f4a21c27fe6428f429bbafa7b090d39f, type: 3}
   - {fileID: 21300000, guid: d12b5d679d28f2e438c9609a2b04fa23, type: 3}
+  - {fileID: 21300000, guid: db20cd777a463f442a9a76dc4b985334, type: 3}
   - {fileID: 21300000, guid: e5dd8287da65ed94bb3bdaf636a81906, type: 3}
   - {fileID: 21300000, guid: 814ae89776d0d9d44afe3cb8d1473177, type: 3}
   - {fileID: 21300000, guid: c48024a79c8d4db4f98df18dabfef199, type: 3}
@@ -261,6 +274,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 51a50348aad856b48965b66f8051ff4a, type: 3}
   - {fileID: 21300000, guid: e2d89a98cd0eaf6498844dc317bd5869, type: 3}
   - {fileID: 21300000, guid: 0210e6a88411e0247832bdb3dc93b142, type: 3}
+  - {fileID: 21300000, guid: 857cccb85a164994aad93ba69003d624, type: 3}
   - {fileID: 21300000, guid: f42aa1c84432c8d4bbc86159733951b5, type: 3}
   - {fileID: 21300000, guid: b9447e098e78faf47b2f84343963775d, type: 3}
   - {fileID: 21300000, guid: 1d10811960ba0674f93765f7fb61a14c, type: 3}
@@ -293,6 +307,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0058166bc4e785b468b22c8d226b77db, type: 3}
   - {fileID: 21300000, guid: 65cbb09b5f6edc3409ff49d75ffa111d, type: 3}
   - {fileID: 21300000, guid: 92b418dbcc7e27f439464c43d8356dd8, type: 3}
+  - {fileID: 21300000, guid: 1a6b4b0c8105ba049930dfec237bb562, type: 3}
   - {fileID: 21300000, guid: f17b102c445e4bc489291d94a6972205, type: 3}
   - {fileID: 21300000, guid: a657424cc1fc58f44bbc888623d9b99b, type: 3}
   - {fileID: 21300000, guid: ecdf7f4c5013f8e4682a8fc9ef61b0d9, type: 3}
@@ -313,6 +328,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 6addf27e61dde7243a551a1b6ed4a2ee, type: 3}
   - {fileID: 21300000, guid: e9555d8eef6de5744af1778736609d73, type: 3}
   - {fileID: 21300000, guid: ab68dd9ef02e26149816b0516fd3957a, type: 3}
+  - {fileID: 21300000, guid: 1e63d0aeb676a11468f4f3b716c7d456, type: 3}
   - {fileID: 21300000, guid: 148207ae6ab24724cb9cfc06ceeb0798, type: 3}
   - {fileID: 21300000, guid: 5fca58ae78023174f8afdba44c5dad7f, type: 3}
   - {fileID: 21300000, guid: 8903c0beb524cea4e86168a8902429c9, type: 3}
@@ -337,6 +353,7 @@ SpriteAtlas:
   - BaguetteBeam_03
   - JSStartDemon_02-1
   - Brioche
+  - JSEyeFlash_01
   - Explosion_05
   - 6BSin_12
   - JSStartDemon_01-4
@@ -357,10 +374,12 @@ SpriteAtlas:
   - Explosion_01
   - JSFlames_01
   - Baguette_15
+  - JSEyeFlash_07
   - JSStartDemon_01-1
   - JSFlames_03
   - BloodBraveEndSin_04
   - JSStartDemon_01-0
+  - JSEyeFlash_04
   - JSStartDemon_02-4
   - 6BSin_13
   - Flash_01
@@ -371,6 +390,7 @@ SpriteAtlas:
   - jH3_03 (just smear)
   - jH2_02 (smear)
   - BaguetteBeam_07
+  - JSEyeFlash_05
   - HeadRushUpperEffect_04
   - BaguetteBeam_05
   - jH1_04(smear)
@@ -390,6 +410,7 @@ SpriteAtlas:
   - 6BSin_05
   - 6BSin_07
   - Baguette_09
+  - JSEyeFlash_06
   - BloodBraveEndSin_05
   - 6BSinStart_02
   - Baguette_06
@@ -402,6 +423,7 @@ SpriteAtlas:
   - 6BChargeSin_02
   - Baguette_24
   - Baguette_13
+  - JSEyeFlash_03
   - Baguette_06_2
   - JSStartDemon_01-7
   - jH4_02(smear)
@@ -434,6 +456,7 @@ SpriteAtlas:
   - 6BSin_09
   - ThrowSin_08
   - ThrowSin_01
+  - JSEyeFlash_08
   - Baguette_20
   - 6BSin_02
   - JSStartDemon_02-5
@@ -454,6 +477,7 @@ SpriteAtlas:
   - JSStartCleaver_09
   - ThrowSin_x
   - Croissant
+  - JSEyeFlash_02
   - Baguette_16
   - ThrowSin_10
   - Baguette_22

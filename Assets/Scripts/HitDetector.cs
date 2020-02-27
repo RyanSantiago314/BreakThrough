@@ -62,6 +62,8 @@ public class HitDetector : MonoBehaviour
     public bool usingSpecial;
 
     public bool slash = false;
+    public bool vertSlash = false;
+    public bool horiSlash = false;
 
     public HitDetector OpponentDetector;
 
@@ -104,6 +106,8 @@ public class HitDetector : MonoBehaviour
     static int dizzyID;
     static int KOID;
 
+    static int guardID;
+
     void Start()
     {
         Application.targetFrameRate = 60;
@@ -134,10 +138,12 @@ public class HitDetector : MonoBehaviour
         throwRejectID = Animator.StringToHash("ThrowReject");
         dizzyID = Animator.StringToHash("Dizzy");
         KOID = Animator.StringToHash("KOed");
+        
+        guardID = Animator.StringToHash("Guard");
 
         pauseScreen = GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>();
 
-        HitFX = Instantiate(HitFXPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
+        HitFX = Instantiate(HitFXPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);//.GetChild(0));
         hitEffect = HitFX.GetComponent<Animator>();
     }
 
@@ -171,7 +177,7 @@ public class HitDetector : MonoBehaviour
         {
             anim.SetBool(runID, false);
             //hitStun only counts down if not in the groundbounce or crumple animations
-            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0  && !pauseScreen.isPaused)
+            if(!Actions.groundBounce && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0  && !pauseScreen.isPaused)
                 hitStun--;
             anim.SetInteger(hitStunID, hitStun);
         }
@@ -207,6 +213,7 @@ public class HitDetector : MonoBehaviour
             if (Actions.superFlash > 0)
             {
                 OpponentDetector.hitStop = 2;
+                rb.constraints = RigidbodyConstraints2D.FreezeAll;
             }
 
             if(currentState.IsName("WallStick"))
@@ -309,7 +316,6 @@ public class HitDetector : MonoBehaviour
             if (allowHit && !grab && !commandGrab && other.gameObject.transform.parent.parent == Actions.Move.opponent && (potentialHitStun > 0 || blitz))
             {
                 OpponentDetector.Actions.shattered = false;
-                hitEffect.transform.eulerAngles = Vector3.zero;
 
                 if ((guard == "Mid" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
                     (guard == "Low" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
@@ -363,6 +369,11 @@ public class HitDetector : MonoBehaviour
                             OpponentDetector.KnockBack = new Vector2(.8f * (potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
                         }
 
+                        if (Actions.airborne && KnockBack.x > 1f)
+                        {
+                            KnockBack = new Vector2(1f, KnockBack.y);
+                        }
+
                     }
 
                     if (OpponentDetector.anim.GetBool(AirGuard) && OpponentDetector.Actions.Move.justDefenseTime <= 0)
@@ -398,7 +409,10 @@ public class HitDetector : MonoBehaviour
                             Debug.Log("SHATTERED");
                             //damage, hitstun, etc.
                             HitSuccess(other);
-                            ApplyHitStop(2 * potentialHitStop);
+                            if (potentialHitStop > 0)
+                                ApplyHitStop(2 * potentialHitStop);
+                            else
+                                ApplyHitStop(30);
 
                             //chip damage
                             /*if (Actions.Move.OpponentProperties.currentHealth - damage/5 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
@@ -484,7 +498,6 @@ public class HitDetector : MonoBehaviour
                         specialProration *= 1.1f;
                         HitSuccess(other);
                         ApplyHitStop(2 * potentialHitStop);
-                        Contact(other);
                     }
                     else if (piercing && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                     {
@@ -495,15 +508,14 @@ public class HitDetector : MonoBehaviour
                             OpponentDetector.armorHit = true;
                         }
                         HitSuccess(other);
-                        ApplyHitStop(0);
-                        Contact(other);
+                        ApplyHitStop(potentialHitStop/2);
                     }
                     else if (!blitz && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                     {
                         //if the opponent has armor and is using it, deal armor and durability damage
                         Actions.Move.OpponentProperties.armor -= armorDamage;
                         Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                        ApplyHitStop(0);
+                        ApplyHitStop(potentialHitStop/2);
                         OpponentDetector.armorHit = true;
                         Debug.Log("HitArmor");
                     }
@@ -546,28 +558,27 @@ public class HitDetector : MonoBehaviour
                 allowHit = false;
                 hit = true;
             }
-            else if (allowHit && !blitz && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
+            else if (allowHit && !grab && !commandGrab && !blitz && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
             {
                 //clash/deflect system
                 if (attackLevel > OpponentDetector.attackLevel && (attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
                 {
                     //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
-                    ApplyHitStop(potentialHitStop / 2);
+                    ApplyHitStop(potentialHitStop/2);
                     Debug.Log("DEFLECTED!");
                     anim.SetTrigger(parryID);
                     OpponentDetector.anim.SetTrigger(deflectID);
-                    OpponentDetector.Actions.jumpCancel = true;
+                    Actions.jumpCancel = true;
                     Actions.CharProp.durabilityRefillTimer = 0;
-                    OpponentDetector.Contact(other);
+                    Contact(other);
                 }
-                else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
+                else if (Mathf.Abs(attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
                 {
                     //if the attacks are of similar strength both can immediately input another command
                     Debug.Log("Clash!");
-                    ApplyHitStop(potentialHitStop);
-                    anim.SetTrigger(clashID);
+                    ApplyHitStop(potentialHitStop/2);
                     //no knockback on clashes
-                    Clash();
+                    Clash(other);
                 }
                 allowHit = false;
                 hit = true;
@@ -609,8 +620,89 @@ public class HitDetector : MonoBehaviour
             OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;
 
         hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
-        //hitEffect.transform.position = hitBox1.bounds.ClosestPoint(OpponentDetector.transform.position + new Vector3(other.offset.x, other.offset.y, 0));
-        hitEffect.SetInteger("AttackLevel", attackLevel);
+
+        if (piercing)
+            hitEffect.SetInteger("AttackLevel", 4);
+        else
+            hitEffect.SetInteger("AttackLevel", attackLevel);
+
+        //set hit effect to play based on attack properties
+        if (!blitz && !grab)
+        {
+            HitFX.transform.rotation = Actions.Move.transform.rotation;
+            if (OpponentDetector.Actions.shattered)
+            {
+                hitEffect.SetTrigger(shatterID);
+                hitEffect.transform.position = OpponentDetector.Actions.Move.transform.position;
+                if (OpponentDetector.Actions.Move.anim.GetBool("Crouch"))
+                    hitEffect.transform.position = new Vector3(hitEffect.transform.position.x, hitEffect.transform.position.y - .5f, hitEffect.transform.position.z);
+                hitEffect.transform.GetChild(0).transform.localScale = new Vector3(2, 2, 1);
+            }
+            else if (OpponentDetector.armorHit)
+            {
+                hitEffect.SetTrigger(armorHitID);
+            }
+            else if (OpponentDetector.blockStun > 0)
+            {
+                hitEffect.SetTrigger(guardID);
+            }
+            else if (OpponentDetector.hitStun > 0)
+            {
+                if (vertSlash || horiSlash || slash)
+                {
+                    hitEffect.SetTrigger("Slash");
+                    if (vertSlash)
+                    {
+                        if (OpponentDetector.KnockBack.y > 2)
+                            hitEffect.transform.eulerAngles = new Vector3(0, Actions.Move.transform.eulerAngles.y, Random.Range(60f, 80f));
+                        else
+                            hitEffect.transform.eulerAngles = new Vector3(0, Actions.Move.transform.eulerAngles.y, Random.Range(-60f, -80f));
+                    }
+                    else if (horiSlash)
+                    {
+                        hitEffect.transform.eulerAngles = new Vector3(0, Actions.Move.transform.eulerAngles.y, Random.Range(15f, 15f));
+                    }
+                    else
+                    {
+                        hitEffect.transform.eulerAngles = new Vector3(0, Actions.Move.transform.eulerAngles.y, Random.Range(-60f, 60f));
+                        if (OpponentDetector.KnockBack.y > 2)
+                            hitEffect.transform.eulerAngles = new Vector3(0, Actions.Move.transform.eulerAngles.y, Random.Range(60f, 80f));
+                    }
+
+                    if (attackLevel < 2)
+                        hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(.5f, .75f), Random.Range(-1f, 1f), 1);
+                    else
+                        hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(1f, 1.5f), Random.Range(-1.5f, 1.5f), 1);
+
+                }
+                else
+                {
+                    hitEffect.SetTrigger("Strike");
+                    if (attackLevel < 4)
+                        hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(.75f, 1f), Random.Range(-1f, 1f), 1);
+                    else
+                        hitEffect.transform.GetChild(0).transform.localScale = new Vector3(Random.Range(1f, 1.5f), Random.Range(-1.5f, 1.5f), 1);
+
+                    hitEffect.transform.localEulerAngles = new Vector3(0, 0, Random.Range(0f, 359f));
+                }
+            }
+            else if (attackLevel > OpponentDetector.attackLevel && (attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
+            {
+                hitEffect.transform.GetChild(0).transform.localScale = Vector3.one;
+                if (Actions.Move.facingRight)
+                    hitEffect.transform.position = new Vector3(OpponentDetector.Actions.Move.transform.position.x - .5f, OpponentDetector.Actions.Move.transform.position.y - .5f, 
+                                                               OpponentDetector.Actions.Move.transform.position.z);
+                else
+                    hitEffect.transform.position = new Vector3(OpponentDetector.Actions.Move.transform.position.x + .5f, OpponentDetector.Actions.Move.transform.position.y - .5f, 
+                                                               OpponentDetector.Actions.Move.transform.position.z);
+                hitEffect.SetTrigger(parryID);
+            }
+
+            if (OpponentDetector.KnockBack.y > 2)
+            {
+                hitEffect.transform.GetChild(0).transform.eulerAngles = new Vector3(hitEffect.transform.eulerAngles.x, hitEffect.transform.eulerAngles.y, Random.Range(-30f, 30f));
+            }
+        }
     }
 
     void HitSuccess(Collider2D other)
@@ -719,7 +811,7 @@ public class HitDetector : MonoBehaviour
 
         //manipulate opponent's state based on attack properties
         //defender can enter unique states of stun if hit by an attack with corresponding property
-        if (blitz && OpponentDetector.hitStun > 0)
+        if (blitz && (OpponentDetector.hitStun > 0 || OpponentDetector.anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected")))
         {
             OpponentDetector.Actions.blitzed = 60;
             if (Actions.Move.OpponentProperties.comboTimer > 0)
@@ -913,25 +1005,11 @@ public class HitDetector : MonoBehaviour
             }
         }
 
-        //set hit effect to play based on attack properties
-        if (!blitz && !grab)
-        {
-            if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive||OpponentDetector.Actions.recovering))
-                hitEffect.SetTrigger(shatterID);
-            else if (slash)
-                hitEffect.SetTrigger("Slash");
-            else
-                hitEffect.SetTrigger("Strike");
-
-            if (!shatter)
-                hitEffect.transform.eulerAngles = new Vector3(hitEffect.transform.eulerAngles.x, hitEffect.transform.eulerAngles.y, Random.Range(0, 359));
-        }
-
         if (!grab && potentialHitStun != 0)
             comboCount++;
     }
 
-    void Clash()
+    void Clash(Collider2D other)
     {
         Actions.acceptLight = true;
         Actions.acceptMedium = true;
@@ -942,6 +1020,13 @@ public class HitDetector : MonoBehaviour
         Actions.jumpCancel = true;
         allowHit = false;
         hit = true;
+
+        hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+
+        hitEffect.transform.GetChild(0).transform.localScale = Vector3.one;
+        hitEffect.transform.localEulerAngles = Vector3.zero;
+        hitEffect.transform.GetChild(0).transform.localEulerAngles = new Vector3(0, 0, -30);
+        hitEffect.SetTrigger(clashID);
     }
 
 
@@ -962,6 +1047,8 @@ public class HitDetector : MonoBehaviour
         {
             hitStop = potentialHitStop + i;
             OpponentDetector.hitStop = potentialHitStop + i;
+            if (usingSuper)
+                hitEffect.SetFloat(animSpeedID, 0);
         }
     }
 }

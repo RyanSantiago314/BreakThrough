@@ -20,6 +20,8 @@ public class AI : MonoBehaviour
     bool pIsCrouching;
     bool pIsAttacking;
     bool pIsRecovering;
+    public bool pIsHitstun;
+    public bool pIsBlockstun;
     bool pIsSupering;
     string pGuard;
 
@@ -47,6 +49,10 @@ public class AI : MonoBehaviour
     public int doingQCB;
     public int doingHCF;
     public int doingHCB;
+
+    // Combos
+    public int doing5L_1;
+    public int doing2H_1;
 
     // Distance between players
     double distanceBetweenX;
@@ -91,6 +97,8 @@ public class AI : MonoBehaviour
         pIsCrouching = false;
         pIsAttacking = false;
         pIsRecovering = false;
+        pIsHitstun = false;
+        pIsBlockstun = false;
         pIsSupering = false;
         pGuard = "";
 
@@ -113,6 +121,10 @@ public class AI : MonoBehaviour
         doingQCB = 0;
         doingHCF = 0;
         doingHCB = 0;
+
+        // Combos
+        doing5L_1 = 0;
+        doing2H_1 = 0;
 
         // Distance between players
         distanceBetweenX = 0;
@@ -210,6 +222,8 @@ public class AI : MonoBehaviour
 
             //Debug.Log("faceLeft = " + faceLeft);
             //Debug.Log("p1x = " + p1x + " p2x = " + p2x);
+            Debug.Log(pIsBlockstun);
+
 
             if (delayTimer <= 0)
             {
@@ -233,6 +247,16 @@ public class AI : MonoBehaviour
                     Debug.Log("doing HCB");
                     AIInput.HCB();
                 }
+                else if (doing5L_1 > 0)
+                {
+                    Debug.Log("doing 5L combo 1");
+                    AIInput.combo5L_1();
+                }
+                else if (doing2H_1 > 0)
+                {
+                    Debug.Log("doing 2H combo 1");
+                    AIInput.combo2H_1();
+                }
                 else
                 {
 
@@ -251,7 +275,7 @@ public class AI : MonoBehaviour
                     if (max == "Attack") attack();
                     if (max == "Defend") defend();
                     if (max == "MoveCloser") moveCloser();
-                    //testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
+                    // testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
                 }
             }
         }
@@ -282,7 +306,9 @@ public class AI : MonoBehaviour
             }
             else if (rand > 50 && rand <= 75 && circleTimer <= 0)
             {
-                MaxInput.Circle("Player2");
+                doing2H_1 = 1;
+                AIInput.combo2H_1();
+                //MaxInput.Circle("Player2");
                 triangleTimer = .5f;
             }
             else if (rand > 75 && rand <= 85 && crossTimer <= 0)
@@ -304,7 +330,9 @@ public class AI : MonoBehaviour
         {
             if (rand <= 30 && squareTimer <= 0)
             {
-                MaxInput.Square("Player2");
+                doing5L_1 = 1;
+                AIInput.combo5L_1();
+                //MaxInput.Square("Player2");
                 crossTimer = .5f;
             }
             else if (rand > 30 && rand <= 55 && triangleTimer <= 0)
@@ -317,10 +345,16 @@ public class AI : MonoBehaviour
                 MaxInput.Circle("Player2");
                 triangleTimer = .5f;
             }
-            else if (rand > 80 && crossTimer <= 0)
+            else if (rand > 80 && rand <= 99 && crossTimer <= 0)
             {
                 MaxInput.Cross("Player2");
                 squareTimer = .5f;
+            }
+            else if (rand > 99)
+            {
+                keepAction = "RBumper";
+                doingQCB = 1;
+                AIInput.HCB();
             }
             else MaxInput.Square("Player2");
         }
@@ -499,6 +533,8 @@ public class AI : MonoBehaviour
         pIsCrouching = playerInput.GetComponent<Animator>().GetBool("Crouch");
         pIsAttacking = playerInput.GetComponent<AcceptInputs>().attacking;
         pIsRecovering = playerInput.GetComponent<AcceptInputs>().recovering;
+        pIsHitstun = playerHit.GetComponent<HitDetector>().hitStun > 0;
+        pIsBlockstun = playerHit.GetComponent<HitDetector>().blockStun > 0;
         pIsSupering = GameObject.Find("Player1").transform.GetChild(2).gameObject.activeSelf;
 
         if (playerInput.GetComponent<Animator>().GetBool("HighGuard") == true) pGuard = "High";
@@ -555,9 +591,8 @@ public class AI : MonoBehaviour
     // Testing specific actions
     void testActions()
     {
-        keepAction = "Square";
-        doingQCF = 1;
-        AIInput.QCF();
+        doing2H_1 = 1;
+        AIInput.combo2H_1();
     }
 }
 

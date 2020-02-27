@@ -298,8 +298,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitDetect: {fileID: 5672348970961381722}
-  maxHealth: 950
-  currentHealth: 950
+  maxHealth: 900
+  currentHealth: 900
   armor: 0
   durability: 0
   comboTimer: 0

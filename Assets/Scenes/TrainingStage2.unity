@@ -11154,6 +11154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bddeebde644bc0d45b9d06cbdf1ca9d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pIsHitstun: 0
+  pIsBlockstun: 0
   faceLeft: 0
   keepInput: 0
   keepAction: 
@@ -11161,6 +11163,8 @@ MonoBehaviour:
   doingQCB: 0
   doingHCF: 0
   doingHCB: 0
+  doing5L_1: 0
+  doing2H_1: 0
   delayTimer: 0
   AIInput: {fileID: 1948197661}
 --- !u!114 &1948197660

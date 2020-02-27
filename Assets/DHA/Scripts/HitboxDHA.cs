@@ -86,6 +86,8 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.usingSuper = false;
         HitDetect.usingSpecial = false;
         HitDetect.slash = false;
+        HitDetect.vertSlash = false;
+        HitDetect.horiSlash = false;
     }
 
     void AwakenBox()
@@ -328,7 +330,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialKnockBack = new Vector2(2f, 3f);
         HitDetect.potentialAirKnockBack = new Vector2(2f, 2f);
         HitDetect.initialProration = .85f;
-        HitDetect.attackLevel = 3;
+        HitDetect.attackLevel = 2;
         HitDetect.guard = "Mid";
 
         HitDetect.allowWallBounce = true;
@@ -436,6 +438,8 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.attackLevel = 1;
         HitDetect.guard = "Overhead";
 
+        HitDetect.horiSlash = true;
+
         HitDetect.allowLight = true;
         HitDetect.allowMedium = true;
         HitDetect.allowHeavy = true;
@@ -465,6 +469,8 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.attackLevel = 1;
         HitDetect.guard = "Overhead";
 
+        HitDetect.horiSlash = true;
+
         HitDetect.allowLight = true;
         HitDetect.allowMedium = true;
         HitDetect.allowHeavy = true;
@@ -491,6 +497,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.attackLevel = 2;
         HitDetect.guard = "Mid";
 
+        HitDetect.slash = true;
         HitDetect.allowLight = true;
         HitDetect.allowHeavy = true;
         HitDetect.allowBreak = true;
@@ -517,6 +524,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.attackLevel = 2;
         HitDetect.guard = "Mid";
 
+        HitDetect.slash = true;
         HitDetect.allowHeavy = true;
         HitDetect.allowBreak = true;
         HitDetect.allowSpecial = true;
@@ -548,11 +556,11 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.initialProration = .8f;
         if (HitDetect.OpponentDetector.Actions.standing)
             HitDetect.forcedProration = .8f;
-        HitDetect.attackLevel = 2;
+        HitDetect.attackLevel = 3;
         HitDetect.guard = "Mid";
 
         HitDetect.launch = true;
-
+        HitDetect.vertSlash = true;
         HitDetect.allowBreak = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
@@ -590,6 +598,8 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialAirKnockBack = new Vector2(.8f, 1.5f);
         HitDetect.attackLevel = 2;
         HitDetect.guard = "Overhead";
+
+        HitDetect.horiSlash = true;
 
         HitDetect.allowHeavy = true;
         HitDetect.allowBreak = true;
@@ -630,6 +640,8 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.attackLevel = 2;
         HitDetect.guard = "Overhead";
 
+        HitDetect.vertSlash = true;
+
         HitDetect.allowHeavy = true;
         HitDetect.allowBreak = true;
         HitDetect.allowSpecial = true;
@@ -667,6 +679,8 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialAirKnockBack = new Vector2(1f, 1f);
         HitDetect.attackLevel = 2;
         HitDetect.guard = "Overhead";
+
+        HitDetect.slash = true;
 
         HitDetect.allowHeavy = true;
         HitDetect.allowBreak = true;
@@ -713,7 +727,9 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.attackLevel = 3;
         HitDetect.guard = "Overhead";
 
+        HitDetect.vertSlash = true;
         HitDetect.launch = true;
+
         HitDetect.allowSuper = true;
         HitDetect.jumpCancellable = true;
     }
@@ -778,6 +794,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.attackLevel = 3;
         HitDetect.guard = "Mid";
 
+        HitDetect.vertSlash = true;
         if(sinCharge > 1)
             HitDetect.forceCrouch = true;
         HitDetect.allowSpecial = true;
@@ -827,6 +844,8 @@ public class HitboxDHA : MonoBehaviour
             HitDetect.allowWallStick = true;
         else if (HitDetect.OpponentDetector.Actions.standing)
             HitDetect.allowWallBounce = true;
+
+        HitDetect.vertSlash = true;
 
         HitDetect.shatter = true;
         HitDetect.allowSpecial = true;
@@ -942,7 +961,7 @@ public class HitboxDHA : MonoBehaviour
         hit1.offset = new Vector2(1.3f, -.28f);
         hit1.size = new Vector2(1f, 1f);
         hit2.offset = new Vector2(.6f, -.34f);
-        hit2.size = new Vector2(.9f, 64f);
+        hit2.size = new Vector2(.9f, .64f);
 
         HitDetect.damage = 135;
         HitDetect.durabilityDamage = 0;
@@ -971,7 +990,7 @@ public class HitboxDHA : MonoBehaviour
             hit1.offset = new Vector2(1.3f, -.2f);
             hit1.size = new Vector2(1f, 1.2f);
             hit2.offset = new Vector2(.6f, -.34f);
-            hit2.size = new Vector2(.9f, 64f);
+            hit2.size = new Vector2(.9f, .64f);
 
             HitDetect.damage = 150;
             HitDetect.durabilityDamage = 0;
@@ -1018,7 +1037,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStun = 25;
         HitDetect.potentialHitStop = hitStopLv4;
         HitDetect.initialProration = .9f;
-        HitDetect.attackLevel = 3;
+        HitDetect.attackLevel = 4;
         HitDetect.guard = "Overhead";
 
         HitDetect.allowSpecial = true;
@@ -1112,8 +1131,9 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStun = hitStunLv2;
         HitDetect.potentialHitStop = 1;
         HitDetect.initialProration = .7f;
-        HitDetect.attackLevel = 3;
+        HitDetect.attackLevel = 2;
         HitDetect.guard = "Overhead";
+        HitDetect.slash = true;
 
         HitDetect.allowGroundBounce = true;
 
@@ -1144,8 +1164,9 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStun = hitStunLv2;
         HitDetect.potentialHitStop = 1;
         HitDetect.initialProration = .7f;
-        HitDetect.attackLevel = 3;
+        HitDetect.attackLevel = 2;
         HitDetect.guard = "Overhead";
+        HitDetect.slash = true;
 
         HitDetect.allowGroundBounce = true;
 
@@ -1268,6 +1289,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.attackLevel = 3;
         HitDetect.guard = "Mid";
 
+        HitDetect.slash = true;
         HitDetect.usingSpecial = true;
         HitDetect.allowSuper = true;
     }
@@ -1348,7 +1370,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialHitStun = 48;
         HitDetect.potentialHitStop = hitStopLv4;
-        HitDetect.potentialKnockBack = new Vector2(3.5f, 2f);
+        HitDetect.potentialKnockBack = new Vector2(3f, 2f);
         HitDetect.attackLevel = 3;
         HitDetect.guard = "Mid";
 
@@ -1416,6 +1438,8 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.forcedProration = .8f;
         HitDetect.attackLevel = 10;
         HitDetect.guard = "Mid";
+
+        HitDetect.vertSlash = true;
 
         HitDetect.launch = true;
         HitDetect.shatter = true;

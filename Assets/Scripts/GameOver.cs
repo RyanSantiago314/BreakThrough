@@ -105,7 +105,7 @@ public class GameOver : MonoBehaviour
 	}
 
 	void Update()
-	{	
+	{
 		//Decrementing end timer
 		if (endTimer > 0)
 		{
@@ -118,7 +118,7 @@ public class GameOver : MonoBehaviour
 		//If inputs are being allowed the game has started and so should the timer (this is a global variable)
 		if (StartText.startReady) timerStart = true;
 		//If round time is still greater than 0 and timer is allowed to be on, time ticks
-		if (roundTimer > 0 && timerStart) roundTimer -= Time.deltaTime / 1.5f;
+		if (roundTimer > 0 && timerStart && !matchOver && !lockInputs) roundTimer -= Time.deltaTime / 1.5f;
 		//Setting round timer text to be represented as a float with zero decimal places 
 		roundTimerText.text = roundTimer.ToString("F0");
 
@@ -313,7 +313,7 @@ public class GameOver : MonoBehaviour
     {
         lockInputs = false;
     	StartText.startReady = false;
-    	SceneManager.LoadSceneAsync(0);
+    	SceneManager.LoadScene(0);
         p1Win = 0;
         p2Win = 0;
     }
