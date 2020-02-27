@@ -28,11 +28,18 @@ public class PauseMenu : MonoBehaviour
     public Button armorRefillHighlight;
     public Button moveListButton;
     public Button quitButton;
+    public Button resumeButtonMatch;
+    public Button moveListButtonMatch;
+    public Button quitButtonMatch;
     private float InputTimer;
     private string inputHorizontal = "Horizontal_P1";
     private string inputVertical = "Vertical_P1";
     private string p1cross = "Cross_P1";
     private string p1circle = "Circle_P1";
+    private string inputHorizontal2 = "Horizontal_P2";
+    private string inputVertical2 = "Vertical_P2";
+    private string p2cross = "Cross_P2";
+    private string p2circle = "Circle_P2";
     private float vertical;
     private float horizontal;
     private bool acceptInputVer;
@@ -60,13 +67,17 @@ public class PauseMenu : MonoBehaviour
         pauseCode += UpdateControls(CheckXbox(1));
 
         pauseQuit = false;
-        moveList = false;
-        moveListUI.SetActive(false);
+        //moveList = false;
+        
 
         inputHorizontal += UpdateControls(CheckXbox(0));
         inputVertical += UpdateControls(CheckXbox(0));
         p1cross += UpdateControls(CheckXbox(0));
         p1circle += UpdateControls(CheckXbox(0));
+        inputHorizontal2 += UpdateControls(CheckXbox(1));
+        inputVertical2 += UpdateControls(CheckXbox(1));
+        p2cross += UpdateControls(CheckXbox(1));
+        p2circle += UpdateControls(CheckXbox(1));
     }
 
     // Update is called once per frame
@@ -74,7 +85,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
         {
-            if (isPaused)
+            /*if (isPaused)
             {
                 //Disable player inputs in background
                 DisableControls(true);
@@ -105,6 +116,102 @@ public class PauseMenu : MonoBehaviour
                 {
                     isPaused = !isPaused;
                     playerPaused = 2;
+                }
+            }*/
+
+            if ((Input.GetButtonDown(pauseCode1)|| Input.GetButtonDown(pauseCode)) && !isPaused)
+            {
+                DisableControls(true);
+                ActivateMenu();
+                isPaused = true;
+                optionIndex = -1;
+                optionIndex = 0;
+                quitButtonMatch.Select();
+                if(Input.GetButtonDown(pauseCode1))
+                {
+                    playerPaused = 1;
+                }
+                else if(Input.GetButtonDown(pauseCode))
+                {
+                    playerPaused = 2;
+                }
+            }
+            else if ((Input.GetButtonDown(pauseCode1) && isPaused && !moveList && playerPaused == 1) || (Input.GetButtonDown(pauseCode) && isPaused && !moveList && playerPaused == 2))
+            {
+                DisableControls(false);
+                DeactivateMenu();
+                isPaused = false;
+            }
+
+            if(isPaused)
+            {
+                //Handle Vertical Selection
+                if(playerPaused == 1)
+                    vertical = Input.GetAxis(inputVertical);
+                else
+                    vertical = Input.GetAxis(inputVertical2);
+
+                //Check for input
+                if (!acceptInputVer)
+                {
+                    if (vertical == 0)
+                    {
+                        acceptInputVer = true;
+                    }
+                }
+                if (acceptInputVer && !moveList)
+                {
+                    if (vertical < 0)
+                    {
+                        optionIndex += 1;
+                        acceptInputVer = false;
+                    }
+                    else if (vertical > 0)
+                    {
+                        optionIndex -= 1;
+                        acceptInputVer = false;
+                    }
+                }
+
+                if (optionIndex == 3)
+                {
+                    optionIndex = 0;
+                }
+                else if (optionIndex == -1)
+                {
+                    optionIndex = 2;
+                }
+
+                if (optionIndex == 0)
+                {
+                    resumeButtonMatch.Select();
+                    if ((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2))
+                    {
+                        DisableControls(false);
+                        DeactivateMenu();
+                        isPaused = false;
+                    }
+                }
+                else if (optionIndex == 1)
+                {
+                    moveListButtonMatch.Select();
+                    if ((Input.GetButton(p1cross) && !moveList && playerPaused == 1) || (Input.GetButton(p2cross) && !moveList && playerPaused == 2))
+                    {
+                        MoveList();
+                    }
+                    if ((Input.GetButton(p1circle) && moveList && playerPaused == 1) || (Input.GetButton(p2circle) && moveList && playerPaused == 2))
+                    {
+                        MoveListBack();
+                        resumeButtonMatch.Select();
+                    }
+                }
+                else if (optionIndex == 2)
+                {
+                    quitButtonMatch.Select();
+                    if ((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2))
+                    {
+                        QuitToMenu();
+                    }
                 }
             }
         }
@@ -471,6 +578,10 @@ public class PauseMenu : MonoBehaviour
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
             practicePauseMenuUI.SetActive(true);
+        }
+        else
+        {
+            pauseMenuUI.SetActive(true);
         }
     }
 
