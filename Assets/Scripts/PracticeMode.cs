@@ -22,12 +22,12 @@ public class PracticeMode : MonoBehaviour
 
     private bool P1inCombo;
     private bool P2inCombo;
+    private bool fixAnimBug;
     private float InputTimer;
     double p1x;
     double p2x;
 
     public bool enableArmorRefill = true;
-    public bool enableP2Controller = false;
     public string dummyState = "Stand";
 
     public int P1ValorSetting;
@@ -416,10 +416,44 @@ public class PracticeMode : MonoBehaviour
                         break;
                 }
 
+                if (fixAnimBug)
+                {
+                    switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
+                    {
+                        case "Dhalia":
+                            resetDhalia(Player1);
+                            break;
+                    }
+
+                    switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
+                    {
+                        case "Dhalia":
+                            resetDhalia(Player2);
+                            break;
+                    }
+                    fixAnimBug = false;
+                    InputTimer = 0.0f;
+                }
+
                 //Reset Positions back to start **Still needs Refinement
                 if (Input.GetButtonDown("Select_P1"))
                 {
                     resetPositions();
+                    //Reset Character Specific things
+                    switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
+                    {
+                        case "Dhalia":
+                            resetDhalia(Player1);
+                            break;
+                    }
+
+                    switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
+                    {
+                        case "Dhalia":
+                            resetDhalia(Player2);
+                            break;
+                    }
+                    fixAnimBug = true;
                 }
             }
             
@@ -428,8 +462,6 @@ public class PracticeMode : MonoBehaviour
 
     void resetPositions()
     {
-        InputTimer = 0.0f;
-
         //Reset Player Knockback
         Player1.transform.GetChild(0).GetComponent<MovementHandler>().HitDetect.KnockBack = new Vector2(0, 0);
         Player1.transform.GetChild(0).GetComponent<MovementHandler>().HitDetect.ProjectileKnockBack = new Vector2(0, 0);
@@ -448,21 +480,6 @@ public class PracticeMode : MonoBehaviour
         P1Prop.durability = 100;
         P2Prop.armor = 4;
         P2Prop.durability = 100;
-
-        //Reset Character Specific things
-        switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
-        {
-            case "Dhalia":
-                resetDhalia(Player1);
-                break;
-        }
-
-        switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
-        {
-            case "Dhalia":
-                resetDhalia(Player2);
-                break;
-        }
 
         //Setting players to starting location vectors
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
@@ -484,6 +501,21 @@ public class PracticeMode : MonoBehaviour
         {
             Vector3 p2Start = new Vector3(-1.3f, .80f, -3);
             GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
+        }
+
+        //Reset Character Specific things
+        switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
+        {
+            case "Dhalia":
+                resetDhalia(Player1);
+                break;
+        }
+
+        switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
+        {
+            case "Dhalia":
+                resetDhalia(Player2);
+                break;
         }
     }
 

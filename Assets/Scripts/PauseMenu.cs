@@ -139,7 +139,7 @@ public class PauseMenu : MonoBehaviour
                         acceptInputVer = true;
                     }
                 }
-                if (acceptInputVer)
+                if (acceptInputVer && !moveList)
                 {
                     if (vertical < 0)
                     {

@@ -610,7 +610,6 @@ MonoBehaviour:
   GameOverManager: {fileID: 0}
   PracticeModeSettings: {fileID: 1816309730}
   enableArmorRefill: 1
-  enableP2Controller: 0
   dummyState: Stand
   P1ValorSetting: 0
   P2ValorSetting: 0
@@ -3097,7 +3096,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
 --- !u!114 &476983341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3194,7 +3193,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &500688647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8295,7 +8294,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1356106846}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
@@ -8968,10 +8967,10 @@ MonoBehaviour:
   roundOverMenu: {fileID: 230537146}
   KOMenu: {fileID: 820647342}
   overtimeMenu: {fileID: 694971538}
-  p1Replay: {fileID: 0}
-  p1Quit: {fileID: 0}
-  p2Replay: {fileID: 0}
-  p2Quit: {fileID: 0}
+  p1Replay: {fileID: 966000887}
+  p1Quit: {fileID: 1577217183}
+  p2Replay: {fileID: 1652262342}
+  p2Quit: {fileID: 451669220}
   p1WinCount: {fileID: 59757722}
   p2WinCount: {fileID: 988587535}
   roundTimerText: {fileID: 639980411}
