@@ -106,7 +106,7 @@ public class CursorMovementStageSelect : MonoBehaviour
                             break;
                     }
                 }
-            } else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+            } else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
             {
                 if (Input.GetButtonDown(p1Cross))
                 {

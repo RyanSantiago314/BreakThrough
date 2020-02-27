@@ -215,14 +215,19 @@ public class MovementHandler : MonoBehaviour
                 else
                     anim.SetBool(crouchID, false);
 
-                if (Actions.acceptMove && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)) && !Actions.airborne && !anim.GetBool(runID))
+            if (Actions.acceptMove && ((MaxInput.GetAxis(Horizontal) < 0 && facingRight) || (MaxInput.GetAxis(Horizontal) > 0 && !facingRight)) && !Actions.airborne && !backDash)
+            {
+                if (GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().dummyState == "Guard" && transform.parent.name == "Player2")
                 {
-                    anim.SetBool(walkFID, true);
+                    anim.SetBool(walkBID, false);
                 }
                 else
                 {
-                    anim.SetBool(walkFID, false);
+                    anim.SetBool(walkBID, true);
                 }
+            }
+            else
+                anim.SetBool(walkBID, false);
 
                 if (Actions.acceptMove && ((MaxInput.GetAxis(Horizontal) < 0 && facingRight) || (MaxInput.GetAxis(Horizontal) > 0 && !facingRight)) && !Actions.airborne && !backDash)
                 {

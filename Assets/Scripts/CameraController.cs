@@ -41,8 +41,8 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         if (Character1.GetComponent<MovementHandler>().Actions.grabbed || Character2.GetComponent<MovementHandler>().Actions.grabbed ||
-           (Character2.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character2.GetComponent<CharacterProperties>().currentHealth <= 0) ||
-           (Character1.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character1.GetComponent<CharacterProperties>().currentHealth <= 0) ||
+           (Character2.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character2.GetComponent<CharacterProperties>().currentHealth <= 0 && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice") ||
+           (Character1.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character1.GetComponent<CharacterProperties>().currentHealth <= 0) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" ||
             (Character2.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character2.GetComponent<MovementHandler>().Actions.shattered) ||
             (Character1.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character1.GetComponent<MovementHandler>().Actions.shattered) ||
             Character1.GetComponent<MovementHandler>().Actions.superFlash > 10 || Character2.GetComponent<MovementHandler>().Actions.superFlash > 10)
@@ -50,10 +50,10 @@ public class CameraController : MonoBehaviour
             //zooming in "dynamic/cinematic" camera
             cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2, zPosZoom);
 
-            if ((Character2.GetComponent<MovementHandler>().Actions.shattered || Character2.GetComponent<CharacterProperties>().currentHealth <= 0) || 
+            if ((Character2.GetComponent<MovementHandler>().Actions.shattered || (Character2.GetComponent<CharacterProperties>().currentHealth <= 0) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice") || 
                 Character2.GetComponent<MovementHandler>().Actions.superFlash > 10)
                 cameraPos = new Vector3(Character2.position.x, Character2.position.y, zPosZoom);
-            else if (Character1.GetComponent<MovementHandler>().Actions.shattered || Character1.GetComponent<CharacterProperties>().currentHealth <= 0 ||
+            else if (Character1.GetComponent<MovementHandler>().Actions.shattered || (Character1.GetComponent<CharacterProperties>().currentHealth <= 0 && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice") ||
                     Character1.GetComponent<MovementHandler>().Actions.superFlash > 10)
                 cameraPos = new Vector3(Character1.position.x, Character1.position.y, zPosZoom);
 
