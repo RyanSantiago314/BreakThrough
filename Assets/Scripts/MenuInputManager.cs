@@ -21,6 +21,7 @@ public class MenuInputManager : MonoBehaviour
 	public Button PracticeButton;
 	public Button BackButton;
 	public Button OptionsBackButton;
+	public Slider MusicSlider;
 	private MainMenu menu;
 	private string state;
 	private bool isXbox;
@@ -204,8 +205,17 @@ public class MenuInputManager : MonoBehaviour
 		else if (state == "options")
     	{
 	        if (buttonIndex < 1) buttonIndex = 1;
-			else if (buttonIndex > 1) buttonIndex = 1;
+			else if (buttonIndex > 2) buttonIndex = 2;
 			if (buttonIndex == 1)
+			{
+				MusicSlider.Select();
+				if (horizontal > 0)
+				{
+					MusicSlider.value += 0.01f;
+				}
+				else if (horizontal < 0) MusicSlider.value -= 0.01f;
+			}
+			else if (buttonIndex == 2)
 			{
 				OptionsBackButton.Select();
 				if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
