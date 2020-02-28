@@ -245,7 +245,7 @@ public class PracticeMode : MonoBehaviour
                 //Refill P1 HP after P2 combo finishes
                 if (P1Prop.HitDetect.hitStun > 0)
                 {
-                    P1inCombo = true;
+                    //P1inCombo = true;
                 }
                 if (P2Prop.HitDetect.comboCount == 0)
                 {
@@ -265,7 +265,7 @@ public class PracticeMode : MonoBehaviour
                     {
                         P1Prop.currentHealth = P1Prop.maxHealth / 10;
                     }
-                    P1inCombo = false;
+                    //P1inCombo = false;
                     P2CurrentHitDamage = 0;
                     P1PrevHealth = P1Prop.currentHealth;
                     P2CurrentComboTotalDamage = 0;

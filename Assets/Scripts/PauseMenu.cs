@@ -405,7 +405,7 @@ public class PauseMenu : MonoBehaviour
                 }
                 else if (P1Valor == -1)
                 {
-                    P1Valor = 4;
+                    P1Valor = 3;
                 }
                 if (P2Valor == 4)
                 {
@@ -413,7 +413,7 @@ public class PauseMenu : MonoBehaviour
                 }
                 else if (P2Valor == -1)
                 {
-                    P2Valor = 4;
+                    P2Valor = 3;
                 }
                 //ArmorRefill scrolling
                 if (ArmorRefill == 2)

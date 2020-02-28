@@ -16,7 +16,6 @@ public class CursorMovement : MonoBehaviour {
     public bool isPaused;
     public bool P1Ready;
     public bool P2Ready;
-    private bool start;
     private bool preventDeselect = true;
 
     private string p1Cross = "Cross_P1";
@@ -458,7 +457,7 @@ public class CursorMovement : MonoBehaviour {
             }
 
             //Set Ready Text
-            if (P1Ready && !start)
+            if (P1Ready)
             {
                 P1ReadyText.SetActive(true);
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left" && (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice"))
@@ -620,7 +619,7 @@ public class CursorMovement : MonoBehaviour {
             }
 
             //Set Ready Text
-            if (P2Ready && !start)
+            if (P2Ready)
             {
                 P2ReadyText.SetActive(true);
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right" && (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice"))
