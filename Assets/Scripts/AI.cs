@@ -64,6 +64,7 @@ public class AI : MonoBehaviour
     float triangleTimer;
     float crossTimer;
     float breakTimer;
+    float noBreakTimer;
     public float delayTimer;
 
     public AIInput AIInput;
@@ -125,6 +126,7 @@ public class AI : MonoBehaviour
         triangleTimer = 0;
         crossTimer = 0;
         breakTimer = 0;
+        noBreakTimer = 0;
         delayTimer = 0;
 
         MaxInput = GetComponent<MaxInput>();
@@ -145,6 +147,7 @@ public class AI : MonoBehaviour
         attackStates.Add("Mid", 0);
         attackStates.Add("Low", 0);
         attackStates.Add("Grab", 0);
+        attackStates.Add("Setup", 0);
     }
 
     void Update()
@@ -187,6 +190,10 @@ public class AI : MonoBehaviour
             {
                 breakTimer -= Time.deltaTime;
             }
+            if (noBreakTimer > 0)
+            {
+                noBreakTimer -= Time.deltaTime;
+            }
             if (delayTimer > 0)
             {
                 delayTimer -= Time.deltaTime;
@@ -207,7 +214,7 @@ public class AI : MonoBehaviour
             //Debug.Log("p1x = " + p1x + " p2x = " + p2x);
             //Debug.Log(pIsBlockstun);
 
-            if (delayTimer <= 0)
+            if (delayTimer <= 0 && breakTimer <= 0)
             {
                 if (doingQCF > 0)
                 {
@@ -258,7 +265,7 @@ public class AI : MonoBehaviour
                     if (max == "Defend") defend();
                     if (max == "Approach") approach();
                     if (max == "Recover") recover();
-                    // testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
+                    //testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
                 }
             }
         }
@@ -305,7 +312,7 @@ public class AI : MonoBehaviour
                 {
                     MaxInput.Cross("Player2");
                     squareTimer = .5f;
-                    holdBreak(.5f);
+                    if (noBreakTimer <= 0) holdBreak(.8f);
                 }
                 // Head rush (63214M)
                 else if (rand > 85)
@@ -313,7 +320,7 @@ public class AI : MonoBehaviour
                     keepAction = "Triangle";
                     doingHCB = 1;
                     AIInput.HCB();
-                    holdBreak(1.2f);
+                    if (noBreakTimer <= 0) holdBreak(1.2f);
                 }
                 else MaxInput.Square("Player2");
             }
@@ -335,7 +342,6 @@ public class AI : MonoBehaviour
             {
                 doing2H_1 = 1;
                 AIInput.combo2H_1();
-                //MaxInput.Circle("Player2");
                 triangleTimer = .5f;
             }
             // 5H
@@ -345,15 +351,15 @@ public class AI : MonoBehaviour
                 triangleTimer = .5f;
             }
             // 5B
-            else if (rand > 85 && rand <= 99 && crossTimer <= 0)
+            else if (rand > 85 && rand <= 98 && crossTimer <= 0)
             {
                 MaxInput.Cross("Player2");
                 squareTimer = .5f;
-                holdBreak(.5f);
+                if (noBreakTimer <= 0) holdBreak(.8f);
             }
 
             // Judgment Sabre
-            else if (rand > 99 && !isAirborne)
+            else if (rand > 98 && !isAirborne)
             {
                 keepAction = "RBumper";
                 doingQCB = 1;
@@ -376,7 +382,7 @@ public class AI : MonoBehaviour
                     MaxInput.MoveRight("Player2");
                 }
                 MaxInput.Cross("Player2");
-                holdBreak(.5f);
+                if (noBreakTimer <= 0) holdBreak(.8f);
             }
             // Blood brave (214H)
             else
@@ -423,13 +429,14 @@ public class AI : MonoBehaviour
     void holdBreak(float hold)
     {
         var rand = new System.Random().Next(101);    // Random int from 0 to 100
-        if (rand < 50 && !isAirborne)
+        if (rand < 30 && !isAirborne)
         {
             Debug.Log("hold break");
             MaxInput.Cross("Player2");
             breakTimer = hold;
             //delayTimer = 1f;
         }
+        else noBreakTimer = hold;
     }
 
     // Calculating weights for what kind of attack the AI should use
@@ -498,7 +505,7 @@ public class AI : MonoBehaviour
         }
 
         //Foward Dash
-        if (distanceBetweenX >= 1.25 && rand.Next(3) == 1)
+        if (rand.NextDouble() * distanceBetweenX * 100 >= 150)
         {
             if(faceLeft == true)
             {
@@ -513,14 +520,9 @@ public class AI : MonoBehaviour
         }
 
         // Jumping
-        if (distanceBetweenX < 2 && p2y < p1y - 0.5 && rand.Next(4) == 1)
+        if (distanceBetweenX < 1.8 && p2y < p1y - 0.5 && rand.Next(10) == 1)
         {
             MaxInput.Jump("Player2");
-            isAirborne = true;
-            if(rand.Next(0,3) == 1)
-        	{
-                MaxInput.Jump("Player2");
-            }
         }
     }
 
@@ -623,15 +625,14 @@ public class AI : MonoBehaviour
         attackStates["Mid"] = 0;
         attackStates["Low"] = 0;
         attackStates["Grab"] = 0;
+        attackStates["Setup"] = 0;
     }
 
     // Testing specific actions
     void testActions()
     {
-        // keepAction = "Triangle";
-        // doingHCB = 1;
-        // AIInput.HCB();
-        // holdBreak(1f);
-        //delayTimer = 5f;
+        doing2H_1 = 1;
+        AIInput.combo2H_1();
+        triangleTimer = .5f;
     }
 }
