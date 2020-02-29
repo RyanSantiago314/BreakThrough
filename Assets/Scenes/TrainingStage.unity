@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657892, g: 0.49641252, b: 0.574819, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657922, g: 0.4964128, b: 0.57481915, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -340,8 +340,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: PvP
   stage: 
-  P1Character: 
-  P2Character: 
+  P1Character: Dhalia
+  P2Character: Dhalia
   P1Color: 0
   P2Color: 0
   P1Side: Left
