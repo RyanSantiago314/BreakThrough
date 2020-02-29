@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
+    public Sprite DHAHeadshot;
+
     public Text Player1Health;
     public Text Player2Health;
     public Text Player1Armor;
@@ -15,6 +17,8 @@ public class HUD : MonoBehaviour
     public Image P1RedHealth;
     public Image P2HealthUI;
     public Image P2RedHealth;
+    public SpriteRenderer P1Headshot;
+    public SpriteRenderer P2Headshot;
 
     public Animator p1Icon1;
     public Animator p1Icon2;
@@ -41,14 +45,6 @@ public class HUD : MonoBehaviour
     public Animator P2Seg2;
     public Animator P2Seg3;
     public Animator P2Seg4;
-
-    public Animator P1Flame1;
-    public Animator P1Flame2;
-    public Animator P1Flame3;
-
-    public Animator P2Flame1;
-    public Animator P2Flame2;
-    public Animator P2Flame3;
 
     public Text Player1Combo;
 	public Text Player2Combo;
@@ -85,11 +81,14 @@ public class HUD : MonoBehaviour
 
         regen = Animator.StringToHash("Regen");
         shatter = Animator.StringToHash("Shatter");
+
+        SetCharacterPortrait();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         Player1Health.text = P1Prop.currentHealth + " / " + P1Prop.maxHealth;
         Player2Health.text = P2Prop.currentHealth + " / " + P2Prop.maxHealth;
         Player1Armor.text = "Armor:" + P1Prop.armor;
@@ -421,118 +420,14 @@ public class HUD : MonoBehaviour
             hitNum2 = 0;
             Player2Combo.text = "";
         }
+    }
 
-        /*
-        //Player1 Valor flames
-        P1Flame1.SetFloat("LifePercent", (float)(P1Prop.currentHealth / P1Prop.maxHealth));
-        P1Flame2.SetFloat("LifePercent", (float)(P1Prop.currentHealth / P1Prop.maxHealth));
-        P1Flame3.SetFloat("LifePercent", (float)(P1Prop.currentHealth / P1Prop.maxHealth));
+    public void SetCharacterPortrait()
+    {
+        if (P1Prop.transform.root.GetChild(0).name.Contains("Dhalia") || P1Prop.transform.root.GetChild(0).name.Contains("DHA"))
+            P1Headshot.sprite = DHAHeadshot;
 
-        if (P1Prop.durabilityRefillTimer >= 3)
-        {
-            P1Flame1.SetBool("Burn", true);
-            P1Flame2.SetBool("Burn", true);
-            P1Flame3.SetBool("Burn", true);
-        }
-        else
-        {
-            P1Flame1.SetBool("Burn", false);
-            P1Flame2.SetBool("Burn", false);
-            P1Flame3.SetBool("Burn", false);
-        }
-
-        if ((float)(P2Prop.currentHealth / P2Prop.maxHealth) > .5f || (float)(P2Prop.currentHealth / P2Prop.maxHealth) <= 0)
-        {
-            P1Flame3.SetTrigger("Off");
-            P1Flame2.SetTrigger("Off");
-            P1Flame1.SetTrigger("Off");
-        }
-        else if ((float)(P1Prop.currentHealth / P1Prop.maxHealth) <= .1f)
-        {
-            if (P1Flame3.GetCurrentAnimatorStateInfo(0).IsName("Off"))
-            {
-                P1Flame3.SetTrigger("On");
-            }
-        }
-        else if ((float)(P1Prop.currentHealth / P1Prop.maxHealth) <= .25f)
-        {
-            P1Flame3.SetTrigger("Off");
-            if (P1Flame2.GetCurrentAnimatorStateInfo(0).IsName("Off"))
-            {
-                P1Flame2.SetTrigger("On");
-            }
-        }
-        else if ((float)(P1Prop.currentHealth/P1Prop.maxHealth) <= .5f)
-        {
-            P1Flame3.SetTrigger("Off");
-            P1Flame2.SetTrigger("Off");
-
-            if (P1Flame1.GetCurrentAnimatorStateInfo(0).IsName("Off"))
-            {
-                P1Flame1.SetTrigger("On");
-            }
-        }
-
-        //Player2 Valor flames
-        P2Flame1.SetFloat("LifePercent", (float)(P2Prop.currentHealth / P2Prop.maxHealth));
-        P2Flame2.SetFloat("LifePercent", (float)(P2Prop.currentHealth / P2Prop.maxHealth));
-        P2Flame3.SetFloat("LifePercent", (float)(P2Prop.currentHealth / P2Prop.maxHealth));
-
-        if (P2Prop.durabilityRefillTimer >= 3)
-        {
-            P2Flame1.SetBool("Burn", true);
-            P2Flame2.SetBool("Burn", true);
-            P2Flame3.SetBool("Burn", true);
-        }
-        else
-        {
-            P2Flame1.SetBool("Burn", false);
-            P2Flame2.SetBool("Burn", false);
-            P2Flame3.SetBool("Burn", false);
-        }
-
-        if ((float)(P2Prop.currentHealth / P2Prop.maxHealth) > .5f || (float)(P2Prop.currentHealth / P2Prop.maxHealth) <= 0)
-        {
-            P2Flame3.SetTrigger("Off");
-            P2Flame2.SetTrigger("Off");
-            P2Flame1.SetTrigger("Off");
-        }
-        else if ((float)(P2Prop.currentHealth / P2Prop.maxHealth) <= .1f)
-        {
-            if (P2Flame3.GetCurrentAnimatorStateInfo(0).IsName("Off"))
-            {
-                P2Flame3.SetTrigger("On");
-            }
-            if (P2Flame2.GetCurrentAnimatorStateInfo(0).IsName("Off"))
-            {
-                P2Flame2.SetTrigger("On");
-            }
-            if (P2Flame1.GetCurrentAnimatorStateInfo(0).IsName("Off"))
-            {
-                P2Flame1.SetTrigger("On");
-            }
-        }
-        else if ((float)(P2Prop.currentHealth / P2Prop.maxHealth) <= .25f)
-        {
-            P2Flame3.SetTrigger("Off");
-            if (P2Flame2.GetCurrentAnimatorStateInfo(0).IsName("Off"))
-            {
-                P2Flame2.SetTrigger("On");
-            }
-            if (P2Flame1.GetCurrentAnimatorStateInfo(0).IsName("Off"))
-            {
-                P2Flame1.SetTrigger("On");
-            }
-        }
-        else if ((float)(P2Prop.currentHealth / P2Prop.maxHealth) <= .5f)
-        {
-            P2Flame3.SetTrigger("Off");
-            P2Flame2.SetTrigger("Off");
-
-            if (P2Flame1.GetCurrentAnimatorStateInfo(0).IsName("Off"))
-            {
-                P2Flame1.SetTrigger("On");
-            }
-        }*/
+        if (P2Prop.transform.root.GetChild(0).name.Contains("Dhalia") || P2Prop.transform.root.GetChild(0).name.Contains("DHA"))
+            P2Headshot.sprite = DHAHeadshot;    
     }
 }
