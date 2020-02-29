@@ -320,7 +320,7 @@ public class PracticeMode : MonoBehaviour
                     P2HitDamage.text = "Damage: ";
                     P2HitDamage.text += P1CurrentHitDamage;
                     P2ComboDamage.text = "";
-                    P2ComboDamage.text = "Total Damage : ";
+                    P2ComboDamage.text = "Total Damage: ";
                     P2ComboDamage.text += P1CurrentComboTotalDamage;
                 }
                 if (HUD.Player1Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
