@@ -147,7 +147,7 @@ public class AI : MonoBehaviour
         attackStates.Add("Mid", 0);
         attackStates.Add("Low", 0);
         attackStates.Add("Grab", 0);
-        attackStates.Add("Setup", 0);
+        attackStates.Add("Setup", 0);       // Figure out how to see if the player is down on the floor
     }
 
     void Update()
