@@ -137,7 +137,7 @@ public class AcceptInputs : MonoBehaviour
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("ThrowReject") || anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup"))
             throwInvulnCounter = 8;
 
-        if (superFlash > 0)
+        if (superFlash > 0 && !Move.HitDetect.pauseScreen.isPaused)
         {
             superFlash--;
         }

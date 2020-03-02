@@ -40,7 +40,7 @@ public class ProjectileProperties : MonoBehaviour
             projectileActive = false;
         }
 
-        if (projectileActive && currentLife > 0 && PHitDetect.hitStop == 0 && hasLifeSpan && PHitDetect.Actions.blitzed % 2 == 0 && !pauseScreen.isPaused)
+        if (projectileActive && currentLife > 0 && PHitDetect.hitStop == 0 && hasLifeSpan && !pauseScreen.isPaused)
             currentLife--;        
     }
 

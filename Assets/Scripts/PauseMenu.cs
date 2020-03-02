@@ -44,6 +44,7 @@ public class PauseMenu : MonoBehaviour
     private float horizontal;
     private bool acceptInputVer;
     private bool acceptInputHor;
+    private bool acceptInputCirc;
 
     public int CPUState = 0;
     public int P1Valor = 0;
@@ -173,6 +174,14 @@ public class PauseMenu : MonoBehaviour
                     }
                 }
 
+                if(!acceptInputCirc)
+                {
+                    if((!Input.GetButton(p1circle) && playerPaused == 1) || (!Input.GetButton(p2circle) && playerPaused == 2))
+                    {
+                        acceptInputCirc = true;
+                    }
+                }
+
                 if (optionIndex == 3)
                 {
                     optionIndex = 0;
@@ -180,6 +189,14 @@ public class PauseMenu : MonoBehaviour
                 else if (optionIndex == -1)
                 {
                     optionIndex = 2;
+                }
+
+                if (((Input.GetButton(p1circle) && !moveList && playerPaused == 1) || (Input.GetButton(p2circle) && !moveList && playerPaused == 2)) && acceptInputCirc)
+                {
+                    DisableControls(false);
+                    DeactivateMenu();
+                    isPaused = false;
+                    acceptInputCirc = false;
                 }
 
                 if (optionIndex == 0)
@@ -199,10 +216,11 @@ public class PauseMenu : MonoBehaviour
                     {
                         MoveList();
                     }
-                    if ((Input.GetButton(p1circle) && moveList && playerPaused == 1) || (Input.GetButton(p2circle) && moveList && playerPaused == 2))
+                    if (((Input.GetButton(p1circle) && moveList && playerPaused == 1) || (Input.GetButton(p2circle) && moveList && playerPaused == 2)) && acceptInputCirc)
                     {
                         MoveListBack();
                         resumeButtonMatch.Select();
+                        acceptInputCirc = false;
                     }
                 }
                 else if (optionIndex == 2)
@@ -213,6 +231,8 @@ public class PauseMenu : MonoBehaviour
                         QuitToMenu();
                     }
                 }
+
+                
             }
         }
         //Handle Practice Mode Pause Menu
@@ -260,6 +280,14 @@ public class PauseMenu : MonoBehaviour
                     }
                 }
 
+                if (!acceptInputCirc)
+                {
+                    if (!Input.GetButton(p1circle))
+                    {
+                        acceptInputCirc = true;
+                    }
+                }
+
                 //Check Horizontal Input
                 horizontal = Input.GetAxis(inputHorizontal);
                 if (!acceptInputHor)
@@ -279,6 +307,14 @@ public class PauseMenu : MonoBehaviour
                 else if (optionIndex == -1)
                 {
                     optionIndex = 6;
+                }
+
+                if(Input.GetButton(p1circle) && !moveList && acceptInputCirc)
+                {
+                    DisableControls(false);
+                    DeactivateMenu();
+                    isPaused = false;
+                    acceptInputCirc = false;
                 }
 
                 //Resume Button
@@ -372,10 +408,11 @@ public class PauseMenu : MonoBehaviour
                     {
                         MoveList();
                     }
-                    if (Input.GetButton(p1circle) && moveList)
+                    if (Input.GetButton(p1circle) && moveList && acceptInputCirc)
                     {
                         MoveListBack();
                         resumeButton.Select();
+                        acceptInputCirc = false;
                     }
                 }
                 //Quit Button
@@ -405,7 +442,7 @@ public class PauseMenu : MonoBehaviour
                 }
                 else if (P1Valor == -1)
                 {
-                    P1Valor = 4;
+                    P1Valor = 3;
                 }
                 if (P2Valor == 4)
                 {
@@ -413,7 +450,7 @@ public class PauseMenu : MonoBehaviour
                 }
                 else if (P2Valor == -1)
                 {
-                    P2Valor = 4;
+                    P2Valor = 3;
                 }
                 //ArmorRefill scrolling
                 if (ArmorRefill == 2)

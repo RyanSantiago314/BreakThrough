@@ -77,7 +77,7 @@ public class CharacterProperties : MonoBehaviour
         else if (currentHealth > 0)
         {
             HitDetect.anim.SetBool(KOID, false);
-            if (HitDetect.hitStun > 0 && !HitDetect.Actions.shattered)
+            if (HitDetect.hitStun > 0 && !HitDetect.Actions.shattered && HitDetect.OpponentDetector.Actions.superFlash == 0)
                 comboTimer += Time.deltaTime;
             else if (!HitDetect.anim.GetBool(dizzyID))
                 comboTimer = 0;
