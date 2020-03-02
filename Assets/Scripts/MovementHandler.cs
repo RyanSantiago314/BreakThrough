@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement; //Temporary
@@ -62,7 +62,7 @@ public class MovementHandler : MonoBehaviour
     static int walkBID;
     static int backDashID;
     static int jumpID;
-    static int landID;
+    static int landID;   
     static int lowGuardID;
     static int highGuardID;
     static int airGuardID;
@@ -81,7 +81,7 @@ public class MovementHandler : MonoBehaviour
         {
             if (transform.parent.name == "Player1")
             {
-                Horizontal = "Horizontal_P1";
+               Horizontal = "Horizontal_P1";
                 Vertical = "Vertical_P1";
                 L3 = "L3_P1";
                 opponent = GameObject.Find("Player2").transform.GetChild(0).transform;
@@ -188,7 +188,7 @@ public class MovementHandler : MonoBehaviour
             pushBox.offset = airPushCenter;
             pushBox.size = airPushSize;
 
-            if (rb.velocity.y < 0)
+            if(rb.velocity.y < 0)
             {
                 pushBox.offset = pushCenter;
                 pushBox.size = pushSize;
@@ -210,7 +210,7 @@ public class MovementHandler : MonoBehaviour
         {
             if (HitDetect.hitStop == 0)
             {
-                if ((MaxInput.GetAxis(Vertical) < 0 && Actions.acceptMove && Actions.standing) || (anim.GetBool(crouchID) && !Actions.acceptMove && Actions.standing))                   
+                if ((MaxInput.GetAxis(Vertical) < 0 && Actions.acceptMove && Actions.standing) || (anim.GetBool(crouchID) && !Actions.acceptMove && Actions.standing))
                     anim.SetBool(crouchID, true);
                 else
                     anim.SetBool(crouchID, false);
@@ -226,21 +226,15 @@ public class MovementHandler : MonoBehaviour
 
                 if (Actions.acceptMove && ((MaxInput.GetAxis(Horizontal) < 0 && facingRight) || (MaxInput.GetAxis(Horizontal) > 0 && !facingRight)) && !Actions.airborne && !backDash)
                 {
-                    if (GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().dummyState == "Guard" && transform.parent.name == "Player2")
-                    {
-                        anim.SetBool(walkBID, false);
-                    }
-                    else
-                    {
-                        anim.SetBool(walkBID, true);
-                    }                       
+                    anim.SetBool(walkBID, true);
                 }
                 else
                     anim.SetBool(walkBID, false);
 
                 DoubleTapActions();
 
-                if (Actions.jumpCancel && jumps < maxJumps && MaxInput.GetAxis(Vertical) > 0 && !vertAxisInUse)
+                if ((Actions.jumpCancel && jumps == 0 && MaxInput.GetAxis(Vertical) > 0 && Actions.standing) || 
+                    (Actions.jumpCancel && jumps < maxJumps && MaxInput.GetAxis(Vertical) > 0 && !vertAxisInUse))
                 {
                     Actions.EnableAll();
                     pushBox.isTrigger = true;
@@ -273,7 +267,7 @@ public class MovementHandler : MonoBehaviour
             justDefenseTime = 4;
         }
 
-        if ((opponent.position.x > transform.position.x && MaxInput.GetAxis(Horizontal) < 0) || (opponent.position.x < transform.position.x && MaxInput.GetAxis(Horizontal) > 0))
+        if ((opponent.position.x > transform.position.x && MaxInput.GetAxis(Horizontal) < 0)|| (opponent.position.x < transform.position.x && MaxInput.GetAxis(Horizontal) > 0))
             justDefenseTime--;
 
         Blocking();
@@ -283,18 +277,18 @@ public class MovementHandler : MonoBehaviour
     void FixedUpdate()
     {
         //walking
-        if (anim.GetBool(walkFID) && !anim.GetBool(crouchID))
+        if(anim.GetBool(walkFID) && !anim.GetBool(crouchID))
         {
             rb.velocity = new Vector2(walkSpeed, rb.velocity.y);
 
-            if (!facingRight)
+            if(!facingRight)
                 rb.velocity *= new Vector2(-1, 1);
         }
         else if (anim.GetBool(walkBID) && !anim.GetBool(crouchID))
         {
             rb.velocity = new Vector2(walkBackSpeed, rb.velocity.y);
 
-            if (facingRight)
+            if(facingRight)
                 rb.velocity *= new Vector2(-1, 1);
         }
 
@@ -321,7 +315,7 @@ public class MovementHandler : MonoBehaviour
         {
             anim.SetTrigger(jumpID);
             Actions.TurnAroundCheck();
-            if (Actions.airborne)
+            if(Actions.airborne)
                 rb.velocity = new Vector2(0, 0);
             else
                 rb.velocity = new Vector2(.5f * rb.velocity.x, 0);
@@ -332,7 +326,7 @@ public class MovementHandler : MonoBehaviour
             else if (MaxInput.GetAxis(Horizontal) < 0 && !anim.GetBool(runID))
                 jumpLeft = true;
 
-            if (!anim.GetBool(runID))
+            if(!anim.GetBool(runID))
                 rb.velocity = new Vector2(0, rb.velocity.y);
 
             if (jumpRight)
@@ -340,14 +334,14 @@ public class MovementHandler : MonoBehaviour
                 rb.velocity = new Vector2(0, rb.velocity.y);
                 rb.AddForce(new Vector2(.3f * jumpPower, 0), ForceMode2D.Impulse);
             }
-            else if (jumpLeft)
+            else if(jumpLeft)
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
                 rb.AddForce(new Vector2(-.3f * jumpPower, 0), ForceMode2D.Impulse);
             }
 
             rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
-
+            
             jumping = 0;
             jumpRight = false;
             jumpLeft = false;
@@ -365,7 +359,7 @@ public class MovementHandler : MonoBehaviour
         }
 
         //Run acceleration
-        if (anim.GetBool(runID) && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)) && !anim.GetBool(crouchID))
+        if(anim.GetBool(runID) && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)) && !anim.GetBool(crouchID))
         {
             if (facingRight && rb.velocity.x < walkSpeed)
                 rb.velocity = new Vector2(walkSpeed, rb.velocity.y);
@@ -388,7 +382,7 @@ public class MovementHandler : MonoBehaviour
             }
         }
         else
-        {
+        { 
             anim.SetBool(runID, false);
         }
 
@@ -503,10 +497,10 @@ public class MovementHandler : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
+        if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
             //keeps characters from intersecting and occupying the same space
-            MovementHandler opponentMove = opponent.GetComponent<MovementHandler>();
+                MovementHandler opponentMove = opponent.GetComponent<MovementHandler>();
             if (!Actions.airborne && opponentMove.Actions.airborne && !hittingWall && opponentMove.rb.velocity.y < 0)
             {
                 if (opponent.position.x > transform.position.x)
@@ -550,7 +544,7 @@ public class MovementHandler : MonoBehaviour
                         rb.AddForce(new Vector2(-.25f, 0), ForceMode2D.Impulse);
                 }
             }
-            else if (Actions.airborne && opponentMove.Actions.airborne && ((HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0) || (HitDetect.OpponentDetector.hitStun != 0 && HitDetect.hitStun == 0)))
+            else if (Actions.airborne && opponentMove.Actions.airborne && ((HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0)||(HitDetect.OpponentDetector.hitStun != 0 && HitDetect.hitStun == 0)))
             {
                 if (Mathf.Abs(transform.position.x - opponent.position.x) < pushBox.size.x && opponentMove.hittingWall)
                 {
@@ -579,7 +573,7 @@ public class MovementHandler : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
+        if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
             MovementHandler opponentMove = opponent.GetComponent<MovementHandler>();
             if (transform.position.y > opponent.position.y && (transform.position.y - opponent.position.y) > (.5f * pushBox.size.y + .5f * opponentMove.pushBox.size.y))
@@ -606,17 +600,17 @@ public class MovementHandler : MonoBehaviour
             {
                 pushBox.isTrigger = false;
             }
-            else if (Actions.airborne && !opponentMove.Actions.airborne)
+            else if(Actions.airborne && !opponentMove.Actions.airborne)
             {
                 pushBox.isTrigger = true;
                 if (rb.velocity.y <= 0 && opponentMove.hittingWall)
                 {
-                    if (opponentMove.facingRight)
+                   if (opponentMove.facingRight)
                         transform.position = new Vector3(opponent.position.x + (.5f * opponentMove.pushBox.size.x + .51f * pushBox.size.x), transform.position.y, transform.position.z);
-                    else
+                   else
                         transform.position = new Vector3(opponent.position.x - (.5f * opponentMove.pushBox.size.x + .51f * pushBox.size.x), transform.position.y, transform.position.z);
                 }
-                if (((opponent.position.x > transform.position.x && facingRight) || (opponent.position.x < transform.position.x && !facingRight)) && rb.velocity.y < 0)
+                if (((opponent.position.x > transform.position.x && facingRight)|| (opponent.position.x < transform.position.x && !facingRight)) && rb.velocity.y < 0)
                 {
                     rb.velocity = new Vector2(0, rb.velocity.y);
                 }
@@ -628,7 +622,7 @@ public class MovementHandler : MonoBehaviour
 
             if (opponentMove.hittingWall && rb.velocity.y < 0)
             {
-                if (opponentMove.facingRight)
+                if(opponentMove.facingRight)
                     rb.AddForce(new Vector2(.1f, 0), ForceMode2D.Impulse);
                 else
                     rb.AddForce(new Vector2(-.1f, 0), ForceMode2D.Impulse);
@@ -671,7 +665,7 @@ public class MovementHandler : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
+        if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
             pushBox.isTrigger = false;
         }
@@ -686,7 +680,7 @@ public class MovementHandler : MonoBehaviour
         //double tap backward direction for backdash
         if (((MaxInput.GetAxisRaw(Horizontal) == -1 && facingRight) || (MaxInput.GetAxisRaw(Horizontal) == 1 && !facingRight)) && !Actions.airborne)
         {
-            if (!horiAxisInUse)
+            if(!horiAxisInUse)
             {
                 if (Actions.acceptMove && Actions.standing && inputTime > 0 && !anim.GetBool(crouchID) && dashButtonCount == 1/*Number of Taps Minus One*/)
                 {
@@ -697,7 +691,7 @@ public class MovementHandler : MonoBehaviour
                 }
                 else
                 {
-                    inputTime = 0.25f;
+                    inputTime = 0.25f; 
                     dashButtonCount += 1;
                 }
                 horiAxisInUse = true;
@@ -716,11 +710,11 @@ public class MovementHandler : MonoBehaviour
                 }
                 else
                 {
-                    runInputTime = 0.25f;
+                    runInputTime = 0.25f; 
                     buttonCount += 1;
                 }
                 horiAxisInUse = true;
-            }
+            }   
         }
 
         if (MaxInput.GetButton(L3) && MaxInput.GetAxis(Horizontal) != 0)
@@ -756,7 +750,7 @@ public class MovementHandler : MonoBehaviour
         {
             dashButtonCount = 0;
         }
-        if (runInputTime > 0)
+        if(runInputTime > 0)
         {
             runInputTime -= Time.deltaTime;
         }
@@ -768,13 +762,13 @@ public class MovementHandler : MonoBehaviour
 
     void Brake()
     {
-        if (anim.GetBool(runID) || (Actions.airborne && Actions.acceptMove))
+        if(anim.GetBool(runID) || (Actions.airborne && Actions.acceptMove))
         {
             //keeps character movement speed from reaching insane levels
-            if (rb.velocity.x > maxVelocity && facingRight)
-                rb.velocity = new Vector2(maxVelocity, rb.velocity.y);
-            else if (rb.velocity.x < -maxVelocity && !facingRight)
-                rb.velocity = new Vector2(-maxVelocity, rb.velocity.y);
+                if (rb.velocity.x > maxVelocity && facingRight)
+                    rb.velocity = new Vector2(maxVelocity, rb.velocity.y);
+                else if (rb.velocity.x < -maxVelocity && !facingRight)
+                    rb.velocity = new Vector2(-maxVelocity, rb.velocity.y);
         }
         /*else if (currentState.IsName("BackDash") && !Actions.airborne)
         {
@@ -790,7 +784,7 @@ public class MovementHandler : MonoBehaviour
             {
                 rb.AddForce(new Vector2(-.12f * walkBackSpeed, 0), ForceMode2D.Impulse);
             }
-            else if (rb.velocity.x < -.85f)
+            else if(rb.velocity.x < -.85f)
             {
                 rb.AddForce(new Vector2(.12f * walkBackSpeed, 0), ForceMode2D.Impulse);
             }
@@ -802,11 +796,11 @@ public class MovementHandler : MonoBehaviour
         else if (!Actions.airborne)
         {
             //friction for on the ground, uses character's walking back speed to determine deceleration
-            if (rb.velocity.x > .5f)
+            if(rb.velocity.x > .5f)
             {
                 rb.AddForce(new Vector2(-.2f * walkBackSpeed, 0), ForceMode2D.Impulse);
             }
-            else if (rb.velocity.x < -.5f)
+            else if(rb.velocity.x < -.5f)
             {
                 rb.AddForce(new Vector2(.2f * walkBackSpeed, 0), ForceMode2D.Impulse);
             }
@@ -815,7 +809,7 @@ public class MovementHandler : MonoBehaviour
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
         }
-
+        
     }
 
     void Blocking()
@@ -825,13 +819,13 @@ public class MovementHandler : MonoBehaviour
             //change guard type based on state and directions being held
             if (opponent.position.x > transform.position.x) //for when the character is on the left
             {
-                if (MaxInput.GetAxis(Horizontal) < 0 && MaxInput.GetAxis(Vertical) < 0 && !Actions.airborne)
+                if(MaxInput.GetAxis(Horizontal) < 0 && MaxInput.GetAxis(Vertical) < 0 && !Actions.airborne)
                 {
                     anim.SetBool(lowGuardID, true);
                     anim.SetBool(highGuardID, false);
                     anim.SetBool(airGuardID, false);
                 }
-                else if (MaxInput.GetAxis(Horizontal) < 0 && !Actions.airborne)
+                else if(MaxInput.GetAxis(Horizontal) < 0 && !Actions.airborne)
                 {
                     anim.SetBool(lowGuardID, false);
                     anim.SetBool(highGuardID, true);
@@ -852,13 +846,13 @@ public class MovementHandler : MonoBehaviour
             }
             else if (opponent.position.x < transform.position.x) //for when the character is on the right
             {
-                if (MaxInput.GetAxis(Horizontal) > 0 && MaxInput.GetAxis(Vertical) < 0 && !Actions.airborne)
+                if(MaxInput.GetAxis(Horizontal) > 0 && MaxInput.GetAxis(Vertical) < 0 && !Actions.airborne)
                 {
                     anim.SetBool(lowGuardID, true);
                     anim.SetBool(highGuardID, false);
                     anim.SetBool(airGuardID, false);
                 }
-                else if (MaxInput.GetAxis(Horizontal) > 0 && !Actions.airborne)
+                else if(MaxInput.GetAxis(Horizontal) > 0 && !Actions.airborne)
                 {
                     anim.SetBool(lowGuardID, false);
                     anim.SetBool(highGuardID, true);
@@ -877,8 +871,8 @@ public class MovementHandler : MonoBehaviour
                     anim.SetBool(airGuardID, false);
                 }
             }
-            if (opponent.GetComponent<MovementHandler>().Actions.attacking && Vector3.Distance(transform.position, opponent.position) <= 2 && HitDetect.blockStun == 0 &&
-                ((facingRight && MaxInput.GetAxis(Horizontal) < 0) || (!facingRight && MaxInput.GetAxis(Horizontal) > 0)) && HitDetect.hitStop == 0)
+            if (opponent.GetComponent<MovementHandler>().Actions.attacking && Vector3.Distance(transform.position, opponent.position) <= 2 && HitDetect.blockStun == 0 && 
+                ((facingRight && MaxInput.GetAxis(Horizontal) < 0)||(!facingRight && MaxInput.GetAxis(Horizontal) > 0)) && HitDetect.hitStop == 0)
             {
                 Actions.acceptMove = false;
                 anim.SetBool("ForceBlock", true);
@@ -912,7 +906,7 @@ public class MovementHandler : MonoBehaviour
             anim.SetBool(wallStickID, true);
             //set off wall hit effect
         }
-        else if (Actions.wallBounce && HitDetect.hitStun > 0 && transform.position.y > 1.3f)
+        else if (Actions.wallBounce && HitDetect.hitStun > 0  && transform.position.y > 1.3f)
         {
             Actions.groundBounce = false;
             rb.velocity = Vector2.zero;
@@ -932,9 +926,9 @@ public class MovementHandler : MonoBehaviour
 
     void WallStick()
     {
-        if (currentState.IsName("WallStick") && !HitDetect.pauseScreen.isPaused)
+        if(currentState.IsName("WallStick") && !HitDetect.pauseScreen.isPaused)
         {
-            if (wallStickTimer == 0)
+            if(wallStickTimer == 0)
             {
                 anim.SetBool(wallStickID, false);
 

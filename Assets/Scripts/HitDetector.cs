@@ -1024,7 +1024,7 @@ public class HitDetector : MonoBehaviour
         hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
 
         hitEffect.transform.GetChild(0).transform.localScale = Vector3.one;
-        hitEffect.transform.localEulerAngles = Vector3.zero;
+        hitEffect.transform.rotation = Actions.Move.transform.rotation; ;
         hitEffect.transform.GetChild(0).transform.localEulerAngles = new Vector3(0, 0, -30);
         hitEffect.SetTrigger(clashID);
     }

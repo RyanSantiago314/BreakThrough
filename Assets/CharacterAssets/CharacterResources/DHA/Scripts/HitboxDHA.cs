@@ -384,6 +384,8 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.attackLevel = 1;
         HitDetect.guard = "Low";
 
+        HitDetect.slash = true;
+
         HitDetect.allowMedium = true;
         HitDetect.allowHeavy = true;
         HitDetect.allowBreak = true;
@@ -408,6 +410,8 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.initialProration = .75f;
         HitDetect.attackLevel = 1;
         HitDetect.guard = "Low";
+
+        HitDetect.slash = true;
 
         HitDetect.allowMedium = true;
         HitDetect.allowHeavy = true;

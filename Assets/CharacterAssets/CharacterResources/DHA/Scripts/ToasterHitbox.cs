@@ -40,6 +40,9 @@ public class ToasterHitbox : MonoBehaviour
             else if (lightSource.range == 8 && PHitDetect.hitStop == 0)
                 lightSource.intensity = Random.Range(1f, 7f);
         }
+
+        if (PHitDetect.HitDetect.hitStun > 0)
+            PHitDetect.ProjProp.Deactivate();
     }
 
     public void ChargeLight()
