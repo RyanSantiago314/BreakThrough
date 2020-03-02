@@ -233,7 +233,8 @@ public class MovementHandler : MonoBehaviour
 
                 DoubleTapActions();
 
-                if (Actions.jumpCancel && jumps < maxJumps && MaxInput.GetAxis(Vertical) > 0 && !vertAxisInUse)
+                if ((Actions.jumpCancel && jumps == 0 && MaxInput.GetAxis(Vertical) > 0 && Actions.standing) || 
+                    (Actions.jumpCancel && jumps < maxJumps && MaxInput.GetAxis(Vertical) > 0 && !vertAxisInUse))
                 {
                     Actions.EnableAll();
                     pushBox.isTrigger = true;

@@ -1067,7 +1067,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 1aad7454e18bf6f45a589e5e3893ccf5, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 0
   m_FillAmount: 1
@@ -2249,12 +2249,6 @@ MonoBehaviour:
   P2Seg2: {fileID: 4176680039676051367}
   P2Seg3: {fileID: 2898235344314342566}
   P2Seg4: {fileID: 570182996198175231}
-  P1Flame1: {fileID: 0}
-  P1Flame2: {fileID: 0}
-  P1Flame3: {fileID: 0}
-  P2Flame1: {fileID: 0}
-  P2Flame2: {fileID: 0}
-  P2Flame3: {fileID: 0}
   Player1Combo: {fileID: 1345849007008981495}
   Player2Combo: {fileID: 1345849007322969319}
   combotimer1: {fileID: 1345849008463639134}
