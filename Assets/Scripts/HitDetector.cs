@@ -75,6 +75,7 @@ public class HitDetector : MonoBehaviour
     public int comboCount;
     public float specialProration;
     public float comboProration;
+    bool usedWallStick = false;
     float opponentValor;
     float pushBackScale;
 
@@ -159,6 +160,7 @@ public class HitDetector : MonoBehaviour
             specialProration = 1;
             comboProration = 1;
             pushBackScale = 0;
+            usedWallStick = false;
         }
 
         if (currentState.IsName("Launch"))
@@ -841,9 +843,10 @@ public class HitDetector : MonoBehaviour
             OpponentDetector.Actions.wallBounce = allowWallBounce;
 
 
-            if (allowWallStick && OpponentDetector.Actions.wallStick == 0)
+            if (allowWallStick && !usedWallStick && OpponentDetector.Actions.wallStick == 0)
             {
                 OpponentDetector.Actions.wallStick = 4;
+                usedWallStick = true;
             }
             else if (OpponentDetector.Actions.wallStick > 0)
             {
@@ -895,10 +898,8 @@ public class HitDetector : MonoBehaviour
             OpponentDetector.blockStun = 0;
         }
 
-        if (usingSuper)
-            OpponentDetector.Actions.acceptBurst = false;
-        else
-            OpponentDetector.Actions.acceptBurst = true;
+        if (usingSuper || blitz)
+            usedWallStick = false;
 
         //apply knockback
         if ((potentialAirKnockBack != Vector2.zero || potentialKnockBack != Vector2.zero) && ProjectileKnockBack == Vector2.zero)

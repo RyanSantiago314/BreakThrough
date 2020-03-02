@@ -931,7 +931,6 @@ public class MovementHandler : MonoBehaviour
             if(wallStickTimer == 0)
             {
                 anim.SetBool(wallStickID, false);
-
             }
             wallStickTimer--;
         }
