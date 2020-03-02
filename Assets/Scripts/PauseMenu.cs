@@ -47,8 +47,8 @@ public class PauseMenu : MonoBehaviour
     private bool acceptInputCirc;
 
     public int CPUState = 0;
-    public int P1Valor = 0;
-    public int P2Valor = 0;
+    public int P1Valor;
+    public int P2Valor;
     public int ArmorRefill = 0;
     public GameObject CPUStateText;
     public GameObject P1ValorText;
@@ -436,21 +436,21 @@ public class PauseMenu : MonoBehaviour
                     CPUState = 6;
                 }
                 //Valor scrolling
-                if (P1Valor == 4)
+                if (P1Valor == 101)
                 {
-                    P1Valor = 0;
+                    P1Valor = 1;
                 }
-                else if (P1Valor == -1)
+                else if (P1Valor == 0)
                 {
-                    P1Valor = 3;
+                    P1Valor = 100;
                 }
-                if (P2Valor == 4)
+                if (P2Valor == 101)
                 {
-                    P2Valor = 0;
+                    P2Valor = 1;
                 }
-                else if (P2Valor == -1)
+                else if (P2Valor == 0)
                 {
-                    P2Valor = 3;
+                    P2Valor = 100;
                 }
                 //ArmorRefill scrolling
                 if (ArmorRefill == 2)
@@ -487,36 +487,10 @@ public class PauseMenu : MonoBehaviour
                         CPUStateText.GetComponent<TMPro.TextMeshProUGUI>().text = "Player";
                         break;
                 }
-                switch (P1Valor)
-                {
-                    case 0:
-                        P1ValorText.GetComponent<TMPro.TextMeshProUGUI>().text = "0";
-                        break;
-                    case 1:
-                        P1ValorText.GetComponent<TMPro.TextMeshProUGUI>().text = "1";
-                        break;
-                    case 2:
-                        P1ValorText.GetComponent<TMPro.TextMeshProUGUI>().text = "2";
-                        break;
-                    case 3:
-                        P1ValorText.GetComponent<TMPro.TextMeshProUGUI>().text = "3";
-                        break;
-                }
-                switch (P2Valor)
-                {
-                    case 0:
-                        P2ValorText.GetComponent<TMPro.TextMeshProUGUI>().text = "0";
-                        break;
-                    case 1:
-                        P2ValorText.GetComponent<TMPro.TextMeshProUGUI>().text = "1";
-                        break;
-                    case 2:
-                        P2ValorText.GetComponent<TMPro.TextMeshProUGUI>().text = "2";
-                        break;
-                    case 3:
-                        P2ValorText.GetComponent<TMPro.TextMeshProUGUI>().text = "3";
-                        break;
-                }
+
+                P1ValorText.GetComponent<TMPro.TextMeshProUGUI>().text = "" + P1Valor + "%";
+                P2ValorText.GetComponent<TMPro.TextMeshProUGUI>().text = "" + P2Valor + "%";
+
                 switch (ArmorRefill)
                 {
                     case 0:
