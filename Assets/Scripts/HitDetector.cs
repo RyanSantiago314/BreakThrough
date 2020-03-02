@@ -29,7 +29,7 @@ public class HitDetector : MonoBehaviour
     public string guard;
     public int durabilityDamage;
     public int armorDamage;
-    
+
     public bool allowLight;
     public bool allowMedium;
     public bool allowHeavy;
@@ -203,7 +203,7 @@ public class HitDetector : MonoBehaviour
             anim.SetFloat(animSpeedID, 1f);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
-        else 
+        else
         {
             anim.SetFloat(animSpeedID, 1.0f);
             hitEffect.SetFloat(animSpeedID, 1.0f);
@@ -268,7 +268,7 @@ public class HitDetector : MonoBehaviour
                 if (((hitStun > 0 || blockStun > 0) && Actions.airborne) || ((hitStun > 0 || blockStun > 0) && Actions.comboHits <= 1 && Actions.standing) ||
                     (Actions.Move.facingRight && Actions.Move.rb.velocity.x > 0 && hitStun > 0) || (!Actions.Move.facingRight && Actions.Move.rb.velocity.x < 0 && hitStun > 0))
                     rb.velocity = Vector2.zero;
-                
+
                 if (Mathf.Abs(ProjectileKnockBack.x) > Mathf.Abs(KnockBack.x) || Mathf.Abs(ProjectileKnockBack.y) > Mathf.Abs(KnockBack.y))
                 {
                     if (Actions.blitzed > 0)
@@ -612,7 +612,7 @@ public class HitDetector : MonoBehaviour
             Actions.acceptSuper = true;
         if (!Actions.bursting)
             Actions.blitzCancel = true;
-        
+
         allowHit = false;
         hit = true;
 
@@ -825,14 +825,14 @@ public class HitDetector : MonoBehaviour
         else if (crumple && !OpponentDetector.Actions.airborne)
         {
             OpponentDetector.anim.ResetTrigger(hitID);
-            OpponentDetector.anim.SetTrigger(crumpleID);           
+            OpponentDetector.anim.SetTrigger(crumpleID);
         }
         else if (sweep)
         {
             OpponentDetector.anim.SetBool(sweepID, true);
             OpponentDetector.Actions.airborne = true;
         }
-        else if (OpponentDetector.Actions.CharProp.currentHealth <= 0 && !OpponentDetector.Actions.airborne)
+        else if (OpponentDetector.Actions.CharProp.currentHealth <= 0 && !OpponentDetector.Actions.airborne && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
             OpponentDetector.anim.SetTrigger(crumpleID);
 
         if (!blitz && potentialHitStun > 0)
@@ -1035,7 +1035,7 @@ public class HitDetector : MonoBehaviour
         currentVelocity = rb.velocity;
         OpponentDetector.currentVelocity = OpponentDetector.rb.velocity;
 
-        if (Actions.Move.OpponentProperties.currentHealth <= 0 && !OpponentDetector.anim.GetBool(KOID))
+        if (Actions.Move.OpponentProperties.currentHealth <= 0 && !OpponentDetector.anim.GetBool(KOID) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
         {
             hitStop = 90;
             OpponentDetector.hitStop = 90;
@@ -1043,7 +1043,7 @@ public class HitDetector : MonoBehaviour
             OpponentDetector.anim.SetBool(KOID, true);
             hitEffect.SetFloat(animSpeedID, 0);
         }
-        else if (Actions.Move.OpponentProperties.currentHealth > 0)
+        else if (Actions.Move.OpponentProperties.currentHealth > 0 || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
             hitStop = potentialHitStop + i;
             OpponentDetector.hitStop = potentialHitStop + i;

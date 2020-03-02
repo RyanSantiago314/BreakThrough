@@ -16,7 +16,6 @@ public class CursorMovement : MonoBehaviour {
     public bool isPaused;
     public bool P1Ready;
     public bool P2Ready;
-    private bool start;
     private bool preventDeselect = true;
 
     private string p1Cross = "Cross_P1";
@@ -80,7 +79,7 @@ public class CursorMovement : MonoBehaviour {
             }
         }
 
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI"  || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
             //P1 will control both cursors (one at a time)
             p2Cross = "Cross_P1";
@@ -220,7 +219,7 @@ public class CursorMovement : MonoBehaviour {
                 }
             }
         }
-        else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+        else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
             if (!isPaused)
             {
@@ -394,7 +393,7 @@ public class CursorMovement : MonoBehaviour {
                 P1ColorSelect.SetActive(false);
             }
 
-            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+            if ((GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice") && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
             {
                 if (!P1.P1Selected && Input.GetButtonDown(p1Circle) && P2Ready)
                 {
@@ -437,7 +436,7 @@ public class CursorMovement : MonoBehaviour {
                     }
 
                 }
-                else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+                else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
                 {
                     if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left" & !P2.P2Selected)
                     {
@@ -458,10 +457,10 @@ public class CursorMovement : MonoBehaviour {
             }
 
             //Set Ready Text
-            if (P1Ready && !start)
+            if (P1Ready)
             {
                 P1ReadyText.SetActive(true);
-                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left" && (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice"))
                 {
                     P2Cursor.SetActive(true);
                 }
@@ -469,7 +468,7 @@ public class CursorMovement : MonoBehaviour {
             else
             {
                 P1ReadyText.SetActive(false);
-                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left" && (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice"))
                 {
                     P2Cursor.SetActive(false);
                 }
@@ -600,7 +599,7 @@ public class CursorMovement : MonoBehaviour {
                         P2ColorSelect.SetActive(true);
                     }
                 }
-                else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+                else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
                 {
                     if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
                     {
@@ -620,10 +619,10 @@ public class CursorMovement : MonoBehaviour {
             }
 
             //Set Ready Text
-            if (P2Ready && !start)
+            if (P2Ready)
             {
                 P2ReadyText.SetActive(true);
-                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right" && (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice"))
                 {
                     P1Cursor.SetActive(true);
                 }
@@ -631,7 +630,7 @@ public class CursorMovement : MonoBehaviour {
             else
             {
                 P2ReadyText.SetActive(false);
-                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right" && (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice"))
                 {
                     P1Cursor.SetActive(false);
                 }

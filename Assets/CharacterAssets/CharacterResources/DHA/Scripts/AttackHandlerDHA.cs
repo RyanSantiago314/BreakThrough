@@ -108,7 +108,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int dizzyID;
     static int KOID;
     public int dizzyTime;
-    int blitzActive;
+    public int blitzActive;
 
     AnimatorStateInfo currentState;  
 

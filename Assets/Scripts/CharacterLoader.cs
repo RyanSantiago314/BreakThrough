@@ -15,14 +15,14 @@ public class CharacterLoader : MonoBehaviour
         switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
         {
             case "Dhalia":
-                P1Char = "Characters/Dhalia";
+                P1Char = "CharacterPrefabs/Dhalia";
                 break;
         }
 
         switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
         {
             case "Dhalia":
-                P2Char = "Characters/Dhalia";
+                P2Char = "CharacterPrefabs/Dhalia";
                 break;
         }
 

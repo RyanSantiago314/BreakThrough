@@ -7,7 +7,7 @@ using System.Linq;
 public class AI : MonoBehaviour
 {
     // Character specific AI
-    bool isDhalia;
+    //bool isDhalia;
 
     // Player data
     int pArmor;
@@ -32,13 +32,12 @@ public class AI : MonoBehaviour
     double p2x;
     double p2y;
     public bool faceLeft;
-    bool isJumping;
+    bool isAirborne;
     bool isCrouching;
     bool isAttacking;
-    bool isStunned;
+    bool isRecovering;
+    bool isHitstun;
     bool finishMove;
-    bool comboAttack;
-    bool comboEnd;
     bool finishDash;
     bool pauseAI;
     public bool keepInput;
@@ -59,23 +58,13 @@ public class AI : MonoBehaviour
     double distanceBetweenY;
 
     // Timers
-    float timer;
     float pastryTimer;
     float circleTimer;
     float squareTimer;
     float triangleTimer;
     float crossTimer;
+    float breakTimer;
     public float delayTimer;
-
-    // float crouchTimer;
-    // float grabTimer;
-    // float lightTimer;
-    // float mediumTimer;
-    // float heavyTimer;
-    // float specialTimer;
-    // float backDashTimer;
-    // float multiInputTimer;
-    // float moveTimer;
 
     public AIInput AIInput;
     private MaxInput MaxInput;
@@ -89,7 +78,7 @@ public class AI : MonoBehaviour
     // Registering the values' initial states
     void Start()
 	{
-        isDhalia = true;
+        //isDhalia = true;
 
         // Player data
         pIsBlocking = false;
@@ -104,13 +93,12 @@ public class AI : MonoBehaviour
 
         // AI data
         faceLeft = true;
-        isJumping = false;
+        isAirborne = false;
         isCrouching = false;
         isAttacking = false;
-        isStunned = false;
+        isRecovering = false;
+        isHitstun = false;
         finishMove = false;
-        comboAttack = false;
-        comboEnd = false;
         finishDash = false;
         pauseAI = false;
         keepInput = false;
@@ -131,23 +119,13 @@ public class AI : MonoBehaviour
         distanceBetweenY = 0;
 
         // Timers
-        timer = 0;
         pastryTimer = 0;
         circleTimer = 0;
         squareTimer = 0;
         triangleTimer = 0;
         crossTimer = 0;
+        breakTimer = 0;
         delayTimer = 0;
-
-        // crouchTimer = 0;
-        // grabTimer = 0;
-        // lightTimer = 0;
-        // mediumTimer = 0;
-        // heavyTimer = 0;
-        // specialTimer = 0;
-        // backDashTimer = 0;
-        // multiInputTimer = 0;
-        // moveTimer = 0;
 
         MaxInput = GetComponent<MaxInput>();
         if (!MaxInput.AI)
@@ -159,7 +137,8 @@ public class AI : MonoBehaviour
 
         states.Add("Attack", 0);
         states.Add("Defend", 0);
-        states.Add("MoveCloser", 0);
+        states.Add("Approach", 0);
+        states.Add("Recover", 0);
 
         attackStates.Add("Zone", 0);
         attackStates.Add("Overhead", 0);
@@ -204,12 +183,16 @@ public class AI : MonoBehaviour
             {
                 circleTimer -= Time.deltaTime;
             }
+            if (breakTimer > 0)
+            {
+                breakTimer -= Time.deltaTime;
+            }
             if (delayTimer > 0)
             {
                 delayTimer -= Time.deltaTime;
             }
 
-            if (!keepInput)
+            if (!keepInput && breakTimer <= 0)
             {
                 MaxInput.ClearInput("Player2");
             }
@@ -222,8 +205,7 @@ public class AI : MonoBehaviour
 
             //Debug.Log("faceLeft = " + faceLeft);
             //Debug.Log("p1x = " + p1x + " p2x = " + p2x);
-            Debug.Log(pIsBlockstun);
-
+            //Debug.Log(pIsBlockstun);
 
             if (delayTimer <= 0)
             {
@@ -268,19 +250,21 @@ public class AI : MonoBehaviour
                     //If ai is on ground set jumping to false
                     if (GameObject.Find("Player2").transform.GetChild(0).transform.position.y <= 0)
                     {
-                        isJumping = false;
+                        isAirborne = false;
                     }
 
                     // Executes AI's state
                     if (max == "Attack") attack();
                     if (max == "Defend") defend();
-                    if (max == "MoveCloser") moveCloser();
+                    if (max == "Approach") approach();
+                    if (max == "Recover") recover();
                     // testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
                 }
             }
         }
     }
 
+    // AI attacking player, attacking has it's own internal state system
     void attack()
     {
         Debug.Log("attack state");
@@ -291,66 +275,85 @@ public class AI : MonoBehaviour
         var maxAttack = attackStates.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;   // Gets key with highest value
         Debug.Log(maxAttack);
 
+        // Attacks that hit low
         if (maxAttack == "Low")
         {
-            MaxInput.Crouch("Player2");
-            if (rand <= 25 && squareTimer <= 0)
-            {
-                MaxInput.Square("Player2");
-                crossTimer = .5f;
-            }
-            else if (rand > 25 && rand <= 50 && triangleTimer <= 0)
+            // 5M
+            if (rand <= 25 && triangleTimer <= 0)
             {
                 MaxInput.Triangle("Player2");
                 circleTimer = .5f;
             }
-            else if (rand > 50 && rand <= 75 && circleTimer <= 0)
+            else
             {
-                doing2H_1 = 1;
-                AIInput.combo2H_1();
-                //MaxInput.Circle("Player2");
-                triangleTimer = .5f;
+                MaxInput.Crouch("Player2");
+
+                // 2L (doesn't actually hit low)
+                if (rand > 25 && rand <= 50 && squareTimer <= 0)
+                {
+                    MaxInput.Square("Player2");
+                    crossTimer = .5f;
+                }
+                // 2M
+                else if (rand > 50 && rand <= 70 && triangleTimer <= 0)
+                {
+                    MaxInput.Triangle("Player2");
+                    circleTimer = .5f;
+                }
+                // 2B
+                else if (rand > 70 && rand <= 85 && crossTimer <= 0)
+                {
+                    MaxInput.Cross("Player2");
+                    squareTimer = .5f;
+                    holdBreak(.5f);
+                }
+                // Head rush (63214M)
+                else if (rand > 85)
+                {
+                    keepAction = "Triangle";
+                    doingHCB = 1;
+                    AIInput.HCB();
+                    holdBreak(1.2f);
+                }
+                else MaxInput.Square("Player2");
             }
-            else if (rand > 75 && rand <= 85 && crossTimer <= 0)
-            {
-                MaxInput.Cross("Player2");
-                squareTimer = .5f;
-            }
-            // Head rush
-            else if (rand > 85)
-            {
-                keepAction = "Triangle";
-                doingHCB = 1;
-                AIInput.HCB();
-            }
-            else MaxInput.Square("Player2");
         }
 
+        // Attacks that hit mid
         if (maxAttack == "Mid")
         {
-            if (rand <= 30 && squareTimer <= 0)
+            // 5L
+            if (rand <= 35 && squareTimer <= 0)
             {
                 doing5L_1 = 1;
                 AIInput.combo5L_1();
                 //MaxInput.Square("Player2");
                 crossTimer = .5f;
             }
-            else if (rand > 30 && rand <= 55 && triangleTimer <= 0)
+            // 2H
+            else if (rand > 35 && rand <= 60 && circleTimer <= 0)
             {
-                MaxInput.Triangle("Player2");
-                circleTimer = .5f;
+                doing2H_1 = 1;
+                AIInput.combo2H_1();
+                //MaxInput.Circle("Player2");
+                triangleTimer = .5f;
             }
-            else if (rand > 55 && rand <= 80 && circleTimer <= 0)
+            // 5H
+            else if (rand > 60 && rand <= 85 && circleTimer <= 0)
             {
                 MaxInput.Circle("Player2");
                 triangleTimer = .5f;
             }
-            else if (rand > 80 && rand <= 99 && crossTimer <= 0)
+            // 5B
+            else if (rand > 85 && rand <= 99 && crossTimer <= 0)
             {
                 MaxInput.Cross("Player2");
                 squareTimer = .5f;
+                holdBreak(.5f);
             }
-            else if (rand > 99)
+
+            // Judgment Sabre
+            else if (rand > 99 && !isAirborne)
             {
                 keepAction = "RBumper";
                 doingQCB = 1;
@@ -361,6 +364,7 @@ public class AI : MonoBehaviour
 
         if (maxAttack == "Overhead")
         {
+            // 6B
             if (rand > 50)
             {
                 if (faceLeft == true)
@@ -372,8 +376,9 @@ public class AI : MonoBehaviour
                     MaxInput.MoveRight("Player2");
                 }
                 MaxInput.Cross("Player2");
+                holdBreak(.5f);
             }
-            // Blood brave
+            // Blood brave (214H)
             else
             {
                 keepAction = "Circle";
@@ -382,16 +387,17 @@ public class AI : MonoBehaviour
             }
         }
 
+        // If very close to the player, attempt to grab
         if (maxAttack == "Grab")
         {
             Debug.Log("grabbed");
             MaxInput.LBumper("Player2");
-            return;
         }
 
+        // Attacking from a distance
         if (maxAttack == "Zone")
         {
-            // Pastry Throw
+            // Pastry Throw (236L)
             if (rand >= 1 && pastryTimer <= 0)
             {
                 keepAction = "Square";
@@ -399,20 +405,34 @@ public class AI : MonoBehaviour
                 AIInput.QCF();
                 pastryTimer = 3f;
             }
-            // I'M FIRING MY LAZARRRRR
+            // Toaster (236HB)
             else if (rand < 1 && armor >= 2)
             {
                 keepAction = "RTrigger";
                 doingQCF = 1;
                 AIInput.QCF();
             }
+            // If a pastry is already out, just move forward
             else if (pastryTimer > 0)
             {
-                moveCloser();
+                approach();
             }
         }
     }
 
+    void holdBreak(float hold)
+    {
+        var rand = new System.Random().Next(101);    // Random int from 0 to 100
+        if (rand < 50 && !isAirborne)
+        {
+            Debug.Log("hold break");
+            MaxInput.Cross("Player2");
+            breakTimer = hold;
+            //delayTimer = 1f;
+        }
+    }
+
+    // Calculating weights for what kind of attack the AI should use
     void calculateAttackWeights()
     {
         if (distanceBetweenX >= 2.5) attackStates["Zone"] += 3 + new System.Random().NextDouble() * 2;
@@ -422,6 +442,7 @@ public class AI : MonoBehaviour
         attackStates["Mid"] = 0.75 + new System.Random().NextDouble() * 2;
     }
 
+    // AI defending attacks based off of direction
     void defend()
     {
         Debug.Log("defend state");
@@ -455,9 +476,10 @@ public class AI : MonoBehaviour
         }
     }
 
-    void moveCloser()
+    // AI movement options
+    void approach()
     {
-        Debug.Log("move closer state");
+        Debug.Log("approach state");
         var rand = new System.Random();
 
         //If ai is not crouching, back dashing, or combo-ing, move in direction of player
@@ -494,7 +516,7 @@ public class AI : MonoBehaviour
         if (distanceBetweenX < 2 && p2y < p1y - 0.5 && rand.Next(4) == 1)
         {
             MaxInput.Jump("Player2");
-            isJumping = true;
+            isAirborne = true;
             if(rand.Next(0,3) == 1)
         	{
                 MaxInput.Jump("Player2");
@@ -502,8 +524,28 @@ public class AI : MonoBehaviour
         }
     }
 
+    // AI teching out of hitstun
+    void recover()
+    {
+        Debug.Log("recover state");
+        var rand = new System.Random().Next(101);    // Random int from 0 to 100
+
+        // Randomness for directional teching, may develop further in the future
+        if (rand < 33) MaxInput.MoveLeft("Player2");
+        if (rand >= 66) MaxInput.MoveRight("Player2");
+        MaxInput.Square("Player2");
+    }
+
+    // Calculates weights for what state the AI will go into
     void calculateWeights()
     {
+        // If the AI is in hitstun, teching is the only thing it can do
+        if (isHitstun && isAirborne)
+        {
+            states["Recover"] = 100;
+            return;
+        }
+
         var rand = new System.Random();
 
         states["Attack"] += 0.5;
@@ -512,13 +554,14 @@ public class AI : MonoBehaviour
         if (isAttacking) states["Attack"] -= 1;
         if (distanceBetweenX > 2 && rand.Next(101) <= 5) states["Attack"] += 1.5 * distanceBetweenX;
 
-        if (pIsAttacking) states["Defend"] += 4;
+        if (pIsAttacking) states["Defend"] += 3;
         if (pIsSupering) states["Defend"] += 4;
 
         // The farther away, the more likely to move closer
-        states["MoveCloser"] += distanceBetweenX * .8 + distanceBetweenY * 2;
+        states["Approach"] += distanceBetweenX * .8 + distanceBetweenY * 2;
     }
 
+    // Update variables every frame based on the state of the scene
     void updateProperties()
     {
         // Getting all the current player data
@@ -541,45 +584,39 @@ public class AI : MonoBehaviour
         else if (playerInput.GetComponent<Animator>().GetBool("LowGuard") == true) pGuard = "Low";
         else pGuard = "None";
 
-        //Debug.Log("I am guarding " + pGuard);
         p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x;
         p1y = GameObject.Find("Player1").transform.GetChild(0).transform.position.y;
 
         GameObject aiInput = GameObject.Find("Player2").transform.GetChild(0).GetChild(0).gameObject;
+        GameObject aiHit = GameObject.Find("Player2").transform.GetChild(0).GetChild(2).gameObject;
 
         // Getting all the current AI data
         armor = AIProp.armor;
         durability = AIProp.durability;
         health = AIProp.currentHealth;
+        isAirborne = aiInput.GetComponent<AcceptInputs>().airborne;
         isAttacking = aiInput.GetComponent<AcceptInputs>().attacking;
+        isRecovering = aiInput.GetComponent<AcceptInputs>().recovering;
+        isHitstun = aiHit.GetComponent<HitDetector>().hitStun > 0;
         p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x;
         p2y = GameObject.Find("Player2").transform.GetChild(0).transform.position.y;
 
-        if (p1x - p2x < 0)
-        {
-            faceLeft = true;
+        // AI direction
+        if (p1x - p2x < 0) faceLeft = true;
+        else faceLeft = false;
 
-        }
-        else
-        {
-            faceLeft = false;
-
-        }
-
-        // AI location adjusted based on direction its facing)
-        // if (faceLeft == false)
-        // {
-        //     p2x = GameObject.Find("Player2").transform.GetChild(0).transform.position.x + 1.0 + 0.914;
-        // }
+        // Distance between player and AI
         distanceBetweenX = Math.Abs(p1x - p2x);
         distanceBetweenY = Math.Abs(p1y - p2y);
     }
 
+    // Resets the states values of the Dictionaries
     void resetStateValues()
     {
         states["Attack"] = 0;
         states["Defend"] = 0;
-        states["MoveCloser"] = 0;
+        states["Approach"] = 0;
+        states["Recover"] = 0;
 
         attackStates["Zone"] = 0;
         attackStates["Overhead"] = 0;
@@ -591,288 +628,10 @@ public class AI : MonoBehaviour
     // Testing specific actions
     void testActions()
     {
-        doing2H_1 = 1;
-        AIInput.combo2H_1();
+        // keepAction = "Triangle";
+        // doingHCB = 1;
+        // AIInput.HCB();
+        // holdBreak(1f);
+        //delayTimer = 5f;
     }
 }
-
-// //Setting random variable and manipulating timer variables
-// var rand = new System.Random();
-
-// if (crouchTimer > 0)
-// {
-//     crouchTimer -= Time.deltaTime;
-// }
-// if (grabTimer > 0)
-// {
-//     grabTimer -= Time.deltaTime;
-// }
-// if (lightTimer > 0)
-// {
-//     lightTimer -= Time.deltaTime;
-// }
-// if (mediumTimer > 0)
-// {
-//     mediumTimer -= Time.deltaTime;
-// }
-// if (heavyTimer > 0)
-// {
-//     heavyTimer -= Time.deltaTime;
-// }
-// if (specialTimer > 0)
-// {
-//     specialTimer -= Time.deltaTime;
-// }
-// if (backDashTimer > 0)
-// {
-//     backDashTimer -= Time.deltaTime;
-// }
-// if (multiInputTimer > 0)
-// {
-//     multiInputTimer -= Time.deltaTime;
-// }
-// if (moveTimer > 0)
-// {
-//     moveTimer -= Time.deltaTime;
-// }
-// timer += Time.deltaTime;
-//
-// //Down-Left/Right input of QCF combo
-// if (multiInputTimer <= 0 && finishMove == true)
-// {
-//     if (faceLeft == true)
-// 	{
-//         MaxInput.DownLeft("Player2");
-//     }
-//     else
-// 	{
-//         MaxInput.DownRight("Player2");
-//     }
-//     //Setting a timer until next part of combo and setting boolean values appropriately based on characters position
-//     multiInputTimer = 0.05f;
-//     finishMove = false;
-//     comboAttack = true;
-//     isCrouching = false;
-// }
-//
-// //Down-Move(Sets vertical to 0) into a Move-Left/Right
-// if (multiInputTimer <= 0 && comboAttack == true)
-// {
-//     MaxInput.DownMove("Player2");
-//     if (faceLeft == true)
-// 	{
-//         MaxInput.MoveLeft("Player2");
-//     }
-//     else
-// 	{
-//         MaxInput.MoveRight("Player2");
-//     }
-//     //Setting a timer until next part of combo and setting boolean values appropriately based on characters position
-//     multiInputTimer = 0.15f;
-//     comboAttack = false;
-//     comboEnd = true;
-// }
-//
-// //Finish with light or special attack depending on some good old rng
-// if (multiInputTimer <= 0 && comboEnd == true)
-// {
-//     if (rand.Next(4) == 1)
-// 	{
-//         MaxInput.Cross("Player2");
-//     }
-//     else
-// 	{
-//         MaxInput.Square("Player2");
-//     }
-//     //Ending combo and setting a cd for when this combo can be executed again, and setting input to be cleared
-//     comboEnd = false;
-//     moveTimer = 4;
-//     keepInput = false;
-// }
-//
-// //After initial backdash is executed, finish back dash with another input in appropriate direction
-// if (multiInputTimer <= 0 && backDashTimer >= 0 && finishDash == true)
-// {
-//     if (faceLeft == true)
-// 	{
-//         MaxInput.MoveRight("Player2");
-//     }
-//     else
-// 	{
-//         MaxInput.MoveLeft("Player2");
-//     }
-//     finishDash = false;
-//     multiInputTimer = 0;
-//     backDashTimer = 0;
-// }
-//
-// //If ai is on ground set jumping to false
-// if (GameObject.Find("Player2").transform.GetChild(0).transform.position.y <= 0)
-// {
-//     isJumping = false;
-// }
-//
-// //When crouchTimer reaches 0 or less set stop crouching otherwise keep crouching
-// if (crouchTimer <= 0 || Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)) > 1)
-// {
-//     isCrouching = false;
-// }
-// else
-// {
-//     MaxInput.Crouch("Player2");
-// }
-//
-// //When timer is greater than 4 then either crouch or jump and maybe jump twice
-// if (timer > 4 && multiInputTimer <= 0)
-// {
-//     if (rand.Next(0,4) == 2 && Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)) < 1)
-// 	{
-//        MaxInput.Crouch("Player2");
-//        isCrouching = true;
-//        crouchTimer = 3;
-//        timer = 0;
-//     }
-//     else
-// 	{
-//        MaxInput.Jump("Player2");
-//        isJumping = true;
-//        if(rand.Next(0,4) == 4)
-//        {
-//             MaxInput.Jump("Player2");
-//        }
-//        timer = 0;
-//     }
-// }
-//
-// //If ai is not crouching, back dashing, or combo-ing, move in direction of player
-// if (!isCrouching && backDashTimer <= 0 && multiInputTimer <= 0 && !finishMove && !finishDash)
-// {
-//     if (p1x - p2x < 0)
-// 	{
-//         faceLeft = true;
-//         MaxInput.MoveLeft("Player2");
-//     }
-//     else
-// 	{
-//         faceLeft = false;
-//         MaxInput.MoveRight("Player2");
-//     }
-// }
-//
-// //If player is above ai sometimes jump and maybe jump twice
-// if (GameObject.Find("Player2").transform.GetChild(0).transform.position.y <
-//     GameObject.Find("Player1").transform.GetChild(0).transform.position.y - 0.5 && rand.Next(0,4) == 1)
-// {
-//     MaxInput.Jump("Player2");
-//     isJumping = true;
-//     if(rand.Next(0,3) == 1)
-// 	{
-//         MaxInput.Jump("Player2");
-//     }
-// }
-//
-// //If ai is 3 x units away and jumping, do a double jump
-// if (Math.Abs(Math.Abs(p1x) - Math.Abs(p2x)) > 3 && isJumping == true)
-// {
-//     MaxInput.Jump("Player2");
-// }
-//
-// //AI does an attack based on distance from player in x units and some good old rng
-// if (multiInputTimer <= 0 && finishMove == false)
-// {
-//     //Grab attack
-//     if (Math.Abs(p1x - p2x) > 0.01 && Math.Abs(p1x - p2x) < 0.1 && grabTimer <= 0)
-// 	{
-//         MaxInput.LBumper("Player2");
-//         if (rand.Next(0, 3) == 2)
-// 		{
-//             grabTimer = 2;
-//         }
-//
-//     }
-//     //Light attack
-//     else if(Math.Abs(p1x - p2x) >= 0.1 && Math.Abs(p1x - p2x) < 0.3 && lightTimer <= 0)
-// 	{
-//         MaxInput.ClearInput("Player2");
-//         MaxInput.Square("Player2");
-//
-//     }
-//     //Medium attack
-//     else if(Math.Abs(p1x - p2x) >= 0.3 && Math.Abs(p1x - p2x) < 0.6 && mediumTimer <= 0)
-// 	{
-//         MaxInput.Triangle("Player2");
-//     }
-//     //Heavy attack
-//     else if(Math.Abs(p1x - p2x) >= 0.6 && Math.Abs(p1x - p2x) < 0.9 && heavyTimer <= 0)
-// 	{
-//         MaxInput.ClearInput("Player2");
-//         MaxInput.Circle("Player2");
-//         if (rand.Next(0, 10) == 2)
-// 		{
-//             MaxInput.Square("Player2");
-//         }
-//     }
-//     //Special attack
-//     else if(Math.Abs(p1x - p2x) >= 0.9 && Math.Abs(p1x - p2x) < 1 && specialTimer <= 0)
-// 	{
-//         MaxInput.Cross("Player2");
-//         if (rand.Next(0, 5) == 2)
-// 		{
-//             specialTimer = 1;
-//         }
-//     }
-//     //Light forward attack
-//     else if(Math.Abs(p1x - p2x) >= 1 && Math.Abs(p1x - p2x) < 1.1 && lightTimer <= 0 && rand.Next(2) == 1)
-// 	{
-//         MaxInput.ClearInput("Player2");
-//         lightTimer = 2;
-//         if(faceLeft == true)
-// 		{
-//             MaxInput.MoveLeft("Player2");
-//         }
-//         else
-// 		{
-//             MaxInput.MoveRight("Player2");
-//         }
-//         MaxInput.Square("Player2");
-//     }
-//     //Back Dash
-//     else if(Math.Abs(p1x - p2x) >= 1.1 && Math.Abs(p1x - p2x) < 1.5 && backDashTimer <= 0)
-// 	{
-//         backDashTimer = 10;
-//         multiInputTimer = 0.15f;
-//         if(faceLeft == true)
-// 		{
-//             MaxInput.MoveRight("Player2");
-//         }
-//         else
-// 		{
-//             MaxInput.MoveLeft("Player2");
-//         }
-//         finishDash = true;
-//     }
-//     //DownFoward(Any) attack
-//     else if(Math.Abs(p1x - p2x) >= 1.5 && Math.Abs(p1x - p2x) < 1.7 && moveTimer <= 0)
-// 	{
-//         MaxInput.Stand("Player2");
-//         multiInputTimer = 0.05f;
-//         crouchTimer = 0.05f;
-//         MaxInput.Crouch("Player2");
-//         finishMove = true;
-//         keepInput = true;
-//     }
-//     //Foward Dash
-//     if (Math.Abs(p1x - p2x) >= 2 && rand.Next(3) == 1)
-// 	{
-//         if(faceLeft == true)
-// 		{
-//             MaxInput.MoveLeft("Player2");
-//             MaxInput.LStick("Player2");
-//         }
-//         else
-// 		{
-//             MaxInput.MoveRight("Player2");
-//             MaxInput.LStick("Player2");
-//         }
-//     }
-//}
