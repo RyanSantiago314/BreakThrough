@@ -49,6 +49,8 @@ public class CursorMovement : MonoBehaviour {
     public Button yesButton;
     public Button noButton;
 
+    public AudioSource DhaliaAnnouncer;
+
     void Start()
     {
         //Reset Timescale
@@ -479,6 +481,16 @@ public class CursorMovement : MonoBehaviour {
             {
                 if (Input.GetButtonDown(p1Cross))
                 {
+                    //Play announcer audio
+                    if (!P1.P1Selected)
+                    {
+                        switch (P1.currentChar)
+                        {
+                            case "Dhalia":
+                                DhaliaAnnouncer.Play(0);
+                                break;
+                        }
+                    }
                     P1.P1Selected = true;
                     if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
                     {
@@ -641,6 +653,17 @@ public class CursorMovement : MonoBehaviour {
             {
                 if (Input.GetButtonDown(p2Cross))
                 {
+                    //Play announcer audio
+                    if (!P2.P2Selected)
+                    {
+                        switch (P2.currentChar)
+                        {
+                            case "Dhalia":
+                                DhaliaAnnouncer.Play(0);
+                                break;
+                        }
+                    }
+
                     P2.P2Selected = true;
                     if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
                     {
@@ -650,6 +673,8 @@ public class CursorMovement : MonoBehaviour {
                     {
                         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = P2.currentChar;
                     }
+
+
                 }
             }
 
