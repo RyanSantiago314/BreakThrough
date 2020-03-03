@@ -212,40 +212,30 @@ public class AI : MonoBehaviour
 
             calculateWeights();
 
-            //Debug.Log("faceLeft = " + faceLeft);
-            //Debug.Log("p1x = " + p1x + " p2x = " + p2x);
-            //Debug.Log(pIsBlockstun);
-
             if (delayTimer <= 0 && breakTimer <= 0)
             {
                 if (doingQCF > 0)
                 {
-                    Debug.Log("doing QCF");
                     AIInput.QCF();
                 }
                 else if (doingQCB > 0)
                 {
-                    Debug.Log("doing QCB");
                     AIInput.QCB();
                 }
                 else if (doingHCF > 0)
                 {
-                    Debug.Log("doing HCF");
                     AIInput.HCF();
                 }
                 else if (doingHCB > 0)
                 {
-                    Debug.Log("doing HCB");
                     AIInput.HCB();
                 }
                 else if (doing5L_1 > 0)
                 {
-                    Debug.Log("doing 5L combo 1");
                     AIInput.combo5L_1();
                 }
                 else if (doing2H_1 > 0)
                 {
-                    Debug.Log("doing 2H combo 1");
                     AIInput.combo2H_1();
                 }
                 else
@@ -253,8 +243,6 @@ public class AI : MonoBehaviour
 
                     var max = states.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;   // Gets key with highest value
                     Debug.Log(max);
-
-                    // Evaluate AI's current states
 
                     //If ai is on ground set jumping to false
                     if (GameObject.Find("Player2").transform.GetChild(0).transform.position.y <= 0)
@@ -398,7 +386,7 @@ public class AI : MonoBehaviour
         // If very close to the player, attempt to grab
         if (maxAttack == "Grab")
         {
-            Debug.Log("grabbed");
+            //Debug.Log("grabbed");
             MaxInput.LBumper("Player2");
         }
 
@@ -433,7 +421,6 @@ public class AI : MonoBehaviour
         var rand = new System.Random().Next(101);    // Random int from 0 to 100
         if (rand < 30 && !isAirborne)
         {
-            Debug.Log("hold break");
             MaxInput.Cross("Player2");
             breakTimer = hold;
             //delayTimer = 1f;
@@ -454,8 +441,6 @@ public class AI : MonoBehaviour
     // AI defending attacks based off of direction
     void defend()
     {
-        Debug.Log("defend state");
-
         if (pAttackingGuard == "Low")
         {
             if (faceLeft)
@@ -485,7 +470,6 @@ public class AI : MonoBehaviour
     // AI movement options
     void approach()
     {
-        Debug.Log("approach state");
         var rand = new System.Random();
 
         //If ai is not crouching, back dashing, or combo-ing, move in direction of player
@@ -526,7 +510,6 @@ public class AI : MonoBehaviour
     // AI teching out of hitstun
     void recover()
     {
-        Debug.Log("recover state");
         var rand = new System.Random().Next(101);    // Random int from 0 to 100
 
         // Randomness for directional teching, may develop further in the future

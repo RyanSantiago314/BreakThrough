@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657916, g: 0.49641287, b: 0.57481915, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465794, g: 0.4964134, b: 0.57481974, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5554,7 +5554,7 @@ MonoBehaviour:
   hit4: {fileID: 1251302583}
   hit5: {fileID: 1251302582}
   hit6: {fileID: 1251302581}
-  hit7: {fileID: 0}
+  hit7: {fileID: 1251302586}
   HitDetect: {fileID: 1251302579}
   AttackHandler: {fileID: 1653018574}
   sinCharge: 0
