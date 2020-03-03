@@ -306,7 +306,6 @@ public class HitDetector : MonoBehaviour
             anim.SetBool(launchID, false);
             anim.SetBool(sweepID, false);
             anim.ResetTrigger(shatterID);
-            Actions.acceptBurst = true;
         }
     }
 
