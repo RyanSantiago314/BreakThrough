@@ -23,6 +23,7 @@ public class AI : MonoBehaviour
     public bool pIsHitstun;
     public bool pIsBlockstun;
     bool pIsSupering;
+    string pAttackingGuard;
     string pGuard;
 
     // AI data
@@ -90,6 +91,7 @@ public class AI : MonoBehaviour
         pIsHitstun = false;
         pIsBlockstun = false;
         pIsSupering = false;
+        pAttackingGuard = "";
         pGuard = "";
 
         // AI data
@@ -453,31 +455,28 @@ public class AI : MonoBehaviour
     void defend()
     {
         Debug.Log("defend state");
-        if (pIsCrouching)
+
+        if (pAttackingGuard == "Low")
         {
-            if (p1x - p2x < 0)
+            if (faceLeft)
             {
-                faceLeft = true;
                 MaxInput.Crouch("Player2");
                 MaxInput.MoveRight("Player2");
             }
             else
             {
-                faceLeft = false;
                 MaxInput.Crouch("Player2");
                 MaxInput.MoveLeft("Player2");
             }
         }
         else
         {
-            if (p1x - p2x < 0)
+            if (faceLeft)
             {
-                faceLeft = true;
                 MaxInput.MoveRight("Player2");
             }
             else
             {
-                faceLeft = false;
                 MaxInput.MoveLeft("Player2");
             }
         }
@@ -492,22 +491,20 @@ public class AI : MonoBehaviour
         //If ai is not crouching, back dashing, or combo-ing, move in direction of player
         if (!isCrouching && !finishMove && !finishDash)
         {
-            if (p1x - p2x < 0)
+            if (faceLeft)
             {
-                faceLeft = true;
                 MaxInput.MoveLeft("Player2");
             }
             else
             {
-                faceLeft = false;
                 MaxInput.MoveRight("Player2");
             }
         }
 
         //Foward Dash
-        if (rand.NextDouble() * distanceBetweenX * 100 >= 150)
+        if (rand.NextDouble() * distanceBetweenX * 100 >= 180)
         {
-            if(faceLeft == true)
+            if(faceLeft)
             {
                 MaxInput.MoveLeft("Player2");
                 MaxInput.LStick("Player2");
@@ -581,6 +578,7 @@ public class AI : MonoBehaviour
         pIsHitstun = playerHit.GetComponent<HitDetector>().hitStun > 0;
         pIsBlockstun = playerHit.GetComponent<HitDetector>().blockStun > 0;
         pIsSupering = GameObject.Find("Player1").transform.GetChild(2).gameObject.activeSelf;
+        pAttackingGuard = playerHit.GetComponent<HitDetector>().guard;
 
         if (playerInput.GetComponent<Animator>().GetBool("HighGuard") == true) pGuard = "High";
         else if (playerInput.GetComponent<Animator>().GetBool("LowGuard") == true) pGuard = "Low";
