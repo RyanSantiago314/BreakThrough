@@ -18,9 +18,9 @@ public class Sigil : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.Rotate(30 * Vector3.forward * Time.deltaTime);
+        transform.Rotate(20 * Vector3.forward * Time.deltaTime);
         if (!HitDetect.pauseScreen.isPaused)
-            scaleChange += .25f;
+            scaleChange += .3f;
         if (transform.eulerAngles.x >= 60)
         {
             if (transform.position.y < .35f)

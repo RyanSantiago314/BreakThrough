@@ -974,13 +974,16 @@ public class MovementHandler : MonoBehaviour
             anim.ResetTrigger(hitAirID);
             anim.SetTrigger(wallBounceID);
             //set off wall hit effect
-            opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
-            opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
-            if (facingRight)
-                opponentMove.sigil.transform.position = new Vector3(transform.position.x - .5f * pushBox.size.x, transform.position.y, transform.position.z);
-            else
-                opponentMove.sigil.transform.position = new Vector3(transform.position.x + .5f * pushBox.size.x, transform.position.y, transform.position.z);
-            opponentMove.sigil.transform.eulerAngles = new Vector3(0, 90, 0);
+            if (opponentMove.Actions.superFlash == 0)
+            {
+                opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
+                opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
+                if (facingRight)
+                    opponentMove.sigil.transform.position = new Vector3(transform.position.x - .5f * pushBox.size.x, transform.position.y, transform.position.z);
+                else
+                    opponentMove.sigil.transform.position = new Vector3(transform.position.x + .5f * pushBox.size.x, transform.position.y, transform.position.z);
+                opponentMove.sigil.transform.eulerAngles = new Vector3(0, 90, opponentMove.sigil.transform.eulerAngles.z);
+            }
         }
     }
 
@@ -994,7 +997,7 @@ public class MovementHandler : MonoBehaviour
             }
             wallStickTimer--;
             opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
-            opponentMove.sigil.transform.eulerAngles = new Vector3(0, 90, 0);
+            opponentMove.sigil.transform.eulerAngles = new Vector3(0, 90, opponentMove.sigil.transform.eulerAngles.z);
         }
         else if (Actions.blitzed % 2 == 0 && !HitDetect.pauseScreen.isPaused)
         {
