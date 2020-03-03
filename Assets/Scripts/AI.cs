@@ -486,7 +486,7 @@ public class AI : MonoBehaviour
         }
 
         //Foward Dash
-        if (rand.NextDouble() * distanceBetweenX * 100 >= 180)
+        if (rand.NextDouble() * distanceBetweenX * 100 >= 160)
         {
             if(faceLeft)
             {
