@@ -50,6 +50,11 @@ public class GameOver : MonoBehaviour
     private string xboxInput;
     private string ps4Input;
 
+    public AudioSource hurry;
+    public AudioSource KO;
+    public AudioSource timeup;
+    public AudioSource suddendeath;
+
 	void Start()
 	{	
 		//Setting private character property variables to their appropriate player 1 and 2 child respectively
@@ -112,6 +117,9 @@ public class GameOver : MonoBehaviour
 			timerStart = false;
 			endTimer -= Time.deltaTime;
 		}
+
+		if (roundTimer <= 10f && roundTimer >= 9.5f) hurry.Play();
+
 		//Decrementing replay timer
 		if (replayTimer > 0) replayTimer -= Time.deltaTime;
 		if (overtimeTimer > 0) overtimeTimer -= Time.deltaTime;
@@ -133,6 +141,7 @@ public class GameOver : MonoBehaviour
 		//If player 1 lost and player 2 has 2 wins, display player 2 wins screen
 		if (PlayerProp1.currentHealth <= 0 && p2Win == 2)
 		{
+			KO.Play();
 			child4.SetActive(true);
 			//If end timer is on standby, set it at 3 and it will begin
 			if (endTimer == -2) endTimer = 3;
@@ -162,6 +171,7 @@ public class GameOver : MonoBehaviour
         //If player 2 lost and player 1 has 2 wins, display player 1 wins screen
         else if (PlayerProp2.currentHealth <= 0 && p1Win == 2)
         {
+        	KO.Play();
         	child4.SetActive(true);
         	//If end timer is on standby, set it at 3 and it will begin
         	if (endTimer == -2) endTimer = 3;
@@ -191,7 +201,12 @@ public class GameOver : MonoBehaviour
         //If the round timer runs out decide who wins
         if (roundTimer <= 0)
         {
-        	if (overtimeTimer == -2) overtimeTimer = 1.5f;
+        	timeup.Play();
+        	if (overtimeTimer == -2)
+        	{
+        		suddendeath.Play();
+        		overtimeTimer = 1.5f;
+        	}
         	if ((overtimeTimer > 0 || overtimeTimer == -2) && !replaying
         		&& ((int)((PlayerProp1.currentHealth / PlayerProp1.maxHealth) * 100) == 
         		(int)((PlayerProp2.currentHealth / PlayerProp2.maxHealth) * 100))) child5.SetActive(true);
@@ -210,6 +225,7 @@ public class GameOver : MonoBehaviour
 		}
 		if (PlayerProp1.currentHealth <= 0 && PlayerProp2.currentHealth <= 0 && replaying == false && p1Win != 2 && p2Win != 2)
         {
+        	KO.Play();
         	if (p1Win == 1 && p2Win < 1)
         	{
         		++p1Win;

@@ -22,6 +22,9 @@ public class MenuInputManager : MonoBehaviour
 	public Button BackButton;
 	public Button OptionsBackButton;
 	public Slider MusicSlider;
+	public Slider MasterSlider;
+	public Slider VoiceSlider;
+	public Slider EffectsSlider;
 	private MainMenu menu;
 	private string state;
 	private bool isXbox;
@@ -205,17 +208,33 @@ public class MenuInputManager : MonoBehaviour
 		else if (state == "options")
     	{
 	        if (buttonIndex < 1) buttonIndex = 1;
-			else if (buttonIndex > 2) buttonIndex = 2;
+			else if (buttonIndex > 5) buttonIndex = 5;
+
 			if (buttonIndex == 1)
 			{
-				MusicSlider.Select();
-				if (horizontal > 0)
-				{
-					MusicSlider.value += 0.01f;
-				}
-				else if (horizontal < 0) MusicSlider.value -= 0.01f;
+				MasterSlider.Select();
+				if (horizontal > 0) MasterSlider.value += 0.01f;
+				else if (horizontal < 0) MasterSlider.value -= 0.01f;
 			}
 			else if (buttonIndex == 2)
+			{
+				MusicSlider.Select();
+				if (horizontal > 0) MusicSlider.value += 0.01f;
+				else if (horizontal < 0) MusicSlider.value -= 0.01f;
+			}
+			else if (buttonIndex == 3)
+			{
+				VoiceSlider.Select();
+				if (horizontal > 0) VoiceSlider.value += 0.01f;
+				else if (horizontal < 0) VoiceSlider.value -= 0.01f;
+			}
+			else if (buttonIndex == 4)
+			{
+				EffectsSlider.Select();
+				if (horizontal > 0) EffectsSlider.value += 0.01f;
+				else if (horizontal < 0) EffectsSlider.value -= 0.01f;
+			}
+			else if (buttonIndex == 5)
 			{
 				OptionsBackButton.Select();
 				if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
@@ -225,6 +244,7 @@ public class MenuInputManager : MonoBehaviour
 					OptionsBackButton.onClick.Invoke();
 				}
 			}
+
 			if (Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel"))
 			{
 				state = "main";
