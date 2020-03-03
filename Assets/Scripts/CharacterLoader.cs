@@ -48,11 +48,11 @@ public class CharacterLoader : MonoBehaviour
         //Set Character Position
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
-            GameObject.Find("Player1").transform.position = new Vector3(-1.3f, 1.15f, -3);
+            GameObject.Find("Player1").transform.position = new Vector3(-1f, 1.15f, -3);
         }
         else
         {
-            GameObject.Find("Player1").transform.position = new Vector3(1.3f, 1.15f, -3);
+            GameObject.Find("Player1").transform.position = new Vector3(1f, 1.15f, -3);
         }
 
     }
@@ -75,11 +75,11 @@ public class CharacterLoader : MonoBehaviour
         //Set Character Position
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
         {
-            GameObject.Find("Player2").transform.position = new Vector3(1.3f, 1.15f, -3);
+            GameObject.Find("Player2").transform.position = new Vector3(1f, 1.15f, -3);
         }
         else
         {
-            GameObject.Find("Player2").transform.position = new Vector3(-1.3f, 1.15f, -3);
+            GameObject.Find("Player2").transform.position = new Vector3(-1f, 1.15f, -3);
         }
     }
 }

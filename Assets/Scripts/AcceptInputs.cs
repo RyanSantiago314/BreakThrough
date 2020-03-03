@@ -21,6 +21,7 @@ public class AcceptInputs : MonoBehaviour
     public int superFlash;
     public bool armorActive = false;
     public bool attacking = false;
+    public bool active = false;
     public bool recovering = false;
     public bool throwInvincible = false;
 
@@ -112,6 +113,7 @@ public class AcceptInputs : MonoBehaviour
                 armorActive = false;
                 attacking = false;
                 recovering = false;
+                active = false;
             }
         }
 
@@ -238,11 +240,13 @@ public class AcceptInputs : MonoBehaviour
     public void AttackActive()
     {
         attacking = false;
+        active = true;
     }
 
     public void StopAttacking()
     {
         attacking = false;
+        active = false;
         recovering = true;
     }
 
