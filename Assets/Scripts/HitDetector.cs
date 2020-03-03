@@ -225,9 +225,9 @@ public class HitDetector : MonoBehaviour
             else if (Actions.blitzed > 1)
             {
                 //simulate slow motion if within range of a blitz cancel or blitz attack
-                if (Actions.blitzed == 59)
+                if (Actions.blitzed == 58)
                 {
-                     rb.velocity *= new Vector2(.5f, .5f);
+                     rb.velocity *= new Vector2(.65f, 1f);
                 }
                 if (Actions.airborne)
                     anim.SetFloat(animSpeedID, .4f);
@@ -274,7 +274,7 @@ public class HitDetector : MonoBehaviour
                 if (Mathf.Abs(ProjectileKnockBack.x) > Mathf.Abs(KnockBack.x) || Mathf.Abs(ProjectileKnockBack.y) > Mathf.Abs(KnockBack.y))
                 {
                     if (Actions.blitzed > 0)
-                        rb.AddForce(ProjectileKnockBack * .55f, ForceMode2D.Impulse);
+                        rb.AddForce(ProjectileKnockBack * .6f, ForceMode2D.Impulse);
                     else
                         rb.AddForce(ProjectileKnockBack, ForceMode2D.Impulse);
                 }

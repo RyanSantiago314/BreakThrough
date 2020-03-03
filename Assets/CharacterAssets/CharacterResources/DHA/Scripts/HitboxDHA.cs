@@ -1380,6 +1380,9 @@ public class HitboxDHA : MonoBehaviour
 
         //HitDetect.usingSpecial = true;
         HitDetect.allowSuper = true;
+
+        sinCharge = 0;
+        HitDetect.anim.SetInteger("SinCharge", sinCharge);
     }
 
     void BCFullCharge()
