@@ -127,16 +127,9 @@ public class AIInput : MonoBehaviour
             if (AI.keepAction == "RTrigger") MaxInput.RTrigger("Player2");
             if (AI.keepAction == "RBumper") MaxInput.RBumper("Player2");
 
-            //if (!headRush)
-        //    {
-                AI.doingQCB = 0;
-                AI.keepAction = "";
-                AI.keepInput = false;
-            //}
-            //else        //////////////////////////////// FINISH HEAD RUSH HOLDING BREAK BUTTON
-            //{
-            //    MaxInput.Cross("Player2");
-            //}
+            AI.doingQCB = 0;
+            AI.keepAction = "";
+            AI.keepInput = false;
         }
     }
 
@@ -316,7 +309,7 @@ public class AIInput : MonoBehaviour
             MaxInput.Circle("Player2");
 
             AI.doing2H_1 = 3;
-            AI.delayTimer = .3f;
+            AI.delayTimer = .43f;
         }
 
         // Step 3: Jump Left/Right
@@ -343,7 +336,7 @@ public class AIInput : MonoBehaviour
             MaxInput.Circle("Player2");
 
             AI.doing2H_1++;
-            AI.delayTimer = .2f;
+            AI.delayTimer = .25f;
             //if (AI.doing2H_1 == 8) AI.delayTimer = .3f;
         }
 
