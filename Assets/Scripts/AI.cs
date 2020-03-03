@@ -19,6 +19,7 @@ public class AI : MonoBehaviour
     bool pIsAirborne;
     bool pIsCrouching;
     bool pIsAttacking;
+    bool pIsActive;
     bool pIsRecovering;
     public bool pIsHitstun;
     public bool pIsBlockstun;
@@ -87,6 +88,7 @@ public class AI : MonoBehaviour
         pIsAirborne = false;
         pIsCrouching = false;
         pIsAttacking = false;
+        pIsActive = false;
         pIsRecovering = false;
         pIsHitstun = false;
         pIsBlockstun = false;
@@ -251,9 +253,9 @@ public class AI : MonoBehaviour
                     }
 
                     // Executes AI's state
-                    if (max == "Attack") attack();
+                    //if (max == "Attack") attack();
                     if (max == "Defend") defend();
-                    if (max == "Approach") approach();
+                    //if (max == "Approach") approach();
                     if (max == "Recover") recover();
                     //testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
                 }
@@ -537,6 +539,7 @@ public class AI : MonoBehaviour
         if (distanceBetweenX > 2 && rand.Next(101) <= 5) states["Attack"] += 1.5 * distanceBetweenX;
 
         if (pIsAttacking) states["Defend"] += 3;
+        if (pIsActive) states["Defend"] += 3;
         if (pIsSupering) states["Defend"] += 4;
 
         // The farther away, the more likely to move closer
@@ -557,10 +560,11 @@ public class AI : MonoBehaviour
         pIsAirborne = playerInput.GetComponent<AcceptInputs>().airborne;
         pIsCrouching = playerInput.GetComponent<Animator>().GetBool("Crouch");
         pIsAttacking = playerInput.GetComponent<AcceptInputs>().attacking;
+        pIsActive = playerInput.GetComponent<AcceptInputs>().active;
         pIsRecovering = playerInput.GetComponent<AcceptInputs>().recovering;
         pIsHitstun = playerHit.GetComponent<HitDetector>().hitStun > 0;
         pIsBlockstun = playerHit.GetComponent<HitDetector>().blockStun > 0;
-        pIsSupering = GameObject.Find("Player1").transform.GetChild(2).gameObject.activeSelf;
+        pIsSupering = GameObject.Find("Player1").transform.GetChild(3).gameObject.activeSelf;
         pAttackingGuard = playerHit.GetComponent<HitDetector>().guard;
 
         if (playerInput.GetComponent<Animator>().GetBool("HighGuard") == true) pGuard = "High";
