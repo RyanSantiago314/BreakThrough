@@ -13,8 +13,14 @@ public class MovementHandler : MonoBehaviour
     public HitDetector HitDetect;
     public MaxInput MaxInput;
 
+    public GameObject sigilPrefab;
+    public GameObject sigil;
+    public Sprite sigilImage;
+    public Color32 sigilTint;
+
     public Transform opponent;
     public CharacterProperties OpponentProperties;
+    MovementHandler opponentMove;
 
     AnimatorStateInfo currentState;
 
@@ -124,6 +130,13 @@ public class MovementHandler : MonoBehaviour
         pushBox.enabled = true;
         pushBox.offset = pushCenter;
         pushBox.size = pushSize;
+
+        sigil = Instantiate(sigilPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
+        sigil.GetComponent<SpriteRenderer>().sprite = sigilImage;
+        sigil.GetComponent<SpriteRenderer>().color = sigilTint;
+        sigil.GetComponent<Sigil>().tint = sigilTint;
+
+        opponentMove = opponent.GetComponent<MovementHandler>();
 
         airID = Animator.StringToHash("Airborne");
         crouchID = Animator.StringToHash("Crouch");
@@ -243,6 +256,14 @@ public class MovementHandler : MonoBehaviour
                 if ((Actions.jumpCancel && jumps == 0 && MaxInput.GetAxis(Vertical) > 0 && Actions.standing) || 
                     (Actions.jumpCancel && jumps < maxJumps && MaxInput.GetAxis(Vertical) > 0 && !vertAxisInUse))
                 {
+                    if (jumps > 0)
+                    {
+                        sigil.GetComponent<Sigil>().colorChange = 0;
+                        sigil.GetComponent<Sigil>().scaleChange = 0;
+                        sigil.transform.position = new Vector3(transform.position.x, transform.position.y + pushBox.offset.y - .5f * pushBox.size.y, transform.position.z);
+                        sigil.transform.eulerAngles = new Vector3(75, 0, 0);
+                    }
+
                     Actions.EnableAll();
                     pushBox.isTrigger = true;
                     jumps++;
@@ -250,9 +271,16 @@ public class MovementHandler : MonoBehaviour
 
 
                     if (MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
+                    {
                         jumpRight = true;
+                        sigil.transform.eulerAngles = new Vector3(60, -40, 0);
+                    }
                     else if (MaxInput.GetAxis(Horizontal) < 0 && !anim.GetBool(runID))
+                    {
                         jumpLeft = true;
+                        sigil.transform.eulerAngles = new Vector3(60, 40, 0);
+                    }
+                        
 
                     vertAxisInUse = true;
                 }
@@ -320,6 +348,7 @@ public class MovementHandler : MonoBehaviour
         //Jump logic
         if (jumping > 0 && anim.GetFloat("AnimSpeed") > 0 && HitDetect.hitStun == 0 && HitDetect.blockStun == 0)
         {
+
             anim.SetTrigger(jumpID);
             Actions.TurnAroundCheck();
             if(Actions.airborne)
@@ -329,9 +358,15 @@ public class MovementHandler : MonoBehaviour
             Actions.airborne = true;
 
             if (MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
+            {
                 jumpRight = true;
+                sigil.transform.eulerAngles = new Vector3(60, -40, 0);
+            }  
             else if (MaxInput.GetAxis(Horizontal) < 0 && !anim.GetBool(runID))
+            {
                 jumpLeft = true;
+                sigil.transform.eulerAngles = new Vector3(60, 40, 0);
+            }
 
             if(!anim.GetBool(runID))
                 rb.velocity = new Vector2(0, rb.velocity.y);
@@ -414,6 +449,11 @@ public class MovementHandler : MonoBehaviour
                     HitDetect.KnockBack = new Vector2(1f, 3.3f);
                 }
                 Actions.groundBounce = false;
+
+                opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
+                opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
+                opponentMove.sigil.transform.position = new Vector3(transform.position.x, .35f, transform.position.z);
+                opponentMove.sigil.transform.eulerAngles = new Vector3(80, 0, 0);
             }
             //for landing on the ground if the opponent is not supposed to bounce
             else
@@ -432,8 +472,7 @@ public class MovementHandler : MonoBehaviour
                 hittingWall = true;
         }
         else if (collision.collider.CompareTag("Player") && collision.collider.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
-        {
-            MovementHandler opponentMove = opponent.GetComponent<MovementHandler>();
+        {            
             if (Actions.airborne && !opponentMove.Actions.airborne)
             {
                 pushBox.isTrigger = true;
@@ -454,6 +493,11 @@ public class MovementHandler : MonoBehaviour
             {
                 anim.SetTrigger(groundBounceID);
                 Actions.groundBounce = false;
+
+                opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
+                opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
+                opponentMove.sigil.transform.position = new Vector3(transform.position.x, .35f, transform.position.z);
+                opponentMove.sigil.transform.eulerAngles = new Vector3(80, 0, 0);
             }
             else
             {
@@ -469,7 +513,6 @@ public class MovementHandler : MonoBehaviour
         }
         else if (collision.collider.CompareTag("Player") && collision.collider.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
-            MovementHandler opponentMove = opponent.GetComponent<MovementHandler>();
             if (Actions.airborne && !opponentMove.Actions.airborne)
             {
                 pushBox.isTrigger = true;
@@ -506,8 +549,7 @@ public class MovementHandler : MonoBehaviour
     {
         if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
-            //keeps characters from intersecting and occupying the same space
-                MovementHandler opponentMove = opponent.GetComponent<MovementHandler>();
+            //keeps characters from intersecting and occupying the same space    
             if (!Actions.airborne && opponentMove.Actions.airborne && !hittingWall && opponentMove.rb.velocity.y < 0)
             {
                 if (opponent.position.x > transform.position.x)
@@ -582,7 +624,6 @@ public class MovementHandler : MonoBehaviour
     {
         if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
-            MovementHandler opponentMove = opponent.GetComponent<MovementHandler>();
             if (transform.position.y > opponent.position.y && (transform.position.y - opponent.position.y) > (.5f * pushBox.size.y + .5f * opponentMove.pushBox.size.y))
             {
                 pushBox.isTrigger = true;
@@ -657,6 +698,13 @@ public class MovementHandler : MonoBehaviour
                 }
                 anim.SetTrigger(wallBounceID);
                 //set off wall hit effect
+                opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
+                opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
+                if (facingRight)
+                    opponentMove.sigil.transform.position = new Vector3(transform.position.x - .5f * pushBox.size.x, transform.position.y, transform.position.z);
+                else
+                    opponentMove.sigil.transform.position = new Vector3(transform.position.x + .5f * pushBox.size.x, transform.position.y, transform.position.z);
+                opponentMove.sigil.transform.eulerAngles = new Vector3(0, 90, 0);
             }
             else
             {
@@ -777,13 +825,6 @@ public class MovementHandler : MonoBehaviour
                 else if (rb.velocity.x < -maxVelocity && !facingRight)
                     rb.velocity = new Vector2(-maxVelocity, rb.velocity.y);
         }
-        /*else if (currentState.IsName("BackDash") && !Actions.airborne)
-        {
-            if (rb.velocity.x > .5f * maxVelocity && facingRight)
-                rb.velocity = new Vector2(.5f * maxVelocity, rb.velocity.y);
-            else if (rb.velocity.x < -.5f * maxVelocity && !facingRight)
-                rb.velocity = new Vector2(-.5f * maxVelocity, rb.velocity.y);
-        }*/
         else if (!Actions.airborne && !Actions.acceptMove)
         {
             //friction for on the ground while attacking or getting hit, uses character's walking back speed to determine deceleration
@@ -912,6 +953,11 @@ public class MovementHandler : MonoBehaviour
             rb.velocity = new Vector2(0, rb.velocity.y);
             anim.SetBool(wallStickID, true);
             //set off wall hit effect
+            if (facingRight)
+                opponentMove.sigil.transform.position = new Vector3(transform.position.x - .5f * pushBox.size.x, transform.position.y, transform.position.z);
+            else
+                opponentMove.sigil.transform.position = new Vector3(transform.position.x + .5f * pushBox.size.x, transform.position.y, transform.position.z);
+            opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
         }
         else if (Actions.wallBounce && HitDetect.hitStun > 0  && transform.position.y > 1.3f)
         {
@@ -928,6 +974,13 @@ public class MovementHandler : MonoBehaviour
             anim.ResetTrigger(hitAirID);
             anim.SetTrigger(wallBounceID);
             //set off wall hit effect
+            opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
+            opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
+            if (facingRight)
+                opponentMove.sigil.transform.position = new Vector3(transform.position.x - .5f * pushBox.size.x, transform.position.y, transform.position.z);
+            else
+                opponentMove.sigil.transform.position = new Vector3(transform.position.x + .5f * pushBox.size.x, transform.position.y, transform.position.z);
+            opponentMove.sigil.transform.eulerAngles = new Vector3(0, 90, 0);
         }
     }
 
@@ -940,6 +993,8 @@ public class MovementHandler : MonoBehaviour
                 anim.SetBool(wallStickID, false);
             }
             wallStickTimer--;
+            opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
+            opponentMove.sigil.transform.eulerAngles = new Vector3(0, 90, 0);
         }
         else if (Actions.blitzed % 2 == 0 && !HitDetect.pauseScreen.isPaused)
         {
