@@ -22,19 +22,19 @@ public class PracticeMode : MonoBehaviour
 
     private bool P1inCombo;
     private bool P2inCombo;
+    private bool P2inTrueCombo;
     private bool fixAnimBug;
     private float InputTimer;
     double p1x;
     double p2x;
 
     public bool enableArmorRefill = true;
+    public bool enableCPUAirTech;
     public string dummyState = "Stand";
 
     public int P1ValorSetting = 100;
     public int P2ValorSetting = 100;
 
-    private int P1CurrentValor = 100;
-    private int P2CurrentValor = 100;
     private float P1PrevHealth;
     private float P2PrevHealth;
     private float P1CurrentHitDamage;
@@ -136,6 +136,17 @@ public class PracticeMode : MonoBehaviour
                     enableArmorRefill = false;
                     break;
             }
+
+            switch (PracticeModeSettings.GetComponent<PauseMenu>().CPUAirRecover)
+            {
+                case 0:
+                    enableCPUAirTech = true;
+                    break;
+                case 1:
+                    enableCPUAirTech = false;
+                    break;
+            }
+
             if (!PracticeModeSettings.GetComponent<PauseMenu>().isPaused)
             {
                 //Refill Armor Meters Option
@@ -266,12 +277,36 @@ public class PracticeMode : MonoBehaviour
                         MaxInput.ClearInput("Player2");
                         MaxInput.enableAI();
                         MaxInputObject.GetComponent<AI>().enabled = false;
+                        if (enableCPUAirTech)
+                        {
+                            if (P2Prop.HitDetect.hitStun > 0 && Player2.transform.GetComponentInChildren<AcceptInputs>().airborne)
+                            {
+                                P2inTrueCombo = true;
+                            }
+                            else if (P2Prop.HitDetect.hitStun == 0 && Player2.GetComponentInChildren<AcceptInputs>().airborne && P2inTrueCombo)
+                            {
+                                MaxInput.Cross("Player2");
+                                P2inTrueCombo = false;
+                            }
+                        }
                         break;
                     case "Crouch":
                         MaxInput.ClearInput("Player2");
                         MaxInput.enableAI();
                         MaxInputObject.GetComponent<AI>().enabled = false;
                         MaxInput.Crouch("Player2");
+                        if (enableCPUAirTech)
+                        {
+                            if (P2Prop.HitDetect.hitStun > 0 && Player2.transform.GetComponentInChildren<AcceptInputs>().airborne)
+                            {
+                                P2inTrueCombo = true;
+                            }
+                            else if (P2Prop.HitDetect.hitStun == 0 && Player2.GetComponentInChildren<AcceptInputs>().airborne && P2inTrueCombo)
+                            {
+                                MaxInput.Cross("Player2");
+                                P2inTrueCombo = false;
+                            }
+                        }
                         break;
                     case "Jump":
                         MaxInput.ClearInput("Player2");
@@ -282,6 +317,18 @@ public class PracticeMode : MonoBehaviour
                         {
                             MaxInput.Jump("Player2");
                             InputTimer = 1.0f;
+                        }
+                        if (enableCPUAirTech)
+                        {
+                            if (P2Prop.HitDetect.hitStun > 0 && Player2.transform.GetComponentInChildren<AcceptInputs>().airborne)
+                            {
+                                P2inTrueCombo = true;
+                            }
+                            else if (P2Prop.HitDetect.hitStun == 0 && Player2.GetComponentInChildren<AcceptInputs>().airborne && P2inTrueCombo)
+                            {
+                                MaxInput.Cross("Player2");
+                                P2inTrueCombo = false;
+                            }
                         }
                         break;
                     case "Guard":
@@ -296,7 +343,18 @@ public class PracticeMode : MonoBehaviour
                         {
                             MaxInput.MoveLeft("Player2");
                         }
-                        GameObject.Find("Player2").transform.GetChild(0).GetComponent<MovementHandler>().anim.SetBool(Animator.StringToHash("WalkBack"), false);
+                        if (enableCPUAirTech)
+                        {
+                            if (P2Prop.HitDetect.hitStun > 0 && Player2.transform.GetComponentInChildren<AcceptInputs>().airborne)
+                            {
+                                P2inTrueCombo = true;
+                            }
+                            else if (P2Prop.HitDetect.hitStun == 0 && Player2.GetComponentInChildren<AcceptInputs>().airborne && P2inTrueCombo)
+                            {
+                                MaxInput.Cross("Player2");
+                                P2inTrueCombo = false;
+                            }
+                        }
                         break;
                     case "LowGuard":
                         MaxInput.ClearInput("Player2");
@@ -309,6 +367,18 @@ public class PracticeMode : MonoBehaviour
                         else
                         {
                             MaxInput.DownLeft("Player2");
+                        }
+                        if (enableCPUAirTech)
+                        {
+                            if (P2Prop.HitDetect.hitStun > 0 && Player2.transform.GetComponentInChildren<AcceptInputs>().airborne)
+                            {
+                                P2inTrueCombo = true;
+                            }
+                            else if (P2Prop.HitDetect.hitStun == 0 && Player2.GetComponentInChildren<AcceptInputs>().airborne && P2inTrueCombo)
+                            {
+                                MaxInput.Cross("Player2");
+                                P2inTrueCombo = false;
+                            }
                         }
                         break;
                     case "Player":
@@ -336,7 +406,7 @@ public class PracticeMode : MonoBehaviour
                     InputTimer = 0.0f;
                 }
 
-                //Reset Positions back to start **Still needs Refinement
+                //Reset Positions back to start
                 if (Input.GetButtonDown("Select_P1"))
                 {
                     resetPositions();

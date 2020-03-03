@@ -26,6 +26,7 @@ public class PauseMenu : MonoBehaviour
     public Button P1ValorHighlight;
     public Button P2ValorHighlight;
     public Button armorRefillHighlight;
+    public Button CPUAirTechHighlight;
     public Button moveListButton;
     public Button quitButton;
     public Button resumeButtonMatch;
@@ -50,10 +51,12 @@ public class PauseMenu : MonoBehaviour
     public int P1Valor;
     public int P2Valor;
     public int ArmorRefill = 0;
+    public int CPUAirRecover = 0;
     public GameObject CPUStateText;
     public GameObject P1ValorText;
     public GameObject P2ValorText;
     public GameObject ArmorRefillText;
+    public GameObject CPUAirRecoverText;
 
     private void Awake()
     {
@@ -300,13 +303,13 @@ public class PauseMenu : MonoBehaviour
 
                 //Cycle option scrolling
                 //optionIndex scrolling
-                if (optionIndex == 7)
+                if (optionIndex == 8)
                 {
                     optionIndex = 0;
                 }
                 else if (optionIndex == -1)
                 {
-                    optionIndex = 6;
+                    optionIndex = 7;
                 }
 
                 if(Input.GetButton(p1circle) && !moveList && acceptInputCirc)
@@ -400,8 +403,26 @@ public class PauseMenu : MonoBehaviour
                         }
                     }
                 }
-                //MoveList
+                //CPU Air Tech
                 else if (optionIndex == 5)
+                {
+                    CPUAirTechHighlight.Select();
+                    if (acceptInputHor)
+                    {
+                        if (horizontal < 0)
+                        {
+                            CPUAirRecover -= 1;
+                            acceptInputHor = false;
+                        }
+                        else if (horizontal > 0)
+                        {
+                            CPUAirRecover += 1;
+                            acceptInputHor = false;
+                        }
+                    }
+                }
+                //MoveList
+                else if (optionIndex == 6)
                 {
                     moveListButton.Select();
                     if (Input.GetButton(p1cross) && !moveList)
@@ -416,7 +437,7 @@ public class PauseMenu : MonoBehaviour
                     }
                 }
                 //Quit Button
-                else if (optionIndex == 6)
+                else if (optionIndex == 7)
                 {
                     quitButton.Select();
                     if (Input.GetButton(p1cross))
@@ -461,6 +482,15 @@ public class PauseMenu : MonoBehaviour
                 {
                     ArmorRefill = 1;
                 }
+                //CPU Air Recovery
+                if (CPUAirRecover == 2)
+                {
+                    CPUAirRecover = 0;
+                }
+                else if (CPUAirRecover == -1)
+                {
+                    CPUAirRecover = 1;
+                }
 
                 //Update Text for options
                 switch (CPUState)
@@ -498,6 +528,16 @@ public class PauseMenu : MonoBehaviour
                         break;
                     case 1:
                         ArmorRefillText.GetComponent<TMPro.TextMeshProUGUI>().text = "Off";
+                        break;
+                }
+
+                switch (CPUAirRecover)
+                {
+                    case 0:
+                        CPUAirRecoverText.GetComponent<TMPro.TextMeshProUGUI>().text = "On";
+                        break;
+                    case 1:
+                        CPUAirRecoverText.GetComponent<TMPro.TextMeshProUGUI>().text = "Off";
                         break;
                 }
             }
