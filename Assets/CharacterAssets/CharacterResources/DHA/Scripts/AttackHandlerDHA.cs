@@ -73,7 +73,6 @@ public class AttackHandlerDHA : MonoBehaviour
     private int FLx = 2;
     private bool FLF = true;
     private bool FB = true;
-    private int BCShots = 2;
 
     static int ID5L;
     static int ID2L;
@@ -471,7 +470,7 @@ public class AttackHandlerDHA : MonoBehaviour
 
             //cost for executing blitz cancel
             CharProp.armor--;
-            CharProp.durability = 80;
+            CharProp.durability = 70;
             blitzActive = 5;
             CharProp.durabilityRefillTimer = 0;
             heavyButton = 0;
@@ -497,7 +496,7 @@ public class AttackHandlerDHA : MonoBehaviour
             // Judgment Sabre super attack, executed by doing a QCB and pressing L and M together
             anim.SetTrigger(IDSabre);
             CharProp.armor -= 2;
-            CharProp.durability = 80;
+            CharProp.durability = 70;
             CharProp.durabilityRefillTimer = 0;
             lightButton = 0;
             mediumButton = 0;
@@ -509,7 +508,7 @@ public class AttackHandlerDHA : MonoBehaviour
             // Toaster super attack, executed by doing a QCF and pressing H and B
             anim.SetTrigger(IDToaster);
             CharProp.armor -= 2;
-            CharProp.durability = 80;
+            CharProp.durability = 70;
             CharProp.durabilityRefillTimer = 0;
             breakButton = 0;
             heavyButton = 0;
@@ -523,16 +522,6 @@ public class AttackHandlerDHA : MonoBehaviour
             Actions.TurnAroundCheck();
             breakButton = 0;
             QCF = 0;
-            BCShots--;
-        }
-        else if (Actions.acceptSuper && currentState.IsName("BasketCaseFullShoot") && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && Actions.standing && BCShots > 0)
-        {
-            Move.jumping = 0;
-            // Basket special attack, executed by doing a QCF and pressing B (second shot)
-            anim.SetTrigger(IDBasketCase);
-            breakButton = 0;
-            QCF = 0;
-            BCShots--;
         }
         else if (Actions.acceptSpecial && heavyButton > 0 && Move.HitDetect.hitStop == 0 && QCB > 0)
         {
@@ -795,7 +784,6 @@ public class AttackHandlerDHA : MonoBehaviour
         FLx = 2;
         FLF = true;
         FB = true;
-        BCShots = 2;
     }
 
     void QCFCheck()

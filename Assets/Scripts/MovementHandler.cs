@@ -253,7 +253,7 @@ public class MovementHandler : MonoBehaviour
 
                 DoubleTapActions();
 
-                if ((Actions.jumpCancel && jumps == 0 && MaxInput.GetAxis(Vertical) > 0 && Actions.standing) || 
+                if ((Actions.acceptMove && jumps == 0 && MaxInput.GetAxis(Vertical) > 0 && Actions.standing) || 
                     (Actions.jumpCancel && jumps < maxJumps && MaxInput.GetAxis(Vertical) > 0 && !vertAxisInUse))
                 {
                     if (jumps > 0)
@@ -1001,7 +1001,7 @@ public class MovementHandler : MonoBehaviour
         }
         else if (Actions.blitzed % 2 == 0 && !HitDetect.pauseScreen.isPaused)
         {
-            wallStickTimer = 36;
+            wallStickTimer = 30;
         }
     }
 }
