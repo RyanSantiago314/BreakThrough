@@ -498,7 +498,7 @@ public class PracticeMode : MonoBehaviour
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Actions.landingLag = 0;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Move.HitDetect.KnockBack = Vector2.zero;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetBool(Animator.StringToHash("Run"), false);
-        player.transform.GetChild(1).gameObject.SetActive(false);
         player.transform.GetChild(2).gameObject.SetActive(false);
+        player.transform.GetChild(3).gameObject.SetActive(false);
     }
 }
