@@ -31,6 +31,7 @@ public class PauseMenu : MonoBehaviour
     public Button quitButton;
     public Button resumeButtonMatch;
     public Button moveListButtonMatch;
+    public Button uiButtonMatch;
     public Button quitButtonMatch;
     private float InputTimer;
     private string inputHorizontal = "Horizontal_P1";
@@ -185,13 +186,13 @@ public class PauseMenu : MonoBehaviour
                     }
                 }
 
-                if (optionIndex == 3)
+                if (optionIndex == 4)
                 {
                     optionIndex = 0;
                 }
                 else if (optionIndex == -1)
                 {
-                    optionIndex = 2;
+                    optionIndex = 3;
                 }
 
                 if (((Input.GetButton(p1circle) && !moveList && playerPaused == 1) || (Input.GetButton(p2circle) && !moveList && playerPaused == 2)) && acceptInputCirc)
@@ -228,12 +229,22 @@ public class PauseMenu : MonoBehaviour
                 }
                 else if (optionIndex == 2)
                 {
+                    uiButtonMatch.Select();
+
+                    if ((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2))
+                    {
+                        
+                    }
+                }
+                else if (optionIndex == 3)
+                {
                     quitButtonMatch.Select();
                     if ((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2))
                     {
                         QuitToMenu();
                     }
                 }
+                
 
                 
             }
