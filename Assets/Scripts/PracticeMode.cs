@@ -455,23 +455,19 @@ public class PracticeMode : MonoBehaviour
         //Setting players to starting location vectors
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
-            Vector3 p1Start = new Vector3(-1.3f, .80f, -3);
-            GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
+            GameObject.Find("Player1").transform.GetChild(0).transform.position = GameObject.Find("Player1").transform.position;
         }
         else
         {
-            Vector3 p1Start = new Vector3(1.3f, .80f, -3);
-            GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
+            GameObject.Find("Player1").transform.GetChild(0).transform.position = GameObject.Find("Player1").transform.position;
         }
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
         {
-            Vector3 p2Start = new Vector3(1.3f, .80f, -3);
-            GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
+            GameObject.Find("Player2").transform.GetChild(0).transform.position = GameObject.Find("Player2").transform.position;
         }
         else
         {
-            Vector3 p2Start = new Vector3(-1.3f, .80f, -3);
-            GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
+            GameObject.Find("Player2").transform.GetChild(0).transform.position = GameObject.Find("Player2").transform.position;
         }
 
         //Reset Character Specific things
@@ -498,7 +494,7 @@ public class PracticeMode : MonoBehaviour
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Actions.landingLag = 0;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Move.HitDetect.KnockBack = Vector2.zero;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetBool(Animator.StringToHash("Run"), false);
-        player.transform.GetChild(1).gameObject.SetActive(false);
         player.transform.GetChild(2).gameObject.SetActive(false);
+        player.transform.GetChild(3).gameObject.SetActive(false);
     }
 }

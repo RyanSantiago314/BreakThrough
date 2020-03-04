@@ -346,8 +346,10 @@ public class HUD : MonoBehaviour
             P1ResolveColor = new Color32(255, 205, 70, 255);
         else if (P1Prop.armor >= 2)
             P1ResolveColor = new Color32(0, 143, 255, 255);
-        else
+        else if (P1Prop.armor <= 1)
+        {
             P1ResolveColor = new Color32(255, 0, 85, 255);
+        }
 
         if (P1Prop.durabilityRefillTimer >= 3 || (P1Prop.armor == 4 && P1Prop.durability == 100))
         {
@@ -360,6 +362,13 @@ public class HUD : MonoBehaviour
                 P1ResolveWhite = true;
             else if (P1Transition <= -.2f)
                 P1ResolveWhite = false;
+        }
+        else if (P1Prop.armor <= 1)
+        {
+            if (flickerTimer == 4 && P1Transition == 0)
+                P1Transition = 1;
+            else if (flickerTimer == 4 && P1Transition > 0)
+                P1Transition = 0;
         }
         else
             P1Transition = 0;
@@ -387,6 +396,13 @@ public class HUD : MonoBehaviour
                 P2ResolveWhite = true;
             else if (P2Transition <= -.2f)
                 P2ResolveWhite = false;
+        }
+        else if (P2Prop.armor <= 1)
+        {
+            if (flickerTimer == 4 && P2Transition == 0)
+                P2Transition = 1;
+            else if (flickerTimer == 4 && P2Transition > 0)
+                P2Transition = 0;
         }
         else
             P2Transition = 0;

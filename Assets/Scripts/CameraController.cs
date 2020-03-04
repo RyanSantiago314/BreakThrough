@@ -75,7 +75,7 @@ public class CameraController : MonoBehaviour
 
             smooth = 10;
 
-            if (Character1.GetComponent<MovementHandler>().wallStickTimer == 35 || Character2.GetComponent<MovementHandler>().wallStickTimer == 35)
+            if (Character1.GetComponent<MovementHandler>().wallStickTimer == 29 || Character2.GetComponent<MovementHandler>().wallStickTimer == 29)
             {
                 screenShake = .1f;
             }
