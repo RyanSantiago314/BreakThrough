@@ -836,7 +836,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialKnockBack = new Vector2(3f, 2f);
         HitDetect.potentialAirKnockBack = new Vector2(2f, -1f);
-        HitDetect.potentialHitStun = 45;
+        HitDetect.potentialHitStun = 42;
         HitDetect.potentialHitStop = hitStopLv4;
         HitDetect.initialProration = 1f;
         HitDetect.forcedProration = .85f;
@@ -970,7 +970,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.damage = 135;
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialKnockBack = new Vector2(-.5f, 3f);
-        HitDetect.potentialHitStun = 40;
+        HitDetect.potentialHitStun = 36;
         HitDetect.potentialHitStop = hitStopLv4;
         HitDetect.attackLevel = 5;
         HitDetect.guard = "Overhead";
@@ -999,7 +999,7 @@ public class HitboxDHA : MonoBehaviour
             HitDetect.damage = 150;
             HitDetect.durabilityDamage = 0;
             HitDetect.potentialKnockBack = new Vector2(-.5f, 3f);
-            HitDetect.potentialHitStun = 60;
+            HitDetect.potentialHitStun = 36;
             HitDetect.potentialHitStop = hitStopLv4;
             HitDetect.initialProration = 1.1f;
             HitDetect.attackLevel = 5;
@@ -1199,7 +1199,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialKnockBack = new Vector2(1.5f, 3.5f);
         HitDetect.potentialAirKnockBack = new Vector2(2f, -2f);
-        HitDetect.potentialHitStun = 30;
+        HitDetect.potentialHitStun = 42;
         HitDetect.potentialHitStop = hitStopLv4;
         HitDetect.initialProration = .8f;
         HitDetect.attackLevel = 4;
@@ -1404,7 +1404,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.damage = 140;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 0;
-        HitDetect.potentialHitStun = 60;
+        HitDetect.potentialHitStun = 36;
         HitDetect.potentialHitStop = hitStopLv4;
         HitDetect.potentialKnockBack = new Vector2(4f, 2.5f);
         HitDetect.attackLevel = 5;

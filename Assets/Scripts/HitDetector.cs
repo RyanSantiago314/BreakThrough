@@ -823,10 +823,18 @@ public class HitDetector : MonoBehaviour
         {
             OpponentDetector.anim.SetBool(launchID, true);
         }
-        else if (crumple && !OpponentDetector.Actions.airborne)
+        else if (crumple)
         {
-            OpponentDetector.anim.ResetTrigger(hitID);
-            OpponentDetector.anim.SetTrigger(crumpleID);
+            if (!OpponentDetector.Actions.airborne)
+            {
+                OpponentDetector.anim.ResetTrigger(hitID);
+                OpponentDetector.anim.SetTrigger(crumpleID);
+            }
+            else
+            {
+                OpponentDetector.anim.ResetTrigger(hitID);
+                OpponentDetector.anim.SetTrigger(hitAirID);
+            }
         }
         else if (sweep)
         {

@@ -135,8 +135,10 @@ public class CharacterProperties : MonoBehaviour
             }
 
             //durability starts refilling after not being in blockstun for three seconds
-            if (HitDetect.blockStun == 0 || HitDetect.anim.GetBool(dizzyID))
+            if ((HitDetect.blockStun == 0 || HitDetect.anim.GetBool(dizzyID)) && HitDetect.Actions.superFlash == 0)
                 durabilityRefillTimer += Time.deltaTime;
+            else if (HitDetect.Actions.superFlash > 0)
+            { }
             else
                 durabilityRefillTimer = 0;
 

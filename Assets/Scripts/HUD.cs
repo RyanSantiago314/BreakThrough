@@ -67,6 +67,13 @@ public class HUD : MonoBehaviour
     static int shatter;
     int flickerTimer;
 
+    bool P1ResolveWhite;
+    bool P2ResolveWhite;
+    Color32 P1ResolveColor;
+    Color32 P2ResolveColor;
+    float P1Transition;
+    float P2Transition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -333,6 +340,61 @@ public class HUD : MonoBehaviour
             P1RedHealth.fillAmount -= .03f; // (float)(P1Prop.currentHealth / P1Prop.maxHealth);
         else if (P2hit.comboCount == 0 && P1RedHealth.fillAmount < P1HealthUI.fillAmount)
             P1RedHealth.fillAmount = P1HealthUI.fillAmount;
+
+        //causes the resolve gauge to flash when refilling, also changes color based on how many segments
+        if (P1Prop.armor == 4)
+            P1ResolveColor = new Color32(255, 205, 70, 255);
+        else if (P1Prop.armor >= 2)
+            P1ResolveColor = new Color32(0, 143, 255, 255);
+        else
+            P1ResolveColor = new Color32(255, 0, 85, 255);
+
+        if (P1Prop.durabilityRefillTimer >= 3 || (P1Prop.armor == 4 && P1Prop.durability == 100))
+        {
+            if (P1ResolveWhite)
+                P1Transition -= .04f;
+            else
+                P1Transition += .04f;
+
+            if (P1Transition >= 1.2f)
+                P1ResolveWhite = true;
+            else if (P1Transition <= -.2f)
+                P1ResolveWhite = false;
+        }
+        else
+            P1Transition = 0;
+
+        P1Dura1.color = Color32.Lerp(P1ResolveColor, Color.white, P1Transition);
+        P1Dura2.color = Color32.Lerp(P1ResolveColor, Color.white, P1Transition);
+        P1Dura3.color = Color32.Lerp(P1ResolveColor, Color.white, P1Transition);
+        P1Dura4.color = Color32.Lerp(P1ResolveColor, Color.white, P1Transition);
+
+        if (P2Prop.armor == 4)
+            P2ResolveColor = new Color32(255, 205, 70, 255);
+        else if (P2Prop.armor >= 2)
+            P2ResolveColor = new Color32(0, 143, 255, 255);
+        else
+            P2ResolveColor = new Color32(255, 0, 85, 255);
+
+        if (P2Prop.durabilityRefillTimer >= 3 || (P2Prop.armor == 4 && P2Prop.durability == 100))
+        {
+            if (P2ResolveWhite)
+                P2Transition -= .04f;
+            else
+                P2Transition += .04f;
+
+            if (P2Transition >= 1.2f)
+                P2ResolveWhite = true;
+            else if (P2Transition <= -.2f)
+                P2ResolveWhite = false;
+        }
+        else
+            P2Transition = 0;
+
+        P2Dura1.color = Color32.Lerp(P2ResolveColor, Color.white, P2Transition);
+        P2Dura2.color = Color32.Lerp(P2ResolveColor, Color.white, P2Transition);
+        P2Dura3.color = Color32.Lerp(P2ResolveColor, Color.white, P2Transition);
+        P2Dura4.color = Color32.Lerp(P2ResolveColor, Color.white, P2Transition);
 
         //round icons
         if (GameOver.p1Win > 0)

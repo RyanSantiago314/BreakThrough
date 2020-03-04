@@ -137,8 +137,7 @@ public class AcceptInputs : MonoBehaviour
 
         if (superFlash > 0 && !Move.HitDetect.pauseScreen.isPaused)
         {
-            superFlash--; 
-            Move.sigil.GetComponent<Sigil>().colorChange = 0;
+            superFlash--;
         }
 
 
@@ -258,12 +257,13 @@ public class AcceptInputs : MonoBehaviour
     public void StartSuperFlash(int i)
     {
         superFlash = i;
-        if (airborne)
+        /*if (airborne)
             Move.sigil.transform.position = new Vector3(Move.transform.position.x, Move.transform.position.y + Move.pushBox.offset.y - .5f * Move.pushBox.size.y, Move.transform.position.z);
         else
             Move.sigil.transform.position = new Vector3(Move.transform.position.x, .35f, Move.transform.position.z);
         Move.sigil.transform.eulerAngles = new Vector3(80, 0, Move.sigil.transform.eulerAngles.z);
         Move.sigil.GetComponent<Sigil>().scaleChange = 0;
+        Move.sigil.GetComponent<Sigil>().colorChange = 0;*/
 
         Move.HitDetect.OpponentDetector.currentVelocity = Move.HitDetect.OpponentDetector.rb.velocity;
         Move.HitDetect.OpponentDetector.Actions.blitzed = 1;

@@ -242,7 +242,7 @@ MonoBehaviour:
   backDashForce: 1.6
   runAcceleration: 0.7
   jumpPower: 3.8
-  maxVelocity: 6
+  maxVelocity: 6.5
   maxJumps: 2
   jumps: 0
   minPosY: 1.1
@@ -881,7 +881,6 @@ MonoBehaviour:
   acceptBreak: 1
   acceptSpecial: 1
   acceptSuper: 1
-  acceptBurst: 1
   jumpCancel: 1
   blitzCancel: 1
   airborne: 0

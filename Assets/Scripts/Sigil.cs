@@ -10,6 +10,7 @@ public class Sigil : MonoBehaviour
     public Color32 tint;
     public float colorChange = 1;
     public float scaleChange = 0;
+    public bool rotate = true;
 
     private void Start()
     {
@@ -18,7 +19,8 @@ public class Sigil : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(20 * Vector3.forward * Time.deltaTime);
+        if (rotate)
+            transform.Rotate(20 * Vector3.forward * Time.deltaTime);
         if (!HitDetect.pauseScreen.isPaused)
             scaleChange += .3f;
         if (transform.eulerAngles.x >= 60)
