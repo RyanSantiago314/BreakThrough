@@ -253,9 +253,9 @@ public class AI : MonoBehaviour
                     }
 
                     // Executes AI's state
-                    //if (max == "Attack") attack();
+                    if (max == "Attack") attack();
                     if (max == "Defend") defend();
-                    //if (max == "Approach") approach();
+                    if (max == "Approach") approach();
                     if (max == "Recover") recover();
                     //testActions();  // REMEMBER TO COMMENT OUT WHEN DONE TESTING
                 }
