@@ -427,7 +427,7 @@ public class AttackHandlerDHA : MonoBehaviour
 
         //aerial recovery, press a button after hitstun ends
         if ((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") || currentState.IsName("LaunchTransition") ||
-             currentState.IsName("LaunchFall") || (currentState.IsName("WallStick"))) && Move.HitDetect.hitStun == 0 && Move.transform.position.y > 1.4f &&
+             currentState.IsName("LaunchFall") || (currentState.IsName("Unstick"))) && Move.HitDetect.hitStun == 0 && Move.transform.position.y > 1.4f &&
             (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
         {
             anim.SetTrigger(IDRec);
@@ -447,19 +447,8 @@ public class AttackHandlerDHA : MonoBehaviour
         else if (blitzActive == 1)
             Hitboxes.ClearHitBox();
 
-        if (Actions.acceptBurst && Move.HitDetect.hitStop == 0 && breakButton > 0 && heavyButton > 0 && mediumButton > 0 && lightButton > 0)
-        {
-            //anim.SetTrigger(IDBurst);
-            //Move.HitDetect.hitStun = 0;
-            //Actions.blitzed = 0;
-
-            lightButton = 0;
-            mediumButton = 0;
-            heavyButton = 0;
-            breakButton = 0;
-        }
         //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
-        else if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
+        if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
             heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f && CharProp.armor >= 1)
         {
             anim.SetTrigger(IDBlitz);

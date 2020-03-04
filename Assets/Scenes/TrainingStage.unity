@@ -5350,7 +5350,6 @@ MonoBehaviour:
   acceptBreak: 1
   acceptSpecial: 1
   acceptSuper: 1
-  acceptBurst: 1
   jumpCancel: 1
   blitzCancel: 1
   airborne: 0
@@ -5358,6 +5357,7 @@ MonoBehaviour:
   superFlash: 0
   armorActive: 0
   attacking: 0
+  active: 0
   recovering: 0
   throwInvincible: 0
   bursting: 0
@@ -5394,7 +5394,7 @@ MonoBehaviour:
   hit4: {fileID: 1251302583}
   hit5: {fileID: 1251302582}
   hit6: {fileID: 1251302581}
-  hit7: {fileID: 1251302586}
+  hit7: {fileID: 1251302581}
   HitDetect: {fileID: 1251302579}
   AttackHandler: {fileID: 1653018574}
   sinCharge: 0
@@ -7681,7 +7681,6 @@ MonoBehaviour:
   acceptBreak: 1
   acceptSpecial: 1
   acceptSuper: 1
-  acceptBurst: 1
   jumpCancel: 1
   blitzCancel: 1
   airborne: 0
@@ -7689,6 +7688,7 @@ MonoBehaviour:
   superFlash: 0
   armorActive: 0
   attacking: 0
+  active: 0
   recovering: 0
   throwInvincible: 0
   bursting: 0
@@ -12859,6 +12859,13 @@ MonoBehaviour:
   Actions: {fileID: 575799681}
   HitDetect: {fileID: 1251302579}
   MaxInput: {fileID: 1948197657}
+  sigilPrefab: {fileID: 7420925614185072074, guid: 25c1205347f567241a4dff9fc02cccc3,
+    type: 3}
+  sigil: {fileID: 0}
+  sigilImage: {fileID: 21300000, guid: c0402a421382aeb4096e9c58e69d3542, type: 3}
+  sigilTint:
+    serializedVersion: 2
+    rgba: 0
   opponent: {fileID: 0}
   OpponentProperties: {fileID: 0}
   weight: 0.52
@@ -16190,6 +16197,13 @@ MonoBehaviour:
   Actions: {fileID: 1026248758}
   HitDetect: {fileID: 515295540}
   MaxInput: {fileID: 1948197657}
+  sigilPrefab: {fileID: 7420925614185072074, guid: 25c1205347f567241a4dff9fc02cccc3,
+    type: 3}
+  sigil: {fileID: 0}
+  sigilImage: {fileID: 21300000, guid: c0402a421382aeb4096e9c58e69d3542, type: 3}
+  sigilTint:
+    serializedVersion: 2
+    rgba: 3618815
   opponent: {fileID: 0}
   OpponentProperties: {fileID: 0}
   weight: 0.52

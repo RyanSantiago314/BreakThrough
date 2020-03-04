@@ -13,7 +13,6 @@ public class AcceptInputs : MonoBehaviour
     public bool acceptBreak = true;
     public bool acceptSpecial = true;
     public bool acceptSuper = true;
-    public bool acceptBurst = true;
     public bool jumpCancel = true;
     public bool blitzCancel = true;
     public bool airborne = false;
@@ -117,9 +116,6 @@ public class AcceptInputs : MonoBehaviour
             }
         }
 
-        if (anim.GetBool(dizzyID) || grabbed || shattered || superHit)
-            acceptBurst = false;
-
             if ((attacking || anim.GetBool(highGuardID) || anim.GetBool(lowGuardID) || anim.GetBool(runID)) && CharProp.armor > 0)
             armorActive = true;
         else
@@ -141,7 +137,8 @@ public class AcceptInputs : MonoBehaviour
 
         if (superFlash > 0 && !Move.HitDetect.pauseScreen.isPaused)
         {
-            superFlash--;
+            superFlash--; 
+            Move.sigil.GetComponent<Sigil>().colorChange = 0;
         }
 
 
@@ -250,19 +247,24 @@ public class AcceptInputs : MonoBehaviour
         recovering = true;
     }
 
-    public void StartBurst()
+    public void SigilJump()
     {
-        bursting = true;
-    }
-
-    public void EndBurst()
-    {
-        bursting = false;
+        Move.sigil.GetComponent<Sigil>().colorChange = 0;
+        Move.sigil.GetComponent<Sigil>().scaleChange = 0;
+        Move.sigil.transform.position = new Vector3(Move.transform.position.x, Move.transform.position.y - .5f * Move.pushBox.size.y, Move.transform.position.z);
+        Move.sigil.transform.eulerAngles = new Vector3(80, 0, 0);
     }
 
     public void StartSuperFlash(int i)
     {
         superFlash = i;
+        if (airborne)
+            Move.sigil.transform.position = new Vector3(Move.transform.position.x, Move.transform.position.y + Move.pushBox.offset.y - .5f * Move.pushBox.size.y, Move.transform.position.z);
+        else
+            Move.sigil.transform.position = new Vector3(Move.transform.position.x, .35f, Move.transform.position.z);
+        Move.sigil.transform.eulerAngles = new Vector3(80, 0, Move.sigil.transform.eulerAngles.z);
+        Move.sigil.GetComponent<Sigil>().scaleChange = 0;
+
         Move.HitDetect.OpponentDetector.currentVelocity = Move.HitDetect.OpponentDetector.rb.velocity;
         Move.HitDetect.OpponentDetector.Actions.blitzed = 1;
     }

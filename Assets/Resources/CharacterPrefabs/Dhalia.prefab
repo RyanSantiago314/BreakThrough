@@ -227,6 +227,13 @@ MonoBehaviour:
   Actions: {fileID: 5672348970482479192}
   HitDetect: {fileID: 5672348970961381722}
   MaxInput: {fileID: 0}
+  sigilPrefab: {fileID: 7420925614185072074, guid: 25c1205347f567241a4dff9fc02cccc3,
+    type: 3}
+  sigil: {fileID: 0}
+  sigilImage: {fileID: 21300000, guid: c0402a421382aeb4096e9c58e69d3542, type: 3}
+  sigilTint:
+    serializedVersion: 2
+    rgba: 3618815
   opponent: {fileID: 0}
   OpponentProperties: {fileID: 0}
   weight: 0.53
@@ -285,6 +292,7 @@ MonoBehaviour:
   dir4: 0
   dir6: 0
   dizzyTime: 0
+  blitzActive: 0
 --- !u!114 &5672348969353512110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -881,6 +889,7 @@ MonoBehaviour:
   superFlash: 0
   armorActive: 0
   attacking: 0
+  active: 0
   recovering: 0
   throwInvincible: 0
   bursting: 0
@@ -1388,6 +1397,8 @@ MonoBehaviour:
   usingSuper: 0
   usingSpecial: 0
   slash: 0
+  vertSlash: 0
+  horiSlash: 0
   OpponentDetector: {fileID: 0}
   hit: 0
   armorHit: 0
