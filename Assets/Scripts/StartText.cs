@@ -13,11 +13,11 @@ public class StartText : MonoBehaviour
     public TextMeshProUGUI startText;
     public GameObject thisText;
     private AudioSource music;
-    public AudioSource one;
-    public AudioSource two;
-    public AudioSource three;
-    public AudioSource go;
+    public AudioSource BoBB;
+    public AudioSource begin;
     public AudioSource ready;
+    public AudioSource ready2;
+    public AudioSource ready3;
     //bool that decides whether or not if round countdown is ready to begin
     private bool beginCountdown;
     //bool keeping track of when it is the first round of a match
@@ -48,17 +48,20 @@ public class StartText : MonoBehaviour
             //If it is the first round set the timer for countdown to 5 seconds and round count to 0 total rounds
             if (isFirstRound)
             {
-                timer = 5;
+                timer = 7;
                 roundCount = 1;
                 music = GetComponent<AudioSource>();
             }
             //If not the first round set the round start countdown to 3 seconds
             else
             {
-                timer = 3;
+                timer = 7;
             }
             //Set text to ready and activate it
-            startText.text = "Ready!";
+            if (roundCount == 1) startText.text = "Duel 1";
+            else if (roundCount == 2) startText.text = "Duel 2";
+            else if (roundCount >= 3) startText.text = "Final Duel";
+
             if (!GameOver.matchOver && !PauseMenu.pauseQuit) thisText.SetActive(true);
             //Countdown is now ready to begin
             beginCountdown = true;
@@ -100,52 +103,45 @@ public class StartText : MonoBehaviour
             if (beginCountdown)
             {
                 //If its the first round do long countdown
-                if (isFirstRound)
-                {
+                //if (isFirstRound)
+                //{
                     //Exact timing parameters for each text pop up and corresponding sound
-                    if (timer > 4.5 && timer < 4.6)
+                    if (timer > 5 && timer < 7)
                     {
-                        ready.Play();
+                        if (roundCount == 1) ready.Play();
+                        else if (roundCount == 2) ready2.Play();
+                        else if (roundCount >= 3) ready3.Play();
+                        
                     }
-                    if (timer > 3.5 && timer < 3.6)
+                    else if (timer > 3 && timer < 5)
                     {
-                        three.Play();
+                        BoBB.Play();
                     }
-                    else if (timer > 2.5 && timer < 2.6)
+                    else if (timer > 0 && timer < 1)
                     {
-                        two.Play();
+                        begin.Play();
                     }
-                    else if (timer > 1.5 && timer < 1.6)
+                    if (timer <= 6f && timer > 5f)
                     {
-                        one.Play();
+                        if (roundCount == 1) startText.text = "Duel 1";
+                        else if (roundCount == 2) startText.text = "Duel 2";
+                        else if (roundCount >= 3) startText.text = "Final Duel";
                     }
-                    else if (timer > 0.5 && timer < 0.6)
+                    else if (timer <= 3f && timer > 0.5f)
                     {
-                        go.Play();
-                    }
-                    if (timer <= 3.5f && timer > 2.5f)
-                    {
-                        startText.text = "3";
-                    }
-                    else if (timer <= 2.5f && timer > 1.5f)
-                    {
-                        startText.text = "2";
+                        startText.text = "Break or Be Broken";
                         music.Play();
-                    }
-                    else if (timer <= 1.5f && timer > 0.5f)
-                    {
-                        startText.text = "1";
                     }
                     else if (timer <= 0.5f && timer > 0)
                     {
-                        startText.text = "Go!";
+                        startText.text = "Begin";
                         startReady = true;
                         beginCountdown = false;
                         isFirstRound = false;
                     }
-                }
+                //}
                 //If its not first round do fast countdown
-                else
+                /*else
                 {
                     if (timer > 2.5 && timer < 2.6)
                     {
@@ -153,7 +149,7 @@ public class StartText : MonoBehaviour
                     }
                     else if (timer > 0.5 && timer < 0.6)
                     {
-                        go.Play();
+                        begin.Play();
                     }
                     else if (timer <= 0.5f && timer > 0)
                     {
@@ -161,7 +157,7 @@ public class StartText : MonoBehaviour
                         startReady = true;
                         beginCountdown = false;
                     }
-                }
+                }*/
             }
         }       
     }
