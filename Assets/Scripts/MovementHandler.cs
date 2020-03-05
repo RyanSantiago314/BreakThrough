@@ -132,7 +132,8 @@ public class MovementHandler : MonoBehaviour
         pushBox.size = pushSize;
 
         sigil = Instantiate(sigilPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
-        sigil.GetComponent<SpriteRenderer>().sprite = sigilImage;
+        if (sigilImage != null)
+            sigil.GetComponent<SpriteRenderer>().sprite = sigilImage;
         sigil.GetComponent<SpriteRenderer>().color = sigilTint;
         sigil.GetComponent<Sigil>().tint = sigilTint;
 
