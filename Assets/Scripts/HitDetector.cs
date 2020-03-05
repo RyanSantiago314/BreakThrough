@@ -294,7 +294,6 @@ public class HitDetector : MonoBehaviour
         {
             anim.SetInteger(hitStunID, 0);
             anim.SetInteger(blockStunID, 0);
-            anim.ResetTrigger(clashID);
             anim.ResetTrigger(deflectID);
             anim.ResetTrigger(parryID);
             anim.ResetTrigger(successID);
@@ -305,7 +304,6 @@ public class HitDetector : MonoBehaviour
             anim.ResetTrigger(crumpleID);
             anim.SetBool(launchID, false);
             anim.SetBool(sweepID, false);
-            anim.ResetTrigger(shatterID);
         }
     }
 

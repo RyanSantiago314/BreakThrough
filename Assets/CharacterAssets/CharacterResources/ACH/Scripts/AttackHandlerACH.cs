@@ -63,18 +63,17 @@ public class AttackHandlerACH : MonoBehaviour
     private bool JumpM = true;
     private bool JumpH = true;
     private bool JumpB = true;
-    private bool FB = true;
+    private bool DFB = true;
 
     static int ID5L;
     static int ID2L;
-    static int ID6L;
     static int ID5M;
     static int ID2M;
     static int ID5H;
     static int ID2H;
     static int ID5B;
     static int ID2B;
-    static int ID6B;
+    static int ID3B;
     /*static int BreakCharge;
     static int IDBloodBrave;
     static int IDPatissiere;
@@ -86,7 +85,6 @@ public class AttackHandlerACH : MonoBehaviour
     static int runID;
     static int IDRec;
     static int IDBlitz;
-    static int IDBurst;
     static int IDThrow;
 
     static int lowGuardID;
@@ -103,14 +101,13 @@ public class AttackHandlerACH : MonoBehaviour
     {
         ID5L = Animator.StringToHash("5L");
         ID2L = Animator.StringToHash("2L");
-        ID6L = Animator.StringToHash("6L");
         ID5M = Animator.StringToHash("5M");
         ID2M = Animator.StringToHash("2M");
         ID5H = Animator.StringToHash("5H");
         ID2H = Animator.StringToHash("2H");
         ID5B = Animator.StringToHash("5B");
         ID2B = Animator.StringToHash("2B");
-        ID6B = Animator.StringToHash("6B");
+        ID3B = Animator.StringToHash("3B");
         /*BreakCharge = Animator.StringToHash("BreakCharge");
         IDBloodBrave = Animator.StringToHash("BloodBrave");
         IDPatissiere = Animator.StringToHash("Patissiere");
@@ -129,7 +126,6 @@ public class AttackHandlerACH : MonoBehaviour
         runID = Animator.StringToHash("Run");
         IDRec = Animator.StringToHash("Recover");
         IDBlitz = Animator.StringToHash("Blitz");
-        IDBurst = Animator.StringToHash("BurstBreaker");
         IDThrow = Animator.StringToHash("Throw");
 
         if (transform.parent.name == "Player1")
@@ -192,7 +188,6 @@ public class AttackHandlerACH : MonoBehaviour
             anim.ResetTrigger(ID5M);
             anim.ResetTrigger(ID2M);
             anim.ResetTrigger(ID5H);
-            anim.ResetTrigger(ID6L);
             anim.ResetTrigger(ID2H);
             anim.ResetTrigger(ID5B);
             anim.ResetTrigger(ID2B);
@@ -212,7 +207,6 @@ public class AttackHandlerACH : MonoBehaviour
             lightButton = 0;
             anim.ResetTrigger(ID5L);
             anim.ResetTrigger(ID2L);
-            anim.ResetTrigger(ID6L);
         }
 
         if (mediumButton > 0)
@@ -246,7 +240,7 @@ public class AttackHandlerACH : MonoBehaviour
             breakButton = 0;
             anim.ResetTrigger(ID5B);
             anim.ResetTrigger(ID2B);
-            anim.ResetTrigger(ID6B);
+            anim.ResetTrigger(ID3B);
         }
 
         if (dir1 > 0)
@@ -484,12 +478,12 @@ public class AttackHandlerACH : MonoBehaviour
                         Actions.TurnAroundCheck();
                     }
                 }
-                else if (dir6 == directionBufferTime)
+                else if (dir3 == directionBufferTime)
                 {
-                    if (FB)
+                    if (DFB)
                     {
-                        anim.SetTrigger(ID6B);
-                        FB = false;
+                        anim.SetTrigger(ID3B);
+                        DFB = false;
                         anim.SetBool(runID, false);
                     }
                 }
@@ -638,7 +632,7 @@ public class AttackHandlerACH : MonoBehaviour
         JumpM = true;
         JumpH = true;
         JumpB = true;
-        FB = true;
+        DFB = true;
     }
 
     void QCFCheck()
