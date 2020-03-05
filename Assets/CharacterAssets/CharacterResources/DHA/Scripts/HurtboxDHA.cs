@@ -220,10 +220,10 @@ public class HurtboxDHA : MonoBehaviour
         head.enabled = true;
         body.enabled = true;
 
-        head.offset = new Vector2(.23f, .6f);
+        head.offset = new Vector2(.1f, .6f);
         head.size = new Vector2(.35f, .32f);
         body.offset = new Vector2(-.03f, .14f);
-        body.size = new Vector2(.69f, .6f);
+        body.size = new Vector2(.6f, .6f);
     }
 
     public void StandLight()
