@@ -1001,7 +1001,7 @@ public class MovementHandler : MonoBehaviour
         }
         else if (Actions.blitzed % 2 == 0 && !HitDetect.pauseScreen.isPaused)
         {
-            wallStickTimer = 30;
+            wallStickTimer = 36;
         }
     }
 }

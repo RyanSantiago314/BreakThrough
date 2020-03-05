@@ -20,10 +20,10 @@ public class HitboxACH : MonoBehaviour
     int hitStunLv3 = 17;
     int hitStunLv4 = 19;
 
-    int hitStopLv1 = 9;
-    int hitStopLv2 = 10;
-    int hitStopLv3 = 11;
-    int hitStopLv4 = 12;
+    int hitStopLv1 = 8;
+    int hitStopLv2 = 9;
+    int hitStopLv3 = 10;
+    int hitStopLv4 = 11;
 
     public int sinCharge; // variable used to charge/enhance Genesis Assault special attack, similar to sin charge from DHA
 
