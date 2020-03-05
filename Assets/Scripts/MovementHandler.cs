@@ -163,10 +163,11 @@ public class MovementHandler : MonoBehaviour
     {
         currentState = anim.GetCurrentAnimatorStateInfo(0);
         anim.SetFloat(yVeloID, rb.velocity.y);
+
         // rotate based on position relative to opponent
-        if (facingRight)
+        if (facingRight && transform.eulerAngles != Vector3.zero)
             transform.eulerAngles = Vector3.zero;
-        else
+        else if (!facingRight && transform.eulerAngles != new Vector3(0, 180, 0))
             transform.eulerAngles = new Vector3(0, 180, 0);
         if (Actions.acceptMove && Actions.standing)
         {
@@ -261,7 +262,7 @@ public class MovementHandler : MonoBehaviour
                     {
                         sigil.GetComponent<Sigil>().colorChange = 0;
                         sigil.GetComponent<Sigil>().scaleChange = 0;
-                        sigil.transform.position = new Vector3(transform.position.x, transform.position.y + pushBox.offset.y - .5f * pushBox.size.y, transform.position.z);
+                        sigil.transform.position = new Vector3(transform.position.x, transform.position.y + .5f * pushBox.offset.y - .5f * pushBox.size.y, transform.position.z);
                         sigil.transform.eulerAngles = new Vector3(75, 0, 0);
                     }
 
@@ -315,17 +316,17 @@ public class MovementHandler : MonoBehaviour
         //walking
         if(anim.GetBool(walkFID) && !anim.GetBool(crouchID))
         {
-            rb.velocity = new Vector2(walkSpeed, rb.velocity.y);
-
-            if(!facingRight)
-                rb.velocity *= new Vector2(-1, 1);
+            if (facingRight)
+                rb.velocity = new Vector2(walkSpeed, rb.velocity.y);
+            else
+                rb.velocity = new Vector2(-walkSpeed, rb.velocity.y);
         }
         else if (anim.GetBool(walkBID) && !anim.GetBool(crouchID))
         {
-            rb.velocity = new Vector2(walkBackSpeed, rb.velocity.y);
-
-            if(facingRight)
-                rb.velocity *= new Vector2(-1, 1);
+            if (facingRight)
+                rb.velocity = new Vector2(-walkBackSpeed, rb.velocity.y);
+            else
+                rb.velocity = new Vector2(walkBackSpeed, rb.velocity.y);
         }
 
         if (backDash)
@@ -560,8 +561,6 @@ public class MovementHandler : MonoBehaviour
                         float translateX = (transform.position.x + .51f * pushBox.size.x) - (opponent.position.x - .51f * opponentMove.pushBox.size.x);
                         transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
                     }
-                    else
-                        rb.AddForce(new Vector2(-.25f, 0), ForceMode2D.Impulse);
                 }
                 else if (opponent.position.x < transform.position.x)
                 {
@@ -570,8 +569,6 @@ public class MovementHandler : MonoBehaviour
                         float translateX = (transform.position.x - .51f * pushBox.size.x) - (opponent.position.x + .51f * opponentMove.pushBox.size.x);
                         transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
                     }
-                    else
-                        rb.AddForce(new Vector2(.25f, 0), ForceMode2D.Impulse);
                 }
                 else if (facingRight)
                 {
@@ -580,8 +577,6 @@ public class MovementHandler : MonoBehaviour
                         float translateX = (transform.position.x - .51f * pushBox.size.x) - (opponent.position.x + .51f * opponentMove.pushBox.size.x);
                         transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
                     }
-                    else
-                        rb.AddForce(new Vector2(.25f, 0), ForceMode2D.Impulse);
                 }
                 else
                 {
@@ -590,8 +585,6 @@ public class MovementHandler : MonoBehaviour
                         float translateX = (transform.position.x + .51f * pushBox.size.x) - (opponent.position.x - .51f * opponentMove.pushBox.size.x);
                         transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
                     }
-                    else
-                        rb.AddForce(new Vector2(-.25f, 0), ForceMode2D.Impulse);
                 }
             }
             else if (Actions.airborne && opponentMove.Actions.airborne && ((HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0)||(HitDetect.OpponentDetector.hitStun != 0 && HitDetect.hitStun == 0)))
@@ -842,7 +835,7 @@ public class MovementHandler : MonoBehaviour
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
         }
-        else if (!Actions.airborne)
+        else if (!Actions.airborne && !anim.GetBool(runID) && !anim.GetBool(walkFID) && !anim.GetBool(walkBID))
         {
             //friction for on the ground, uses character's walking back speed to determine deceleration
             if(rb.velocity.x > .5f)

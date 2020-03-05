@@ -84,7 +84,7 @@ public class StartText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(BoBB.time);
+        //Debug.Log(BoBB.time);
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
         {
             //Adjusts timer every update frame
