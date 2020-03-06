@@ -25,8 +25,8 @@ public class ColorSwapACH : MonoBehaviour
     {
         if (transform.parent.gameObject.name == "Sprite")
         {
-            colorNum = transform.parent.GetComponent<ColorSwapDHA>().colorNum;
-            HitDetect = transform.parent.GetComponent<ColorSwapDHA>().HitDetect;
+            colorNum = transform.parent.GetComponent<ColorSwapACH>().colorNum;
+            HitDetect = transform.parent.GetComponent<ColorSwapACH>().HitDetect;
         }
         sprite = transform.GetComponent<SpriteRenderer>();
         InitColorSwapTex();

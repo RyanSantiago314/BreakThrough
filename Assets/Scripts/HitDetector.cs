@@ -236,13 +236,13 @@ public class HitDetector : MonoBehaviour
 
                 rb.mass = Actions.Move.weight * .65f;
                 if (rb.velocity.y < 0.5f)
-                    rb.gravityScale = .65f * Actions.gravScale;
+                    rb.gravityScale = .65f * Actions.gravScale * Actions.originalGravity;
 
             }
             else if (Actions.shattered && hitStun > 0)
             {
                 //reward attacker for landing a shattering attack
-                rb.gravityScale = .7f;
+                rb.gravityScale = .7f * Actions.originalGravity;
                 anim.SetFloat(animSpeedID, .75f);
             }
             else
@@ -253,7 +253,7 @@ public class HitDetector : MonoBehaviour
                     Actions.blitzed = 0;
                 }
                 rb.mass = Actions.Move.weight;
-                rb.gravityScale = Actions.gravScale;
+                rb.gravityScale = Actions.originalGravity * Actions.gravScale;
                 anim.SetFloat(animSpeedID, 1f);
             }
 

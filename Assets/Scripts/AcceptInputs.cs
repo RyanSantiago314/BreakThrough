@@ -39,7 +39,7 @@ public class AcceptInputs : MonoBehaviour
     public bool backThrow = false;
 
     int throwInvulnCounter;
-
+    public float originalGravity;
     public float gravScale = 1f;
     public int comboHits = 0;
 

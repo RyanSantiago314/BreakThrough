@@ -230,7 +230,7 @@ public class MovementHandler : MonoBehaviour
                 else
                     anim.SetBool(crouchID, false);
 
-                if (Actions.acceptMove && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)) && !Actions.airborne && !anim.GetBool(runID))
+                if (Actions.acceptMove && Actions.standing && !anim.GetBool(crouchID) && ((MaxInput.GetAxis(Horizontal) > 0 && facingRight) || (MaxInput.GetAxis(Horizontal) < 0 && !facingRight)) && !Actions.airborne && !anim.GetBool(runID))
                 {
                     anim.SetBool(walkFID, true);
                 }
@@ -239,7 +239,7 @@ public class MovementHandler : MonoBehaviour
                     anim.SetBool(walkFID, false);
                 }
 
-                if (Actions.acceptMove && ((MaxInput.GetAxis(Horizontal) < 0 && facingRight) || (MaxInput.GetAxis(Horizontal) > 0 && !facingRight)) && !Actions.airborne && !backDash)
+                if (Actions.acceptMove && Actions.standing && !anim.GetBool(crouchID) && ((MaxInput.GetAxis(Horizontal) < 0 && facingRight) || (MaxInput.GetAxis(Horizontal) > 0 && !facingRight)) && !Actions.airborne && !backDash)
                 {
                     if (GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().dummyState == "Guard" && transform.parent.name == "Player2")
                     {
@@ -625,7 +625,7 @@ public class MovementHandler : MonoBehaviour
             else if (Actions.airborne && opponentMove.Actions.airborne && HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0)
             {
                 pushBox.isTrigger = false;
-                if (transform.position.y < opponent.position.y)
+                if (transform.position.y < opponent.position.y && opponent.position.y - transform.position.y > .5f * pushBox.size.y + .5f * opponentMove.pushBox.size.y)
                 {
                     if (transform.position.x < opponent.position.x - .05f)
                         transform.position = new Vector3(opponent.position.x - (.51f * pushBox.size.x + .5f * opponentMove.pushBox.size.x), transform.position.y, transform.position.z);
