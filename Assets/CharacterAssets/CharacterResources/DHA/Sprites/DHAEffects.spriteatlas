@@ -191,11 +191,11 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 04c36ed2566b67142b97d18774ce32ff, type: 3}
     - {fileID: 2800000, guid: 1a6b4b0c8105ba049930dfec237bb562, type: 3}
     - {fileID: 2800000, guid: c0402a421382aeb4096e9c58e69d3542, type: 3}
-    totalSpriteSurfaceArea: 680620459
+    totalSpriteSurfaceArea: 682870459
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: 04870e8c099aeddeb3c857f86d6bb443
+      Hash: 80c091d4f51e5ca7f1f139d788560470
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 77a66e102ae9399428c326060afc0b96, type: 3}
@@ -221,6 +221,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: caf6b4228d221874e9ab7cad114e132b, type: 3}
   - {fileID: 21300000, guid: 87245c223036111408be4e2ca2003ef3, type: 3}
   - {fileID: 21300000, guid: c68a9a329f8e9a4459a6e4b3b37f0fdd, type: 3}
+  - {fileID: 21300000, guid: c0402a421382aeb4096e9c58e69d3542, type: 3}
   - {fileID: 21300000, guid: f85170628ba66c949b1046fbc81231ed, type: 3}
   - {fileID: 21300000, guid: c9b51282285fc6d42a913530075fb86c, type: 3}
   - {fileID: 21300000, guid: 61635eb234469bd4aac6ada0e28ad662, type: 3}
@@ -370,6 +371,7 @@ SpriteAtlas:
   - BaguetteBeam_08
   - jH3_02 (just smear)
   - 6BSin_03
+  - DHASigil
   - ThrowSin_13
   - Flash_03
   - Explosion_01

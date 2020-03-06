@@ -5532,6 +5532,7 @@ MonoBehaviour:
   grabbed: 0
   throwTech: 0
   backThrow: 0
+  originalGravity: 1
   gravScale: 1
   comboHits: 0
   anim: {fileID: 575799686}
@@ -7974,6 +7975,7 @@ MonoBehaviour:
   grabbed: 0
   throwTech: 0
   backThrow: 0
+  originalGravity: 1.15
   gravScale: 1
   comboHits: 0
   anim: {fileID: 1026248757}
@@ -13096,7 +13098,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1653018568}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13106,7 +13108,7 @@ Transform:
   - {fileID: 553312508}
   m_Father: {fileID: 1817658470}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1653018570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13161,7 +13163,7 @@ MonoBehaviour:
     rgba: 0
   opponent: {fileID: 0}
   OpponentProperties: {fileID: 0}
-  weight: 0.52
+  weight: 0.53
   walkSpeed: 1.5
   walkBackSpeed: 1.3
   backDashForce: 1.5
@@ -13282,7 +13284,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.52
+  m_Mass: 0.53
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 1
@@ -15964,13 +15966,13 @@ MonoBehaviour:
     rgba: 11161855
   opponent: {fileID: 0}
   OpponentProperties: {fileID: 0}
-  weight: 0.575
-  walkSpeed: 2.5
+  weight: 0.53
+  walkSpeed: 2.25
   walkBackSpeed: 2
   backDashForce: 2
-  runAcceleration: 0.17
+  runAcceleration: 0.15
   jumpPower: 4.2
-  maxVelocity: 6
+  maxVelocity: 5
   maxJumps: 2
   jumps: 0
   minPosY: 1.1
@@ -16000,7 +16002,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.575
+  m_Mass: 0.53
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 1
