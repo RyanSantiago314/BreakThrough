@@ -6,12 +6,19 @@ using System.Linq;
 
 public class AI : MonoBehaviour
 {
+    /* ----------TO DO------------
+    - How the AI deals with charging attacks
+    - Fix the delays when you get hitstop for combo inputs
+    - Knows what characters p1 and p2 are
+
+    */
     // Character specific AI
     //bool isDhalia;
 
     // Player data
     int pArmor;
     int pDurability;
+    int pCharging;
     float pHealth;
     double p1x;
     double p1y;
@@ -28,7 +35,7 @@ public class AI : MonoBehaviour
     string pGuard;
 
     // AI data
-    int armor;
+    public int armor;
     int durability;
     float health;
     double p2x;
@@ -73,7 +80,12 @@ public class AI : MonoBehaviour
     private MaxInput MaxInput;
     private CharacterProperties PlayerProp;
     private CharacterProperties AIProp;
-
+    private GameObject playerInput;
+    private GameObject playerHit;
+    private GameObject aiInput;
+    private GameObject aiHit;
+    private SelectedCharacterManager p1Character;
+    private SelectedCharacterManager p2Character;
 
     public Dictionary<string, double> states = new Dictionary<string, double>();
     public Dictionary<string, double> attackStates = new Dictionary<string, double>();
@@ -140,6 +152,10 @@ public class AI : MonoBehaviour
         }
         PlayerProp = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
         AIProp = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
+        playerInput = GameObject.Find("Player1").transform.GetChild(0).GetChild(0).gameObject;
+        playerHit = GameObject.Find("Player1").transform.GetChild(0).GetChild(2).gameObject;
+        aiInput = GameObject.Find("Player2").transform.GetChild(0).GetChild(0).gameObject;
+        aiHit = GameObject.Find("Player2").transform.GetChild(0).GetChild(2).gameObject;
 
         states.Add("Attack", 0);
         states.Add("Defend", 0);
@@ -488,7 +504,7 @@ public class AI : MonoBehaviour
         }
 
         //Foward Dash
-        if (rand.NextDouble() * distanceBetweenX * 100 >= 160)
+        if (rand.NextDouble() * distanceBetweenX * 100 >= 140)
         {
             if(faceLeft)
             {
@@ -538,9 +554,10 @@ public class AI : MonoBehaviour
         if (isAttacking) states["Attack"] -= 1;
         if (distanceBetweenX > 2 && rand.Next(101) <= 5) states["Attack"] += 1.5 * distanceBetweenX;
 
-        if (pIsAttacking) states["Defend"] += 3;
-        if (pIsActive) states["Defend"] += 3;
+        if (pIsAttacking) states["Defend"] += 2;
+        if (pIsActive) states["Defend"] += 1;
         if (pIsSupering) states["Defend"] += 4;
+        states["Defend"] += pCharging / 2;
 
         // The farther away, the more likely to move closer
         states["Approach"] += distanceBetweenX * .8 + distanceBetweenY * 2;
@@ -550,15 +567,16 @@ public class AI : MonoBehaviour
     void updateProperties()
     {
         // Getting all the current player data
+
+
         pArmor = PlayerProp.armor;
         pDurability = PlayerProp.durability;
-
-        GameObject playerInput = GameObject.Find("Player1").transform.GetChild(0).GetChild(0).gameObject;
-        GameObject playerHit = GameObject.Find("Player1").transform.GetChild(0).GetChild(2).gameObject;
+        pCharging = playerInput.GetComponent<HitboxDHA>().sinCharge;
 
         pIsBlocking = playerInput.GetComponent<Animator>().GetBool("Blocked");
         pIsAirborne = playerInput.GetComponent<AcceptInputs>().airborne;
         pIsCrouching = playerInput.GetComponent<Animator>().GetBool("Crouch");
+
         pIsAttacking = playerInput.GetComponent<AcceptInputs>().attacking;
         pIsActive = playerInput.GetComponent<AcceptInputs>().active;
         pIsRecovering = playerInput.GetComponent<AcceptInputs>().recovering;
@@ -574,8 +592,7 @@ public class AI : MonoBehaviour
         p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x;
         p1y = GameObject.Find("Player1").transform.GetChild(0).transform.position.y;
 
-        GameObject aiInput = GameObject.Find("Player2").transform.GetChild(0).GetChild(0).gameObject;
-        GameObject aiHit = GameObject.Find("Player2").transform.GetChild(0).GetChild(2).gameObject;
+
 
         // Getting all the current AI data
         armor = AIProp.armor;

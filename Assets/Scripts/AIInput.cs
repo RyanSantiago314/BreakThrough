@@ -309,7 +309,7 @@ public class AIInput : MonoBehaviour
             MaxInput.Circle("Player2");
 
             AI.doing2H_1 = 3;
-            AI.delayTimer = .43f;
+            AI.delayTimer = .5f;
         }
 
         // Step 3: Jump Left/Right
@@ -326,7 +326,7 @@ public class AIInput : MonoBehaviour
             MaxInput.Jump("Player2");
 
             AI.doing2H_1 = 4;
-            AI.delayTimer = .2f;
+            AI.delayTimer = .1f;
             AI.keepInput = false;
         }
 
@@ -354,7 +354,7 @@ public class AIInput : MonoBehaviour
             MaxInput.Jump("Player2");
 
             AI.doing2H_1 = 9;
-            AI.delayTimer = .2f;
+            AI.delayTimer = .1f;
         }
 
         // Step 9 - 11: J.H
@@ -363,7 +363,7 @@ public class AIInput : MonoBehaviour
             MaxInput.Circle("Player2");
 
             AI.doing2H_1++;
-            AI.delayTimer = .2f;
+            AI.delayTimer = .25f;
         }
 
         else if (AI.doing2H_1 == 12 && AI.pIsHitstun)
@@ -371,16 +371,31 @@ public class AIInput : MonoBehaviour
             MaxInput.Cross("Player2");
 
             AI.doing2H_1 = 13;
-            AI.delayTimer = .2f;
+            AI.delayTimer = .18f;
         }
 
         else if (AI.doing2H_1 == 13 && AI.pIsHitstun)
         {
-            AI.doing2H_1 = 0;
+            AI.doing2H_1 = 14;
 
             AI.keepAction = "Circle";
             AI.doingQCB = 1;
             QCB();
+        }
+
+        else if (AI.doing2H_1 == 14 && AI.pIsHitstun)
+        {
+            AI.doing2H_1 = 15;
+            AI.delayTimer = 1.25f;
+        }
+
+        else if (AI.doing2H_1 == 15 && AI.pIsHitstun && AI.armor >= 2)
+        {
+            AI.doing2H_1 = 0;
+
+            AI.keepAction = "RTrigger";
+            AI.doingQCF = 1;
+            AI.AIInput.QCF();
         }
 
         else

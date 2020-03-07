@@ -902,6 +902,7 @@ MonoBehaviour:
   grabbed: 0
   throwTech: 0
   backThrow: 0
+  originalGravity: 1
   gravScale: 1
   comboHits: 0
   anim: {fileID: 5672348970482479195}
