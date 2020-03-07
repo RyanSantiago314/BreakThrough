@@ -144,10 +144,20 @@ public class PracticeMode : MonoBehaviour
             switch (PracticeModeSettings.GetComponent<PauseMenu>().CPUAirRecover)
             {
                 case 0:
-                    enableCPUAirTech = true;
+                    enableCPUAirTech = false;
                     break;
                 case 1:
-                    enableCPUAirTech = false;
+                    enableCPUAirTech = true;
+                    break;
+            }
+
+            switch (PracticeModeSettings.GetComponent<PauseMenu>().CPUGroundGuard)
+            {
+                case 0:
+                    enableGuardAfterFirstHit = false;
+                    break;
+                case 1:
+                    enableGuardAfterFirstHit = true;
                     break;
             }
 
@@ -194,7 +204,7 @@ public class PracticeMode : MonoBehaviour
                 }
                 if (P2Prop.HitDetect.comboCount == 0)
                 {
-                    P1Prop.currentHealth = P1Prop.maxHealth * (P1ValorSetting/100f);
+                    P1Prop.currentHealth = P1Prop.maxHealth * (P1ValorSetting / 100f);
                     //P1inCombo = false;
                     P2CurrentHitDamage = 0;
                     P1PrevHealth = P1Prop.currentHealth;
@@ -208,7 +218,7 @@ public class PracticeMode : MonoBehaviour
                 }
                 if (P1Prop.HitDetect.comboCount == 0)
                 {
-                    P2Prop.currentHealth = P2Prop.maxHealth * (P2ValorSetting/ 100f);
+                    P2Prop.currentHealth = P2Prop.maxHealth * (P2ValorSetting / 100f);
                     P2inCombo = false;
                     P1CurrentHitDamage = 0;
                     P2PrevHealth = P2Prop.currentHealth;
@@ -343,8 +353,12 @@ public class PracticeMode : MonoBehaviour
                     {
                         MaxInput.Cross("Player2");
                         P2inAirTrueCombo = false;
-                    }
+                    }                  
+                }
 
+                //CPU ground guard after first hit
+                if (enableGuardAfterFirstHit && dummyState != "Player" && dummyState != "CPU")
+                {
                     //(On Ground) Guard if in combo, hitstun = 0, and Player is still in the middle of an attack
                     if (P2Prop.HitDetect.hitStun > 0)
                     {
