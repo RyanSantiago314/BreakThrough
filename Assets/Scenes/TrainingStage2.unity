@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657916, g: 0.49641287, b: 0.57481915, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657922, g: 0.4964128, b: 0.57481915, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -611,6 +611,7 @@ MonoBehaviour:
   PracticeModeSettings: {fileID: 1816309730}
   enableArmorRefill: 1
   enableCPUAirTech: 1
+  enableGuardAfterFirstHit: 0
   dummyState: Stand
   P1ValorSetting: 100
   P2ValorSetting: 100
@@ -620,6 +621,8 @@ MonoBehaviour:
   P2ComboDamage: {fileID: 1503437455}
   P1HighComboDamage: {fileID: 1119362499}
   P2HighComboDamage: {fileID: 2078527517}
+  P1HitType: {fileID: 300914593}
+  P2HitType: {fileID: 190983066}
   DamageDisplays: {fileID: 2131062274}
   P1Displays: {fileID: 1609458486}
   P2Displays: {fileID: 1878893716}
@@ -961,6 +964,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 25}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &190983066 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8094539978171423737, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 5660124816909190397}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &193802020
 GameObject:
   m_ObjectHideFlags: 0
@@ -1979,6 +1994,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 283179692}
   m_CullTransparentMesh: 0
+--- !u!114 &300914593 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4785139128332783483, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 5660124816909190397}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &329153991
 GameObject:
   m_ObjectHideFlags: 0
@@ -3220,6 +3247,7 @@ MonoBehaviour:
   P2Color: 2
   P1Side: Left
   P2Side: Right
+  CPUDifficulty: 50
 --- !u!4 &500688648
 Transform:
   m_ObjectHideFlags: 0
@@ -13654,6 +13682,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 18614877327435223, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 714.49
+      objectReference: {fileID: 0}
     - target: {fileID: 958934907288451922, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
         type: 3}
       propertyPath: m_Camera
@@ -13684,6 +13717,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3669784695140853204, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 625.4
+      objectReference: {fileID: 0}
     - target: {fileID: 6388565804656750143, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
         type: 3}
       propertyPath: m_Name
@@ -13693,6 +13731,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8094539978171423737, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
+        type: 3}
+      propertyPath: m_Text
+      value: 'Guard Level:'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ab7bc3416871a94a80b2827c03fc0bc, type: 3}

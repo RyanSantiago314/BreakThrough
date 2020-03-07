@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MenuInputManager : MonoBehaviour
 {
@@ -25,9 +26,11 @@ public class MenuInputManager : MonoBehaviour
 	public Slider MasterSlider;
 	public Slider VoiceSlider;
 	public Slider EffectsSlider;
+    public Slider CPUDifficultySlider;
 	private MainMenu menu;
 	private string state;
 	private bool isXbox;
+    private bool resetDifficulty;
     public GameObject sideSelectScreen;
     private string mode;
     public GameObject P1Controller;
@@ -534,6 +537,18 @@ public class MenuInputManager : MonoBehaviour
                     break;
             }
         }
+
+        //Update CPU Difficulty
+        if (SceneManager.GetActiveScene().name == "MainMenu" && resetDifficulty == false)
+        {
+            CPUDifficultySlider.value = 50;
+            resetDifficulty = true;
+        }
+        else if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            resetDifficulty = false;
+        }
+        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().CPUDifficulty = CPUDifficultySlider.value;
     }
 
     private bool CheckXbox(int player)

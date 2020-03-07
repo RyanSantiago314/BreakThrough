@@ -32,6 +32,7 @@ public class PracticeMode : MonoBehaviour
 
     public bool enableArmorRefill = true;
     public bool enableCPUAirTech;
+    public bool enableGuardAfterFirstHit;
     public string dummyState = "Stand";
 
     public int P1ValorSetting = 100;
@@ -52,6 +53,8 @@ public class PracticeMode : MonoBehaviour
     public Text P2ComboDamage;
     public Text P1HighComboDamage;
     public Text P2HighComboDamage;
+    public Text P1HitType;
+    public Text P2HitType;
 
     public GameObject DamageDisplays;
     public GameObject P1Displays;
@@ -98,7 +101,6 @@ public class PracticeMode : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(P1Prop.HitDetect.guard);
         //Practice Mode Handler
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
@@ -214,7 +216,7 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 //Manage Hit/Combo Damage/Hit Type Display
-                //Display Current hit/Current Combo Damage damage
+                //Display Current hit damage/Current Combo damage/Current Hit Type
                 if (P2Prop.currentHealth < P2PrevHealth)
                 {
                     P1CurrentHitDamage = P2PrevHealth - P2Prop.currentHealth;
@@ -223,6 +225,8 @@ public class PracticeMode : MonoBehaviour
                     P1HitDamage.text += P1CurrentHitDamage;
                     P1ComboDamage.text = "Total Damage : ";
                     P1ComboDamage.text += P1CurrentComboTotalDamage;
+                    P1HitType.text = "Guard Level: ";
+                    P1HitType.text += P1Prop.HitDetect.guard;
                     P2PrevHealth = P2Prop.currentHealth;
 
                     P2CurrentHitDamage = P2PrevHealth - P2Prop.currentHealth;
@@ -230,15 +234,19 @@ public class PracticeMode : MonoBehaviour
                     P2HitDamage.text = "Damage: ";
                     P2HitDamage.text += P1CurrentHitDamage;
                     P2ComboDamage.text = "Total Damage: ";
+                    P2HitType.text = "Guard Level: ";
+                    P2HitType.text += P1Prop.HitDetect.guard;
                     P2ComboDamage.text += P1CurrentComboTotalDamage;
                 }
                 if (HUD.Player1Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
                 {
                     P1HitDamage.text = "";
+                    P1HitType.text = "";
                 }
                 if (HUD.Player2Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
                 {
                     P2HitDamage.text = "";
+                    P2HitType.text = "";
                 }
                 //Update Highest Combo Damage
                 if (P1CurrentComboTotalDamage > P1HighestComboDamage)
@@ -251,8 +259,6 @@ public class PracticeMode : MonoBehaviour
                     P2HighComboDamage.text = "Highest Combo Damage: ";
                     P2HighComboDamage.text += P1HighestComboDamage;
                 }
-                //Display Current Hit Type (Mid, Low, Overhead, Unblockable)
-
 
                 //Handle Dummy State
                 p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x;
