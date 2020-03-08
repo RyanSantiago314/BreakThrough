@@ -32,6 +32,7 @@ public class AI : MonoBehaviour
     public bool pIsBlockstun;
     bool pIsSupering;
     string pAttackingGuard;
+    string pCharacter;
     string pGuard;
 
     // AI data
@@ -51,6 +52,7 @@ public class AI : MonoBehaviour
     bool pauseAI;
     public bool keepInput;
     public string keepAction;
+    string aiCharacter;
 
     // Command inputs
     public int doingQCF;
@@ -84,8 +86,7 @@ public class AI : MonoBehaviour
     private GameObject playerHit;
     private GameObject aiInput;
     private GameObject aiHit;
-    private SelectedCharacterManager p1Character;
-    private SelectedCharacterManager p2Character;
+    private SelectedCharacterManager characterManager;
 
     public Dictionary<string, double> states = new Dictionary<string, double>();
     public Dictionary<string, double> attackStates = new Dictionary<string, double>();
@@ -106,6 +107,7 @@ public class AI : MonoBehaviour
         pIsBlockstun = false;
         pIsSupering = false;
         pAttackingGuard = "";
+        pCharacter = "";
         pGuard = "";
 
         // AI data
@@ -120,6 +122,7 @@ public class AI : MonoBehaviour
         pauseAI = false;
         keepInput = false;
         keepAction = "";
+        aiCharacter = "";
 
         // Command inputs
         doingQCF = 0;
@@ -156,6 +159,7 @@ public class AI : MonoBehaviour
         playerHit = GameObject.Find("Player1").transform.GetChild(0).GetChild(2).gameObject;
         aiInput = GameObject.Find("Player2").transform.GetChild(0).GetChild(0).gameObject;
         aiHit = GameObject.Find("Player2").transform.GetChild(0).GetChild(2).gameObject;
+        characterManager = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>();
 
         states.Add("Attack", 0);
         states.Add("Defend", 0);
@@ -567,7 +571,7 @@ public class AI : MonoBehaviour
     void updateProperties()
     {
         // Getting all the current player data
-
+        pCharacter = characterManager.P1Character;
 
         pArmor = PlayerProp.armor;
         pDurability = PlayerProp.durability;
@@ -592,9 +596,9 @@ public class AI : MonoBehaviour
         p1x = GameObject.Find("Player1").transform.GetChild(0).transform.position.x;
         p1y = GameObject.Find("Player1").transform.GetChild(0).transform.position.y;
 
-
-
         // Getting all the current AI data
+        aiCharacter = characterManager.P2Character;
+
         armor = AIProp.armor;
         durability = AIProp.durability;
         health = AIProp.currentHealth;
