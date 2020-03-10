@@ -254,8 +254,6 @@ public class AI : MonoBehaviour
     // AI attacking player, attacking has it's own internal state system
     void attack()
     {
-        Debug.Log("attack state");
-
         calculateAttackWeights();
         var rand = new System.Random().Next(101);    // Random int from 0 to 100
 
@@ -378,7 +376,6 @@ public class AI : MonoBehaviour
             // If very close to the player, attempt to grab
             if (maxAttack == "Grab")
             {
-                //Debug.Log("grabbed");
                 MaxInput.LBumper("Player2");
             }
 
@@ -434,28 +431,31 @@ public class AI : MonoBehaviour
     // AI defending attacks based off of direction
     void defend()
     {
-        if (pAttackingGuard == "Low")
+        if (aiCharacter == "Dhalia")
         {
-            if (faceLeft)
+            if (pAttackingGuard == "Low")
             {
-                MaxInput.Crouch("Player2");
-                MaxInput.MoveRight("Player2");
+                if (faceLeft)
+                {
+                    MaxInput.Crouch("Player2");
+                    MaxInput.MoveRight("Player2");
+                }
+                else
+                {
+                    MaxInput.Crouch("Player2");
+                    MaxInput.MoveLeft("Player2");
+                }
             }
             else
             {
-                MaxInput.Crouch("Player2");
-                MaxInput.MoveLeft("Player2");
-            }
-        }
-        else
-        {
-            if (faceLeft)
-            {
-                MaxInput.MoveRight("Player2");
-            }
-            else
-            {
-                MaxInput.MoveLeft("Player2");
+                if (faceLeft)
+                {
+                    MaxInput.MoveRight("Player2");
+                }
+                else
+                {
+                    MaxInput.MoveLeft("Player2");
+                }
             }
         }
     }
@@ -466,16 +466,13 @@ public class AI : MonoBehaviour
         var rand = new System.Random();
 
         //If ai is not crouching, back dashing, or combo-ing, move in direction of player
-        if (!isCrouching && !finishMove && !finishDash)
+        if (faceLeft)
         {
-            if (faceLeft)
-            {
-                MaxInput.MoveLeft("Player2");
-            }
-            else
-            {
-                MaxInput.MoveRight("Player2");
-            }
+            MaxInput.MoveLeft("Player2");
+        }
+        else
+        {
+            MaxInput.MoveRight("Player2");
         }
 
         //Foward Dash
