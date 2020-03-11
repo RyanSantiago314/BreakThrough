@@ -51,6 +51,8 @@ public class AcceptInputs : MonoBehaviour
     SpriteRenderer sprite;
     MovementHandler opponentMove;
 
+    AnimatorStateInfo currentState;
+
     static int airID;
     static int standID;
     static int crouchID;
@@ -85,6 +87,7 @@ public class AcceptInputs : MonoBehaviour
 
     void Update()
     {
+        currentState = anim.GetCurrentAnimatorStateInfo(0);
         //draws the defending character first to allow visibility on attacking character
         if (shattered && CharProp.currentHealth > 0)
             sprite.sortingOrder = 2;
@@ -102,12 +105,12 @@ public class AcceptInputs : MonoBehaviour
         }
         anim.SetInteger(landLagID, landingLag);
 
-        if (anim.GetBool(dizzyID) || grabbed || Move.HitDetect.hitStun > 0 || anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected"))
+        if (anim.GetBool(dizzyID) || grabbed || Move.HitDetect.hitStun > 0 || currentState.IsName("Deflected"))
         {
             DisableAll();
             DisableBlitz();
             bursting = false;
-            if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected"))
+            if(!currentState.IsName("Deflected"))
             {
                 armorActive = false;
                 attacking = false;
@@ -132,7 +135,7 @@ public class AcceptInputs : MonoBehaviour
             throwInvincible = false;
         }
 
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("ThrowReject") || anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup"))
+        if (currentState.IsName("ThrowReject") || currentState.IsName("FUGetup") || currentState.IsName("FDGetup"))
             throwInvulnCounter = 8;
 
         if (superFlash > 0 && !Move.HitDetect.pauseScreen.isPaused)
@@ -142,14 +145,14 @@ public class AcceptInputs : MonoBehaviour
 
 
         //change character properties based on current animation state
-        if (airborne || anim.GetCurrentAnimatorStateInfo(0).IsName("SweepHit"))
+        if (airborne || currentState.IsName("SweepHit"))
             standing = false;
 
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") || anim.GetCurrentAnimatorStateInfo(0).IsName("IdleCrouch") || anim.GetCurrentAnimatorStateInfo(0).IsName("StandUp"))
+        if (currentState.IsName("IdleStand") || currentState.IsName("IdleCrouch") || currentState.IsName("StandUp"))
         {
             standing = true;           
         }
-        else if (anim.GetCurrentAnimatorStateInfo(0).IsName("FUGetup") || anim.GetCurrentAnimatorStateInfo(0).IsName("FDGetup"))
+        else if (currentState.IsName("FUGetup") || currentState.IsName("FDGetup"))
         {
             standing = true;
             Move.HitDetect.hitStun = 0;

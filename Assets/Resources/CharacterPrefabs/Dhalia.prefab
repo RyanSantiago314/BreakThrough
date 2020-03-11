@@ -147,7 +147,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.53
+  m_Mass: 0.55
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 1
@@ -902,6 +902,7 @@ MonoBehaviour:
   grabbed: 0
   throwTech: 0
   backThrow: 0
+  originalGravity: 1
   gravScale: 1
   comboHits: 0
   anim: {fileID: 5672348970482479195}
