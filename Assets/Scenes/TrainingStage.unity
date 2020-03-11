@@ -8034,7 +8034,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitDetect: {fileID: 515295540}
-  colorNum: 0
+  colorNum: 2
 --- !u!1 &1038406950
 GameObject:
   m_ObjectHideFlags: 0
@@ -16002,7 +16002,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.53
+  m_Mass: 0.55
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 1

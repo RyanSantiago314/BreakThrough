@@ -567,9 +567,10 @@ public class ProjectileHitDetector : MonoBehaviour
             OpponentDetector.Actions.wallBounce = allowWallBounce;
 
 
-            if (allowWallStick && OpponentDetector.Actions.wallStick == 0)
+            if (allowWallStick && !HitDetect.usedWallStick && OpponentDetector.Actions.wallStick == 0)
             {
                 OpponentDetector.Actions.wallStick = 4;
+                HitDetect.usedWallStick = true;
             }
             else if (OpponentDetector.Actions.wallStick > 0)
             {
@@ -589,11 +590,20 @@ public class ProjectileHitDetector : MonoBehaviour
         else if (!OpponentDetector.Actions.grabbed)
         {
             OpponentDetector.hitStun = potentialHitStun;
-            if (OpponentDetector.Actions.airborne && !usingSpecial && !usingSuper)
+            if (OpponentDetector.Actions.airborne && usingSpecial)
+            {
+                if (Actions.Move.OpponentProperties.comboTimer > 16)
+                    OpponentDetector.hitStun = 7 * potentialHitStun / 10;
+                else if (Actions.Move.OpponentProperties.comboTimer >= 13)
+                    OpponentDetector.hitStun = 8 * potentialHitStun / 10;
+                else if (Actions.Move.OpponentProperties.comboTimer > 10)
+                    OpponentDetector.hitStun = 9 * potentialHitStun / 10;
+            }
+            else if (OpponentDetector.Actions.airborne && !usingSuper)
             {
                 if (Actions.Move.OpponentProperties.comboTimer > 16)
                     OpponentDetector.hitStun = 6 * potentialHitStun / 10;
-                if (Actions.Move.OpponentProperties.comboTimer >= 13)
+                else if (Actions.Move.OpponentProperties.comboTimer >= 13)
                     OpponentDetector.hitStun = 7 * potentialHitStun / 10;
                 else if (Actions.Move.OpponentProperties.comboTimer > 10)
                     OpponentDetector.hitStun = 8 * potentialHitStun / 10;

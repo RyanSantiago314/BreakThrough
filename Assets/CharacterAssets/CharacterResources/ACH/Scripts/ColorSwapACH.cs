@@ -142,6 +142,7 @@ public class ColorSwapACH : MonoBehaviour
             ColorSwap(SwapIndex.Wrap, new Color32(132, 78, 74, 255));
             ColorSwap(SwapIndex.ShoesGloves, new Color32(130, 114, 114, 255));
             ColorSwap(SwapIndex.HipArmor, new Color32(164, 117, 97, 255));
+            ColorSwap(SwapIndex.HipCloth, new Color32(166, 115, 114, 255));
             ColorSwap(SwapIndex.Belt, new Color32(132, 58, 55, 255));
             ColorSwap(SwapIndex.BeltTrim, new Color32(195, 166, 124, 255));
             ColorSwap(SwapIndex.Pants, new Color32(197, 200, 193, 255));
