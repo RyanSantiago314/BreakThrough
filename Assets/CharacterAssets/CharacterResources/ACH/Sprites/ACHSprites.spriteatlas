@@ -51,6 +51,13 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 7f388dd132de0154f8f45a6fafba20ae, type: 3}
     - {fileID: 2800000, guid: 06deb2ca27ba72a4f84a9c80f44ce018, type: 3}
     - {fileID: 2800000, guid: 21b6b9a7e4484c84fbab40a81fbf7bb9, type: 3}
+    - {fileID: 2800000, guid: b90514af920dde445a3a8164f318659e, type: 3}
+    - {fileID: 2800000, guid: 8240c4db297e80f4fbbf4742c5c8ed2c, type: 3}
+    - {fileID: 2800000, guid: d4ebbc909efffdc4293448e9ff0bf091, type: 3}
+    - {fileID: 2800000, guid: 9f0596651fd92bd4d8d0251786ec0b32, type: 3}
+    - {fileID: 2800000, guid: 6b16d34c48fb4f0429fee7ba6e31d632, type: 3}
+    - {fileID: 2800000, guid: bc26378ecca44bd4287e56b49398ecae, type: 3}
+    - {fileID: 2800000, guid: ac53b708123a9ff47b1124dc59edc3f5, type: 3}
     totalSpriteSurfaceArea: 70290000
     bindAsDefault: 1
     storedHash:

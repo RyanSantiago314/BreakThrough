@@ -358,6 +358,7 @@ public class MovementHandler : MonoBehaviour
             else
                 rb.velocity = new Vector2(.5f * rb.velocity.x, 0);
             Actions.airborne = true;
+            Actions.standing = false;
 
             if (MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
             {
