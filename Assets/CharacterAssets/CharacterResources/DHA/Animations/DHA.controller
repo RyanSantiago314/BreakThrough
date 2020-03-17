@@ -3927,7 +3927,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: HitStun
-    m_EventTreshold: 4
+    m_EventTreshold: 5
   - m_ConditionMode: 3
     m_ConditionEvent: AnimSpeed
     m_EventTreshold: 0.35

@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HitSH
+  m_Name: HitC
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,11 +20,11 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: b3cfee48c282fab4f873c29b4e86fb32, type: 3}
-    - time: 0.016666668
-      value: {fileID: 21300000, guid: 129db882c999d88418f61b02d66ec9a2, type: 3}
-    - time: 0.05
-      value: {fileID: 21300000, guid: d4d61ba77d4a48c4ba1043b3386d4ff8, type: 3}
+      value: {fileID: 21300000, guid: 543a151aff845064099804daf07a5f58, type: 3}
+    - time: 0.033333335
+      value: {fileID: 21300000, guid: 499e19d5a8c177b4abcc0d16b60d3f6d, type: 3}
+    - time: 0.083333336
+      value: {fileID: 21300000, guid: 3c4d411dc35add54aa2dd0c23bc0fb67, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,15 +44,15 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: b3cfee48c282fab4f873c29b4e86fb32, type: 3}
-    - {fileID: 21300000, guid: 129db882c999d88418f61b02d66ec9a2, type: 3}
-    - {fileID: 21300000, guid: d4d61ba77d4a48c4ba1043b3386d4ff8, type: 3}
+    - {fileID: 21300000, guid: 543a151aff845064099804daf07a5f58, type: 3}
+    - {fileID: 21300000, guid: 499e19d5a8c177b4abcc0d16b60d3f6d, type: 3}
+    - {fileID: 21300000, guid: 3c4d411dc35add54aa2dd0c23bc0fb67, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.06666667
+    m_StopTime: 0.1
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -73,14 +73,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: Standing
+    functionName: ClearHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0
-    functionName: ClearHitBox
+    functionName: Crouching
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

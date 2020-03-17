@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HitSH
+  m_Name: HitCOut
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,11 +20,13 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: b3cfee48c282fab4f873c29b4e86fb32, type: 3}
+      value: {fileID: 21300000, guid: a238786a2ca1ef84eac9133730f7157b, type: 3}
     - time: 0.016666668
-      value: {fileID: 21300000, guid: 129db882c999d88418f61b02d66ec9a2, type: 3}
+      value: {fileID: 21300000, guid: 68f0653a2d931ad4f92f176ea67471e5, type: 3}
+    - time: 0.033333335
+      value: {fileID: 21300000, guid: 16df4dbef0a898149b2281a1bfe7da5e, type: 3}
     - time: 0.05
-      value: {fileID: 21300000, guid: d4d61ba77d4a48c4ba1043b3386d4ff8, type: 3}
+      value: {fileID: 21300000, guid: 342a8495b582d12479495c9949f98862, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,9 +46,10 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: b3cfee48c282fab4f873c29b4e86fb32, type: 3}
-    - {fileID: 21300000, guid: 129db882c999d88418f61b02d66ec9a2, type: 3}
-    - {fileID: 21300000, guid: d4d61ba77d4a48c4ba1043b3386d4ff8, type: 3}
+    - {fileID: 21300000, guid: a238786a2ca1ef84eac9133730f7157b, type: 3}
+    - {fileID: 21300000, guid: 68f0653a2d931ad4f92f176ea67471e5, type: 3}
+    - {fileID: 21300000, guid: 16df4dbef0a898149b2281a1bfe7da5e, type: 3}
+    - {fileID: 21300000, guid: 342a8495b582d12479495c9949f98862, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -71,25 +74,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0
-    functionName: Standing
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
-    functionName: ClearHitBox
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
-    functionName: TurnAroundCheck
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []
