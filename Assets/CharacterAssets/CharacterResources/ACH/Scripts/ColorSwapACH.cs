@@ -19,6 +19,22 @@ public class ColorSwapACH : MonoBehaviour
     public enum SwapIndex
     {
         Outline = 1,
+        Skin = 200,
+        Hair = 60,
+        Seals = 85,
+        Eyes = 141,
+        Wrap = 94,
+        ShoesGloves = 119,
+        HipArmor = 129,
+        HipCloth = 130,
+        Belt = 80,
+        BeltTrim = 170,
+        Pants = 198,
+        MetalOrnaments = 201,
+        SpearheadSoles = 81,
+        SpearBodyStraps = 97,
+        SpearEdge = 230,
+        SpearCloth = 134,
     }
     // Start is called before the first frame update
     void Start()
@@ -119,34 +135,43 @@ public class ColorSwapACH : MonoBehaviour
         if (colorNum == 2)
         {
             ColorSwap(SwapIndex.Outline, new Color32(0, 0, 0, 255));
+            ColorSwap(SwapIndex.Hair, new Color32(64, 59, 56, 255));
+            ColorSwap(SwapIndex.Eyes, new Color32(175, 134, 90, 255));
+            ColorSwap(SwapIndex.Skin, new Color32(243, 188, 147, 255));
+            ColorSwap(SwapIndex.Seals, new Color32(51, 92, 140, 255));
+            ColorSwap(SwapIndex.Wrap, new Color32(132, 78, 74, 255));
+            ColorSwap(SwapIndex.ShoesGloves, new Color32(130, 114, 114, 255));
+            ColorSwap(SwapIndex.HipArmor, new Color32(164, 117, 97, 255));
+            ColorSwap(SwapIndex.HipCloth, new Color32(166, 115, 114, 255));
+            ColorSwap(SwapIndex.Belt, new Color32(132, 58, 55, 255));
+            ColorSwap(SwapIndex.BeltTrim, new Color32(195, 166, 124, 255));
+            ColorSwap(SwapIndex.Pants, new Color32(197, 200, 193, 255));
+            ColorSwap(SwapIndex.MetalOrnaments, new Color32(235, 195, 144, 255));
+            ColorSwap(SwapIndex.SpearheadSoles, new Color32(81, 81, 81, 255));
+            ColorSwap(SwapIndex.SpearBodyStraps, new Color32(129, 84, 81, 255));
+            ColorSwap(SwapIndex.SpearEdge, new Color32(230, 230, 230, 255));
+            ColorSwap(SwapIndex.SpearCloth, new Color32(208, 102, 102, 255));
         }
         else
         {
             //original color
             ColorSwap(SwapIndex.Outline, new Color32(0, 0, 0, 255));
-            /*ColorSwap(SwapIndex.Cape, new Color32(200, 62, 63, 255));
-            ColorSwap(SwapIndex.Hair, new Color32(240, 222, 171, 255));
-            ColorSwap(SwapIndex.Eyebrows, new Color32(215, 196, 146, 255));
-            ColorSwap(SwapIndex.Eyes, new Color32(140, 198, 230, 255));
-            ColorSwap(SwapIndex.Skin, new Color32(255, 224, 209, 255));
-            ColorSwap(SwapIndex.Shirt, new Color32(227, 222, 220, 255));
-            ColorSwap(SwapIndex.Corset, new Color32(101, 77, 70, 255));
-            ColorSwap(SwapIndex.CorsetTrim, new Color32(201, 169, 123, 255));
-            ColorSwap(SwapIndex.Sleeve1, new Color32(101, 89, 86, 255));
-            ColorSwap(SwapIndex.Sleeve2, new Color32(221, 209, 196, 255));
-            ColorSwap(SwapIndex.Sleeve3, new Color32(63, 59, 55, 255));
-            ColorSwap(SwapIndex.SolesBraces, new Color32(113, 84, 70, 255));
-            ColorSwap(SwapIndex.Shoulders, new Color32(164, 117, 95, 255));
-            ColorSwap(SwapIndex.Straps, new Color32(148, 38, 43, 255));
-            ColorSwap(SwapIndex.Basket, new Color32(211, 174, 145, 255));
-            ColorSwap(SwapIndex.Lining, new Color32(209, 102, 103, 255));
-            ColorSwap(SwapIndex.GlovesBoots, new Color32(199, 152, 123, 255));
-            ColorSwap(SwapIndex.BootTrim, new Color32(236, 218, 189, 255));
-            ColorSwap(SwapIndex.HairRibbon, new Color32(65, 130, 175, 255));
-            ColorSwap(SwapIndex.Blades, new Color32(205, 215, 222, 255));
-            ColorSwap(SwapIndex.Sin, new Color32(255, 50, 53, 255));
-            ColorSwap(SwapIndex.SinHighlight, new Color32(255, 144, 145, 255));
-            ColorSwap(SwapIndex.Pastry, new Color32(193, 107, 58, 255));*/
+            ColorSwap(SwapIndex.Hair, new Color32(64, 59, 56, 255));
+            ColorSwap(SwapIndex.Eyes, new Color32(175, 134, 90, 255));
+            ColorSwap(SwapIndex.Skin, new Color32(243, 188, 147, 255));
+            ColorSwap(SwapIndex.Seals, new Color32(51, 92, 140, 255));
+            ColorSwap(SwapIndex.Wrap, new Color32(132, 78, 74, 255));
+            ColorSwap(SwapIndex.ShoesGloves, new Color32(130, 114, 114, 255));            
+            ColorSwap(SwapIndex.HipArmor, new Color32(164, 117, 97, 255));
+            ColorSwap(SwapIndex.HipCloth, new Color32(166, 115, 114, 255));
+            ColorSwap(SwapIndex.Belt, new Color32(132, 58, 55, 255));
+            ColorSwap(SwapIndex.BeltTrim, new Color32(195, 166, 124, 255));
+            ColorSwap(SwapIndex.Pants, new Color32(197, 200, 193, 255));
+            ColorSwap(SwapIndex.MetalOrnaments, new Color32(235, 195, 144, 255));
+            ColorSwap(SwapIndex.SpearheadSoles, new Color32(81, 81, 81, 255));
+            ColorSwap(SwapIndex.SpearBodyStraps, new Color32(129, 84, 81, 255));
+            ColorSwap(SwapIndex.SpearEdge, new Color32(230, 230, 230, 255));
+            ColorSwap(SwapIndex.SpearCloth, new Color32(208, 102, 102, 255));
         }
 
         mColorSwapTex.Apply();
