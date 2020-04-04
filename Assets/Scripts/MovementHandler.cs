@@ -106,7 +106,7 @@ public class MovementHandler : MonoBehaviour
     void Start()
     {
         //Added for character loading system. Needs to start here for it to work
-        if (SceneManager.GetActiveScene().name == "TrainingStage2")
+        if (SceneManager.GetActiveScene().name != "TrainingStage")
         {
             if (transform.parent.name == "Player1")
             {

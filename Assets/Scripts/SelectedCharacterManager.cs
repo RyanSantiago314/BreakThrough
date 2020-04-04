@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SelectedCharacterManager : MonoBehaviour
 {
@@ -13,9 +14,11 @@ public class SelectedCharacterManager : MonoBehaviour
     public int P2Color;
     public string P1Side;
     public string P2Side;
+    public float CPUDifficulty = 50f;
 
     private static bool created = false;
     private bool reset = false;
+    private bool resetDifficulty = false;
 
     void Awake()
     {
@@ -45,5 +48,6 @@ public class SelectedCharacterManager : MonoBehaviour
         {
             reset = false;
         }
+        //Debug.Log(CPUDifficulty);
     }
 }
