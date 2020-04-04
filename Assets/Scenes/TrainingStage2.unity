@@ -7913,7 +7913,6 @@ RectTransform:
   - {fileID: 362250298}
   - {fileID: 954001479}
   - {fileID: 1350159271}
-  - {fileID: 1099386533}
   m_Father: {fileID: 2102204115}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11434,7 +11433,6 @@ MonoBehaviour:
   quitButton: {fileID: 802284112}
   resumeButtonMatch: {fileID: 362250299}
   moveListButtonMatch: {fileID: 954001480}
-  uiButtonMatch: {fileID: 1099386536}
   quitButtonMatch: {fileID: 1350159272}
   CPUState: 0
   P1Valor: 100
