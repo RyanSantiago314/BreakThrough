@@ -197,13 +197,19 @@ public class HurtboxACH : MonoBehaviour
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
 
-        head.offset = new Vector2(-.045f, .28f);
-        head.size = new Vector2(.37f, .34f);
-        body.offset = new Vector2(-.1f, .013f);
-        body.size = new Vector2(.79f, .53f);
-        legs1.offset = new Vector2(.16f, -.52f);
-        legs1.size = new Vector2(.6f, .75f);
+        head.offset = new Vector2(-.125f, .58f);
+        head.size = new Vector2(.195f, .28f);
+        body.offset = new Vector2(-.22f, .24f);
+        body.size = new Vector2(.375f, .465f);
+        legs1.offset = new Vector2(0f, -.2f);
+        legs1.size = new Vector2(.63f, .44f);
+        legs2.offset = new Vector2(.29f, -.5f);
+        legs2.size = new Vector2(.73f, .26f);
+        misc1.offset = new Vector2(.06f, .28f);
+        misc1.size = new Vector2(.57f, .3f);
     }
 
     public void LaunchFall()

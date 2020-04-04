@@ -75,7 +75,7 @@ public class HitDetector : MonoBehaviour
     public int comboCount;
     public float specialProration;
     public float comboProration;
-    bool usedWallStick = false;
+    public bool usedWallStick = false;
     float opponentValor;
     float pushBackScale;
 
@@ -236,13 +236,13 @@ public class HitDetector : MonoBehaviour
 
                 rb.mass = Actions.Move.weight * .65f;
                 if (rb.velocity.y < 0.5f)
-                    rb.gravityScale = .65f * Actions.gravScale;
+                    rb.gravityScale = .65f * Actions.gravScale * Actions.originalGravity;
 
             }
             else if (Actions.shattered && hitStun > 0)
             {
                 //reward attacker for landing a shattering attack
-                rb.gravityScale = .7f;
+                rb.gravityScale = .7f * Actions.originalGravity;
                 anim.SetFloat(animSpeedID, .75f);
             }
             else
@@ -253,7 +253,7 @@ public class HitDetector : MonoBehaviour
                     Actions.blitzed = 0;
                 }
                 rb.mass = Actions.Move.weight;
-                rb.gravityScale = Actions.gravScale;
+                rb.gravityScale = Actions.originalGravity * Actions.gravScale;
                 anim.SetFloat(animSpeedID, 1f);
             }
 
@@ -332,7 +332,7 @@ public class HitDetector : MonoBehaviour
                     if (OpponentDetector.Actions.Move.justDefenseTime > 0)
                     {
                         OpponentDetector.blockStun -= OpponentDetector.blockStun / 3;
-                        OpponentDetector.Actions.CharProp.durability += 15;
+                        OpponentDetector.Actions.CharProp.durability += 25;
                         OpponentDetector.justDefense = true;
                         Debug.Log("JUST DEFEND");
                     }
@@ -396,7 +396,7 @@ public class HitDetector : MonoBehaviour
                         }
                         else
                         {
-                            //guarding an attack without having any resolve results in getting shattered
+                            //guarding an attack in the air without having any resolve results in getting shattered
                             shatter = true;
                             OpponentDetector.blockStun = 0;
                             Actions.Move.OpponentProperties.armor = 0;
@@ -433,28 +433,20 @@ public class HitDetector : MonoBehaviour
                         }
                         else
                         {
-                            //guarding an attack without having any resolve results in getting shattered
-                            shatter = true;
-                            OpponentDetector.blockStun = 0;
+                            //guarding an attack on the ground without having any resolve results in chip damage
                             Actions.Move.OpponentProperties.armor = 0;
                             Actions.Move.OpponentProperties.durability = 0;
-                            potentialHitStun = 30;
-                            //trigger shatter effect
-                            OpponentDetector.anim.SetTrigger(shatterID);
-                            OpponentDetector.Actions.shattered = true;
-                            Debug.Log("SHATTERED");
-                            //damage, hitstun, etc.
                             HitSuccess(other);
                             ApplyHitStop(2 * potentialHitStop);
 
                             //chip damage
-                            /*if (Actions.Move.OpponentProperties.currentHealth - damage/10 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
+                            if (Actions.Move.OpponentProperties.currentHealth - damage/2 * opponentValor <= 0 && Actions.Move.OpponentProperties.currentHealth > 1)
                                 Actions.Move.OpponentProperties.currentHealth = 1;
                             else
-                                Actions.Move.OpponentProperties.currentHealth -= damage/10;
+                                Actions.Move.OpponentProperties.currentHealth -= damage/2 * opponentValor;
 
                             if (Actions.Move.OpponentProperties.currentHealth <= 0)
-                                OpponentDetector.anim.SetTrigger(crumpleID);*/
+                                OpponentDetector.anim.SetTrigger(crumpleID);
                         }
                     }
                     if (OpponentDetector.blockStun > 0)
@@ -875,7 +867,7 @@ public class HitDetector : MonoBehaviour
             {
                 if (Actions.Move.OpponentProperties.comboTimer > 16)
                     OpponentDetector.hitStun = 7 * potentialHitStun / 10;
-                if (Actions.Move.OpponentProperties.comboTimer >= 13)
+                else if (Actions.Move.OpponentProperties.comboTimer >= 13)
                     OpponentDetector.hitStun = 8 * potentialHitStun / 10;
                 else if (Actions.Move.OpponentProperties.comboTimer > 10)
                     OpponentDetector.hitStun = 9 * potentialHitStun / 10;
@@ -884,7 +876,7 @@ public class HitDetector : MonoBehaviour
             {
                 if (Actions.Move.OpponentProperties.comboTimer > 16)
                     OpponentDetector.hitStun = 6 * potentialHitStun/10;
-                if (Actions.Move.OpponentProperties.comboTimer >= 13)
+                else if (Actions.Move.OpponentProperties.comboTimer >= 13)
                     OpponentDetector.hitStun = 7 * potentialHitStun/10;
                 else if (Actions.Move.OpponentProperties.comboTimer > 10)
                     OpponentDetector.hitStun = 8 * potentialHitStun/10;
@@ -983,13 +975,9 @@ public class HitDetector : MonoBehaviour
                             KnockBack = new Vector2(OpponentDetector.KnockBack.y * pushBackScale, 0);
                     }
 
-                    if (OpponentDetector.Actions.wallStick > 0 && OpponentDetector.Actions.Move.hittingWall)
+                    if ((OpponentDetector.Actions.wallStick > 0 && OpponentDetector.Actions.Move.hittingWall) || !OpponentDetector.Actions.Move.hittingWall)
                     {
-                        KnockBack *= new Vector2(.75f, 1);
-                    }
-                    else if (!OpponentDetector.Actions.Move.hittingWall)
-                    {
-                        KnockBack *= new Vector2(.5f, 1);
+                        KnockBack *= new Vector2(.7f, 1);
                     }
                 }
             }

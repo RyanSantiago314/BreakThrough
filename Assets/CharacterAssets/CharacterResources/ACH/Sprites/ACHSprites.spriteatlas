@@ -51,13 +51,38 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 7f388dd132de0154f8f45a6fafba20ae, type: 3}
     - {fileID: 2800000, guid: 06deb2ca27ba72a4f84a9c80f44ce018, type: 3}
     - {fileID: 2800000, guid: 21b6b9a7e4484c84fbab40a81fbf7bb9, type: 3}
-    totalSpriteSurfaceArea: 0
+    - {fileID: 2800000, guid: b90514af920dde445a3a8164f318659e, type: 3}
+    - {fileID: 2800000, guid: 8240c4db297e80f4fbbf4742c5c8ed2c, type: 3}
+    - {fileID: 2800000, guid: d4ebbc909efffdc4293448e9ff0bf091, type: 3}
+    - {fileID: 2800000, guid: 9f0596651fd92bd4d8d0251786ec0b32, type: 3}
+    - {fileID: 2800000, guid: 6b16d34c48fb4f0429fee7ba6e31d632, type: 3}
+    - {fileID: 2800000, guid: bc26378ecca44bd4287e56b49398ecae, type: 3}
+    - {fileID: 2800000, guid: ac53b708123a9ff47b1124dc59edc3f5, type: 3}
+    totalSpriteSurfaceArea: 70290000
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: 00000000000000000000000000000000
+      Hash: 79891dfb49d4468c1aed5216f61c9e1f
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: e89dae019e85b354398de778cc802c92, type: 3}
+  - {fileID: 21300000, guid: 7f388dd132de0154f8f45a6fafba20ae, type: 3}
+  - {fileID: 21300000, guid: fb5ab9b26cc3666418de6bf113850b18, type: 3}
+  - {fileID: 21300000, guid: 10d314244eeb243439e9dec25e49afdf, type: 3}
+  - {fileID: 21300000, guid: 21b6b9a7e4484c84fbab40a81fbf7bb9, type: 3}
+  - {fileID: 21300000, guid: 06deb2ca27ba72a4f84a9c80f44ce018, type: 3}
+  - {fileID: 21300000, guid: 92c267cb542e4b74d87fc41b8962ffa7, type: 3}
+  - {fileID: 21300000, guid: e6c5dc2c39b1d6f45889d3f638acccb0, type: 3}
+  - {fileID: 21300000, guid: d0ae2f3d9a789134aa30ce1b1274555f, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Jump_02
+  - Descend_01
+  - Jump_03
+  - Jump_06
+  - Descend_03
+  - Descend_02
+  - Jump_05
+  - Jump_04
+  - Jump_01
   m_Tag: ACHSprites
   m_IsVariant: 0
