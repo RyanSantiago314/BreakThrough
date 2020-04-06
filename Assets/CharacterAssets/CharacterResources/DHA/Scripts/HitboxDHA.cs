@@ -1411,7 +1411,9 @@ public class HitboxDHA : MonoBehaviour
 
         HitDetect.allowWallStick = true;
         HitDetect.shatter = true;
-        //HitDetect.usingSpecial = true;
+        HitDetect.usingSpecial = true;
+        if (HitDetect.comboCount > 0)
+            HitDetect.usingSpecial = false;
         HitDetect.allowSuper = true;
 
         sinCharge = 0;

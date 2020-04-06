@@ -5,7 +5,7 @@ using UnityEngine;
 public class Sigil : MonoBehaviour
 {
     public SpriteRenderer sigil;
-
+    public AudioSource bounce;
     public HitDetector HitDetect;
     public Color32 tint;
     public float colorChange = 1;
@@ -48,5 +48,16 @@ public class Sigil : MonoBehaviour
             colorChange += .02f;
         }
         sigil.color = Color.Lerp(Color.white, tint, colorChange);
+    }
+
+    public void Play()
+    {
+        bounce.PlayOneShot(bounce.clip, 1f);
+    }
+
+    public void WallBouncePlay()
+    {
+        if (!bounce.isPlaying)
+            bounce.Play();
     }
 }
