@@ -6,11 +6,8 @@ using System.Linq;
 
 public class AI : MonoBehaviour
 {
-    /* ----------TO DO------------
-    - How the AI deals with charging attacks
-    - Fix the delays when you get hitstop for combo inputs
-    - Knows what characters p1 and p2 are
-    */
+    // General
+    public int difficulty = 100;
 
     // Player data
     int pArmor;
@@ -239,6 +236,7 @@ public class AI : MonoBehaviour
                     // Executes AI's state
                     if (aiCharacter == "Dhalia")
                     {
+                        if (difficulty < 100);      // Should have some sort of delay. The lower the difficulty, the more the AI delays/doesn't do anything
                         if (max == "Attack") attack();
                         if (max == "Defend") defend();
                         if (max == "Approach") approach();
