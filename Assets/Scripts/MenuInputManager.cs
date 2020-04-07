@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MenuInputManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class MenuInputManager : MonoBehaviour
 	private float horizontal;
 	private float InputTimer;
 	private float InputTimer2;
+	private float InputDelay;
 	public Button PlayLocalButton;
 	public Button PlayOnlineButton;
 	public Button OptionsButton;
@@ -25,15 +27,22 @@ public class MenuInputManager : MonoBehaviour
 	public Slider MasterSlider;
 	public Slider VoiceSlider;
 	public Slider EffectsSlider;
+    public Slider CPUDifficultySlider;
 	private MainMenu menu;
 	private string state;
 	private bool isXbox;
+    private bool resetDifficulty;
+    private bool acceptConfirm;
+    private bool pressingLeft;
+    private bool pressingRight;
     public GameObject sideSelectScreen;
+    public GameObject AIDifficultyScreen;
     private string mode;
     public GameObject P1Controller;
     public GameObject P2Controller;
     public GameObject P1COMText;
     public GameObject P2COMText;
+    public GameObject CPUDifficultyText;
     private int P1Position;
     private int P2Position;
     private float x;
@@ -86,7 +95,10 @@ public class MenuInputManager : MonoBehaviour
         if (InputTimer2 > 0) InputTimer2 -= Time.deltaTime;
         else InputTimer2 = 0;
 
-        if (!sideSelectScreen.activeSelf)
+        if (InputDelay > 0) InputDelay -= Time.deltaTime;
+        else InputDelay = 0;
+
+        if (!sideSelectScreen.activeSelf && !AIDifficultyScreen.activeSelf)
         {
             if (InputTimer == 0)
             {
@@ -101,10 +113,10 @@ public class MenuInputManager : MonoBehaviour
                     InputTimer = 0.1f;
                 }
             }
-        }   	
-    	
+        }
+
         //Main Menu Management
-    	if (state == "main")
+        if (state == "main")
     	{
 	        if (buttonIndex < 1) buttonIndex = 1;
 			else if (buttonIndex > 4) buttonIndex = 4;
@@ -163,12 +175,13 @@ public class MenuInputManager : MonoBehaviour
 			else if (buttonIndex == 2)
 			{
 				PlayVsAiButton.Select();
-                if ((Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
+                if ((Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf && !AIDifficultyScreen.activeSelf)
                 {
                     x = 0;
                     y = 126;
                     P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
-                    sideSelectScreen.SetActive(true);
+                    acceptConfirm = false;
+                    AIDifficultyScreen.SetActive(true);
                     mode = "AI";
                 } 
 				
@@ -197,7 +210,7 @@ public class MenuInputManager : MonoBehaviour
 				}
 			}
 
-			if ((Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel")) && !sideSelectScreen.activeSelf)
+			if ((Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel")) && !sideSelectScreen.activeSelf && !AIDifficultyScreen.activeSelf)
 			{
 				state = "main";
 				buttonIndex = 1;
@@ -251,10 +264,65 @@ public class MenuInputManager : MonoBehaviour
 				buttonIndex = 3;
 				OptionsBackButton.onClick.Invoke();
 			}
-
 		}
 
-        //SideSelection Management (Everything Below needs Xbox support as well)
+        //AI Difficulty ManageMent (Placed here for input execution purposes)
+        if (AIDifficultyScreen.activeSelf)
+        {
+            //Delay slider input (Hold to continously increase/decrease)
+            if (horizontal < 0)
+            {
+                if (!pressingLeft)
+                {
+                    CPUDifficultySlider.value -= 1;
+                    InputDelay = .5f;
+                }
+                pressingLeft = true;
+            }
+            else if (horizontal > 0 )
+            {
+                if (!pressingRight)
+                {
+                    CPUDifficultySlider.value += 1;
+                    InputDelay = .5f;
+                }
+                pressingRight = true;
+            }
+            else
+            {
+                pressingLeft = false;
+                pressingRight = false;
+                InputDelay = 0;
+            }
+            //Accept Left/Right Inputs to slide difficulty
+            if (horizontal < 0 && InputDelay == 0)
+            {
+                CPUDifficultySlider.value -= 1;
+            }
+            else if (horizontal > 0 && InputDelay == 0)
+            {
+                CPUDifficultySlider.value += 1;
+            }
+            //Accept Confirmation
+            if (Input.GetButtonDown(inputCross) && acceptConfirm)
+            {
+                x = 0;
+                y = 126;
+                P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
+                AIDifficultyScreen.SetActive(false);
+                sideSelectScreen.SetActive(true);
+            }
+            else if (Input.GetButtonDown(inputCircle))
+            {
+                AIDifficultyScreen.SetActive(false);
+            }
+            //Update Difficult Slider Text
+            CPUDifficultyText.GetComponent<TMPro.TextMeshProUGUI>().text = "" + CPUDifficultySlider.value;
+            //Allow accept input to avoid accepting two screens at once
+            acceptConfirm = true;
+        }
+
+        //SideSelection Management
         if (sideSelectScreen.activeSelf)
         {
             //Handle Player vs. Player side selection
@@ -293,6 +361,7 @@ public class MenuInputManager : MonoBehaviour
                     sideSelectScreen.SetActive(false);
                     P1Position = 0;
                     P2Position = 0;
+                    acceptConfirm = false;
                 }
 
                 //Handle P2 Controller Movement
@@ -363,6 +432,7 @@ public class MenuInputManager : MonoBehaviour
                 if (Input.GetButtonDown(inputCircle))
                 {
                     sideSelectScreen.SetActive(false);
+                    AIDifficultyScreen.SetActive(true);
                     P1Position = 0;
                     P2Position = 0;
                 }
@@ -534,6 +604,18 @@ public class MenuInputManager : MonoBehaviour
                     break;
             }
         }
+
+        //Update CPU Difficulty
+        if (SceneManager.GetActiveScene().name == "MainMenu" && resetDifficulty == false)
+        {
+            CPUDifficultySlider.value = 50;
+            resetDifficulty = true;
+        }
+        else if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            resetDifficulty = false;
+        }
+        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().CPUDifficulty = CPUDifficultySlider.value;
     }
 
     private bool CheckXbox(int player)

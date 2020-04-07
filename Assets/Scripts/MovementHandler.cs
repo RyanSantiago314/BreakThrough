@@ -106,7 +106,7 @@ public class MovementHandler : MonoBehaviour
     void Start()
     {
         //Added for character loading system. Needs to start here for it to work
-        if (SceneManager.GetActiveScene().name == "TrainingStage2")
+        if (SceneManager.GetActiveScene().name != "TrainingStage")
         {
             if (transform.parent.name == "Player1")
             {
@@ -457,6 +457,7 @@ public class MovementHandler : MonoBehaviour
                 opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
                 opponentMove.sigil.transform.position = new Vector3(transform.position.x, .35f, transform.position.z);
                 opponentMove.sigil.transform.eulerAngles = new Vector3(80, 0, 0);
+                opponentMove.sigil.GetComponent<Sigil>().Play();
             }
             //for landing on the ground if the opponent is not supposed to bounce
             else
@@ -501,6 +502,7 @@ public class MovementHandler : MonoBehaviour
                 opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
                 opponentMove.sigil.transform.position = new Vector3(transform.position.x, .35f, transform.position.z);
                 opponentMove.sigil.transform.eulerAngles = new Vector3(80, 0, 0);
+                opponentMove.sigil.GetComponent<Sigil>().Play();
             }
             else
             {
@@ -701,6 +703,7 @@ public class MovementHandler : MonoBehaviour
                 else
                     opponentMove.sigil.transform.position = new Vector3(transform.position.x + .5f * pushBox.size.x, transform.position.y, transform.position.z);
                 opponentMove.sigil.transform.eulerAngles = new Vector3(0, 90, 0);
+                opponentMove.sigil.GetComponent<Sigil>().Play();
             }
             else
             {
@@ -970,16 +973,15 @@ public class MovementHandler : MonoBehaviour
             anim.ResetTrigger(hitAirID);
             anim.SetTrigger(wallBounceID);
             //set off wall hit effect
-            if (opponentMove.Actions.superFlash == 0)
-            {
-                opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
-                opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
-                if (facingRight)
-                    opponentMove.sigil.transform.position = new Vector3(transform.position.x - .5f * pushBox.size.x, transform.position.y, transform.position.z);
-                else
-                    opponentMove.sigil.transform.position = new Vector3(transform.position.x + .5f * pushBox.size.x, transform.position.y, transform.position.z);
-                opponentMove.sigil.transform.eulerAngles = new Vector3(0, 90, opponentMove.sigil.transform.eulerAngles.z);
-            }
+            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("SweepHit"))
+                opponentMove.sigil.GetComponent<Sigil>().Play();
+            opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
+            opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
+            if (facingRight)
+                opponentMove.sigil.transform.position = new Vector3(transform.position.x - .5f * pushBox.size.x, transform.position.y, transform.position.z);
+            else
+                opponentMove.sigil.transform.position = new Vector3(transform.position.x + .5f * pushBox.size.x, transform.position.y, transform.position.z);
+            opponentMove.sigil.transform.eulerAngles = new Vector3(0, 90, opponentMove.sigil.transform.eulerAngles.z);
         }
     }
 
@@ -992,6 +994,8 @@ public class MovementHandler : MonoBehaviour
                 anim.SetBool(wallStickID, false);
             }
             wallStickTimer--;
+            if (wallStickTimer == 35)
+                opponentMove.sigil.GetComponent<Sigil>().Play();
             opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
             opponentMove.sigil.transform.eulerAngles = new Vector3(0, 90, opponentMove.sigil.transform.eulerAngles.z);
         }

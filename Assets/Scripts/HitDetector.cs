@@ -941,15 +941,19 @@ public class HitDetector : MonoBehaviour
             if (!usingSpecial && !usingSuper && guard != "Unblockable")
             {
                 if (comboCount < 2)
-                    pushBackScale = 1f;
+                    pushBackScale = .9f;
                 else if (comboCount < 10)
-                    pushBackScale = 1.05f;
+                    pushBackScale = .95f;
                 else if (comboCount < 15)
-                    pushBackScale = 1.1f;
+                    pushBackScale = 1f;
                 else if (comboCount < 25)
-                    pushBackScale = 1.15f;
+                    pushBackScale = 1.05f;
                 else if (comboCount < 30)
-                    pushBackScale = 1.3f;
+                    pushBackScale = 1.1f;
+                else if (comboCount < 35)
+                    pushBackScale = 1.15f;
+                else if (comboCount < 40)
+                    pushBackScale = 1.2f;
 
                 if (Actions.airborne)
                 {
