@@ -339,6 +339,16 @@ public class CursorMovement : MonoBehaviour {
                     P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
                 }
 
+                //Prevent P1 from highlighting P2 color choice
+                if(P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 1 >" && P2Color == 1)
+                {
+                    P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
+                }
+                else if(P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 2 >" && P2Color == 2)
+                {
+                    P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
+                }
+
                 //Check for P1 confirmation
                 if (Input.GetButtonDown(p1Cross))
                 {
@@ -517,6 +527,16 @@ public class CursorMovement : MonoBehaviour {
                 else if (Input.GetAxis(p2Hor) > 0)
                 {
                     P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
+                }
+
+                //Prevent P1 from highlighting P2 color choice
+                if (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 1 >" && P1Color == 1)
+                {
+                    P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
+                }
+                else if (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 2 >" && P1Color == 2)
+                {
+                    P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
                 }
 
                 //Check for P2 confirmation
