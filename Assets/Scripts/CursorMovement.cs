@@ -49,7 +49,8 @@ public class CursorMovement : MonoBehaviour {
     public Button yesButton;
     public Button noButton;
 
-    public AudioSource DhaliaAnnouncer;
+    public AudioSource DhaliaAnnouncerP1;
+    public AudioSource DhaliaAnnouncerP2;
 
     void Start()
     {
@@ -497,7 +498,7 @@ public class CursorMovement : MonoBehaviour {
                         switch (P1.currentChar)
                         {
                             case "Dhalia":
-                                DhaliaAnnouncer.Play(0);
+                                DhaliaAnnouncerP1.Play(0);
                                 break;
                         }
                     }
@@ -679,7 +680,7 @@ public class CursorMovement : MonoBehaviour {
                         switch (P2.currentChar)
                         {
                             case "Dhalia":
-                                DhaliaAnnouncer.Play(0);
+                                DhaliaAnnouncerP2.Play(0);
                                 break;
                         }
                     }
