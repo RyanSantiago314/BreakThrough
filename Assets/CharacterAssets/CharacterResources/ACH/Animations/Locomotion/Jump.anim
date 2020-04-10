@@ -76,13 +76,6 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: ClearHitBox
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
     functionName: JumpStart
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -91,6 +84,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0
     functionName: EnableAll
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.016666668
+    functionName: ClearHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
