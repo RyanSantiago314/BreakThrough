@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class CursorMovement : MonoBehaviour {
 
-    //private int playerPaused;
     public int P1Color;
     public int P2Color;
     public float speed;
@@ -17,6 +16,7 @@ public class CursorMovement : MonoBehaviour {
     public bool P1Ready;
     public bool P2Ready;
     private bool preventDeselect = true;
+    private bool BackMenuUI = false;
 
     private string p1Cross = "Cross_P1";
     private string p1Circle = "Circle_P1";
@@ -40,8 +40,11 @@ public class CursorMovement : MonoBehaviour {
     public GameObject P1ReadyText;
     public GameObject P2ReadyText;
     public GameObject stageSelect;
+    public GameObject CharacterModels;
 
     public GameObject[] icons;
+    public GameObject[] P1Models;
+    public GameObject[] P2Models;
 
     public CursorDetection P1;
     public CursorDetection P2;
@@ -117,6 +120,15 @@ public class CursorMovement : MonoBehaviour {
 
     void Update()
     {
+        //Prevent cross input from selecting a character and exiting back menu simultaneously
+        if (backMenuUI.activeSelf)
+        {
+            BackMenuUI = true;
+        }
+        else
+        {
+            BackMenuUI = false;
+        }
         //Handle Back Menu PvP
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
         {
@@ -222,6 +234,7 @@ public class CursorMovement : MonoBehaviour {
                 }
             }
         }
+        //Back Menu AI/Training
         else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
             if (!isPaused)
@@ -292,7 +305,7 @@ public class CursorMovement : MonoBehaviour {
             }
         }
 
-        //Manage Back Menu interations
+        //Cursor Movement and Boundaries
         if (!isPaused)
         {
             if (!P1.P1Selected && P1Cursor.activeSelf)
@@ -323,6 +336,7 @@ public class CursorMovement : MonoBehaviour {
                 Mathf.Clamp(P2Cursor.transform.position.y, -worldSize.y, worldSize.y),
                 P2Cursor.transform.position.z);
             }
+
             //P1 MENUS
             //Bring up P1 Color Select Menu
             if (P1.P1Selected && !P1Ready)
@@ -348,6 +362,22 @@ public class CursorMovement : MonoBehaviour {
                 else if(P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 2 >" && P2Color == 2)
                 {
                     P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
+                }
+
+                //Update Character Model with highlighted color
+                switch (P1.currentChar)
+                {
+                    case "Dhalia":
+                        switch (P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
+                        {
+                            case "< 1 >":
+                                P1Models[0].transform.GetChild(0).transform.GetComponent<ColorSwapDHA>().colorNum = 1;
+                                break;
+                            case "< 2 >":
+                                P1Models[0].transform.GetChild(0).transform.GetComponent<ColorSwapDHA>().colorNum = 2;
+                                break;
+                        }
+                        break;
                 }
 
                 //Check for P1 confirmation
@@ -417,6 +447,13 @@ public class CursorMovement : MonoBehaviour {
             //Deselect from the Character
             if (P1.P1Selected && Input.GetButtonDown(p1Circle) && !P1Ready)
             {
+                //Disable Model
+                switch (P1.currentChar)
+                {
+                    case "Dhalia":
+                        P1Models[0].SetActive(false);
+                        break;
+                }
                 P1.P1Selected = false;
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
                 {
@@ -426,6 +463,7 @@ public class CursorMovement : MonoBehaviour {
                 {
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
                 }
+
             }
 
             //Deselect P1 from Color Menu
@@ -490,7 +528,7 @@ public class CursorMovement : MonoBehaviour {
             //Check for character selection
             if (P1.isOverlap)
             {
-                if (Input.GetButtonDown(p1Cross))
+                if (Input.GetButtonDown(p1Cross) && !BackMenuUI)
                 {
                     //Play announcer audio
                     if (!P1.P1Selected)
@@ -499,6 +537,7 @@ public class CursorMovement : MonoBehaviour {
                         {
                             case "Dhalia":
                                 DhaliaAnnouncerP1.Play(0);
+                                P1Models[0].SetActive(true);
                                 break;
                         }
                     }
@@ -538,6 +577,22 @@ public class CursorMovement : MonoBehaviour {
                 else if (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 2 >" && P1Color == 2)
                 {
                     P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
+                }
+
+                //Update Character Model with highlighted color
+                switch (P2.currentChar)
+                {
+                    case "Dhalia":
+                        switch (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
+                        {
+                            case "< 1 >":
+                                P2Models[0].transform.GetChild(0).transform.GetComponent<ColorSwapDHA>().colorNum = 1;
+                                break;
+                            case "< 2 >":
+                                P2Models[0].transform.GetChild(0).transform.GetComponent<ColorSwapDHA>().colorNum = 2;
+                                break;
+                        }
+                        break;
                 }
 
                 //Check for P2 confirmation
@@ -601,6 +656,13 @@ public class CursorMovement : MonoBehaviour {
             //Deselect from the Character
             if (P2.P2Selected && Input.GetButtonDown(p2Circle) && !P2Ready)
             {
+                //Disable Model
+                switch (P2.currentChar)
+                {
+                    case "Dhalia":
+                        P2Models[0].SetActive(false);
+                        break;
+                }
                 P2.P2Selected = false;
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
                 {
@@ -672,7 +734,7 @@ public class CursorMovement : MonoBehaviour {
             //Check for character selection
             if (P2.isOverlap)
             {
-                if (Input.GetButtonDown(p2Cross))
+                if (Input.GetButtonDown(p2Cross) && !BackMenuUI)
                 {
                     //Play announcer audio
                     if (!P2.P2Selected)
@@ -681,6 +743,7 @@ public class CursorMovement : MonoBehaviour {
                         {
                             case "Dhalia":
                                 DhaliaAnnouncerP2.Play(0);
+                                P2Models[0].SetActive(true);
                                 break;
                         }
                     }
@@ -702,7 +765,8 @@ public class CursorMovement : MonoBehaviour {
             //Bring up Stage Select once both players are ready
             if (P1Ready && P2Ready)
             {
-                stageSelect.SetActive(true);
+                CharacterModels.SetActive(false);
+                stageSelect.SetActive(true);               
                 //Disable Icons so hitboxes don't detect in the background
                 for (int i = 0; i < icons.Length; i++)
                 {
@@ -711,6 +775,7 @@ public class CursorMovement : MonoBehaviour {
             }
             else
             {
+                CharacterModels.SetActive(true);
                 //Re-Enable Icons when brought back to character select
                 for (int i = 0; i < icons.Length; i++)
                 {
