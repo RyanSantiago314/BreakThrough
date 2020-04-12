@@ -99,18 +99,15 @@ public class HitboxDHA : MonoBehaviour
 
     public void BlitzCancel()
     {
-        if (HitDetect.OpponentDetector.hitStun > 0)
-        {
-            ClearHitBox();
-            hit1.enabled = true;
-            hit1.offset = new Vector2(.0f, .0f);
-            hit1.size = new Vector2(4f, 4f);
+        ClearHitBox();
+        hit1.enabled = true;
+        hit1.offset = new Vector2(.0f, .0f);
+        hit1.size = new Vector2(4f, 4f);
 
-            HitDetect.attackLevel = 0;
-            HitDetect.guard = "Unblockable";
+        HitDetect.attackLevel = 0;
+        HitDetect.guard = "Unblockable";
 
-            HitDetect.blitz = true;
-        }  
+        HitDetect.blitz = true; 
     }
 
     public void BurstBreaker()
@@ -1411,7 +1408,9 @@ public class HitboxDHA : MonoBehaviour
 
         HitDetect.allowWallStick = true;
         HitDetect.shatter = true;
-        //HitDetect.usingSpecial = true;
+        HitDetect.usingSpecial = true;
+        if (HitDetect.comboCount > 0)
+            HitDetect.usingSpecial = false;
         HitDetect.allowSuper = true;
 
         sinCharge = 0;

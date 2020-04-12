@@ -5,6 +5,7 @@ using UnityEngine;
 public class BlitzImage : MonoBehaviour
 {
     public SpriteRenderer AfterImage;
+    public AudioSource blitz;
 
     AcceptInputs OpponentActions;
 
@@ -29,5 +30,10 @@ public class BlitzImage : MonoBehaviour
         {
             AfterImage.color = new Color(AfterImage.color.r, AfterImage.color.g, AfterImage.color.b, AfterImage.color.a - .05f);
         }
+    }
+
+    public void Play()
+    {
+        blitz.PlayOneShot(blitz.clip, 1);
     }
 }

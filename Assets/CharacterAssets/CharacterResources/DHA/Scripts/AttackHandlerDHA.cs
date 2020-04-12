@@ -426,7 +426,7 @@ public class AttackHandlerDHA : MonoBehaviour
 
         //aerial recovery, press a button after hitstun ends
         if ((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") || currentState.IsName("LaunchTransition") ||
-             currentState.IsName("LaunchFall") || (currentState.IsName("Unstick"))) && Move.HitDetect.hitStun == 0 && Move.transform.position.y > 1.4f &&
+             currentState.IsName("LaunchFall") || currentState.IsName("Unstick")) && Move.HitDetect.hitStun == 0 && Move.transform.position.y > 1.4f &&
             (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
         {
             anim.SetTrigger(IDRec);
@@ -464,8 +464,24 @@ public class AttackHandlerDHA : MonoBehaviour
 
             if (Actions.airborne && MaxInput.GetAxis(Vertical) < 0)
             {
-                Move.rb.velocity = new Vector2(Move.rb.velocity.x, 0);
-                Move.rb.AddForce(new Vector2(0, -3), ForceMode2D.Impulse);
+                Move.rb.velocity = Vector2.zero;
+                Move.rb.AddForce(new Vector2(0, -4), ForceMode2D.Impulse);
+            }
+            else if (Actions.airborne && MaxInput.GetAxis(Horizontal) < 0)
+            {
+                if (Move.rb.velocity.y < 0)
+                    Move.rb.velocity = Vector2.zero;
+                else
+                    Move.rb.velocity = new Vector2(0, Move.rb.velocity.y);
+                Move.rb.AddForce(new Vector2(-2.7f, 0), ForceMode2D.Impulse);
+            }
+            else if (Actions.airborne && MaxInput.GetAxis(Horizontal) > 0)
+            {
+                if (Move.rb.velocity.y < 0)
+                    Move.rb.velocity = Vector2.zero;
+                else
+                    Move.rb.velocity = new Vector2(0, Move.rb.velocity.y);
+                Move.rb.AddForce(new Vector2(2.7f, 0), ForceMode2D.Impulse);
             }
 
             //cost for executing blitz cancel

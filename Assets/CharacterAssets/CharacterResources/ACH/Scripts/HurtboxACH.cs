@@ -155,19 +155,40 @@ public class HurtboxACH : MonoBehaviour
         legs2.size = new Vector2(.23f, .53f);
     }
 
+    public void SweepHit()
+    {
+        Invincible();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(.025f, .89f);
+        head.size = new Vector2(.22f, .33f);
+        body.offset = new Vector2(-.09f, .48f);
+        body.size = new Vector2(.43f, .585f);
+        legs1.offset = new Vector2(-0.18f, .04f);
+        legs1.size = new Vector2(.43f, .51f);
+        legs2.offset = new Vector2(-0.52f, -.17f);
+        legs2.size = new Vector2(.89f, .3f);
+    }
+
     public void FallForward()
     {
         Invincible();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
+        legs2.enabled = true;
 
-        head.offset = new Vector2(.49f, .14f);
-        head.size = new Vector2(.35f, .32f);
-        body.offset = new Vector2(.22f, 0f);
-        body.size = new Vector2(.64f, .4f);
-        legs1.offset = new Vector2(-0.36f, .16f);
-        legs1.size = new Vector2(.6f, .35f);
+        head.offset = new Vector2(.71f, -.13f);
+        head.size = new Vector2(.2f, .235f);
+        body.offset = new Vector2(.36f, -.26f);
+        body.size = new Vector2(.6f, .5f);
+        legs1.offset = new Vector2(-0.14f, -.125f);
+        legs1.size = new Vector2(.5f, .84f);
+        legs2.offset = new Vector2(-0.59f, -.17f);
+        legs2.size = new Vector2(.44f, .39f);
     }
 
     public void Jump()
@@ -197,13 +218,19 @@ public class HurtboxACH : MonoBehaviour
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
 
-        head.offset = new Vector2(-.045f, .28f);
-        head.size = new Vector2(.37f, .34f);
-        body.offset = new Vector2(-.1f, .013f);
-        body.size = new Vector2(.79f, .53f);
-        legs1.offset = new Vector2(.16f, -.52f);
-        legs1.size = new Vector2(.6f, .75f);
+        head.offset = new Vector2(-.125f, .58f);
+        head.size = new Vector2(.195f, .28f);
+        body.offset = new Vector2(-.22f, .24f);
+        body.size = new Vector2(.375f, .465f);
+        legs1.offset = new Vector2(0f, -.2f);
+        legs1.size = new Vector2(.63f, .44f);
+        legs2.offset = new Vector2(.29f, -.5f);
+        legs2.size = new Vector2(.73f, .26f);
+        misc1.offset = new Vector2(.06f, .28f);
+        misc1.size = new Vector2(.57f, .3f);
     }
 
     public void LaunchFall()

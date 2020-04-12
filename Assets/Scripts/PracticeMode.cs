@@ -22,7 +22,9 @@ public class PracticeMode : MonoBehaviour
 
     private bool P1inCombo;
     private bool P2inCombo;
-    private bool P2inTrueCombo;
+    private bool P2inAirTrueCombo;
+    private bool P2inGroundTrueCombo;
+    private bool guardAfterTrueCombo;
     private bool fixAnimBug;
     private float InputTimer;
     double p1x;
@@ -30,6 +32,7 @@ public class PracticeMode : MonoBehaviour
 
     public bool enableArmorRefill = true;
     public bool enableCPUAirTech;
+    public bool enableGuardAfterFirstHit;
     public string dummyState = "Stand";
 
     public int P1ValorSetting = 100;
@@ -50,6 +53,8 @@ public class PracticeMode : MonoBehaviour
     public Text P2ComboDamage;
     public Text P1HighComboDamage;
     public Text P2HighComboDamage;
+    public Text P1HitType;
+    public Text P2HitType;
 
     public GameObject DamageDisplays;
     public GameObject P1Displays;
@@ -71,8 +76,8 @@ public class PracticeMode : MonoBehaviour
         P2PrevHealth = P2Prop.maxHealth;
         P1HitDamage.text = "";
         P2HitDamage.text = "";
-        P1ComboDamage.text = "Total Damage: ";
-        P2ComboDamage.text = "Total Damage: ";
+        P1ComboDamage.text = "Total Damage: 0";
+        P2ComboDamage.text = "Total Damage: 0";
         P1HighComboDamage.text = "Highest Combo Damage: 0";
         P2HighComboDamage.text = "Highest Combo Damage: 0";
 
@@ -96,7 +101,6 @@ public class PracticeMode : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(Player1.GetComponent<MovementHandler>().Actions.superFlash);
         //Practice Mode Handler
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
@@ -140,10 +144,20 @@ public class PracticeMode : MonoBehaviour
             switch (PracticeModeSettings.GetComponent<PauseMenu>().CPUAirRecover)
             {
                 case 0:
-                    enableCPUAirTech = true;
+                    enableCPUAirTech = false;
                     break;
                 case 1:
-                    enableCPUAirTech = false;
+                    enableCPUAirTech = true;
+                    break;
+            }
+
+            switch (PracticeModeSettings.GetComponent<PauseMenu>().CPUGroundGuard)
+            {
+                case 0:
+                    enableGuardAfterFirstHit = false;
+                    break;
+                case 1:
+                    enableGuardAfterFirstHit = true;
                     break;
             }
 
@@ -190,7 +204,7 @@ public class PracticeMode : MonoBehaviour
                 }
                 if (P2Prop.HitDetect.comboCount == 0)
                 {
-                    P1Prop.currentHealth = P1Prop.maxHealth * (P1ValorSetting/100f);
+                    P1Prop.currentHealth = P1Prop.maxHealth * (P1ValorSetting / 100f);
                     //P1inCombo = false;
                     P2CurrentHitDamage = 0;
                     P1PrevHealth = P1Prop.currentHealth;
@@ -204,54 +218,54 @@ public class PracticeMode : MonoBehaviour
                 }
                 if (P1Prop.HitDetect.comboCount == 0)
                 {
-                    P2Prop.currentHealth = P2Prop.maxHealth * (P2ValorSetting/ 100f);
+                    P2Prop.currentHealth = P2Prop.maxHealth * (P2ValorSetting / 100f);
                     P2inCombo = false;
                     P1CurrentHitDamage = 0;
                     P2PrevHealth = P2Prop.currentHealth;
                     P1CurrentComboTotalDamage = 0;
                 }
 
-                //Manage Hit/Combo Damage Display
-                //Display Current hit damage
+                //Manage Hit/Combo Damage/Hit Type Display
+                //Display Current hit damage/Current Combo damage/Current Hit Type
                 if (P2Prop.currentHealth < P2PrevHealth)
                 {
                     P1CurrentHitDamage = P2PrevHealth - P2Prop.currentHealth;
                     P1CurrentComboTotalDamage += P1CurrentHitDamage;
-                    P1HitDamage.text = "";
                     P1HitDamage.text = "Damage: ";
                     P1HitDamage.text += P1CurrentHitDamage;
-                    P1ComboDamage.text = "";
                     P1ComboDamage.text = "Total Damage : ";
                     P1ComboDamage.text += P1CurrentComboTotalDamage;
+                    P1HitType.text = "Guard Level: ";
+                    P1HitType.text += P1Prop.HitDetect.guard;
                     P2PrevHealth = P2Prop.currentHealth;
 
                     P2CurrentHitDamage = P2PrevHealth - P2Prop.currentHealth;
                     P2CurrentComboTotalDamage += P1CurrentHitDamage;
-                    P2HitDamage.text = "";
                     P2HitDamage.text = "Damage: ";
                     P2HitDamage.text += P1CurrentHitDamage;
-                    P2ComboDamage.text = "";
                     P2ComboDamage.text = "Total Damage: ";
+                    P2HitType.text = "Guard Level: ";
+                    P2HitType.text += P1Prop.HitDetect.guard;
                     P2ComboDamage.text += P1CurrentComboTotalDamage;
                 }
                 if (HUD.Player1Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
                 {
                     P1HitDamage.text = "";
+                    P1HitType.text = "";
                 }
                 if (HUD.Player2Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
                 {
                     P2HitDamage.text = "";
+                    P2HitType.text = "";
                 }
                 //Update Highest Combo Damage
                 if (P1CurrentComboTotalDamage > P1HighestComboDamage)
                 {
                     P1HighestComboDamage = P1CurrentComboTotalDamage;
-                    P1HighComboDamage.text = "";
                     P1HighComboDamage.text = "Highest Combo Damage: ";
                     P1HighComboDamage.text += P1HighestComboDamage;
 
                     P2HighestComboDamage = P1CurrentComboTotalDamage;
-                    P2HighComboDamage.text = "";
                     P2HighComboDamage.text = "Highest Combo Damage: ";
                     P2HighComboDamage.text += P1HighestComboDamage;
                 }
@@ -277,36 +291,12 @@ public class PracticeMode : MonoBehaviour
                         MaxInput.ClearInput("Player2");
                         MaxInput.enableAI();
                         MaxInputObject.GetComponent<AI>().enabled = false;
-                        if (enableCPUAirTech)
-                        {
-                            if (P2Prop.HitDetect.hitStun > 0 && Player2.transform.GetComponentInChildren<AcceptInputs>().airborne)
-                            {
-                                P2inTrueCombo = true;
-                            }
-                            else if (P2Prop.HitDetect.hitStun == 0 && Player2.GetComponentInChildren<AcceptInputs>().airborne && P2inTrueCombo)
-                            {
-                                MaxInput.Cross("Player2");
-                                P2inTrueCombo = false;
-                            }
-                        }
                         break;
                     case "Crouch":
                         MaxInput.ClearInput("Player2");
                         MaxInput.enableAI();
                         MaxInputObject.GetComponent<AI>().enabled = false;
                         MaxInput.Crouch("Player2");
-                        if (enableCPUAirTech)
-                        {
-                            if (P2Prop.HitDetect.hitStun > 0 && Player2.transform.GetComponentInChildren<AcceptInputs>().airborne)
-                            {
-                                P2inTrueCombo = true;
-                            }
-                            else if (P2Prop.HitDetect.hitStun == 0 && Player2.GetComponentInChildren<AcceptInputs>().airborne && P2inTrueCombo)
-                            {
-                                MaxInput.Cross("Player2");
-                                P2inTrueCombo = false;
-                            }
-                        }
                         break;
                     case "Jump":
                         MaxInput.ClearInput("Player2");
@@ -317,18 +307,6 @@ public class PracticeMode : MonoBehaviour
                         {
                             MaxInput.Jump("Player2");
                             InputTimer = 1.0f;
-                        }
-                        if (enableCPUAirTech)
-                        {
-                            if (P2Prop.HitDetect.hitStun > 0 && Player2.transform.GetComponentInChildren<AcceptInputs>().airborne)
-                            {
-                                P2inTrueCombo = true;
-                            }
-                            else if (P2Prop.HitDetect.hitStun == 0 && Player2.GetComponentInChildren<AcceptInputs>().airborne && P2inTrueCombo)
-                            {
-                                MaxInput.Cross("Player2");
-                                P2inTrueCombo = false;
-                            }
                         }
                         break;
                     case "Guard":
@@ -343,18 +321,6 @@ public class PracticeMode : MonoBehaviour
                         {
                             MaxInput.MoveLeft("Player2");
                         }
-                        if (enableCPUAirTech)
-                        {
-                            if (P2Prop.HitDetect.hitStun > 0 && Player2.transform.GetComponentInChildren<AcceptInputs>().airborne)
-                            {
-                                P2inTrueCombo = true;
-                            }
-                            else if (P2Prop.HitDetect.hitStun == 0 && Player2.GetComponentInChildren<AcceptInputs>().airborne && P2inTrueCombo)
-                            {
-                                MaxInput.Cross("Player2");
-                                P2inTrueCombo = false;
-                            }
-                        }
                         break;
                     case "LowGuard":
                         MaxInput.ClearInput("Player2");
@@ -368,18 +334,6 @@ public class PracticeMode : MonoBehaviour
                         {
                             MaxInput.DownLeft("Player2");
                         }
-                        if (enableCPUAirTech)
-                        {
-                            if (P2Prop.HitDetect.hitStun > 0 && Player2.transform.GetComponentInChildren<AcceptInputs>().airborne)
-                            {
-                                P2inTrueCombo = true;
-                            }
-                            else if (P2Prop.HitDetect.hitStun == 0 && Player2.GetComponentInChildren<AcceptInputs>().airborne && P2inTrueCombo)
-                            {
-                                MaxInput.Cross("Player2");
-                                P2inTrueCombo = false;
-                            }
-                        }
                         break;
                     case "Player":
                         MaxInput.ClearInput("Player2");
@@ -387,6 +341,52 @@ public class PracticeMode : MonoBehaviour
                         break;
                 }
 
+                //CPU Air Tech Option (True Combo Test)
+                if (enableCPUAirTech && dummyState != "Player" && dummyState != "CPU")
+                {
+                    //Air tech if in combo and hitstun = 0
+                    if (P2Prop.HitDetect.hitStun > 0 && Player2.transform.GetComponentInChildren<AcceptInputs>().airborne)
+                    {
+                        P2inAirTrueCombo = true;
+                    }
+                    else if (P2Prop.HitDetect.hitStun == 0 && Player2.GetComponentInChildren<AcceptInputs>().airborne && P2inAirTrueCombo)
+                    {
+                        MaxInput.Cross("Player2");
+                        P2inAirTrueCombo = false;
+                    }                  
+                }
+
+                //CPU ground guard after first hit
+                if (enableGuardAfterFirstHit && dummyState != "Player" && dummyState != "CPU")
+                {
+                    //(On Ground) Guard if in combo, hitstun = 0, and Player is still in the middle of an attack
+                    if (P2Prop.HitDetect.hitStun > 0)
+                    {
+                        P2inGroundTrueCombo = true;
+                    }
+                    if (P2Prop.HitDetect.hitStun == 0 && P2inGroundTrueCombo)
+                    {
+                        guardAfterTrueCombo = true;
+                        P2inGroundTrueCombo = false;
+                    }
+                    if (guardAfterTrueCombo)
+                    {
+                        if (p1x - p2x < 0)
+                        {
+                            MaxInput.MoveRight("Player2");
+                        }
+                        else
+                        {
+                            MaxInput.MoveLeft("Player2");
+                        }
+                        if (!P1Prop.HitDetect.Actions.attacking)
+                        {
+                            guardAfterTrueCombo = false;
+                        }
+                    }
+                }
+
+                //Fix Animation bug with resetting positions
                 if (fixAnimBug)
                 {
                     switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)

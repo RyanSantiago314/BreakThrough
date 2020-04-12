@@ -27,6 +27,7 @@ public class PauseMenu : MonoBehaviour
     public Button P2ValorHighlight;
     public Button armorRefillHighlight;
     public Button CPUAirTechHighlight;
+    public Button CPUGuardAfterFirstHithHighlight;
     public Button moveListButton;
     public Button quitButton;
     public Button resumeButtonMatch;
@@ -53,11 +54,13 @@ public class PauseMenu : MonoBehaviour
     public int P2Valor;
     public int ArmorRefill = 0;
     public int CPUAirRecover = 0;
+    public int CPUGroundGuard = 0;
     public GameObject CPUStateText;
     public GameObject P1ValorText;
     public GameObject P2ValorText;
     public GameObject ArmorRefillText;
     public GameObject CPUAirRecoverText;
+    public GameObject CPUGroundGuardText;
 
     private void Awake()
     {
@@ -314,13 +317,13 @@ public class PauseMenu : MonoBehaviour
 
                 //Cycle option scrolling
                 //optionIndex scrolling
-                if (optionIndex == 8)
+                if (optionIndex == 9)
                 {
                     optionIndex = 0;
                 }
                 else if (optionIndex == -1)
                 {
-                    optionIndex = 7;
+                    optionIndex = 8;
                 }
 
                 if(Input.GetButton(p1circle) && !moveList && acceptInputCirc)
@@ -432,8 +435,26 @@ public class PauseMenu : MonoBehaviour
                         }
                     }
                 }
-                //MoveList
+                //CPU Ground Guard
                 else if (optionIndex == 6)
+                {
+                    CPUGuardAfterFirstHithHighlight.Select();
+                    if (acceptInputHor)
+                    {
+                        if (horizontal < 0)
+                        {
+                            CPUGroundGuard -= 1;
+                            acceptInputHor = false;
+                        }
+                        else if (horizontal > 0)
+                        {
+                            CPUGroundGuard += 1;
+                            acceptInputHor = false;
+                        }
+                    }
+                }
+                //MoveList
+                else if (optionIndex == 7)
                 {
                     moveListButton.Select();
                     if (Input.GetButton(p1cross) && !moveList)
@@ -448,7 +469,7 @@ public class PauseMenu : MonoBehaviour
                     }
                 }
                 //Quit Button
-                else if (optionIndex == 7)
+                else if (optionIndex == 8)
                 {
                     quitButton.Select();
                     if (Input.GetButton(p1cross))
@@ -502,6 +523,15 @@ public class PauseMenu : MonoBehaviour
                 {
                     CPUAirRecover = 1;
                 }
+                //CPU Ground Guard
+                if (CPUGroundGuard == 2)
+                {
+                    CPUGroundGuard = 0;
+                }
+                else if (CPUGroundGuard == -1)
+                {
+                    CPUGroundGuard = 1;
+                }
 
                 //Update Text for options
                 switch (CPUState)
@@ -545,10 +575,20 @@ public class PauseMenu : MonoBehaviour
                 switch (CPUAirRecover)
                 {
                     case 0:
-                        CPUAirRecoverText.GetComponent<TMPro.TextMeshProUGUI>().text = "On";
+                        CPUAirRecoverText.GetComponent<TMPro.TextMeshProUGUI>().text = "Off";
                         break;
                     case 1:
-                        CPUAirRecoverText.GetComponent<TMPro.TextMeshProUGUI>().text = "Off";
+                        CPUAirRecoverText.GetComponent<TMPro.TextMeshProUGUI>().text = "On";
+                        break;
+                }
+
+                switch (CPUGroundGuard)
+                {
+                    case 0:
+                        CPUGroundGuardText.GetComponent<TMPro.TextMeshProUGUI>().text = "Off";
+                        break;
+                    case 1:
+                        CPUGroundGuardText.GetComponent<TMPro.TextMeshProUGUI>().text = "On";
                         break;
                 }
             }
