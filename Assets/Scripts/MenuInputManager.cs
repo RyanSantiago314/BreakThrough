@@ -23,6 +23,11 @@ public class MenuInputManager : MonoBehaviour
 	public Button PracticeButton;
 	public Button BackButton;
 	public Button OptionsBackButton;
+	public Button soundOptionsBackButton;
+	public Button displayOptionsBackButton;
+	public Button soundOptions;
+	public Button displayOptions;
+	public Toggle windowToggle;
 	public Slider MusicSlider;
 	public Slider MasterSlider;
 	public Slider VoiceSlider;
@@ -30,6 +35,7 @@ public class MenuInputManager : MonoBehaviour
     public Slider CPUDifficultySlider;
 	private MainMenu menu;
 	private string state;
+	private string optionState;
 	private bool isXbox;
     private bool resetDifficulty;
     private bool acceptConfirm;
@@ -60,6 +66,11 @@ public class MenuInputManager : MonoBehaviour
     private string inputHorizontal2 = "Horizontal_P2";
     private string inputVertical2 = "Vertical_P2";
 
+    public Dropdown resoutionDropdown;
+    Resolution[] resolutions;
+    private int dropdownIndex;
+    private bool inDropdown;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,6 +81,7 @@ public class MenuInputManager : MonoBehaviour
         PlayLocalButton.Select();
         menu = GetComponent<MainMenu>();
         state = "main";
+        optionState = "mainOptions";
         //isXbox = false;
         Time.timeScale = 1;
 
@@ -82,6 +94,26 @@ public class MenuInputManager : MonoBehaviour
         inputCircle2 += UpdateControls(CheckXbox(1));
         inputHorizontal2 += UpdateControls(CheckXbox(1));
         inputVertical2 += UpdateControls(CheckXbox(1));
+
+        resolutions = Screen.resolutions;
+        resoutionDropdown.ClearOptions();
+        List<string> options = new List<string>();
+
+        int currentResolutionIndex = 0;
+        for (int i = 0; i < resolutions.Length; i++)
+        {
+        	string option = resolutions[i].width + " x " + resolutions[i].height;
+        	options.Add(option);
+        	if(resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
+        	{
+        		currentResolutionIndex = i;
+        	}
+        }
+        resoutionDropdown.AddOptions(options);
+        resoutionDropdown.value = currentResolutionIndex;
+        resoutionDropdown.RefreshShownValue();
+
+        inDropdown = false;
     }
 
     // Update is called once per frame
@@ -100,7 +132,7 @@ public class MenuInputManager : MonoBehaviour
 
         if (!sideSelectScreen.activeSelf && !AIDifficultyScreen.activeSelf)
         {
-            if (InputTimer == 0)
+            if (InputTimer == 0 && !inDropdown)
             {
                 if (vertical < 0)
                 {
@@ -113,10 +145,27 @@ public class MenuInputManager : MonoBehaviour
                     InputTimer = 0.1f;
                 }
             }
-        }
+            else if (InputTimer == 0 && inDropdown)
+            {
+                if (vertical < 0)
+                {
+                    dropdownIndex += 1;
+                    InputTimer = 0.1f;
+                }
+                else if (vertical > 0)
+                {
+                    dropdownIndex -= 1;
+                    InputTimer = 0.1f;
+                }
 
+                if (dropdownIndex < 0) dropdownIndex = 0;
+                else if (dropdownIndex > 32) dropdownIndex = 32;
+                resoutionDropdown.value = dropdownIndex;
+            }
+        }   	
+    	
         //Main Menu Management
-        if (state == "main")
+    	if (state == "main")
     	{
 	        if (buttonIndex < 1) buttonIndex = 1;
 			else if (buttonIndex > 4) buttonIndex = 4;
@@ -220,49 +269,144 @@ public class MenuInputManager : MonoBehaviour
         //Options Menu Management
 		else if (state == "options")
     	{
-	        if (buttonIndex < 1) buttonIndex = 1;
-			else if (buttonIndex > 5) buttonIndex = 5;
+			if (optionState == "mainOptions")
+			{
+		        if (buttonIndex < 1) buttonIndex = 1;
+				else if (buttonIndex > 3) buttonIndex = 3;
 
-			if (buttonIndex == 1)
-			{
-				MasterSlider.Select();
-				if (horizontal > 0) MasterSlider.value += 0.01f;
-				else if (horizontal < 0) MasterSlider.value -= 0.01f;
-			}
-			else if (buttonIndex == 2)
-			{
-				MusicSlider.Select();
-				if (horizontal > 0) MusicSlider.value += 0.01f;
-				else if (horizontal < 0) MusicSlider.value -= 0.01f;
-			}
-			else if (buttonIndex == 3)
-			{
-				VoiceSlider.Select();
-				if (horizontal > 0) VoiceSlider.value += 0.01f;
-				else if (horizontal < 0) VoiceSlider.value -= 0.01f;
-			}
-			else if (buttonIndex == 4)
-			{
-				EffectsSlider.Select();
-				if (horizontal > 0) EffectsSlider.value += 0.01f;
-				else if (horizontal < 0) EffectsSlider.value -= 0.01f;
-			}
-			else if (buttonIndex == 5)
-			{
-				OptionsBackButton.Select();
-				if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
+				if (buttonIndex == 1)
+				{
+					soundOptions.Select();
+					if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
+					{
+						optionState = "soundOptions";
+						buttonIndex = 1;
+						soundOptions.onClick.Invoke();
+					}
+
+				}
+				else if (buttonIndex == 2)
+				{
+					displayOptions.Select();
+					if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
+					{
+						optionState = "displayOptions";
+						buttonIndex = 1;
+						displayOptions.onClick.Invoke();
+					}
+				}
+				else if (buttonIndex == 3)
+				{
+					OptionsBackButton.Select();
+					if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
+					{
+						state = "main";
+						buttonIndex = 3;
+						OptionsBackButton.onClick.Invoke();
+					}
+				}
+
+				if (Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel"))
 				{
 					state = "main";
 					buttonIndex = 3;
 					OptionsBackButton.onClick.Invoke();
 				}
 			}
-
-			if (Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel"))
+			else if (optionState == "soundOptions")
 			{
-				state = "main";
-				buttonIndex = 3;
-				OptionsBackButton.onClick.Invoke();
+				if (buttonIndex < 1) buttonIndex = 1;
+				else if (buttonIndex > 5) buttonIndex = 5;
+
+				if (buttonIndex == 1)
+				{
+					MasterSlider.Select();
+					if (horizontal > 0) MasterSlider.value += 0.01f;
+					else if (horizontal < 0) MasterSlider.value -= 0.01f;
+				}
+				else if (buttonIndex == 2)
+				{
+					MusicSlider.Select();
+					if (horizontal > 0) MusicSlider.value += 0.01f;
+					else if (horizontal < 0) MusicSlider.value -= 0.01f;
+				}
+				else if (buttonIndex == 3)
+				{
+					VoiceSlider.Select();
+					if (horizontal > 0) VoiceSlider.value += 0.01f;
+					else if (horizontal < 0) VoiceSlider.value -= 0.01f;
+				}
+				else if (buttonIndex == 4)
+				{
+					EffectsSlider.Select();
+					if (horizontal > 0) EffectsSlider.value += 0.01f;
+					else if (horizontal < 0) EffectsSlider.value -= 0.01f;
+				}
+				else if (buttonIndex == 5)
+				{
+					soundOptionsBackButton.Select();
+					if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
+					{
+						optionState = "mainOptions";
+						buttonIndex = 1;
+						soundOptionsBackButton.onClick.Invoke();
+					}
+				}
+				if (Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel"))
+				{
+					optionState = "mainOptions";
+					buttonIndex = 1;
+					soundOptionsBackButton.onClick.Invoke();
+				}
+			}
+			else if (optionState == "displayOptions")
+			{
+				if (buttonIndex < 1) buttonIndex = 1;
+				else if (buttonIndex > 3) buttonIndex = 3;
+
+				if (buttonIndex == 1)
+				{
+					windowToggle.Select();
+					if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
+					{
+						windowToggle.isOn = !windowToggle.isOn;
+						toggleWindowed();
+					}
+				}
+				else if (buttonIndex == 2)
+				{
+					resoutionDropdown.Select();
+					if ((Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) && !inDropdown)
+					{
+						dropdownIndex = 24;
+						resoutionDropdown.value = dropdownIndex;
+						inDropdown = true;
+						Debug.Log("HWER");
+					}
+					if (Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel"))
+					{
+						inDropdown = false;
+						optionState = "mainOptions";
+						buttonIndex = 2;
+						displayOptionsBackButton.onClick.Invoke();
+					}
+				}
+				else if (buttonIndex == 3)
+				{
+					displayOptionsBackButton.Select();
+					if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
+					{
+						optionState = "mainOptions";
+						buttonIndex = 2;
+						displayOptionsBackButton.onClick.Invoke();
+					}
+				}
+				if (Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel") && !inDropdown)
+				{
+					optionState = "mainOptions";
+					buttonIndex = 2;
+					displayOptionsBackButton.onClick.Invoke();
+				}
 			}
 		}
 
@@ -635,5 +779,17 @@ public class MenuInputManager : MonoBehaviour
         if (xbox)
             return "_Xbox";
         return "";
+    }
+
+    public void toggleWindowed()
+    {
+    	if (Screen.fullScreen == true)
+    	{
+			Screen.fullScreen = false;
+		} 
+		else
+		{
+			Screen.fullScreen = true;
+		}
     }
 }
