@@ -7,7 +7,7 @@ using System.Linq;
 public class AI : MonoBehaviour
 {
     // General
-    public int difficulty = 100;
+    public int difficulty = 50;
 
     // Player data
     int pArmor;
@@ -221,6 +221,10 @@ public class AI : MonoBehaviour
                 {
                     AIInput.combo2H_1();
                 }
+                else if (difficulty < 100)
+                {
+                    delay();
+                }
                 else
                 {
 
@@ -236,7 +240,6 @@ public class AI : MonoBehaviour
                     // Executes AI's state
                     if (aiCharacter == "Dhalia")
                     {
-                        if (difficulty < 100);      // Should have some sort of delay. The lower the difficulty, the more the AI delays/doesn't do anything
                         if (max == "Attack") attack();
                         if (max == "Defend") defend();
                         if (max == "Approach") approach();
@@ -634,6 +637,14 @@ public class AI : MonoBehaviour
         attackStates["Low"] = 0;
         attackStates["Grab"] = 0;
         attackStates["Setup"] = 0;
+    }
+
+    void delay()
+    {
+        var rand = new System.Random();
+
+        if (rand.Next((100 - difficulty) * 100) < 10)
+            delayTimer = (float)rand.NextDouble();
     }
 
     // Testing specific actions
