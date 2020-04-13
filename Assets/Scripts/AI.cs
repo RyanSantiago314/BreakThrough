@@ -7,7 +7,7 @@ using System.Linq;
 public class AI : MonoBehaviour
 {
     // General
-    public int difficulty = 50;
+    public float difficulty = 50;
 
     // Player data
     int pArmor;
@@ -619,6 +619,7 @@ public class AI : MonoBehaviour
         else faceLeft = false;
 
         // Distance between player and AI
+        difficulty = characterManager.CPUDifficulty;
         distanceBetweenX = Math.Abs(p1x - p2x);
         distanceBetweenY = Math.Abs(p1y - p2y);
     }
@@ -643,7 +644,7 @@ public class AI : MonoBehaviour
     {
         var rand = new System.Random();
 
-        if (rand.Next((100 - difficulty) * 100) < 10)
+        if (rand.Next((100 - (int)difficulty) * 100) < 10)
             delayTimer = (float)rand.NextDouble();
     }
 
