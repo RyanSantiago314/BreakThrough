@@ -1406,6 +1406,7 @@ MonoBehaviour:
   comboCount: 0
   specialProration: 0
   comboProration: 0
+  usedWallStick: 0
 --- !u!50 &5672348970961381723
 Rigidbody2D:
   serializedVersion: 4

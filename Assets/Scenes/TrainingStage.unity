@@ -676,6 +676,7 @@ MonoBehaviour:
   P2Color: 0
   P1Side: Left
   P2Side: Right
+  CPUDifficulty: 50
 --- !u!4 &76439336
 Transform:
   m_ObjectHideFlags: 0
@@ -735,7 +736,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.59, y: -0.17}
+  m_Offset: {x: -0.2, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -746,7 +747,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.44, y: 0.39}
+  m_Size: {x: 0.47, y: 0.51}
   m_EdgeRadius: 0
 --- !u!61 &80651161
 BoxCollider2D:
@@ -761,7 +762,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.14, y: -0.125}
+  m_Offset: {x: -0.02, y: -0.67}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -772,7 +773,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.84}
+  m_Size: {x: 1.43, y: 0.44}
   m_EdgeRadius: 0
 --- !u!1 &92740583
 GameObject:
@@ -1424,7 +1425,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.06, y: 0.28}
+  m_Offset: {x: 0.3, y: 0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1435,7 +1436,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.57, y: 0.3}
+  m_Size: {x: 0.6, y: 0.24}
   m_EdgeRadius: 0
 --- !u!1 &149537024
 GameObject:
@@ -2608,6 +2609,7 @@ MonoBehaviour:
   P2ValorHighlight: {fileID: 13435442}
   armorRefillHighlight: {fileID: 1654591356}
   CPUAirTechHighlight: {fileID: 94623926}
+  CPUGuardAfterFirstHithHighlight: {fileID: 0}
   moveListButton: {fileID: 32651415}
   quitButton: {fileID: 96433967}
   resumeButtonMatch: {fileID: 1444296395}
@@ -2619,11 +2621,13 @@ MonoBehaviour:
   P2Valor: 100
   ArmorRefill: 0
   CPUAirRecover: 1
+  CPUGroundGuard: 0
   CPUStateText: {fileID: 92740583}
   P1ValorText: {fileID: 724450792}
   P2ValorText: {fileID: 1507354476}
   ArmorRefillText: {fileID: 365793145}
   CPUAirRecoverText: {fileID: 814881464}
+  CPUGroundGuardText: {fileID: 0}
 --- !u!1 &320140284
 GameObject:
   m_ObjectHideFlags: 0
@@ -5028,7 +5032,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.71, y: -0.13}
+  m_Offset: {x: 0.42, y: 0.06}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -5039,7 +5043,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.235}
+  m_Size: {x: 0.19, y: 0.26}
   m_EdgeRadius: 0
 --- !u!61 &537094133
 BoxCollider2D:
@@ -5054,7 +5058,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.36, y: -0.26}
+  m_Offset: {x: 0.4, y: -0.25}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -5065,7 +5069,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 0.5}
+  m_Size: {x: 0.32, y: 0.47}
   m_EdgeRadius: 0
 --- !u!1 &541346889
 GameObject:
@@ -5501,7 +5505,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 918ba91d5f3c0584cafed602ab04aca5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dfb1a66fa4be7e049bb55285f68803ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7621,7 +7625,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 918ba91d5f3c0584cafed602ab04aca5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 446b751cd23b6e241bb3427128420418, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -15628,6 +15632,7 @@ MonoBehaviour:
   PracticeModeSettings: {fileID: 290271581}
   enableArmorRefill: 1
   enableCPUAirTech: 0
+  enableGuardAfterFirstHit: 0
   dummyState: Stand
   P1ValorSetting: 0
   P2ValorSetting: 0
@@ -15637,6 +15642,8 @@ MonoBehaviour:
   P2ComboDamage: {fileID: 611426350}
   P1HighComboDamage: {fileID: 698021688}
   P2HighComboDamage: {fileID: 824437450}
+  P1HitType: {fileID: 0}
+  P2HitType: {fileID: 0}
   DamageDisplays: {fileID: 880442375}
   P1Displays: {fileID: 1191982311}
   P2Displays: {fileID: 1847207045}
@@ -15970,11 +15977,11 @@ MonoBehaviour:
   OpponentProperties: {fileID: 0}
   weight: 0.55
   walkSpeed: 2.25
-  walkBackSpeed: 2
+  walkBackSpeed: 1.85
   backDashForce: 2
   runAcceleration: 0.15
   jumpPower: 4.2
-  maxVelocity: 5.3
+  maxVelocity: 5.35
   maxJumps: 2
   jumps: 0
   minPosY: 1.1

@@ -69,7 +69,7 @@ public class HurtboxACH : MonoBehaviour
         legs1.offset = new Vector2(-.047f, -.23f);
         legs1.size = new Vector2(.83f, .42f);
         legs2.offset = new Vector2(.125f, -.67f);
-        legs2.size = new Vector2(1.17f, .5f);
+        legs2.size = new Vector2(1f, .5f);
         misc1.offset = new Vector2(-.28f, .54f);
         misc1.size = new Vector2(.395f, .21f);
         misc2.offset = new Vector2(.246f, .075f);
@@ -239,13 +239,16 @@ public class HurtboxACH : MonoBehaviour
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
+        legs2.enabled = true;
 
-        head.offset = new Vector2(-.07f, .6f);
-        head.size = new Vector2(.35f, .32f);
-        body.offset = new Vector2(.058f, -.18f);
-        body.size = new Vector2(.51f, .52f);
-        legs1.offset = new Vector2(.18f, .35f);
-        legs1.size = new Vector2(.39f, .57f);
+        head.offset = new Vector2(-.066f, -.38f);
+        head.size = new Vector2(.23f, .3f);
+        body.offset = new Vector2(.07f, .043f);
+        body.size = new Vector2(.51f, .645f);
+        legs1.offset = new Vector2(.185f, .68f);
+        legs1.size = new Vector2(.456f, .69f);
+        legs2.offset = new Vector2(.36f, 1.05f);
+        legs2.size = new Vector2(.25f, .6f);
     }
 
     public void Deflected()
@@ -266,17 +269,59 @@ public class HurtboxACH : MonoBehaviour
         legs2.size = new Vector2(.78f, .49f);
     }
 
+    public void WallStick()
+    {
+        Invincible();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(-.18f, .88f);
+        head.size = new Vector2(.185f, .25f);
+        body.offset = new Vector2(-.15f, .5f);
+        body.size = new Vector2(.385f, .5f);
+        legs1.offset = new Vector2(-.16f, -.01f);
+        legs1.size = new Vector2(.48f, .64f);
+        legs2.offset = new Vector2(-.2f, -.5f);
+        legs2.size = new Vector2(.47f, .51f);
+    }
+
 
     public void Run()
     {
         Invincible();
         head.enabled = true;
         body.enabled = true;
+        legs1.enabled = true;
+        misc1.enabled = true;
 
-        head.offset = new Vector2(.23f, .6f);
-        head.size = new Vector2(.35f, .32f);
-        body.offset = new Vector2(-.03f, .14f);
-        body.size = new Vector2(.69f, .6f);
+        head.offset = new Vector2(.33f, .38f);
+        head.size = new Vector2(.32f, .26f);
+        body.offset = new Vector2(.05f, .165f);
+        body.size = new Vector2(.52f, .54f);
+        legs1.offset = new Vector2(0f, -0.5f);
+        legs1.size = new Vector2(.78f, .78f);
+        misc1.offset = new Vector2(0.3f, 0.1f);
+        misc1.size = new Vector2(.6f, .24f);
+    }
+
+    public void Brake()
+    {
+        Invincible();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(.42f, .06f);
+        head.size = new Vector2(.19f, .26f);
+        body.offset = new Vector2(.4f, -.25f);
+        body.size = new Vector2(.32f, .47f);
+        legs1.offset = new Vector2(-.02f, -0.67f);
+        legs1.size = new Vector2(1.43f, .44f);
+        misc1.offset = new Vector2(0.03f, 0.13f);
+        misc1.size = new Vector2(.6f, .3f);
     }
 
     public void StandLight()
