@@ -413,7 +413,7 @@ public class HUD : MonoBehaviour
         P2Dura4.color = Color32.Lerp(P2ResolveColor, Color.white, P2Transition);
 
         //round icons
-        if (GameOver.p1Win > 0)
+        if (RoundManager.p1Win > 0)
         {
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
             {
@@ -421,7 +421,7 @@ public class HUD : MonoBehaviour
                 {
                     p1Icon1.SetTrigger("Activate");
                 }
-                if (GameOver.p1Win > 1 && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P1Prop.HitDetect.hitStop == 0)
+                if (RoundManager.p1Win > 1 && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P1Prop.HitDetect.hitStop == 0)
                     p1Icon2.SetTrigger("Activate");
             }
             else
@@ -430,7 +430,7 @@ public class HUD : MonoBehaviour
                 {
                     p2Icon1.SetTrigger("Activate");
                 }
-                if (GameOver.p1Win > 1 && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P1Prop.HitDetect.hitStop == 0)
+                if (RoundManager.p1Win > 1 && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P1Prop.HitDetect.hitStop == 0)
                     p2Icon2.SetTrigger("Activate");
             }
         }
@@ -452,7 +452,7 @@ public class HUD : MonoBehaviour
             }
         }
 
-        if (GameOver.p2Win > 0)
+        if (RoundManager.p2Win > 0)
         {
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
             {
@@ -460,7 +460,7 @@ public class HUD : MonoBehaviour
                 {
                     p1Icon1.SetTrigger("Activate");
                 }
-                if (GameOver.p2Win > 1 && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
+                if (RoundManager.p2Win > 1 && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
                     p1Icon2.SetTrigger("Activate");
             }
             else
@@ -469,7 +469,7 @@ public class HUD : MonoBehaviour
                 {
                     p2Icon1.SetTrigger("Activate");
                 }
-                if (GameOver.p2Win > 1 && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
+                if (RoundManager.p2Win > 1 && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
                     p2Icon2.SetTrigger("Activate");
             }
         }
