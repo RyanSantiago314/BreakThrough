@@ -689,8 +689,8 @@ public class PauseMenu : MonoBehaviour
 
     public void QuitToMenu()
     {
-        StartText.startReady = false;
-        GameOver.lockInputs = false;
+        RoundManager.startReady = false;
+        RoundManager.lockInputs = false;
         GameOver.p1Win = 0;
         GameOver.p2Win = 0;
         pauseQuit = true;

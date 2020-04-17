@@ -17,7 +17,6 @@ public class PracticeMode : MonoBehaviour
     HUD HUD;
     public MaxInput MaxInput;
     public GameObject MaxInputObject;
-    public GameObject GameOverManager;
     public GameObject PracticeModeSettings;
 
     private bool P1inCombo;
@@ -92,8 +91,6 @@ public class PracticeMode : MonoBehaviour
 
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
-            GameOverManager = GameObject.Find("GameOverManager");
-            GameOverManager.SetActive(false);
             DamageDisplays.SetActive(true);
         }       
     }

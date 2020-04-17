@@ -57,7 +57,7 @@ public class CharacterProperties : MonoBehaviour
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
             {
                 currentHealth = 0;
-                if (GameOver.dizzyKO)
+                if (RoundManager.dizzyKO)
                 {
                     HitDetect.anim.SetBool(crouchID, false);
                     HitDetect.anim.SetBool(dizzyID, true);
@@ -65,7 +65,7 @@ public class CharacterProperties : MonoBehaviour
                 else
                     HitDetect.anim.SetBool(KOID, true);
 
-                GameOver.dizzyKO = false;
+                RoundManager.dizzyKO = false;
 
                 HitDetect.Actions.DisableAll();
                 HitDetect.Actions.DisableBlitz();
