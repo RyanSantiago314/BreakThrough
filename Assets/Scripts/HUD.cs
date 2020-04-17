@@ -7,18 +7,14 @@ public class HUD : MonoBehaviour
 {
     public Sprite DHAHeadshot;
 
-    public Text Player1Health;
-    public Text Player2Health;
-    public Text Player1Armor;
-    public Text Player2Armor;
-    public Text Player1Durability;
-    public Text Player2Durability;
     public Image P1HealthUI;
     public Image P1RedHealth;
     public Image P2HealthUI;
     public Image P2RedHealth;
     public SpriteRenderer P1Headshot;
     public SpriteRenderer P2Headshot;
+    public Text P1Name;
+    public Text P2Name;
 
     public Animator p1Icon1;
     public Animator p1Icon2;
@@ -106,13 +102,6 @@ public class HUD : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        Player1Health.text = P1Prop.currentHealth + " / " + P1Prop.maxHealth;
-        Player2Health.text = P2Prop.currentHealth + " / " + P2Prop.maxHealth;
-        Player1Armor.text = "Armor:" + P1Prop.armor;
-        Player2Armor.text = "Armor:" + P2Prop.armor;
-        Player1Durability.text = "Durability:" + P1Prop.durability;
-        Player2Durability.text = "Durability:" + P2Prop.durability;
         if (P1HealthUI.fillAmount > (float)(P1Prop.currentHealth / P1Prop.maxHealth))
             P1HealthUI.fillAmount = (float)(P1Prop.currentHealth / P1Prop.maxHealth);
         else if (P1HealthUI.fillAmount < (float)(P1Prop.currentHealth / P1Prop.maxHealth))
@@ -558,9 +547,15 @@ public class HUD : MonoBehaviour
     public void SetCharacterPortrait()
     {
         if (P1Prop.transform.root.GetChild(0).name.Contains("Dhalia") || P1Prop.transform.root.GetChild(0).name.Contains("DHA"))
+        {
             P1Headshot.sprite = DHAHeadshot;
+            P1Name.text = "Dhalia Thorne";
+        }
 
         if (P2Prop.transform.root.GetChild(0).name.Contains("Dhalia") || P2Prop.transform.root.GetChild(0).name.Contains("DHA"))
-            P2Headshot.sprite = DHAHeadshot;    
+        {
+            P2Headshot.sprite = DHAHeadshot;
+            P2Name.text = "Dhalia Thorne";
+        }
     }
 }
