@@ -44,6 +44,8 @@ public class HUD : MonoBehaviour
 
     public Text Player1Combo;
     public Text Player2Combo;
+    public Text Player1Hits;
+    public Text Player2Hits;
     public Image combotimer1;
     public Image combotimer2;
     public Image combogauge1;
@@ -53,6 +55,16 @@ public class HUD : MonoBehaviour
     float displayTime2;
     int hitNum1;
     int hitNum2;
+    int hitNum1Memo;
+    int hitNum2Memo;
+    bool P1TrueCombo = true;
+    bool P2TrueCombo = true;
+
+    Vector2 P1HitsPos;
+    Vector2 P1ComboPos;
+
+    Vector2 P2HitsPos;
+    Vector2 P2ComboPos;
 
     CharacterProperties P1Prop;
     CharacterProperties P2Prop;
@@ -95,6 +107,12 @@ public class HUD : MonoBehaviour
 
         regen = Animator.StringToHash("Regen");
         shatter = Animator.StringToHash("Shatter");
+
+        P1HitsPos = Player1Hits.rectTransform.anchoredPosition;
+        P1ComboPos = Player1Combo.rectTransform.anchoredPosition;
+
+        P2HitsPos = Player2Hits.rectTransform.anchoredPosition;
+        P2ComboPos = Player2Combo.rectTransform.anchoredPosition;
 
         SetCharacterPortrait();
     }
@@ -511,15 +529,53 @@ public class HUD : MonoBehaviour
        
         if (displayTime1 > 0)
         {
-            Player1Combo.text = hitNum1 + " hits";
+            Player1Combo.text = hitNum1.ToString();
+            Player1Hits.text = "HITS";
             displayTime1 -= Time.fixedDeltaTime;
         }
         else
         {
             hitNum1 = 0;
+            hitNum1Memo = 0;
             Player1Combo.text = "";
+            Player1Hits.text = "";
+        }
+        //shakes the combocounter everytime a hit is added to the combo, combocounter also changes color based on whether or not the combo is true
+
+        if (P1hit.comboCount == 0)
+        {
+            P1TrueCombo = true;
+            combotimer1.color = Color.white;
+        }
+        else if (P1hit.comboCount > 0 && hitNum1Memo == hitNum1 && P2hit.hitStun == 0 && P2hit.Actions.airborne && !P2hit.anim.GetCurrentAnimatorStateInfo(0).IsName("Launch")
+            && !P2hit.anim.GetCurrentAnimatorStateInfo(0).IsName("WallStick"))
+        {
+            P1TrueCombo = false;
+        }
+
+        if (hitNum1Memo < hitNum1)
+        {
+            Player1Combo.rectTransform.anchoredPosition = new Vector2(P1ComboPos.x + Random.Range(-150f, 150f), P1ComboPos.y + Random.Range(-150f, 150f));
+            Player1Hits.rectTransform.anchoredPosition = new Vector2(P1HitsPos.x + Random.Range(-150f, 150f), P1HitsPos.y + Random.Range(-150f, 150f));
+            if (P1TrueCombo)
+            {
+                Player1Combo.color = new Color32(185, 0, 30, 255);
+                Player1Hits.color = new Color32(230, 230, 230, 255);
+                combotimer1.color = Color.white;
+            }
+            else
+            {
+                Player1Combo.color = new Color32(50, 50, 50, 255);
+                Player1Hits.color = new Color32(100, 100, 100, 255);
+                combotimer1.color = new Color32(70, 250, 255, 255);
+            }
+            hitNum1Memo = hitNum1;
         }
         
+
+        Player1Combo.rectTransform.anchoredPosition = Vector2.Lerp(Player1Combo.rectTransform.anchoredPosition, P1ComboPos, 40*Time.deltaTime);
+        Player1Hits.rectTransform.anchoredPosition = Vector2.Lerp(Player1Hits.rectTransform.anchoredPosition, P1HitsPos, 40*Time.deltaTime);
+
         //player 2 combo timer
         if (P1hit.hitStun > 0)
         {
@@ -527,7 +583,7 @@ public class HUD : MonoBehaviour
                 combotimer2.fillAmount = 1;
             else
                 combotimer2.fillAmount = P1hit.hitStun / 60f;
-         
+
             hitNum2 = P2hit.comboCount;
             combogauge2.enabled = true;
             if (P2hit.comboCount > 1)
@@ -541,13 +597,46 @@ public class HUD : MonoBehaviour
 
         if (displayTime2 > 0)
         {
-            Player2Combo.text = hitNum2 + " hits";
+            Player2Combo.text = hitNum2.ToString();
+            Player2Hits.text = "HITS";
             displayTime2 -= Time.fixedDeltaTime;
         }
         else
         {
             hitNum2 = 0;
+            hitNum2Memo = 0;
             Player2Combo.text = "";
+            Player2Hits.text = "";
+        }
+
+        if (P2hit.comboCount == 0)
+        {
+            P2TrueCombo = true;
+            combotimer2.color = Color.white;
+        }
+        else if (P2hit.comboCount > 0 && hitNum2Memo == hitNum2 && P1hit.hitStun == 0 && P1hit.Actions.airborne && !P1hit.anim.GetCurrentAnimatorStateInfo(0).IsName("Launch")
+            && !P1hit.anim.GetCurrentAnimatorStateInfo(0).IsName("WallStick"))
+        {
+            P2TrueCombo = false;
+        }
+
+        if (hitNum2Memo < hitNum2)
+        {
+            Player2Combo.rectTransform.anchoredPosition = new Vector2(P2ComboPos.x + Random.Range(-150f, 150f), P2ComboPos.y + Random.Range(-150f, 150f));
+            Player2Hits.rectTransform.anchoredPosition = new Vector2(P2HitsPos.x + Random.Range(-150f, 150f), P2HitsPos.y + Random.Range(-150f, 150f));
+            if (P2TrueCombo)
+            {
+                Player2Combo.color = new Color32(185, 0, 30, 255);
+                Player2Hits.color = new Color32(230, 230, 230, 255);
+                combotimer2.color = Color.white;
+            }
+            else
+            {
+                Player2Combo.color = new Color32(50, 50, 50, 255);
+                Player2Hits.color = new Color32(100, 100, 100, 255);
+                combotimer2.color = new Color32(70, 250, 255, 255);
+            }
+            hitNum2Memo = hitNum2;
         }
     }
 
