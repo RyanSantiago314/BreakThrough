@@ -15599,24 +15599,6 @@ Transform:
   m_Father: {fileID: 1957560257}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2032390719 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1132291094756303824, guid: 256af52d0b7bef24a8349a57abdc9d7a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1132291094602616481}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2032390723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2032390719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 301eca71255100647bb9bad1d5641921, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2043138269
 GameObject:
   m_ObjectHideFlags: 0
@@ -15648,7 +15630,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxInput: {fileID: 1948197657}
   MaxInputObject: {fileID: 1948197656}
-  GameOverManager: {fileID: 0}
   PracticeModeSettings: {fileID: 290271581}
   enableArmorRefill: 1
   enableCPUAirTech: 0

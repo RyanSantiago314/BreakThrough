@@ -411,7 +411,9 @@ public class HUD : MonoBehaviour
                     p1Icon1.SetTrigger("Activate");
                 }
                 if (RoundManager.p1Win > 1 && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P1Prop.HitDetect.hitStop == 0)
+                {
                     p1Icon2.SetTrigger("Activate");
+                }
             }
             else
             {
@@ -420,7 +422,9 @@ public class HUD : MonoBehaviour
                     p2Icon1.SetTrigger("Activate");
                 }
                 if (RoundManager.p1Win > 1 && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P1Prop.HitDetect.hitStop == 0)
+                {
                     p2Icon2.SetTrigger("Activate");
+                }
             }
         }
         else
@@ -438,110 +442,112 @@ public class HUD : MonoBehaviour
                     p2Icon1.SetTrigger("Disappear");
                 if (!p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
                     p2Icon2.SetTrigger("Disappear");
+            }
+        }
 
-
-                if (RoundManager.p2Win > 0)
+        if (RoundManager.p2Win > 0)
+        {
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+            {
+                if (!p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
                 {
-                    if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
-                    {
-                        if (!p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
-                        {
-                            p1Icon1.SetTrigger("Activate");
-                        }
-                        if (RoundManager.p2Win > 1 && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
-                            p1Icon2.SetTrigger("Activate");
-                    }
-                    else
-                    {
-                        if (!p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
-                        {
-                            p2Icon1.SetTrigger("Activate");
-                        }
-                        if (RoundManager.p2Win > 1 && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
-                            p2Icon2.SetTrigger("Activate");
-                    }
+                    p1Icon1.SetTrigger("Activate");
                 }
-                else
+                if (RoundManager.p2Win > 1 && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
                 {
-                    if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
-                    {
-                        if (!p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
-                            p1Icon1.SetTrigger("Disappear");
-                        if (!p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
-                            p1Icon2.SetTrigger("Disappear");
-                    }
-                    else
-                    {
-                        if (!p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
-                            p2Icon1.SetTrigger("Disappear");
-                        if (!p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
-                            p2Icon2.SetTrigger("Disappear");
-                    }
-                }
-
-                //player 1 combo timer
-
-                if (P2hit.hitStun > 0)
-                {
-                    if (P2hit.hitStun > 60)
-                        combotimer1.fillAmount = 1;
-                    else
-                    {
-                        combotimer1.fillAmount = P2hit.hitStun / 60f;
-                    }
-                    hitNum1 = P1hit.comboCount;
-                    combogauge1.enabled = true;
-
-                    if (P1hit.comboCount > 1)
-                        displayTime1 = 1;
-                }
-                else
-                {
-                    combotimer1.fillAmount = 0;
-                    combogauge1.enabled = false;
-                }
-
-                if (displayTime1 > 0)
-                {
-                    Player1Combo.text = hitNum1 + " hits";
-                    displayTime1 -= Time.fixedDeltaTime;
-                }
-                else
-                {
-                    hitNum1 = 0;
-                    Player1Combo.text = "";
-                }
-
-                //player 2 combo timer
-                if (P1hit.hitStun > 0)
-                {
-                    if (P1hit.hitStun > 60)
-                        combotimer2.fillAmount = 1;
-                    else
-                        combotimer2.fillAmount = P1hit.hitStun / 60f;
-
-                    hitNum2 = P2hit.comboCount;
-                    combogauge2.enabled = true;
-                    if (P2hit.comboCount > 1)
-                        displayTime2 = 1;
-                }
-                else
-                {
-                    combogauge2.enabled = false;
-                    combotimer2.fillAmount = 0;
-                }
-
-                if (displayTime2 > 0)
-                {
-                    Player2Combo.text = hitNum2 + " hits";
-                    displayTime2 -= Time.fixedDeltaTime;
-                }
-                else
-                {
-                    hitNum2 = 0;
-                    Player2Combo.text = "";
+                    p1Icon2.SetTrigger("Activate");
                 }
             }
+            else
+            {
+                if (!p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
+                {
+                    p2Icon1.SetTrigger("Activate");
+                }
+                if (RoundManager.p2Win > 1 && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("IconAppear") && !p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("StillIcon") && P2Prop.HitDetect.hitStop == 0)
+                {
+                    p2Icon2.SetTrigger("Activate");
+                }
+            }
+        }
+        else
+        {
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+            {
+                if (!p1Icon1.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                    p1Icon1.SetTrigger("Disappear");
+                if (!p1Icon2.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                    p1Icon2.SetTrigger("Disappear");
+            }
+            else
+            {
+                if (!p2Icon1.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                    p2Icon1.SetTrigger("Disappear");
+                if (!p2Icon2.GetCurrentAnimatorStateInfo(0).IsName("BlankIcon"))
+                    p2Icon2.SetTrigger("Disappear");
+            }
+        }
+
+        //player 1 combo timer
+        if (P2hit.hitStun > 0)
+        {
+            if (P2hit.hitStun > 60)
+                combotimer1.fillAmount = 1;
+            else
+            {
+                combotimer1.fillAmount = P2hit.hitStun / 60f;
+            }
+            hitNum1 = P1hit.comboCount;
+            combogauge1.enabled = true;
+       
+            if (P1hit.comboCount > 1)
+                displayTime1 = 1;
+        }
+        else
+        {
+            combotimer1.fillAmount = 0;
+            combogauge1.enabled = false;
+        }
+       
+        if (displayTime1 > 0)
+        {
+            Player1Combo.text = hitNum1 + " hits";
+            displayTime1 -= Time.fixedDeltaTime;
+        }
+        else
+        {
+            hitNum1 = 0;
+            Player1Combo.text = "";
+        }
+        
+        //player 2 combo timer
+        if (P1hit.hitStun > 0)
+        {
+            if (P1hit.hitStun > 60)
+                combotimer2.fillAmount = 1;
+            else
+                combotimer2.fillAmount = P1hit.hitStun / 60f;
+         
+            hitNum2 = P2hit.comboCount;
+            combogauge2.enabled = true;
+            if (P2hit.comboCount > 1)
+                displayTime2 = 1;
+        }
+        else
+        {
+            combogauge2.enabled = false;
+            combotimer2.fillAmount = 0;
+        }
+
+        if (displayTime2 > 0)
+        {
+            Player2Combo.text = hitNum2 + " hits";
+            displayTime2 -= Time.fixedDeltaTime;
+        }
+        else
+        {
+            hitNum2 = 0;
+            Player2Combo.text = "";
         }
     }
 
