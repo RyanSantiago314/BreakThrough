@@ -15035,8 +15035,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bddeebde644bc0d45b9d06cbdf1ca9d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficulty: 50
   pIsHitstun: 0
   pIsBlockstun: 0
+  armor: 0
   faceLeft: 0
   keepInput: 0
   keepAction: 
@@ -15628,7 +15630,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxInput: {fileID: 1948197657}
   MaxInputObject: {fileID: 1948197656}
-  GameOverManager: {fileID: 0}
   PracticeModeSettings: {fileID: 290271581}
   enableArmorRefill: 1
   enableCPUAirTech: 0

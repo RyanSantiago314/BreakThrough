@@ -82,8 +82,10 @@
                 fixed4 frag(v2f IN) : SV_Target
                 {
                     fixed4 c = SampleSpriteTexture(IN.texcoord);
+
                     fixed4 swapCol = tex2D(_SwapTex, float2(c.r, 0));
-                    fixed4 final = lerp(c, swapCol, swapCol.a) * IN.color;
+
+                    fixed4 final = lerp(c, swapCol, swapCol.a) *IN.color;
                     final.a = c.a;
                     final.rgb *= c.a;
                     return final;

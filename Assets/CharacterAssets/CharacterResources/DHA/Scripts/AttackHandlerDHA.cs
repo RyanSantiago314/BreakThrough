@@ -191,12 +191,12 @@ public class AttackHandlerDHA : MonoBehaviour
         currentState = anim.GetCurrentAnimatorStateInfo(0);
         anim.ResetTrigger(IDRec);
 
-        if (StartText.startReady && !GameOver.lockInputs)
+        if (RoundManager.startReady && !RoundManager.lockInputs)
         {
             Move.playing = true;
             Move.opponent.GetComponent<MovementHandler>().playing = true;
         }
-        if (!StartText.startReady && GameOver.lockInputs)
+        if (!RoundManager.startReady && RoundManager.lockInputs)
         {
             Move.playing = false;
             Move.opponent.GetComponent<MovementHandler>().playing = false;
@@ -425,9 +425,9 @@ public class AttackHandlerDHA : MonoBehaviour
         }
 
         //aerial recovery, press a button after hitstun ends
-        if ((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") || currentState.IsName("LaunchTransition") ||
-             currentState.IsName("LaunchFall") || currentState.IsName("Unstick")) && Move.HitDetect.hitStun == 0 && Move.transform.position.y > 1.4f &&
-            (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
+        if ((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") || currentState.IsName("LaunchTransition") || 
+            currentState.IsName("LaunchFall") || currentState.IsName("Unstick")) && Move.HitDetect.hitStun == 0 && 
+            Move.transform.position.y > 1.4f && (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
         {
             anim.SetTrigger(IDRec);
         }

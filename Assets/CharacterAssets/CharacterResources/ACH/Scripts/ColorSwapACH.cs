@@ -84,7 +84,10 @@ public class ColorSwapACH : MonoBehaviour
 
         for (int i = 0; i < colorSwapTex.width; i++)
         {
-            colorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 0));
+            if (i != 0 && i != 255)
+                colorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 255));
+            else
+                colorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 0));
         }
         colorSwapTex.Apply();
 
