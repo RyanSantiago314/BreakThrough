@@ -1037,7 +1037,7 @@ public class HitDetector : MonoBehaviour
         currentVelocity = rb.velocity;
         OpponentDetector.currentVelocity = OpponentDetector.rb.velocity;
 
-        if (Actions.Move.OpponentProperties.currentHealth <= 0 && !OpponentDetector.anim.GetBool(KOID) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
+        if ((Actions.Move.OpponentProperties.currentHealth <= 0|| RoundManager.suddenDeath) && !OpponentDetector.anim.GetBool(KOID) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
         {
             hitStop = 90;
             OpponentDetector.hitStop = 90;

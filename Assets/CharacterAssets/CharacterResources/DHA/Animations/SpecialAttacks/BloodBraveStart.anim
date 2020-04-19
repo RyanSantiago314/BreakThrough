@@ -21,13 +21,13 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: d8ee20ceb70b166478ac775ee576063b, type: 3}
-    - time: 0.1
+    - time: 0.13333334
       value: {fileID: 21300000, guid: 94b031e7b31c3b6418d79d69e87da1b5, type: 3}
-    - time: 0.2
+    - time: 0.23333333
       value: {fileID: 21300000, guid: 550e198cc5143ae44b4febec1a48732c, type: 3}
-    - time: 0.28333333
+    - time: 0.31666666
       value: {fileID: 21300000, guid: 6068a816df63a9a4a89e76d0129832f9, type: 3}
-    - time: 0.33333334
+    - time: 0.36666667
       value: {fileID: 21300000, guid: 6068a816df63a9a4a89e76d0129832f9, type: 3}
     attribute: m_Sprite
     path: 
@@ -58,7 +58,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.35000002
+    m_StopTime: 0.38333336
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -106,24 +106,24 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.1
+  - time: 0.13333334
     functionName: BBStartup
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.13333334
-    functionName: Advance
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 1.5
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.13333334
+  - time: 0.18333334
     functionName: Rise
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 2.85
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.18333334
+    functionName: Advance
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 1.5
     intParameter: 0
     messageOptions: 0

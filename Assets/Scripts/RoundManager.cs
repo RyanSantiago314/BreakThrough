@@ -7,28 +7,20 @@ using TMPro;
 
 public class RoundManager : MonoBehaviour
 {
+    public Animator ScreenGraphics;
     //GAMEOVER
     //Variables for character properties for both player 1 and 2
-    private CharacterProperties PlayerProp1;
-    private CharacterProperties PlayerProp2;
+    private CharacterProperties P1Prop;
+    private CharacterProperties P2Prop;
     //Menu object variables
     public GameObject p1menu;
     public GameObject p2menu;
-    public GameObject roundOverMenu;
-    public GameObject KOMenu;
-    public GameObject overtimeMenu;
     private GameObject child1;
     private GameObject child2;
-    private GameObject child3;
-    private GameObject child4;
-    private GameObject child5;
     public Button p1Replay;
     public Button p1Quit;
     public Button p2Replay;
     public Button p2Quit;
-    public TextMeshProUGUI p1WinCount;
-    public TextMeshProUGUI p2WinCount;
-    public TextMeshProUGUI roundTimerText;
     //Global variables keeping track of each players win count
     static public int p1Win;
     static public int p2Win;
@@ -38,42 +30,35 @@ public class RoundManager : MonoBehaviour
     static public bool lockInputs;
 
     //Various float timer variables
+    static public float roundTimer;
+    static public bool suddenDeath = false;
     private float endTimer;
-    private float replayTimer;
-    private float roundTimer;
+    private float replayTimer;   
     private float overtimeTimer;
-    //Bool variable checking if replay is about to occur
-    private bool replaying;
+
     //Bool variable deciding if timer should be running or not
-    private bool timerStart;
+    private bool timeWarningPlayed = false;
+    
+    Vector2 p1Start;
+    Vector2 p2Start;
 
     private bool isXbox;
     private string xboxInput;
     private string ps4Input;
 
-    public AudioSource hurry;
-    public AudioSource KO;
-    public AudioSource timeup;
-    public AudioSource suddendeath;
-
     //STARTTEXT
     //Global bool controlling whether or not user input is allowed
-    static public bool startReady;
+    static public bool gameActive;
     //Global int that keeps track of the round count
     static public int roundCount;
     //Text and music objects
-    public TextMeshProUGUI startText;
-    public GameObject thisText;
-    private AudioSource music;
-    public AudioSource BoBB;
-    public AudioSource begin;
-    public AudioSource ready;
-    public AudioSource ready2;
-    public AudioSource ready3;
-    //bool that decides whether or not if round countdown is ready to begin
-    private bool beginCountdown;
-    //bool keeping track of when it is the first round of a match
-    private bool isFirstRound;
+    public AudioSource Music;
+    public AudioSource Announcer;
+    public Text leftText;
+    public Text centerText;
+    public Text rightText;
+    public Text centerShadow;
+
     //Timer variable
     float timer;
 
@@ -84,51 +69,40 @@ public class RoundManager : MonoBehaviour
 
     void Start()
     {
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+            p1Start = new Vector3(-1f, 1.10f, -3);
+        else
+            p1Start = new Vector3(1f, 1.10f, -3);
+
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
+            p2Start = new Vector3(1f, 1.10f, -3);
+        else
+            p2Start = new Vector3(-1f, 1.10f, -3);
+
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
         {
             //Setting private character property variables to their appropriate player 1 and 2 child respectively
-            PlayerProp1 = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
-            PlayerProp2 = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
+            P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
+            P2Prop = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
 
             //Setting private menu child game obejcts to their appropriate menu children respectively
             child1 = p1menu.transform.GetChild(0).gameObject;
             child2 = p2menu.transform.GetChild(0).gameObject;
-            child3 = roundOverMenu.transform.GetChild(0).gameObject;
-            child4 = KOMenu.transform.GetChild(0).gameObject;
-            child5 = overtimeMenu.transform.GetChild(0).gameObject;
             //Setting timers to an arbitrarily picked -2 for standby
             endTimer = -2;
             replayTimer = -2;
             overtimeTimer = -2;
             //Setting round timer to 99 (eventually will make it into a public variable for easier manipulation/access)
             roundTimer = 99;
-            //Setting round timer text to be represented as a float with zero decimal places
-            roundTimerText.text = roundTimer.ToString("F0");
-            replaying = false;
-            //If someone has won the game, reset wins for both players to 0 and reset armor to max
-            if (p1Win == 2 || p2Win == 2)
-            {
-                p1Win = 0;
-                p2Win = 0;
-                PlayerProp1.armor = 4;
-                PlayerProp2.armor = 4;
-                PlayerProp1.durability = 100;
-                PlayerProp2.durability = 100;
-            }
+            roundCount = 1;
             //Setting text variables to proper win text for each player
-            p1WinCount.text = p1Win.ToString();
-            p2WinCount.text = p2Win.ToString();
-            //Telling timer not to start yet
-            timerStart = false;
+            //Telling round not to start yet
+            gameActive = false;
+            lockInputs = true;
+
             //Setting menu children to inactive
             child1.SetActive(false);
             child2.SetActive(false);
-            child3.SetActive(false);
-            child4.SetActive(false);
-            child5.SetActive(false);
-
-            //Setting color of the panel to transparent
-            GameObject.Find("Canvas/BlackScreen").GetComponent<Image>().color = new Color(0, 0, 0, 0);
 
             dizzyKO = false;
             matchOver = false;
@@ -136,164 +110,46 @@ public class RoundManager : MonoBehaviour
             
             xboxInput = "Controller (Xbox One For Windows)";
             ps4Input = "Wireless Controller";
-
-            //If it is the first round set first round bool to true
-            if (roundCount < 1)
-            {
-                isFirstRound = true;
-            }
-            else
-            {
-                isFirstRound = false;
-                roundCount++;
-            }
-            //If it is the first round set the timer for countdown to 5 seconds and round count to 0 total rounds
-            if (isFirstRound)
-            {
-                timer = 5;
-                roundCount = 1;
-                music = GetComponent<AudioSource>();
-            }
-            //If not the first round set the round start countdown to 3 seconds
-            else
-            {
-                timer = 3;
-            }
-            //Set text to ready and activate it
-            if (isFirstRound) startText.text = "Break or Be Broken";
-            else if (roundCount == 2) startText.text = "Duel 2";
-            else if (roundCount >= 3) startText.text = "Final Duel";
-
-            if (!matchOver && !PauseMenu.pauseQuit) thisText.SetActive(true);
-            //Countdown is now ready to begin
-            beginCountdown = true;
         }
         else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
-            music = GetComponent<AudioSource>();
-            startText.text = "";
-            roundTimerText.text = "";
-            startReady = true;
-            music.Play();
+            gameActive = true;
+            roundCount = 0;
+            Music.Play();
         }
-        if (isFirstRound) BoBB.Play();
-        else if (roundCount == 2) startText.text = "Duel 2";
-        else if (roundCount == 3) startText.text = "Final Duel";
-        else if (roundCount > 3) startText.text = "Extra Duel";
-        //BoBB.time = 0.2f;
-        //BoBB.Stop();
     }
 
     // Update is called once per frame
     void Update()
     {
+        ScreenGraphics.SetInteger("RoundCount", roundCount);
+
+        if (P1Prop.HitDetect.Actions.acceptMove && P2Prop.HitDetect.Actions.acceptMove && ScreenGraphics.GetBool("NextRound"))
+            ScreenGraphics.SetBool("NextRound", false);
+
+        //temporary function until system using victory pose anims is implemented (automatically set nextround to true when win pose ends or if break is pressed during win pose)
+        if (ScreenGraphics.GetCurrentAnimatorStateInfo(0).IsName("Inactive") && !gameActive && (P1Prop.currentHealth == 0 || P2Prop.currentHealth == 0) && p1Win != 2 && p2Win != 2)
+            NextRound();
+
         //STARTTEXT LOGIC
         //Debug.Log(BoBB.time);
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
         {
-            
-            //Adjusts timer every update frame
-            if (timer >= 0)
-            {
-                timer -= Time.deltaTime;
-            }
-            //If round ends restart script
-            if (startReady == false && timer == -2 && beginCountdown == false)
-            {
-                Start();
-            }
-            if (timer <= 0)
-            {
-                thisText.SetActive(false);
-            }
-            //If timer is finished set it to -2 for standby
-            if (timer < 0)
-            {
-                timer = -2;
-            }
-            //Checking to see if countdown is ready
-            if (beginCountdown)
-            {
-                //If its the first round do long countdown
-                if (isFirstRound)
-                {
-                    //Exact timing parameters for each text pop up and corresponding sound
-                    if (timer > 2f && timer < 3f)
-                    {
-                        if (roundCount == 1) ready.Play();
-                        else if (roundCount == 2) ready2.Play();
-                        else if (roundCount >= 3) ready3.Play();
-
-                    }
-                    else if (timer > 4f && timer <= 6f)
-                    {
-                        //BoBB.Play();
-                    }
-                    else if (timer > 0f && timer < 1f)
-                    {
-                        begin.Play();
-                    }
-                    if (timer <= 3f && timer > 0.5f)
-                    {
-                        if (roundCount == 1) startText.text = "Duel 1";
-                        else if (roundCount == 2) startText.text = "Duel 2";
-                        else if (roundCount >= 3) startText.text = "Final Duel";
-
-                        if (roundCount == 1) music.Play();
-                    }
-                    else if (timer <= 5f && timer > 3f)
-                    {
-                        startText.text = "Break or Be Broken";
-
-                    }
-                    else if (timer <= 0.5f && timer > 0)
-                    {
-                        startText.text = "Begin";
-                        startReady = true;
-                        beginCountdown = false;
-                        isFirstRound = false;
-                    }
-                }
-                //If its not first round do fast countdown
-                else
-                {
-                    if (timer > 2f && timer < 3f)
-                    {
-                        if (roundCount == 2) ready2.Play();
-                        else if (roundCount >= 3) ready3.Play();
-                    }
-                    else if (timer > 0.5f && timer < 0.6f)
-                    {
-                        begin.Play();
-                    }
-                    else if (timer <= 0.5f && timer > 0)
-                    {
-                        startText.text = "Begin";
-                        startReady = true;
-                        beginCountdown = false;
-                    }
-                }
-            }
 
             //GAMEOVER LOGIC
-            //Decrementing end timer
-            if (endTimer > 0)
-            {
-                timerStart = false;
-                endTimer -= Time.deltaTime;
-            }
 
-            if (roundTimer <= 10f && roundTimer >= 9.5f) hurry.Play();
+            if (roundTimer <= 10f && !timeWarningPlayed)
+            {
+                //.Play();
+                timeWarningPlayed = true;
+            }
 
             //Decrementing replay timer
             if (replayTimer > 0) replayTimer -= Time.deltaTime;
             if (overtimeTimer > 0) overtimeTimer -= Time.deltaTime;
             //If inputs are being allowed the game has started and so should the timer (this is a global variable)
-            if (startReady) timerStart = true;
             //If round time is still greater than 0 and timer is allowed to be on, time ticks
-            if (roundTimer > 0 && timerStart && !matchOver && !lockInputs) roundTimer -= Time.deltaTime / 1.5f;
-            //Setting round timer text to be represented as a float with zero decimal places 
-            roundTimerText.text = roundTimer.ToString("F0");
+            if (roundTimer > 0 && gameActive && !suddenDeath && !matchOver && !lockInputs) roundTimer -= Time.deltaTime / 1.5f;
 
             //If an input device is detected then establish what device it is in order to properly decipher inputs
             if (Input.GetJoystickNames().Length > 0)
@@ -304,16 +160,14 @@ public class RoundManager : MonoBehaviour
             }
 
             //If player 1 lost and player 2 has 2 wins, display player 2 wins screen
-            if (PlayerProp1.currentHealth <= 0 && p2Win == 2)
+            if (P1Prop.currentHealth <= 0 && p2Win == 2 && gameActive)
             {
-                KO.Play();
-                child4.SetActive(true);
+                RoundStop();
                 //If end timer is on standby, set it at 3 and it will begin
                 if (endTimer == -2) endTimer = 3;
                 //If end timer is finished and its not on standby, display player 2 win screen
                 if (endTimer <= 0 && endTimer > -2)
                 {
-                    child4.SetActive(false);
                     child2.SetActive(true);
                     if (matchOver == false) p2Replay.Select();
                     matchOver = true;
@@ -330,20 +184,18 @@ public class RoundManager : MonoBehaviour
                 }
 
                 //Global round count set to 0
-                roundCount = 0;
+                //roundCount = 0;
 
             }
             //If player 2 lost and player 1 has 2 wins, display player 1 wins screen
-            else if (PlayerProp2.currentHealth <= 0 && p1Win == 2)
+            else if (P2Prop.currentHealth <= 0 && p1Win == 2 && gameActive)
             {
-                KO.Play();
-                child4.SetActive(true);
+                RoundStop();
                 //If end timer is on standby, set it at 3 and it will begin
                 if (endTimer == -2) endTimer = 3;
                 //If end timer is finished and its not on standby, display player 1 win screen
                 if (endTimer <= 0 && endTimer > -2)
                 {
-                    child4.SetActive(false);
                     child1.SetActive(true);
                     if (matchOver == false) p1Replay.Select();
                     matchOver = true;
@@ -361,149 +213,205 @@ public class RoundManager : MonoBehaviour
                 }
 
                 //Global round count set to 0
-                roundCount = 0;
+                //roundCount = 0;
             }
             //If the round timer runs out decide who wins
-            if (roundTimer <= 0)
+            if (roundTimer < 0)
             {
-                timeup.Play();
-                if (overtimeTimer == -2)
+                if (!suddenDeath && gameActive && (((float)P1Prop.currentHealth / (float)P1Prop.maxHealth) == ((float)P2Prop.currentHealth / (float)P2Prop.maxHealth)))
                 {
-                    suddendeath.Play();
-                    overtimeTimer = 1.5f;
+                    suddenDeath = true;
+                    ScreenGraphics.SetBool("SuddenDeath", true);
                 }
-                if ((overtimeTimer > 0 || overtimeTimer == -2) && !replaying
-                    && ((int)((PlayerProp1.currentHealth / PlayerProp1.maxHealth) * 100) ==
-                    (int)((PlayerProp2.currentHealth / PlayerProp2.maxHealth) * 100))) child5.SetActive(true);
-                else child5.SetActive(false);
-
+                RoundStop();
                 //Setting roundTimer to round 0
                 roundTimer = 0;
-                //Stopping timer
-                timerStart = false;
-                //Set dizzy KO to true
-                dizzyKO = true;
-                //If player 1 has more health, player 2 loses
-                if (PlayerProp1.currentHealth > PlayerProp2.currentHealth) PlayerProp2.currentHealth = 0;
-                //If player 2 has more health, player 1 loses
-                else if (PlayerProp2.currentHealth > PlayerProp1.currentHealth) PlayerProp1.currentHealth = 0;
             }
-            if (PlayerProp1.currentHealth <= 0 && PlayerProp2.currentHealth <= 0 && replaying == false && p1Win != 2 && p2Win != 2)
+            if (roundTimer == 0)
             {
-                KO.Play();
+                //Set dizzy KO to true
+                if (!suddenDeath)
+                    dizzyKO = true;
+
+                //If player 1 has more health, player 2 loses
+                if (((float)P1Prop.currentHealth / (float)P1Prop.maxHealth) > ((float)P2Prop.currentHealth / (float)P2Prop.maxHealth))
+                    P2Prop.currentHealth = 0;
+                //If player 2 has more health, player 1 loses
+                else if (((float)P1Prop.currentHealth / (float)P1Prop.maxHealth) < ((float)P2Prop.currentHealth / (float)P2Prop.maxHealth))
+                    P1Prop.currentHealth = 0;
+            }
+
+            if (P1Prop.currentHealth <= 0 && P2Prop.currentHealth <= 0 && gameActive && p1Win != 2 && p2Win != 2)
+            {
+                //KO.Play();
                 if (p1Win == 1 && p2Win < 1)
                 {
                     ++p1Win;
-                    replayTimer = 6;
-                    replaying = true;
-                    p1WinCount.text = p1Win.ToString();
-                    lockInputs = true;
                 }
                 else if (p2Win == 1 && p1Win < 1)
                 {
                     ++p2Win;
-                    replayTimer = 6;
-                    replaying = true;
-                    p2WinCount.text = p2Win.ToString();
-                    lockInputs = true;
                 }
                 else if (p1Win == 0 && p2Win == 0)
                 {
                     ++p1Win;
                     ++p2Win;
-                    replayTimer = 6;
-                    replaying = true;
-                    p1WinCount.text = p2Win.ToString();
-                    p2WinCount.text = p2Win.ToString();
-                    lockInputs = true;
-                    child3.SetActive(true);
                 }
                 else if (p1Win == 1 && p2Win == 1)
-                {
-                    PlayerProp1.currentHealth = PlayerProp1.maxHealth;
-                    PlayerProp2.currentHealth = PlayerProp2.maxHealth;
-                    roundTimer = 0;
+                {   
+                    //Play an extra round if the final round results in a double ko
                 }
+                RoundStop();
             }
             //If player 1 loses then player 2 gets a win and reset round after 6 seconds
-            else if (PlayerProp1.currentHealth <= 0 && replaying == false && p2Win != 2)
+            else if (P1Prop.currentHealth <= 0 && gameActive && p2Win != 2)
             {
                 ++p2Win;
-                replayTimer = 6;
-                replaying = true;
-                p2WinCount.text = p2Win.ToString();
-                lockInputs = true;
-                if (p2Win != 2) child3.SetActive(true);
+                RoundStop();
             }
             //If player 2 loses then player 1 gets a win and reset round after 6 seconds
-            else if (PlayerProp2.currentHealth <= 0 && replaying == false && p1Win != 2)
+            else if (P2Prop.currentHealth <= 0 && gameActive && p1Win != 2)
             {
                 ++p1Win;
-                replayTimer = 6;
-                replaying = true;
-                p1WinCount.text = p1Win.ToString();
-                lockInputs = true;
-                if (p1Win != 2) child3.SetActive(true);
+                RoundStop();
             }
-            //Sets screen black when round ends and new one starts
+            /*//Sets screen black when round ends and new one starts
             if (replayTimer > 0 && replayTimer < 1 && p1Win != 2 && p2Win != 2) GoBlack();
             //When the 6 second replay timer is up restart the round
-            if (replayTimer <= 0 && replayTimer > -2 && p1Win != 2 && p2Win != 2) ReplayGame();
+            if (replayTimer <= 0 && replayTimer > -2 && p1Win != 2 && p2Win != 2) ReplayGame();*/
         }       
     }
 
     //Function that restarts a round
-    public void ReplayGame()
+    public void ResetPositions()
     {
         //Setting player health to max
-        PlayerProp1.currentHealth = PlayerProp1.maxHealth;
-        PlayerProp2.currentHealth = PlayerProp2.maxHealth;
+        P1Prop.currentHealth = P1Prop.maxHealth;
+        P2Prop.currentHealth = P2Prop.maxHealth;
         //Setting players to starting location vectors
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
-        {
-            Vector3 p1Start = new Vector3(-1f, 1.10f, -3);
-            GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
-        }
-        else
-        {
-            Vector3 p1Start = new Vector3(1f, 1.10f, -3);
-            GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
-        }
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
-        {
-            Vector3 p2Start = new Vector3(1f, 1.10f, -3);
-            GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
-        }
-        else
-        {
-            Vector3 p2Start = new Vector3(-1f, 1.10f, -3);
-            GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
-        }
+        GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
+        GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
+
         GameObject.Find("CameraPos").transform.GetChild(1).transform.position = GameObject.Find("CameraPos").transform.position;
+        roundCount++;
         //Disabling player inputs
+        suddenDeath = false;
+        roundTimer = 99;
+        //If someone has won the game, reset wins for both players to 0 and reset armor to max
+        if (p1Win == 2 || p2Win == 2)
+        {
+            p1Win = 0;
+            p2Win = 0;
+            P1Prop.armor = 4;
+            P2Prop.armor = 4;
+            P1Prop.durability = 100;
+            P2Prop.durability = 100;
+            roundCount = 1;
+        }       
+    }
+
+    public void RoundStart()
+    {
+        gameActive = true;
         lockInputs = false;
-        startReady = false;
-        //Setting replaying to false for some reason I cant remember
-        replaying = false;
-        matchOver = false;
-        //Running start again
-        Start();
+    }
+
+    public void RoundStop()
+    {
+        gameActive = false;
+        lockInputs = true;
+        ScreenGraphics.SetBool("RoundOver", true);
+    }
+
+    public void DetermineWinMethod()
+    {
+        if ((P1Prop.currentHealth > 0 && P2Prop.currentHealth == 0) || (P2Prop.currentHealth > 0 && P1Prop.currentHealth == 0))
+        {
+            centerText.text = "BreakDown";
+            centerShadow.text = "BreakDown";
+        }
+        else if (P1Prop.currentHealth == 0 && P2Prop.currentHealth == 0)
+        {
+            centerText.text = "Double KO";
+            centerShadow.text = "Double KO";
+        }
+        else if (roundTimer <= 0)
+        {
+            centerText.text = "Time Up";
+            centerShadow.text = "Time Up";
+        }
+
+        if ((int)((float)(P1Prop.currentHealth / P1Prop.maxHealth) * 100) == (int)((float)(P2Prop.currentHealth / P2Prop.maxHealth) * 100) 
+            || (P1Prop.currentHealth == 0 && P2Prop.currentHealth == 0))
+            centerShadow.color = new Color32(198, 158, 0, 200);
+        else if ((float)(P1Prop.currentHealth / P1Prop.maxHealth) > (float)(P2Prop.currentHealth / P2Prop.maxHealth))
+            centerShadow.color = new Color32(210, 0, 0, 200);
+        else if ((float)(P1Prop.currentHealth / P1Prop.maxHealth) < (float)(P2Prop.currentHealth / P2Prop.maxHealth))
+            centerShadow.color = new Color32(0, 50, 171, 200);
+    }
+
+    public void SuddenDeath()
+    {
+        centerShadow.text = "Sudden Death";
+        centerText.text = "Sudden Death";
+        centerShadow.color = new Color32(180, 0, 210, 200);
+        ScreenGraphics.SetBool("SuddenDeath", false);
+    }
+
+    public void SetCharacterNames()
+    {
+        centerText.text = "VS";
+
+        if (P1Prop.transform.root.GetChild(0).name.Contains("Dhalia"))
+            leftText.text = "Dhalia";
+        else if (P1Prop.transform.root.GetChild(0).name.Contains("Achealis"))
+            leftText.text = "Achealis";
+
+        if (P2Prop.transform.root.GetChild(0).name.Contains("Dhalia"))
+            rightText.text = "Dhalia";
+        else if (P1Prop.transform.root.GetChild(0).name.Contains("Achealis"))
+            rightText.text = "Achealis";
+    }
+
+    public void BreakOrBeBroken()
+    {
+        rightText.text = "Break or";
+        leftText.text = "Be Broken";
+    }
+
+    public void Duel()
+    {
+        centerText.text = "Duel";
+        if (roundCount <= 1)
+        {
+            leftText.text = "1";
+        }
+        else if (roundCount == 2)
+        {
+            leftText.text = "2";
+        }
+        else if (roundCount >= 3)
+        {
+            leftText.text = "Duel";
+            if (roundCount == 3)
+                centerText.text = "Final";
+            else
+                centerText.text = "Extra";
+        }
+    }
+
+    public void NextRound()
+    {
+        ScreenGraphics.SetBool("NextRound", true);
     }
 
     //Function to load main menu scene
     public void QuitToMenu()
     {
         lockInputs = false;
-        startReady = false;
+        gameActive = false;
         SceneManager.LoadScene(0);
         p1Win = 0;
         p2Win = 0;
-    }
-
-    //Function setting color of the panel to black
-    void GoBlack()
-    {
-        child3.SetActive(false);
-        GameObject.Find("Canvas/BlackScreen").GetComponent<Image>().color = new Color(0, 0, 0, 255);
     }
 }

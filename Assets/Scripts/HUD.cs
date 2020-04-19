@@ -15,6 +15,7 @@ public class HUD : MonoBehaviour
     public SpriteRenderer P2Headshot;
     public Text P1Name;
     public Text P2Name;
+    public Text roundTimer;
 
     public Animator p1Icon1;
     public Animator p1Icon2;
@@ -120,6 +121,12 @@ public class HUD : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (RoundManager.roundCount > 0)
+            roundTimer.enabled = true;
+        else
+            roundTimer.enabled = false;
+        roundTimer.text = RoundManager.roundTimer.ToString("F0");
+
         if (P1HealthUI.fillAmount > (float)(P1Prop.currentHealth / P1Prop.maxHealth))
             P1HealthUI.fillAmount = (float)(P1Prop.currentHealth / P1Prop.maxHealth);
         else if (P1HealthUI.fillAmount < (float)(P1Prop.currentHealth / P1Prop.maxHealth))
