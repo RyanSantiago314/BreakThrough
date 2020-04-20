@@ -258,15 +258,18 @@ public class HurtboxACH : MonoBehaviour
         body.enabled = true;
         legs1.enabled = true;
         legs2.enabled = true;
+        misc1.enabled = true;
 
-        head.offset = new Vector2(-.5f, .48f);
-        head.size = new Vector2(.69f, .32f);
-        body.offset = new Vector2(-.47f, .15f);
-        body.size = new Vector2(.4f, .36f);
-        legs1.offset = new Vector2(-.35f, -.21f);
-        legs1.size = new Vector2(.49f, .41f);
-        legs2.offset = new Vector2(-.325f, -.66f);
-        legs2.size = new Vector2(.78f, .49f);
+        head.offset = new Vector2(-.5f, .63f);
+        head.size = new Vector2(.625f, .33f);
+        body.offset = new Vector2(-.3f, .26f);
+        body.size = new Vector2(.455f, .45f);
+        legs1.offset = new Vector2(-.07f, -.14f);
+        legs1.size = new Vector2(.66f, .42f);
+        legs2.offset = new Vector2(.04f, -.58f);
+        legs2.size = new Vector2(.86f, .67f);
+        misc1.offset = new Vector2(-.13f, .66f);
+        misc1.size = new Vector2(.24f, .5f);
     }
 
     public void WallStick()

@@ -125,15 +125,16 @@ public class RoundManager : MonoBehaviour
     {
         ScreenGraphics.SetInteger("RoundCount", roundCount);
 
+        //temporary function until system using victory pose anims is implemented (automatically set nextround to true when win pose ends or if break is pressed during win pose)
+        if (ScreenGraphics.GetCurrentAnimatorStateInfo(0).IsName("BreakDown") && !gameActive && (P1Prop.currentHealth == 0 || P2Prop.currentHealth == 0) &&
+            P1Prop.HitDetect.hitStop == 0 && P2Prop.HitDetect.hitStop == 0 && p1Win != 2 && p2Win != 2)
+            NextRound();
+
         if (P1Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") && P2Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") &&
             ScreenGraphics.GetBool("NextRound"))
         {
             ScreenGraphics.SetBool("NextRound", false);
         }
-
-        //temporary function until system using victory pose anims is implemented (automatically set nextround to true when win pose ends or if break is pressed during win pose)
-        if (ScreenGraphics.GetCurrentAnimatorStateInfo(0).IsName("Inactive") && !gameActive && (P1Prop.currentHealth == 0 || P2Prop.currentHealth == 0) && p1Win != 2 && p2Win != 2)
-            NextRound();
 
         //STARTTEXT LOGIC
         //Debug.Log(BoBB.time);
@@ -168,7 +169,7 @@ public class RoundManager : MonoBehaviour
                 if (!suddenDeath && gameActive && (((float)P1Prop.currentHealth / (float)P1Prop.maxHealth) == ((float)P2Prop.currentHealth / (float)P2Prop.maxHealth)))
                 {
                     suddenDeath = true;
-                    ScreenGraphics.SetBool("SuddenDeath", true);
+                    //ScreenGraphics.SetBool("SuddenDeath", true);
                 }
                 RoundStop();
                 //Setting roundTimer to round 0
@@ -270,7 +271,14 @@ public class RoundManager : MonoBehaviour
 
     public void DetermineWinMethod()
     {
-        if ((P1Prop.currentHealth > 0 && P2Prop.currentHealth == 0) || (P2Prop.currentHealth > 0 && P1Prop.currentHealth == 0))
+        if (roundTimer <= 0)
+        {
+            centerText.text = "Time Up";
+            centerShadow.text = "Time Up";
+            if (suddenDeath)
+                ScreenGraphics.SetBool("SuddenDeath", true);
+        }
+        else if ((P1Prop.currentHealth > 0 && P2Prop.currentHealth == 0) || (P2Prop.currentHealth > 0 && P1Prop.currentHealth == 0))
         {
             centerText.text = "BreakDown";
             centerShadow.text = "BreakDown";
@@ -279,11 +287,6 @@ public class RoundManager : MonoBehaviour
         {
             centerText.text = "Double KO";
             centerShadow.text = "Double KO";
-        }
-        else if (roundTimer <= 0)
-        {
-            centerText.text = "Time Up";
-            centerShadow.text = "Time Up";
         }
 
         if ((int)((float)(P1Prop.currentHealth / P1Prop.maxHealth) * 100) == (int)((float)(P2Prop.currentHealth / P2Prop.maxHealth) * 100)

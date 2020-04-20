@@ -127,19 +127,19 @@ public class HUD : MonoBehaviour
             roundTimer.enabled = false;
         roundTimer.text = RoundManager.roundTimer.ToString("F0");
 
-        if (P1HealthUI.fillAmount > (float)(P1Prop.currentHealth / P1Prop.maxHealth))
+        if (P1HealthUI.fillAmount > (float)(P1Prop.currentHealth / P1Prop.maxHealth) && ((RoundManager.roundTimer <= 0 && RoundManager.suddenDeath)||RoundManager.roundTimer > 0))
             P1HealthUI.fillAmount = (float)(P1Prop.currentHealth / P1Prop.maxHealth);
         else if (P1HealthUI.fillAmount < (float)(P1Prop.currentHealth / P1Prop.maxHealth))
             P1HealthUI.fillAmount += .015f;
 
-        if (P2HealthUI.fillAmount > (float)(P2Prop.currentHealth / P2Prop.maxHealth))
+        if (P2HealthUI.fillAmount > (float)(P2Prop.currentHealth / P2Prop.maxHealth) && ((RoundManager.roundTimer <= 0 && RoundManager.suddenDeath) || RoundManager.roundTimer > 0))
             P2HealthUI.fillAmount = (float)(P2Prop.currentHealth / P2Prop.maxHealth);
         else if (P2HealthUI.fillAmount < (float)(P2Prop.currentHealth / P2Prop.maxHealth))
             P2HealthUI.fillAmount += .015f;
 
-        if ((float)(P1Prop.currentHealth / P1Prop.maxHealth) == 1)
+        if (P1HealthUI.fillAmount == 1)
             P1HealthUI.color = new Color32(93, 255, 175, 255);
-        else if ((float)(P1Prop.currentHealth / P1Prop.maxHealth) <= .1f)
+        else if (P1HealthUI.fillAmount <= .1f)
         {
             if (P1HealthUI.color == new Color32(255, 175, 175, 255) && flickerTimer <= 0)
             {
@@ -150,14 +150,14 @@ public class HUD : MonoBehaviour
                 P1HealthUI.color = new Color32(255, 175, 175, 255);
             }
         }
-        else if ((float)(P1Prop.currentHealth / P1Prop.maxHealth) <= .25f)
+        else if (P1HealthUI.fillAmount <= .25f)
             P1HealthUI.color = new Color32(255, 76, 98, 255);
-        else if ((float)(P1Prop.currentHealth / P1Prop.maxHealth) < 1f)
+        else if (P1HealthUI.fillAmount < 1f)
             P1HealthUI.color = new Color32(255, 223, 105, 255);
 
-        if ((float)(P2Prop.currentHealth / P2Prop.maxHealth) == 1)
+        if (P2HealthUI.fillAmount == 1)
             P2HealthUI.color = new Color32(93, 255, 175, 255);
-        else if ((float)(P2Prop.currentHealth / P2Prop.maxHealth) <= .1f)
+        else if (P2HealthUI.fillAmount <= .1f)
         {
             if (P2HealthUI.color == new Color32(255, 175, 175, 255) && flickerTimer <= 0)
             {
@@ -168,9 +168,9 @@ public class HUD : MonoBehaviour
                 P2HealthUI.color = new Color32(255, 175, 175, 255);
             }
         }
-        else if ((float)(P2Prop.currentHealth / P2Prop.maxHealth) <= .25f)
+        else if (P2HealthUI.fillAmount <= .25f)
             P2HealthUI.color = new Color32(255, 76, 98, 255);
-        else if ((float)(P2Prop.currentHealth / P2Prop.maxHealth) < 1f)
+        else if (P2HealthUI.fillAmount < 1f)
             P2HealthUI.color = new Color32(255, 223, 105, 255);
 
         if (flickerTimer <= 0)
@@ -356,7 +356,7 @@ public class HUD : MonoBehaviour
             P1RedHealth.fillAmount = P1HealthUI.fillAmount;
 
         //causes the resolve gauge to flash when refilling, also changes color based on how many segments
-        if (P1Prop.armor == 4)
+        if (P1Prop.armor == 4 && P1Prop.durability == 100)
             P1ResolveColor = new Color32(255, 205, 70, 255);
         else if (P1Prop.armor >= 2)
             P1ResolveColor = new Color32(0, 143, 255, 255);
@@ -392,7 +392,7 @@ public class HUD : MonoBehaviour
         P1Dura3.color = Color32.Lerp(P1ResolveColor, Color.white, P1Transition);
         P1Dura4.color = Color32.Lerp(P1ResolveColor, Color.white, P1Transition);
 
-        if (P2Prop.armor == 4)
+        if (P2Prop.armor == 4 && P2Prop.durability == 100)
             P2ResolveColor = new Color32(255, 205, 70, 255);
         else if (P2Prop.armor >= 2)
             P2ResolveColor = new Color32(0, 143, 255, 255);
