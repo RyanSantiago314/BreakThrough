@@ -51,9 +51,7 @@ public class RoundManager : MonoBehaviour
     static public bool gameActive;
     //Global int that keeps track of the round count
     static public int roundCount;
-    //Text and music objects
-    public AudioSource Music;
-    public AudioSource Announcer;
+    //Text objects
     public Text leftText;
     public Text centerText;
     public Text rightText;
@@ -116,7 +114,6 @@ public class RoundManager : MonoBehaviour
             P2Prop = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
             gameActive = true;
             roundCount = 0;
-            Music.Play();
         }
     }
 
