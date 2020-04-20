@@ -111,6 +111,9 @@ public class RoundManager : MonoBehaviour
         }
         else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
+            //Setting private character property variables to their appropriate player 1 and 2 child respectively
+            P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
+            P2Prop = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
             gameActive = true;
             roundCount = 0;
             Music.Play();
