@@ -33,14 +33,14 @@ public class RoundManager : MonoBehaviour
     static public float roundTimer;
     static public bool suddenDeath = false;
     private float endTimer;
-    private float replayTimer;   
+    private float replayTimer;
     private float overtimeTimer;
 
     //Bool variable deciding if timer should be running or not
     private bool timeWarningPlayed = false;
-    
-    Vector2 p1Start;
-    Vector2 p2Start;
+
+    Vector3 p1Start;
+    Vector3 p2Start;
 
     private bool isXbox;
     private string xboxInput;
@@ -102,14 +102,10 @@ public class RoundManager : MonoBehaviour
             gameActive = false;
             lockInputs = true;
 
-            //Setting menu children to inactive
-            child1.SetActive(false);
-            child2.SetActive(false);
-
             dizzyKO = false;
             matchOver = false;
             isXbox = false;
-            
+
             xboxInput = "Controller (Xbox One For Windows)";
             ps4Input = "Wireless Controller";
         }
@@ -140,7 +136,6 @@ public class RoundManager : MonoBehaviour
         //Debug.Log(BoBB.time);
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
         {
-
             //GAMEOVER LOGIC
 
             if (roundTimer <= 10f && !timeWarningPlayed)
@@ -164,62 +159,6 @@ public class RoundManager : MonoBehaviour
                 else if (Input.GetJoystickNames()[0] == "") isXbox = false;
             }
 
-            //If player 1 lost and player 2 has 2 wins, display player 2 wins screen
-            if (P1Prop.currentHealth <= 0 && p2Win == 2 && gameActive)
-            {
-                RoundStop();
-                //If end timer is on standby, set it at 3 and it will begin
-                if (endTimer == -2) endTimer = 3;
-                //If end timer is finished and its not on standby, display player 2 win screen
-                if (endTimer <= 0 && endTimer > -2)
-                {
-                    child2.SetActive(true);
-                    if (matchOver == false) p2Replay.Select();
-                    matchOver = true;
-                }
-                if (isXbox)
-                {
-                    if (Input.GetAxis("Horizontal_P2") < 0) p2Quit.Select();
-                    else if (Input.GetAxis("Horizontal_P2") > 0) p2Replay.Select();
-                }
-                else
-                {
-                    if (Input.GetAxis("Vertical_P2") < 0) p2Quit.Select();
-                    else if (Input.GetAxis("Vertical_P2") > 0) p2Replay.Select();
-                }
-
-                //Global round count set to 0
-                //roundCount = 0;
-
-            }
-            //If player 2 lost and player 1 has 2 wins, display player 1 wins screen
-            else if (P2Prop.currentHealth <= 0 && p1Win == 2 && gameActive)
-            {
-                RoundStop();
-                //If end timer is on standby, set it at 3 and it will begin
-                if (endTimer == -2) endTimer = 3;
-                //If end timer is finished and its not on standby, display player 1 win screen
-                if (endTimer <= 0 && endTimer > -2)
-                {
-                    child1.SetActive(true);
-                    if (matchOver == false) p1Replay.Select();
-                    matchOver = true;
-                }
-
-                if (isXbox)
-                {
-                    if (Input.GetAxis("Horizontal_P1") < 0) p1Quit.Select();
-                    else if (Input.GetAxis("Horizontal_P1") > 0) p1Replay.Select();
-                }
-                else
-                {
-                    if (Input.GetAxis("Vertical_P1") < 0) p1Quit.Select();
-                    else if (Input.GetAxis("Vertical_P1") > 0) p1Replay.Select();
-                }
-
-                //Global round count set to 0
-                //roundCount = 0;
-            }
             //If the round timer runs out decide who wins
             if (roundTimer < 0)
             {
@@ -263,7 +202,7 @@ public class RoundManager : MonoBehaviour
                     ++p2Win;
                 }
                 else if (p1Win == 1 && p2Win == 1)
-                {   
+                {
                     //Play an extra round if the final round results in a double ko
                 }
                 RoundStop();
@@ -280,11 +219,7 @@ public class RoundManager : MonoBehaviour
                 ++p1Win;
                 RoundStop();
             }
-            /*//Sets screen black when round ends and new one starts
-            if (replayTimer > 0 && replayTimer < 1 && p1Win != 2 && p2Win != 2) GoBlack();
-            //When the 6 second replay timer is up restart the round
-            if (replayTimer <= 0 && replayTimer > -2 && p1Win != 2 && p2Win != 2) ReplayGame();*/
-        }       
+        }
     }
 
     //Function that restarts a round
@@ -313,8 +248,8 @@ public class RoundManager : MonoBehaviour
             P2Prop.armor = 4;
             P1Prop.durability = 100;
             P2Prop.durability = 100;
-            roundCount = 1;
-        }       
+            roundCount = 0;
+        }
     }
 
     public void RoundStart()
@@ -348,7 +283,7 @@ public class RoundManager : MonoBehaviour
             centerShadow.text = "Time Up";
         }
 
-        if ((int)((float)(P1Prop.currentHealth / P1Prop.maxHealth) * 100) == (int)((float)(P2Prop.currentHealth / P2Prop.maxHealth) * 100) 
+        if ((int)((float)(P1Prop.currentHealth / P1Prop.maxHealth) * 100) == (int)((float)(P2Prop.currentHealth / P2Prop.maxHealth) * 100)
             || (P1Prop.currentHealth == 0 && P2Prop.currentHealth == 0))
             centerShadow.color = new Color32(198, 158, 0, 200);
         else if ((float)(P1Prop.currentHealth / P1Prop.maxHealth) > (float)(P2Prop.currentHealth / P2Prop.maxHealth))
@@ -427,5 +362,43 @@ public class RoundManager : MonoBehaviour
         SceneManager.LoadScene(0);
         p1Win = 0;
         p2Win = 0;
+    }
+
+    public void MatchEndMenus(){
+        if (p1Win == 2) {
+            p1menu.SetActive(true);
+            p1Replay.Select();
+            if (isXbox)
+            {
+                if (Input.GetAxis("Horizontal_P1") < 0) p1Quit.Select();
+                else if (Input.GetAxis("Horizontal_P1") > 0) p1Replay.Select();
+            }
+            else
+            {
+                if (Input.GetAxis("Vertical_P1") < 0) p1Quit.Select();
+                else if (Input.GetAxis("Vertical_P1") > 0) p1Replay.Select();
+            }
+        }
+        else if (p2Win == 2) {
+            p2menu.SetActive(true);
+            p2Replay.Select();
+            if (isXbox)
+            {
+                if (Input.GetAxis("Horizontal_P2") < 0) p2Quit.Select();
+                else if (Input.GetAxis("Horizontal_P2") > 0) p2Replay.Select();
+            }
+            else
+            {
+                if (Input.GetAxis("Vertical_P2") < 0) p2Quit.Select();
+                else if (Input.GetAxis("Vertical_P2") > 0) p2Replay.Select();
+            }
+        }
+    }
+
+    public void ReplayGame() {
+        p1menu.SetActive(false);
+        p2menu.SetActive(false);
+        ResetPositions();
+        NextRound();
     }
 }
