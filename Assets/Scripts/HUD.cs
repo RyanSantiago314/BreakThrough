@@ -427,7 +427,7 @@ public class HUD : MonoBehaviour
         P2Dura4.color = Color32.Lerp(P2ResolveColor, Color.white, P2Transition);
 
         //round icons
-        if (RoundManager.p1Win > 0)
+        if (RoundManager.p1Win > 0 && RoundManager.ScreenGraphics.GetCurrentAnimatorStateInfo(0).IsName("Inactive"))
         {
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
             {
@@ -470,7 +470,7 @@ public class HUD : MonoBehaviour
             }
         }
 
-        if (RoundManager.p2Win > 0)
+        if (RoundManager.p2Win > 0 && RoundManager.ScreenGraphics.GetCurrentAnimatorStateInfo(0).IsName("Inactive"))
         {
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
             {

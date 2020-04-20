@@ -7,7 +7,7 @@ using TMPro;
 
 public class RoundManager : MonoBehaviour
 {
-    public Animator ScreenGraphics;
+    public static Animator ScreenGraphics;
     //GAMEOVER
     //Variables for character properties for both player 1 and 2
     private CharacterProperties P1Prop;
@@ -124,8 +124,11 @@ public class RoundManager : MonoBehaviour
     {
         ScreenGraphics.SetInteger("RoundCount", roundCount);
 
-        if (P1Prop.HitDetect.Actions.acceptMove && P2Prop.HitDetect.Actions.acceptMove && ScreenGraphics.GetBool("NextRound"))
+        if (P1Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") && P2Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") &&
+            ScreenGraphics.GetBool("NextRound"))
+        {
             ScreenGraphics.SetBool("NextRound", false);
+        }
 
         //temporary function until system using victory pose anims is implemented (automatically set nextround to true when win pose ends or if break is pressed during win pose)
         if (ScreenGraphics.GetCurrentAnimatorStateInfo(0).IsName("Inactive") && !gameActive && (P1Prop.currentHealth == 0 || P2Prop.currentHealth == 0) && p1Win != 2 && p2Win != 2)
@@ -293,6 +296,8 @@ public class RoundManager : MonoBehaviour
         GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
 
         GameObject.Find("CameraPos").transform.GetChild(1).transform.position = GameObject.Find("CameraPos").transform.position;
+
+        ScreenGraphics.SetBool("RoundOver", true);
         roundCount++;
         //Disabling player inputs
         suddenDeath = false;
