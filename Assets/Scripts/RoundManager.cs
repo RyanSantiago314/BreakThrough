@@ -65,6 +65,8 @@ public class RoundManager : MonoBehaviour
     void Awake()
     {
         roundCount = 0;
+
+        ScreenGraphics = GetComponent<Animator>();
     }
 
     void Start()
@@ -297,7 +299,7 @@ public class RoundManager : MonoBehaviour
 
         GameObject.Find("CameraPos").transform.GetChild(1).transform.position = GameObject.Find("CameraPos").transform.position;
 
-        ScreenGraphics.SetBool("RoundOver", true);
+        ScreenGraphics.SetBool("RoundOver", false);
         roundCount++;
         //Disabling player inputs
         suddenDeath = false;
@@ -361,6 +363,13 @@ public class RoundManager : MonoBehaviour
         centerText.text = "Sudden Death";
         centerShadow.color = new Color32(180, 0, 210, 200);
         ScreenGraphics.SetBool("SuddenDeath", false);
+        ScreenGraphics.SetBool("RoundOver", false);
+    }
+
+    public void MatchEndCheck()
+    {
+        if (p1Win == 2 || p2Win == 2)
+            ScreenGraphics.SetBool("RoundOver", false);
     }
 
     public void SetCharacterNames()
