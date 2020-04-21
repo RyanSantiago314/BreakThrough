@@ -222,7 +222,7 @@ public class HitDetector : MonoBehaviour
             {
                 rb.velocity = Vector2.zero;
             }
-            else if (Actions.blitzed > 1)
+            else if (Actions.blitzed > 1 && hitStun > 0)
             {
                 //simulate slow motion if within range of a blitz cancel or blitz attack
                 if (Actions.blitzed == 58)
@@ -232,7 +232,7 @@ public class HitDetector : MonoBehaviour
                 if (Actions.airborne)
                     anim.SetFloat(animSpeedID, .4f);
                 else
-                    anim.SetFloat(animSpeedID, .35f);
+                    anim.SetFloat(animSpeedID, .4f);
 
                 rb.mass = Actions.Move.weight * .65f;
                 if (rb.velocity.y < 0.5f)
@@ -865,7 +865,9 @@ public class HitDetector : MonoBehaviour
             OpponentDetector.hitStun = potentialHitStun;
             if (OpponentDetector.Actions.airborne && usingSpecial)
             {
-                if (Actions.Move.OpponentProperties.comboTimer > 16)
+                if (Actions.Move.OpponentProperties.comboTimer > 18)
+                    OpponentDetector.hitStun = 6 * potentialHitStun / 10;
+                else if (Actions.Move.OpponentProperties.comboTimer > 16)
                     OpponentDetector.hitStun = 7 * potentialHitStun / 10;
                 else if (Actions.Move.OpponentProperties.comboTimer >= 13)
                     OpponentDetector.hitStun = 8 * potentialHitStun / 10;
@@ -874,7 +876,9 @@ public class HitDetector : MonoBehaviour
             }
             else if (OpponentDetector.Actions.airborne && !usingSuper)
             {
-                if (Actions.Move.OpponentProperties.comboTimer > 16)
+                if (Actions.Move.OpponentProperties.comboTimer > 18)
+                    OpponentDetector.hitStun = 1;
+                else if (Actions.Move.OpponentProperties.comboTimer > 16)
                     OpponentDetector.hitStun = 6 * potentialHitStun/10;
                 else if (Actions.Move.OpponentProperties.comboTimer >= 13)
                     OpponentDetector.hitStun = 7 * potentialHitStun/10;

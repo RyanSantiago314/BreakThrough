@@ -75,10 +75,11 @@ public class StartText : MonoBehaviour
         }
         if (isFirstRound) BoBB.Play();
         else if (roundCount == 2) startText.text = "Duel 2";
-        else if (roundCount >= 3) startText.text = "Final Duel";
+        else if (roundCount == 3) startText.text = "Final Duel";
+        else if (roundCount > 3) startText.text = "Extra Duel";
         //BoBB.time = 0.2f;
         //BoBB.Stop();
-        
+
     }
 
     // Update is called once per frame

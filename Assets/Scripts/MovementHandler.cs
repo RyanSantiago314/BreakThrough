@@ -961,6 +961,7 @@ public class MovementHandler : MonoBehaviour
         else if (Actions.wallBounce && HitDetect.hitStun > 0  && transform.position.y > 1.3f)
         {
             Actions.groundBounce = false;
+            Actions.wallBounce = false;
             rb.velocity = Vector2.zero;
             if (facingRight)
             {
