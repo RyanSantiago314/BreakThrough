@@ -88,6 +88,7 @@ public class AI : MonoBehaviour
     // Registering the values' initial states
     void Start()
 	{
+        Debug.Log("AI is Starting");
         // Player data
         pIsBlocking = false;
         pIsAirborne = false;
@@ -143,6 +144,7 @@ public class AI : MonoBehaviour
         MaxInput = GetComponent<MaxInput>();
         if (!MaxInput.AI)
 		{
+            Debug.Log("AI disabled");
             enabled = false;
         }
         PlayerProp = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
@@ -168,14 +170,17 @@ public class AI : MonoBehaviour
 
     void Update()
 	{
+        //Debug.Log("AI Update");
         //Stops ai if player has lost
         pHealth = PlayerProp.currentHealth;
-        if (pHealth <= 0 || !StartText.startReady)
+        if (pHealth <= 0 || !RoundManager.startReady)
         {
+            Debug.Log("paused: " + pHealth + " " + RoundManager.startReady);
             pauseAI = true;
         }
         else
         {
+            Debug.Log("unpaused");
             pauseAI = false;
         }
 
@@ -221,10 +226,10 @@ public class AI : MonoBehaviour
                 {
                     AIInput.combo2H_1();
                 }
-                else if (difficulty < 100)
-                {
-                    delay();
-                }
+                // else if (difficulty < 100)
+                // {
+                //     delay();
+                // }
                 else
                 {
 
@@ -645,7 +650,10 @@ public class AI : MonoBehaviour
         var rand = new System.Random();
 
         if (rand.Next((100 - (int)difficulty) * 100) < 10)
+        {
             delayTimer = (float)rand.NextDouble();
+            Debug.Log("Delayed");
+        }
     }
 
     // Testing specific actions
