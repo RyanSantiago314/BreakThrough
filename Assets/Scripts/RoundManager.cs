@@ -168,8 +168,8 @@ public class RoundManager : MonoBehaviour
                 if (!suddenDeath && gameActive && (((float)P1Prop.currentHealth / (float)P1Prop.maxHealth) == ((float)P2Prop.currentHealth / (float)P2Prop.maxHealth)))
                 {
                     suddenDeath = true;
+                    RoundStop();
                 }
-                RoundStop();
                 //Setting roundTimer to round 0
                 roundTimer = 0;
             }
@@ -269,7 +269,7 @@ public class RoundManager : MonoBehaviour
 
     public void DetermineWinMethod()
     {
-        if (roundTimer <= 0)
+        if (roundTimer <= 0 && P1Prop.currentHealth != 0 && P2Prop.currentHealth != 0)
         {
             centerText.text = "Time Up";
             centerShadow.text = "Time Up";
