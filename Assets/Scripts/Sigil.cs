@@ -52,7 +52,7 @@ public class Sigil : MonoBehaviour
 
     public void Play()
     {
-        bounce.PlayOneShot(bounce.clip, 1f);
+        bounce.PlayOneShot(bounce.clip, .8f);
     }
 
     public void WallBouncePlay()
