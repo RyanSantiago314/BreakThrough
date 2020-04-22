@@ -8,6 +8,7 @@ using TMPro;
 public class RoundManager : MonoBehaviour
 {
     public static Animator ScreenGraphics;
+    AnnouncerVoice announcer;
     //GAMEOVER
     //Variables for character properties for both player 1 and 2
     private CharacterProperties P1Prop;
@@ -65,6 +66,7 @@ public class RoundManager : MonoBehaviour
         roundCount = 0;
 
         ScreenGraphics = GetComponent<Animator>();
+        announcer = GetComponent<AnnouncerVoice>();
     }
 
     void Start()
@@ -124,7 +126,7 @@ public class RoundManager : MonoBehaviour
 
         //temporary function until system using victory pose anims is implemented (automatically set nextround to true when win pose ends or if break is pressed during win pose)
         if (ScreenGraphics.GetCurrentAnimatorStateInfo(0).IsName("BreakDown") && !gameActive && (P1Prop.currentHealth == 0 || P2Prop.currentHealth == 0) &&
-            P1Prop.HitDetect.hitStop == 0 && P2Prop.HitDetect.hitStop == 0 && p1Win != 2 && p2Win != 2)
+            P1Prop.HitDetect.hitStop == 0 && P2Prop.HitDetect.hitStop == 0 && p1Win < 2 && p2Win < 2)
             NextRound();
 
         if (P1Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") && P2Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") &&
@@ -141,7 +143,7 @@ public class RoundManager : MonoBehaviour
 
             if (roundTimer <= 10f && !timeWarningPlayed)
             {
-                //.Play();
+                announcer.PlayHurry();
                 timeWarningPlayed = true;
             }
 
@@ -166,7 +168,6 @@ public class RoundManager : MonoBehaviour
                 if (!suddenDeath && gameActive && (((float)P1Prop.currentHealth / (float)P1Prop.maxHealth) == ((float)P2Prop.currentHealth / (float)P2Prop.maxHealth)))
                 {
                     suddenDeath = true;
-                    //ScreenGraphics.SetBool("SuddenDeath", true);
                 }
                 RoundStop();
                 //Setting roundTimer to round 0
@@ -188,19 +189,18 @@ public class RoundManager : MonoBehaviour
 
             if (P1Prop.currentHealth <= 0 && P2Prop.currentHealth <= 0 && gameActive && p1Win != 2 && p2Win != 2)
             {
-                //KO.Play();
                 if (p1Win == 1 && p2Win < 1)
                 {
-                    ++p1Win;
+                    p1Win++;
                 }
                 else if (p2Win == 1 && p1Win < 1)
                 {
-                    ++p2Win;
+                    p2Win++;
                 }
                 else if (p1Win == 0 && p2Win == 0)
                 {
-                    ++p1Win;
-                    ++p2Win;
+                    p1Win++;
+                    p2Win++;
                 }
                 else if (p1Win == 1 && p2Win == 1)
                 {
@@ -211,13 +211,13 @@ public class RoundManager : MonoBehaviour
             //If player 1 loses then player 2 gets a win and reset round after 6 seconds
             else if (P1Prop.currentHealth <= 0 && gameActive && p2Win != 2)
             {
-                ++p2Win;
+                p2Win++;
                 RoundStop();
             }
             //If player 2 loses then player 1 gets a win and reset round after 6 seconds
             else if (P2Prop.currentHealth <= 0 && gameActive && p1Win != 2)
             {
-                ++p1Win;
+                p1Win++;
                 RoundStop();
             }
         }
@@ -239,6 +239,7 @@ public class RoundManager : MonoBehaviour
         roundCount++;
         //Disabling player inputs
         suddenDeath = false;
+        timeWarningPlayed = false;
         roundTimer = 99;
         //If someone has won the game, reset wins for both players to 0 and reset armor to max
         if (p1Win == 2 || p2Win == 2)
@@ -274,6 +275,11 @@ public class RoundManager : MonoBehaviour
             centerShadow.text = "Time Up";
             if (suddenDeath)
                 ScreenGraphics.SetBool("SuddenDeath", true);
+        }
+        else if ((P1Prop.currentHealth == P1Prop.maxHealth && P2Prop.currentHealth == 0) || (P2Prop.currentHealth == P2Prop.maxHealth && P1Prop.currentHealth == 0))
+        {
+            centerText.text = "PERFECT";
+            centerShadow.text = "PERFECT";
         }
         else if ((P1Prop.currentHealth > 0 && P2Prop.currentHealth == 0) || (P2Prop.currentHealth > 0 && P1Prop.currentHealth == 0))
         {

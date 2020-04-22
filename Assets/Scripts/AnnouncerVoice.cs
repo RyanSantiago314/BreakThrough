@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AnnouncerVoice : MonoBehaviour
 {
+    RoundManager roundManager;
+
     public AudioSource Announcer;
     public AudioSource BGM;
 
@@ -31,6 +33,11 @@ public class AnnouncerVoice : MonoBehaviour
     public AudioClip DhaliaTheme;
 
     private bool startBGM = true;
+
+    void Start()
+    {
+        roundManager = GetComponent<RoundManager>();
+    }
 
     //Individual Voice Clip Functions
     public void PlayAchealisP1()
@@ -155,6 +162,25 @@ public class AnnouncerVoice : MonoBehaviour
         else if (RoundManager.roundCount > 3)
         {
             PlayDuelExtra();
+        }
+    }
+
+    public void PlayWinMethod()
+    {
+        switch (roundManager.centerText.text)
+        {
+            case "Time Up":
+                PlayTimeUp();
+                break;
+            case "PERFECT":
+                PlayPerfectKO();
+                break;
+            case "BreakDown":
+                PlayKO();
+                break;
+            case "Double KO":
+                PlayDoubleKO();
+                break;
         }
     }
 
