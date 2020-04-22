@@ -18,7 +18,7 @@ public class PracticeMode : MonoBehaviour
     public MaxInput MaxInput;
     public GameObject MaxInputObject;
     public GameObject PracticeModeSettings;
-
+    public GameObject[] popUps;
     private bool P1inCombo;
     private bool P2inCombo;
     private bool P2inAirTrueCombo;
@@ -26,6 +26,8 @@ public class PracticeMode : MonoBehaviour
     private bool guardAfterTrueCombo;
     private bool fixAnimBug;
     private float InputTimer;
+
+    private int popUpIndex;
     double p1x;
     double p2x;
 
@@ -54,6 +56,7 @@ public class PracticeMode : MonoBehaviour
     public Text P2HighComboDamage;
     public Text P1HitType;
     public Text P2HitType;
+
 
     public GameObject DamageDisplays;
     public GameObject P1Displays;
@@ -101,6 +104,54 @@ public class PracticeMode : MonoBehaviour
         //Practice Mode Handler
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
+            for (int i = 0; i < popUps.Length; i++) 
+            {
+                if (i == popUpIndex) 
+                {
+                    popUps[i].SetActive(true);
+                }
+                else
+                {
+                    popUps[i].SetActive(false);
+                }
+            }
+
+            if (popUpIndex == 0)
+            {
+                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+                {
+                    popUpIndex++;
+                }
+            }
+            else if (popUpIndex == 1)
+            {
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    popUpIndex++;
+                }
+            }
+            else if (popUpIndex == 2)
+            {
+                if (Input.GetKeyDown(KeyCode.U))
+                {
+                    popUpIndex++;
+                }
+            }
+            else if (popUpIndex == 3)
+            {
+                if (Input.GetKeyDown(KeyCode.I))
+                {
+                    popUpIndex++;
+                }
+            }
+            else if (popUpIndex == 4)
+            {
+                if (Input.GetKeyDown(KeyCode.J))
+                {
+                    popUpIndex++;
+                }
+            }
+
             //Check Settings from Practice Pause Menu
             //CPUState Check
             switch (PracticeModeSettings.GetComponent<PauseMenu>().CPUState)
