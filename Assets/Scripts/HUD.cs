@@ -587,7 +587,6 @@ public class HUD : MonoBehaviour
             hitNum1Memo = hitNum1;
         }
         
-
         Player1Combo.rectTransform.anchoredPosition = Vector2.Lerp(Player1Combo.rectTransform.anchoredPosition, P1ComboPos, 40*Time.deltaTime);
         Player1Hits.rectTransform.anchoredPosition = Vector2.Lerp(Player1Hits.rectTransform.anchoredPosition, P1HitsPos, 40*Time.deltaTime);
 
@@ -653,7 +652,11 @@ public class HUD : MonoBehaviour
             }
             hitNum2Memo = hitNum2;
         }
+
+        Player2Combo.rectTransform.anchoredPosition = Vector2.Lerp(Player2Combo.rectTransform.anchoredPosition, P2ComboPos, 40 * Time.deltaTime);
+        Player2Hits.rectTransform.anchoredPosition = Vector2.Lerp(Player2Hits.rectTransform.anchoredPosition, P2HitsPos, 40 * Time.deltaTime);
     }
+
 
     public void SetCharacterPortrait()
     {
