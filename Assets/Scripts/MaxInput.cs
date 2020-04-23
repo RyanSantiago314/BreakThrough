@@ -54,6 +54,9 @@ public class MaxInput : MonoBehaviour
     {
         ClearInput("Player1");
         ClearInput("Player2");
+
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
+            AI = true;
         //AI = true;  // DELETE THIS LATER WHEN FINISHED TESTING AIIIIIIIIIII
 
         xbox1 = CheckXbox(0);

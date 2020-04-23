@@ -14,7 +14,7 @@ public class SelectedCharacterManager : MonoBehaviour
     public int P2Color;
     public string P1Side;
     public string P2Side;
-    public float CPUDifficulty = 50f;
+    public float CPUDifficulty = 5f;
 
     private static bool created = false;
     private bool reset = false;
@@ -30,7 +30,7 @@ public class SelectedCharacterManager : MonoBehaviour
         else
         {
             Destroy(this.gameObject);
-        }      
+        }
     }
 
     void Update()
