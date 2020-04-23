@@ -14,7 +14,7 @@ public class SelectedCharacterManager : MonoBehaviour
     public int P2Color;
     public string P1Side;
     public string P2Side;
-    public float CPUDifficulty = 5f;
+    public float CPUDifficulty = 50f;
 
     private static bool created = false;
     private bool reset = false;

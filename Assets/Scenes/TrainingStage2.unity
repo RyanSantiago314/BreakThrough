@@ -3894,7 +3894,7 @@ MonoBehaviour:
   P2Color: 2
   P1Side: Left
   P2Side: Right
-  CPUDifficulty: 5
+  CPUDifficulty: 50
 --- !u!4 &500688648
 Transform:
   m_ObjectHideFlags: 0
@@ -13989,7 +13989,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bddeebde644bc0d45b9d06cbdf1ca9d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: 5
+  difficulty: 50
   pIsHitstun: 0
   pIsBlockstun: 0
   armor: 0
