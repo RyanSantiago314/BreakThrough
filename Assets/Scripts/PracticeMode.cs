@@ -31,6 +31,13 @@ public class PracticeMode : MonoBehaviour
     double p1x;
     double p2x;
 
+    private string inputCross = "Cross_P1";
+    private string inputCircle = "Circle_P1";
+    private string inputTriangle = "Triangle_P1";
+    private string inputSquare = "Square_P1";
+    private string inputHorizontal = "Horizontal_P1";
+    private string inputVertical = "Vertical_P1";
+
     public bool enableArmorRefill = true;
     public bool enableCPUAirTech;
     public bool enableGuardAfterFirstHit;
@@ -83,6 +90,13 @@ public class PracticeMode : MonoBehaviour
         P1HighComboDamage.text = "Highest Combo Damage: 0";
         P2HighComboDamage.text = "Highest Combo Damage: 0";
 
+        inputCross += UpdateControls(CheckXbox(0));
+        inputCircle += UpdateControls(CheckXbox(0));
+        inputTriangle += UpdateControls(CheckXbox(0));
+        inputSquare += UpdateControls(CheckXbox(0));
+        inputHorizontal += UpdateControls(CheckXbox(0));
+        inputVertical += UpdateControls(CheckXbox(0));
+
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
             P2Displays.SetActive(false);
@@ -118,35 +132,35 @@ public class PracticeMode : MonoBehaviour
 
             if (popUpIndex == 0)
             {
-                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+                if (Input.GetAxis(inputHorizontal) != 0)
                 {
                     popUpIndex++;
                 }
             }
             else if (popUpIndex == 1)
             {
-                if (Input.GetKeyDown(KeyCode.W))
+                if (Input.GetAxis(inputVertical) > 0)
                 {
                     popUpIndex++;
                 }
             }
             else if (popUpIndex == 2)
             {
-                if (Input.GetKeyDown(KeyCode.U))
+                if (Input.GetButtonDown(inputSquare))
                 {
                     popUpIndex++;
                 }
             }
             else if (popUpIndex == 3)
             {
-                if (Input.GetKeyDown(KeyCode.I))
+                if (Input.GetButtonDown(inputTriangle))
                 {
                     popUpIndex++;
                 }
             }
             else if (popUpIndex == 4)
             {
-                if (Input.GetKeyDown(KeyCode.J))
+                if (Input.GetButtonDown(inputCircle))
                 {
                     popUpIndex++;
                 }
@@ -544,5 +558,24 @@ public class PracticeMode : MonoBehaviour
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetBool(Animator.StringToHash("Run"), false);
         player.transform.GetChild(2).gameObject.SetActive(false);
         player.transform.GetChild(3).gameObject.SetActive(false);
+    }
+
+    private bool CheckXbox(int player)
+    {
+        if (Input.GetJoystickNames().Length > player)
+        {
+            if (Input.GetJoystickNames()[player].Contains("Xbox"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private string UpdateControls(bool xbox)
+    {
+        if (xbox)
+            return "_Xbox";
+        return "";
     }
 }
