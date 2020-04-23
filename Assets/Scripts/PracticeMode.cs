@@ -413,12 +413,18 @@ public class PracticeMode : MonoBehaviour
                         case "Dhalia":
                             resetDhalia(Player1);
                             break;
+                        case "Achealis":
+                            resetAchealis(Player1);
+                            break;
                     }
 
                     switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
                     {
                         case "Dhalia":
                             resetDhalia(Player2);
+                            break;
+                        case "Achealis":
+                            resetAchealis(Player2);
                             break;
                     }
                     fixAnimBug = true;
@@ -493,5 +499,14 @@ public class PracticeMode : MonoBehaviour
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetBool(Animator.StringToHash("Run"), false);
         player.transform.GetChild(2).gameObject.SetActive(false);
         player.transform.GetChild(3).gameObject.SetActive(false);
+    }
+
+    private void resetAchealis(GameObject player)
+    {
+        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().anim.SetTrigger(Animator.StringToHash("Blitz"));
+        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Hitboxes.BlitzCancel();
+        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Actions.landingLag = 0;
+        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Move.HitDetect.KnockBack = Vector2.zero;
+        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().anim.SetBool(Animator.StringToHash("Run"), false);
     }
 }

@@ -472,6 +472,7 @@ public class CursorMovement : MonoBehaviour {
                         break;
                 }
                 P1.P1Selected = false;
+                P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
                 {
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
@@ -699,6 +700,7 @@ public class CursorMovement : MonoBehaviour {
                         break;
                 }
                 P2.P2Selected = false;
+                P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
                 {
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
