@@ -4,19 +4,29 @@ using UnityEngine;
 
 public class CharacterSelectSprites : MonoBehaviour
 {
-    public Animator P1DHAanim;
-    public ColorSwapDHA P1Dhalia;
+    public GameObject Sprite;
+    private string Character;
 
     // Start is called before the first frame update
     void Start()
     {
+        Character = Sprite.name;
     }
 
     // Update is called once per frame
     void Update()
     {
-        P1Dhalia.InitColorSwapTex();
-        P1Dhalia.ApplyPalette();
+        switch (Character)
+        {
+            case "Dhalia":
+                Sprite.GetComponent<ColorSwapDHA>().InitColorSwapTex();
+                Sprite.GetComponent<ColorSwapDHA>().ApplyPalette();
+                break;
+            case "Achealis":
+                Sprite.GetComponent<ColorSwapACH>().InitColorSwapTex();
+                Sprite.GetComponent<ColorSwapACH>().ApplyPalette();
+                break;
+        }
     }
 
     //Blank Functions to prevent errors

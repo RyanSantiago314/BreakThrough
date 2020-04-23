@@ -52,8 +52,11 @@ public class CursorMovement : MonoBehaviour {
     public Button yesButton;
     public Button noButton;
 
-    public AudioSource DhaliaAnnouncerP1;
-    public AudioSource DhaliaAnnouncerP2;
+    public AudioSource P1Announcer;
+    public AudioSource P2Announcer;
+
+    public AudioClip DhaliaAnnouncer;
+    public AudioClip AchealisAnnouncer;
 
     void Start()
     {
@@ -355,11 +358,11 @@ public class CursorMovement : MonoBehaviour {
                 }
 
                 //Prevent P1 from highlighting P2 color choice
-                if(P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 1 >" && P2Color == 1)
+                if(P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 1 >" && P2Color == 1 && P1.currentChar == P2.currentChar)
                 {
                     P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
                 }
-                else if(P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 2 >" && P2Color == 2)
+                else if(P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 2 >" && P2Color == 2 && P1.currentChar == P2.currentChar)
                 {
                     P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
                 }
@@ -375,6 +378,17 @@ public class CursorMovement : MonoBehaviour {
                                 break;
                             case "< 2 >":
                                 P1Models[0].transform.GetChild(0).transform.GetComponent<ColorSwapDHA>().colorNum = 2;
+                                break;
+                        }
+                        break;
+                    case "Achealis":
+                        switch (P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
+                        {
+                            case "< 1 >":
+                                P1Models[1].transform.GetChild(0).transform.GetComponent<ColorSwapACH>().colorNum = 1;
+                                break;
+                            case "< 2 >":
+                                P1Models[1].transform.GetChild(0).transform.GetComponent<ColorSwapACH>().colorNum = 2;
                                 break;
                         }
                         break;
@@ -453,8 +467,12 @@ public class CursorMovement : MonoBehaviour {
                     case "Dhalia":
                         P1Models[0].SetActive(false);
                         break;
+                    case "Achealis":
+                        P1Models[1].SetActive(false);
+                        break;
                 }
                 P1.P1Selected = false;
+                P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
                 {
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
@@ -536,8 +554,12 @@ public class CursorMovement : MonoBehaviour {
                         switch (P1.currentChar)
                         {
                             case "Dhalia":
-                                DhaliaAnnouncerP1.Play(0);
+                                P1Announcer.PlayOneShot(DhaliaAnnouncer, .8f);
                                 P1Models[0].SetActive(true);
+                                break;
+                            case "Achealis":
+                                P1Announcer.PlayOneShot(AchealisAnnouncer, .8f);
+                                P1Models[1].SetActive(true);
                                 break;
                         }
                     }
@@ -570,11 +592,11 @@ public class CursorMovement : MonoBehaviour {
                 }
 
                 //Prevent P1 from highlighting P2 color choice
-                if (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 1 >" && P1Color == 1)
+                if (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 1 >" && P1Color == 1 && P1.currentChar == P2.currentChar)
                 {
                     P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
                 }
-                else if (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 2 >" && P1Color == 2)
+                else if (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 2 >" && P1Color == 2 && P1.currentChar == P2.currentChar)
                 {
                     P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
                 }
@@ -590,6 +612,17 @@ public class CursorMovement : MonoBehaviour {
                                 break;
                             case "< 2 >":
                                 P2Models[0].transform.GetChild(0).transform.GetComponent<ColorSwapDHA>().colorNum = 2;
+                                break;
+                        }
+                        break;
+                    case "Achealis":
+                        switch (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
+                        {
+                            case "< 1 >":
+                                P2Models[1].transform.GetChild(0).transform.GetComponent<ColorSwapACH>().colorNum = 1;
+                                break;
+                            case "< 2 >":
+                                P2Models[1].transform.GetChild(0).transform.GetComponent<ColorSwapACH>().colorNum = 2;
                                 break;
                         }
                         break;
@@ -662,8 +695,12 @@ public class CursorMovement : MonoBehaviour {
                     case "Dhalia":
                         P2Models[0].SetActive(false);
                         break;
+                    case "Achealis":
+                        P2Models[1].SetActive(false);
+                        break;
                 }
                 P2.P2Selected = false;
+                P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
                 {
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
@@ -742,8 +779,12 @@ public class CursorMovement : MonoBehaviour {
                         switch (P2.currentChar)
                         {
                             case "Dhalia":
-                                DhaliaAnnouncerP2.Play(0);
+                                P2Announcer.PlayOneShot(DhaliaAnnouncer, .8f);
                                 P2Models[0].SetActive(true);
+                                break;
+                            case "Achealis":
+                                P2Announcer.PlayOneShot(AchealisAnnouncer, .8f);
+                                P2Models[1].SetActive(true);
                                 break;
                         }
                     }

@@ -5,8 +5,8 @@ using UnityEngine;
 public class CursorDetection : MonoBehaviour
 {
     public GameObject[] borders;
-    public GameObject[] P1Models;
-    public GameObject[] P2Models;
+    public GameObject[] P1Portraits;
+    public GameObject[] P2Portraits;
     public CursorMovement CursorMovement;
     public bool isOverlap;
     public string currentChar;
@@ -26,6 +26,9 @@ public class CursorDetection : MonoBehaviour
             case "Dhalia":
                 charNum = 0;
                 break;
+            case "Achealis":
+                charNum = 1;
+                break;
         }
     }
 
@@ -36,11 +39,11 @@ public class CursorDetection : MonoBehaviour
         isOverlap = false;
         if (this.name == "P1Cursor")
         {
-            P1Models[charNum].SetActive(false);
+            P1Portraits[charNum].SetActive(false);
         }
         else
         {
-            P2Models[charNum].SetActive(false);
+            P2Portraits[charNum].SetActive(false);
         }
     }
 
@@ -79,11 +82,11 @@ public class CursorDetection : MonoBehaviour
             borders[charNum].SetActive(true);
             if (this.name == "P1Cursor")
             {
-                P1Models[charNum].SetActive(true);
+                P1Portraits[charNum].SetActive(true);
             }
             else
             {
-                P2Models[charNum].SetActive(true);
+                P2Portraits[charNum].SetActive(true);
             }
         }
     }

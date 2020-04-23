@@ -17,12 +17,19 @@ public class CharacterLoader : MonoBehaviour
             case "Dhalia":
                 P1Char = "CharacterPrefabs/Dhalia";
                 break;
+            case "Achealis":
+                P1Char = "CharacterPrefabs/Achealis";
+                break;
+
         }
 
         switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
         {
             case "Dhalia":
                 P2Char = "CharacterPrefabs/Dhalia";
+                break;
+            case "Achealis":
+                P2Char = "CharacterPrefabs/Achealis";
                 break;
         }
 
@@ -36,14 +43,20 @@ public class CharacterLoader : MonoBehaviour
         P1Character = Instantiate(Resources.Load(P1Char, typeof(GameObject)), GameObject.Find("Player1").transform) as GameObject;
         P1Character.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character;
 
-        //Set Character color
-        P1Character.transform.GetChild(0).GetComponent<ColorSwapDHA>().colorNum = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color;
-
         //Assign CharacterHandlers
         GameObject.Find("Player1").GetComponent<FighterAgent>().myChar = P1Character.GetComponent<CharacterProperties>();
         P1Character.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
-        P1Character.GetComponent<AttackHandlerDHA>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
-        //P1Character.transform.GetChild(2).GetComponent<HitDetector>().hitTrack = HitMarker.transform;
+
+        //Set Character-Specific Scripts
+        switch (P1Character.name)
+        {
+            case "Dhalia":
+                setDhaliaProperties(P1Character, GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color);
+                break;
+            case "Achealis":
+                setAchealisProperties(P1Character, GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color);
+                break;
+        }
 
         //Set Character Position
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
@@ -63,14 +76,20 @@ public class CharacterLoader : MonoBehaviour
         P2Character = Instantiate(Resources.Load(P2Char, typeof(GameObject)), GameObject.Find("Player2").transform) as GameObject;
         P2Character.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character;
 
-        //Set Character color
-        P2Character.transform.GetChild(0).GetComponent<ColorSwapDHA>().colorNum = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color;
-
         //Assign CharacterHandlers
         P2Character.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
-        P2Character.GetComponent<AttackHandlerDHA>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
-        //P2Character.transform.GetChild(2).GetComponent<HitDetector>().hitTrack = HitMarker.transform;
         GameObject.Find("Player2").GetComponent<FighterAgent>().opponent = P1Character.GetComponent<CharacterProperties>(); //<- Is this needed?
+
+        //Set Character-Specific Scripts
+        switch (P2Character.name)
+        {
+            case "Dhalia":
+                setDhaliaProperties(P2Character, GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color);
+                break;
+            case "Achealis":
+                setAchealisProperties(P2Character, GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color);
+                break;
+        }
 
         //Set Character Position
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
@@ -81,5 +100,24 @@ public class CharacterLoader : MonoBehaviour
         {
             GameObject.Find("Player2").transform.position = new Vector3(-1f, 1.127f, -3);
         }
+    }
+
+    //Script-Specific Functions
+    void setDhaliaProperties(GameObject Character, int Color)
+    {
+        //Set MaxInput
+        Character.GetComponent<AttackHandlerDHA>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
+
+        //Set Dhalia Color
+        Character.transform.GetChild(0).GetComponent<ColorSwapDHA>().colorNum = Color;
+    }
+
+    void setAchealisProperties(GameObject Character, int Color)
+    {
+        //Set MaxInput
+        Character.GetComponent<AttackHandlerACH>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
+
+        //Set Achealis Color
+        Character.transform.GetChild(0).GetComponent<ColorSwapACH>().colorNum = Color;
     }
 }
