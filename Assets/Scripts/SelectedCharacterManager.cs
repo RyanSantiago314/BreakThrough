@@ -30,7 +30,7 @@ public class SelectedCharacterManager : MonoBehaviour
         else
         {
             Destroy(this.gameObject);
-        }      
+        }
     }
 
     void Update()

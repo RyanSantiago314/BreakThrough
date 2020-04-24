@@ -61,7 +61,7 @@ public class PracticeMode : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {       
+    {
         Player1 = GameObject.Find("Player1");
         Player2 = GameObject.Find("Player2");
         P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
@@ -92,7 +92,7 @@ public class PracticeMode : MonoBehaviour
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
             DamageDisplays.SetActive(true);
-        }       
+        }
     }
 
     // Update is called once per frame
@@ -127,7 +127,7 @@ public class PracticeMode : MonoBehaviour
                     dummyState = "Player";
                     break;
             }
-            
+
             switch(PracticeModeSettings.GetComponent<PauseMenu>().ArmorRefill)
             {
                 case 0:
@@ -193,7 +193,7 @@ public class PracticeMode : MonoBehaviour
                 P1ValorSetting = PracticeModeSettings.GetComponent<PauseMenu>().P1Valor;
                 P2ValorSetting = PracticeModeSettings.GetComponent<PauseMenu>().P2Valor;
 
-                //Refill Health Meters/Manage whiff detection for Armor refill            
+                //Refill Health Meters/Manage whiff detection for Armor refill
                 //Refill P1 HP after P2 combo finishes
                 if (P1Prop.HitDetect.hitStun > 0)
                 {
@@ -207,7 +207,7 @@ public class PracticeMode : MonoBehaviour
                     P1PrevHealth = P1Prop.currentHealth;
                     P2CurrentComboTotalDamage = 0;
                 }
-                //Refill P2 HP after P1 combo finishes  
+                //Refill P2 HP after P1 combo finishes
                 if (P2Prop.HitDetect.hitStun > 0)
                 {
                     P2inCombo = true;
@@ -350,7 +350,7 @@ public class PracticeMode : MonoBehaviour
                     {
                         MaxInput.Cross("Player2");
                         P2inAirTrueCombo = false;
-                    }                  
+                    }
                 }
 
                 //CPU ground guard after first hit
@@ -429,8 +429,11 @@ public class PracticeMode : MonoBehaviour
                     }
                     fixAnimBug = true;
                 }
+                // if press L-stick down, arm recording.
+                // if press L-stick down again, start recording.
+                // if press L-stick down again, stop and save recording
+                //if press R-stick down, replay recording
             }
-            
         }
     }
 
@@ -491,7 +494,7 @@ public class PracticeMode : MonoBehaviour
 
     //Character Specific Reset Properties
     private void resetDhalia(GameObject player)
-    {   
+    {
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetTrigger(Animator.StringToHash("Blitz"));
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Hitboxes.BlitzCancel();
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Actions.landingLag = 0;

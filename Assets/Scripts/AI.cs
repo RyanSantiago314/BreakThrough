@@ -7,7 +7,7 @@ using System.Linq;
 public class AI : MonoBehaviour
 {
     // General
-    public int difficulty = 50;
+    public float difficulty;
 
     // Player data
     int pArmor;
@@ -88,6 +88,8 @@ public class AI : MonoBehaviour
     // Registering the values' initial states
     void Start()
 	{
+        Debug.Log("AI is Starting");
+        Debug.Log("Difficulty = " + difficulty);
         // Player data
         pIsBlocking = false;
         pIsAirborne = false;
@@ -143,6 +145,7 @@ public class AI : MonoBehaviour
         MaxInput = GetComponent<MaxInput>();
         if (!MaxInput.AI)
 		{
+            //Debug.Log("AI disabled");
             enabled = false;
         }
         PlayerProp = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
@@ -170,7 +173,7 @@ public class AI : MonoBehaviour
 	{
         //Stops ai if player has lost
         pHealth = PlayerProp.currentHealth;
-        if (pHealth <= 0 || !StartText.startReady)
+        if (pHealth <= 0 || !RoundManager.startReady)
         {
             pauseAI = true;
         }
@@ -221,15 +224,12 @@ public class AI : MonoBehaviour
                 {
                     AIInput.combo2H_1();
                 }
-                else if (difficulty < 100)
-                {
-                    delay();
-                }
                 else
                 {
+                    if (difficulty < 100) delay();
 
                     var max = states.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;   // Gets key with highest value
-                    Debug.Log(max);
+                    //Debug.Log(max);
 
                     //If ai is on ground set jumping to false
                     if (GameObject.Find("Player2").transform.GetChild(0).transform.position.y <= 0)
@@ -619,6 +619,7 @@ public class AI : MonoBehaviour
         else faceLeft = false;
 
         // Distance between player and AI
+        difficulty = characterManager.CPUDifficulty;
         distanceBetweenX = Math.Abs(p1x - p2x);
         distanceBetweenY = Math.Abs(p1y - p2y);
     }
@@ -643,8 +644,11 @@ public class AI : MonoBehaviour
     {
         var rand = new System.Random();
 
-        if (rand.Next((100 - difficulty) * 100) < 10)
+        if (rand.Next((100 - (int)difficulty) * 20) < 15)
+        {
             delayTimer = (float)rand.NextDouble();
+            Debug.Log("Delayed");
+        }
     }
 
     // Testing specific actions
