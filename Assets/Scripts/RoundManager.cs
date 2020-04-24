@@ -29,6 +29,7 @@ public class RoundManager : MonoBehaviour
     static public bool dizzyKO;
     static public bool matchOver;
     static public bool lockInputs;
+    static public bool startReady;
 
     //Various float timer variables
     static public float roundTimer;
@@ -258,12 +259,14 @@ public class RoundManager : MonoBehaviour
     {
         gameActive = true;
         lockInputs = false;
+        startReady = true;
     }
 
     public void RoundStop()
     {
         gameActive = false;
         lockInputs = true;
+        startReady = false;
         ScreenGraphics.SetBool("RoundOver", true);
     }
 
