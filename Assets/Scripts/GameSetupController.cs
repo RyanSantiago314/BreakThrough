@@ -2,6 +2,8 @@
 using System.IO;
 using UnityEngine;
 
+using Hashtable = ExitGames.Client.Photon.Hashtable; //For Custom Properties
+
 public class GameSetupController : MonoBehaviour
 {
 	public PhotonView p1;
@@ -14,6 +16,11 @@ public class GameSetupController : MonoBehaviour
 
     void Start()
     {
+		Hashtable properties = new Hashtable
+		{
+			{BREAKTHROUGH.PLAYER_LOADED_LEVEL, true}
+		};
+		PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     	CreatePlayer();
     }
     private void CreatePlayer()

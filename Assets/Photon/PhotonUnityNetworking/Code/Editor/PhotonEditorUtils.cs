@@ -23,7 +23,7 @@ using UnityEngine.Networking;
 namespace Photon.Pun
 {
     [InitializeOnLoad]
-    public class PhotonEditorUtils
+    public static class PhotonEditorUtils
     {
         /// <summary>True if the ChatClient of the Photon Chat API is available. If so, the editor may (e.g.) show additional options in settings.</summary>
         public static bool HasChat;
@@ -248,6 +248,38 @@ namespace Photon.Pun
                     }
                 }
             }
+        }
+        /// <summary>
+        /// Creates a Foldout using a toggle with (GUIStyle)"Foldout") and a separate label. This is a workaround for 2019.3 foldout arrows not working.
+        /// </summary>
+        /// <param name="isExpanded"></param>
+        /// <param name="label"></param>
+        /// <returns>Returns the new isExpanded value.</returns>
+        public static bool Foldout(this SerializedProperty isExpanded, GUIContent label)
+        {
+            var rect = EditorGUILayout.GetControlRect();
+            bool newvalue = EditorGUI.Toggle(new Rect(rect) { xMin = rect.xMin + 2 }, GUIContent.none, isExpanded.boolValue, (GUIStyle)"Foldout");
+            EditorGUI.LabelField(new Rect(rect) { xMin = rect.xMin + 15 }, label);
+            if (newvalue != isExpanded.boolValue)
+            {
+                isExpanded.boolValue = newvalue;
+                isExpanded.serializedObject.ApplyModifiedProperties();
+            }
+            return newvalue;
+        }
+
+        /// <summary>
+        /// Creates a Foldout using a toggle with (GUIStyle)"Foldout") and a separate label. This is a workaround for 2019.3 foldout arrows not working.
+        /// </summary>
+        /// <param name="isExpanded"></param>
+        /// <param name="label"></param>
+        /// <returns>Returns the new isExpanded value.</returns>
+        public static bool Foldout(this bool isExpanded, GUIContent label)
+        {
+            var rect = EditorGUILayout.GetControlRect();
+            bool newvalue = EditorGUI.Toggle(new Rect(rect) { xMin = rect.xMin + 2 }, GUIContent.none, isExpanded, (GUIStyle)"Foldout");
+            EditorGUI.LabelField(new Rect(rect) { xMin = rect.xMin + 15 }, label);
+            return newvalue;
         }
     }
 

@@ -171,13 +171,18 @@ namespace Photon.Pun
         /// </remarks>
         public static bool UseRpcMonoBehaviourCache;
         
-
-        public static bool RunRpcCoroutines = true;
-
-
         private static readonly Dictionary<Type, List<MethodInfo>> monoRPCMethodsCache = new Dictionary<Type, List<MethodInfo>>();
 
         private static readonly Dictionary<string, int> rpcShortcuts;  // lookup "table" for the index (shortcut) of an RPC name
+        
+        /// <summary>
+        /// If an RPC method is implemented as coroutine, it gets started, unless this value is false.
+        /// </summary>
+        /// <remarks>
+        /// As starting coroutines causes a little memnory garbage, you may want to disable this option but it is
+        /// also good enough to not return IEnumerable from methods with the attribite PunRPC.
+        /// </remarks>
+        public static bool RunRpcCoroutines = true;
 
 
         // for asynchronous network synched loading.
@@ -1368,12 +1373,12 @@ namespace Photon.Pun
 
 
         /// <summary>
-        /// Defines how many OnPhotonSerialize()-calls might get summarized in one message.
+        /// Defines how many updated produced by OnPhotonSerialize() are batched into one message.
         /// </summary>
         /// <remarks>
-        /// A low number increases overhead, a high number might mean fragmentation.
+        /// A low number increases overhead, a high number might lead to fragmented messages.
         /// </remarks>
-        public static int ObjectsInOneUpdate = 10;
+        public static int ObjectsInOneUpdate = 20;
 
 
         private static readonly PhotonStream serializeStreamOut = new PhotonStream(true, null);
@@ -1404,7 +1409,7 @@ namespace Photon.Pun
     {
         public readonly RaiseEventBatch Batch;
         public List<object> ObjectUpdates;
-        private int defaultSize = 20;
+        private int defaultSize = PhotonNetwork.ObjectsInOneUpdate;
         private int offset;
 
 
@@ -2286,6 +2291,28 @@ namespace Photon.Pun
 
             _cachedRegionHandler = regionHandler;
             //PhotonNetwork.BestRegionSummaryInPreferences = regionHandler.SummaryToCache; // can not be called here, as it's not in the main thread
+
+            
+            // the dev region overrides the best region selection in "development" builds (unless it was set but is empty).
+            
+            #if UNITY_EDITOR
+            if (!PhotonServerSettings.DevRegionSetOnce)
+            {
+                // if no dev region was defined before or if the dev region is unavailable, set a new dev region
+                PhotonServerSettings.DevRegionSetOnce = true;
+                PhotonServerSettings.DevRegion = _cachedRegionHandler.BestRegion.Code;
+            }
+            #endif
+
+            #if DEVELOPMENT_BUILD || UNITY_EDITOR
+            if (!string.IsNullOrEmpty(PhotonServerSettings.DevRegion) && ConnectMethod == ConnectMethod.ConnectToBest)
+            {
+                Debug.LogWarning("PUN is in development mode (development build). As the 'dev region' is not empty (" + PhotonServerSettings.DevRegion + ") it overrides the found best region. See PhotonServerSettings.");
+                PhotonNetwork.NetworkingClient.ConnectToRegionMaster(PhotonServerSettings.DevRegion);
+                return;
+            }
+            #endif
+
             if (NetworkClientState == ClientState.ConnectedToNameServer)
             {
                 PhotonNetwork.NetworkingClient.ConnectToRegionMaster(regionHandler.BestRegion.Code);

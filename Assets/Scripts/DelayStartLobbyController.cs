@@ -1,6 +1,8 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 using UnityEngine;
+
 
 public class DelayStartLobbyController : MonoBehaviourPunCallbacks
 {
@@ -17,6 +19,11 @@ public class DelayStartLobbyController : MonoBehaviourPunCallbacks
 		delayStartButton.SetActive(true);
 	}
 
+	public void loadLobby()
+	{
+		SceneManager.LoadScene("Lobby");
+	}
+
 	public void DelayStart()
 	{
 		delayStartButton.SetActive(false);
@@ -26,11 +33,13 @@ public class DelayStartLobbyController : MonoBehaviourPunCallbacks
 
 	public override void OnJoinRandomFailed(short returnCode, string message)
 	{
+		Debug.LogFormat(message + "return Code: " + returnCode);
 		CreateRoom();
 	}
 
 	void CreateRoom()
 	{
+		Debug.LogFormat("CreateRoom()");
 		int randomRoomNumber = Random.Range(0, 10000);
 		RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = (byte)roomSize };
 		PhotonNetwork.CreateRoom("Room " + randomRoomNumber, roomOps);
@@ -38,6 +47,7 @@ public class DelayStartLobbyController : MonoBehaviourPunCallbacks
 
 	public override void OnCreateRoomFailed(short returnCode, string message)
 	{
+		Debug.LogFormat(message + " Return Code: " + returnCode);
 		CreateRoom();
 	}
 

@@ -70,7 +70,7 @@ namespace Photon.Realtime
         /// <summary>
         /// Sends a "Photon Ping" to a server.
         /// </summary>
-        /// <param name="ip">Address in IPv4 or IPv6 format. An address containing a '.' will be interpretet as IPv4.</param>
+        /// <param name="ip">Address in IPv4 or IPv6 format. An address containing a '.' will be interpreted as IPv4.</param>
         /// <returns>True if the Photon Ping could be sent.</returns>
         public override bool StartPing(string ip)
         {
@@ -96,7 +96,7 @@ namespace Photon.Realtime
 
                 this.PingBytes[this.PingBytes.Length - 1] = this.PingId;
                 this.sock.Send(this.PingBytes);
-                this.PingBytes[this.PingBytes.Length - 1] = (byte)(this.PingId+1);  // invalidate the result, as we re-use the buffer
+                this.PingBytes[this.PingBytes.Length - 1] = (byte)(this.PingId+1);  // this buffer is re-used for the result/receive. invalidate the result now.
             }
             catch (Exception e)
             {

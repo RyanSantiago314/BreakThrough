@@ -387,7 +387,7 @@ namespace Photon.Pun
 
 
         /// <summary>
-        /// Call a RPC method of this GameObject on remote clients of this room (or on all, inclunding this client).
+        /// Call a RPC method of this GameObject on remote clients of this room (or on all, including this client).
         /// </summary>
         /// <remarks>
         /// [Remote Procedure Calls](@ref rpcManual) are an essential tool in making multiplayer games with PUN.
@@ -438,7 +438,7 @@ namespace Photon.Pun
         }
 
         /// <summary>
-        /// Call a RPC method of this GameObject on remote clients of this room (or on all, inclunding this client).
+        /// Call a RPC method of this GameObject on remote clients of this room (or on all, including this client).
         /// </summary>
         /// <remarks>
         /// [Remote Procedure Calls](@ref rpcManual) are an essential tool in making multiplayer games with PUN.

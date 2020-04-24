@@ -11,13 +11,13 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+//#if UNITY_EDITOR
+//using UnityEditor;
+//#endif
 
 using UnityEngine;
 
-using Photon.Pun;
+//using Photon.Pun;
 using Photon.Realtime;
 
 namespace Photon.Pun.UtilityScripts
@@ -55,31 +55,32 @@ namespace Photon.Pun.UtilityScripts
 
         public override void OnConnectedToMaster()
         {
-            Debug.Log("OnConnectedToMaster() was called by PUN. Now this client is connected and could join a room. Calling: PhotonNetwork.JoinRandomRoom();");
+            Debug.Log("OnConnectedToMaster() was called by PUN. This client is now connected to Master Server in region [" + PhotonNetwork.CloudRegion +
+                "] and can join a room. Calling: PhotonNetwork.JoinRandomRoom();");
             PhotonNetwork.JoinRandomRoom();
         }
 
         public override void OnJoinedLobby()
         {
-            Debug.Log("OnJoinedLobby(). This client is connected. This script now calls: PhotonNetwork.JoinRandomRoom();");
+            Debug.Log("OnJoinedLobby(). This client is now connected to Relay in region [" + PhotonNetwork.CloudRegion + "]. This script now calls: PhotonNetwork.JoinRandomRoom();");
             PhotonNetwork.JoinRandomRoom();
         }
 
         public override void OnJoinRandomFailed(short returnCode, string message)
         {
-            Debug.Log("OnJoinRandomFailed() was called by PUN. No random room available, so we create one. Calling: PhotonNetwork.CreateRoom(null, new RoomOptions() {maxPlayers = 4}, null);");
+            Debug.Log("OnJoinRandomFailed() was called by PUN. No random room available in region [" + PhotonNetwork.CloudRegion + "], so we create one. Calling: PhotonNetwork.CreateRoom(null, new RoomOptions() {maxPlayers = 4}, null);");
             PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = 4 }, null);
         }
 
         // the following methods are implemented to give you some context. re-implement them as needed.
         public override void OnDisconnected(DisconnectCause cause)
         {
-			Debug.Log("OnDisconnected("+cause+")");
+            Debug.Log("OnDisconnected(" + cause + ")");
         }
 
         public override void OnJoinedRoom()
         {
-            Debug.Log("OnJoinedRoom() called by PUN. Now this client is in a room. From here on, your game would be running.");
+            Debug.Log("OnJoinedRoom() called by PUN. Now this client is in a room in region [" + PhotonNetwork.CloudRegion + "]. Game is now running.");
         }
     }
 

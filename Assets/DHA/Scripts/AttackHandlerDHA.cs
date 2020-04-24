@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackHandlerDHA : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+
+public class AttackHandlerDHA : MonoBehaviourPunCallbacks, IPunObservable
 {
     public Animator anim;
     public MovementHandler Move;
@@ -111,6 +114,13 @@ public class AttackHandlerDHA : MonoBehaviour
     int blitzActive;
 
     AnimatorStateInfo currentState;  
+
+    #region Observable implementation
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo messageInfo)
+    {
+        
+    }
+    #endregion
 
     void Start()
     {

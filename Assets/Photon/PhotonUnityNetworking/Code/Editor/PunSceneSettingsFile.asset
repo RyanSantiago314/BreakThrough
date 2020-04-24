@@ -13,9 +13,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SceneSettingsListFoldoutOpen: 1
   MinViewIdPerScene:
-  - sceneName: 123
-    minViewId: 47
-  - sceneName: 123
-    minViewId: 1
-  - sceneName: 456
-    minViewId: 1
+  - sceneAsset: {fileID: 102900000, guid: 559222f4671e440cba71aecba1de3505, type: 3}
+    sceneName: SceneView_A
+    minViewId: 2
+  - sceneAsset: {fileID: 102900000, guid: a81615022a16c489aac8daadf8f51fae, type: 3}
+    sceneName: SceneView_B
+    minViewId: 10

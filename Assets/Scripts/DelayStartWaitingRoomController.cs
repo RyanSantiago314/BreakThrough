@@ -36,8 +36,11 @@ public class DelayStartWaitingRoomController : MonoBehaviourPunCallbacks
 	[SerializeField]
 	private float maxFullGameWaitTime;
 
+
 	private void Start()
 	{
+		
+
 		myPhotonView = GetComponent<PhotonView>();
 		fullGameTimer = maxFullGameWaitTime;
 		notFullGameTimer = maxWaitTime;
@@ -74,6 +77,7 @@ public class DelayStartWaitingRoomController : MonoBehaviourPunCallbacks
 		PlayerCountUpdate();
 		if (PhotonNetwork.IsMasterClient)
 		{
+			Debug.LogFormat("timeIn: {0}", timerToStartGame);
 			myPhotonView.RPC("RPC_SendTimer", RpcTarget.Others, timerToStartGame);
 		}
 	}
@@ -81,6 +85,7 @@ public class DelayStartWaitingRoomController : MonoBehaviourPunCallbacks
 	[PunRPC]
 	private void RPC_SendTimer(float timeIn)
 	{
+		Debug.LogFormat("timeIn: {0}", timeIn);
 		timerToStartGame = timeIn;
 		notFullGameTimer = timeIn;
 		if (timeIn < fullGameTimer)
@@ -119,7 +124,7 @@ public class DelayStartWaitingRoomController : MonoBehaviourPunCallbacks
 			notFullGameTimer -= Time.deltaTime;
 			timerToStartGame = notFullGameTimer;
 		}
-		string tempTimer = string.Format("{0:00}", timerToStartGame);
+		string tempTimer = string.Format("{0:00}", timerToStartGame);//{0:00}
 		timerToStartDisplay.text = tempTimer;
 
 		if (timerToStartGame <= 0f)

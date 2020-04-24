@@ -218,7 +218,7 @@ namespace Photon.Pun
     /// </remarks>
     /// \ingroup callbacks
     // the documentation for the interface methods becomes inherited when Doxygen builds it.
-    public class MonoBehaviourPunCallbacks : MonoBehaviourPun, IConnectionCallbacks , IMatchmakingCallbacks , IInRoomCallbacks, ILobbyCallbacks, IWebRpcCallback
+    public class MonoBehaviourPunCallbacks : MonoBehaviourPun, IConnectionCallbacks , IMatchmakingCallbacks , IInRoomCallbacks, ILobbyCallbacks, IWebRpcCallback, IErrorInfoCallback
     {
         public virtual void OnEnable()
         {
@@ -512,6 +512,24 @@ namespace Photon.Pun
         //TODO: Check if this needs to be implemented
         // in: IOptionalInfoCallbacks
         public virtual void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
+        {
+        }
+
+        /// <summary>
+        /// Called when the client receives an event from the server indicating that an error happened there.
+        /// </summary>
+        /// <remarks>
+        /// In most cases this could be either:
+        /// 1. an error from webhooks plugin (if HasErrorInfo is enabled), read more here:
+        /// https://doc.photonengine.com/en-us/realtime/current/gameplay/web-extensions/webhooks#options
+        /// 2. an error sent from a custom server plugin via PluginHost.BroadcastErrorInfoEvent, see example here: 
+        /// https://doc.photonengine.com/en-us/server/current/plugins/manual#handling_http_response
+        /// 3. an error sent from the server, for example, when the limit of cached events has been exceeded in the room
+        /// (all clients will be disconnected and the room will be closed in this case)
+        /// read more here: https://doc.photonengine.com/en-us/realtime/current/gameplay/cached-events#special_considerations
+        /// </remarks>
+        /// <param name="errorInfo">object containing information about the error</param>
+        public virtual void OnErrorInfo(ErrorInfo errorInfo)
         {
         }
     }
