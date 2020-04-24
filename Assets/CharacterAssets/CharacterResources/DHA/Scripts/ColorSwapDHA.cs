@@ -11,6 +11,7 @@ public class ColorSwapDHA : MonoBehaviour
     public HitDetector HitDetect;
 
     public int colorNum;
+    Color noColor = new Color(0, 0, 0, 0);
 
     float recoverFlashTimer = 0;
     float armorFlashTimer = 0;
@@ -91,10 +92,10 @@ public class ColorSwapDHA : MonoBehaviour
 
         for (int i = 0; i < colorSwapTex.width; i++)
         {
-            if (i != 0 && i != 255)
-                colorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 255));
-            else
+            if (i == 0 || i == 255)
                 colorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 0));
+            else
+                colorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 255));
         }
         colorSwapTex.Apply();
 
@@ -123,7 +124,12 @@ public class ColorSwapDHA : MonoBehaviour
     {
         for (int i = 0; i < mColorSwapTex.width; i++)
         {
-            mColorSwapTex.SetPixel(i, 0, mSpriteColors[i]);
+            if (i == 0 || i == 255)
+                mColorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 0));
+            else
+                mColorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 255));
+            if (mSpriteColors[i] != noColor)
+                mColorSwapTex.SetPixel(i, 0, mSpriteColors[i]);
         }
         mColorSwapTex.Apply();
     }
