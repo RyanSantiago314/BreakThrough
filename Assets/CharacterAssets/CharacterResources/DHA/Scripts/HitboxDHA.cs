@@ -644,7 +644,6 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.vertSlash = true;
 
         HitDetect.allowHeavy = true;
-        HitDetect.allowBreak = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
     }
@@ -684,7 +683,6 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.slash = true;
 
         HitDetect.allowHeavy = true;
-        HitDetect.allowBreak = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
     }
@@ -1284,8 +1282,8 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv4;
         HitDetect.potentialHitStop = hitStopLv1;
-        HitDetect.potentialKnockBack = new Vector2(1.2f, 3f);
-        HitDetect.potentialAirKnockBack = new Vector2(.8f, 3f);
+        HitDetect.potentialKnockBack = new Vector2(.5f, 3f);
+        HitDetect.potentialAirKnockBack = new Vector2(.5f, 3f);
         HitDetect.attackLevel = 3;
         HitDetect.guard = "Mid";
 

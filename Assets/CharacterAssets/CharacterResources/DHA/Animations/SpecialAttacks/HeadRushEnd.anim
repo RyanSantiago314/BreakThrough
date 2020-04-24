@@ -181,14 +181,14 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0
-    functionName: HRLaunchHit
+    functionName: Jump
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0
-    functionName: Jump
+    functionName: HRLaunchHit
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

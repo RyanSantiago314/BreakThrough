@@ -11,6 +11,7 @@ public class ColorSwapDHA : MonoBehaviour
     public HitDetector HitDetect;
 
     public int colorNum;
+    Color noColor;
 
     float recoverFlashTimer = 0;
     float armorFlashTimer = 0;
@@ -42,11 +43,13 @@ public class ColorSwapDHA : MonoBehaviour
         Sin = 114,
         SinHighlight = 177,
         Pastry = 127,
+        CorruptedEyes = 57
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        noColor = new Color32(0, 0, 0, 0);
         if (transform.parent.gameObject.name == "Sprite")
         {
             colorNum = transform.parent.GetComponent<ColorSwapDHA>().colorNum;
@@ -91,10 +94,10 @@ public class ColorSwapDHA : MonoBehaviour
 
         for (int i = 0; i < colorSwapTex.width; i++)
         {
-            if (i != 0 && i != 255)
-                colorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 255));
-            else
+            if (i == 0 || i == 255)
                 colorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 0));
+            else
+                colorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 255));
         }
         colorSwapTex.Apply();
 
@@ -123,7 +126,12 @@ public class ColorSwapDHA : MonoBehaviour
     {
         for (int i = 0; i < mColorSwapTex.width; i++)
         {
-            mColorSwapTex.SetPixel(i, 0, mSpriteColors[i]);
+            if (i == 0 || i == 255)
+                mColorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 0));
+            else
+                mColorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 255));
+            if (mSpriteColors[i] != noColor)
+                mColorSwapTex.SetPixel(i, 0, mSpriteColors[i]);
         }
         mColorSwapTex.Apply();
     }
@@ -168,6 +176,7 @@ public class ColorSwapDHA : MonoBehaviour
             ColorSwap(SwapIndex.Sin, new Color32(55, 80, 255, 255));
             ColorSwap(SwapIndex.SinHighlight, new Color32(144, 145, 255, 255));
             ColorSwap(SwapIndex.Pastry, new Color32(193, 107, 58, 255));
+            ColorSwap(SwapIndex.CorruptedEyes, new Color32(57, 57, 57, 255));
         }
         else
         {
@@ -196,6 +205,7 @@ public class ColorSwapDHA : MonoBehaviour
             ColorSwap(SwapIndex.Sin, new Color32(255, 50, 53, 255));
             ColorSwap(SwapIndex.SinHighlight, new Color32(255, 144, 145, 255));
             ColorSwap(SwapIndex.Pastry, new Color32(193, 107, 58, 255));
+            ColorSwap(SwapIndex.CorruptedEyes, new Color32(57, 57, 57, 255));
         }
 
         mColorSwapTex.Apply();
