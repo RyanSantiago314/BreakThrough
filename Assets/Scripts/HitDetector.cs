@@ -436,8 +436,6 @@ public class HitDetector : MonoBehaviour
                             //guarding an attack on the ground without having any resolve results in chip damage
                             Actions.Move.OpponentProperties.armor = 0;
                             Actions.Move.OpponentProperties.durability = 0;
-                            HitSuccess(other);
-                            ApplyHitStop(2 * potentialHitStop);
 
                             //chip damage
                             if (Actions.Move.OpponentProperties.currentHealth - damage/2 * opponentValor <= 0 && Actions.Move.OpponentProperties.currentHealth > 1)
