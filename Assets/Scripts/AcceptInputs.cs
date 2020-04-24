@@ -99,6 +99,7 @@ public class AcceptInputs : MonoBehaviour
         if (landingLag > 0)
         {
             DisableAll();
+            StopAttacking();
             anim.SetBool(crouchID, true);
             if (!airborne)
                 landingLag--;
