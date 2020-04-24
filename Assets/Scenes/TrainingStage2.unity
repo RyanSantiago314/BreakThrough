@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4465794, g: 0.4964134, b: 0.57481974, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657916, g: 0.49641287, b: 0.57481915, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2053,7 +2053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6fbaa8c22c19774f86d376136f95b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMode: AI
+  gameMode: Practice
   stage: TrainingStage
   P1Character: Dhalia
   P2Character: Dhalia
