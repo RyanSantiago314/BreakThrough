@@ -995,14 +995,14 @@ public class MovementHandler : MonoBehaviour
                 anim.SetBool(wallStickID, false);
             }
             wallStickTimer--;
-            if (wallStickTimer == 35)
+            if (wallStickTimer == 41)
                 opponentMove.sigil.GetComponent<Sigil>().Play();
             opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
             opponentMove.sigil.transform.eulerAngles = new Vector3(0, 90, opponentMove.sigil.transform.eulerAngles.z);
         }
         else if (Actions.blitzed % 2 == 0 && !HitDetect.pauseScreen.isPaused)
         {
-            wallStickTimer = 36;
+            wallStickTimer = 42;
         }
     }
 }

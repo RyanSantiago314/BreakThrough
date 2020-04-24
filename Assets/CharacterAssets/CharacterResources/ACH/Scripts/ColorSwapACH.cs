@@ -10,6 +10,8 @@ public class ColorSwapACH : MonoBehaviour
     SpriteRenderer sprite;
     public HitDetector HitDetect;
 
+    Color noColor;
+
     public int colorNum;
 
     float recoverFlashTimer = 0;
@@ -39,6 +41,8 @@ public class ColorSwapACH : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        noColor = new Color32(0, 0, 0, 0);
+
         if (transform.parent.gameObject.name == "Sprite")
         {
             colorNum = transform.parent.GetComponent<ColorSwapACH>().colorNum;
@@ -116,7 +120,12 @@ public class ColorSwapACH : MonoBehaviour
     {
         for (int i = 0; i < mColorSwapTex.width; i++)
         {
-            mColorSwapTex.SetPixel(i, 0, mSpriteColors[i]);
+            if (i == 0 || i == 255)
+                mColorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 0));
+            else
+                mColorSwapTex.SetPixel(i, 0, new Color32(0, 0, 0, 255));
+            if (mSpriteColors[i] != noColor)
+                mColorSwapTex.SetPixel(i, 0, mSpriteColors[i]);
         }
         mColorSwapTex.Apply();
     }

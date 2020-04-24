@@ -401,7 +401,7 @@ public class AttackHandlerACH : MonoBehaviour
         //aerial recovery, press a button after hitstun ends
         if((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") || currentState.IsName("LaunchTransition") ||
             currentState.IsName("LaunchFall") || currentState.IsName("Unstick")) && Move.HitDetect.hitStun == 0 &&
-            Move.transform.position.y > 1.4f && (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
+            Move.transform.position.y > 1.1f && (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
         {
             anim.SetTrigger(IDRec);
         }
