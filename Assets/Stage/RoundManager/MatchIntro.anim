@@ -4314,15 +4314,22 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 4.25
+  - time: 4.3333335
+    functionName: Duel
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 4.4166665
     functionName: PlayDuel
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 4.3333335
-    functionName: Duel
+  - time: 4.483333
+    functionName: PlayBGM
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

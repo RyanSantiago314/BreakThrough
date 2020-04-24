@@ -374,7 +374,7 @@ MonoBehaviour:
   grabbed: 0
   throwTech: 0
   backThrow: 0
-  originalGravity: 1.15
+  originalGravity: 1.05
   gravScale: 1
   comboHits: 0
   anim: {fileID: 4805734550476353333}
@@ -1218,7 +1218,7 @@ MonoBehaviour:
   walkBackSpeed: 1.85
   backDashForce: 2
   runAcceleration: 0.15
-  jumpPower: 4.2
+  jumpPower: 4
   maxVelocity: 5.35
   maxJumps: 2
   jumps: 0
@@ -1277,8 +1277,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitDetect: {fileID: 4805734551020860980}
-  maxHealth: 1100
-  currentHealth: 1100
+  maxHealth: 1200
+  currentHealth: 1200
   armor: 0
   durability: 0
   comboTimer: 0
