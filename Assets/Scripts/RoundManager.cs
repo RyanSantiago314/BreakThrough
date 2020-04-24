@@ -330,7 +330,7 @@ public class RoundManager : MonoBehaviour
 
         if (P2Prop.transform.root.GetChild(0).name.Contains("Dhalia"))
             rightText.text = "Dhalia";
-        else if (P1Prop.transform.root.GetChild(0).name.Contains("Achealis"))
+        else if (P2Prop.transform.root.GetChild(0).name.Contains("Achealis"))
             rightText.text = "Achealis";
     }
 
