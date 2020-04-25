@@ -44,9 +44,12 @@ public class CursorMovementStageSelect : MonoBehaviour
             case "TrainingStage":
                 stageNum = 0;
                 break;
+            case "DhaliaStage":
+                stageNum = 1;
+                break;
         }
         stagePreviews[stageNum].SetActive(true);
-        stageNames[0].SetActive(true);
+        stageNames[stageNum].SetActive(true);
     }
 
     private void OnTriggerExit2D(Collider2D collider)
@@ -104,6 +107,10 @@ public class CursorMovementStageSelect : MonoBehaviour
                             loadingScreen.SetActive(true);
                             SceneManager.LoadScene(3);
                             break;
+                        case "DhaliaStage":
+                            loadingScreen.SetActive(true);
+                            SceneManager.LoadScene(4);
+                            break;
                     }
                 }
             } else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
@@ -116,6 +123,10 @@ public class CursorMovementStageSelect : MonoBehaviour
                         case "TrainingStage":
                             loadingScreen.SetActive(true);
                             SceneManager.LoadScene(3);
+                            break;
+                        case "DhaliaStage":
+                            loadingScreen.SetActive(true);
+                            SceneManager.LoadScene(4);
                             break;
                     }
                 }

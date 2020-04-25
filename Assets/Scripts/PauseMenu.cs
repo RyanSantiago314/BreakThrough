@@ -232,7 +232,7 @@ public class PauseMenu : MonoBehaviour
                 }
                 else if (optionIndex == 2)
                 {
-                    uiButtonMatch.Select();
+                    //uiButtonMatch.Select();
 
                     if ((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2))
                     {
