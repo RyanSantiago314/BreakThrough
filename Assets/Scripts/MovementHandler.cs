@@ -241,7 +241,8 @@ public class MovementHandler : MonoBehaviour
 
                 if (Actions.acceptMove && Actions.standing && !anim.GetBool(crouchID) && ((MaxInput.GetAxis(Horizontal) < 0 && facingRight) || (MaxInput.GetAxis(Horizontal) > 0 && !facingRight)) && !Actions.airborne && !backDash)
                 {
-                    if (GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().dummyState == "Guard" && transform.parent.name == "Player2")
+                    if ((GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().dummyState == "StandGuard"
+                        || GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().dummyState == "GuardAll")  && transform.parent.name == "Player2")
                     {
                         anim.SetBool(walkBID, false);
                     }
