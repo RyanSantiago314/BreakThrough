@@ -232,7 +232,7 @@ public class PauseMenu : MonoBehaviour
                 }
                 else if (optionIndex == 2)
                 {
-                    uiButtonMatch.Select();
+                    //uiButtonMatch.Select();
 
                     if ((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2))
                     {
@@ -480,13 +480,13 @@ public class PauseMenu : MonoBehaviour
 
                 //Options scrolling
                 //CPUState scrolling
-                if (CPUState == 7)
+                if (CPUState == 8)
                 {
                     CPUState = 0;
                 }
                 else if (CPUState == -1)
                 {
-                    CPUState = 6;
+                    CPUState = 7;
                 }
                 //Valor scrolling
                 if (P1Valor == 101)
@@ -546,15 +546,18 @@ public class PauseMenu : MonoBehaviour
                         CPUStateText.GetComponent<TMPro.TextMeshProUGUI>().text = "Jump";
                         break;
                     case 3:
-                        CPUStateText.GetComponent<TMPro.TextMeshProUGUI>().text = "Guard";
+                        CPUStateText.GetComponent<TMPro.TextMeshProUGUI>().text = "Standing Guard";
                         break;
                     case 4:
-                        CPUStateText.GetComponent<TMPro.TextMeshProUGUI>().text = "Low Guard";
+                        CPUStateText.GetComponent<TMPro.TextMeshProUGUI>().text = "Crouching Guard";
                         break;
                     case 5:
-                        CPUStateText.GetComponent<TMPro.TextMeshProUGUI>().text = "CPU";
+                        CPUStateText.GetComponent<TMPro.TextMeshProUGUI>().text = "Guard All";
                         break;
                     case 6:
+                        CPUStateText.GetComponent<TMPro.TextMeshProUGUI>().text = "CPU";
+                        break;
+                    case 7:
                         CPUStateText.GetComponent<TMPro.TextMeshProUGUI>().text = "Player";
                         break;
                 }

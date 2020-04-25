@@ -26,6 +26,7 @@ public class PracticeMode : MonoBehaviour
     private bool guardAfterTrueCombo;
     private bool fixAnimBug;
     private float InputTimer;
+    private string guardLevel;
     double p1x;
     double p2x;
 
@@ -115,15 +116,18 @@ public class PracticeMode : MonoBehaviour
                     dummyState = "Jump";
                     break;
                 case 3:
-                    dummyState = "Guard";
+                    dummyState = "StandGuard";
                     break;
                 case 4:
                     dummyState = "LowGuard";
                     break;
                 case 5:
-                    dummyState = "CPU";
+                    dummyState = "GuardAll";
                     break;
                 case 6:
+                    dummyState = "CPU";
+                    break;
+                case 7:
                     dummyState = "Player";
                     break;
             }
@@ -230,7 +234,7 @@ public class PracticeMode : MonoBehaviour
                     P1CurrentComboTotalDamage += P1CurrentHitDamage;
                     P1HitDamage.text = "Damage: ";
                     P1HitDamage.text += P1CurrentHitDamage;
-                    P1ComboDamage.text = "Total Damage : ";
+                    P1ComboDamage.text = "Total Damage: ";
                     P1ComboDamage.text += P1CurrentComboTotalDamage;
                     P1HitType.text = "Guard Level: ";
                     P1HitType.text += P1Prop.HitDetect.guard;
@@ -278,6 +282,16 @@ public class PracticeMode : MonoBehaviour
                 {
                     InputTimer = 0;
                 }
+                //Determine P1 Current attack type to determine proper Guard
+                if (Player1.transform.GetComponentInChildren<AcceptInputs>().attacking)
+                {
+                    guardLevel = P1Prop.HitDetect.guard;
+                    Debug.Log(guardLevel);
+                }
+                else
+                {
+                    guardLevel = "";
+                }
                 switch (dummyState)
                 {
                     case "CPU":
@@ -306,7 +320,7 @@ public class PracticeMode : MonoBehaviour
                             InputTimer = 1.0f;
                         }
                         break;
-                    case "Guard":
+                    case "StandGuard":
                         MaxInput.ClearInput("Player2");
                         MaxInput.enableAI();
                         MaxInputObject.GetComponent<AI>().enabled = false;
@@ -330,6 +344,33 @@ public class PracticeMode : MonoBehaviour
                         else
                         {
                             MaxInput.DownLeft("Player2");
+                        }
+                        break;
+                    case "GuardAll":
+                        MaxInput.ClearInput("Player2");
+                        MaxInput.enableAI();
+                        MaxInputObject.GetComponent<AI>().enabled = false;
+                        if (p1x - p2x < 0)
+                        {
+                            if (guardLevel == "Low")
+                            {
+                                MaxInput.DownRight("Player2");
+                            }
+                            else
+                            {
+                                MaxInput.MoveRight("Player2");
+                            }
+                        }
+                        else
+                        {
+                            if (P1Prop.HitDetect.guard == "Low")
+                            {
+                                MaxInput.DownLeft("Player2");
+                            }
+                            else
+                            {
+                                MaxInput.MoveLeft("Player2");
+                            }
                         }
                         break;
                     case "Player":
@@ -391,12 +432,18 @@ public class PracticeMode : MonoBehaviour
                         case "Dhalia":
                             resetDhalia(Player1);
                             break;
+                        case "Achealis":
+                            resetAchealis(Player1);
+                            break;
                     }
 
                     switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
                     {
                         case "Dhalia":
                             resetDhalia(Player2);
+                            break;
+                        case "Achealis":
+                            resetAchealis(Player2);
                             break;
                     }
                     fixAnimBug = false;

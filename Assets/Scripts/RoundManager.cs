@@ -117,6 +117,7 @@ public class RoundManager : MonoBehaviour
             P2Prop = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
             gameActive = true;
             roundCount = 0;
+            startReady = true;
         }
     }
 

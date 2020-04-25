@@ -127,12 +127,12 @@ public class HUD : MonoBehaviour
             roundTimer.enabled = false;
         roundTimer.text = RoundManager.roundTimer.ToString("F0");
 
-        if (P1HealthUI.fillAmount > (float)(P1Prop.currentHealth / P1Prop.maxHealth) && ((RoundManager.roundTimer <= 0 && RoundManager.suddenDeath)||RoundManager.roundTimer > 0))
+        if (P1HealthUI.fillAmount > (float)(P1Prop.currentHealth / P1Prop.maxHealth) && ((RoundManager.roundTimer <= 0 && RoundManager.suddenDeath)||RoundManager.roundTimer > 0 || RoundManager.roundCount == 0))
             P1HealthUI.fillAmount = (float)(P1Prop.currentHealth / P1Prop.maxHealth);
         else if (P1HealthUI.fillAmount < (float)(P1Prop.currentHealth / P1Prop.maxHealth))
             P1HealthUI.fillAmount += .015f;
 
-        if (P2HealthUI.fillAmount > (float)(P2Prop.currentHealth / P2Prop.maxHealth) && ((RoundManager.roundTimer <= 0 && RoundManager.suddenDeath) || RoundManager.roundTimer > 0))
+        if (P2HealthUI.fillAmount > (float)(P2Prop.currentHealth / P2Prop.maxHealth) && ((RoundManager.roundTimer <= 0 && RoundManager.suddenDeath) || RoundManager.roundTimer > 0 || RoundManager.roundCount == 0))
             P2HealthUI.fillAmount = (float)(P2Prop.currentHealth / P2Prop.maxHealth);
         else if (P2HealthUI.fillAmount < (float)(P2Prop.currentHealth / P2Prop.maxHealth))
             P2HealthUI.fillAmount += .015f;
@@ -474,7 +474,7 @@ public class HUD : MonoBehaviour
             }
         }
 
-        if (RoundManager.p2Win > 0 && RoundManager.ScreenGraphics.GetCurrentAnimatorStateInfo(0).IsName("Inactive"))
+        if (RoundManager.p2Win > 0)
         {
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
             {
