@@ -14,6 +14,7 @@ public class MenuInputManager : MonoBehaviour
 	private float InputTimer;
 	private float InputTimer2;
 	private float InputDelay;
+
 	public Button PlayLocalButton;
 	public Button PlayOnlineButton;
 	public Button OptionsButton;
@@ -32,25 +33,31 @@ public class MenuInputManager : MonoBehaviour
 	public Slider MasterSlider;
 	public Slider VoiceSlider;
 	public Slider EffectsSlider;
-    public Slider CPUDifficultySlider;
+
 	private MainMenu menu;
+
 	private string state;
 	private string optionState;
-	private bool isXbox;
+    private string mode;
+
+    private bool isXbox;
     private bool resetDifficulty;
     private bool acceptConfirm;
     private bool pressingLeft;
     private bool pressingRight;
+
     public GameObject sideSelectScreen;
     public GameObject AIDifficultyScreen;
-    private string mode;
+
     public GameObject P1Controller;
     public GameObject P2Controller;
     public GameObject P1COMText;
     public GameObject P2COMText;
-    public GameObject CPUDifficultyText;
+    public GameObject CPULevel;
+
     private int P1Position;
     private int P2Position;
+    private int COMLevel;
     private float x;
     private float y = 126;
     private float x2;
@@ -82,6 +89,7 @@ public class MenuInputManager : MonoBehaviour
         menu = GetComponent<MainMenu>();
         state = "main";
         optionState = "mainOptions";
+        COMLevel = 1;
         //isXbox = false;
         Time.timeScale = 1;
 
@@ -231,6 +239,7 @@ public class MenuInputManager : MonoBehaviour
                     P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(0, 126, 0);
                     acceptConfirm = false;
                     AIDifficultyScreen.SetActive(true);
+                    InputTimer = 0;
                     mode = "AI";
                 } 
 				
@@ -413,40 +422,48 @@ public class MenuInputManager : MonoBehaviour
         //AI Difficulty ManageMent (Placed here for input execution purposes)
         if (AIDifficultyScreen.activeSelf)
         {
-            //Delay slider input (Hold to continously increase/decrease)
-            if (horizontal < 0)
+            switch (CPULevel.GetComponent<TMPro.TextMeshProUGUI>().text)
             {
-                if (!pressingLeft)
-                {
-                    CPUDifficultySlider.value -= 1;
-                    InputDelay = .5f;
-                }
-                pressingLeft = true;
+
             }
-            else if (horizontal > 0 )
+            if (horizontal < 0 && InputTimer == 0)
             {
-                if (!pressingRight)
-                {
-                    CPUDifficultySlider.value += 1;
-                    InputDelay = .5f;
-                }
-                pressingRight = true;
+                COMLevel -= 1;
+                InputTimer = 0.2f;
             }
-            else
+            else if (horizontal > 0 && InputTimer == 0)
             {
-                pressingLeft = false;
-                pressingRight = false;
-                InputDelay = 0;
+                COMLevel += 1;
+                InputTimer = 0.2f;
             }
-            //Accept Left/Right Inputs to slide difficulty
-            if (horizontal < 0 && InputDelay == 0)
+
+            //Cycle COM Levels
+            if (COMLevel < 0)
             {
-                CPUDifficultySlider.value -= 1;
+                COMLevel = 2;
             }
-            else if (horizontal > 0 && InputDelay == 0)
+            if (COMLevel > 2)
             {
-                CPUDifficultySlider.value += 1;
+                COMLevel = 0;
             }
+
+            //Update COM Level Text
+            switch (COMLevel)
+            {
+                case 0:
+                    CPULevel.GetComponent<TMPro.TextMeshProUGUI>().text = "< Easy >";
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().CPUDifficulty = 10;
+                    break;
+                case 1:
+                    CPULevel.GetComponent<TMPro.TextMeshProUGUI>().text = "< Medium >";
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().CPUDifficulty = 50;
+                    break;
+                case 2:
+                    CPULevel.GetComponent<TMPro.TextMeshProUGUI>().text = "< Hard >";
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().CPUDifficulty = 90;
+                    break;
+            }
+
             //Accept Confirmation
             if (Input.GetButtonDown(inputCross) && acceptConfirm)
             {
@@ -460,8 +477,6 @@ public class MenuInputManager : MonoBehaviour
             {
                 AIDifficultyScreen.SetActive(false);
             }
-            //Update Difficult Slider Text
-            CPUDifficultyText.GetComponent<TMPro.TextMeshProUGUI>().text = "" + CPUDifficultySlider.value;
             //Allow accept input to avoid accepting two screens at once
             acceptConfirm = true;
         }
@@ -752,14 +767,12 @@ public class MenuInputManager : MonoBehaviour
         //Update CPU Difficulty
         if (SceneManager.GetActiveScene().name == "MainMenu" && resetDifficulty == false)
         {
-            CPUDifficultySlider.value = 50;
             resetDifficulty = true;
         }
         else if (SceneManager.GetActiveScene().name != "MainMenu")
         {
             resetDifficulty = false;
         }
-        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().CPUDifficulty = CPUDifficultySlider.value;
     }
 
     private bool CheckXbox(int player)
