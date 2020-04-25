@@ -981,7 +981,7 @@ public class HitboxDHA : MonoBehaviour
 
     void FBFullChargeHitbox2()
     {
-        if (HitDetect.OpponentDetector.hitStun == 0)
+        if (HitDetect.OpponentDetector.hitStun == 0 && HitDetect.OpponentDetector.blockStun == 0)
         {
             hit1.enabled = true;
             hit2.enabled = true;
