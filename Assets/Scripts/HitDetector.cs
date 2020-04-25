@@ -360,12 +360,12 @@ public class HitDetector : MonoBehaviour
                         if (potentialKnockBack.x > potentialKnockBack.y)
                         {
                             KnockBack = potentialKnockBack * new Vector2(.8f, 0);
-                            OpponentDetector.KnockBack = potentialKnockBack * new Vector2(.9f, 0);
+                            OpponentDetector.KnockBack = potentialKnockBack * new Vector2(1f, 0);
                         }
                         else
                         {
-                            KnockBack = new Vector2((potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
-                            OpponentDetector.KnockBack = new Vector2(.8f * (potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
+                            KnockBack = new Vector2(.9f * (potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
+                            OpponentDetector.KnockBack = new Vector2((potentialKnockBack.y + potentialKnockBack.x) / 2, 0);
                         }
 
                         if (Actions.airborne && KnockBack.x > 1f)
