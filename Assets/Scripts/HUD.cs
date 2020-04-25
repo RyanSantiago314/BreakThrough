@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class HUD : MonoBehaviour
 {
     public Sprite DHAHeadshot;
+    public Sprite ACHHeadshot;
 
     public Image P1HealthUI;
     public Image P1RedHealth;
@@ -665,11 +666,21 @@ public class HUD : MonoBehaviour
             P1Headshot.sprite = DHAHeadshot;
             P1Name.text = "Dhalia Thorne";
         }
+        else if (P1Prop.transform.root.GetChild(0).name.Contains("Achealis"))
+        {
+            P1Headshot.sprite = ACHHeadshot;
+            P1Name.text = "Achealis Thorne";
+        }
 
         if (P2Prop.transform.root.GetChild(0).name.Contains("Dhalia") || P2Prop.transform.root.GetChild(0).name.Contains("DHA"))
         {
             P2Headshot.sprite = DHAHeadshot;
             P2Name.text = "Dhalia Thorne";
+        }
+        else if (P2Prop.transform.root.GetChild(0).name.Contains("Achealis"))
+        {
+            P2Headshot.sprite = ACHHeadshot;
+            P2Name.text = "Achealis Thorne";
         }
     }
 }

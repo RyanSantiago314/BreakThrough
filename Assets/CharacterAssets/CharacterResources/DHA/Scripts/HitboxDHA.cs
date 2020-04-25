@@ -110,30 +110,6 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.blitz = true; 
     }
 
-    public void BurstBreaker()
-    {
-        ClearHitBox();
-        hit1.enabled = true;
-        hit2.enabled = true;
-        hit3.enabled = true;
-
-        hit1.offset = new Vector2(.0f, .0f);
-        hit1.size = new Vector2(1.85f, 1f);
-        hit2.offset = new Vector2(.0f, .0f);
-        hit2.size = new Vector2(1.5f, 1.5f);
-        hit3.offset = new Vector2(.0f, .0f);
-        hit3.size = new Vector2(1f, 2f);
-
-        HitDetect.potentialHitStun = 50;
-        HitDetect.potentialHitStop = hitStopLv4;
-
-        HitDetect.potentialKnockBack = new Vector2(3.5f, 2.5f);
-        HitDetect.attackLevel = 10;
-        HitDetect.guard = "Unblockable";
-
-        HitDetect.piercing = true;
-    }
-
     public void SummonPastry()
     {
         //Pastry projectile, angle of throw changes based on direction held after execution
@@ -259,8 +235,8 @@ public class HitboxDHA : MonoBehaviour
         hit1.enabled = true;
         hit2.enabled = true;
 
-        hit1.offset = new Vector2(1.33f, .69f);
-        hit1.size = new Vector2(1.4f, .29f);
+        hit1.offset = new Vector2(1.33f, .5f);
+        hit1.size = new Vector2(1.4f, .35f);
         hit2.offset = new Vector2(.55f, .55f);
         hit2.size = new Vector2(.47f, .23f);
 
@@ -273,7 +249,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialAirKnockBack = new Vector2(1.2f, 2f);
         HitDetect.initialProration = .8f;
         HitDetect.attackLevel = 3;
-        HitDetect.guard = "Mid";
+        HitDetect.guard = "High";
 
         HitDetect.allowHeavy = true;
         HitDetect.allowSpecial = true;
@@ -288,8 +264,8 @@ public class HitboxDHA : MonoBehaviour
         hit1.enabled = true;
         hit2.enabled = true;
 
-        hit1.offset = new Vector2(1.33f, .69f);
-        hit1.size = new Vector2(1.4f, .29f);
+        hit1.offset = new Vector2(1.33f, .5f);
+        hit1.size = new Vector2(1.4f, .35f);
         hit2.offset = new Vector2(.55f, .55f);
         hit2.size = new Vector2(.47f, .23f);
 
@@ -302,7 +278,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialAirKnockBack = new Vector2(1.2f, 1.5f);
         HitDetect.initialProration = .7f;
         HitDetect.attackLevel = 2;
-        HitDetect.guard = "Mid";
+        HitDetect.guard = "High";
 
         HitDetect.allowSuper = true;
     }
@@ -314,8 +290,8 @@ public class HitboxDHA : MonoBehaviour
         hit1.enabled = true;
         hit2.enabled = true;
 
-        hit1.offset = new Vector2(1.33f, .69f);
-        hit1.size = new Vector2(1.4f, .29f);
+        hit1.offset = new Vector2(1.33f, .5f);
+        hit1.size = new Vector2(1.4f, .35f);
         hit2.offset = new Vector2(.55f, .55f);
         hit2.size = new Vector2(.47f, .23f);
 
@@ -328,7 +304,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialAirKnockBack = new Vector2(2f, 2f);
         HitDetect.initialProration = .85f;
         HitDetect.attackLevel = 2;
-        HitDetect.guard = "Mid";
+        HitDetect.guard = "High";
 
         HitDetect.allowWallBounce = true;
 

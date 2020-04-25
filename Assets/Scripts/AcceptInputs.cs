@@ -24,7 +24,8 @@ public class AcceptInputs : MonoBehaviour
     public bool recovering = false;
     public bool throwInvincible = false;
 
-    public bool bursting = false;
+    public bool hiCounter = false;
+    public bool lowCounter = false;
 
     public bool shattered = false;
     public bool superHit = false;
@@ -110,7 +111,6 @@ public class AcceptInputs : MonoBehaviour
         {
             DisableAll();
             DisableBlitz();
-            bursting = false;
             if(!currentState.IsName("Deflected"))
             {
                 armorActive = false;
@@ -230,6 +230,8 @@ public class AcceptInputs : MonoBehaviour
         throwInvincible = false;
         recovering = false;
         attacking = false;
+        hiCounter = false;
+        lowCounter = false;
     }
 
     public void Attacking()
@@ -261,13 +263,6 @@ public class AcceptInputs : MonoBehaviour
     public void StartSuperFlash(int i)
     {
         superFlash = i;
-        /*if (airborne)
-            Move.sigil.transform.position = new Vector3(Move.transform.position.x, Move.transform.position.y + Move.pushBox.offset.y - .5f * Move.pushBox.size.y, Move.transform.position.z);
-        else
-            Move.sigil.transform.position = new Vector3(Move.transform.position.x, .35f, Move.transform.position.z);
-        Move.sigil.transform.eulerAngles = new Vector3(80, 0, Move.sigil.transform.eulerAngles.z);
-        Move.sigil.GetComponent<Sigil>().scaleChange = 0;
-        Move.sigil.GetComponent<Sigil>().colorChange = 0;*/
 
         Move.HitDetect.OpponentDetector.currentVelocity = Move.HitDetect.OpponentDetector.rb.velocity;
         Move.HitDetect.OpponentDetector.Actions.blitzed = 1;
@@ -277,6 +272,28 @@ public class AcceptInputs : MonoBehaviour
     {
         acceptMove = false;
         acceptGuard = false;
+    }
+
+    public void CounterHigh()
+    {
+        hiCounter = true;
+    }
+
+    public void CounterLow()
+    {
+        lowCounter = true;
+    }
+
+    public void CounterAll()
+    {
+        hiCounter = true;
+        lowCounter = true;
+    }
+
+    public void StopCountering()
+    {
+        hiCounter = false;
+        lowCounter = false;
     }
 
     public void SetLandLag(int x)
