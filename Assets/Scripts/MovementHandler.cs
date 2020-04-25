@@ -221,7 +221,7 @@ public class MovementHandler : MonoBehaviour
             transform.position = new Vector3(transform.position.x, minPosY, transform.position.z);
             Actions.airborne = false;
         }
-        if (playing)
+        if (playing && !HitDetect.pauseScreen.isPaused)
         {
             if (HitDetect.hitStop == 0)
             {

@@ -235,8 +235,8 @@ public class HitboxDHA : MonoBehaviour
         hit1.enabled = true;
         hit2.enabled = true;
 
-        hit1.offset = new Vector2(1.33f, .69f);
-        hit1.size = new Vector2(1.4f, .29f);
+        hit1.offset = new Vector2(1.33f, .5f);
+        hit1.size = new Vector2(1.4f, .35f);
         hit2.offset = new Vector2(.55f, .55f);
         hit2.size = new Vector2(.47f, .23f);
 
@@ -264,8 +264,8 @@ public class HitboxDHA : MonoBehaviour
         hit1.enabled = true;
         hit2.enabled = true;
 
-        hit1.offset = new Vector2(1.33f, .69f);
-        hit1.size = new Vector2(1.4f, .29f);
+        hit1.offset = new Vector2(1.33f, .5f);
+        hit1.size = new Vector2(1.4f, .35f);
         hit2.offset = new Vector2(.55f, .55f);
         hit2.size = new Vector2(.47f, .23f);
 
@@ -290,8 +290,8 @@ public class HitboxDHA : MonoBehaviour
         hit1.enabled = true;
         hit2.enabled = true;
 
-        hit1.offset = new Vector2(1.33f, .69f);
-        hit1.size = new Vector2(1.4f, .29f);
+        hit1.offset = new Vector2(1.33f, .5f);
+        hit1.size = new Vector2(1.4f, .35f);
         hit2.offset = new Vector2(.55f, .55f);
         hit2.size = new Vector2(.47f, .23f);
 

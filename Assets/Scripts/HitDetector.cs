@@ -204,7 +204,7 @@ public class HitDetector : MonoBehaviour
         else if (Actions.grabbed)
         {
             //lock character to allow throw animation to work correctly
-            anim.SetFloat(animSpeedID, .5f);
+            anim.SetFloat(animSpeedID, .8f);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
         else
