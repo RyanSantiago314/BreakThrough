@@ -86,6 +86,7 @@ public class HitDetector : MonoBehaviour
     static int LoGuard;
     static int AirGuard;
 
+    static int crouchID;
     static int runID;
     static int animSpeedID;
     static int hitStunID;
@@ -119,6 +120,7 @@ public class HitDetector : MonoBehaviour
         HiGuard = Animator.StringToHash("HighGuard");
         AirGuard = Animator.StringToHash("AirGuard");
 
+        crouchID = Animator.StringToHash("Crouch");
         runID = Animator.StringToHash("Run");
         animSpeedID = Animator.StringToHash("AnimSpeed");
         hitStunID = Animator.StringToHash("HitStun");
@@ -199,10 +201,10 @@ public class HitDetector : MonoBehaviour
             if (!pauseScreen.isPaused)
                 hitStop--;
         }
-        else if (Actions.grabbed || Actions.bursting)
+        else if (Actions.grabbed)
         {
             //lock character to allow throw animation to work correctly
-            anim.SetFloat(animSpeedID, 1f);
+            anim.SetFloat(animSpeedID, .5f);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
         else
@@ -310,15 +312,24 @@ public class HitDetector : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         collideCount++;
-        if (!OpponentDetector.Actions.bursting || Actions.bursting)
+        if (!(OpponentDetector.anim.GetBool(crouchID) && guard == "High"))
         {
-            if (allowHit && !grab && !commandGrab && other.gameObject.transform.parent.parent == Actions.Move.opponent && (potentialHitStun > 0 || blitz))
+            if (allowHit && !grab && !commandGrab && !blitz && !usingSuper && ((guard == "Low" && OpponentDetector.Actions.lowCounter) || 
+                ((guard == "Mid" || guard == "High" || guard == "Overhead") && OpponentDetector.Actions.hiCounter)))
+            {
+                ApplyHitStop(potentialHitStop / 2);
+                Debug.Log("COUNTERED!");
+                OpponentDetector.anim.SetTrigger(parryID);
+                anim.SetTrigger(deflectID);
+            }
+            else if (allowHit && !grab && !commandGrab && other.gameObject.transform.parent.parent == Actions.Move.opponent && (potentialHitStun > 0 || blitz))
             {
                 OpponentDetector.Actions.shattered = false;
 
                 if ((guard == "Mid" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
                     (guard == "Low" && (OpponentDetector.anim.GetBool(LoGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
-                    (guard == "Overhead" && (OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))))
+                    (guard == "Overhead" && (OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))) ||
+                    (guard == "High" && (OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))))
                 {
                     OpponentDetector.anim.SetTrigger("Blocked");
                     if (potentialHitStun <= 19)
@@ -599,8 +610,8 @@ public class HitDetector : MonoBehaviour
             Actions.acceptSpecial = true;
         if (allowSuper)
             Actions.acceptSuper = true;
-        if (!Actions.bursting)
-            Actions.blitzCancel = true;
+
+        Actions.blitzCancel = true;
 
         allowHit = false;
         hit = true;
@@ -727,13 +738,13 @@ public class HitDetector : MonoBehaviour
             {
                 OpponentDetector.anim.ResetTrigger(hitID);
                 //determine whether to play a low hit or high hit animation
-                if (other.CompareTag("Body") || other.CompareTag("HurtBox"))
-                {
-                    OpponentDetector.anim.SetTrigger(hitBodyID);
-                }
-                else if (other.CompareTag("Legs"))
+                if (other.CompareTag("Legs") || guard == "Low")
                 {
                     OpponentDetector.anim.SetTrigger(hitLegsID);
+                }
+                else if (other.CompareTag("Body") || other.CompareTag("HurtBox"))
+                {
+                    OpponentDetector.anim.SetTrigger(hitBodyID);
                 }
             }
             else if (!crumple && !sweep && !launch)
