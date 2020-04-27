@@ -18,7 +18,7 @@ public class PracticeMode : MonoBehaviour
     public MaxInput MaxInput;
     public GameObject MaxInputObject;
     public GameObject PracticeModeSettings;
-    public GameObject[] popUps;
+    public GameObject popUps;
     private bool P1inCombo;
     private bool P2inCombo;
     private bool P2inAirTrueCombo;
@@ -118,20 +118,14 @@ public class PracticeMode : MonoBehaviour
         //Practice Mode Handler
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
-            for (int i = 0; i < popUps.Length; i++) 
-            {
-                if (i == popUpIndex) 
-                {
-                    popUps[i].SetActive(true);
-                }
-                else
-                {
-                    popUps[i].SetActive(false);
-                }
-            }
 
+            
+            
+            //Changed popups to be the same text box, just changing what text displays
             if (popUpIndex == 0)
             {
+                popUps.SetActive(true);
+                popUps.GetComponent<Text>().text = "Press A or D to move";
                 if (Input.GetAxis(inputHorizontal) != 0)
                 {
                     popUpIndex++;
@@ -139,6 +133,7 @@ public class PracticeMode : MonoBehaviour
             }
             else if (popUpIndex == 1)
             {
+                popUps.GetComponent<Text>().text = "Press W to jump";
                 if (Input.GetAxis(inputVertical) > 0)
                 {
                     popUpIndex++;
@@ -146,6 +141,7 @@ public class PracticeMode : MonoBehaviour
             }
             else if (popUpIndex == 2)
             {
+                popUps.GetComponent<Text>().text = "Press U to do a light attack";
                 if (Input.GetButtonDown(inputSquare))
                 {
                     popUpIndex++;
@@ -153,6 +149,7 @@ public class PracticeMode : MonoBehaviour
             }
             else if (popUpIndex == 3)
             {
+                popUps.GetComponent<Text>().text = "Press I to do a medium attack";
                 if (Input.GetButtonDown(inputTriangle))
                 {
                     popUpIndex++;
@@ -160,10 +157,15 @@ public class PracticeMode : MonoBehaviour
             }
             else if (popUpIndex == 4)
             {
+                popUps.GetComponent<Text>().text = "Press J to do a heavy attack";
                 if (Input.GetButtonDown(inputCircle))
                 {
                     popUpIndex++;
                 }
+            }
+            else
+            {
+                popUps.GetComponent<Text>().text = "";
             }
 
             //Check Settings from Practice Pause Menu
