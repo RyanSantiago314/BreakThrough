@@ -125,40 +125,64 @@ public class PracticeMode : MonoBehaviour
             if (popUpIndex == 0)
             {
                 popUps.SetActive(true);
-                popUps.GetComponent<Text>().text = "Press A or D to move";
-                if (Input.GetAxis(inputHorizontal) != 0)
+                popUps.GetComponent<Text>().text = "Press D or D-Pad Foward to move foward";
+                if (Input.GetAxis(inputHorizontal) > 0)
                 {
                     popUpIndex++;
                 }
             }
             else if (popUpIndex == 1)
             {
-                popUps.GetComponent<Text>().text = "Press W to jump";
-                if (Input.GetAxis(inputVertical) > 0)
+                popUps.GetComponent<Text>().text = "Press A or D-Pad Back to move back";
+                if (Input.GetAxis(inputHorizontal) < 0)
                 {
                     popUpIndex++;
                 }
             }
             else if (popUpIndex == 2)
             {
-                popUps.GetComponent<Text>().text = "Press U to do a light attack";
-                if (Input.GetButtonDown(inputSquare))
+                popUps.GetComponent<Text>().text = "Press S or D-Pad Down to crouch";
+                if (Input.GetAxis(inputVertical) < 0)
                 {
                     popUpIndex++;
                 }
             }
             else if (popUpIndex == 3)
             {
-                popUps.GetComponent<Text>().text = "Press I to do a medium attack";
-                if (Input.GetButtonDown(inputTriangle))
+                popUps.GetComponent<Text>().text = "Press W or D-Pad Up to jump";
+                if (Input.GetAxis(inputVertical) > 0)
                 {
                     popUpIndex++;
                 }
             }
             else if (popUpIndex == 4)
             {
-                popUps.GetComponent<Text>().text = "Press J to do a heavy attack";
+                popUps.GetComponent<Text>().text = "Press U or Square to do a light attack";
+                if (Input.GetButtonDown(inputSquare))
+                {
+                    popUpIndex++;
+                }
+            }
+            else if (popUpIndex == 5)
+            {
+                popUps.GetComponent<Text>().text = "Press I or Triangle to do a medium attack";
+                if (Input.GetButtonDown(inputTriangle))
+                {
+                    popUpIndex++;
+                }
+            }
+            else if (popUpIndex == 6)
+            {
+                popUps.GetComponent<Text>().text = "Press J or Circle to do a heavy attack";
                 if (Input.GetButtonDown(inputCircle))
+                {
+                    popUpIndex++;
+                }
+            }
+            else if (popUpIndex == 7)
+            {
+                popUps.GetComponent<Text>().text = "Press M or Cross to do a heavy attack";
+                if (Input.GetButtonDown(inputCross))
                 {
                     popUpIndex++;
                 }
