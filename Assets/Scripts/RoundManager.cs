@@ -65,6 +65,8 @@ public class RoundManager : MonoBehaviour
     void Awake()
     {
         roundCount = 0;
+        p1Win = 0;
+        p2Win = 0;
 
         ScreenGraphics = GetComponent<Animator>();
         announcer = GetComponent<AnnouncerVoice>();
