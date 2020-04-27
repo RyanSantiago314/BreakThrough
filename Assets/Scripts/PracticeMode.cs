@@ -461,7 +461,7 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 //Reset Positions back to start
-                if (Input.GetButtonDown("Select_P2"))
+                if (Input.GetButtonDown("Select_P2"))   // Temporarily changed to P2
                 {
                     resetPositions();
                     //Reset Character Specific things
@@ -515,10 +515,10 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 // Replay Recording
-                if (Input.GetButtonDown("R_Push") && !replaying)
-                {
-                    replaying = true;
-                }
+                // if (Input.GetButtonDown("R_Push") && !replaying)
+                // {
+                //     replaying = true;
+                // }
             }
         }
     }
