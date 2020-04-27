@@ -37,12 +37,12 @@ public class AI : MonoBehaviour
     double p2y;
     public bool faceLeft;
     bool isAirborne;
-    bool isCrouching;
+    //bool isCrouching;
     bool isAttacking;
     bool isRecovering;
     bool isHitstun;
-    bool finishMove;
-    bool finishDash;
+    //bool finishMove;
+    //bool finishDash;
     bool pauseAI;
     public bool keepInput;
     public string keepAction;
@@ -88,8 +88,7 @@ public class AI : MonoBehaviour
     // Registering the values' initial states
     void Start()
 	{
-        Debug.Log("AI is Starting");
-        Debug.Log("Difficulty = " + difficulty);
+        //Debug.Log("Difficulty = " + difficulty);
         // Player data
         pIsBlocking = false;
         pIsAirborne = false;
@@ -107,12 +106,12 @@ public class AI : MonoBehaviour
         // AI data
         faceLeft = true;
         isAirborne = false;
-        isCrouching = false;
+        //isCrouching = false;
         isAttacking = false;
         isRecovering = false;
         isHitstun = false;
-        finishMove = false;
-        finishDash = false;
+        //finishMove = false;
+        //finishDash = false;
         pauseAI = false;
         keepInput = false;
         keepAction = "";

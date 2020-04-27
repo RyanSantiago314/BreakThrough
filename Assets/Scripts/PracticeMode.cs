@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class PracticeMode : MonoBehaviour
 {
@@ -35,11 +36,9 @@ public class PracticeMode : MonoBehaviour
     public bool enableCPUAirTech;
     public bool enableGuardAfterFirstHit;
     public string dummyState = "Stand";
-    private string path = "Assets/Resources/test.txt";
 
     public int P1ValorSetting = 100;
     public int P2ValorSetting = 100;
-    private int recording = 0;
 
     private float P1PrevHealth;
     private float P2PrevHealth;
@@ -58,6 +57,12 @@ public class PracticeMode : MonoBehaviour
     public Text P2HighComboDamage;
     public Text P1HitType;
     public Text P2HitType;
+
+    private string path = "Assets/Resources/test.txt";
+    private int recording = 0;
+    private int recordingFrame = 0;
+    private List<List<float>> movement = new List<List<float>>();
+    private List<List<bool>> inputs = new List<List<bool>>();
 
     public GameObject DamageDisplays;
     public GameObject P1Displays;
@@ -488,10 +493,15 @@ public class PracticeMode : MonoBehaviour
                 {
                     case 1:
                         Debug.Log("Recording armed");
-
+                        // Switch controls over to Player2
                         break;
                     case 2:
                         Debug.Log("Now Recording");
+                        recordingFrame++;
+                        List<float> getMoves = MaxInput.returnMovement("Player2");
+                        List<bool> getInputs = MaxInput.returnInputs("Player2");
+                        movement.Add(getMoves);
+                        inputs.Add(getInputs);
                         // Get inputs from MaxInput. returnMovement() returnInputs()
                         break;
                     case 3:
@@ -499,6 +509,7 @@ public class PracticeMode : MonoBehaviour
                         saveRecording();
                         // Create a txt file that has all the inputs for each frame
                         recording = 0;
+                        recordingFrame = 0;
                         break;
                 }
 
@@ -590,14 +601,27 @@ public class PracticeMode : MonoBehaviour
         File.WriteAllText(path, string.Empty);
 
         StreamWriter writer = new StreamWriter(path, true);
-        writer.WriteLine("Test test test");
+        for (int i = 1; i <= recordingFrame; i++)
+        {
+            string move = "";
+            string input = "";
+            for (int j = 0; j < 2; j++)
+            {
+                move += movement[i-1][j] + " ";
+            }
+            for (int k = 0; k < 9; k++)
+            {
+                input += inputs[i-1][k] + " ";
+            }
+            writer.WriteLine(i + ": " + move + input);
+        }
         writer.Close();
 
         Debug.Log("File Written");
 
         // //Re-import the file to update the reference in the editor
-        // AssetDatabase.ImportAsset(path);
-        TextAsset asset = Resources.Load("test");
+        AssetDatabase.ImportAsset(path);
+        TextAsset asset = Resources.Load("test") as TextAsset;
 
         //Print the text from the file
         //Debug.Log(asset.text);
