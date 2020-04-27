@@ -58,11 +58,12 @@ public class PracticeMode : MonoBehaviour
     public Text P1HitType;
     public Text P2HitType;
 
-    private string path = "Assets/Resources/test.txt";
+    private bool replaying = false;
     private int recording = 0;
     private int recordingFrame = 0;
     private List<List<float>> movement = new List<List<float>>();
     private List<List<bool>> inputs = new List<List<bool>>();
+    private string path = "Assets/Resources/test.txt";
 
     public GameObject DamageDisplays;
     public GameObject P1Displays;
@@ -487,7 +488,7 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 // https://support.unity3d.com/hc/en-us/articles/115000341143-How-do-I-read-and-write-data-from-a-text-file-
-                if (Input.GetButtonDown("Select_P1")) recording++;
+                if (Input.GetButtonDown("Select_P1") && !replaying) recording++;
 
                 switch (recording)
                 {
@@ -514,7 +515,10 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 // Replay Recording
-                //if (Input.GetButtonDown("R_Push"))
+                if (Input.GetButtonDown("R_Push") && !replaying)
+                {
+                    replaying = true;
+                }
             }
         }
     }
