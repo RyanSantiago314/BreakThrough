@@ -21,6 +21,13 @@ public class MainMenu : MonoBehaviour
     	MaxInput.disableAI();
     }
 
+	public void PlayGameVsOnline()
+	{
+		BREAKTHROUGH.PLAYER_ONLINE = true;
+		SceneManager.LoadSceneAsync(2); //using name for testing
+		MaxInput.disableAI();
+	}
+
     public void PlayGameVsAI()
     {
     	SceneManager.LoadSceneAsync(2);

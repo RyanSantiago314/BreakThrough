@@ -93,7 +93,25 @@ public class CursorMovementStageSelect : MonoBehaviour
         if (isOverlap)
         {
             borders[stageNum].SetActive(true);
-            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
+            //Low effort online scene switch
+            if(GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().online == true)
+            {
+                if (Input.GetButtonDown(p1Cross))
+                {
+                    
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = currentStage;
+                    switch (currentStage)
+                    {
+                        case "TrainingStage":
+                            Debug.Log("Online " + currentStage);
+                            loadingScreen.SetActive(true);
+                            SceneManager.LoadScene("Lobby");
+                            break;
+                    }
+                }
+            }
+
+            else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
             {
                 if (Input.GetButtonDown(p1Cross) || Input.GetButtonDown(p2Cross))
                 {

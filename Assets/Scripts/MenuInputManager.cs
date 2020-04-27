@@ -120,7 +120,12 @@ public class MenuInputManager : MonoBehaviour
 			}
 			else if (buttonIndex == 2)
 			{
-				PlayOnlineButton.Select();		
+				PlayOnlineButton.Select();
+                //////////////////// Hastily implemented. Should have a proper system like the ones below
+                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().online = true;
+                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "AI";	
+                GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side = "Left";	
+                //////////////////
 				if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) PlayOnlineButton.onClick.Invoke();
 			}
 			else if (buttonIndex == 3)

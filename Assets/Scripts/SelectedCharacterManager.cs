@@ -14,6 +14,8 @@ public class SelectedCharacterManager : MonoBehaviour
     public string P1Side;
     public string P2Side;
 
+    public bool online = false;
+
     private static bool created = false;
     private bool reset = false;
 
