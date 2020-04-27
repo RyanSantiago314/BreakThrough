@@ -28,11 +28,12 @@ public class PauseMenu : MonoBehaviour
     public Button armorRefillHighlight;
     public Button CPUAirTechHighlight;
     public Button CPUGuardAfterFirstHithHighlight;
+    public Button characterselectButton;
     public Button moveListButton;
     public Button quitButton;
     public Button resumeButtonMatch;
+    public Button characterselectButtonMatch;
     public Button moveListButtonMatch;
-    public Button uiButtonMatch;
     public Button quitButtonMatch;
     private float InputTimer;
     private string inputHorizontal = "Horizontal_P1";
@@ -62,6 +63,8 @@ public class PauseMenu : MonoBehaviour
     public GameObject CPUAirRecoverText;
     public GameObject CPUGroundGuardText;
 
+    static public bool allowPause;
+
     private void Awake()
     {
         Time.timeScale = 1;
@@ -75,6 +78,7 @@ public class PauseMenu : MonoBehaviour
         pauseCode += UpdateControls(CheckXbox(1));
 
         pauseQuit = false;
+        allowPause = false;
         //moveList = false;
         
 
@@ -91,7 +95,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" && allowPause)
         {
             /*if (isPaused)
             {
@@ -189,13 +193,13 @@ public class PauseMenu : MonoBehaviour
                     }
                 }
 
-                if (optionIndex == 4)
+                if (optionIndex == 5)
                 {
                     optionIndex = 0;
                 }
                 else if (optionIndex == -1)
                 {
-                    optionIndex = 3;
+                    optionIndex = 4;
                 }
 
                 if (((Input.GetButton(p1circle) && !moveList && playerPaused == 1) || (Input.GetButton(p2circle) && !moveList && playerPaused == 2)) && acceptInputCirc)
@@ -232,11 +236,10 @@ public class PauseMenu : MonoBehaviour
                 }
                 else if (optionIndex == 2)
                 {
-                    //uiButtonMatch.Select();
-
+                    characterselectButtonMatch.Select();
                     if ((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2))
                     {
-                        
+                        ReturntoCharacterSelect();
                     }
                 }
                 else if (optionIndex == 3)
@@ -317,13 +320,13 @@ public class PauseMenu : MonoBehaviour
 
                 //Cycle option scrolling
                 //optionIndex scrolling
-                if (optionIndex == 9)
+                if (optionIndex == 10)
                 {
                     optionIndex = 0;
                 }
                 else if (optionIndex == -1)
                 {
-                    optionIndex = 8;
+                    optionIndex = 9;
                 }
 
                 if(Input.GetButton(p1circle) && !moveList && acceptInputCirc)
@@ -453,8 +456,17 @@ public class PauseMenu : MonoBehaviour
                         }
                     }
                 }
-                //MoveList
+                //Character Select Button
                 else if (optionIndex == 7)
+                {
+                    characterselectButton.Select();
+                    if (Input.GetButton(p1cross))
+                    {
+                        ReturntoCharacterSelect();
+                    }
+                }
+                //MoveList
+                else if (optionIndex == 8)
                 {
                     moveListButton.Select();
                     if (Input.GetButton(p1cross) && !moveList)
@@ -469,7 +481,7 @@ public class PauseMenu : MonoBehaviour
                     }
                 }
                 //Quit Button
-                else if (optionIndex == 8)
+                else if (optionIndex == 9)
                 {
                     quitButton.Select();
                     if (Input.GetButton(p1cross))
@@ -694,12 +706,24 @@ public class PauseMenu : MonoBehaviour
     {
         RoundManager.gameActive = false;
         RoundManager.lockInputs = false;
-        GameOver.p1Win = 0;
-        GameOver.p2Win = 0;
         pauseQuit = true;
 
         //Time.timeScale = 1;
         SceneManager.LoadSceneAsync(0);
+    }
+
+    public void ReturntoCharacterSelect()
+    {
+        RoundManager.gameActive = false;
+        RoundManager.lockInputs = false;
+        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
+        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
+        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = 0;
+        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 0;
+        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = "";
+        pauseQuit = true;
+
+        SceneManager.LoadSceneAsync(2);
     }
 
     private bool CheckXbox(int player)

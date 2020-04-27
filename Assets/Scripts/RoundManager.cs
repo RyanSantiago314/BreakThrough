@@ -408,6 +408,16 @@ public class RoundManager : MonoBehaviour
         }
     }
 
+    public void EnablePause()
+    {
+        PauseMenu.allowPause = true;
+    }
+
+    public void DisablePause()
+    {
+        PauseMenu.allowPause = false;
+    }
+
     public void ReplayGame() {
         p1menu.SetActive(false);
         p2menu.SetActive(false);
