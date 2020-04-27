@@ -51,7 +51,9 @@ public class ListEntry : MonoBehaviour
                 if(PhotonNetwork.IsMasterClient)
                 {
                     FindObjectOfType<LobbyManager>().LocalPlayerPropertiesUpdated();
+
                 }
+                
             });
         }
     }
@@ -78,7 +80,7 @@ public class ListEntry : MonoBehaviour
     #endregion
 
     #region Private Methods
-    private void OnPlayerNumberingChanged()
+    private void OnPlayerNumberingChanged() //Create the new SelectedCharManager here.
     {
         foreach (Player p in PhotonNetwork.PlayerList)
         {
