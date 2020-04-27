@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -372,6 +372,52 @@ public class MaxInput : MonoBehaviour
                     throw new System.Exception("Button " + button + " is an invalid button.");
             }
         }
+    }
+
+    public List<float> returnMovement(string name)
+    {
+        List<float> movement = new List<float>();
+        if (name == "Player1")
+        {
+            movement.Add(horizontal1);
+            movement.Add(vertical1);
+        }
+        else if (name == "Player2")
+        {
+            movement.Add(horizontal);
+            movement.Add(vertical);
+        }
+        return movement;
+    }
+
+    public List<bool> returnInputs(string name)
+    {
+        List<bool> inputs = new List<bool>();
+        if (name == "Player1")
+        {
+            inputs.Add(square1);
+            inputs.Add(triangle1);
+            inputs.Add(circle1);
+            inputs.Add(cross1);
+            inputs.Add(rBumper1);
+            inputs.Add(rTrigger1);
+            inputs.Add(lBumper1);
+            inputs.Add(lTrigger1);
+            inputs.Add(lstick1);
+        }
+        else if (name == "Player2")
+        {
+            inputs.Add(square);
+            inputs.Add(triangle);
+            inputs.Add(circle);
+            inputs.Add(cross);
+            inputs.Add(rBumper);
+            inputs.Add(rTrigger);
+            inputs.Add(lBumper);
+            inputs.Add(lTrigger);
+            inputs.Add(lstick);
+        }
+        return inputs;
     }
 
     public void ClearInput(string name)

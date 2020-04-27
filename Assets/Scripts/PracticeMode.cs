@@ -1,5 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,9 +35,11 @@ public class PracticeMode : MonoBehaviour
     public bool enableCPUAirTech;
     public bool enableGuardAfterFirstHit;
     public string dummyState = "Stand";
+    private string path = "Assets/Resources/test.txt";
 
     public int P1ValorSetting = 100;
     public int P2ValorSetting = 100;
+    private int recording = 0;
 
     private float P1PrevHealth;
     private float P2PrevHealth;
@@ -162,6 +165,7 @@ public class PracticeMode : MonoBehaviour
                     break;
             }
 
+            // If we are NOT paused
             if (!PracticeModeSettings.GetComponent<PauseMenu>().isPaused)
             {
                 //Refill Armor Meters Option
@@ -451,7 +455,7 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 //Reset Positions back to start
-                if (Input.GetButtonDown("Select_P1"))
+                if (Input.GetButtonDown("Select_P2"))
                 {
                     resetPositions();
                     //Reset Character Specific things
@@ -476,10 +480,30 @@ public class PracticeMode : MonoBehaviour
                     }
                     fixAnimBug = true;
                 }
-                // if press L-stick down, arm recording.
-                // if press L-stick down again, start recording.
-                // if press L-stick down again, stop and save recording
-                //if press R-stick down, replay recording
+
+                // https://support.unity3d.com/hc/en-us/articles/115000341143-How-do-I-read-and-write-data-from-a-text-file-
+                if (Input.GetButtonDown("Select_P1")) recording++;
+
+                switch (recording)
+                {
+                    case 1:
+                        Debug.Log("Recording armed");
+
+                        break;
+                    case 2:
+                        Debug.Log("Now Recording");
+                        // Get inputs from MaxInput. returnMovement() returnInputs()
+                        break;
+                    case 3:
+                        Debug.Log("Recording Saved");
+                        saveRecording();
+                        // Create a txt file that has all the inputs for each frame
+                        recording = 0;
+                        break;
+                }
+
+                // Replay Recording
+                //if (Input.GetButtonDown("R_Push"))
             }
         }
     }
@@ -558,5 +582,24 @@ public class PracticeMode : MonoBehaviour
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Actions.landingLag = 0;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Move.HitDetect.KnockBack = Vector2.zero;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().anim.SetBool(Animator.StringToHash("Run"), false);
+    }
+
+    private void saveRecording()
+    {
+        // Clears previous recording
+        File.WriteAllText(path, string.Empty);
+
+        StreamWriter writer = new StreamWriter(path, true);
+        writer.WriteLine("Test test test");
+        writer.Close();
+
+        Debug.Log("File Written");
+
+        // //Re-import the file to update the reference in the editor
+        // AssetDatabase.ImportAsset(path);
+        TextAsset asset = Resources.Load("test");
+
+        //Print the text from the file
+        //Debug.Log(asset.text);
     }
 }
