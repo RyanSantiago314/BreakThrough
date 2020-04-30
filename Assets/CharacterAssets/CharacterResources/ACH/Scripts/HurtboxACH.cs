@@ -128,13 +128,16 @@ public class HurtboxACH : MonoBehaviour
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
+        legs2.enabled = true;
 
-        head.offset = new Vector2(-.47f, -.05f);
-        head.size = headStandSize;
-        body.offset = new Vector2(-.23f, -.2f);
-        body.size = new Vector2(.69f, .33f);
-        legs1.offset = new Vector2(.15f, -.57f);
-        legs1.size = new Vector2(.97f, .54f);
+        head.offset = new Vector2(-.04f, .57f);
+        head.size = new Vector2(.19f, .3f);
+        body.offset = new Vector2(-.08f, .25f);
+        body.size = new Vector2(.3f, .53f);
+        legs1.offset = new Vector2(.05f, -.22f);
+        legs1.size = new Vector2(.62f, .53f);
+        legs2.offset = new Vector2(.44f, -.58f);
+        legs2.size = new Vector2(.43f, .39f);
     }
 
     public void JumpStart()
