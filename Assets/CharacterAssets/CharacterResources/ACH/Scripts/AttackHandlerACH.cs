@@ -32,7 +32,7 @@ public class AttackHandlerACH : MonoBehaviour
     private string MH;
     private string LB;
 
-    float bufferTime = .25f;
+    float bufferTime = .2f;
     float directionBufferTime = .35f;
     float lightButton;
     float mediumButton;

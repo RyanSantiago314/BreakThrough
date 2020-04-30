@@ -45,7 +45,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.42, y: 0.06}
+  m_Offset: {x: -0.04, y: 0.57}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -56,7 +56,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.19, y: 0.26}
+  m_Size: {x: 0.19, y: 0.3}
   m_EdgeRadius: 0
 --- !u!61 &4805734549988235509
 BoxCollider2D:
@@ -71,7 +71,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.4, y: -0.25}
+  m_Offset: {x: -0.08, y: 0.25}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -82,7 +82,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.32, y: 0.47}
+  m_Size: {x: 0.3, y: 0.53}
   m_EdgeRadius: 0
 --- !u!1 &4805734550033573974
 GameObject:
@@ -363,7 +363,8 @@ MonoBehaviour:
   active: 0
   recovering: 0
   throwInvincible: 0
-  bursting: 0
+  hiCounter: 0
+  lowCounter: 0
   shattered: 0
   superHit: 0
   blitzed: 0
@@ -465,7 +466,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.02, y: -0.67}
+  m_Offset: {x: 0.05, y: -0.22}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -476,7 +477,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.43, y: 0.44}
+  m_Size: {x: 0.62, y: 0.53}
   m_EdgeRadius: 0
 --- !u!61 &4805734550578863256
 BoxCollider2D:
@@ -491,7 +492,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.2, y: -0.5}
+  m_Offset: {x: 0.44, y: -0.58}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -502,7 +503,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.47, y: 0.51}
+  m_Size: {x: 0.43, y: 0.39}
   m_EdgeRadius: 0
 --- !u!1 &4805734550646551874
 GameObject:
@@ -659,7 +660,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -5
-  m_Sprite: {fileID: 21300000, guid: 6f85d13f56541644c8c5f9b3abb967e4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c70667b885e8cd44396944c737c04de0, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
   m_FlipX: 0
   m_FlipY: 0
@@ -1216,7 +1217,7 @@ MonoBehaviour:
   weight: 0.55
   walkSpeed: 2.25
   walkBackSpeed: 1.85
-  backDashForce: 2
+  backDashForce: 1.3
   runAcceleration: 0.15
   jumpPower: 4
   maxVelocity: 5.35

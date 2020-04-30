@@ -736,7 +736,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.04, y: -0.58}
+  m_Offset: {x: 0.25, y: -0.58}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -747,7 +747,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.86, y: 0.67}
+  m_Size: {x: 1.6, y: 0.66999996}
   m_EdgeRadius: 0
 --- !u!61 &80651161
 BoxCollider2D:
@@ -762,7 +762,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.07, y: -0.14}
+  m_Offset: {x: 0, y: -0.14}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -773,7 +773,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.66, y: 0.42}
+  m_Size: {x: 0.89, y: 0.42}
   m_EdgeRadius: 0
 --- !u!1 &92740583
 GameObject:
@@ -1425,7 +1425,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.13, y: 0.66}
+  m_Offset: {x: 0.42670852, y: 0.03806621}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1436,7 +1436,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.24, y: 0.5}
+  m_Size: {x: 0.72765815, y: 0.5380398}
   m_EdgeRadius: 0
 --- !u!1 &149537024
 GameObject:
@@ -4878,7 +4878,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.58, y: 0.56}
+  m_Offset: {x: 0.92, y: -0.08}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4889,7 +4889,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.33, y: 2.6}
+  m_Size: {x: 1, y: 0.28}
   m_EdgeRadius: 0
 --- !u!61 &515295539
 BoxCollider2D:
@@ -4904,7 +4904,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.145, y: 1.4}
+  m_Offset: {x: 1.05, y: -0.45}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4915,7 +4915,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.57, y: 1.46}
+  m_Size: {x: 1.05, y: 0.57}
   m_EdgeRadius: 0
 --- !u!114 &515295540
 MonoBehaviour:
@@ -5032,7 +5032,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.5, y: 0.63}
+  m_Offset: {x: 0.04, y: 0.55}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -5043,7 +5043,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.625, y: 0.33}
+  m_Size: {x: 0.21, y: 0.32}
   m_EdgeRadius: 0
 --- !u!61 &537094133
 BoxCollider2D:
@@ -5058,7 +5058,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.3, y: 0.26}
+  m_Offset: {x: -0.14, y: 0.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -5069,7 +5069,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.455, y: 0.45}
+  m_Size: {x: 0.52, y: 0.56}
   m_EdgeRadius: 0
 --- !u!1 &541346889
 GameObject:
@@ -5396,7 +5396,8 @@ MonoBehaviour:
   active: 0
   recovering: 0
   throwInvincible: 0
-  bursting: 0
+  hiCounter: 0
+  lowCounter: 0
   shattered: 0
   superHit: 0
   blitzed: 0
@@ -5505,7 +5506,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: e6c5dc2c39b1d6f45889d3f638acccb0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a6e827386d9c278428c6d378249a6f65, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7625,7 +7626,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: fe165b9ab05f512498c8f890ea0d43c1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ca9bfa8b68822c0449be125739cce7f5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7685,7 +7686,8 @@ MonoBehaviour:
   active: 0
   recovering: 0
   throwInvincible: 0
-  bursting: 0
+  hiCounter: 0
+  lowCounter: 0
   shattered: 0
   superHit: 0
   blitzed: 0

@@ -115,17 +115,22 @@ public class HitboxACH : MonoBehaviour
         ClearHitBox();
         HitDetect.Actions.AttackActive();
         hit1.enabled = true;
-        hit1.offset = new Vector2(.48f, .15f);
-        hit1.size = new Vector2(.55f, .15f);
-        HitDetect.damage = 25;
+        hit2.enabled = true;
+        hit1.offset = new Vector2(1.05f, -.45f);
+        hit1.size = new Vector2(1.05f, .57f);
+        hit2.offset = new Vector2(.92f, -.08f);
+        hit2.size = new Vector2(1f, .28f);
+        HitDetect.damage = 30;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 50;
-        HitDetect.potentialHitStun = hitStunLv1;
+        HitDetect.potentialHitStun = hitStunLv2;
         HitDetect.potentialHitStop = hitStopLv1;
-        HitDetect.potentialKnockBack = new Vector2(1.2f, 0);
-        HitDetect.initialProration = .7f;
+        HitDetect.potentialKnockBack = new Vector2(1.3f, 0);
+        HitDetect.initialProration = .8f;
         HitDetect.attackLevel = 0;
         HitDetect.guard = "Mid";
+
+        HitDetect.slash = true;
 
         HitDetect.allowLight = true;
         HitDetect.allowMedium = true;
