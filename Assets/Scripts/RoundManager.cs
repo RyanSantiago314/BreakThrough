@@ -326,15 +326,35 @@ public class RoundManager : MonoBehaviour
     {
         centerText.text = "VS";
 
-        if (P1Prop.transform.root.GetChild(0).name.Contains("Dhalia"))
-            leftText.text = "Dhalia";
-        else if (P1Prop.transform.root.GetChild(0).name.Contains("Achealis"))
-            leftText.text = "Achealis";
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+        {
+            if (P1Prop.transform.root.GetChild(0).name.Contains("Dhalia"))
+                leftText.text = "Dhalia";
+            else if (P1Prop.transform.root.GetChild(0).name.Contains("Achealis"))
+                leftText.text = "Achealis";
+        }
+        else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+        {
+            if (P2Prop.transform.root.GetChild(0).name.Contains("Dhalia"))
+                leftText.text = "Dhalia";
+            else if (P2Prop.transform.root.GetChild(0).name.Contains("Achealis"))
+                leftText.text = "Achealis";
+        }
 
-        if (P2Prop.transform.root.GetChild(0).name.Contains("Dhalia"))
-            rightText.text = "Dhalia";
-        else if (P2Prop.transform.root.GetChild(0).name.Contains("Achealis"))
-            rightText.text = "Achealis";
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+        {
+            if (P1Prop.transform.root.GetChild(0).name.Contains("Dhalia"))
+                rightText.text = "Dhalia";
+            else if (P1Prop.transform.root.GetChild(0).name.Contains("Achealis"))
+                rightText.text = "Achealis";
+        }
+        else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
+        {
+            if (P2Prop.transform.root.GetChild(0).name.Contains("Dhalia"))
+                rightText.text = "Dhalia";
+            else if (P2Prop.transform.root.GetChild(0).name.Contains("Achealis"))
+                rightText.text = "Achealis";
+        }
     }
 
     public void BreakOrBeBroken()
