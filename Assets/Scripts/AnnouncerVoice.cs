@@ -186,27 +186,57 @@ public class AnnouncerVoice : MonoBehaviour
 
     public void PlayP1Name()
     {
-        switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
-            case "Dhalia":
-                PlayDhaliaP1();
-                break;
-            case "Achealis":
-                PlayAchealisP1();
-                break;
+            switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
+            {
+                case "Dhalia":
+                    PlayDhaliaP1();
+                    break;
+                case "Achealis":
+                    PlayAchealisP1();
+                    break;
+            }
+        }
+        else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
+        {
+            switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
+            {
+                case "Dhalia":
+                    PlayDhaliaP1();
+                    break;
+                case "Achealis":
+                    PlayAchealisP1();
+                    break;
+            }
         }
     }
 
     public void PlayP2Name()
     {
-        switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
         {
-            case "Dhalia":
-                PlayDhaliaP2();
-                break;
-            case "Achealis":
-                PlayAchealisP2();
-                break;
+            switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
+            {
+                case "Dhalia":
+                    PlayDhaliaP2();
+                    break;
+                case "Achealis":
+                    PlayAchealisP2();
+                    break;
+            }
+        }
+        else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
+        {
+            switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
+            {
+                case "Dhalia":
+                    PlayDhaliaP2();
+                    break;
+                case "Achealis":
+                    PlayAchealisP2();
+                    break;
+            }
         }
     }
 
