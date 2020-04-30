@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BackDash
+  m_Name: Brake
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,15 +20,17 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 8f6c0e6529320364c8290f6c666ce0c9, type: 3}
-    - time: 0.06666667
-      value: {fileID: 21300000, guid: 68f956ef18c1f9542993aee89c404035, type: 3}
-    - time: 0.13333334
-      value: {fileID: 21300000, guid: 3ba34d7e4e70e114a902c7fba99cc1e6, type: 3}
-    - time: 0.2
-      value: {fileID: 21300000, guid: 1aff1a9d061f25c498f3e04412aabc4e, type: 3}
-    - time: 0.25
-      value: {fileID: 21300000, guid: 858914cf1f861b14cadc4b30616a29c5, type: 3}
+      value: {fileID: 21300000, guid: 4974d733bda4a8849a2937d31eaaf596, type: 3}
+    - time: 0.05
+      value: {fileID: 21300000, guid: cd64f215bddcb684cb67293fee99c5da, type: 3}
+    - time: 0.1
+      value: {fileID: 21300000, guid: 63fc2c64c09d1144499e29c6146035b0, type: 3}
+    - time: 0.15
+      value: {fileID: 21300000, guid: 07acba117008b7a4883fe70a577fd835, type: 3}
+    - time: 0.23333333
+      value: {fileID: 21300000, guid: f5db7873756f1524498f26a5839b9c99, type: 3}
+    - time: 0.28333333
+      value: {fileID: 21300000, guid: f5db7873756f1524498f26a5839b9c99, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -48,17 +50,18 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 8f6c0e6529320364c8290f6c666ce0c9, type: 3}
-    - {fileID: 21300000, guid: 68f956ef18c1f9542993aee89c404035, type: 3}
-    - {fileID: 21300000, guid: 3ba34d7e4e70e114a902c7fba99cc1e6, type: 3}
-    - {fileID: 21300000, guid: 1aff1a9d061f25c498f3e04412aabc4e, type: 3}
-    - {fileID: 21300000, guid: 858914cf1f861b14cadc4b30616a29c5, type: 3}
+    - {fileID: 21300000, guid: 4974d733bda4a8849a2937d31eaaf596, type: 3}
+    - {fileID: 21300000, guid: cd64f215bddcb684cb67293fee99c5da, type: 3}
+    - {fileID: 21300000, guid: 63fc2c64c09d1144499e29c6146035b0, type: 3}
+    - {fileID: 21300000, guid: 07acba117008b7a4883fe70a577fd835, type: 3}
+    - {fileID: 21300000, guid: f5db7873756f1524498f26a5839b9c99, type: 3}
+    - {fileID: 21300000, guid: f5db7873756f1524498f26a5839b9c99, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.26666668
+    m_StopTime: 0.3
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -79,42 +82,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: Invincible
+    functionName: Brake
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0
-    functionName: DisableAll
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.13333334
-    functionName: BackDash
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.13333334
-    functionName: Grounded
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.2
-    functionName: StopAttacking
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.2
-    functionName: Crouching
+  - time: 0.28333333
+    functionName: EnableAll
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
