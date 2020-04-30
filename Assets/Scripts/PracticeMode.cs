@@ -37,6 +37,8 @@ public class PracticeMode : MonoBehaviour
     private string inputSquare = "Square_P1";
     private string inputHorizontal = "Horizontal_P1";
     private string inputVertical = "Vertical_P1";
+    private string inputSelect = "Select_P1";
+    private string inputL3 = "L3_P1";
 
     public bool enableArmorRefill = true;
     public bool enableCPUAirTech;
@@ -96,6 +98,8 @@ public class PracticeMode : MonoBehaviour
         inputSquare += UpdateControls(CheckXbox(0));
         inputHorizontal += UpdateControls(CheckXbox(0));
         inputVertical += UpdateControls(CheckXbox(0));
+        inputSelect += UpdateControls(CheckXbox(0));
+        inputL3 += UpdateControls(CheckXbox(0));
 
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
@@ -185,11 +189,17 @@ public class PracticeMode : MonoBehaviour
                 if (Input.GetButtonDown(inputCross))
                 {
                     popUpIndex++;
+                    //popUps.SetActive(false);
                 }
             }
             else
             {
                 popUps.GetComponent<Text>().text = "";
+            }
+
+            if (Input.GetButtonDown(inputL3))
+            {
+                popUpIndex = 0;
             }
 
             //Check Settings from Practice Pause Menu
@@ -495,7 +505,7 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 //Reset Positions back to start
-                if (Input.GetButtonDown("Select_P1"))
+                if (Input.GetButtonDown(inputSelect))
                 {
                     resetPositions();
                     //Reset Character Specific things
