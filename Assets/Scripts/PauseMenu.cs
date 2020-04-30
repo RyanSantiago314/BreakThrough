@@ -159,9 +159,9 @@ public class PauseMenu : MonoBehaviour
             {
                 //Handle Vertical Selection
                 if(playerPaused == 1)
-                    vertical = Input.GetAxis(inputVertical);
+                    vertical = Input.GetAxisRaw(inputVertical);
                 else
-                    vertical = Input.GetAxis(inputVertical2);
+                    vertical = Input.GetAxisRaw(inputVertical2);
 
                 //Check for input
                 if (!acceptInputVer)
@@ -276,7 +276,7 @@ public class PauseMenu : MonoBehaviour
             if (isPaused)
             {             
                 //Handle Vertical Selection
-                vertical = Input.GetAxis(inputVertical);
+                vertical = Input.GetAxisRaw(inputVertical);
                 
                 //Check for input
                 if (!acceptInputVer)
@@ -309,7 +309,7 @@ public class PauseMenu : MonoBehaviour
                 }
 
                 //Check Horizontal Input
-                horizontal = Input.GetAxis(inputHorizontal);
+                horizontal = Input.GetAxisRaw(inputHorizontal);
                 if (!acceptInputHor)
                 {
                     if (horizontal == 0)
