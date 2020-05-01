@@ -153,7 +153,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.potentialHitStun = hitStunLv1;
         HitDetect.potentialHitStop = hitStopLv1;
         HitDetect.potentialKnockBack = new Vector2(1f, 0);
-        HitDetect.initialProration = .65f;
+        HitDetect.initialProration = .75f;
         HitDetect.attackLevel = 0;
         HitDetect.guard = "Mid";
 
@@ -179,7 +179,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.potentialHitStop = hitStopLv1;
         HitDetect.potentialKnockBack = new Vector2(1f, 0);
         HitDetect.potentialAirKnockBack = new Vector2(.7f, 2f);
-        HitDetect.initialProration = .7f;
+        HitDetect.initialProration = .8f;
         HitDetect.attackLevel = 0;
         HitDetect.guard = "Overhead";
 

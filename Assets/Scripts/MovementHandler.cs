@@ -492,7 +492,7 @@ public class MovementHandler : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Floor"))
+        if (collision.collider.CompareTag("Floor") && !anim.GetCurrentAnimatorStateInfo(0).IsName("GroundBounce"))
         {
             if (Actions.groundBounce && rb.velocity.y <= 0 && !Actions.standing)
             {

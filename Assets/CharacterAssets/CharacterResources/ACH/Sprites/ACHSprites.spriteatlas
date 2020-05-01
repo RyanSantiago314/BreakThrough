@@ -43,14 +43,16 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: f7b72811e536dda4bbea4056aa4e2402, type: 3}
-    totalSpriteSurfaceArea: 920229475
+    totalSpriteSurfaceArea: 960451475
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: 726e2d59567fcb62c6f49a235097c009
+      Hash: 16494dba9fbfcd15c2ef5211e903a824
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: d16baa20a49d28645b1b649cb57d437e, type: 3}
   - {fileID: 21300000, guid: dde09130aab560247bb8859324fc95ef, type: 3}
+  - {fileID: 21300000, guid: acdaee40a328e864582971038b0b1755, type: 3}
   - {fileID: 21300000, guid: e5bc9f40a6a603e4d8bf3c97355ece64, type: 3}
   - {fileID: 21300000, guid: d4ebbc909efffdc4293448e9ff0bf091, type: 3}
   - {fileID: 21300000, guid: f8b83001a3156f542a5ed7a18b2c2bf7, type: 3}
@@ -86,9 +88,11 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 9f364b239afc047409b4ea5c5e969fb7, type: 3}
   - {fileID: 21300000, guid: 4974d733bda4a8849a2937d31eaaf596, type: 3}
   - {fileID: 21300000, guid: f5db7873756f1524498f26a5839b9c99, type: 3}
+  - {fileID: 21300000, guid: e4de70a36ed512f468251d677245aa3a, type: 3}
   - {fileID: 21300000, guid: 70213a04ea14a3a48891f7ba1770eefb, type: 3}
   - {fileID: 21300000, guid: 10d314244eeb243439e9dec25e49afdf, type: 3}
   - {fileID: 21300000, guid: ab0cab2429e8d104980d10616bfe7566, type: 3}
+  - {fileID: 21300000, guid: 58d1d964240313747a318930d6c68ef1, type: 3}
   - {fileID: 21300000, guid: 63fc2c64c09d1144499e29c6146035b0, type: 3}
   - {fileID: 21300000, guid: baf8a984371ec3449bf04ebf05d92f9a, type: 3}
   - {fileID: 21300000, guid: 46b869059db33a349ae5c69bac96da98, type: 3}
@@ -118,8 +122,10 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 4fbc2b188fcb7634886607fb5c4bb158, type: 3}
   - {fileID: 21300000, guid: a6e827386d9c278428c6d378249a6f65, type: 3}
   - {fileID: 21300000, guid: 363b8948bb4c7e44899a698f7ea2a36f, type: 3}
+  - {fileID: 21300000, guid: 192d9b4869afbfd49a3f0f582a15f9bf, type: 3}
   - {fileID: 21300000, guid: c70667b885e8cd44396944c737c04de0, type: 3}
   - {fileID: 21300000, guid: 1a6082e8f6381fc4bb2bef8168086aa5, type: 3}
+  - {fileID: 21300000, guid: adcb9409d3c0c66459efcfed3b5e8996, type: 3}
   - {fileID: 21300000, guid: 349afd19ec1ac844a8d74860ab26f0ed, type: 3}
   - {fileID: 21300000, guid: f0024a49b055a2b4096e91c966fa384a, type: 3}
   - {fileID: 21300000, guid: 4900a469cdd036749b808b6bdcb4cb7f, type: 3}
@@ -189,18 +195,22 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 4a5817ae903354642ae575aed336ccc4, type: 3}
   - {fileID: 21300000, guid: f0abe8be92de0bf40866a0c3e85b9a8d, type: 3}
   - {fileID: 21300000, guid: 16df4dbef0a898149b2281a1bfe7da5e, type: 3}
+  - {fileID: 21300000, guid: f681651fa6e8a734d8292bd11ef2408e, type: 3}
   - {fileID: 21300000, guid: d897353f233f9aa4881afec7025b398b, type: 3}
   - {fileID: 21300000, guid: 5c64c25f021dd654e85c820852387a48, type: 3}
   - {fileID: 21300000, guid: c1ad6a5f520e32548b57c053a8f98870, type: 3}
   - {fileID: 21300000, guid: dfb1a66fa4be7e049bb55285f68803ba, type: 3}
   - {fileID: 21300000, guid: bc18737faa80cb84b8e45314285aee01, type: 3}
+  - {fileID: 21300000, guid: f4231d7f2ca634c49b99b1cf0ec5e43a, type: 3}
   - {fileID: 21300000, guid: c271809f231e01141a34cd2af7a6c48a, type: 3}
   - {fileID: 21300000, guid: b90514af920dde445a3a8164f318659e, type: 3}
   - {fileID: 21300000, guid: 781098bfb79ed71449f43433dd123e4a, type: 3}
   - {fileID: 21300000, guid: 858914cf1f861b14cadc4b30616a29c5, type: 3}
   - {fileID: 21300000, guid: 68f956ef18c1f9542993aee89c404035, type: 3}
   m_PackedSpriteNamesToIndex:
+  - 5M_02
   - FDGetup_06
+  - 5M_05
   - Dizzy_03
   - HitstunSH_03
   - LoGuard_01
@@ -236,9 +246,11 @@ SpriteAtlas:
   - LoGuard_05
   - Brake_01
   - Brake_05
+  - 5M_07
   - Dizzy_02
   - Jump_06
   - Deflected_01
+  - 5M_03
   - Brake_03
   - FUKnockdownSpear_03
   - Deflected_06
@@ -268,8 +280,10 @@ SpriteAtlas:
   - LoGuard_03
   - 5L_01
   - WallBounce_04
+  - 5M_06
   - Standing_01
   - FUGetup_07
+  - 5M_08
   - Run_05
   - AirGuard_03
   - 5L_06
@@ -339,11 +353,13 @@ SpriteAtlas:
   - FUGetup_05
   - Crumple_04
   - HitstunC_06
+  - 5M_01
   - ACHSigil
   - LoGuard_02
   - FUKnockdown_03
   - Run_08
   - HiGuard_06
+  - 5M_04
   - WallBounce_02
   - HitstunSH_01
   - HitstunSL_01

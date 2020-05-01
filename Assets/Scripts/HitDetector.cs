@@ -181,7 +181,7 @@ public class HitDetector : MonoBehaviour
         {
             anim.SetBool(runID, false);
             //hitStun only counts down if not in the groundbounce or crumple animations
-            if(!Actions.groundBounce && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0  && !pauseScreen.isPaused)
+            if(!currentState.IsName("GroundBounce") && !currentState.IsName("WallBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0  && !pauseScreen.isPaused)
                 hitStun--;
             anim.SetInteger(hitStunID, hitStun);
         }
