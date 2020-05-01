@@ -7,7 +7,7 @@ using UnityEngine;
 [AddComponentMenu( "Image Effects/FXAA" )]
 public class FXAA : FXAAPostEffectsBase	
 {
-	private Shader shader;
+	public Shader shader;
 	private Material mat;
 	
 	void CreateMaterials () 
@@ -18,7 +18,7 @@ public class FXAA : FXAAPostEffectsBase
 	
 	void Start() 
 	{
-		shader = Shader.Find( "Hidden/FXAA3" );
+		//shader = Shader.Find( "Hidden/FXAA3" );
 		CreateMaterials();
 		CheckSupport( false );
 	}

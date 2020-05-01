@@ -15,7 +15,7 @@ SpriteAtlas:
       compressionQuality: 50
       maxTextureSize: 2048
       textureCompression: 0
-      filterMode: 0
+      filterMode: 1
       generateMipMaps: 0
       readable: 0
       crunchedCompression: 0
@@ -43,11 +43,11 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: f7b72811e536dda4bbea4056aa4e2402, type: 3}
-    totalSpriteSurfaceArea: 896855275
+    totalSpriteSurfaceArea: 920229475
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: 2d26baa8f668de2f39b05d68d48f2df2
+      Hash: 726e2d59567fcb62c6f49a235097c009
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: dde09130aab560247bb8859324fc95ef, type: 3}
@@ -98,6 +98,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 9f0596651fd92bd4d8d0251786ec0b32, type: 3}
   - {fileID: 21300000, guid: 8f6c0e6529320364c8290f6c666ce0c9, type: 3}
   - {fileID: 21300000, guid: 342a8495b582d12479495c9949f98862, type: 3}
+  - {fileID: 21300000, guid: 5915afa5bdd13304fa012693ca4b56ea, type: 3}
   - {fileID: 21300000, guid: 499e19d5a8c177b4abcc0d16b60d3f6d, type: 3}
   - {fileID: 21300000, guid: b26ee536f6631cb43824ffe185668bfa, type: 3}
   - {fileID: 21300000, guid: 85f6a276bbc23ae4bba9e6db9a076224, type: 3}
@@ -107,6 +108,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: fac2fa17cddf83f4b9f6b7ca3827be33, type: 3}
   - {fileID: 21300000, guid: 69e68127aec322b43aa38fc3616fc31e, type: 3}
   - {fileID: 21300000, guid: 72462b374e3bed843a70aa44d5e8aa86, type: 3}
+  - {fileID: 21300000, guid: d89a82470076d5348907ab4a53f880b4, type: 3}
   - {fileID: 21300000, guid: 21b6b9a7e4484c84fbab40a81fbf7bb9, type: 3}
   - {fileID: 21300000, guid: d93513c7a021fa6488138805ca15f3db, type: 3}
   - {fileID: 21300000, guid: ca0a14c7b13b15c438f571187258d569, type: 3}
@@ -114,11 +116,13 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ac53b708123a9ff47b1124dc59edc3f5, type: 3}
   - {fileID: 21300000, guid: 9927f018f984302448ad1c7bf300815c, type: 3}
   - {fileID: 21300000, guid: 4fbc2b188fcb7634886607fb5c4bb158, type: 3}
+  - {fileID: 21300000, guid: a6e827386d9c278428c6d378249a6f65, type: 3}
   - {fileID: 21300000, guid: 363b8948bb4c7e44899a698f7ea2a36f, type: 3}
   - {fileID: 21300000, guid: c70667b885e8cd44396944c737c04de0, type: 3}
   - {fileID: 21300000, guid: 1a6082e8f6381fc4bb2bef8168086aa5, type: 3}
   - {fileID: 21300000, guid: 349afd19ec1ac844a8d74860ab26f0ed, type: 3}
   - {fileID: 21300000, guid: f0024a49b055a2b4096e91c966fa384a, type: 3}
+  - {fileID: 21300000, guid: 4900a469cdd036749b808b6bdcb4cb7f, type: 3}
   - {fileID: 21300000, guid: 1c28b96920191274f8d64fdad1d0c7b8, type: 3}
   - {fileID: 21300000, guid: 7645f47980ef8434e96450f9f594ffdc, type: 3}
   - {fileID: 21300000, guid: 866fc7791d4b63a40a2cce1ee64d40a0, type: 3}
@@ -144,9 +148,11 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ef4b365bc05c7a24f9c57c8345f70481, type: 3}
   - {fileID: 21300000, guid: b63cae5b4b556d54d84854a6911f7633, type: 3}
   - {fileID: 21300000, guid: 9682297b417dd5e4fa001fb346c53ccb, type: 3}
+  - {fileID: 21300000, guid: ca9bfa8b68822c0449be125739cce7f5, type: 3}
   - {fileID: 21300000, guid: df20d7bb25810c14a95d666f4b73dede, type: 3}
   - {fileID: 21300000, guid: 92c267cb542e4b74d87fc41b8962ffa7, type: 3}
   - {fileID: 21300000, guid: 8240c4db297e80f4fbbf4742c5c8ed2c, type: 3}
+  - {fileID: 21300000, guid: e6d50fdbc9f70bb458d080d49e2c99cf, type: 3}
   - {fileID: 21300000, guid: 6bc561fbcfc4d5946a4b7515be8feab1, type: 3}
   - {fileID: 21300000, guid: 224c5cfbe69a3e547bc8e2382549c299, type: 3}
   - {fileID: 21300000, guid: 3b35031c395347746a575906af9dcc1c, type: 3}
@@ -242,6 +248,7 @@ SpriteAtlas:
   - HitstunSH_04
   - BackDash_01
   - HitstunC_07
+  - 5L_05
   - HitstunC_02
   - LaunchFall_01
   - FDKnockdown_01
@@ -251,6 +258,7 @@ SpriteAtlas:
   - AirGuard_02
   - FDKnockdown_03
   - LaunchTrans_01
+  - 5L_03
   - Descend_03
   - FDKnockdown_02
   - FUGetup_02
@@ -258,11 +266,13 @@ SpriteAtlas:
   - HitstunSH_07
   - FUKnockdownSpear_05
   - LoGuard_03
+  - 5L_01
   - WallBounce_04
   - Standing_01
   - FUGetup_07
   - Run_05
   - AirGuard_03
+  - 5L_06
   - AirRecover_03
   - HiGuard_04
   - WallBounce_01
@@ -288,9 +298,11 @@ SpriteAtlas:
   - Run_06
   - HiGuard_05
   - FUGetup_01
+  - 5L_02
   - FUKnockdown_05
   - Jump_05
   - HitstunSH_02
+  - 5L_04
   - HitstunSL_03
   - DizzyIn_04
   - FDGetup_04

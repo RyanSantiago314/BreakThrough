@@ -15,7 +15,7 @@ SpriteAtlas:
       compressionQuality: 50
       maxTextureSize: 2048
       textureCompression: 0
-      filterMode: 0
+      filterMode: 1
       generateMipMaps: 0
       readable: 1
       crunchedCompression: 0
@@ -23,7 +23,7 @@ SpriteAtlas:
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 8192
+      m_MaxTextureSize: 4096
       m_ResizeAlgorithm: 0
       m_TextureFormat: 4
       m_TextureCompression: 0
@@ -539,7 +539,7 @@ SpriteAtlas:
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: 0d529cc8b45af3ba4c3d33480aa773bb
+      Hash: 5ae0df7bef23ac607b62d2bdb5e3a618
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 378a6100540b6314d8a440d617cff9d4, type: 3}
