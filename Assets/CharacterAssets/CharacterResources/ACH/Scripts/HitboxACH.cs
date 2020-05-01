@@ -137,6 +137,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.allowHeavy = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
+        HitDetect.jumpCancellable = true;
     }
 
     void CrouchingLHitBox()
@@ -191,29 +192,59 @@ public class HitboxACH : MonoBehaviour
     }
 
 
-    void StandingMHitBox()
+    void StandingMHitBox1()
+    {
+        ClearHitBox();
+
+        hit1.enabled = true;
+        hit1.offset = new Vector2(.3f, -.25f);
+        hit1.size = new Vector2(.64f, .42f);
+        HitDetect.damage = 20;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 50;
+        HitDetect.potentialHitStun = hitStunLv1;
+        HitDetect.potentialHitStop = hitStopLv1;
+        HitDetect.potentialKnockBack = new Vector2(.5f, 0);
+        HitDetect.attackLevel = 1;
+        HitDetect.guard = "Mid";
+
+        HitDetect.allowLight = true;
+        HitDetect.allowMedium = true;
+        HitDetect.allowHeavy = true;
+        HitDetect.allowBreak = true;
+        HitDetect.allowSpecial = true;
+        HitDetect.allowSuper = true;
+    }
+
+    void StandingMHitBox2()
     {
         ClearHitBox();
         HitDetect.Actions.AttackActive();
 
         hit1.enabled = true;
-        hit1.offset = new Vector2(.61f, -.41f);
-        hit1.size = new Vector2(.81f, .271f);
-        HitDetect.damage = 36;
+        hit2.enabled = true;
+
+        hit1.offset = new Vector2(.57f, .15f);
+        hit1.size = new Vector2(1.18f, .34f);
+        hit2.offset = new Vector2(.53f, -.06f);
+        hit2.size = new Vector2(1.07f, .2f);
+
+        HitDetect.damage = 20;
         HitDetect.armorDamage = 0;
-        HitDetect.durabilityDamage = 100;
-        HitDetect.potentialHitStun = hitStunLv1;
-        HitDetect.potentialHitStop = hitStopLv1;
+        HitDetect.durabilityDamage = 50;
+        HitDetect.potentialHitStun = hitStunLv2;
+        HitDetect.potentialHitStop = hitStopLv2;
         HitDetect.potentialKnockBack = new Vector2(1.5f, 0);
-        HitDetect.initialProration = .85f;
+        HitDetect.initialProration = .9f;
         HitDetect.attackLevel = 1;
-        HitDetect.guard = "Low";
+        HitDetect.guard = "Mid";
 
         HitDetect.allowMedium = true;
         HitDetect.allowHeavy = true;
         HitDetect.allowBreak = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
+        HitDetect.jumpCancellable = true;
     }
 
     void CrouchingMHitBox()

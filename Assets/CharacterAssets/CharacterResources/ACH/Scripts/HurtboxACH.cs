@@ -393,31 +393,58 @@ public class HurtboxACH : MonoBehaviour
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
+        misc1.enabled = true;
 
-        head.offset = new Vector2(-.22f, .51f);
-        head.size = new Vector2(.3f, .3f);
-        body.offset = new Vector2(-.04f, .18f);
-        body.size = new Vector2(.5f, .47f);
-        legs1.offset = new Vector2(-.03f, -.47f);
-        legs1.size = new Vector2(.5f, .9f);
+        head.offset = new Vector2(-.3f, .63f);
+        head.size = new Vector2(.2f, .27f);
+        body.offset = new Vector2(-.26f, .325f);
+        body.size = new Vector2(.54f, .5f);
+        legs1.offset = new Vector2(-.2f, -.35f);
+        legs1.size = new Vector2(.57f, .92f);
+        misc1.offset = new Vector2(.39f, -.12f);
+        misc1.size = new Vector2(.375f, .175f);
     }
 
-    public void StandMedActive()
+    public void StandMedActive1()
     {
         Invincible();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
         legs2.enabled = true;
+        misc1.enabled = true;
 
-        head.offset = new Vector2(.17f, .56f);
-        head.size = new Vector2(.3f, .3f);
-        body.offset = new Vector2(.12f, .18f);
-        body.size = new Vector2(.8f, .47f);
-        legs1.offset = new Vector2(-.03f, -.47f);
-        legs1.size = new Vector2(.5f, .9f);
-        legs2.offset = new Vector2(.55f, -.32f);
-        legs2.size = new Vector2(.7f, .45f);
+        head.offset = new Vector2(-.38f, .54f);
+        head.size = new Vector2(.2f, .27f);
+        body.offset = new Vector2(-.26f, .325f);
+        body.size = new Vector2(.54f, .5f);
+        legs1.offset = new Vector2(-.24f, -.35f);
+        legs1.size = new Vector2(.49f, .92f);
+        legs2.offset = new Vector2(.27f, -.17f);
+        legs2.size = new Vector2(.66f, .28f);
+        misc1.offset = Vector2.zero;
+        misc1.size = new Vector2(.45f, .48f);
+    }
+
+    public void StandMedActive2()
+    {
+        Invincible();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(-.44f, .48f);
+        head.size = new Vector2(.23f, .26f);
+        body.offset = new Vector2(-.26f, .265f);
+        body.size = new Vector2(.54f, .38f);
+        legs1.offset = new Vector2(-.16f, -.35f);
+        legs1.size = new Vector2(.265f, .92f);
+        legs2.offset = new Vector2(.56f, .07f);
+        legs2.size = new Vector2(1.24f, .425f);
+        misc1.offset = new Vector2(-.55f, 0f);
+        misc1.size = new Vector2(.5f, .48f);
     }
 
     public void CrouchMed()
