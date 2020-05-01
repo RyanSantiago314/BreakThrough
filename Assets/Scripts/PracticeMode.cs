@@ -487,7 +487,7 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 // https://support.unity3d.com/hc/en-us/articles/115000341143-How-do-I-read-and-write-data-from-a-text-file-
-                if (Input.GetButtonDown("Select_P1")) recording++;
+                /*if (Input.GetButtonDown("Select_P1")) recording++;
 
                 switch (recording)
                 {
@@ -511,7 +511,7 @@ public class PracticeMode : MonoBehaviour
                         recording = 0;
                         recordingFrame = 0;
                         break;
-                }
+                }*/
 
                 // Replay Recording
                 //if (Input.GetButtonDown("R_Push"))
@@ -595,7 +595,7 @@ public class PracticeMode : MonoBehaviour
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().anim.SetBool(Animator.StringToHash("Run"), false);
     }
 
-    private void saveRecording()
+    /*private void saveRecording()
     {
         // Clears previous recording
         File.WriteAllText(path, string.Empty);
@@ -625,5 +625,5 @@ public class PracticeMode : MonoBehaviour
 
         //Print the text from the file
         //Debug.Log(asset.text);
-    }
+    }*/
 }
