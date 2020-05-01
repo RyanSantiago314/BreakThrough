@@ -398,15 +398,6 @@ public class AcceptInputs : MonoBehaviour
         Move.rb.AddForce(new Vector2(0, y), ForceMode2D.Impulse);
     }
 
-    public void BurstRise(float y)
-    {
-        if (!airborne)
-        {
-            Move.rb.velocity = new Vector2(Move.rb.velocity.x, 0);
-            Move.rb.AddForce(new Vector2(0, y), ForceMode2D.Impulse);
-        }
-    }
-
     public void ForceCrouch()
     {
         anim.SetBool(crouchID, true);

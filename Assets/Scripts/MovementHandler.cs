@@ -339,11 +339,11 @@ public class MovementHandler : MonoBehaviour
 
             if (facingRight)
             {
-                rb.AddForce(new Vector2(-backDashForce, .5f * backDashForce), ForceMode2D.Impulse);
+                rb.AddForce(new Vector2(-backDashForce, .6f * backDashForce), ForceMode2D.Impulse);
             }
             else
             {
-                rb.AddForce(new Vector2(backDashForce, .5f * backDashForce), ForceMode2D.Impulse);
+                rb.AddForce(new Vector2(backDashForce, .6f * backDashForce), ForceMode2D.Impulse);
             }
             backDash = false;
         }
