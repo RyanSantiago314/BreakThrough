@@ -195,6 +195,7 @@ public class HitboxACH : MonoBehaviour
     void StandingMHitBox1()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
 
         hit1.enabled = true;
         hit1.offset = new Vector2(.3f, -.25f);
@@ -229,7 +230,7 @@ public class HitboxACH : MonoBehaviour
         hit2.offset = new Vector2(.53f, -.06f);
         hit2.size = new Vector2(1.07f, .2f);
 
-        HitDetect.damage = 20;
+        HitDetect.damage = 35;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 50;
         HitDetect.potentialHitStun = hitStunLv2;
