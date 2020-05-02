@@ -79,6 +79,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.crumple = false;
         HitDetect.sweep = false;
         HitDetect.forceCrouch = false;
+        HitDetect.forceStand = false;
         HitDetect.allowWallStick = false;
         HitDetect.allowGroundBounce = false;
         HitDetect.allowWallBounce = false;

@@ -54,6 +54,7 @@ public class HitDetector : MonoBehaviour
     public bool crumple = false;
     public bool sweep = false;
     public bool forceCrouch = false;
+    public bool forceStand = false;
     public bool shatter = false;
     public bool allowWallStick = false;
     public bool allowGroundBounce = false;
@@ -727,6 +728,8 @@ public class HitDetector : MonoBehaviour
 
         if (forceCrouch && !OpponentDetector.Actions.airborne)
             OpponentDetector.anim.SetBool("Crouch", true);
+        else if (forceStand && !OpponentDetector.Actions.airborne)
+            OpponentDetector.anim.SetBool("Crouch", false);
 
         if (OpponentDetector.Actions.airborne && transform.position.y < 1.2f)
             transform.position = new Vector3(transform.position.x, 1.2f, transform.position.z);

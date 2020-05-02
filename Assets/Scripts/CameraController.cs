@@ -73,7 +73,7 @@ public class CameraController : MonoBehaviour
             if (transform.position.x < (Character1.position.x + Character2.position.x) / 2 + .75f && transform.position.x > (Character1.position.x + Character2.position.x) / 2 - .75f)
                 ScreenBound.transform.position = transform.position;
 
-            smooth = 10;
+            smooth = 8;
 
             if (Character1.GetComponent<MovementHandler>().wallStickTimer == 35 || Character2.GetComponent<MovementHandler>().wallStickTimer == 35)
             {

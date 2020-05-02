@@ -341,21 +341,21 @@ public class HitboxACH : MonoBehaviour
         ClearHitBox();
 
         hit1.enabled = true;
-        hit1.offset = new Vector2(.75f, -.23f);
-        hit1.size = new Vector2(.73f, .32f);
-        HitDetect.damage = 30;
+        hit1.offset = new Vector2(1.43f, .51f);
+        hit1.size = new Vector2(2.26f, .168f);
+
+        HitDetect.damage = 50;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv3;
-        HitDetect.potentialHitStop = hitStopLv1;
-        HitDetect.potentialKnockBack = new Vector2(1f, 0);
-        HitDetect.potentialAirKnockBack = new Vector2(1f, 1.5f);
+        HitDetect.potentialHitStop = hitStopLv2;
+        HitDetect.potentialKnockBack = new Vector2(1.3f, 0);
+        HitDetect.potentialAirKnockBack = new Vector2(1.4f, 1f);
         HitDetect.initialProration = .9f;
         HitDetect.attackLevel = 2;
         HitDetect.guard = "Mid";
 
         HitDetect.slash = true;
-        HitDetect.allowLight = true;
         HitDetect.allowHeavy = true;
         HitDetect.allowBreak = true;
         HitDetect.allowSpecial = true;
@@ -369,15 +369,23 @@ public class HitboxACH : MonoBehaviour
         HitDetect.Actions.AttackActive();
 
         hit1.enabled = true;
-        hit1.offset = new Vector2(.86f, .22f);
-        hit1.size = new Vector2(.95f, .33f);
-        HitDetect.damage = 42;
+        hit2.enabled = true;
+        hit3.enabled = true;
+
+        hit1.offset = new Vector2(1f, -.04f);
+        hit1.size = new Vector2(1.36f, .21f);
+        hit2.offset = new Vector2(1.51f, .09f);
+        hit2.size = new Vector2(.95f, .18f);
+        hit3.offset = new Vector2(1.86f, .24f);
+        hit3.size = new Vector2(.71f, .15f);
+
+        HitDetect.damage = 35;
         HitDetect.armorDamage = 0;
-        HitDetect.durabilityDamage = 100;
-        HitDetect.potentialHitStun = hitStunLv3;
+        HitDetect.durabilityDamage = 50;
+        HitDetect.potentialHitStun = hitStunLv4;
         HitDetect.potentialHitStop = hitStopLv2;
-        HitDetect.potentialKnockBack = new Vector2(1.3f, 0);
-        HitDetect.potentialAirKnockBack = new Vector2(1f, 1.5f);
+        HitDetect.potentialKnockBack = new Vector2(-1f, 0);
+        HitDetect.potentialAirKnockBack = new Vector2(-1.3f, 1.3f);
         HitDetect.attackLevel = 2;
         HitDetect.guard = "Mid";
 
