@@ -182,7 +182,7 @@ public class HitDetector : MonoBehaviour
         {
             anim.SetBool(runID, false);
             //hitStun only counts down if not in the groundbounce or crumple animations
-            if(!currentState.IsName("GroundBounce") && !currentState.IsName("WallBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0  && !pauseScreen.isPaused)
+            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0  && !pauseScreen.isPaused)
                 hitStun--;
             anim.SetInteger(hitStunID, hitStun);
         }
@@ -711,6 +711,7 @@ public class HitDetector : MonoBehaviour
         //if the attack successfully hit the opponent
         anim.SetTrigger(successID);
         OpponentDetector.Actions.TurnAroundCheck();
+        OpponentDetector.Actions.superHit = false;
 
         //special properties if hitting a dizzied opponent
         if(OpponentDetector.anim.GetBool(dizzyID))
@@ -762,6 +763,7 @@ public class HitDetector : MonoBehaviour
         if (usingSuper)
         {
             minDamage = damage * .2f * opponentValor;
+            OpponentDetector.Actions.superHit = true;
         }
         else if (damage > 1)
         {

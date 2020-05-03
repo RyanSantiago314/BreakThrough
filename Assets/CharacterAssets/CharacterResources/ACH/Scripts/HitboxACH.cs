@@ -175,7 +175,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.damage = 24;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 50;
-        HitDetect.potentialHitStun = hitStunLv2;
+        HitDetect.potentialHitStun = hitStunLv1;
         HitDetect.potentialHitStop = hitStopLv1;
         HitDetect.potentialKnockBack = new Vector2(1f, 0);
         HitDetect.potentialAirKnockBack = new Vector2(.7f, 2f);

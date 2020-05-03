@@ -171,18 +171,18 @@ public class AcceptInputs : MonoBehaviour
         //increase gravScale based on hitting certain numbers with comboHits
         //keep track of hits in combo for damage and gravity scaling
         comboHits = Move.OpponentProperties.HitDetect.comboCount;
-        if (comboHits == 0)
+        if (comboHits == 0 || superHit)
             gravScale = 1;
         else if (comboHits > 40)
-            gravScale = 1.3f;
-        else if (comboHits > 30)
             gravScale = 1.25f;
-        else if (comboHits > 20)
+        else if (comboHits > 30)
             gravScale = 1.2f;
-        else if (comboHits > 15)
+        else if (comboHits > 20)
             gravScale = 1.15f;
-        else if (comboHits > 10)
+        else if (comboHits > 15)
             gravScale = 1.1f;
+        else if (comboHits > 10)
+            gravScale = 1.05f;
     }
 
     public void DisableAll()
@@ -223,6 +223,7 @@ public class AcceptInputs : MonoBehaviour
         Move.HitDetect.hitStun = 0;
         Move.HitDetect.blockStun = 0;
         shattered = false;
+        superHit = false;
         wallStick = 0;
         groundBounce = false;
         wallBounce = false;
@@ -250,6 +251,7 @@ public class AcceptInputs : MonoBehaviour
         attacking = false;
         active = false;
         recovering = true;
+        DisableAll();
     }
 
     public void SigilJump()
@@ -401,6 +403,11 @@ public class AcceptInputs : MonoBehaviour
     public void ForceCrouch()
     {
         anim.SetBool(crouchID, true);
+    }
+
+    public void ForceStand()
+    {
+        anim.SetBool(crouchID, false);
     }
 
     public void Recover()
