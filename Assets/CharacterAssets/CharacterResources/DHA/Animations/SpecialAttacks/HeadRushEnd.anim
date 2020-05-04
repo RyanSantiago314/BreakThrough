@@ -160,20 +160,6 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: Rise
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 2
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
-    functionName: ResetCharge
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
     functionName: Advance
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -189,6 +175,27 @@ AnimationClip:
     messageOptions: 0
   - time: 0
     functionName: HRLaunchHit
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: Rise
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 2
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: clearHitType
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: ResetCharge
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

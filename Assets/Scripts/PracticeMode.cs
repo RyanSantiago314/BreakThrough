@@ -291,16 +291,10 @@ public class PracticeMode : MonoBehaviour
                 {
                     InputTimer = 0;
                 }
+
                 //Determine P1 Current attack type to determine proper Guard
-                if (Player1.transform.GetComponentInChildren<AcceptInputs>().attacking)
-                {
-                    guardLevel = P1Prop.HitDetect.guard;
-                    Debug.Log(guardLevel);
-                }
-                else
-                {
-                    guardLevel = "";
-                }
+                guardLevel = Player1.GetComponentInChildren<AcceptInputs>().hitType;
+
                 switch (dummyState)
                 {
                     case "CPU":
@@ -361,9 +355,14 @@ public class PracticeMode : MonoBehaviour
                         MaxInputObject.GetComponent<AI>().enabled = false;
                         if (p1x - p2x < 0)
                         {
-                            if (guardLevel == "Low")
+                            if (guardLevel == "Low" && (p1x-p2x > -2))
                             {
                                 MaxInput.DownRight("Player2");
+                            }
+                            else if (guardLevel == "Throw" && (p1x - p2x > -.76))
+                            {
+                                MaxInput.Cross("Player2");
+                                MaxInput.Square("Player2");
                             }
                             else
                             {
@@ -372,9 +371,14 @@ public class PracticeMode : MonoBehaviour
                         }
                         else
                         {
-                            if (P1Prop.HitDetect.guard == "Low")
+                            if (guardLevel == "Low" && (p1x - p2x < 2))
                             {
                                 MaxInput.DownLeft("Player2");
+                            }
+                            else if (guardLevel == "Throw" && (p1x - p2x < .76))
+                            {
+                                MaxInput.Cross("Player2");
+                                MaxInput.Square("Player2");
                             }
                             else
                             {
@@ -463,6 +467,7 @@ public class PracticeMode : MonoBehaviour
                 if (Input.GetButtonDown("Select_P2"))
                 {
                     resetPositions();
+                    Player1.GetComponentInChildren<AcceptInputs>().hitType = "";
                     //Reset Character Specific things
                     switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
                     {

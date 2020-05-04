@@ -105,6 +105,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0
+    functionName: setThrow
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.1
     functionName: ThrowInit
     data: 
@@ -114,6 +121,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0.13333334
     functionName: ClearHitBox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.15
+    functionName: clearHitType
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
