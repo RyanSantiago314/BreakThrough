@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
@@ -16,6 +17,10 @@ public class PracticeMode : MonoBehaviour
     HitDetector P2hit;
     AcceptInputs P1Input;
     AcceptInputs P2Input;
+    MovementHandler P1Move;
+    MovementHandler P2Move;
+    AttackHandlerDHA P1AttackDHA;   // Will need versions for other characters
+    AttackHandlerDHA P2AttackDHA;
     HUD HUD;
     public MaxInput MaxInput;
     public GameObject MaxInputObject;
@@ -57,16 +62,22 @@ public class PracticeMode : MonoBehaviour
     public Text P2HighComboDamage;
     public Text P1HitType;
     public Text P2HitType;
+    public Text RecordingState;
 
-    private string path = "Assets/Resources/test.txt";
+    private bool isRecording = false;
+    private bool isReplaying = false;
     private int recording = 0;
     private int recordingFrame = 0;
     private List<List<float>> movement = new List<List<float>>();
     private List<List<bool>> inputs = new List<List<bool>>();
+    private StreamWriter writer;
+    private StreamReader reader;
+    private string path = "Assets/Resources/test.txt";
 
     public GameObject DamageDisplays;
     public GameObject P1Displays;
     public GameObject P2Displays;
+    public GameObject RecordingDisplay;
 
     // Start is called before the first frame update
     void Start()
@@ -79,6 +90,10 @@ public class PracticeMode : MonoBehaviour
         P2hit = GameObject.Find("Player2").transform.GetComponentInChildren<HitDetector>();
         P1Input = GameObject.Find("Player1").transform.GetChild(0).transform.GetComponentInChildren<AcceptInputs>();
         P2Input = GameObject.Find("Player2").transform.GetChild(0).transform.GetComponentInChildren<AcceptInputs>();
+        P1Move = GameObject.Find("Player1").transform.GetComponentInChildren<MovementHandler>();
+        P2Move = GameObject.Find("Player2").transform.GetComponentInChildren<MovementHandler>();
+        P1AttackDHA = GameObject.Find("Player1").transform.GetComponentInChildren<AttackHandlerDHA>();;
+        P2AttackDHA = GameObject.Find("Player2").transform.GetComponentInChildren<AttackHandlerDHA>();;
         HUD = GameObject.Find("HUD").GetComponent<HUD>();
         P1PrevHealth = P1Prop.maxHealth;
         P2PrevHealth = P2Prop.maxHealth;
@@ -101,6 +116,7 @@ public class PracticeMode : MonoBehaviour
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
             DamageDisplays.SetActive(true);
+            RecordingDisplay.SetActive(true);
         }
     }
 
@@ -464,7 +480,7 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 //Reset Positions back to start
-                if (Input.GetButtonDown("Select_P2"))
+                if (Input.GetButtonDown("Select_P2"))   // Temporarily changed to P2
                 {
                     resetPositions();
                     Player1.GetComponentInChildren<AcceptInputs>().hitType = "";
@@ -492,34 +508,58 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 // https://support.unity3d.com/hc/en-us/articles/115000341143-How-do-I-read-and-write-data-from-a-text-file-
-                /*if (Input.GetButtonDown("Select_P1")) recording++;
+                if (Input.GetButtonDown("Select_P1") && !isReplaying) recording++;
 
                 switch (recording)
                 {
-                    case 1:
-                        Debug.Log("Recording armed");
-                        // Switch controls over to Player2
+                    case 1:     // Switch player controls
+                        RecordingDisplay.SetActive(true);
+                        RecordingState.text = "Recording Armed";
+                        isRecording = true;
+                        switchControls(true);
                         break;
-                    case 2:
-                        Debug.Log("Now Recording");
+                    case 2:     // Get inputs from MaxInput. returnMovement() returnInputs()
+                        RecordingState.text = "Now Recording " + recordingFrame;
                         recordingFrame++;
-                        List<float> getMoves = MaxInput.returnMovement("Player2");
-                        List<bool> getInputs = MaxInput.returnInputs("Player2");
+                        List<float> getMoves = MaxInput.returnMovement("Player1");
+                        List<bool> getInputs = MaxInput.returnInputs("Player1");
                         movement.Add(getMoves);
                         inputs.Add(getInputs);
-                        // Get inputs from MaxInput. returnMovement() returnInputs()
                         break;
-                    case 3:
-                        Debug.Log("Recording Saved");
+                    case 3:     // Create a txt file that has all the inputs for each frame
+                        RecordingState.text = "Recording Saved";
+                        switchControls(false);
                         saveRecording();
-                        // Create a txt file that has all the inputs for each frame
+                        isRecording = false;
                         recording = 0;
                         recordingFrame = 0;
                         break;
                 }*/
 
                 // Replay Recording
-                //if (Input.GetButtonDown("R_Push"))
+                if (Input.GetButtonDown("Select_P1_Xbox") && !isReplaying && !isRecording)
+                {
+                    isReplaying = true;
+                    reader = new StreamReader(path);
+                }
+
+                if (isReplaying)
+                {
+                    // Read file, execute MaxInput actions every frame
+                    string line;
+                    if ((line = reader.ReadLine()) != null)
+                    {
+                        RecordingState.text = "Replaying " + recordingFrame;
+                        MaxInput.ClearInput("Player2");
+                        replay(line);
+                    }
+                    else
+                    {
+                        isReplaying = false;
+                        recordingFrame = 0;
+                        reader.Close();
+                    }
+                }
             }
         }
     }
@@ -600,12 +640,39 @@ public class PracticeMode : MonoBehaviour
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().anim.SetBool(Animator.StringToHash("Run"), false);
     }
 
-    /*private void saveRecording()
+    private void switchControls(bool switchPlayer)
+    {
+        if (switchPlayer)
+        {
+            P1Move.Horizontal = "Horizontal_P2";
+            P1Move.Vertical = "Vertical_P2";
+            P1Move.L3 = "L3_P2";
+
+            P2Move.Horizontal = "Horizontal_P1";
+            P2Move.Vertical = "Vertical_P1";
+            P2Move.L3 = "L3_P1";
+        }
+        else
+        {
+            P1Move.Horizontal = "Horizontal_P1";
+            P1Move.Vertical = "Vertical_P1";
+            P1Move.L3 = "L3_P1";
+
+            P2Move.Horizontal = "Horizontal_P2";
+            P2Move.Vertical = "Vertical_P2";
+            P2Move.L3 = "L3_P2";
+        }
+
+        P1AttackDHA.switchActions(switchPlayer);
+        P2AttackDHA.switchActions(switchPlayer);
+    }
+
+    private void saveRecording()
     {
         // Clears previous recording
         File.WriteAllText(path, string.Empty);
 
-        StreamWriter writer = new StreamWriter(path, true);
+        writer = new StreamWriter(path, true);
         for (int i = 1; i <= recordingFrame; i++)
         {
             string move = "";
@@ -618,17 +685,40 @@ public class PracticeMode : MonoBehaviour
             {
                 input += inputs[i-1][k] + " ";
             }
-            writer.WriteLine(i + ": " + move + input);
+            writer.WriteLine(i + " " + move + input);
         }
         writer.Close();
+        movement.Clear();
+        inputs.Clear();
 
         Debug.Log("File Written");
 
-        // //Re-import the file to update the reference in the editor
+        //Re-import the file to update the reference in the editor
         AssetDatabase.ImportAsset(path);
         TextAsset asset = Resources.Load("test") as TextAsset;
 
         //Print the text from the file
         //Debug.Log(asset.text);
-    }*/
+    }
+
+    private void replay(string line)
+    {
+        string[] values = line.Split(' ');
+        recordingFrame = Convert.ToInt32(values[0]);
+
+        // Replaying movements
+        MaxInput.setHorizontal("Player2", Convert.ToSingle(values[1]));
+        MaxInput.setVertical("Player2", Convert.ToSingle(values[2]));
+
+        // Replaying actions
+        if (values[3] == "True") MaxInput.Square("Player2");
+        if (values[4] == "True") MaxInput.Triangle("Player2");
+        if (values[5] == "True") MaxInput.Circle("Player2");
+        if (values[6] == "True") MaxInput.Cross("Player2");
+        if (values[7] == "True") MaxInput.RBumper("Player2");
+        if (values[8] == "True") MaxInput.RTrigger("Player2");
+        if (values[9] == "True") MaxInput.LBumper("Player2");
+        if (values[10] == "True") MaxInput.LTrigger("Player2");
+        if (values[11] == "True") MaxInput.LStick("Player2");
+    }
 }

@@ -192,9 +192,11 @@ MonoBehaviour:
   P2HighComboDamage: {fileID: 2078527517}
   P1HitType: {fileID: 300914593}
   P2HitType: {fileID: 190983066}
+  RecordingState: {fileID: 612075312}
   DamageDisplays: {fileID: 2131062274}
   P1Displays: {fileID: 1609458486}
   P2Displays: {fileID: 1878893716}
+  RecordingDisplay: {fileID: 2014833181}
 --- !u!114 &190983066 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8094539978171423737, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
@@ -348,7 +350,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &500688647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,6 +485,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &612075312 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3652805009582818685, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 5660124816909190397}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,6 +1050,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AI: {fileID: 1948197659}
+--- !u!1 &2014833181 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 998939085249267145, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 5660124816909190397}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2078527517 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1522019928183826543, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
@@ -1523,10 +1543,20 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 925070596}
+    - target: {fileID: 998939085249267145, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2528266471425934014, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605853860635674223, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3341649374556308289, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
         type: 3}
@@ -1547,6 +1577,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3652805009582818685, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
+        type: 3}
+      propertyPath: m_Text
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3669784695140853204, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
         type: 3}

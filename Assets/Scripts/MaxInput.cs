@@ -379,13 +379,13 @@ public class MaxInput : MonoBehaviour
         List<float> movement = new List<float>();
         if (name == "Player1")
         {
-            movement.Add(horizontal1);
-            movement.Add(vertical1);
+            movement.Add(GetAxis("Horizontal_P1"));
+            movement.Add(GetAxis("Vertical_P1"));
         }
         else if (name == "Player2")
         {
-            movement.Add(horizontal);
-            movement.Add(vertical);
+            movement.Add(GetAxis("Horizontal_P2"));
+            movement.Add(GetAxis("Vertical_P2"));
         }
         return movement;
     }
@@ -395,27 +395,27 @@ public class MaxInput : MonoBehaviour
         List<bool> inputs = new List<bool>();
         if (name == "Player1")
         {
-            inputs.Add(square1);
-            inputs.Add(triangle1);
-            inputs.Add(circle1);
-            inputs.Add(cross1);
-            inputs.Add(rBumper1);
-            inputs.Add(rTrigger1);
-            inputs.Add(lBumper1);
-            inputs.Add(lTrigger1);
-            inputs.Add(lstick1);
+            inputs.Add(GetButtonDown("Square_P1"));
+            inputs.Add(GetButtonDown("Triangle_P1"));
+            inputs.Add(GetButtonDown("Circle_P1"));
+            inputs.Add(GetButtonDown("Cross_P1"));
+            inputs.Add(GetButtonDown("R1_P1"));
+            inputs.Add(GetButtonDown("R2_P1"));
+            inputs.Add(GetButtonDown("L1_P1"));
+            inputs.Add(GetButtonDown("L2_P1"));
+            inputs.Add(GetButtonDown("L3_P1"));
         }
         else if (name == "Player2")
         {
-            inputs.Add(square);
-            inputs.Add(triangle);
-            inputs.Add(circle);
-            inputs.Add(cross);
-            inputs.Add(rBumper);
-            inputs.Add(rTrigger);
-            inputs.Add(lBumper);
-            inputs.Add(lTrigger);
-            inputs.Add(lstick);
+            inputs.Add(GetButtonDown("Square_P2"));
+            inputs.Add(GetButtonDown("Triangle_P2"));
+            inputs.Add(GetButtonDown("Circle_P2"));
+            inputs.Add(GetButtonDown("Cross_P2"));
+            inputs.Add(GetButtonDown("R1_P2"));
+            inputs.Add(GetButtonDown("R2_P2"));
+            inputs.Add(GetButtonDown("L1_P2"));
+            inputs.Add(GetButtonDown("L2_P2"));
+            inputs.Add(GetButtonDown("L3_P2"));
         }
         return inputs;
     }
@@ -449,6 +449,30 @@ public class MaxInput : MonoBehaviour
             lBumper1 = false;
             lTrigger1 = false;
             lstick1 = false;
+        }
+    }
+
+    public void setHorizontal(string name, float value)
+    {
+        if (name == "Player1")
+        {
+            horizontal1 = value;
+        }
+        else
+        {
+            horizontal = value;
+        }
+    }
+
+    public void setVertical(string name, float value)
+    {
+        if (name == "Player1")
+        {
+            vertical1 = value;
+        }
+        else
+        {
+            vertical = value;
         }
     }
 
