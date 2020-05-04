@@ -723,7 +723,7 @@ public class PauseMenu : MonoBehaviour
         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = "";
         pauseQuit = true;
 
-        SceneManager.LoadSceneAsync(2);
+        SceneManager.LoadSceneAsync(1);
     }
 
     private bool CheckXbox(int player)
