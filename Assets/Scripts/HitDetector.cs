@@ -225,21 +225,21 @@ public class HitDetector : MonoBehaviour
             {
                 rb.velocity = Vector2.zero;
             }
-            else if (Actions.blitzed > 1 && hitStun > 0)
+            else if (Actions.blitzed > 1)
             {
                 //simulate slow motion if within range of a blitz cancel or blitz attack
                 if (Actions.blitzed == 58)
                 {
                      rb.velocity *= new Vector2(.65f, 1f);
+                    if (rb.velocity.y < 0)
+                        rb.velocity *= new Vector2(1f, .5f);
                 }
-                if (Actions.airborne)
-                    anim.SetFloat(animSpeedID, .4f);
-                else
-                    anim.SetFloat(animSpeedID, .4f);
+
+                anim.SetFloat(animSpeedID, .5f);
 
                 rb.mass = Actions.Move.weight * .65f;
                 if (rb.velocity.y < 0.5f)
-                    rb.gravityScale = .65f * Actions.gravScale * Actions.originalGravity;
+                    rb.gravityScale = .6f * Actions.gravScale * Actions.originalGravity;
 
             }
             else if (Actions.shattered && hitStun > 0)
@@ -559,7 +559,7 @@ public class HitDetector : MonoBehaviour
                 allowHit = false;
                 hit = true;
             }
-            else if (allowHit && !grab && !commandGrab && !blitz && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
+            else if (allowHit && !grab && !commandGrab && !blitz && !OpponentDetector.blitz && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
             {
                 //clash/deflect system
                 if (attackLevel > OpponentDetector.attackLevel && (attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
@@ -816,7 +816,9 @@ public class HitDetector : MonoBehaviour
 
         //manipulate opponent's state based on attack properties
         //defender can enter unique states of stun if hit by an attack with corresponding property
-        if (blitz && (OpponentDetector.hitStun > 0 || OpponentDetector.anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected")))
+        if (blitz && (OpponentDetector.Actions.attacking || OpponentDetector.Actions.active || OpponentDetector.Actions.recovering || 
+            (OpponentDetector.Actions.armorActive && !OpponentDetector.Actions.acceptGuard) ||
+            OpponentDetector.hitStun > 0 || OpponentDetector.anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected")))
         {
             OpponentDetector.Actions.blitzed = 60;
             if (Actions.Move.OpponentProperties.comboTimer > 0)
