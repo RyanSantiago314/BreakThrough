@@ -77,7 +77,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: IdleStand
+  m_Name: DhaliaIdleStand
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -90,7 +90,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 3837bbb9a6afdac4a80e541f230990a5, type: 2}
+  m_Motion: {fileID: 7400000, guid: 6371e7fb312fcfc4dbe4f189518df009, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
