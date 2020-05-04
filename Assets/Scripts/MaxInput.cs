@@ -452,6 +452,30 @@ public class MaxInput : MonoBehaviour
         }
     }
 
+    public void setHorizontal(string name, float value)
+    {
+        if (name == "Player1")
+        {
+            horizontal1 = value;
+        }
+        else
+        {
+            horizontal = value;
+        }
+    }
+
+    public void setVertical(string name, float value)
+    {
+        if (name == "Player1")
+        {
+            vertical1 = value;
+        }
+        else
+        {
+            vertical = value;
+        }
+    }
+
     public void MoveLeft(string name)
     {
         if (name == "Player1")

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
@@ -61,17 +62,22 @@ public class PracticeMode : MonoBehaviour
     public Text P2HighComboDamage;
     public Text P1HitType;
     public Text P2HitType;
+    public Text RecordingState;
 
-    private bool replaying = false;
+    private bool isRecording = false;
+    private bool isReplaying = false;
     private int recording = 0;
     private int recordingFrame = 0;
     private List<List<float>> movement = new List<List<float>>();
     private List<List<bool>> inputs = new List<List<bool>>();
+    private StreamWriter writer;
+    private StreamReader reader;
     private string path = "Assets/Resources/test.txt";
 
     public GameObject DamageDisplays;
     public GameObject P1Displays;
     public GameObject P2Displays;
+    public GameObject RecordingDisplay;
 
     // Start is called before the first frame update
     void Start()
@@ -110,6 +116,7 @@ public class PracticeMode : MonoBehaviour
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
             DamageDisplays.SetActive(true);
+            RecordingDisplay.SetActive(true);
         }
     }
 
@@ -496,16 +503,18 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 // https://support.unity3d.com/hc/en-us/articles/115000341143-How-do-I-read-and-write-data-from-a-text-file-
-                if (Input.GetButtonDown("Select_P1") && !replaying) recording++;
+                if (Input.GetButtonDown("Select_P1") && !isReplaying) recording++;
 
                 switch (recording)
                 {
                     case 1:     // Switch player controls
-                        Debug.Log("Recording armed");
+                        RecordingDisplay.SetActive(true);
+                        RecordingState.text = "Recording Armed";
+                        isRecording = true;
                         switchControls(true);
                         break;
                     case 2:     // Get inputs from MaxInput. returnMovement() returnInputs()
-                        Debug.Log("Now Recording");
+                        RecordingState.text = "Now Recording " + recordingFrame;
                         recordingFrame++;
                         List<float> getMoves = MaxInput.returnMovement("Player1");
                         List<bool> getInputs = MaxInput.returnInputs("Player1");
@@ -513,19 +522,39 @@ public class PracticeMode : MonoBehaviour
                         inputs.Add(getInputs);
                         break;
                     case 3:     // Create a txt file that has all the inputs for each frame
-                        Debug.Log("Recording Saved");
+                        RecordingState.text = "Recording Saved";
                         switchControls(false);
                         saveRecording();
+                        isRecording = false;
                         recording = 0;
                         recordingFrame = 0;
                         break;
                 }
 
                 // Replay Recording
-                // if (Input.GetButtonDown("R_Push") && !replaying)
-                // {
-                //     replaying = true;
-                // }
+                if (Input.GetButtonDown("Select_P1_Xbox") && !isReplaying && !isRecording)
+                {
+                    isReplaying = true;
+                    reader = new StreamReader(path);
+                }
+
+                if (isReplaying)
+                {
+                    // Read file, execute MaxInput actions every frame
+                    string line;
+                    if ((line = reader.ReadLine()) != null)
+                    {
+                        RecordingState.text = "Replaying " + recordingFrame;
+                        MaxInput.ClearInput("Player2");
+                        replay(line);
+                    }
+                    else
+                    {
+                        isReplaying = false;
+                        recordingFrame = 0;
+                        reader.Close();
+                    }
+                }
             }
         }
     }
@@ -638,7 +667,7 @@ public class PracticeMode : MonoBehaviour
         // Clears previous recording
         File.WriteAllText(path, string.Empty);
 
-        StreamWriter writer = new StreamWriter(path, true);
+        writer = new StreamWriter(path, true);
         for (int i = 1; i <= recordingFrame; i++)
         {
             string move = "";
@@ -651,17 +680,40 @@ public class PracticeMode : MonoBehaviour
             {
                 input += inputs[i-1][k] + " ";
             }
-            writer.WriteLine(i + ": " + move + input);
+            writer.WriteLine(i + " " + move + input);
         }
         writer.Close();
+        movement.Clear();
+        inputs.Clear();
 
         Debug.Log("File Written");
 
-        // //Re-import the file to update the reference in the editor
+        //Re-import the file to update the reference in the editor
         AssetDatabase.ImportAsset(path);
         TextAsset asset = Resources.Load("test") as TextAsset;
 
         //Print the text from the file
         //Debug.Log(asset.text);
+    }
+
+    private void replay(string line)
+    {
+        string[] values = line.Split(' ');
+        recordingFrame = Convert.ToInt32(values[0]);
+
+        // Replaying movements
+        MaxInput.setHorizontal("Player2", Convert.ToSingle(values[1]));
+        MaxInput.setVertical("Player2", Convert.ToSingle(values[2]));
+
+        // Replaying actions
+        if (values[3] == "True") MaxInput.Square("Player2");
+        if (values[4] == "True") MaxInput.Triangle("Player2");
+        if (values[5] == "True") MaxInput.Circle("Player2");
+        if (values[6] == "True") MaxInput.Cross("Player2");
+        if (values[7] == "True") MaxInput.RBumper("Player2");
+        if (values[8] == "True") MaxInput.RTrigger("Player2");
+        if (values[9] == "True") MaxInput.LBumper("Player2");
+        if (values[10] == "True") MaxInput.LTrigger("Player2");
+        if (values[11] == "True") MaxInput.LStick("Player2");
     }
 }

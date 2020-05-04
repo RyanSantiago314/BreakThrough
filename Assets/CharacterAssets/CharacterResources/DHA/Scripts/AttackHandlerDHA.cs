@@ -291,10 +291,7 @@ public class AttackHandlerDHA : MonoBehaviour
 
         //record buttons pressed
         if (MaxInput.GetButtonDown(Light))
-        {
-            Debug.Log("Light Pressed");
             lightButton = bufferTime;
-        }
         if (MaxInput.GetButtonDown(Medium))
             mediumButton = bufferTime;
         if (MaxInput.GetButtonDown(Heavy))
