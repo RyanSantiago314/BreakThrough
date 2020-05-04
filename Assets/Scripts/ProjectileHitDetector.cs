@@ -44,6 +44,7 @@ public class ProjectileHitDetector : MonoBehaviour
     public bool crumple = false;
     public bool sweep = false;
     public bool forceCrouch = false;
+    public bool forceStand = false;
     public bool shatter = false;
     public bool allowWallStick = false;
     public bool allowGroundBounce = false;
@@ -441,7 +442,8 @@ public class ProjectileHitDetector : MonoBehaviour
     void HitSuccess(Collider2D other)
     {
         //if the attack successfully hit the opponent
-        HitDetect.anim.SetTrigger(successID);    
+        HitDetect.anim.SetTrigger(successID);
+        OpponentDetector.Actions.superHit = false;
 
         //special properties if hitting a dizzied opponent
         if (OpponentDetector.anim.GetBool(dizzyID))
@@ -455,6 +457,8 @@ public class ProjectileHitDetector : MonoBehaviour
 
         if (forceCrouch && !OpponentDetector.Actions.airborne)
             OpponentDetector.anim.SetBool("Crouch", true);
+        else if (forceStand && !OpponentDetector.Actions.airborne)
+            OpponentDetector.anim.SetBool("Crouch", false);
 
         if (!(blitz && potentialHitStun == 0) && !OpponentDetector.Actions.grabbed)
         {
@@ -484,6 +488,7 @@ public class ProjectileHitDetector : MonoBehaviour
         if (usingSuper)
         {
             minDamage = damage * .2f * opponentValor;
+            OpponentDetector.Actions.superHit = true;
         }
         else if (damage > 1)
         {

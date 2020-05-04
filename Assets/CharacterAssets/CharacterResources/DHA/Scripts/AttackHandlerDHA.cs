@@ -36,8 +36,8 @@ public class AttackHandlerDHA : MonoBehaviour
     private string MH;
     private string LB;
 
-    float bufferTime = .2f;
-    float directionBufferTime = .35f;
+    float bufferTime = .15f;
+    float directionBufferTime = .25f;
     float lightButton;
     float mediumButton;
     float heavyButton;
@@ -447,10 +447,9 @@ public class AttackHandlerDHA : MonoBehaviour
             Hitboxes.ClearHitBox();
 
         //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
-        if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
-            heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f && CharProp.armor >= 1)
+        if ((Actions.blitzCancel && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && CharProp.armor >= 1) && 
+            Move.HitDetect.hitStop == 0 && heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f)
         {
-            anim.SetTrigger(IDBlitz);
             BlitzWave.SetTrigger(IDBlitz);
             Hitboxes.BlitzCancel();
             Actions.landingLag = 0;
@@ -462,6 +461,7 @@ public class AttackHandlerDHA : MonoBehaviour
             BlitzEffect.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             BlitzEffect.transform.rotation = transform.rotation;
 
+            anim.SetTrigger(IDBlitz);
             if (Actions.airborne && MaxInput.GetAxis(Vertical) < 0)
             {
                 Move.rb.velocity = Vector2.zero;
@@ -473,7 +473,7 @@ public class AttackHandlerDHA : MonoBehaviour
                     Move.rb.velocity = Vector2.zero;
                 else
                     Move.rb.velocity = new Vector2(0, Move.rb.velocity.y);
-                Move.rb.AddForce(new Vector2(-2.7f, 0), ForceMode2D.Impulse);
+                    Move.rb.AddForce(new Vector2(-2.7f, 0), ForceMode2D.Impulse);
             }
             else if (Actions.airborne && MaxInput.GetAxis(Horizontal) > 0)
             {
@@ -481,7 +481,7 @@ public class AttackHandlerDHA : MonoBehaviour
                     Move.rb.velocity = Vector2.zero;
                 else
                     Move.rb.velocity = new Vector2(0, Move.rb.velocity.y);
-                Move.rb.AddForce(new Vector2(2.7f, 0), ForceMode2D.Impulse);
+                    Move.rb.AddForce(new Vector2(2.7f, 0), ForceMode2D.Impulse);
             }
 
             //cost for executing blitz cancel

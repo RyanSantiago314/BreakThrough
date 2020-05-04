@@ -176,7 +176,10 @@ public class AnnouncerVoice : MonoBehaviour
                 PlayPerfectKO();
                 break;
             case "BreakDown":
-                PlayKO();
+                if (roundManager.P1Prop.HitDetect.Actions.superHit || roundManager.P2Prop.HitDetect.Actions.superHit)
+                    PlaySuperKO();
+                else
+                    PlayKO();
                 break;
             case "Double KO":
                 PlayDoubleKO();
