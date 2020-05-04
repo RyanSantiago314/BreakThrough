@@ -78,11 +78,6 @@ public class MaxInput : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        Debug.Log(horizontal1 + " " + vertical1 + " : " + horizontal + " " + vertical);
-    }
-
     private bool CheckXbox(int player)
     {
          if(Input.GetJoystickNames().Length > player)
