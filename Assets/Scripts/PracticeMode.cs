@@ -291,16 +291,11 @@ public class PracticeMode : MonoBehaviour
                 {
                     InputTimer = 0;
                 }
+
                 //Determine P1 Current attack type to determine proper Guard
-                if (Player1.transform.GetComponentInChildren<AcceptInputs>().attacking)
-                {
-                    guardLevel = P1Prop.HitDetect.guard;
-                    Debug.Log(guardLevel);
-                }
-                else
-                {
-                    guardLevel = "";
-                }
+                guardLevel = Player1.GetComponentInChildren<AcceptInputs>().hitType;
+                Debug.Log(guardLevel);
+
                 switch (dummyState)
                 {
                     case "CPU":
@@ -365,6 +360,11 @@ public class PracticeMode : MonoBehaviour
                             {
                                 MaxInput.DownRight("Player2");
                             }
+                            else if (guardLevel == "Throw")
+                            {
+                                MaxInput.Cross("Player2");
+                                MaxInput.Square("Player2");
+                            }
                             else
                             {
                                 MaxInput.MoveRight("Player2");
@@ -372,9 +372,14 @@ public class PracticeMode : MonoBehaviour
                         }
                         else
                         {
-                            if (P1Prop.HitDetect.guard == "Low")
+                            if (guardLevel == "Low")
                             {
                                 MaxInput.DownLeft("Player2");
+                            }
+                            else if (guardLevel == "Throw")
+                            {
+                                MaxInput.Cross("Player2");
+                                MaxInput.Square("Player2");
                             }
                             else
                             {
