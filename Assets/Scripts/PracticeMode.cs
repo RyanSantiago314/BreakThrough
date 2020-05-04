@@ -294,7 +294,6 @@ public class PracticeMode : MonoBehaviour
 
                 //Determine P1 Current attack type to determine proper Guard
                 guardLevel = Player1.GetComponentInChildren<AcceptInputs>().hitType;
-                Debug.Log(guardLevel);
 
                 switch (dummyState)
                 {
@@ -356,11 +355,11 @@ public class PracticeMode : MonoBehaviour
                         MaxInputObject.GetComponent<AI>().enabled = false;
                         if (p1x - p2x < 0)
                         {
-                            if (guardLevel == "Low")
+                            if (guardLevel == "Low" && (p1x-p2x > -2))
                             {
                                 MaxInput.DownRight("Player2");
                             }
-                            else if (guardLevel == "Throw")
+                            else if (guardLevel == "Throw" && (p1x - p2x > -.76))
                             {
                                 MaxInput.Cross("Player2");
                                 MaxInput.Square("Player2");
@@ -372,11 +371,11 @@ public class PracticeMode : MonoBehaviour
                         }
                         else
                         {
-                            if (guardLevel == "Low")
+                            if (guardLevel == "Low" && (p1x - p2x < 2))
                             {
                                 MaxInput.DownLeft("Player2");
                             }
-                            else if (guardLevel == "Throw")
+                            else if (guardLevel == "Throw" && (p1x - p2x < .76))
                             {
                                 MaxInput.Cross("Player2");
                                 MaxInput.Square("Player2");
@@ -468,6 +467,7 @@ public class PracticeMode : MonoBehaviour
                 if (Input.GetButtonDown("Select_P2"))
                 {
                     resetPositions();
+                    Player1.GetComponentInChildren<AcceptInputs>().hitType = "";
                     //Reset Character Specific things
                     switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
                     {
