@@ -534,7 +534,7 @@ public class PracticeMode : MonoBehaviour
                         recording = 0;
                         recordingFrame = 0;
                         break;
-                }*/
+                }
 
                 // Replay Recording
                 if (Input.GetButtonDown("Select_P1_Xbox") && !isReplaying && !isRecording)
