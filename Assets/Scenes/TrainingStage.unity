@@ -2610,11 +2610,12 @@ MonoBehaviour:
   armorRefillHighlight: {fileID: 1654591356}
   CPUAirTechHighlight: {fileID: 94623926}
   CPUGuardAfterFirstHithHighlight: {fileID: 0}
+  characterselectButton: {fileID: 0}
   moveListButton: {fileID: 32651415}
   quitButton: {fileID: 96433967}
   resumeButtonMatch: {fileID: 1444296395}
+  characterselectButtonMatch: {fileID: 0}
   moveListButtonMatch: {fileID: 1385942827}
-  uiButtonMatch: {fileID: 1070233705}
   quitButtonMatch: {fileID: 418734596}
   CPUState: 0
   P1Valor: 100
@@ -5506,7 +5507,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 58d1d964240313747a318930d6c68ef1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 83cbbe4e6a937fd40947903a9e23b3bc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7626,7 +7627,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 58d1d964240313747a318930d6c68ef1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bd4d61693a4bcf246994d6e8f72bad8a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

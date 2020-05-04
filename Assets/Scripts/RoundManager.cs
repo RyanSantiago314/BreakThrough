@@ -11,8 +11,8 @@ public class RoundManager : MonoBehaviour
     AnnouncerVoice announcer;
     //GAMEOVER
     //Variables for character properties for both player 1 and 2
-    private CharacterProperties P1Prop;
-    private CharacterProperties P2Prop;
+    public CharacterProperties P1Prop;
+    public CharacterProperties P2Prop;
     //Menu object variables
     public GameObject p1menu;
     public GameObject p2menu;

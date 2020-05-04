@@ -507,48 +507,22 @@ public class HurtboxACH : MonoBehaviour
         misc1.size = new Vector2(.55f, .15f);
     }
 
-    public void StandHeavyFirstActive()
+    public void StandHeavyActive()
     {
         Invincible();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
+        misc1.enabled = true;
 
-        head.offset = new Vector2(.17f, .42f);
-        head.size = new Vector2(.5f, .3f);
-        body.offset = new Vector2(.4f, .02f);
-        body.size = new Vector2(.92f, .5f);
-        legs1.offset = new Vector2(-.09f, -.57f);
-        legs1.size = new Vector2(1.4f, .7f);
-    }
-    public void StandHeavyBetween()
-    {
-        Invincible();
-        head.enabled = true;
-        body.enabled = true;
-        legs1.enabled = true;
-
-        head.offset = new Vector2(.07f, .42f);
-        head.size = new Vector2(.5f, .3f);
-        body.offset = new Vector2(.12f, .02f);
-        body.size = new Vector2(.5f, .47f);
-        legs1.offset = new Vector2(-.09f, -.57f);
-        legs1.size = new Vector2(1.4f, .7f);
-    }
-
-    public void StandHeavySecondActive()
-    {
-        Invincible();
-        head.enabled = true;
-        body.enabled = true;
-        legs1.enabled = true;
-
-        head.offset = new Vector2(.2f, .47f);
-        head.size = new Vector2(.38f, .29f);
-        body.offset = new Vector2(.4f, .05f);
-        body.size = new Vector2(1f, .6f);
-        legs1.offset = new Vector2(-.09f, -.57f);
-        legs1.size = new Vector2(1.4f, .7f);
+        head.offset = new Vector2(.15f, .8f);
+        head.size = new Vector2(.1875f, .29f);
+        body.offset = new Vector2(.12f, .39f);
+        body.size = new Vector2(.43f, .57f);
+        legs1.offset = new Vector2(-.1f, -.21f);
+        legs1.size = new Vector2(.48f, 1.45f);
+        misc1.offset = new Vector2(.73f, .5f);
+        misc1.size = new Vector2(1.15f, .21f);
     }
 
     public void StandHeavyRecovery()
@@ -557,13 +531,16 @@ public class HurtboxACH : MonoBehaviour
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
+        legs2.enabled = true;
 
-        head.offset = new Vector2(.17f, .5f);
-        head.size = new Vector2(.45f, .3f);
-        body.offset = new Vector2(.4f, .21f);
-        body.size = new Vector2(.9f, .8f);
-        legs1.offset = new Vector2(-.09f, -.55f);
-        legs1.size = new Vector2(1.4f, .75f);
+        head.offset = new Vector2(.17f, .47f);
+        head.size = new Vector2(.19f, .27f);
+        body.offset = new Vector2(.026f, .171f);
+        body.size = new Vector2(.8f, .46f);
+        legs1.offset = new Vector2(.18f, -.62f);
+        legs1.size = new Vector2(1.06f, .61f);
+        legs2.offset = new Vector2(.14f, -.19f);
+        legs2.size = new Vector2(.83f, .32f);
     }
 
     public void CrouchHeavyActive()

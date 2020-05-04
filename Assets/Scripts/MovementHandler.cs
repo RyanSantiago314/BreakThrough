@@ -494,7 +494,7 @@ public class MovementHandler : MonoBehaviour
     {
         if (collision.collider.CompareTag("Floor"))
         {
-            if (Actions.groundBounce && rb.velocity.y <= 0 && !Actions.standing)
+            if (Actions.groundBounce && rb.velocity.y == 0 && !Actions.standing)
             {
                 anim.SetTrigger(groundBounceID);
                 Actions.groundBounce = false;
@@ -504,6 +504,18 @@ public class MovementHandler : MonoBehaviour
                 opponentMove.sigil.transform.position = new Vector3(transform.position.x, .35f, transform.position.z);
                 opponentMove.sigil.transform.eulerAngles = new Vector3(80, 0, 0);
                 opponentMove.sigil.GetComponent<Sigil>().Play();
+
+                if (HitDetect.OpponentDetector.KnockBack == Vector2.zero)
+                {
+                    if (facingRight)
+                    {
+                        HitDetect.KnockBack = new Vector2(-1f, 3.3f);
+                    }
+                    else
+                    {
+                        HitDetect.KnockBack = new Vector2(1f, 3.3f);
+                    }
+                }
             }
             else
             {
@@ -947,7 +959,7 @@ public class MovementHandler : MonoBehaviour
     {
         hittingWall = true;
         //makes characters stick against wall and slowly fall
-        if (Actions.wallStick > 0 && HitDetect.hitStun > 0 && rb.velocity.y > 0 && transform.position.y > 1.3f)
+        if (Actions.wallStick > 0 && HitDetect.hitStun > 0 && rb.velocity.y >= 0 && transform.position.y > 1.3f && !currentState.IsName("WallStick"))
         {
             Actions.groundBounce = false;
             rb.velocity = new Vector2(0, rb.velocity.y);
@@ -975,7 +987,7 @@ public class MovementHandler : MonoBehaviour
             anim.ResetTrigger(hitAirID);
             anim.SetTrigger(wallBounceID);
             //set off wall hit effect
-            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("SweepHit"))
+            if (!currentState.IsName("SweepHit"))
                 opponentMove.sigil.GetComponent<Sigil>().Play();
             opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
             opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
