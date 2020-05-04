@@ -16,6 +16,10 @@ public class PracticeMode : MonoBehaviour
     HitDetector P2hit;
     AcceptInputs P1Input;
     AcceptInputs P2Input;
+    MovementHandler P1Move;
+    MovementHandler P2Move;
+    AttackHandlerDHA P1AttackDHA;   // Will need versions for other characters
+    AttackHandlerDHA P2AttackDHA;
     HUD HUD;
     public MaxInput MaxInput;
     public GameObject MaxInputObject;
@@ -80,6 +84,10 @@ public class PracticeMode : MonoBehaviour
         P2hit = GameObject.Find("Player2").transform.GetComponentInChildren<HitDetector>();
         P1Input = GameObject.Find("Player1").transform.GetChild(0).transform.GetComponentInChildren<AcceptInputs>();
         P2Input = GameObject.Find("Player2").transform.GetChild(0).transform.GetComponentInChildren<AcceptInputs>();
+        P1Move = GameObject.Find("Player1").transform.GetComponentInChildren<MovementHandler>();
+        P2Move = GameObject.Find("Player2").transform.GetComponentInChildren<MovementHandler>();
+        P1AttackDHA = GameObject.Find("Player1").transform.GetComponentInChildren<AttackHandlerDHA>();;
+        P2AttackDHA = GameObject.Find("Player2").transform.GetComponentInChildren<AttackHandlerDHA>();;
         HUD = GameObject.Find("HUD").GetComponent<HUD>();
         P1PrevHealth = P1Prop.maxHealth;
         P2PrevHealth = P2Prop.maxHealth;
@@ -492,23 +500,22 @@ public class PracticeMode : MonoBehaviour
 
                 switch (recording)
                 {
-                    case 1:
+                    case 1:     // Switch player controls
                         Debug.Log("Recording armed");
-                        // Switch controls over to Player2
+                        switchControls(true);
                         break;
-                    case 2:
+                    case 2:     // Get inputs from MaxInput. returnMovement() returnInputs()
                         Debug.Log("Now Recording");
                         recordingFrame++;
-                        List<float> getMoves = MaxInput.returnMovement("Player2");
-                        List<bool> getInputs = MaxInput.returnInputs("Player2");
+                        List<float> getMoves = MaxInput.returnMovement("Player1");
+                        List<bool> getInputs = MaxInput.returnInputs("Player1");
                         movement.Add(getMoves);
                         inputs.Add(getInputs);
-                        // Get inputs from MaxInput. returnMovement() returnInputs()
                         break;
-                    case 3:
+                    case 3:     // Create a txt file that has all the inputs for each frame
                         Debug.Log("Recording Saved");
+                        switchControls(false);
                         saveRecording();
-                        // Create a txt file that has all the inputs for each frame
                         recording = 0;
                         recordingFrame = 0;
                         break;
@@ -597,6 +604,33 @@ public class PracticeMode : MonoBehaviour
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Actions.landingLag = 0;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Move.HitDetect.KnockBack = Vector2.zero;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().anim.SetBool(Animator.StringToHash("Run"), false);
+    }
+
+    private void switchControls(bool switchPlayer)
+    {
+        if (switchPlayer)
+        {
+            P1Move.Horizontal = "Horizontal_P2";
+            P1Move.Vertical = "Vertical_P2";
+            P1Move.L3 = "L3_P2";
+
+            P2Move.Horizontal = "Horizontal_P1";
+            P2Move.Vertical = "Vertical_P1";
+            P2Move.L3 = "L3_P1";
+        }
+        else
+        {
+            P1Move.Horizontal = "Horizontal_P1";
+            P1Move.Vertical = "Vertical_P1";
+            P1Move.L3 = "L3_P1";
+
+            P2Move.Horizontal = "Horizontal_P2";
+            P2Move.Vertical = "Vertical_P2";
+            P2Move.L3 = "L3_P2";
+        }
+
+        P1AttackDHA.switchActions(switchPlayer);
+        P2AttackDHA.switchActions(switchPlayer);
     }
 
     private void saveRecording()

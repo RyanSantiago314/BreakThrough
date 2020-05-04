@@ -361,7 +361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6fbaa8c22c19774f86d376136f95b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMode: Practice
+  gameMode: PvP
   stage: TrainingStage
   P1Character: Dhalia
   P2Character: Dhalia

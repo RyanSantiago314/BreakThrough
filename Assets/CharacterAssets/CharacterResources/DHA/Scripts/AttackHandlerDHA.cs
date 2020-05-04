@@ -20,7 +20,7 @@ public class AttackHandlerDHA : MonoBehaviour
     public GameObject BlitzEffect;
     SpriteRenderer BlitzImage;
     Animator BlitzWave;
-    
+
 
     ColorSwapDHA colorControl;
 
@@ -109,7 +109,7 @@ public class AttackHandlerDHA : MonoBehaviour
     public int dizzyTime;
     public int blitzActive;
 
-    AnimatorStateInfo currentState;  
+    AnimatorStateInfo currentState;
 
     void Start()
     {
@@ -149,7 +149,6 @@ public class AttackHandlerDHA : MonoBehaviour
 
         if (transform.parent.name == "Player1")
         {
-
             Horizontal = "Horizontal_P1";
             Vertical = "Vertical_P1";
 
@@ -292,7 +291,10 @@ public class AttackHandlerDHA : MonoBehaviour
 
         //record buttons pressed
         if (MaxInput.GetButtonDown(Light))
+        {
+            Debug.Log("Light Pressed");
             lightButton = bufferTime;
+        }
         if (MaxInput.GetButtonDown(Medium))
             mediumButton = bufferTime;
         if (MaxInput.GetButtonDown(Heavy))
@@ -425,8 +427,8 @@ public class AttackHandlerDHA : MonoBehaviour
         }
 
         //aerial recovery, press a button after hitstun ends
-        if ((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") || currentState.IsName("LaunchTransition") || 
-            currentState.IsName("LaunchFall") || currentState.IsName("Unstick")) && Move.HitDetect.hitStun == 0 && 
+        if ((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") || currentState.IsName("LaunchTransition") ||
+            currentState.IsName("LaunchFall") || currentState.IsName("Unstick")) && Move.HitDetect.hitStun == 0 &&
             Move.transform.position.y > 1.1f && (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
         {
             anim.SetTrigger(IDRec);
@@ -440,14 +442,14 @@ public class AttackHandlerDHA : MonoBehaviour
             breakButton = 0;
         }
 
-        
+
         if (blitzActive > 0)
             blitzActive--;
         else if (blitzActive == 1)
             Hitboxes.ClearHitBox();
 
         //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
-        if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && 
+        if (Actions.blitzCancel && Move.HitDetect.hitStop == 0 && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 &&
             heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f && CharProp.armor >= 1)
         {
             anim.SetTrigger(IDBlitz);
@@ -491,7 +493,7 @@ public class AttackHandlerDHA : MonoBehaviour
             CharProp.durabilityRefillTimer = 0;
             heavyButton = 0;
             mediumButton = 0;
-        }    
+        }
         // basic throw performed by pressing both light and break attack
         else if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0)
         {
@@ -776,7 +778,7 @@ public class AttackHandlerDHA : MonoBehaviour
             anim.SetBool(BreakCharge, false);
         }
 
-        
+
     }
 
     void RefreshMoveList()
@@ -837,6 +839,72 @@ public class AttackHandlerDHA : MonoBehaviour
             dir2 = 0;
             dir1 = 0;
             dir4 = 0;
+        }
+    }
+
+    public void switchActions(bool switchPlayer)
+    {
+        if (switchPlayer)
+        {
+            if (transform.parent.name == "Player1")
+            {
+                Horizontal = "Horizontal_P2";
+                Vertical = "Vertical_P2";
+
+                Light = "Square_P2";
+                Medium = "Triangle_P2";
+                Heavy = "Circle_P2";
+                Break = "Cross_P2";
+                LM = "R1_P2";
+                HB = "R2_P2";
+                LB = "L1_P2";
+                MH = "L2_P2";
+            }
+            else
+            {
+                Horizontal = "Horizontal_P1";
+                Vertical = "Vertical_P1";
+
+                Light = "Square_P1";
+                Medium = "Triangle_P1";
+                Heavy = "Circle_P1";
+                Break = "Cross_P1";
+                LM = "R1_P1";
+                HB = "R2_P1";
+                LB = "L1_P1";
+                MH = "L2_P1";
+            }
+        }
+        else
+        {
+            if (transform.parent.name == "Player1")
+            {
+                Horizontal = "Horizontal_P1";
+                Vertical = "Vertical_P1";
+
+                Light = "Square_P1";
+                Medium = "Triangle_P1";
+                Heavy = "Circle_P1";
+                Break = "Cross_P1";
+                LM = "R1_P1";
+                HB = "R2_P1";
+                LB = "L1_P1";
+                MH = "L2_P1";
+            }
+            else
+            {
+                Horizontal = "Horizontal_P2";
+                Vertical = "Vertical_P2";
+
+                Light = "Square_P2";
+                Medium = "Triangle_P2";
+                Heavy = "Circle_P2";
+                Break = "Cross_P2";
+                LM = "R1_P2";
+                HB = "R2_P2";
+                LB = "L1_P2";
+                MH = "L2_P2";
+            }
         }
     }
 }
