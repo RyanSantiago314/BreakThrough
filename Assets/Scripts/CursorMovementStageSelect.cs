@@ -105,11 +105,11 @@ public class CursorMovementStageSelect : MonoBehaviour
                     {
                         case "TrainingStage":
                             loadingScreen.SetActive(true);
-                            SceneManager.LoadScene(3);
+                            SceneManager.LoadScene(2);
                             break;
                         case "DhaliaStage":
                             loadingScreen.SetActive(true);
-                            SceneManager.LoadScene(4);
+                            SceneManager.LoadScene(3);
                             break;
                     }
                 }
@@ -122,11 +122,11 @@ public class CursorMovementStageSelect : MonoBehaviour
                     {
                         case "TrainingStage":
                             loadingScreen.SetActive(true);
-                            SceneManager.LoadScene(3);
+                            SceneManager.LoadSceneAsync(2);
                             break;
                         case "DhaliaStage":
                             loadingScreen.SetActive(true);
-                            SceneManager.LoadScene(4);
+                            SceneManager.LoadSceneAsync(3);
                             break;
                     }
                 }
