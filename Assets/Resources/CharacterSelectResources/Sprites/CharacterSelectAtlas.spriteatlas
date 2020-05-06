@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DhaliaAtlas
+  m_Name: CharacterSelectAtlas
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -20,7 +20,19 @@ SpriteAtlas:
       readable: 0
       crunchedCompression: 0
       sRGB: 1
-    platformSettings: []
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 4
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
     packingSettings:
       serializedVersion: 2
       padding: 4
@@ -31,15 +43,17 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 8d3e7c21b5512e045b5642791b07f740, type: 3}
-    totalSpriteSurfaceArea: 18698912
+    - {fileID: 102900000, guid: f221603322d9cf54db3b3e89bcd10284, type: 3}
+    totalSpriteSurfaceArea: 23102112
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: 28796eca0f4c9b2cf5bcae9d1c882b98
+      Hash: be6d3e32d3784fd05fbee0aea23dfc53
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 78630a31620339241aa709eb772c2cb0, type: 3}
   - {fileID: 21300000, guid: 96f8aa61e1103cc41bec278e6ed5bf57, type: 3}
+  - {fileID: 21300000, guid: 0309c09103942d64ea8dc571a38eb49e, type: 3}
   - {fileID: 21300000, guid: 2cd8d1c48e62f294d8a7afa158cf23c1, type: 3}
   - {fileID: 21300000, guid: 854ec3d7c2cfc6f4290e138d976e86a9, type: 3}
   - {fileID: 21300000, guid: e16af0e79ce6e0c4fbae6485ef38d24e, type: 3}
@@ -49,11 +63,12 @@ SpriteAtlas:
   m_PackedSpriteNamesToIndex:
   - Standing_08
   - Standing_03
+  - Standing_01
   - Standing_06
   - Standing_01
   - Standing_02
   - Standing_07
   - Standing_05
   - Standing_04
-  m_Tag: DhaliaAtlas
+  m_Tag: CharacterSelectAtlas
   m_IsVariant: 0

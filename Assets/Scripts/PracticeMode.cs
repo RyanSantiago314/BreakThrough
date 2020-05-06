@@ -694,7 +694,7 @@ public class PracticeMode : MonoBehaviour
         Debug.Log("File Written");
 
         //Re-import the file to update the reference in the editor
-        AssetDatabase.ImportAsset(path);
+        //AssetDatabase.ImportAsset(path);
         TextAsset asset = Resources.Load("test") as TextAsset;
 
         //Print the text from the file
