@@ -79,6 +79,10 @@ public class PracticeMode : MonoBehaviour
     public GameObject P2Displays;
     public GameObject RecordingDisplay;
 
+    private string inputSelect = "Select_P1";
+    private string inputR3 = "R3_P1";
+    private string inputL3 = "L3_P1";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -103,6 +107,10 @@ public class PracticeMode : MonoBehaviour
         P2ComboDamage.text = "Total Damage: 0";
         P1HighComboDamage.text = "Highest Combo Damage: 0";
         P2HighComboDamage.text = "Highest Combo Damage: 0";
+
+        inputSelect += UpdateControls(CheckXbox(0));
+        inputR3 += UpdateControls(CheckXbox(0));
+        inputL3 += UpdateControls(CheckXbox(0));
 
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
@@ -480,7 +488,7 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 //Reset Positions back to start
-                if (Input.GetButtonDown("Select_P2"))   // Temporarily changed to P2
+                if (Input.GetButtonDown(inputSelect))   // Temporarily changed to P2 
                 {
                     resetPositions();
                     Player1.GetComponentInChildren<AcceptInputs>().hitType = "";
@@ -508,7 +516,7 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 // https://support.unity3d.com/hc/en-us/articles/115000341143-How-do-I-read-and-write-data-from-a-text-file-
-                if (Input.GetButtonDown("Select_P1") && !isReplaying) recording++;
+                if (Input.GetButtonDown(inputL3) && !isReplaying) recording++; //L3
 
                 switch (recording)
                 {
@@ -537,7 +545,7 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 // Replay Recording
-                if (Input.GetButtonDown("Select_P1_Xbox") && !isReplaying && !isRecording)
+                if (Input.GetButtonDown(inputR3) && !isReplaying && !isRecording) //R3
                 {
                     isReplaying = true;
                     reader = new StreamReader(path);
@@ -720,5 +728,24 @@ public class PracticeMode : MonoBehaviour
         if (values[9] == "True") MaxInput.LBumper("Player2");
         if (values[10] == "True") MaxInput.LTrigger("Player2");
         if (values[11] == "True") MaxInput.LStick("Player2");
+    }
+
+    private bool CheckXbox(int player)
+    {
+        if (Input.GetJoystickNames().Length > player)
+        {
+            if (Input.GetJoystickNames()[player].Contains("Xbox"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private string UpdateControls(bool xbox)
+    {
+        if (xbox)
+            return "_Xbox";
+        return "";
     }
 }
