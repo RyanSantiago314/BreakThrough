@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DHAGuard
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 6738fc75f679bd5458b1070f736cba52, type: 3}
+    totalSpriteSurfaceArea: 38454300
+    bindAsDefault: 1
+    storedHash:
+      serializedVersion: 2
+      Hash: 999e99b3e9878230f5ab51187d3d797c
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 350bb0926826c6743adbbccb4bc75a3a, type: 3}
+  - {fileID: 21300000, guid: 571302249ab86424d8376492675b9d73, type: 3}
+  - {fileID: 21300000, guid: faf2f7366b35c134f9f9117bfa75c993, type: 3}
+  - {fileID: 21300000, guid: 82aa2a46bb9c36d4ea7bcc71628df62b, type: 3}
+  - {fileID: 21300000, guid: 3139cb960fb16004da564b1ecc6d9975, type: 3}
+  - {fileID: 21300000, guid: 6a76bab6700d1c84aa3d285f3eadc53f, type: 3}
+  - {fileID: 21300000, guid: f0b4aae65d1140f4da5e419574f1af57, type: 3}
+  - {fileID: 21300000, guid: f127a7c7d02dc90478e24ee237c753ae, type: 3}
+  - {fileID: 21300000, guid: 5d139ca99f757fa40af1c32c41ecaaec, type: 3}
+  - {fileID: 21300000, guid: da0417e9dbd814340bae40cd0e01352f, type: 3}
+  - {fileID: 21300000, guid: 2d2ddf3bbb920394ab07c8d9ddf323a3, type: 3}
+  - {fileID: 21300000, guid: b617e67b618f2834c8953530d9e31051, type: 3}
+  - {fileID: 21300000, guid: 8eb4382cd1200a54fa3999a1c9a77a73, type: 3}
+  - {fileID: 21300000, guid: 7e8701bc272751c40bd09c77059f2719, type: 3}
+  - {fileID: 21300000, guid: f5db7cbc7058d8844a76131c3fca0018, type: 3}
+  - {fileID: 21300000, guid: cf0eb34d4229a1743a8d1d4f86ac8913, type: 3}
+  - {fileID: 21300000, guid: 3309773f96ec3ca478b9ca27609f12b7, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - LoGuardTrans_01
+  - AirGuardTrans_01
+  - HiGuardCycle_01
+  - LoGuardCycle_01
+  - LoGuardCycle_04
+  - LoGuardCycle_03
+  - AirGuardCycle_02
+  - HiGuardCycle_02
+  - AirGuardCycle_01
+  - HiGuardTrans_01
+  - HiGuardCycle_03
+  - HiGuardTrans_02
+  - LoGuardTrans_02
+  - AirGuardCycle_03
+  - HiGuardTrans_03
+  - AirGuardTrans_02
+  - LoGuardCycle_02
+  m_Tag: DHAGuard
+  m_IsVariant: 0
