@@ -235,6 +235,9 @@ public class HitDetector : MonoBehaviour
                         rb.velocity *= new Vector2(1f, .5f);
                 }
 
+                if (hitStun == 0 && !Actions.attacking && !Actions.active && !Actions.recovering)
+                    Actions.blitzed = 1;
+
                 anim.SetFloat(animSpeedID, .5f);
 
                 rb.mass = Actions.Move.weight * .65f;
@@ -621,6 +624,7 @@ public class HitDetector : MonoBehaviour
             OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;
 
         hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+        OpponentDetector.anim.ResetTrigger("Jump");
 
         if (piercing)
             hitEffect.SetInteger("AttackLevel", 4);
@@ -710,6 +714,7 @@ public class HitDetector : MonoBehaviour
     {
         //if the attack successfully hit the opponent
         anim.SetTrigger(successID);
+        OpponentDetector.Actions.Move.jumping = 0;
         OpponentDetector.Actions.TurnAroundCheck();
         OpponentDetector.Actions.superHit = false;
 

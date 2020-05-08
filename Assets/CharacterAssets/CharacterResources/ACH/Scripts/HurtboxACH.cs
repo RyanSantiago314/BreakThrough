@@ -357,16 +357,16 @@ public class HurtboxACH : MonoBehaviour
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
-        misc1.enabled = true;
+        legs2.enabled = true;
 
-        head.offset = headCrouchOffset;
-        head.size = headStandSize;
-        body.offset = bodyCrouchOffset;
-        body.size = bodyCrouchSize;
-        legs1.offset = legsCrouchOffset;
-        legs1.size = legsCrouchSize;
-        misc1.offset = new Vector2(.61f, -0.2f);
-        misc1.size = new Vector2(.34f, .2f);
+        head.offset = new Vector2(-.08f, .19f);
+        head.size = new Vector2(.19f , .29f);
+        body.offset = new Vector2(-.1f, -.1f);
+        body.size = new Vector2(.32f, .56f);
+        legs1.offset = new Vector2(.12f, -0.6f);
+        legs1.size = new Vector2(.945f, .51f);
+        legs2.offset = new Vector2(.31f, -0.75f);
+        legs2.size = new Vector2(1.3f, .33f);
     }
 
     public void JumpLight()
@@ -615,19 +615,40 @@ public class HurtboxACH : MonoBehaviour
         misc1.size = new Vector2(.15f, .25f);
     }
 
+    public void StandBreakStartup()
+    {
+        Invincible();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(0f, .71f);
+        head.size = new Vector2(.34f, .38f);
+        body.offset = new Vector2(.04f, .3f);
+        body.size = new Vector2(.365f, .45f);
+        legs1.offset = new Vector2(.14f, .02f);
+        legs1.size = new Vector2(.59f, .39f);
+        legs2.offset = new Vector2(-.16f, -.25f);
+        legs2.size = new Vector2(.82f, .4f);
+    }
+
     public void StandBreakActive()
     {
         Invincible();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
+        legs2.enabled = true;
 
-        head.offset = new Vector2(-.12f, .41f);
-        head.size = new Vector2(.5f, .3f);
-        body.offset = new Vector2(.1f, .1f);
-        body.size = new Vector2(.8f, .62f);
-        legs1.offset = new Vector2(-.09f, -.55f);
-        legs1.size = new Vector2(1.2f, .75f);
+        head.offset = new Vector2(.225f, .485f);
+        head.size = new Vector2(.26f, .28f);
+        body.offset = new Vector2(.14f, .17f);
+        body.size = new Vector2(.57f, .5f);
+        legs1.offset = new Vector2(.075f, -.25f);
+        legs1.size = new Vector2(1.06f, .4f);
+        legs2.offset = new Vector2(.115f, -.62f);
+        legs2.size = new Vector2(1.23f, .47f);
     }
 
     public void CrouchBreakActive()

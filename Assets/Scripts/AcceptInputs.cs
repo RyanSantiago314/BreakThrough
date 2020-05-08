@@ -120,7 +120,7 @@ public class AcceptInputs : MonoBehaviour
             }
         }
 
-            if ((attacking || anim.GetBool(highGuardID) || anim.GetBool(lowGuardID) || anim.GetBool(runID)) && CharProp.armor > 0)
+            if ((attacking || anim.GetBool(highGuardID) || anim.GetBool(lowGuardID)) && CharProp.armor > 0)
             armorActive = true;
         else
             armorActive = false;
@@ -251,7 +251,6 @@ public class AcceptInputs : MonoBehaviour
         attacking = false;
         active = false;
         recovering = true;
-        DisableAll();
     }
 
     public void SigilJump()
