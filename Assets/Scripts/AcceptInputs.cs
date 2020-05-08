@@ -43,6 +43,7 @@ public class AcceptInputs : MonoBehaviour
     public float originalGravity;
     public float gravScale = 1f;
     public int comboHits = 0;
+    public string hitType = "";
 
     public Animator anim;
     public MovementHandler Move;
@@ -519,4 +520,18 @@ public class AcceptInputs : MonoBehaviour
         opponentMove.Actions.TurnAroundCheck();
     }
 
+    public void setLow()
+    {
+        hitType = "Low";
+    }
+
+    public void setThrow()
+    {
+        hitType = "Throw";
+    }
+
+    public void clearHitType()
+    {
+        hitType = "";
+    }
 }

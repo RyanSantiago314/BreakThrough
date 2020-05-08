@@ -122,6 +122,11 @@ public class MenuInputManager : MonoBehaviour
         resoutionDropdown.RefreshShownValue();
 
         inDropdown = false;
+
+        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "";
+        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side = "";
+        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side= "";
+        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().CPUDifficulty = 50;
     }
 
     // Update is called once per frame

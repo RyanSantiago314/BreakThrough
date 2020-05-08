@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ACHDizzy
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: ba426ec29a598d346934582821593535, type: 3}
+    totalSpriteSurfaceArea: 0
+    bindAsDefault: 1
+    storedHash:
+      serializedVersion: 2
+      Hash: 83d4b9a081e57f24ff75d6858a52979e
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: e5bc9f40a6a603e4d8bf3c97355ece64, type: 3}
+  - {fileID: 21300000, guid: 63eb74f1985b7094394568ed38ec364c, type: 3}
+  - {fileID: 21300000, guid: 5e83eef1c451131428971d9509e819e4, type: 3}
+  - {fileID: 21300000, guid: db07b72274e680947baaa3f9fa8110db, type: 3}
+  - {fileID: 21300000, guid: 72981b523d29e8b44b81eb3f0dd2b4d2, type: 3}
+  - {fileID: 21300000, guid: 70213a04ea14a3a48891f7ba1770eefb, type: 3}
+  - {fileID: 21300000, guid: cb31c70bb13924e47a7ceb360f401559, type: 3}
+  - {fileID: 21300000, guid: 224c5cfbe69a3e547bc8e2382549c299, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Dizzy_03
+  - DizzyIn_05
+  - DizzyIn_03
+  - Dizzy_01
+  - DizzyIn_02
+  - Dizzy_02
+  - DizzyIn_01
+  - DizzyIn_04
+  m_Tag: ACHDizzy
+  m_IsVariant: 0

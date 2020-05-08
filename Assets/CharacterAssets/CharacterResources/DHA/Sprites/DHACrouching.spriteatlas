@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DHACrouching
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 8f30462a57ca4f844b5f1bf92fcef145, type: 3}
+    totalSpriteSurfaceArea: 25733300
+    bindAsDefault: 1
+    storedHash:
+      serializedVersion: 2
+      Hash: 05643f87578354d83aec35b5aa720d7b
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 9b421080a3e2f1640a9ee3189d66111f, type: 3}
+  - {fileID: 21300000, guid: ecebe3d1afc108b49bb851265eb9878d, type: 3}
+  - {fileID: 21300000, guid: ebd45d936970a7a428cc038744e35f6c, type: 3}
+  - {fileID: 21300000, guid: 81ead964ff2e5a241ab3b161f9908b66, type: 3}
+  - {fileID: 21300000, guid: 0bda7bc563f16cc4bb5b3620cd06c0ca, type: 3}
+  - {fileID: 21300000, guid: 01d67de74e81e0f47b5b8186a7ecae61, type: 3}
+  - {fileID: 21300000, guid: 635e018ad1c730349b1c5f2e86cbbc70, type: 3}
+  - {fileID: 21300000, guid: cba28d3cd65c13040acc1423885ac62c, type: 3}
+  - {fileID: 21300000, guid: 99addb3d10a90c44f8b6faa841b05a29, type: 3}
+  - {fileID: 21300000, guid: 92f03dfe5aafe5349874fdcbf09476bb, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Crouch_07
+  - Crouch_03
+  - Crouch_01
+  - SC_01
+  - Crouch_05
+  - Crouch_08
+  - SC_02
+  - Crouch_06
+  - Crouch_04
+  - Crouch_02
+  m_Tag: DHACrouching
+  m_IsVariant: 0

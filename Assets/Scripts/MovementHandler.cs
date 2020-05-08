@@ -68,7 +68,7 @@ public class MovementHandler : MonoBehaviour
     static int walkBID;
     static int backDashID;
     static int jumpID;
-    static int landID;   
+    static int landID;
     static int lowGuardID;
     static int highGuardID;
     static int airGuardID;
@@ -87,7 +87,7 @@ public class MovementHandler : MonoBehaviour
         {
             if (transform.parent.name == "Player1")
             {
-               Horizontal = "Horizontal_P1";
+                Horizontal = "Horizontal_P1";
                 Vertical = "Vertical_P1";
                 L3 = "L3_P1";
                 opponent = GameObject.Find("Player2").transform.GetChild(0).transform;
@@ -256,7 +256,7 @@ public class MovementHandler : MonoBehaviour
 
                 DoubleTapActions();
 
-                if ((Actions.acceptMove && jumps == 0 && MaxInput.GetAxis(Vertical) > 0 && Actions.standing) || 
+                if ((Actions.acceptMove && jumps == 0 && MaxInput.GetAxis(Vertical) > 0 && Actions.standing) ||
                     (Actions.jumpCancel && jumps < maxJumps && MaxInput.GetAxis(Vertical) > 0 && !vertAxisInUse))
                 {
                     if (jumps > 0)
@@ -283,7 +283,7 @@ public class MovementHandler : MonoBehaviour
                         jumpLeft = true;
                         sigil.transform.eulerAngles = new Vector3(60, 40, 0);
                     }
-                        
+
 
                     vertAxisInUse = true;
                 }
@@ -365,7 +365,7 @@ public class MovementHandler : MonoBehaviour
             {
                 jumpRight = true;
                 sigil.transform.eulerAngles = new Vector3(60, -40, 0);
-            }  
+            }
             else if (MaxInput.GetAxis(Horizontal) < 0 && !anim.GetBool(runID))
             {
                 jumpLeft = true;
@@ -387,7 +387,7 @@ public class MovementHandler : MonoBehaviour
             }
 
             rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
-            
+
             jumping = 0;
             jumpRight = false;
             jumpLeft = false;
@@ -428,7 +428,7 @@ public class MovementHandler : MonoBehaviour
             }
         }
         else
-        { 
+        {
             anim.SetBool(runID, false);
         }
 
@@ -477,7 +477,7 @@ public class MovementHandler : MonoBehaviour
                 hittingWall = true;
         }
         else if (collision.collider.CompareTag("Player") && collision.collider.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
-        {            
+        {
             if (Actions.airborne && !opponentMove.Actions.airborne)
             {
                 pushBox.isTrigger = true;
@@ -567,7 +567,7 @@ public class MovementHandler : MonoBehaviour
     {
         if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
-            //keeps characters from intersecting and occupying the same space    
+            //keeps characters from intersecting and occupying the same space
             if (!Actions.airborne && opponentMove.Actions.airborne && !hittingWall && opponentMove.rb.velocity.y < 0)
             {
                 if (opponent.position.x > transform.position.x)
@@ -634,7 +634,7 @@ public class MovementHandler : MonoBehaviour
     {
         if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
-            
+
             if (Actions.airborne && opponentMove.Actions.airborne)
             {
                 pushBox.isTrigger = false;
@@ -758,7 +758,7 @@ public class MovementHandler : MonoBehaviour
                 }
                 else
                 {
-                    inputTime = 0.25f; 
+                    inputTime = 0.25f;
                     dashButtonCount += 1;
                 }
                 horiAxisInUse = true;
@@ -777,11 +777,11 @@ public class MovementHandler : MonoBehaviour
                 }
                 else
                 {
-                    runInputTime = 0.25f; 
+                    runInputTime = 0.25f;
                     buttonCount += 1;
                 }
                 horiAxisInUse = true;
-            }   
+            }
         }
 
         if (MaxInput.GetButton(L3) && MaxInput.GetAxis(Horizontal) != 0)
@@ -869,7 +869,7 @@ public class MovementHandler : MonoBehaviour
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
         }
-        
+
     }
 
     void Blocking()
@@ -931,7 +931,7 @@ public class MovementHandler : MonoBehaviour
                     anim.SetBool(airGuardID, false);
                 }
             }
-            if (opponent.GetComponent<MovementHandler>().Actions.attacking && Vector3.Distance(transform.position, opponent.position) <= 2 && HitDetect.blockStun == 0 && 
+            if (opponent.GetComponent<MovementHandler>().Actions.attacking && Vector3.Distance(transform.position, opponent.position) <= 2 && HitDetect.blockStun == 0 &&
                 ((facingRight && MaxInput.GetAxis(Horizontal) < 0)||(!facingRight && MaxInput.GetAxis(Horizontal) > 0)) && HitDetect.hitStop == 0)
             {
                 Actions.acceptMove = false;

@@ -702,4 +702,70 @@ public class AttackHandlerACH : MonoBehaviour
             dir4 = 0;
         }
     }
+
+    public void switchActions(bool switchPlayer)
+    {
+        if (switchPlayer)
+        {
+            if (transform.parent.name == "Player1")
+            {
+                Horizontal = "Horizontal_P2";
+                Vertical = "Vertical_P2";
+
+                Light = "Square_P2";
+                Medium = "Triangle_P2";
+                Heavy = "Circle_P2";
+                Break = "Cross_P2";
+                LM = "R1_P2";
+                HB = "R2_P2";
+                LB = "L1_P2";
+                MH = "L2_P2";
+            }
+            else
+            {
+                Horizontal = "Horizontal_P1";
+                Vertical = "Vertical_P1";
+
+                Light = "Square_P1";
+                Medium = "Triangle_P1";
+                Heavy = "Circle_P1";
+                Break = "Cross_P1";
+                LM = "R1_P1";
+                HB = "R2_P1";
+                LB = "L1_P1";
+                MH = "L2_P1";
+            }
+        }
+        else
+        {
+            if (transform.parent.name == "Player1")
+            {
+                Horizontal = "Horizontal_P1";
+                Vertical = "Vertical_P1";
+
+                Light = "Square_P1";
+                Medium = "Triangle_P1";
+                Heavy = "Circle_P1";
+                Break = "Cross_P1";
+                LM = "R1_P1";
+                HB = "R2_P1";
+                LB = "L1_P1";
+                MH = "L2_P1";
+            }
+            else
+            {
+                Horizontal = "Horizontal_P2";
+                Vertical = "Vertical_P2";
+
+                Light = "Square_P2";
+                Medium = "Triangle_P2";
+                Heavy = "Circle_P2";
+                Break = "Cross_P2";
+                LM = "R1_P2";
+                HB = "R2_P2";
+                LB = "L1_P2";
+                MH = "L2_P2";
+            }
+        }
+    }
 }
