@@ -206,13 +206,41 @@ public class PracticeMode : MonoBehaviour
             }
             else if (popUpIndex == 10)
             {
-                popUps.GetComponent<Text>().text = "Test";
-                if (P1CurrentHitDamage >= 200)
+                popUps.GetComponent<Text>().text = "Now use one of your characters super moves by pressing ";
+                if (P2Prop.currentHealth <= 650)
                 {
                     popUpIndex++;
                     //popUps.SetActive(false);
                 }
             }
+            else if (popUpIndex == 11)
+            {
+                popUps.GetComponent<Text>().text = "Now use the other super move by pressing ";
+                if (P2Prop.currentHealth <= 650)
+                {
+                    popUpIndex++;
+                    //popUps.SetActive(false);
+                }
+            }
+            else if (popUpIndex == 12)
+            {
+                popUps.GetComponent<Text>().text = "Shield Mechanic ";
+                if (P2Prop.currentHealth <= 650)
+                {
+                    popUpIndex++;
+                    //popUps.SetActive(false);
+                }
+            }
+            else if (popUpIndex == 13)
+            {
+                popUps.GetComponent<Text>().text = "Use the resolve meter by pressing H or ... This allows you to ... ";
+                if (Input.GetButtonDown(inputCross))
+                {
+                    popUpIndex++;
+                    //popUps.SetActive(false);
+                }
+            }
+            
             else
             {
                 popUps.GetComponent<Text>().text = "";
