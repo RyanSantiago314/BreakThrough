@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CS_Dhalia
+  m_Name: DHAWalkBack
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -23,7 +23,7 @@ SpriteAtlas:
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 2048
+      m_MaxTextureSize: 4096
       m_ResizeAlgorithm: 0
       m_TextureFormat: -1
       m_TextureCompression: 2
@@ -42,30 +42,32 @@ SpriteAtlas:
       enableTightPacking: 1
     variantMultiplier: 1
     packables:
-    - {fileID: 102900000, guid: 8d3e7c21b5512e045b5642791b07f740, type: 3}
-    totalSpriteSurfaceArea: 33552384
+    - {fileID: 102900000, guid: 80a34800755400440a95631b826a5075, type: 3}
+    totalSpriteSurfaceArea: 25417440
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: a1c26a7d8951eac765fa734b61d29dd4
+      Hash: bf1e071307a119e7a0a3c3a529906c7f
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: 78630a31620339241aa709eb772c2cb0, type: 3}
-  - {fileID: 21300000, guid: 96f8aa61e1103cc41bec278e6ed5bf57, type: 3}
-  - {fileID: 21300000, guid: 2cd8d1c48e62f294d8a7afa158cf23c1, type: 3}
-  - {fileID: 21300000, guid: 854ec3d7c2cfc6f4290e138d976e86a9, type: 3}
-  - {fileID: 21300000, guid: e16af0e79ce6e0c4fbae6485ef38d24e, type: 3}
-  - {fileID: 21300000, guid: 60f59a2b19dfad04a9489651ea65db9c, type: 3}
-  - {fileID: 21300000, guid: 613fe71c5cbe12d4ba978bb40a7b41da, type: 3}
-  - {fileID: 21300000, guid: df2b097dc7878904b8eae8fe81f29976, type: 3}
+  - {fileID: 21300000, guid: 9b8e7f80eb35b6449840eef002bd2660, type: 3}
+  - {fileID: 21300000, guid: b521fea14ceb35244a5c12ced1936e2e, type: 3}
+  - {fileID: 21300000, guid: 70b3ef633096dcc4799fb65d8432eff8, type: 3}
+  - {fileID: 21300000, guid: 655e26c407d5ce5489833702974ce168, type: 3}
+  - {fileID: 21300000, guid: 713770966d91014499eda6a8dae913b3, type: 3}
+  - {fileID: 21300000, guid: 910b7859e55f02a41be48198a01e3a75, type: 3}
+  - {fileID: 21300000, guid: 7056e87cb9aae7346b8bbf8c2b25895b, type: 3}
+  - {fileID: 21300000, guid: d88c9e7d66690634fb529a8e241db6cf, type: 3}
+  - {fileID: 21300000, guid: 5283d8ffd9d6b42488d22375c6052ff8, type: 3}
   m_PackedSpriteNamesToIndex:
-  - Standing_08
-  - Standing_03
-  - Standing_06
-  - Standing_01
-  - Standing_02
-  - Standing_07
-  - Standing_05
-  - Standing_04
-  m_Tag: CS_Dhalia
+  - WalkBack_03
+  - WalkBack_02
+  - WalkBack_05
+  - WalkBack_09
+  - WalkBack_04
+  - WalkBack_01
+  - WalkBack_07
+  - WalkBack_08
+  - WalkBack_06
+  m_Tag: DHAWalkBack
   m_IsVariant: 0
