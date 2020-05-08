@@ -160,7 +160,7 @@ public class PatissiereHitbox : MonoBehaviour
             PHitDetect.potentialKnockBack = new Vector2(1.5f, 3f);
             PHitDetect.potentialAirKnockBack = new Vector2(1.5f, 3f);
             PHitDetect.initialProration = .85f;
-            PHitDetect.forcedProration = 1.2f;
+            PHitDetect.forcedProration = 1.1f;
             PHitDetect.attackLevel = 3;
             PHitDetect.guard = "Mid";
 

@@ -461,7 +461,7 @@ public class MovementHandler : MonoBehaviour
                 opponentMove.sigil.GetComponent<Sigil>().Play();
             }
             //for landing on the ground if the opponent is not supposed to bounce
-            else
+            else if (HitDetect.hitStop == 0 && HitDetect.KnockBack == Vector2.zero && HitDetect.ProjectileKnockBack == Vector2.zero)
             {
                 if (!Actions.standing && Actions.blitzed > 0 && !Actions.groundBounce)
                     Actions.blitzed = 0;

@@ -144,9 +144,10 @@ public class HitboxACH : MonoBehaviour
     {
         ClearHitBox();
         HitDetect.Actions.AttackActive();
+
         hit1.enabled = true;
-        hit1.offset = new Vector2(.5f, -.23f);
-        hit1.size = new Vector2(.55f, .15f);
+        hit1.offset = new Vector2(.49f, -.78f);
+        hit1.size = new Vector2(.95f, .25f);
         HitDetect.damage = 20;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 50;
@@ -155,7 +156,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.potentialKnockBack = new Vector2(1f, 0);
         HitDetect.initialProration = .75f;
         HitDetect.attackLevel = 0;
-        HitDetect.guard = "Mid";
+        HitDetect.guard = "Low";
 
         HitDetect.allowLight = true;
         HitDetect.allowMedium = true;
@@ -385,7 +386,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.potentialHitStun = hitStunLv4;
         HitDetect.potentialHitStop = hitStopLv2;
         HitDetect.potentialKnockBack = new Vector2(-1f, 0);
-        HitDetect.potentialAirKnockBack = new Vector2(-1.3f, 1.3f);
+        HitDetect.potentialAirKnockBack = new Vector2(-1f, 1.5f);
         HitDetect.attackLevel = 2;
         HitDetect.guard = "Mid";
 
@@ -500,48 +501,34 @@ public class HitboxACH : MonoBehaviour
         hit2.enabled = true;
         hit3.enabled = true;
         hit4.enabled = true;
-        hit5.enabled = true;
-        hit6.enabled = true;
-        hit7.enabled = true;
 
-        hit1.offset = new Vector2(.64f, -.61f);
-        hit1.size = new Vector2(.67f, .56f);
-        hit2.offset = new Vector2(.81f, -.09f);
-        hit2.size = new Vector2(.55f, .6f);
-        hit3.offset = new Vector2(.7f, .33f);
-        hit3.size = new Vector2(.62f, .25f);
-        hit4.offset = new Vector2(.55f, .54f);
-        hit4.size = new Vector2(.57f, .21f);
-        hit5.offset = new Vector2(0f, .7f);
-        hit5.size = new Vector2(1f, .3f);
-        hit6.offset = new Vector2(-.55f, .57f);
-        hit6.size = new Vector2(.22f, .22f);
-        hit7.offset = new Vector2(-.7f, .45f);
-        hit7.size = new Vector2(.1f, .12f);
+        hit1.offset = new Vector2(1.1f, .15f);
+        hit1.size = new Vector2(1.33f, .72f);
+        hit2.offset = new Vector2(1.15f, .63f);
+        hit2.size = new Vector2(1f, .47f);
+        hit3.offset = new Vector2(1f, .98f);
+        hit3.size = new Vector2(.82f, .41f);
+        hit4.offset = new Vector2(.79f, 1.25f);
+        hit4.size = new Vector2(.84f, .28f);
 
-        HitDetect.damage = 85 + (10 * sinCharge);
-        if (sinCharge - 1 > 0)
-            HitDetect.armorDamage = sinCharge - 1;
-        else
-            HitDetect.armorDamage = 0;
-        HitDetect.durabilityDamage = 100;
-        HitDetect.potentialKnockBack = new Vector2(1.5f, 0f);
-        HitDetect.potentialAirKnockBack = new Vector2(1.5f, 2f);
-        HitDetect.potentialHitStun = hitStunLv3 + sinCharge;
-        HitDetect.potentialHitStop = hitStopLv3 + sinCharge;
-        HitDetect.initialProration = 1;
-        HitDetect.attackLevel = 3;
-        HitDetect.guard = "Mid";
+        HitDetect.damage = 90;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 0;
+        HitDetect.potentialKnockBack = new Vector2(2f, 0f);
+        HitDetect.potentialAirKnockBack = new Vector2(1f, -1.5f);
+        HitDetect.potentialHitStun = 20;
+        HitDetect.potentialHitStop = hitStopLv3;
+        HitDetect.initialProration = .75f;
+        HitDetect.attackLevel = 2;
+        HitDetect.guard = "Overhead";
+
+        HitDetect.piercing = true;
+        if (!HitDetect.OpponentDetector.Actions.standing || HitDetect.OpponentDetector.Actions.Move.jumping > 0)
+            HitDetect.allowGroundBounce = true;
 
         HitDetect.vertSlash = true;
-        if (sinCharge > 1)
-            HitDetect.forceCrouch = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
-        HitDetect.jumpCancellable = true;
-
-        sinCharge = 0;
-        HitDetect.anim.SetInteger("SinCharge", sinCharge);
     }
 
     void CrouchBHitBox()

@@ -696,6 +696,8 @@ public class AttackHandlerDHA : MonoBehaviour
                 {
                     if(CrouchL > 0)
                     {
+                        if (StandL < 3)
+                            StandL = 0;
                         anim.SetTrigger(ID2L);
                         CrouchL--;
                     }
@@ -748,12 +750,13 @@ public class AttackHandlerDHA : MonoBehaviour
                     }
                     else if (StandL > 0)
                     {
+                        if (CrouchL < 3)
+                            CrouchL = 0;
                         anim.SetTrigger(ID5L);
                         StandL--;
                     }
                 }
             }
-
             else
             {
                 if(JumpL > 0)
