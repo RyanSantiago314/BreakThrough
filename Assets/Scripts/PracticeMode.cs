@@ -70,13 +70,14 @@ public class PracticeMode : MonoBehaviour
 
     private bool isRecording = false;
     private bool isReplaying = false;
+    private bool faceLeft;
     private int recording = 0;
     private int recordingFrame = 0;
     private List<List<float>> movement = new List<List<float>>();
     private List<List<bool>> inputs = new List<List<bool>>();
     private StreamWriter writer;
     private StreamReader reader;
-    private string path = "Assets/Resources/test.txt";
+    private string path = "Assets/Resources/inputs.txt";
 
     public GameObject DamageDisplays;
     public GameObject P1Displays;
@@ -558,6 +559,10 @@ public class PracticeMode : MonoBehaviour
                 {
                     isReplaying = true;
                     reader = new StreamReader(path);
+
+                    string temp = reader.ReadLine();
+                    if (temp == "True") faceLeft = true;
+                    else faceLeft = false;
                 }
 
                 if (isReplaying)
@@ -686,12 +691,19 @@ public class PracticeMode : MonoBehaviour
         if (characterManager.P2Character == "Achealis") P2AttackACH.switchActions(switchPlayer);
     }
 
+    private bool isFacingLeft()
+    {
+        if (p1x - p2x < 0) return true;
+        else return false;
+    }
+
     private void saveRecording()
     {
         // Clears previous recording
         File.WriteAllText(path, string.Empty);
 
         writer = new StreamWriter(path, true);
+        writer.WriteLine(isFacingLeft());
         for (int i = 1; i <= recordingFrame; i++)
         {
             string move = "";
@@ -714,16 +726,19 @@ public class PracticeMode : MonoBehaviour
 
         //Re-import the file to update the reference in the editor
         AssetDatabase.ImportAsset(path);
-        TextAsset asset = Resources.Load("test") as TextAsset;
+        TextAsset asset = Resources.Load("inputs") as TextAsset;
     }
 
     private void replay(string line)
     {
+        float multiplier = 1;
+        if (isFacingLeft() != faceLeft) multiplier = -1;
+
         string[] values = line.Split(' ');
         recordingFrame = Convert.ToInt32(values[0]);
 
         // Replaying movements
-        MaxInput.setHorizontal("Player2", Convert.ToSingle(values[1]));
+        MaxInput.setHorizontal("Player2", Convert.ToSingle(values[1]) * multiplier);
         MaxInput.setVertical("Player2", Convert.ToSingle(values[2]));
 
         // Replaying actions
