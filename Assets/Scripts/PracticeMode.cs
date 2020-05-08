@@ -10,6 +10,7 @@ public class PracticeMode : MonoBehaviour
 {
     GameObject Player1;
     GameObject Player2;
+    SelectedCharacterManager characterManager;
 
     CharacterProperties P1Prop;
     CharacterProperties P2Prop;
@@ -19,12 +20,15 @@ public class PracticeMode : MonoBehaviour
     AcceptInputs P2Input;
     MovementHandler P1Move;
     MovementHandler P2Move;
-    AttackHandlerDHA P1AttackDHA;   // Will need versions for other characters
-    AttackHandlerDHA P2AttackDHA;
     HUD HUD;
     public MaxInput MaxInput;
     public GameObject MaxInputObject;
     public GameObject PracticeModeSettings;
+
+    AttackHandlerDHA P1AttackDHA;
+    AttackHandlerDHA P2AttackDHA;
+    AttackHandlerACH P1AttackACH;
+    AttackHandlerACH P2AttackACH;
 
     private bool P1inCombo;
     private bool P2inCombo;
@@ -79,11 +83,16 @@ public class PracticeMode : MonoBehaviour
     public GameObject P2Displays;
     public GameObject RecordingDisplay;
 
+    private string inputSelect = "Select_P1";
+    private string inputR3 = "R3_P1";
+    private string inputL3 = "L3_P1";
+
     // Start is called before the first frame update
     void Start()
     {
         Player1 = GameObject.Find("Player1");
         Player2 = GameObject.Find("Player2");
+        characterManager = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>();
         P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
         P2Prop = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
         P1hit = GameObject.Find("Player1").transform.GetComponentInChildren<HitDetector>();
@@ -92,9 +101,13 @@ public class PracticeMode : MonoBehaviour
         P2Input = GameObject.Find("Player2").transform.GetChild(0).transform.GetComponentInChildren<AcceptInputs>();
         P1Move = GameObject.Find("Player1").transform.GetComponentInChildren<MovementHandler>();
         P2Move = GameObject.Find("Player2").transform.GetComponentInChildren<MovementHandler>();
-        P1AttackDHA = GameObject.Find("Player1").transform.GetComponentInChildren<AttackHandlerDHA>();;
-        P2AttackDHA = GameObject.Find("Player2").transform.GetComponentInChildren<AttackHandlerDHA>();;
         HUD = GameObject.Find("HUD").GetComponent<HUD>();
+
+        if (characterManager.P1Character == "Dhalia") P1AttackDHA = GameObject.Find("Player1").transform.GetComponentInChildren<AttackHandlerDHA>();
+        if (characterManager.P2Character == "Dhalia") P2AttackDHA = GameObject.Find("Player2").transform.GetComponentInChildren<AttackHandlerDHA>();
+        if (characterManager.P1Character == "Achealis") P1AttackACH = GameObject.Find("Player1").transform.GetComponentInChildren<AttackHandlerACH>();
+        if (characterManager.P2Character == "Achealis") P2AttackACH = GameObject.Find("Player2").transform.GetComponentInChildren<AttackHandlerACH>();
+
         P1PrevHealth = P1Prop.maxHealth;
         P2PrevHealth = P2Prop.maxHealth;
         P1HitDamage.text = "";
@@ -103,6 +116,10 @@ public class PracticeMode : MonoBehaviour
         P2ComboDamage.text = "Total Damage: 0";
         P1HighComboDamage.text = "Highest Combo Damage: 0";
         P2HighComboDamage.text = "Highest Combo Damage: 0";
+
+        inputSelect += UpdateControls(CheckXbox(0));
+        inputR3 += UpdateControls(CheckXbox(0));
+        inputL3 += UpdateControls(CheckXbox(0));
 
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
@@ -480,7 +497,7 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 //Reset Positions back to start
-                if (Input.GetButtonDown("Select_P2"))   // Temporarily changed to P2
+                if (Input.GetButtonDown(inputSelect))   // Temporarily changed to P2
                 {
                     resetPositions();
                     Player1.GetComponentInChildren<AcceptInputs>().hitType = "";
@@ -507,8 +524,8 @@ public class PracticeMode : MonoBehaviour
                     fixAnimBug = true;
                 }
 
-                // https://support.unity3d.com/hc/en-us/articles/115000341143-How-do-I-read-and-write-data-from-a-text-file-
-                if (Input.GetButtonDown("Select_P1") && !isReplaying) recording++;
+                // Recording
+                if (Input.GetButtonDown(inputL3) && !isReplaying) recording++; //L3
 
                 switch (recording)
                 {
@@ -536,8 +553,8 @@ public class PracticeMode : MonoBehaviour
                         break;
                 }
 
-                // Replay Recording
-                if (Input.GetButtonDown("Select_P1_Xbox") && !isReplaying && !isRecording)
+                // Replaying the Recording
+                if (Input.GetButtonDown(inputR3) && !isReplaying && !isRecording) //R3
                 {
                     isReplaying = true;
                     reader = new StreamReader(path);
@@ -663,8 +680,10 @@ public class PracticeMode : MonoBehaviour
             P2Move.L3 = "L3_P2";
         }
 
-        P1AttackDHA.switchActions(switchPlayer);
-        P2AttackDHA.switchActions(switchPlayer);
+        if (characterManager.P1Character == "Dhalia") P1AttackDHA.switchActions(switchPlayer);
+        if (characterManager.P2Character == "Dhalia") P2AttackDHA.switchActions(switchPlayer);
+        if (characterManager.P1Character == "Achealis") P1AttackACH.switchActions(switchPlayer);
+        if (characterManager.P2Character == "Achealis") P2AttackACH.switchActions(switchPlayer);
     }
 
     private void saveRecording()
@@ -696,9 +715,6 @@ public class PracticeMode : MonoBehaviour
         //Re-import the file to update the reference in the editor
         AssetDatabase.ImportAsset(path);
         TextAsset asset = Resources.Load("test") as TextAsset;
-
-        //Print the text from the file
-        //Debug.Log(asset.text);
     }
 
     private void replay(string line)
@@ -720,5 +736,24 @@ public class PracticeMode : MonoBehaviour
         if (values[9] == "True") MaxInput.LBumper("Player2");
         if (values[10] == "True") MaxInput.LTrigger("Player2");
         if (values[11] == "True") MaxInput.LStick("Player2");
+    }
+
+    private bool CheckXbox(int player)
+    {
+        if (Input.GetJoystickNames().Length > player)
+        {
+            if (Input.GetJoystickNames()[player].Contains("Xbox"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private string UpdateControls(bool xbox)
+    {
+        if (xbox)
+            return "_Xbox";
+        return "";
     }
 }
