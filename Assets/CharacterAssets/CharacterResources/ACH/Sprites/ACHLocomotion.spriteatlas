@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ACHLocomotion
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 02db1b657511be544af794cd2778ebad, type: 3}
+    totalSpriteSurfaceArea: 0
+    bindAsDefault: 1
+    storedHash:
+      serializedVersion: 2
+      Hash: 13157dab492bf6c5ecfc0d38ef1cbd72
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 07acba117008b7a4883fe70a577fd835, type: 3}
+  - {fileID: 21300000, guid: b81cdd92123a8714e88fdf471104180e, type: 3}
+  - {fileID: 21300000, guid: 4974d733bda4a8849a2937d31eaaf596, type: 3}
+  - {fileID: 21300000, guid: f5db7873756f1524498f26a5839b9c99, type: 3}
+  - {fileID: 21300000, guid: 63fc2c64c09d1144499e29c6146035b0, type: 3}
+  - {fileID: 21300000, guid: cd64f215bddcb684cb67293fee99c5da, type: 3}
+  - {fileID: 21300000, guid: 8f6c0e6529320364c8290f6c666ce0c9, type: 3}
+  - {fileID: 21300000, guid: 349afd19ec1ac844a8d74860ab26f0ed, type: 3}
+  - {fileID: 21300000, guid: 911db4e9d83888b42be8418c0f3dda7d, type: 3}
+  - {fileID: 21300000, guid: ef4b365bc05c7a24f9c57c8345f70481, type: 3}
+  - {fileID: 21300000, guid: 446b751cd23b6e241bb3427128420418, type: 3}
+  - {fileID: 21300000, guid: 338c0a6c46e9ced47aec9faf16af3c3e, type: 3}
+  - {fileID: 21300000, guid: 99fbc4ecccd1c834cb8b83eb92c700fe, type: 3}
+  - {fileID: 21300000, guid: 3ba34d7e4e70e114a902c7fba99cc1e6, type: 3}
+  - {fileID: 21300000, guid: dfb1a66fa4be7e049bb55285f68803ba, type: 3}
+  - {fileID: 21300000, guid: 68f956ef18c1f9542993aee89c404035, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Brake_04
+  - Run_07
+  - Brake_01
+  - Brake_05
+  - Brake_03
+  - Brake_02
+  - BackDash_01
+  - Run_05
+  - Run_02
+  - Run_06
+  - Run_03
+  - Run_04
+  - Run_01
+  - BackDash_03
+  - Run_08
+  - BackDash_02
+  m_Tag: ACHLocomotion
+  m_IsVariant: 0

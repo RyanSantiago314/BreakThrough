@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CS_Dhalia
+  m_Name: ACHDizzy
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -23,7 +23,7 @@ SpriteAtlas:
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 2048
+      m_MaxTextureSize: 4096
       m_ResizeAlgorithm: 0
       m_TextureFormat: -1
       m_TextureCompression: 2
@@ -42,30 +42,30 @@ SpriteAtlas:
       enableTightPacking: 1
     variantMultiplier: 1
     packables:
-    - {fileID: 102900000, guid: 8d3e7c21b5512e045b5642791b07f740, type: 3}
-    totalSpriteSurfaceArea: 33552384
+    - {fileID: 102900000, guid: ba426ec29a598d346934582821593535, type: 3}
+    totalSpriteSurfaceArea: 0
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: a1c26a7d8951eac765fa734b61d29dd4
+      Hash: 83d4b9a081e57f24ff75d6858a52979e
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: 78630a31620339241aa709eb772c2cb0, type: 3}
-  - {fileID: 21300000, guid: 96f8aa61e1103cc41bec278e6ed5bf57, type: 3}
-  - {fileID: 21300000, guid: 2cd8d1c48e62f294d8a7afa158cf23c1, type: 3}
-  - {fileID: 21300000, guid: 854ec3d7c2cfc6f4290e138d976e86a9, type: 3}
-  - {fileID: 21300000, guid: e16af0e79ce6e0c4fbae6485ef38d24e, type: 3}
-  - {fileID: 21300000, guid: 60f59a2b19dfad04a9489651ea65db9c, type: 3}
-  - {fileID: 21300000, guid: 613fe71c5cbe12d4ba978bb40a7b41da, type: 3}
-  - {fileID: 21300000, guid: df2b097dc7878904b8eae8fe81f29976, type: 3}
+  - {fileID: 21300000, guid: e5bc9f40a6a603e4d8bf3c97355ece64, type: 3}
+  - {fileID: 21300000, guid: 63eb74f1985b7094394568ed38ec364c, type: 3}
+  - {fileID: 21300000, guid: 5e83eef1c451131428971d9509e819e4, type: 3}
+  - {fileID: 21300000, guid: db07b72274e680947baaa3f9fa8110db, type: 3}
+  - {fileID: 21300000, guid: 72981b523d29e8b44b81eb3f0dd2b4d2, type: 3}
+  - {fileID: 21300000, guid: 70213a04ea14a3a48891f7ba1770eefb, type: 3}
+  - {fileID: 21300000, guid: cb31c70bb13924e47a7ceb360f401559, type: 3}
+  - {fileID: 21300000, guid: 224c5cfbe69a3e547bc8e2382549c299, type: 3}
   m_PackedSpriteNamesToIndex:
-  - Standing_08
-  - Standing_03
-  - Standing_06
-  - Standing_01
-  - Standing_02
-  - Standing_07
-  - Standing_05
-  - Standing_04
-  m_Tag: CS_Dhalia
+  - Dizzy_03
+  - DizzyIn_05
+  - DizzyIn_03
+  - Dizzy_01
+  - DizzyIn_02
+  - Dizzy_02
+  - DizzyIn_01
+  - DizzyIn_04
+  m_Tag: ACHDizzy
   m_IsVariant: 0

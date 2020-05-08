@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CS_Dhalia
+  m_Name: DHAJump
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -23,7 +23,7 @@ SpriteAtlas:
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 2048
+      m_MaxTextureSize: 4096
       m_ResizeAlgorithm: 0
       m_TextureFormat: -1
       m_TextureCompression: 2
@@ -42,30 +42,32 @@ SpriteAtlas:
       enableTightPacking: 1
     variantMultiplier: 1
     packables:
-    - {fileID: 102900000, guid: 8d3e7c21b5512e045b5642791b07f740, type: 3}
-    totalSpriteSurfaceArea: 33552384
+    - {fileID: 102900000, guid: fb6e34b8c3ccbe54ebfdb18c76bf5005, type: 3}
+    totalSpriteSurfaceArea: 38088000
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: a1c26a7d8951eac765fa734b61d29dd4
+      Hash: f33eeb8697532d4e56601690c882bdd5
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: 78630a31620339241aa709eb772c2cb0, type: 3}
-  - {fileID: 21300000, guid: 96f8aa61e1103cc41bec278e6ed5bf57, type: 3}
-  - {fileID: 21300000, guid: 2cd8d1c48e62f294d8a7afa158cf23c1, type: 3}
-  - {fileID: 21300000, guid: 854ec3d7c2cfc6f4290e138d976e86a9, type: 3}
-  - {fileID: 21300000, guid: e16af0e79ce6e0c4fbae6485ef38d24e, type: 3}
-  - {fileID: 21300000, guid: 60f59a2b19dfad04a9489651ea65db9c, type: 3}
-  - {fileID: 21300000, guid: 613fe71c5cbe12d4ba978bb40a7b41da, type: 3}
-  - {fileID: 21300000, guid: df2b097dc7878904b8eae8fe81f29976, type: 3}
+  - {fileID: 21300000, guid: 77f90c70e964e1d47a992d197dcbc37c, type: 3}
+  - {fileID: 21300000, guid: ac6805211297c8d44a75ee58a032e253, type: 3}
+  - {fileID: 21300000, guid: 681f186217f555e458feb5b4d5fcc743, type: 3}
+  - {fileID: 21300000, guid: 0c5d7674564eaf249b168020abd15d32, type: 3}
+  - {fileID: 21300000, guid: e6cdcff6b848639429bccf5b433b5c56, type: 3}
+  - {fileID: 21300000, guid: 3ec5406805d612d42ad9a29a7da432de, type: 3}
+  - {fileID: 21300000, guid: 57b5a2b9a5e7fb647b7de0b17e83b073, type: 3}
+  - {fileID: 21300000, guid: 6298f93c54d174e45bf35e4c51f78e06, type: 3}
+  - {fileID: 21300000, guid: 7f455dce3179d8847be7cf5217dd1b73, type: 3}
   m_PackedSpriteNamesToIndex:
-  - Standing_08
-  - Standing_03
-  - Standing_06
-  - Standing_01
-  - Standing_02
-  - Standing_07
-  - Standing_05
-  - Standing_04
-  m_Tag: CS_Dhalia
+  - Descend_03
+  - Jump_05
+  - Jump_04
+  - Jump_06
+  - Jump_03
+  - Descend_01
+  - Jump_01
+  - Jump_02
+  - Descend_02
+  m_Tag: DHAJump
   m_IsVariant: 0

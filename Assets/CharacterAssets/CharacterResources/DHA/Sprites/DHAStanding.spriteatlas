@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CS_Dhalia
+  m_Name: DHAStanding
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -23,7 +23,7 @@ SpriteAtlas:
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 2048
+      m_MaxTextureSize: 4096
       m_ResizeAlgorithm: 0
       m_TextureFormat: -1
       m_TextureCompression: 2
@@ -42,30 +42,30 @@ SpriteAtlas:
       enableTightPacking: 1
     variantMultiplier: 1
     packables:
-    - {fileID: 102900000, guid: 8d3e7c21b5512e045b5642791b07f740, type: 3}
-    totalSpriteSurfaceArea: 33552384
+    - {fileID: 102900000, guid: 5fa9e0e20c70f3c45a6cbed0808dfd7e, type: 3}
+    totalSpriteSurfaceArea: 18698912
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: a1c26a7d8951eac765fa734b61d29dd4
+      Hash: c8ab8694792f116f4a446d1901eebc36
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: 78630a31620339241aa709eb772c2cb0, type: 3}
-  - {fileID: 21300000, guid: 96f8aa61e1103cc41bec278e6ed5bf57, type: 3}
-  - {fileID: 21300000, guid: 2cd8d1c48e62f294d8a7afa158cf23c1, type: 3}
-  - {fileID: 21300000, guid: 854ec3d7c2cfc6f4290e138d976e86a9, type: 3}
-  - {fileID: 21300000, guid: e16af0e79ce6e0c4fbae6485ef38d24e, type: 3}
-  - {fileID: 21300000, guid: 60f59a2b19dfad04a9489651ea65db9c, type: 3}
-  - {fileID: 21300000, guid: 613fe71c5cbe12d4ba978bb40a7b41da, type: 3}
-  - {fileID: 21300000, guid: df2b097dc7878904b8eae8fe81f29976, type: 3}
+  - {fileID: 21300000, guid: 2e77b7113af6aae46b68a72dc979448e, type: 3}
+  - {fileID: 21300000, guid: af51aab1d3f099947a5bc412aa325158, type: 3}
+  - {fileID: 21300000, guid: d787ccb3976292c419177689127b20d5, type: 3}
+  - {fileID: 21300000, guid: 3703cc34ba74f144082a69b94dce7bcb, type: 3}
+  - {fileID: 21300000, guid: 6f4031066ff9a2f41af7a601d153d83a, type: 3}
+  - {fileID: 21300000, guid: 5588e2864fdbec646ad5ba5cb49a7eae, type: 3}
+  - {fileID: 21300000, guid: 8002536c5a501654d9fc2c5b3fce23ab, type: 3}
+  - {fileID: 21300000, guid: 6f85d13f56541644c8c5f9b3abb967e4, type: 3}
   m_PackedSpriteNamesToIndex:
-  - Standing_08
+  - Standing_04
   - Standing_03
-  - Standing_06
-  - Standing_01
+  - Standing_08
+  - Standing_05
   - Standing_02
   - Standing_07
-  - Standing_05
-  - Standing_04
-  m_Tag: CS_Dhalia
+  - Standing_06
+  - Standing_01
+  m_Tag: DHAStanding
   m_IsVariant: 0
