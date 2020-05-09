@@ -23,7 +23,6 @@ public class MaxInput : MonoBehaviour
     private bool lBumper;
     private bool lTrigger;
     private bool lstick;
-    public FighterAgent player2;
 
     private bool xbox1; //check if p1 is xbox controller
     private bool xboxL1 = false; //ensure L2/R2 are being used, not just held, used in getButtonDown
@@ -40,7 +39,6 @@ public class MaxInput : MonoBehaviour
     private bool lBumper1;
     private bool lTrigger1;
     private bool lstick1;
-    public FighterAgent player1;
 
     static public void enableAI() {
         AI = true;
@@ -61,21 +59,6 @@ public class MaxInput : MonoBehaviour
 
         xbox1 = CheckXbox(0);
         xbox = CheckXbox(1);
-
-        if (AI && neural)
-        {
-            player2.enabled = false;
-        }
-        else if (neural)
-        {
-            player1.enabled = false;
-        }
-        else if (!training)
-        {
-            //player1.enabled = false;
-            //player2.enabled = false;
-            //GetComponent<FighterAcademy>().enabled = false;
-        }
     }
 
     private bool CheckXbox(int player)

@@ -52,9 +52,18 @@ public class HurtboxACH : MonoBehaviour
         CharProp = transform.GetComponentInParent<CharacterProperties>();
     }
 
+    void Update()
+    {
+        if ((CharProp.HitDetect.currentState.IsName("FUKnockdown") || CharProp.HitDetect.currentState.IsName("FDKnockdown")) && 
+            !CharProp.HitDetect.Actions.hiInvincible && !CharProp.HitDetect.Actions.lowInvincible)
+        {
+            Knockdown();
+        }
+    }
+
     public void Standing()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -78,7 +87,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void Crouching()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -97,7 +106,22 @@ public class HurtboxACH : MonoBehaviour
         misc2.size = new Vector2(.375f, .175f);
     }
 
+    public void Knockdown()
+    {
+        ClearHurtBox();
+        misc1.enabled = true;
+
+        misc1.offset = new Vector2(.04f, -.72f);
+        misc1.size = new Vector2(2f, .34f);
+    }
+
     public void Invincible()
+    {
+        CharProp.HitDetect.Actions.InvincibleHigh();
+        CharProp.HitDetect.Actions.InvincibleLow();
+    }
+
+    public void ClearHurtBox()
     {
         head.enabled = false;
         body.enabled = false;
@@ -109,7 +133,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void Walk()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -124,7 +148,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void BackDash()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -142,7 +166,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void JumpStart()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -160,7 +184,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void SweepHit()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -178,7 +202,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void FallForward()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -196,7 +220,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void Jump()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -217,7 +241,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void HitAir()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -238,7 +262,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void LaunchFall()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -256,7 +280,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void Deflected()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -277,7 +301,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void WallStick()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -296,7 +320,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void Run()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -314,7 +338,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void Brake()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -332,7 +356,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void StandLight()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -353,7 +377,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void CrouchingLight()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -371,7 +395,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void JumpLight()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -389,7 +413,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void StandMedStartup()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -407,7 +431,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void StandMedActive1()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -428,7 +452,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void StandMedActive2()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -449,7 +473,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void CrouchMed()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -467,7 +491,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void JumpMedFirst()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -488,7 +512,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void JumpMedActive()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -509,7 +533,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void StandHeavyActive()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -527,7 +551,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void StandHeavyRecovery()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -545,7 +569,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void CrouchHeavyActive()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -563,7 +587,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void FHeavyFirstStartup()
     {
-        Invincible();
+        ClearHurtBox();
         legs1.enabled = true;
         legs2.enabled = true;
 
@@ -575,7 +599,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void FHeavyActive()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -596,7 +620,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void JumpHeavyActive()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -617,7 +641,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void StandBreakStartup()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -635,7 +659,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void StandBreakActive()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -653,7 +677,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void CrouchBreakActive()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -671,7 +695,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void FBreak()
     {
-        Invincible();
+        ClearHurtBox();
         body.enabled = true;
         legs1.enabled = true;
 
@@ -683,7 +707,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void JumpBreakStartup()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -704,7 +728,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void JumpBreakActive()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
@@ -725,7 +749,7 @@ public class HurtboxACH : MonoBehaviour
 
     public void JumpBreakRecovery()
     {
-        Invincible();
+        ClearHurtBox();
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;

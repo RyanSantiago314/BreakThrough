@@ -98,7 +98,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int runID;
     static int IDRec;
     static int IDBlitz;
-    static int IDBurst;
+    static int IDGuardCancel;
     static int IDThrow;
 
     static int lowGuardID;
@@ -144,7 +144,7 @@ public class AttackHandlerDHA : MonoBehaviour
         runID = Animator.StringToHash("Run");
         IDRec = Animator.StringToHash("Recover");
         IDBlitz = Animator.StringToHash("Blitz");
-        IDBurst = Animator.StringToHash("BurstBreaker");
+        IDGuardCancel = Animator.StringToHash("GuardCancel");
         IDThrow = Animator.StringToHash("Throw");
 
         if (transform.parent.name == "Player1")
@@ -483,10 +483,25 @@ public class AttackHandlerDHA : MonoBehaviour
                     Move.rb.AddForce(new Vector2(2.7f, 0), ForceMode2D.Impulse);
             }
 
+            if (Move.HitDetect.comboCount > 0)
+                Move.HitDetect.specialProration *= .85f;
+
             //cost for executing blitz cancel
             CharProp.armor--;
             CharProp.durability = 70;
             blitzActive = 5;
+            CharProp.durabilityRefillTimer = 0;
+            heavyButton = 0;
+            mediumButton = 0;
+        }
+        //a maneuver done while blocking that knocks back the opponent
+        else if (Move.HitDetect.blockStun > 0 && CharProp.armor >= 1 && Actions.standing &&  Move.HitDetect.hitStop == 0 && 
+            dir6 > 0 && heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f)
+        {
+            anim.SetTrigger(IDGuardCancel);
+            CharProp.armor--;
+            CharProp.durability = 50;
+            Move.HitDetect.blockStun = 0;
             CharProp.durabilityRefillTimer = 0;
             heavyButton = 0;
             mediumButton = 0;

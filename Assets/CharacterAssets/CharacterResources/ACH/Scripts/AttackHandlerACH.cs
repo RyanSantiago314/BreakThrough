@@ -458,6 +458,9 @@ public class AttackHandlerACH : MonoBehaviour
                 Move.rb.AddForce(new Vector2(2.7f, 0), ForceMode2D.Impulse);
             }
 
+            if (Move.HitDetect.comboCount > 0)
+                Move.HitDetect.specialProration *= .85f;
+
             //cost for executing blitz cancel
             CharProp.armor--;
             CharProp.durability = 70;
