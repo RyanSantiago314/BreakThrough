@@ -199,7 +199,7 @@ public class PracticeMode : MonoBehaviour
             else if (popUpIndex == 9)
             {
                 popUps.GetComponent<Text>().text = "Now perform a combo attack on the dummy! \n (You can view your characters move list in the Pause Menu)";
-                if (P2Prop.currentHealth <= 650)
+                if (P1Prop.HitDetect.comboCount >= 3)
                 {
                     popUpIndex++;
                 }
