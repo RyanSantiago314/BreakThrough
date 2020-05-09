@@ -170,6 +170,10 @@ public class AcceptInputs : MonoBehaviour
         {
             standing = true;
         }
+        else if ((currentState.IsName("FUKnockdown") || currentState.IsName("FDKnockdown")) && Move.HitDetect.hitStun > 24)
+        {
+            Move.HitDetect.hitStun = 24;
+        }
         else if (currentState.IsName("FUGetup") || currentState.IsName("FDGetup"))
         {
             standing = true;
