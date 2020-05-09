@@ -86,6 +86,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.shatter = false;
         HitDetect.usingSuper = false;
         HitDetect.usingSpecial = false;
+        HitDetect.guardCancel = false;
         HitDetect.slash = false;
         HitDetect.vertSlash = false;
         HitDetect.horiSlash = false;
@@ -109,6 +110,30 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.guard = "Unblockable";
 
         HitDetect.blitz = true; 
+    }
+
+    void GuardCancelHitBox()
+    {
+        ClearHitBox();
+        HitDetect.Actions.AttackActive();
+        hit1.enabled = true;
+        hit2.enabled = true;
+        hit1.offset = new Vector2(.82f, -.6f);
+        hit1.size = new Vector2(1.34f, .8f);
+
+        HitDetect.damage = 30;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 0;
+        HitDetect.potentialHitStun = 32;
+        HitDetect.potentialHitStop = hitStopLv3;
+        HitDetect.potentialKnockBack = new Vector2(3f, 2f);
+        HitDetect.initialProration = .5f;
+        HitDetect.attackLevel = 7;
+        HitDetect.guard = "Mid";
+
+        HitDetect.piercing = true;
+        HitDetect.usingSpecial = true;
+        HitDetect.guardCancel = true;
     }
 
     public void SummonPastry()
