@@ -772,4 +772,3 @@ public class PracticeMode : MonoBehaviour
         return "";
     }
 }
->>>>>>> master:Assets/Scripts/PracticeMode.cs
