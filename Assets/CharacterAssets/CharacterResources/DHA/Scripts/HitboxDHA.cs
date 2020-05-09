@@ -869,7 +869,7 @@ public class HitboxDHA : MonoBehaviour
             HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialKnockBack = new Vector2(.5f, 1.5f);
-        HitDetect.potentialHitStun = 60;
+        HitDetect.potentialHitStun = 24;
         HitDetect.potentialHitStop = hitStopLv2 + sinCharge;
         HitDetect.initialProration = 1;
         HitDetect.attackLevel = 3;

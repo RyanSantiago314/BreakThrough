@@ -54,10 +54,12 @@ public class HurtboxACH : MonoBehaviour
 
     void Update()
     {
-        if ((CharProp.HitDetect.currentState.IsName("FUKnockdown") || CharProp.HitDetect.currentState.IsName("FDKnockdown")) && 
-            !CharProp.HitDetect.Actions.hiInvincible && !CharProp.HitDetect.Actions.lowInvincible)
+        if (CharProp.HitDetect.currentState.IsName("FUKnockdown") || CharProp.HitDetect.currentState.IsName("FDKnockdown"))
         {
-            Knockdown();
+            if (CharProp.HitDetect.hitStun > 0)
+                Knockdown();
+            else
+                ClearHurtBox();
         }
     }
 

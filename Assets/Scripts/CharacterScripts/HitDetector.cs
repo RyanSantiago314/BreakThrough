@@ -794,7 +794,7 @@ public class HitDetector : MonoBehaviour
         minDamage = 0;
 
         //meter gain
-        if (!grab && comboCount > 0)
+        if (!grab && comboCount > 0 && !OpponentDetector.currentState.IsName("FUKnockdown") && !OpponentDetector.currentState.IsName("FDKnockdown"))
         {
             OpponentDetector.Actions.CharProp.durability += damage / 10;
             if (Actions.CharProp.durabilityRefillTimer > 5)
@@ -898,7 +898,7 @@ public class HitDetector : MonoBehaviour
         }
         else if (OpponentDetector.currentState.IsName("FDKnockdown") || OpponentDetector.currentState.IsName("FUKnockdown"))
         {
-            OpponentDetector.hitStun = 1;
+            OpponentDetector.hitStun = 3;
         }
         else
         {
