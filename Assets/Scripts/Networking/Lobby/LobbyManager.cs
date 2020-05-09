@@ -37,6 +37,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region Private Objects
+    private GameObject tempData;
+    private GameObject p2Data;
     private Dictionary<string, RoomInfo> cacheRoomList;
     private Dictionary<string, GameObject> roomListEntries;
     private Dictionary<int, GameObject> playerEntries;
@@ -133,13 +135,49 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
 
         ReadyButton.gameObject.SetActive(CheckIfReady());
+        GameObject pData = GameObject.Find("PlayerData");
 
         Hashtable property = new Hashtable
         {
             
-            {BREAKTHROUGH.PLAYER_LOADED_LEVEL, false} // TODO: loaded level set TRUE
+            {BREAKTHROUGH.PLAYER_LOADED_LEVEL, false}, // TODO: loaded level set TRUE
+            {"Character", pData.GetComponent<SelectedCharacterManager>().P1Character},
+            {"Color", pData.GetComponent<SelectedCharacterManager>().P1Color}
+            
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(property);
+        if(PhotonNetwork.IsMasterClient)
+        {
+            //else we are master client. 
+            //Grabbing Second players CharManager Data that was set right above.
+            p2Data = GameObject.Find("PlayerData");
+            foreach(var player in PhotonNetwork.PlayerListOthers)
+            {
+                object p2char;
+                if(player.CustomProperties.TryGetValue("Character", out p2char))
+                {
+                    p2Data.GetComponent<SelectedCharacterManager>().P2Character = (string)p2char;
+                }
+                object p2color;
+                if(player.CustomProperties.TryGetValue("Color", out p2color))
+                {
+                    p2Data.GetComponent<SelectedCharacterManager>().P2Color = (int)p2color;
+                }
+
+            }
+
+            p2Data.GetComponent<SelectedCharacterManager>().gameMode = "PvP";
+            p2Data.GetComponent<SelectedCharacterManager>().P2Side = "Right";
+        }
+
+        if(PhotonNetwork.CountOfPlayers == 1)
+        {
+            var PlayerData = GameObject.Find("PlayerData");
+            PlayerData.GetComponent<SelectedCharacterManager>().P2Side = "Right";
+            PlayerData.GetComponent<SelectedCharacterManager>().P2Character = "Dhalia";
+            PlayerData.GetComponent<SelectedCharacterManager>().P2Color = 2;
+        }
+        
     }
 
     public override void OnLeftRoom()
@@ -274,7 +312,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.IsVisible = false;
 
         // TODO: set the loadable level.
-        PhotonNetwork.LoadLevel(1); //Training Room
+        PhotonNetwork.LoadLevel(3); //Training Room
     }
     #endregion
 

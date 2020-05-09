@@ -16,6 +16,8 @@ public class SelectedCharacterManager : MonoBehaviour
     public string P2Side;
     public float CPUDifficulty = 50f;
 
+    public bool online = false;
+
     private static bool created = false;
     private bool reset = false;
     private bool resetDifficulty = false;

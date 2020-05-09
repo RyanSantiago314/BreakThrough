@@ -24,6 +24,7 @@ public class ListEntry : MonoBehaviour
     [SerializeField]
     private GameObject tempData;
     private GameObject p2Data;
+
     #endregion
 
     #region Unity Calls
@@ -88,6 +89,7 @@ public class ListEntry : MonoBehaviour
         if(!PhotonNetwork.IsMasterClient)
         {
             //Transfer current player data to a temp data holder.
+            Debug.Log("Exchanging info");
             tempData = GameObject.Find("TempData");
             p2Data = GameObject.Find("PlayerData");
             tempData.GetComponent<SelectedCharacterManager>().P2Side = "Right";

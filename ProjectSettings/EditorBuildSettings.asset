@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DahliaStage.unity
     guid: 8715e222e0ca37a42ac4f554f6eea86b
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: 5737a1b13e7777845a1b65ebbe284607
   m_configObjects: {}

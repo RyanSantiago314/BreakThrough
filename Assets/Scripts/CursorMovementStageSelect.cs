@@ -96,7 +96,29 @@ public class CursorMovementStageSelect : MonoBehaviour
         if (isOverlap)
         {
             borders[stageNum].SetActive(true);
-            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
+
+            if(GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().online == true)
+            {
+                if (Input.GetButtonDown(p1Cross) || Input.GetButtonDown(p2Cross))//we can stick all of these blocks in a single function my guys
+                {
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = currentStage;
+                    loadingScreen.SetActive(true);
+                    SceneManager.LoadScene("Lobby");
+                    /*switch (currentStage)
+                    {
+                        case "TrainingStage":
+                            loadingScreen.SetActive(true);
+                            SceneManager.LoadScene(3);
+                            break;
+                        case "DhaliaStage":
+                            loadingScreen.SetActive(true);
+                            SceneManager.LoadScene(4);
+                            break;
+                    }*/
+                }
+            }
+
+            else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
             {
                 if (Input.GetButtonDown(p1Cross) || Input.GetButtonDown(p2Cross))
                 {

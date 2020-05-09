@@ -27,6 +27,13 @@ public class MainMenu : MonoBehaviour
     	MaxInput.enableAI();
     }
 
+	public void PlayGameVsOnline()
+	{
+		BREAKTHROUGH.PLAYER_ONLINE = true;
+		SceneManager.LoadSceneAsync(2);
+		MaxInput.disableAI();
+	}
+
     public void QuitGame()
     {
     	Application.Quit();
