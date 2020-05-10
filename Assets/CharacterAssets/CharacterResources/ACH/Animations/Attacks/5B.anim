@@ -201,14 +201,14 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.28333333
-    functionName: Grounded
+    functionName: StandBreakActive
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.28333333
-    functionName: StandBreakActive
+    functionName: Grounded
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

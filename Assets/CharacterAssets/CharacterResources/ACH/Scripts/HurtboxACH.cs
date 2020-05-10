@@ -54,10 +54,12 @@ public class HurtboxACH : MonoBehaviour
 
     void Update()
     {
-        if ((CharProp.HitDetect.currentState.IsName("FUKnockdown") || CharProp.HitDetect.currentState.IsName("FDKnockdown")) && 
-            !CharProp.HitDetect.Actions.hiInvincible && !CharProp.HitDetect.Actions.lowInvincible)
+        if (CharProp.HitDetect.currentState.IsName("FUKnockdown") || CharProp.HitDetect.currentState.IsName("FDKnockdown"))
         {
-            Knockdown();
+            if (CharProp.HitDetect.hitStun > 0)
+                Knockdown();
+            else
+                ClearHurtBox();
         }
     }
 
@@ -567,6 +569,27 @@ public class HurtboxACH : MonoBehaviour
         legs2.size = new Vector2(.83f, .32f);
     }
 
+    public void CrouchHeavyStartup()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(.123f, .58f);
+        head.size = new Vector2(.23f, .31f);
+        body.offset = new Vector2(.1f, .21f);
+        body.size = new Vector2(.4f, .535f);
+        legs1.offset = new Vector2(-.08f, -.26f);
+        legs1.size = new Vector2(.66f, .54f);
+        legs2.offset = new Vector2(.03f, -.7f);
+        legs2.size = new Vector2(.86f, .4f);
+        misc1.offset = new Vector2(.45f, .56f);
+        misc1.size = new Vector2(.6f, .43f);
+    }
+
     public void CrouchHeavyActive()
     {
         ClearHurtBox();
@@ -574,15 +597,18 @@ public class HurtboxACH : MonoBehaviour
         body.enabled = true;
         legs1.enabled = true;
         legs2.enabled = true;
+        misc1.enabled = true;
 
-        head.offset = new Vector2(.56f, .49f);
-        head.size = new Vector2(.42f, .78f);
-        body.offset = new Vector2(.45f, .12f);
-        body.size = new Vector2(.8f, .41f);
-        legs1.offset = new Vector2(.41f, -.26f);
-        legs1.size = new Vector2(.79f, .39f);
-        legs2.offset = new Vector2(.37f, -.68f);
-        legs2.size = new Vector2(1.24f, .45f);
+        head.offset = new Vector2(.13f, .79f);
+        head.size = new Vector2(.24f, .28f);
+        body.offset = new Vector2(-.02f, .43f);
+        body.size = new Vector2(55f, .57f);
+        legs1.offset = new Vector2(-.03f, -.16f);
+        legs1.size = new Vector2(.57f, .73f);
+        legs2.offset = new Vector2(.06f, -.63f);
+        legs2.size = new Vector2(.91f, .53f);
+        misc1.offset = new Vector2(.39f, .87f);
+        misc1.size = new Vector2(.39f, .55f);
     }
 
     public void FHeavyFirstStartup()

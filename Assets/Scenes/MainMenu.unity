@@ -7163,8 +7163,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   neural: 0
   training: 0
-  player2: {fileID: 0}
-  player1: {fileID: 0}
 --- !u!1 &1307728347
 GameObject:
   m_ObjectHideFlags: 0

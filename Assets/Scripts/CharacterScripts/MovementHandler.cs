@@ -79,6 +79,7 @@ public class MovementHandler : MonoBehaviour
     static int wallBounceID;
     static int yVeloID;
     static int KOID;
+    static int KDID;
 
     // Set Up inputs, anim variable hashes, and opponent in awake
     void Awake()
@@ -157,6 +158,7 @@ public class MovementHandler : MonoBehaviour
         wallBounceID = Animator.StringToHash("WallBounce");
         yVeloID = Animator.StringToHash("VertVelocity");
         KOID = Animator.StringToHash("KOed");
+        KDID = Animator.StringToHash("KnockDown");
     }
 
     // Update is called once per frame
@@ -296,6 +298,8 @@ public class MovementHandler : MonoBehaviour
             Actions.DisableBlitz();
         }
 
+        if (currentState.IsName("GroundBounce"))
+            anim.ResetTrigger(KDID);
         if (MaxInput.GetAxisRaw(Vertical) == 0)
         {
             vertAxisInUse = false;
@@ -443,6 +447,7 @@ public class MovementHandler : MonoBehaviour
             //bouncing against the ground
             if (HitDetect.hitStun > 0 && Actions.groundBounce)
             {
+                anim.ResetTrigger(KDID);
                 anim.SetTrigger(groundBounceID);
                 rb.velocity = Vector2.zero;
                 if (facingRight)
@@ -454,6 +459,7 @@ public class MovementHandler : MonoBehaviour
                     HitDetect.KnockBack = new Vector2(1f, 3.3f);
                 }
                 Actions.groundBounce = false;
+                Actions.airborne = true;
 
                 opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
                 opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
@@ -462,13 +468,15 @@ public class MovementHandler : MonoBehaviour
                 opponentMove.sigil.GetComponent<Sigil>().Play();
             }
             //for landing on the ground if the opponent is not supposed to bounce
-            else if (HitDetect.hitStop == 0 && HitDetect.KnockBack == Vector2.zero && HitDetect.ProjectileKnockBack == Vector2.zero)
+            else if (HitDetect.hitStop == 0 && HitDetect.KnockBack == Vector2.zero && HitDetect.ProjectileKnockBack == Vector2.zero && !Actions.groundBounce)
             {
                 if (!Actions.standing && Actions.blitzed > 0 && !Actions.groundBounce)
                     Actions.blitzed = 0;
                 Actions.airborne = false;
                 jumps = 0;
                 pushBox.isTrigger = false;
+                if (currentState.IsName("HitAir") || currentState.IsName("LaunchFall") || currentState.IsName("LaunchTransition") || currentState.IsName("Unstick"))
+                    anim.SetTrigger(KDID);
             }
         }
         else if (collision.collider.CompareTag("Wall"))
@@ -500,8 +508,10 @@ public class MovementHandler : MonoBehaviour
         {
             if (HitDetect.hitStun > 0 && Actions.groundBounce && rb.velocity.y == 0 && !Actions.standing)
             {
+                anim.ResetTrigger(KDID);
                 anim.SetTrigger(groundBounceID);
                 Actions.groundBounce = false;
+                Actions.airborne = true;
 
                 opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
                 opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
@@ -509,7 +519,8 @@ public class MovementHandler : MonoBehaviour
                 opponentMove.sigil.transform.eulerAngles = new Vector3(80, 0, 0);
                 opponentMove.sigil.GetComponent<Sigil>().Play();
 
-                if (HitDetect.OpponentDetector.KnockBack == Vector2.zero)
+                rb.velocity = Vector2.zero;
+                if (HitDetect.KnockBack == Vector2.zero)
                 {
                     if (facingRight)
                     {
@@ -521,12 +532,27 @@ public class MovementHandler : MonoBehaviour
                     }
                 }
             }
-            else
+            else if (currentState.IsName("GroundBounce"))
+            {
+                rb.velocity = Vector2.zero;
+                if (facingRight)
+                {
+                    HitDetect.KnockBack = new Vector2(-1f, 3.3f);
+                }
+                else
+                {
+                    HitDetect.KnockBack = new Vector2(1f, 3.3f);
+                }
+            }
+            else if (HitDetect.hitStop == 0 && HitDetect.KnockBack == Vector2.zero && HitDetect.ProjectileKnockBack == Vector2.zero && !Actions.groundBounce && !currentState.IsName("GroundBounce"))
             {
                 if (HitDetect.hitStun == 0 && Actions.airborne)
                     Actions.airborne = false;
                 if (Actions.standing)
                     jumps = 0;
+
+                if (currentState.IsName("HitAir") || currentState.IsName("LaunchFall") || currentState.IsName("LaunchTransition") || currentState.IsName("Unstick"))
+                    anim.SetTrigger(KDID);
             }
         }
         else if (collision.collider.CompareTag("Wall"))

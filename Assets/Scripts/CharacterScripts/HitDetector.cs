@@ -109,6 +109,7 @@ public class HitDetector : MonoBehaviour
     static int throwRejectID;
     static int dizzyID;
     static int KOID;
+    static int KDID;
 
     static int guardID;
 
@@ -143,7 +144,8 @@ public class HitDetector : MonoBehaviour
         throwRejectID = Animator.StringToHash("ThrowReject");
         dizzyID = Animator.StringToHash("Dizzy");
         KOID = Animator.StringToHash("KOed");
-        
+        KDID = Animator.StringToHash("KnockDown");
+
         guardID = Animator.StringToHash("Guard");
 
         pauseScreen = GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>();
@@ -183,7 +185,8 @@ public class HitDetector : MonoBehaviour
         {
             anim.SetBool(runID, false);
             //hitStun only counts down if not in the groundbounce or crumple animations
-            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && Actions.blitzed % 2 == 0  && !pauseScreen.isPaused)
+            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && 
+                Actions.blitzed % 2 == 0  && !pauseScreen.isPaused)
                 hitStun--;
             anim.SetInteger(hitStunID, hitStun);
         }
@@ -277,6 +280,8 @@ public class HitDetector : MonoBehaviour
                 if (((hitStun > 0 || blockStun > 0) && Actions.airborne) || ((hitStun > 0 || blockStun > 0) && Actions.comboHits <= 1 && Actions.standing) ||
                     (Actions.Move.facingRight && Actions.Move.rb.velocity.x > 0 && hitStun > 0) || (!Actions.Move.facingRight && Actions.Move.rb.velocity.x < 0 && hitStun > 0))
                     rb.velocity = Vector2.zero;
+                else if (comboCount > 5)
+                    rb.velocity = new Vector2(.65f * rb.velocity.x, rb.velocity.y);
 
                 if (Mathf.Abs(ProjectileKnockBack.x) > Mathf.Abs(KnockBack.x) || Mathf.Abs(ProjectileKnockBack.y) > Mathf.Abs(KnockBack.y))
                 {
@@ -318,7 +323,7 @@ public class HitDetector : MonoBehaviour
     {
         collideCount++;
         if (!(OpponentDetector.anim.GetBool(crouchID) && guard == "High") && !((guard == "Low" && OpponentDetector.Actions.lowInvincible) ||
-                ((guard == "Mid" || guard == "High" || guard == "Overhead") && OpponentDetector.Actions.hiInvincible)))
+                ((guard == "Mid" || guard == "High" || guard == "Overhead") && OpponentDetector.Actions.hiInvincible)) && hitStop == 0)
         {
             if (allowHit && !grab && !commandGrab && !blitz && !usingSuper && ((guard == "Low" && OpponentDetector.Actions.lowCounter) || 
                 ((guard == "Mid" || guard == "High" || guard == "Overhead") && OpponentDetector.Actions.hiCounter)))
@@ -794,7 +799,7 @@ public class HitDetector : MonoBehaviour
         minDamage = 0;
 
         //meter gain
-        if (!grab && comboCount > 0)
+        if (!grab && comboCount > 0 && !OpponentDetector.currentState.IsName("FUKnockdown") && !OpponentDetector.currentState.IsName("FDKnockdown"))
         {
             OpponentDetector.Actions.CharProp.durability += damage / 10;
             if (Actions.CharProp.durabilityRefillTimer > 5)
@@ -872,6 +877,7 @@ public class HitDetector : MonoBehaviour
 
         if (!blitz && potentialHitStun > 0)
         {
+            anim.ResetTrigger(KDID);
             OpponentDetector.Actions.groundBounce = allowGroundBounce;
             OpponentDetector.Actions.wallBounce = allowWallBounce;
 
@@ -898,7 +904,7 @@ public class HitDetector : MonoBehaviour
         }
         else if (OpponentDetector.currentState.IsName("FDKnockdown") || OpponentDetector.currentState.IsName("FUKnockdown"))
         {
-            OpponentDetector.hitStun = 1;
+            OpponentDetector.hitStun = potentialHitStun/2;
         }
         else
         {

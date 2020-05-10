@@ -43,47 +43,97 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 6738fc75f679bd5458b1070f736cba52, type: 3}
-    totalSpriteSurfaceArea: 38454300
+    totalSpriteSurfaceArea: 161624300
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: 377be63fa50d9453320aed23a34280df
+      Hash: e53d2053353a68c50c3813497000a37c
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: ad598080af053c544b8d64fa3716eb3c, type: 3}
+  - {fileID: 21300000, guid: f3af7971fb377b44da903dd2f06ecd61, type: 3}
+  - {fileID: 21300000, guid: dd15939169f200241bbfa3feea0e50ff, type: 3}
+  - {fileID: 21300000, guid: 063da402e3e41504ab844b79c2642e4b, type: 3}
   - {fileID: 21300000, guid: 350bb0926826c6743adbbccb4bc75a3a, type: 3}
   - {fileID: 21300000, guid: 571302249ab86424d8376492675b9d73, type: 3}
+  - {fileID: 21300000, guid: 5ec04a64aeca3db42808ab761b614932, type: 3}
+  - {fileID: 21300000, guid: eebbf0062f2eeb74aa89b814c6bb8520, type: 3}
   - {fileID: 21300000, guid: faf2f7366b35c134f9f9117bfa75c993, type: 3}
+  - {fileID: 21300000, guid: de0bfe36ef3aebb4897114cb5ac15953, type: 3}
   - {fileID: 21300000, guid: 82aa2a46bb9c36d4ea7bcc71628df62b, type: 3}
   - {fileID: 21300000, guid: 3139cb960fb16004da564b1ecc6d9975, type: 3}
   - {fileID: 21300000, guid: 6a76bab6700d1c84aa3d285f3eadc53f, type: 3}
   - {fileID: 21300000, guid: f0b4aae65d1140f4da5e419574f1af57, type: 3}
+  - {fileID: 21300000, guid: fc3e6f0773727cc4c81217ca74f1ebed, type: 3}
+  - {fileID: 21300000, guid: cb7acd17f1005224fb94e6f950ffcdc9, type: 3}
+  - {fileID: 21300000, guid: d47a9f270a33af549b34ec55fb50d294, type: 3}
   - {fileID: 21300000, guid: f127a7c7d02dc90478e24ee237c753ae, type: 3}
+  - {fileID: 21300000, guid: 728b0f086ab97b24a9c190f08e1885e5, type: 3}
+  - {fileID: 21300000, guid: 82a5db794782be24090cfa9dec138c84, type: 3}
   - {fileID: 21300000, guid: 5d139ca99f757fa40af1c32c41ecaaec, type: 3}
   - {fileID: 21300000, guid: da0417e9dbd814340bae40cd0e01352f, type: 3}
+  - {fileID: 21300000, guid: 43d9a73bafec9504aa4367cffa1c5600, type: 3}
   - {fileID: 21300000, guid: 2d2ddf3bbb920394ab07c8d9ddf323a3, type: 3}
   - {fileID: 21300000, guid: b617e67b618f2834c8953530d9e31051, type: 3}
+  - {fileID: 21300000, guid: 15e1349bc2ee15644ba6a9fbcf7ed5d6, type: 3}
+  - {fileID: 21300000, guid: 558229db3b4dab94f96262a7d82e3e44, type: 3}
+  - {fileID: 21300000, guid: 29a3bc1c4b3971b4dad68b802841403f, type: 3}
   - {fileID: 21300000, guid: 8eb4382cd1200a54fa3999a1c9a77a73, type: 3}
   - {fileID: 21300000, guid: 7e8701bc272751c40bd09c77059f2719, type: 3}
+  - {fileID: 21300000, guid: c317b4bcf950bc647ab1d93ba5f782d2, type: 3}
   - {fileID: 21300000, guid: f5db7cbc7058d8844a76131c3fca0018, type: 3}
+  - {fileID: 21300000, guid: b8dc42fc664f4c4468616f3dde19d556, type: 3}
   - {fileID: 21300000, guid: cf0eb34d4229a1743a8d1d4f86ac8913, type: 3}
+  - {fileID: 21300000, guid: 458b8a8d304408d46becd58fd21ec441, type: 3}
+  - {fileID: 21300000, guid: 6266e2edd37b83449b808154ecd7e8e3, type: 3}
+  - {fileID: 21300000, guid: 2789446e93a04e14cb018c9aed040723, type: 3}
+  - {fileID: 21300000, guid: 5b48241f60c56154f89444d263a2b5dc, type: 3}
   - {fileID: 21300000, guid: 3309773f96ec3ca478b9ca27609f12b7, type: 3}
+  - {fileID: 21300000, guid: 5aa2254f1eaf0a9498874b61007fc815, type: 3}
+  - {fileID: 21300000, guid: 27ef794f8047e4745827201853c050e9, type: 3}
+  - {fileID: 21300000, guid: d94141af42cc61b46bcaa4ec70d59f5f, type: 3}
   m_PackedSpriteNamesToIndex:
+  - GuardCancelSin_07-3
+  - GuardCancel_05
+  - GuardCancel_09
+  - GuardCancel_04
   - LoGuardTrans_01
   - AirGuardTrans_01
+  - GuardCancelSin_07
+  - GuardCancelSin_10
   - HiGuardCycle_01
+  - GuardCancelSin_08
   - LoGuardCycle_01
   - LoGuardCycle_04
   - LoGuardCycle_03
   - AirGuardCycle_02
+  - GuardCancel_06-2
+  - GuardCancel_07
+  - GuardCancelSin_09
   - HiGuardCycle_02
+  - GuardCancelSin_02
+  - GuardCancel_08
   - AirGuardCycle_01
   - HiGuardTrans_01
+  - GuardCancelSin_07-2
   - HiGuardCycle_03
   - HiGuardTrans_02
+  - GuardCancel_02
+  - GuardCancelSin_05
+  - GuardCancelSin_01
   - LoGuardTrans_02
   - AirGuardCycle_03
+  - GuardCancel_03
   - HiGuardTrans_03
+  - GuardCancelSin_04-3
   - AirGuardTrans_02
+  - GuardCancelSin_03
+  - GuardCancel_01
+  - GuardCancel_06
+  - GuardCancelSin_11
   - LoGuardCycle_02
+  - GuardCancelSin_04
+  - GuardCancelSin_07-4
+  - GuardCancelSin_04-2
   m_Tag: DHAGuard
   m_IsVariant: 0
