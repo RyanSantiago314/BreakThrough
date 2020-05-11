@@ -280,7 +280,14 @@ public class PracticeMode : MonoBehaviour
                     P1ComboDamage.text = "Total Damage: ";
                     P1ComboDamage.text += P1CurrentComboTotalDamage;
                     P1HitType.text = "Guard Level: ";
-                    P1HitType.text += P1Prop.HitDetect.guard;
+                    if (P1Prop.HitDetect.guard == "Unblockable")
+                    {
+                        P1HitType.text += "Grab";
+                    }
+                    else
+                    {
+                        P1HitType.text += P1Prop.HitDetect.guard;
+                    }
                     P2PrevHealth = P2Prop.currentHealth;
 
                     P2CurrentHitDamage = P2PrevHealth - P2Prop.currentHealth;
@@ -289,7 +296,14 @@ public class PracticeMode : MonoBehaviour
                     P2HitDamage.text += P1CurrentHitDamage;
                     P2ComboDamage.text = "Total Damage: ";
                     P2HitType.text = "Guard Level: ";
-                    P2HitType.text += P1Prop.HitDetect.guard;
+                    if (P1Prop.HitDetect.guard == "Unblockable")
+                    {
+                        P2HitType.text += "Grab";
+                    }
+                    else
+                    {
+                        P2HitType.text += P1Prop.HitDetect.guard;
+                    }
                     P2ComboDamage.text += P1CurrentComboTotalDamage;
                 }
                 if (HUD.Player1Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
@@ -393,11 +407,6 @@ public class PracticeMode : MonoBehaviour
                             {
                                 MaxInput.DownRight("Player2");
                             }
-                            else if (guardLevel == "Throw" && (p1x - p2x > -.76))
-                            {
-                                MaxInput.Cross("Player2");
-                                MaxInput.Square("Player2");
-                            }
                             else
                             {
                                 MaxInput.MoveRight("Player2");
@@ -408,11 +417,6 @@ public class PracticeMode : MonoBehaviour
                             if (guardLevel == "Low" && (p1x - p2x < 2))
                             {
                                 MaxInput.DownLeft("Player2");
-                            }
-                            else if (guardLevel == "Throw" && (p1x - p2x < .76))
-                            {
-                                MaxInput.Cross("Player2");
-                                MaxInput.Square("Player2");
                             }
                             else
                             {

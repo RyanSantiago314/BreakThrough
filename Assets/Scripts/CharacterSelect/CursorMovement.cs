@@ -15,8 +15,12 @@ public class CursorMovement : MonoBehaviour {
     public bool isPaused;
     public bool P1Ready;
     public bool P2Ready;
+    private bool acceptP1Input;
+    private bool acceptP2Input;
     private bool preventDeselect = true;
     private bool BackMenuUI = false;
+    private int P1ColorIndex = 1;
+    private int P2ColorIndex = 1;
 
     private string p1Cross = "Cross_P1";
     private string p1Circle = "Circle_P1";
@@ -347,66 +351,71 @@ public class CursorMovement : MonoBehaviour {
                 P1ColorSelect.SetActive(true);
 
                 //Receive P1 inputs for color select
-                if (Input.GetAxis(p1Hor) < 0)
+                if (Input.GetAxis(p1Hor) < 0 && acceptP1Input)
                 {
-                    P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
+                    P1ColorIndex--;
+                    acceptP1Input = false;
+                    //Prevent P1 from highlighting P2 color choice
+                    if (P1ColorIndex == P2Color && P1.currentChar == P2.currentChar && P1ColorIndex == 1)
+                    {
+                        P1ColorIndex = 5;
+                    }
+                    else if (P1ColorIndex == P2Color && P1.currentChar == P2.currentChar)
+                    {
+                        P1ColorIndex--;
+                    }
+                }
+                else if (Input.GetAxis(p1Hor) > 0 && acceptP1Input)
+                {
+                    P1ColorIndex++;
+                    acceptP1Input = false;
+                    //Prevent P1 from highlighting P2 color choice
+                    if (P1ColorIndex == P2Color && P1.currentChar == P2.currentChar && P1ColorIndex == 5)
+                    {
+                        P1ColorIndex = 1;
+                    }
+                    else if (P1ColorIndex == P2Color && P1.currentChar == P2.currentChar)
+                    {
+                        P1ColorIndex++;
+                    }
+                }
+                else if (Input.GetAxis(p1Hor) == 0) 
+                {
+                    acceptP1Input = true;
+                }
 
-                }
-                else if (Input.GetAxis(p1Hor) > 0)
+                if (P1ColorIndex == P2Color && P1.currentChar == P2.currentChar)
                 {
-                    P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
+                    P1ColorIndex++;
                 }
 
-                //Prevent P1 from highlighting P2 color choice
-                if(P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 1 >" && P2Color == 1 && P1.currentChar == P2.currentChar)
+                //Cycle color index
+                if (P1ColorIndex > 5)
                 {
-                    P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
+                    P1ColorIndex = 1;
                 }
-                else if(P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 2 >" && P2Color == 2 && P1.currentChar == P2.currentChar)
+                else if (P1ColorIndex < 1)
                 {
-                    P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
+                    P1ColorIndex = 5;
                 }
 
                 //Update Character Model with highlighted color
                 switch (P1.currentChar)
                 {
                     case "Dhalia":
-                        switch (P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
-                        {
-                            case "< 1 >":
-                                P1Models[0].transform.GetChild(0).transform.GetComponent<ColorSwapDHA>().colorNum = 1;
-                                break;
-                            case "< 2 >":
-                                P1Models[0].transform.GetChild(0).transform.GetComponent<ColorSwapDHA>().colorNum = 2;
-                                break;
-                        }
+                        P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< " + P1ColorIndex + " >";
+                        P1Models[0].transform.GetChild(0).transform.GetComponent<ColorSwapDHA>().colorNum = P1ColorIndex;
                         break;
                     case "Achealis":
-                        switch (P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
-                        {
-                            case "< 1 >":
-                                P1Models[1].transform.GetChild(0).transform.GetComponent<ColorSwapACH>().colorNum = 1;
-                                break;
-                            case "< 2 >":
-                                P1Models[1].transform.GetChild(0).transform.GetComponent<ColorSwapACH>().colorNum = 2;
-                                break;
-                        }
+                        P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< " + P1ColorIndex + " >";
+                        P1Models[1].transform.GetChild(0).transform.GetComponent<ColorSwapACH>().colorNum = P1ColorIndex;
                         break;
                 }
 
                 //Check for P1 confirmation
                 if (Input.GetButtonDown(p1Cross))
                 {
-                    switch (P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
-                    {
-                        case "< 1 >":
-                            P1Color = 1;
-                            break;
-
-                        case "< 2 >":
-                            P1Color = 2;
-                            break;
-                    }
+                    P1Color = P1ColorIndex;
 
                     //Check to ensure no colors are the same
                     if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character == GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
@@ -472,7 +481,7 @@ public class CursorMovement : MonoBehaviour {
                         break;
                 }
                 P1.P1Selected = false;
-                P1ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
+                P1ColorIndex = 1;
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
                 {
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
@@ -484,9 +493,10 @@ public class CursorMovement : MonoBehaviour {
 
             }
 
-            //Deselect P1 from Color Menu
+            //Deselect P1 from Ready state
             if (Input.GetButtonDown(p1Circle) && P1Ready)
             {
+                P1Color = 0;
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
                 {
                     if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
@@ -581,66 +591,72 @@ public class CursorMovement : MonoBehaviour {
             {
                 P2ColorSelect.SetActive(true);
 
-                //Receive P2 inputs for color select
-                if (Input.GetAxis(p2Hor) < 0)
+                //Receive P1 inputs for color select
+                if (Input.GetAxis(p2Hor) < 0 && acceptP2Input)
                 {
-                    P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
+                    P2ColorIndex--;
+                    acceptP2Input = false;
+                    //Prevent P1 from highlighting P2 color choice
+                    if (P2ColorIndex == P1Color && P1.currentChar == P2.currentChar && P2ColorIndex == 1)
+                    {
+                        P2ColorIndex = 5;
+                    }
+                    else if (P2ColorIndex == P1Color && P1.currentChar == P2.currentChar)
+                    {
+                        P2ColorIndex--;
+                    }
                 }
-                else if (Input.GetAxis(p2Hor) > 0)
+                else if (Input.GetAxis(p2Hor) > 0 && acceptP2Input)
                 {
-                    P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
+                    P2ColorIndex++;
+                    acceptP2Input = false;
+                    //Prevent P1 from highlighting P2 color choice
+                    if (P2ColorIndex == P1Color && P1.currentChar == P2.currentChar && P2ColorIndex == 5)
+                    {
+                        P2ColorIndex = 1;
+                    }
+                    else if (P2ColorIndex == P1Color && P1.currentChar == P2.currentChar)
+                    {
+                        P2ColorIndex++;
+                    }
+                }
+                else if (Input.GetAxis(p2Hor) == 0)
+                {
+                    acceptP2Input = true;
                 }
 
-                //Prevent P1 from highlighting P2 color choice
-                if (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 1 >" && P1Color == 1 && P1.currentChar == P2.currentChar)
+                if (P2ColorIndex == P1Color && P1.currentChar == P2.currentChar)
                 {
-                    P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 2 >";
+                    P2ColorIndex++;
                 }
-                else if (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text == "< 2 >" && P1Color == 2 && P1.currentChar == P2.currentChar)
+
+                //Cycle color index
+                if (P2ColorIndex > 5)
                 {
-                    P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
+                    P2ColorIndex = 1;
+                }
+                else if (P2ColorIndex < 1)
+                {
+                    P2ColorIndex = 5;
                 }
 
                 //Update Character Model with highlighted color
                 switch (P2.currentChar)
                 {
                     case "Dhalia":
-                        switch (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
-                        {
-                            case "< 1 >":
-                                P2Models[0].transform.GetChild(0).transform.GetComponent<ColorSwapDHA>().colorNum = 1;
-                                break;
-                            case "< 2 >":
-                                P2Models[0].transform.GetChild(0).transform.GetComponent<ColorSwapDHA>().colorNum = 2;
-                                break;
-                        }
+                        P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< " + P2ColorIndex + " >";
+                        P2Models[0].transform.GetChild(0).transform.GetComponent<ColorSwapDHA>().colorNum = P2ColorIndex;
                         break;
                     case "Achealis":
-                        switch (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
-                        {
-                            case "< 1 >":
-                                P2Models[1].transform.GetChild(0).transform.GetComponent<ColorSwapACH>().colorNum = 1;
-                                break;
-                            case "< 2 >":
-                                P2Models[1].transform.GetChild(0).transform.GetComponent<ColorSwapACH>().colorNum = 2;
-                                break;
-                        }
+                        P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< " + P2ColorIndex + " >";
+                        P2Models[1].transform.GetChild(0).transform.GetComponent<ColorSwapACH>().colorNum = P2ColorIndex;
                         break;
                 }
 
                 //Check for P2 confirmation
                 if (Input.GetButtonDown(p2Cross))
                 {
-                    switch (P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text)
-                    {
-                        case "< 1 >":
-                            P2Color = 1;
-                            break;
-
-                        case "< 2 >":
-                            P2Color = 2;
-                            break;
-                    }
+                    P2Color = P2ColorIndex;
 
                     //Check to ensure colors are not the same
                     if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character == GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
@@ -700,7 +716,7 @@ public class CursorMovement : MonoBehaviour {
                         break;
                 }
                 P2.P2Selected = false;
-                P2ColorSelect.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "< 1 >";
+                P2ColorIndex = 1;
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
                 {
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
@@ -711,9 +727,10 @@ public class CursorMovement : MonoBehaviour {
                 }
             }
 
-            //Deselect P2 from Color Menu
+            //Deselect P2 from Ready state
             if (Input.GetButtonDown(p2Circle) && P2Ready)
             {
+                P2Color = 0;
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
                 {
                     if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
