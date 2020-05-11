@@ -854,7 +854,7 @@ public class HitDetector : MonoBehaviour
             }
             else if (crumple)
             {
-                if (!OpponentDetector.Actions.airborne)
+                if (OpponentDetector.Actions.standing)
                 {
                     OpponentDetector.anim.ResetTrigger(hitID);
                     OpponentDetector.anim.SetTrigger(crumpleID);

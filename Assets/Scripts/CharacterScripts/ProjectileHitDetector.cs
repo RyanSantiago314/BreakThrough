@@ -67,6 +67,7 @@ public class ProjectileHitDetector : MonoBehaviour
     static int LoGuard;
     static int AirGuard;
 
+    static int crouchID;
     static int runID;
     static int animSpeedID;
     static int hitStunID;
@@ -103,6 +104,7 @@ public class ProjectileHitDetector : MonoBehaviour
         HiGuard = Animator.StringToHash("HighGuard");
         AirGuard = Animator.StringToHash("AirGuard");
 
+        crouchID = Animator.StringToHash("Crouch");
         runID = Animator.StringToHash("Run");
         animSpeedID = Animator.StringToHash("AnimSpeed");
         hitStunID = Animator.StringToHash("HitStun");
@@ -204,7 +206,9 @@ public class ProjectileHitDetector : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         collideCount++;
-        if (allowHit && other.gameObject.transform.parent.parent == Actions.Move.opponent && (potentialHitStun > 0 || blitz) && ProjProp.currentHits <= ProjProp.maxHits)
+        if (allowHit && !OpponentDetector.Actions.projInvincible && !(OpponentDetector.anim.GetBool(crouchID) && guard == "High") && 
+            !((guard == "Low" && OpponentDetector.Actions.lowInvincible) || ((guard == "Mid" || guard == "High" || guard == "Overhead") && OpponentDetector.Actions.hiInvincible)) &&
+                other.gameObject.transform.parent.parent == Actions.Move.opponent && (potentialHitStun > 0 || blitz) && ProjProp.currentHits <= ProjProp.maxHits)
         {
             OpponentDetector.Actions.shattered = false;
 
@@ -443,6 +447,8 @@ public class ProjectileHitDetector : MonoBehaviour
     {
         //if the attack successfully hit the opponent
         HitDetect.anim.SetTrigger(successID);
+        OpponentDetector.Actions.Move.jumping = 0;
+        OpponentDetector.Actions.TurnAroundCheck();
         OpponentDetector.Actions.superHit = false;
 
         //special properties if hitting a dizzied opponent
@@ -498,7 +504,11 @@ public class ProjectileHitDetector : MonoBehaviour
         if (damageToOpponent < minDamage)
             damageToOpponent = minDamage;
 
-        OpponentDetector.Actions.CharProp.currentHealth -= (int)damageToOpponent;
+        if ((piercing && OpponentDetector.Actions.armorActive) && OpponentDetector.Actions.CharProp.currentHealth - (int)damageToOpponent <= 0)
+            OpponentDetector.Actions.CharProp.currentHealth = 1;
+        else
+            OpponentDetector.Actions.CharProp.currentHealth -= (int)damageToOpponent;
+
         minDamage = 0;
 
         //meter gain

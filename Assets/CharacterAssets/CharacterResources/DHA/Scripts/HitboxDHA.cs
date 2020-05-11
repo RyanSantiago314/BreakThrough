@@ -139,7 +139,6 @@ public class HitboxDHA : MonoBehaviour
     public void SummonPastry()
     {
         //Pastry projectile, angle of throw changes based on direction held after execution
-        AttackHandler.Projectile.SetActive(true);
         AttackHandler.Projectile.GetComponent<PatissiereHitbox>().flash.intensity = 0;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetInteger("Pastry", Random.Range(0, 5));
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetTrigger("Activate");
@@ -151,6 +150,8 @@ public class HitboxDHA : MonoBehaviour
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentHits = 0;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife;
         AttackHandler.Projectile.transform.localRotation = Quaternion.identity;
+        AttackHandler.Projectile.SetActive(true);
+
         if (HitDetect.Actions.Move.facingRight)
             AttackHandler.Projectile.transform.position = new Vector3(transform.position.x + .4f, transform.position.y + .45f, transform.position.z);
         else
@@ -165,7 +166,6 @@ public class HitboxDHA : MonoBehaviour
             else
             {
                 AttackHandler.Projectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(-2, 1), ForceMode2D.Impulse);
-                AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife -= 30;
             }
         }
         else if (AttackHandler.MaxInput.GetAxis(HitDetect.Actions.Move.Horizontal) > 0)
@@ -173,7 +173,6 @@ public class HitboxDHA : MonoBehaviour
             if (HitDetect.Actions.Move.facingRight)
             {
                 AttackHandler.Projectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(2, 1), ForceMode2D.Impulse);
-                AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife -= 30;
             }
             else
             {
@@ -376,6 +375,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStun = hitStunLv1;
         HitDetect.potentialHitStop = hitStopLv1;
         HitDetect.potentialKnockBack = new Vector2(1.5f, 0);
+        HitDetect.potentialAirKnockBack = new Vector2(1.5f, 1.5f);
         HitDetect.initialProration = .85f;
         HitDetect.attackLevel = 1;
         HitDetect.guard = "Low";
@@ -1218,7 +1218,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialKnockBack = new Vector2(1f, 0f);
         HitDetect.potentialAirKnockBack = new Vector2(2.5f, 1.5f);
         HitDetect.forcedProration = 1.15f;
-        HitDetect.potentialHitStun = 24;
+        HitDetect.potentialHitStun = 16;
         HitDetect.potentialHitStop = 1;
         HitDetect.attackLevel = 3;
         HitDetect.guard = "Low";

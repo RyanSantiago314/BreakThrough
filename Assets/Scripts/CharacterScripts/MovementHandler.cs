@@ -298,7 +298,7 @@ public class MovementHandler : MonoBehaviour
             Actions.DisableBlitz();
         }
 
-        if (currentState.IsName("GroundBounce"))
+        if (currentState.IsName("GroundBounce") || Actions.airborne)
             anim.ResetTrigger(KDID);
         if (MaxInput.GetAxisRaw(Vertical) == 0)
         {
@@ -475,7 +475,7 @@ public class MovementHandler : MonoBehaviour
                 Actions.airborne = false;
                 jumps = 0;
                 pushBox.isTrigger = false;
-                if (currentState.IsName("HitAir") || currentState.IsName("LaunchFall") || currentState.IsName("LaunchTransition") || currentState.IsName("Unstick"))
+                if (currentState.IsName("HitAir") || currentState.IsName("LaunchFall") || currentState.IsName("Unstick"))
                     anim.SetTrigger(KDID);
             }
         }
@@ -551,7 +551,7 @@ public class MovementHandler : MonoBehaviour
                 if (Actions.standing)
                     jumps = 0;
 
-                if (currentState.IsName("HitAir") || currentState.IsName("LaunchFall") || currentState.IsName("LaunchTransition") || currentState.IsName("Unstick"))
+                if (currentState.IsName("HitAir") || currentState.IsName("LaunchFall") || currentState.IsName("Unstick"))
                     anim.SetTrigger(KDID);
             }
         }
