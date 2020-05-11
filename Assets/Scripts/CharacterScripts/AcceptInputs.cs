@@ -23,7 +23,7 @@ public class AcceptInputs : MonoBehaviour
     public bool active = false;
     public bool recovering = false;
     public bool throwInvincible = false;
-
+    public bool projInvincible = false;
     public bool hiInvincible = false;
     public bool lowInvincible = false;
     
@@ -116,8 +116,11 @@ public class AcceptInputs : MonoBehaviour
         {
             DisableAll();
             DisableBlitz();
-            hiInvincible = false;
-            lowInvincible = false;
+            if (!currentState.IsName("Crumple"))
+            {
+                hiInvincible = false;
+                lowInvincible = false;
+            }
             if (!currentState.IsName("Deflected"))
             {
                 armorActive = false;
