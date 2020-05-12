@@ -31,6 +31,7 @@ public class AnnouncerVoice : MonoBehaviour
     public AudioClip TimeUp;
     public AudioClip Versus;
     public AudioClip DhaliaTheme;
+    public AudioClip AchealisTheme;
 
     private bool startBGM = true;
 
@@ -249,7 +250,7 @@ public class AnnouncerVoice : MonoBehaviour
         if (startBGM)
         {
             startBGM = false;
-            BGM.clip = DhaliaTheme;
+            BGM.clip = AchealisTheme;
             BGM.Play();
         }
     }
@@ -259,7 +260,7 @@ public class AnnouncerVoice : MonoBehaviour
         if (startBGM && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
             startBGM = false;
-            BGM.clip = DhaliaTheme;
+            BGM.clip = AchealisTheme;
             BGM.Play();
         }
     }
