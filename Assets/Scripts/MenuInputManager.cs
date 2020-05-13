@@ -152,12 +152,12 @@ public class MenuInputManager : MonoBehaviour
                 if (vertical < 0)
                 {
                     buttonIndex += 1;
-                    InputTimer = 0.1f;
+                    InputTimer = 0.2f;
                 }
                 else if (vertical > 0)
                 {
                     buttonIndex -= 1;
-                    InputTimer = 0.1f;
+                    InputTimer = 0.2f;
                 }
             }
             else if (InputTimer == 0 && inDropdown)
@@ -165,12 +165,12 @@ public class MenuInputManager : MonoBehaviour
                 if (vertical < 0)
                 {
                     dropdownIndex += 1;
-                    InputTimer = 0.1f;
+                    InputTimer = 0.2f;
                 }
                 else if (vertical > 0)
                 {
                     dropdownIndex -= 1;
-                    InputTimer = 0.1f;
+                    InputTimer = 0.2f;
                 }
 
                 if (dropdownIndex < 0) dropdownIndex = 0;
