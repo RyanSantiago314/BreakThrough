@@ -1033,9 +1033,13 @@ public class HitDetector : MonoBehaviour
                             KnockBack = new Vector2(OpponentDetector.KnockBack.y * pushBackScale, 0);
                     }
 
-                    if ((OpponentDetector.Actions.wallStick > 0 && OpponentDetector.Actions.Move.hittingWall) || !OpponentDetector.Actions.Move.hittingWall)
+                    if (OpponentDetector.Actions.wallStick > 0 && OpponentDetector.Actions.Move.hittingWall)
                     {
                         KnockBack *= new Vector2(.7f, 1);
+                    }
+                    else if (!OpponentDetector.Actions.Move.hittingWall)
+                    {
+                        KnockBack *= new Vector2(.85f, 1);
                     }
                 }
             }

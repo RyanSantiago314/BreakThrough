@@ -273,7 +273,7 @@ public class MovementHandler : MonoBehaviour
                     Actions.EnableAll();
                     pushBox.isTrigger = true;
                     jumps++;
-                    jumping = .2f;
+                    jumping = .25f;
 
 
                     if (MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))

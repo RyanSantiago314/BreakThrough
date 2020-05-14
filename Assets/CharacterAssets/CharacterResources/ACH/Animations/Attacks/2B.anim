@@ -1,0 +1,267 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 2B
+  serializedVersion: 6
+  m_Legacy: 0
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves: []
+  m_ScaleCurves: []
+  m_FloatCurves: []
+  m_PPtrCurves:
+  - curve:
+    - time: 0
+      value: {fileID: 21300000, guid: 20d0257c76fe779489a0a517a2e8a4e4, type: 3}
+    - time: 0.083333336
+      value: {fileID: 21300000, guid: c5a19ca24e4a838469f9a6932fe21ac7, type: 3}
+    - time: 0.16666667
+      value: {fileID: 21300000, guid: 2c1555f607eeb974abed23d1fd916ef2, type: 3}
+    - time: 0.25
+      value: {fileID: 21300000, guid: d3f73e01f3d284641ac9086ba5c68d87, type: 3}
+    - time: 0.31666666
+      value: {fileID: 21300000, guid: cf17c30fb65622942a4c29f2c89e3802, type: 3}
+    - time: 0.41666666
+      value: {fileID: 21300000, guid: 852169e0ae1f70f4983a75209b9ef2f9, type: 3}
+    - time: 0.46666667
+      value: {fileID: 21300000, guid: ca067a52792ae244ba79aa8ee0576903, type: 3}
+    - time: 0.53333336
+      value: {fileID: 21300000, guid: 40d9c0c906280264a8aba148e93175bd, type: 3}
+    - time: 0.6
+      value: {fileID: 21300000, guid: 3d5075c115782144aa2b2e5fbd758562, type: 3}
+    - time: 0.6666667
+      value: {fileID: 21300000, guid: abfcdaef44b23f741a627e490c4343e3, type: 3}
+    - time: 0.76666665
+      value: {fileID: 21300000, guid: ea2e1059c74f235419d3f33236e9335b, type: 3}
+    - time: 0.81666666
+      value: {fileID: 21300000, guid: 509c159c351f6414b9af74483254111a, type: 3}
+    - time: 0.85
+      value: {fileID: 21300000, guid: 509c159c351f6414b9af74483254111a, type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: 0}
+    - time: 0.25
+      value: {fileID: 21300000, guid: becab7e02983cf644971396ec595221d, type: 3}
+    - time: 0.3
+      value: {fileID: 21300000, guid: 97ea64b9a99055044a80fdc091bcc0d1, type: 3}
+    - time: 0.35
+      value: {fileID: 21300000, guid: cfe8377644320494ba3c1e98262d83ca, type: 3}
+    - time: 0.41666666
+      value: {fileID: 21300000, guid: 06ffa755dfa7c2b40ab11ad916cacda5, type: 3}
+    - time: 0.46666667
+      value: {fileID: 21300000, guid: 6a17db33ce3271c4db22164a50d24f76, type: 3}
+    - time: 0.51666665
+      value: {fileID: 21300000, guid: 043eea77b01e85f46b6752a5420e6c43, type: 3}
+    - time: 0.56666666
+      value: {fileID: 21300000, guid: b8d3305d3d4f60648b5310dda8150b71, type: 3}
+    - time: 0.6166667
+      value: {fileID: 21300000, guid: bdacf0aa2920cba47b6501f1a0b6defa, type: 3}
+    - time: 0.6666667
+      value: {fileID: 21300000, guid: 5688f8dc0236bf04a91ae039f7181591, type: 3}
+    - time: 0.71666664
+      value: {fileID: 21300000, guid: c393ed00a742f6a4fa61db06cc708f86, type: 3}
+    - time: 0.76666665
+      value: {fileID: 21300000, guid: d1fa7b772ac69b14a8b424b31508b7d4, type: 3}
+    - time: 0.81666666
+      value: {fileID: 0}
+    attribute: m_Sprite
+    path: CharEffects1
+    classID: 212
+    script: {fileID: 0}
+  m_SampleRate: 60
+  m_WrapMode: 0
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 529285965
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    pptrCurveMapping:
+    - {fileID: 21300000, guid: 20d0257c76fe779489a0a517a2e8a4e4, type: 3}
+    - {fileID: 21300000, guid: c5a19ca24e4a838469f9a6932fe21ac7, type: 3}
+    - {fileID: 21300000, guid: 2c1555f607eeb974abed23d1fd916ef2, type: 3}
+    - {fileID: 21300000, guid: d3f73e01f3d284641ac9086ba5c68d87, type: 3}
+    - {fileID: 21300000, guid: cf17c30fb65622942a4c29f2c89e3802, type: 3}
+    - {fileID: 21300000, guid: 852169e0ae1f70f4983a75209b9ef2f9, type: 3}
+    - {fileID: 21300000, guid: ca067a52792ae244ba79aa8ee0576903, type: 3}
+    - {fileID: 21300000, guid: 40d9c0c906280264a8aba148e93175bd, type: 3}
+    - {fileID: 21300000, guid: 3d5075c115782144aa2b2e5fbd758562, type: 3}
+    - {fileID: 21300000, guid: abfcdaef44b23f741a627e490c4343e3, type: 3}
+    - {fileID: 21300000, guid: ea2e1059c74f235419d3f33236e9335b, type: 3}
+    - {fileID: 21300000, guid: 509c159c351f6414b9af74483254111a, type: 3}
+    - {fileID: 21300000, guid: 509c159c351f6414b9af74483254111a, type: 3}
+    - {fileID: 0}
+    - {fileID: 21300000, guid: becab7e02983cf644971396ec595221d, type: 3}
+    - {fileID: 21300000, guid: 97ea64b9a99055044a80fdc091bcc0d1, type: 3}
+    - {fileID: 21300000, guid: cfe8377644320494ba3c1e98262d83ca, type: 3}
+    - {fileID: 21300000, guid: 06ffa755dfa7c2b40ab11ad916cacda5, type: 3}
+    - {fileID: 21300000, guid: 6a17db33ce3271c4db22164a50d24f76, type: 3}
+    - {fileID: 21300000, guid: 043eea77b01e85f46b6752a5420e6c43, type: 3}
+    - {fileID: 21300000, guid: b8d3305d3d4f60648b5310dda8150b71, type: 3}
+    - {fileID: 21300000, guid: bdacf0aa2920cba47b6501f1a0b6defa, type: 3}
+    - {fileID: 21300000, guid: 5688f8dc0236bf04a91ae039f7181591, type: 3}
+    - {fileID: 21300000, guid: c393ed00a742f6a4fa61db06cc708f86, type: 3}
+    - {fileID: 21300000, guid: d1fa7b772ac69b14a8b424b31508b7d4, type: 3}
+    - {fileID: 0}
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 0.8666667
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 1
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves: []
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_Events:
+  - time: 0
+    functionName: DisableAll
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: Crouching
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: TurnAroundCheck
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: Attacking
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: setLow
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.083333336
+    functionName: ForceStand
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.16666667
+    functionName: CrouchBreakStartup
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.2
+    functionName: Advance
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 2.5
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.25
+    functionName: CrouchBreakActive
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.25
+    functionName: CrouchBHitBox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.31666666
+    functionName: ClearHitBox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.41666666
+    functionName: CrouchBreakActive2
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.46666667
+    functionName: CrouchBHitBox2
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.51666665
+    functionName: ClearHitBox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.53333336
+    functionName: StopAttacking
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.76666665
+    functionName: Standing
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
