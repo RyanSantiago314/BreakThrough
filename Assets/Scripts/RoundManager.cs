@@ -5,7 +5,11 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class RoundManager : MonoBehaviour
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Photon.Realtime;
+using Photon.Pun;
+
+public class RoundManager : MonoBehaviourPunCallbacks
 {
     public static Animator ScreenGraphics;
     AnnouncerVoice announcer;
@@ -62,6 +66,9 @@ public class RoundManager : MonoBehaviour
     //Timer variable
     float timer;
 
+    //Used for enabling Update()
+    private bool run = false;
+
     void Awake()
     {
         roundCount = 0;
@@ -73,6 +80,33 @@ public class RoundManager : MonoBehaviour
     }
 
     void Start()
+    {
+        Debug.Log("Waiting for all players");
+
+        Hashtable loaded = new Hashtable
+        {
+            {BREAKTHROUGH.PLAYER_LOADED_LEVEL, true}
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(loaded);
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        if(!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+
+        if(changedProps.ContainsKey(BREAKTHROUGH.PLAYER_LOADED_LEVEL))
+        {
+            if(CheckAllPlayersLoaded())
+            {
+                PlayersSetup();
+            }
+        }
+    }
+
+    void PlayersSetup()
     {
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
             p1Start = new Vector3(-1f, 1.10f, -3);
@@ -121,11 +155,18 @@ public class RoundManager : MonoBehaviour
             roundCount = 0;
             startReady = true;
         }
+
+        run = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!run)
+        {
+            return;
+        }
+
         ScreenGraphics.SetInteger("RoundCount", roundCount);
 
         //temporary function until system using victory pose anims is implemented (automatically set nextround to true when win pose ends or if break is pressed during win pose)
@@ -225,6 +266,24 @@ public class RoundManager : MonoBehaviour
                 RoundStop();
             }
         }
+    }
+
+    private bool CheckAllPlayersLoaded()
+    {
+        foreach(Player p in PhotonNetwork.PlayerList)
+        {
+            object isPlayerLoaded;
+            if(p.CustomProperties.TryGetValue(BREAKTHROUGH.PLAYER_LOADED_LEVEL, out isPlayerLoaded))
+            {
+                if((bool)isPlayerLoaded)
+                {
+                    continue;
+                }
+            }
+            return false;
+        }
+
+        return true;
     }
 
     //Function that restarts a round
