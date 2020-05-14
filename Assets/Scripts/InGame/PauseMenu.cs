@@ -704,8 +704,6 @@ public class PauseMenu : MonoBehaviour
         RoundManager.gameActive = false;
         RoundManager.lockInputs = false;
         pauseQuit = true;
-
-        Time.timeScale = 1;
         GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(0);
     }
 
@@ -719,7 +717,6 @@ public class PauseMenu : MonoBehaviour
         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 0;
         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = "";
         pauseQuit = true;
-        Time.timeScale = 1;
         GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(1);
     }
 

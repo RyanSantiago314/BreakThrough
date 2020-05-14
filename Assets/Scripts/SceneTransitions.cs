@@ -40,7 +40,6 @@ public class SceneTransitions : MonoBehaviour
         asyncLoadLevel = SceneManager.LoadSceneAsync(sceneIndex);
         while (!asyncLoadLevel.isDone)
         {
-            print("Loading the Scene");
             yield return null;
         }
         loadingGraphic.SetActive(false);
@@ -52,5 +51,10 @@ public class SceneTransitions : MonoBehaviour
         loadingGraphic.SetActive(true);
         SceneTransition.SetTrigger("BlackScreen");
         StartCoroutine(TransitionScene(sceneNumber));
+    }
+
+    public void fadein()
+    {
+        SceneTransition.SetTrigger("FadeIn");
     }
 }
