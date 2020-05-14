@@ -27,11 +27,11 @@ AnimationClip:
       value: {fileID: 21300000, guid: fbcc5dc55a89406499b7850b3505ca00, type: 3}
     - time: 0.21666667
       value: {fileID: 21300000, guid: 7a345fac8e607704187049831b6ef8e1, type: 3}
-    - time: 0.28333333
+    - time: 0.26666668
       value: {fileID: 21300000, guid: 9afea67d2bb3a814e81512493c80853d, type: 3}
-    - time: 0.33333334
+    - time: 0.31666666
       value: {fileID: 21300000, guid: fddc43d116e19844185267d465eb03bd, type: 3}
-    - time: 0.38333333
+    - time: 0.36666667
       value: {fileID: 21300000, guid: 8995c70ad4357b343a0361d19cc8f5ca, type: 3}
     - time: 0.48333332
       value: {fileID: 21300000, guid: 92f3e38d9f4b27947b423acb83efabc2, type: 3}
@@ -94,13 +94,6 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: DisableAll
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
     functionName: Attacking
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -123,6 +116,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0
     functionName: clearHitType
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: DisableAll
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -163,14 +163,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.28333333
+  - time: 0.26666668
     functionName: ClearHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.3
+  - time: 0.28333333
     functionName: StopAttacking
     data: 
     objectReferenceParameter: {fileID: 0}
