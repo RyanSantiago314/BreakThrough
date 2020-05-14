@@ -46,6 +46,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -110,6 +111,8 @@ GameObject:
   - component: {fileID: 5672348969353512147}
   - component: {fileID: 5672348969353512145}
   - component: {fileID: 5672348969353512110}
+  - component: {fileID: -8735358891893153308}
+  - component: {fileID: -9220704506061376834}
   m_Layer: 8
   m_Name: Dhalia
   m_TagString: Player
@@ -319,6 +322,43 @@ MonoBehaviour:
   durabilityRefillRate: 1
   refillInterval: 0
   refill: 0
+--- !u!114 &-8735358891893153308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672348969353512151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: -9220704506061376834}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &-9220704506061376834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672348969353512151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 0
+  m_SynchronizeScale: 0
 --- !u!1 &5672348970094705443
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,6 +404,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -445,6 +486,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -494,6 +536,7 @@ SpriteMask:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -574,6 +617,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -755,6 +799,8 @@ GameObject:
   - component: {fileID: 5672348970482479192}
   - component: {fileID: 5672348970482479193}
   - component: {fileID: 5672348970482479190}
+  - component: {fileID: 4829660135439209823}
+  - component: {fileID: 5877293447380654621}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -812,6 +858,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -949,6 +996,235 @@ MonoBehaviour:
   HitDetect: {fileID: 5672348970961381722}
   AttackHandler: {fileID: 5672348969353512145}
   sinCharge: 0
+--- !u!114 &4829660135439209823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672348970482479196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 5877293447380654621}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &5877293447380654621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672348970482479196}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 3
+    SynchronizeType: 1
+    Name: LandingLag
+  - Type: 3
+    SynchronizeType: 1
+    Name: HitStun
+  - Type: 3
+    SynchronizeType: 1
+    Name: BlockStun
+  - Type: 4
+    SynchronizeType: 1
+    Name: HighGuard
+  - Type: 4
+    SynchronizeType: 1
+    Name: LowGuard
+  - Type: 4
+    SynchronizeType: 1
+    Name: AirGuard
+  - Type: 4
+    SynchronizeType: 1
+    Name: Airborne
+  - Type: 4
+    SynchronizeType: 1
+    Name: Standing
+  - Type: 4
+    SynchronizeType: 1
+    Name: Crouch
+  - Type: 9
+    SynchronizeType: 1
+    Name: Jump
+  - Type: 4
+    SynchronizeType: 1
+    Name: BreakCharge
+  - Type: 9
+    SynchronizeType: 1
+    Name: 5L
+  - Type: 9
+    SynchronizeType: 1
+    Name: 2L
+  - Type: 9
+    SynchronizeType: 1
+    Name: 6L
+  - Type: 9
+    SynchronizeType: 1
+    Name: 5M
+  - Type: 9
+    SynchronizeType: 1
+    Name: 2M
+  - Type: 9
+    SynchronizeType: 1
+    Name: 5H
+  - Type: 9
+    SynchronizeType: 1
+    Name: 2H
+  - Type: 9
+    SynchronizeType: 1
+    Name: 5H2
+  - Type: 9
+    SynchronizeType: 1
+    Name: 5H3
+  - Type: 9
+    SynchronizeType: 1
+    Name: 5H4
+  - Type: 9
+    SynchronizeType: 1
+    Name: 5B
+  - Type: 9
+    SynchronizeType: 1
+    Name: 2B
+  - Type: 9
+    SynchronizeType: 1
+    Name: 6B
+  - Type: 9
+    SynchronizeType: 1
+    Name: ArmorHit
+  - Type: 9
+    SynchronizeType: 1
+    Name: Hit
+  - Type: 9
+    SynchronizeType: 1
+    Name: HitAir
+  - Type: 9
+    SynchronizeType: 1
+    Name: HitBody
+  - Type: 9
+    SynchronizeType: 1
+    Name: HitLegs
+  - Type: 9
+    SynchronizeType: 1
+    Name: Blocked
+  - Type: 4
+    SynchronizeType: 1
+    Name: Launch
+  - Type: 4
+    SynchronizeType: 1
+    Name: Sweep
+  - Type: 9
+    SynchronizeType: 1
+    Name: GroundBounce
+  - Type: 4
+    SynchronizeType: 1
+    Name: WallStick
+  - Type: 9
+    SynchronizeType: 1
+    Name: Deflected
+  - Type: 9
+    SynchronizeType: 1
+    Name: Parry
+  - Type: 9
+    SynchronizeType: 1
+    Name: Clash
+  - Type: 9
+    SynchronizeType: 1
+    Name: Shatter
+  - Type: 9
+    SynchronizeType: 1
+    Name: Recover
+  - Type: 4
+    SynchronizeType: 1
+    Name: WalkBack
+  - Type: 4
+    SynchronizeType: 1
+    Name: WalkForward
+  - Type: 4
+    SynchronizeType: 1
+    Name: Run
+  - Type: 9
+    SynchronizeType: 1
+    Name: Backdash
+  - Type: 9
+    SynchronizeType: 1
+    Name: HitSuccess
+  - Type: 3
+    SynchronizeType: 1
+    Name: SinCharge
+  - Type: 1
+    SynchronizeType: 1
+    Name: AnimSpeed
+  - Type: 1
+    SynchronizeType: 1
+    Name: VertVelocity
+  - Type: 9
+    SynchronizeType: 1
+    Name: Blitz
+  - Type: 9
+    SynchronizeType: 1
+    Name: Crumple
+  - Type: 9
+    SynchronizeType: 1
+    Name: Throw
+  - Type: 9
+    SynchronizeType: 1
+    Name: ThrowReject
+  - Type: 9
+    SynchronizeType: 1
+    Name: WallBounce
+  - Type: 4
+    SynchronizeType: 1
+    Name: Dizzy
+  - Type: 4
+    SynchronizeType: 1
+    Name: KOed
+  - Type: 9
+    SynchronizeType: 1
+    Name: BloodBrave
+  - Type: 4
+    SynchronizeType: 1
+    Name: ForceBlock
+  - Type: 9
+    SynchronizeType: 1
+    Name: Patissiere
+  - Type: 9
+    SynchronizeType: 1
+    Name: Toaster
+  - Type: 9
+    SynchronizeType: 0
+    Name: ToasterDeactivate
+  - Type: 9
+    SynchronizeType: 1
+    Name: HeadRush
+  - Type: 9
+    SynchronizeType: 1
+    Name: BasketCase
+  - Type: 9
+    SynchronizeType: 1
+    Name: BurstBreaker
+  - Type: 9
+    SynchronizeType: 1
+    Name: JudgmentSabre
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!1 &5672348970794625580
 GameObject:
   m_ObjectHideFlags: 0
@@ -1391,6 +1667,7 @@ MonoBehaviour:
   crumple: 0
   sweep: 0
   forceCrouch: 0
+  forceStand: 0
   shatter: 0
   allowWallStick: 0
   allowGroundBounce: 0
@@ -1476,6 +1753,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Photon.Pun;
+using Photon.Realtime;
+
 public class CharacterLoader : MonoBehaviour
 {
     public GameObject P1Character;
@@ -33,14 +36,26 @@ public class CharacterLoader : MonoBehaviour
                 break;
         }
 
+        
         setP1Properties();
         setP2Properties();
     }
 
     void setP1Properties()
     {
+        if(PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+        Debug.Log("Player 1 Loaded");
         //Load Character and set name
-        P1Character = Instantiate(Resources.Load(P1Char, typeof(GameObject)), GameObject.Find("Player1").transform) as GameObject;
+        if(PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
+            P1Character = PhotonNetwork.Instantiate(P1Char, GameObject.Find("Player1").transform.position, Quaternion.identity) as GameObject;
+        }
+        else {
+            P1Character = Instantiate(Resources.Load(P1Char, typeof(GameObject)), GameObject.Find("Player1").transform) as GameObject;
+        }
         P1Character.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character;
 
         //Assign CharacterHandlers
@@ -72,8 +87,22 @@ public class CharacterLoader : MonoBehaviour
 
     void setP2Properties()
     {
+        if(PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+        Debug.Log("Player 2 Instantiated");
         //Load Character and set name
-        P2Character = Instantiate(Resources.Load(P2Char, typeof(GameObject)), GameObject.Find("Player2").transform) as GameObject;
+        if(PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient)
+        {
+            P2Character = PhotonNetwork.Instantiate(P2Char, GameObject.Find("Player2").transform.position, Quaternion.identity) as GameObject;
+        }
+        else if (!PhotonNetwork.IsConnected)
+        {
+
+            P2Character = Instantiate(Resources.Load(P2Char, typeof(GameObject)), GameObject.Find("Player2").transform) as GameObject;
+        }
+        
         P2Character.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character;
 
         //Assign CharacterHandlers

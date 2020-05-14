@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackHandlerDHA : MonoBehaviour
+using Photon.Pun;
+
+public class AttackHandlerDHA : MonoBehaviourPun
 {
     public Animator anim;
     public MovementHandler Move;
@@ -188,6 +190,11 @@ public class AttackHandlerDHA : MonoBehaviour
 
     void Update()
     {
+
+        if(photonView.IsMine == true && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
         currentState = anim.GetCurrentAnimatorStateInfo(0);
         anim.ResetTrigger(IDRec);
 

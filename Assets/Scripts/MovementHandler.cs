@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement; //Temporary
 
-public class MovementHandler : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+
+public class MovementHandler : MonoBehaviourPun
 {
     public Animator anim;
     public Rigidbody2D rb;
@@ -79,9 +82,13 @@ public class MovementHandler : MonoBehaviour
     static int yVeloID;
     static int KOID;
 
+    
+
     // Set Up inputs, anim variable hashes, and opponent in awake
     void Awake()
     {
+       
+
         //Original system to use in original Training Stage
         if (SceneManager.GetActiveScene().name == "TrainingStage")
         {
@@ -161,6 +168,10 @@ public class MovementHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
         currentState = anim.GetCurrentAnimatorStateInfo(0);
         anim.SetFloat(yVeloID, rb.velocity.y);
 
@@ -314,6 +325,10 @@ public class MovementHandler : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
         //walking
         if(anim.GetBool(walkFID) && !anim.GetBool(crouchID))
         {
