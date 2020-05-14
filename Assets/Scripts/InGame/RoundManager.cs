@@ -392,9 +392,11 @@ public class RoundManager : MonoBehaviour
     //Function to load main menu scene
     public void QuitToMenu()
     {
+        p1menu.SetActive(false);
+        p2menu.SetActive(false);
         lockInputs = false;
         gameActive = false;
-        SceneManager.LoadScene(0);
+        GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(0);
         p1Win = 0;
         p2Win = 0;
     }

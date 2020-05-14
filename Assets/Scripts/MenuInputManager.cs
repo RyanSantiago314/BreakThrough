@@ -429,10 +429,6 @@ public class MenuInputManager : MonoBehaviour
         //AI Difficulty ManageMent (Placed here for input execution purposes)
         if (AIDifficultyScreen.activeSelf)
         {
-            switch (CPULevel.GetComponent<TMPro.TextMeshProUGUI>().text)
-            {
-
-            }
             if (horizontal < 0 && InputTimer == 0)
             {
                 COMLevel -= 1;
@@ -563,7 +559,6 @@ public class MenuInputManager : MonoBehaviour
                 if (P1Position != 0 && P2Position !=0 && P1Position != P2Position) {
                     if (Input.GetButtonDown(inputCross) || Input.GetButtonDown(inputCross2))
                     {
-                        sideSelectScreen.SetActive(false);
                         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "PvP";
                         PlayVsPlayerButton.onClick.Invoke();
                     }
@@ -608,7 +603,6 @@ public class MenuInputManager : MonoBehaviour
                 {
                     if (Input.GetButtonDown(inputCross))
                     {
-                        sideSelectScreen.SetActive(false);
                         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "AI";
                         PlayVsAiButton.onClick.Invoke();
                     }
@@ -652,7 +646,6 @@ public class MenuInputManager : MonoBehaviour
                 {
                     if (Input.GetButtonDown(inputCross))
                     {
-                        sideSelectScreen.SetActive(false);
                         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "Practice";
                         PlayVsPlayerButton.onClick.Invoke();
                     }

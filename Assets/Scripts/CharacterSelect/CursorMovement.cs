@@ -356,11 +356,15 @@ public class CursorMovement : MonoBehaviour {
                     P1ColorIndex--;
                     acceptP1Input = false;
                     //Prevent P1 from highlighting P2 color choice
-                    if (P1ColorIndex == P2Color && P1.currentChar == P2.currentChar && P1ColorIndex == 1)
+                    if (P1ColorIndex == P2ColorIndex && P1.currentChar == P2.currentChar && P1ColorIndex == 1 && P2Ready)
                     {
                         P1ColorIndex = 5;
                     }
-                    else if (P1ColorIndex == P2Color && P1.currentChar == P2.currentChar)
+                    else if (P2ColorIndex == 5 && P1.currentChar == P2.currentChar && P1ColorIndex == 0 && P2Ready)
+                    {
+                        P1ColorIndex = 4;
+                    }
+                    else if (P1ColorIndex == P2ColorIndex && P1.currentChar == P2.currentChar && P2Ready)
                     {
                         P1ColorIndex--;
                     }
@@ -370,11 +374,15 @@ public class CursorMovement : MonoBehaviour {
                     P1ColorIndex++;
                     acceptP1Input = false;
                     //Prevent P1 from highlighting P2 color choice
-                    if (P1ColorIndex == P2Color && P1.currentChar == P2.currentChar && P1ColorIndex == 5)
+                    if (P1ColorIndex == P2ColorIndex && P1.currentChar == P2.currentChar && P1ColorIndex == 5 && P2Ready)
                     {
                         P1ColorIndex = 1;
                     }
-                    else if (P1ColorIndex == P2Color && P1.currentChar == P2.currentChar)
+                    else if (P2ColorIndex == 1 && P1.currentChar == P2.currentChar && P1ColorIndex == 6 && P2Ready)
+                    {
+                        P1ColorIndex = 2;
+                    }
+                    else if (P1ColorIndex == P2ColorIndex && P1.currentChar == P2.currentChar && P2Ready)
                     {
                         P1ColorIndex++;
                     }
@@ -384,9 +392,14 @@ public class CursorMovement : MonoBehaviour {
                     acceptP1Input = true;
                 }
 
-                if (P1ColorIndex == P2Color && P1.currentChar == P2.currentChar)
+                if (P1ColorIndex == P2ColorIndex && P1.currentChar == P2.currentChar && P2Ready)
                 {
                     P1ColorIndex++;
+                }
+
+                if (P1ColorIndex == 1 && P2ColorIndex == 1 && P1.currentChar == P2.currentChar && P2Ready)
+                {
+                    P1ColorIndex = 2;
                 }
 
                 //Cycle color index
@@ -597,11 +610,15 @@ public class CursorMovement : MonoBehaviour {
                     P2ColorIndex--;
                     acceptP2Input = false;
                     //Prevent P1 from highlighting P2 color choice
-                    if (P2ColorIndex == P1Color && P1.currentChar == P2.currentChar && P2ColorIndex == 1)
+                    if (P2ColorIndex == P1ColorIndex && P1.currentChar == P2.currentChar && P2ColorIndex == 1 && P1Ready)
                     {
                         P2ColorIndex = 5;
                     }
-                    else if (P2ColorIndex == P1Color && P1.currentChar == P2.currentChar)
+                    else if (P1ColorIndex == 5 && P1.currentChar == P2.currentChar && P2ColorIndex == 0 && P1Ready)
+                    {
+                        P2ColorIndex = 4;
+                    }
+                    else if (P2ColorIndex == P1ColorIndex && P1.currentChar == P2.currentChar && P1Ready)
                     {
                         P2ColorIndex--;
                     }
@@ -611,11 +628,15 @@ public class CursorMovement : MonoBehaviour {
                     P2ColorIndex++;
                     acceptP2Input = false;
                     //Prevent P1 from highlighting P2 color choice
-                    if (P2ColorIndex == P1Color && P1.currentChar == P2.currentChar && P2ColorIndex == 5)
+                    if (P2ColorIndex == P1ColorIndex && P1.currentChar == P2.currentChar && P2ColorIndex == 5 && P1Ready)
                     {
                         P2ColorIndex = 1;
                     }
-                    else if (P2ColorIndex == P1Color && P1.currentChar == P2.currentChar)
+                    else if (P1ColorIndex == 1 && P1.currentChar == P2.currentChar && P2ColorIndex == 6 && P1Ready)
+                    {
+                        P2ColorIndex = 2;
+                    }
+                    else if (P2ColorIndex == P1ColorIndex && P1.currentChar == P2.currentChar && P1Ready)
                     {
                         P2ColorIndex++;
                     }
@@ -625,9 +646,14 @@ public class CursorMovement : MonoBehaviour {
                     acceptP2Input = true;
                 }
 
-                if (P2ColorIndex == P1Color && P1.currentChar == P2.currentChar)
+                if (P2ColorIndex == P1ColorIndex && P1.currentChar == P2.currentChar && P1Ready)
                 {
                     P2ColorIndex++;
+                }
+
+                if (P1ColorIndex == 1 && P2ColorIndex == 1 && P1.currentChar == P2.currentChar && P1Ready)
+                {
+                    P2ColorIndex = 2;
                 }
 
                 //Cycle color index
@@ -870,8 +896,8 @@ public class CursorMovement : MonoBehaviour {
 
      public void QuitToMenu()
      {
-         SceneManager.LoadScene(0);
-     }
+        GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(0);
+    }
 
     private bool CheckXbox(int player)
     {

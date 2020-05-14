@@ -28,7 +28,6 @@ public class CursorMovementStageSelect : MonoBehaviour
     public GameObject[] stagePreviews;
     public GameObject[] stageNames;
 
-    public GameObject loadingScreen;
     public GameObject stageSelect;
 
     public CursorMovement cursordata;
@@ -104,12 +103,10 @@ public class CursorMovementStageSelect : MonoBehaviour
                     switch (currentStage)
                     {
                         case "TrainingStage":
-                            loadingScreen.SetActive(true);
-                            SceneManager.LoadScene(2);
+                            GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(2);
                             break;
                         case "DhaliaStage":
-                            loadingScreen.SetActive(true);
-                            SceneManager.LoadScene(3);
+                            GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(3);
                             break;
                     }
                 }
@@ -121,12 +118,10 @@ public class CursorMovementStageSelect : MonoBehaviour
                     switch (currentStage)
                     {
                         case "TrainingStage":
-                            loadingScreen.SetActive(true);
-                            SceneManager.LoadSceneAsync(2);
+                            GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(2);
                             break;
                         case "DhaliaStage":
-                            loadingScreen.SetActive(true);
-                            SceneManager.LoadSceneAsync(3);
+                            GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(3);
                             break;
                     }
                 }

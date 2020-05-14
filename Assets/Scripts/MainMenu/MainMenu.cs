@@ -17,14 +17,14 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGameVsPlayer()
     {
-    	SceneManager.LoadSceneAsync(1);
+        GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(1);
     	MaxInput.disableAI();
     }
 
     public void PlayGameVsAI()
     {
-    	SceneManager.LoadSceneAsync(1);
-    	MaxInput.enableAI();
+        GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(1);
+        MaxInput.enableAI();
     }
 
     public void QuitGame()
