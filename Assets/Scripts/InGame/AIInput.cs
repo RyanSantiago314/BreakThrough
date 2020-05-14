@@ -357,8 +357,8 @@ public class AIInput : MonoBehaviour
             AI.delayTimer = .1f;
         }
 
-        // Step 9 - 11: J.H
-        else if (AI.doing2H_1 >= 9 && AI.doing2H_1 <= 11 && AI.pIsHitstun)
+        // Step 9: J.H
+        else if (AI.doing2H_1 == 9 && AI.pIsHitstun)
         {
             MaxInput.Circle("Player2");
 
@@ -366,30 +366,32 @@ public class AIInput : MonoBehaviour
             AI.delayTimer = .25f;
         }
 
-        else if (AI.doing2H_1 == 12 && AI.pIsHitstun)
+        // Step 10: J.B
+        else if (AI.doing2H_1 == 10 && AI.pIsHitstun)
         {
             MaxInput.Cross("Player2");
 
-            AI.doing2H_1 = 13;
-            AI.delayTimer = .18f;
+            AI.doing2H_1 = 11;
+            AI.delayTimer = .2f;
         }
 
-        else if (AI.doing2H_1 == 13 && AI.pIsHitstun)
+        // Step 11: Spinny Kick
+        else if (AI.doing2H_1 == 11 && AI.pIsHitstun)
         {
-            AI.doing2H_1 = 14;
+            AI.doing2H_1 = 12;
 
             AI.keepAction = "Circle";
             AI.doingQCB = 1;
             QCB();
         }
 
-        else if (AI.doing2H_1 == 14 && AI.pIsHitstun)
+        else if (AI.doing2H_1 == 12 && AI.pIsHitstun)
         {
-            AI.doing2H_1 = 15;
+            AI.doing2H_1 = 13;
             AI.delayTimer = 1.25f;
         }
 
-        else if (AI.doing2H_1 == 15 && AI.pIsHitstun && AI.armor >= 2)
+        else if (AI.doing2H_1 == 13 && AI.pIsHitstun && AI.armor >= 2)
         {
             AI.doing2H_1 = 0;
 

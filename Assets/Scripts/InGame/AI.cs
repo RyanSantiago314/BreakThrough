@@ -70,8 +70,11 @@ public class AI : MonoBehaviour
     float crossTimer;
     float breakTimer;
     float noBreakTimer;
+    float moveTimer;
+    float noMoveTimer;
     public float delayTimer;
 
+    // Objects
     public AIInput AIInput;
     private MaxInput MaxInput;
     private CharacterProperties PlayerProp;
@@ -88,7 +91,6 @@ public class AI : MonoBehaviour
     // Registering the values' initial states
     void Start()
 	{
-        //Debug.Log("Difficulty = " + difficulty);
         // Player data
         pIsBlocking = false;
         pIsAirborne = false;
@@ -186,7 +188,7 @@ public class AI : MonoBehaviour
 		{
             decreaseTimers();
 
-            if (!keepInput && breakTimer <= 0)
+            if (!keepInput && breakTimer <= 0 && moveTimer <= 0)
             {
                 MaxInput.ClearInput("Player2");
             }
@@ -197,7 +199,7 @@ public class AI : MonoBehaviour
 
             calculateWeights();
 
-            if (delayTimer <= 0 && breakTimer <= 0)
+            if (delayTimer <= 0 && breakTimer <= 0 && moveTimer <= 0)
             {
                 if (doingQCF > 0)
                 {
@@ -225,10 +227,11 @@ public class AI : MonoBehaviour
                 }
                 else
                 {
-                    if (difficulty < 100) delay();
+                    if (difficulty < 100)
+                        if (delay()) return;
 
                     var max = states.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;   // Gets key with highest value
-                    //Debug.Log(max);
+                    Debug.Log(max);
 
                     //If ai is on ground set jumping to false
                     if (GameObject.Find("Player2").transform.GetChild(0).transform.position.y <= 0)
@@ -469,10 +472,12 @@ public class AI : MonoBehaviour
         if (faceLeft)
         {
             MaxInput.MoveLeft("Player2");
+            if (noMoveTimer <= 0) holdMovement(.3f, -1);
         }
         else
         {
             MaxInput.MoveRight("Player2");
+            if (noMoveTimer <= 0) holdMovement(.3f, 1);
         }
 
         //Foward Dash
@@ -482,11 +487,13 @@ public class AI : MonoBehaviour
             {
                 MaxInput.MoveLeft("Player2");
                 MaxInput.LStick("Player2");
+                if (noMoveTimer <= 0) holdMovement(.3f, -1);
             }
             else
             {
                 MaxInput.MoveRight("Player2");
                 MaxInput.LStick("Player2");
+                if (noMoveTimer <= 0) holdMovement(.3f, 1);
             }
         }
 
@@ -495,6 +502,19 @@ public class AI : MonoBehaviour
         {
             MaxInput.Jump("Player2");
         }
+    }
+
+    void holdMovement(float hold, int direction)
+    {
+        var rand = new System.Random().Next(101);    // Random int from 0 to 100
+        if (rand < 100 - difficulty && !isAirborne)
+        {
+            if (direction == -1) MaxInput.MoveLeft("Player2");
+            else MaxInput.MoveRight("Player2");
+            moveTimer = hold;
+            Debug.Log("hold Movement");
+        }
+        else noMoveTimer = hold;
     }
 
     // AI teching out of hitstun
@@ -538,6 +558,14 @@ public class AI : MonoBehaviour
         {
             noBreakTimer -= Time.deltaTime;
         }
+        if (moveTimer > 0)
+        {
+            moveTimer -= Time.deltaTime;
+        }
+        if (noMoveTimer > 0)
+        {
+            noMoveTimer -= Time.deltaTime;
+        }
         if (delayTimer > 0)
         {
             delayTimer -= Time.deltaTime;
@@ -568,7 +596,7 @@ public class AI : MonoBehaviour
         states["Defend"] += pCharging / 2;
 
         // The farther away, the more likely to move closer
-        states["Approach"] += distanceBetweenX * .8 + distanceBetweenY * 2;
+        states["Approach"] += distanceBetweenX * .8 + distanceBetweenY * 2 - 20 / difficulty;
     }
 
     // Update variables every frame based on the state of the scene
@@ -619,6 +647,7 @@ public class AI : MonoBehaviour
 
         // Distance between player and AI
         difficulty = characterManager.CPUDifficulty;
+        Debug.Log("Difficulty = " + difficulty);
         distanceBetweenX = Math.Abs(p1x - p2x);
         distanceBetweenY = Math.Abs(p1y - p2y);
     }
@@ -639,15 +668,17 @@ public class AI : MonoBehaviour
         attackStates["Setup"] = 0;
     }
 
-    void delay()
+    bool delay()
     {
         var rand = new System.Random();
 
-        if (rand.Next((100 - (int)difficulty) * 20) < 15)
+        if (rand.Next(100) < 85 - difficulty)
         {
-            delayTimer = (float)rand.NextDouble();
+            delayTimer = (float)rand.NextDouble() * (5/difficulty);
             Debug.Log("Delayed");
+            return true;
         }
+        return false;
     }
 
     // Testing specific actions
