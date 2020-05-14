@@ -143,7 +143,7 @@ MonoBehaviour:
   rb: {fileID: 1571492460223486444}
   PHitDetect: {fileID: 1571492461831992422}
   maxLife: 500
-  currentLife: 0
+  currentLife: -1
   maxHits: 24
   currentHits: 0
   projectileActive: 1

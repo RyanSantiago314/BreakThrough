@@ -43,7 +43,7 @@ public class MovementHandler : MonoBehaviour
     float runInputTime = 0.3f;
     int dashButtonCount = 0;
     int buttonCount = 0;
-    public int wallStickTimer;
+    public float wallStickTimer;
     public float jumping = 0;
     public bool backDash = false;
     private bool jumpRight = false;
@@ -226,7 +226,7 @@ public class MovementHandler : MonoBehaviour
         }
         if (playing && !HitDetect.pauseScreen.isPaused)
         {
-            if (HitDetect.hitStop == 0)
+            if (HitDetect.hitStop <= 0)
             {
                 if ((MaxInput.GetAxis(Vertical) < 0 && Actions.acceptMove && Actions.standing) || (anim.GetBool(crouchID) && !Actions.acceptMove && Actions.standing))
                     anim.SetBool(crouchID, true);
@@ -468,7 +468,7 @@ public class MovementHandler : MonoBehaviour
                 opponentMove.sigil.GetComponent<Sigil>().Play();
             }
             //for landing on the ground if the opponent is not supposed to bounce
-            else if (HitDetect.hitStop == 0 && HitDetect.KnockBack == Vector2.zero && HitDetect.ProjectileKnockBack == Vector2.zero && !Actions.groundBounce)
+            else if (HitDetect.hitStop <= 0 && HitDetect.KnockBack == Vector2.zero && HitDetect.ProjectileKnockBack == Vector2.zero && !Actions.groundBounce)
             {
                 if (!Actions.standing && Actions.blitzed > 0 && !Actions.groundBounce)
                     Actions.blitzed = 0;
@@ -544,9 +544,9 @@ public class MovementHandler : MonoBehaviour
                     HitDetect.KnockBack = new Vector2(1f, 3.3f);
                 }
             }
-            else if (HitDetect.hitStop == 0 && HitDetect.KnockBack == Vector2.zero && HitDetect.ProjectileKnockBack == Vector2.zero && !Actions.groundBounce && !currentState.IsName("GroundBounce"))
+            else if (HitDetect.hitStop <= 0 && HitDetect.KnockBack == Vector2.zero && HitDetect.ProjectileKnockBack == Vector2.zero && !currentState.IsName("GroundBounce"))
             {
-                if (HitDetect.hitStun == 0 && Actions.airborne)
+                if (HitDetect.hitStun <= 0 && Actions.airborne)
                     Actions.airborne = false;
                 if (Actions.standing)
                     jumps = 0;
@@ -641,7 +641,7 @@ public class MovementHandler : MonoBehaviour
                     }
                 }
             }
-            else if (Actions.airborne && opponentMove.Actions.airborne && ((HitDetect.OpponentDetector.hitStun == 0 && HitDetect.hitStun == 0)||(HitDetect.OpponentDetector.hitStun != 0 && HitDetect.hitStun == 0)))
+            else if (Actions.airborne && opponentMove.Actions.airborne && ((HitDetect.OpponentDetector.hitStun <= 0 && HitDetect.hitStun <= 0)||(HitDetect.OpponentDetector.hitStun != 0 && HitDetect.hitStun <= 0)))
             {
                 if (Mathf.Abs(transform.position.x - opponent.position.x) < pushBox.size.x && opponentMove.hittingWall)
                 {
@@ -973,8 +973,8 @@ public class MovementHandler : MonoBehaviour
                     anim.SetBool(airGuardID, false);
                 }
             }
-            if (opponent.GetComponent<MovementHandler>().Actions.attacking && Vector3.Distance(transform.position, opponent.position) <= 2 && HitDetect.blockStun == 0 &&
-                ((facingRight && MaxInput.GetAxis(Horizontal) < 0)||(!facingRight && MaxInput.GetAxis(Horizontal) > 0)) && HitDetect.hitStop == 0)
+            if (opponent.GetComponent<MovementHandler>().Actions.attacking && Vector3.Distance(transform.position, opponent.position) <= 2 && HitDetect.blockStun <= 0 &&
+                ((facingRight && MaxInput.GetAxis(Horizontal) < 0)||(!facingRight && MaxInput.GetAxis(Horizontal) > 0)) && HitDetect.hitStop <= 0)
             {
                 Actions.acceptMove = false;
                 anim.SetBool("ForceBlock", true);
@@ -1045,19 +1045,19 @@ public class MovementHandler : MonoBehaviour
     {
         if(currentState.IsName("WallStick") && !HitDetect.pauseScreen.isPaused)
         {
-            if(wallStickTimer == 0)
+            if(wallStickTimer <= 0)
             {
                 anim.SetBool(wallStickID, false);
             }
-            wallStickTimer--;
-            if (wallStickTimer == 41)
+            wallStickTimer -= Time.deltaTime;
+            if (wallStickTimer >= (float)41/60)
                 opponentMove.sigil.GetComponent<Sigil>().Play();
             opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
             opponentMove.sigil.transform.eulerAngles = new Vector3(0, 90, opponentMove.sigil.transform.eulerAngles.z);
         }
-        else if (Actions.blitzed % 2 == 0 && !HitDetect.pauseScreen.isPaused)
+        else if (Actions.blitzed <= 0 && !HitDetect.pauseScreen.isPaused)
         {
-            wallStickTimer = 42;
+            wallStickTimer = (float)42/60;
         }
     }
 }

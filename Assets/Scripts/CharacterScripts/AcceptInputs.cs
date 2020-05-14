@@ -17,7 +17,7 @@ public class AcceptInputs : MonoBehaviour
     public bool blitzCancel = true;
     public bool airborne = false;
     public bool standing = true;
-    public int superFlash;
+    public float superFlash;
     public bool armorActive = false;
     public bool attacking = false;
     public bool active = false;
@@ -33,7 +33,7 @@ public class AcceptInputs : MonoBehaviour
 
     public bool shattered = false;
     public bool superHit = false;
-    public int blitzed = 0;
+    public float blitzed = 0;
     public int wallStick = 0;
     public int landingLag = 0;
     public bool groundBounce = false;
@@ -43,7 +43,7 @@ public class AcceptInputs : MonoBehaviour
     public bool throwTech = false;
     public bool backThrow = false;
 
-    int throwInvulnCounter;
+    float throwInvulnCounter;
     public float originalGravity;
     public float gravScale = 1f;
     public int comboHits = 0;
@@ -149,7 +149,7 @@ public class AcceptInputs : MonoBehaviour
         if (throwInvulnCounter > 0)
         {
             throwInvincible = true;
-            throwInvulnCounter--;
+            throwInvulnCounter -= Time.deltaTime;
         }
         else if (throwInvulnCounter <= 0)
         {
@@ -157,11 +157,11 @@ public class AcceptInputs : MonoBehaviour
         }
 
         if (currentState.IsName("ThrowReject") || currentState.IsName("FUGetup") || currentState.IsName("FDGetup"))
-            throwInvulnCounter = 8;
+            throwInvulnCounter = (float)8/60;
 
         if (superFlash > 0 && !Move.HitDetect.pauseScreen.isPaused)
         {
-            superFlash--;
+            superFlash -= Time.deltaTime;
         }
 
 
@@ -173,9 +173,9 @@ public class AcceptInputs : MonoBehaviour
         {
             standing = true;
         }
-        else if ((currentState.IsName("FUKnockdown") || currentState.IsName("FDKnockdown")) && Move.HitDetect.hitStun > 24)
+        else if ((currentState.IsName("FUKnockdown") || currentState.IsName("FDKnockdown")) && Move.HitDetect.hitStun > (float)24/60)
         {
-            Move.HitDetect.hitStun = 24;
+            Move.HitDetect.hitStun = (float)24/60;
         }
         else if (currentState.IsName("FUGetup") || currentState.IsName("FDGetup"))
         {
@@ -188,8 +188,8 @@ public class AcceptInputs : MonoBehaviour
         if(wallStick == 0)
             anim.SetBool("WallStick", false);
 
-        if (blitzed > 0 && Move.HitDetect.hitStop == 0 && !Move.HitDetect.pauseScreen.isPaused)
-            blitzed--;
+        if (blitzed > 0 && Move.HitDetect.hitStop <= 0 && !Move.HitDetect.pauseScreen.isPaused)
+            blitzed -= Time.deltaTime;
 
         anim.SetBool(airID, airborne);
         anim.SetBool(standID, standing);
@@ -289,12 +289,12 @@ public class AcceptInputs : MonoBehaviour
         Move.sigil.transform.eulerAngles = new Vector3(80, 0, 0);
     }
 
-    public void StartSuperFlash(int i)
+    public void StartSuperFlash(float i)
     {
-        superFlash = i;
+        superFlash = i/60;
 
         Move.HitDetect.OpponentDetector.currentVelocity = Move.HitDetect.OpponentDetector.rb.velocity;
-        Move.HitDetect.OpponentDetector.Actions.blitzed = 1;
+        Move.HitDetect.OpponentDetector.Actions.blitzed = (float)1/30;
     }
 
     public void DisableMovement()

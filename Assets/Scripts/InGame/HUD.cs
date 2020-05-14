@@ -525,11 +525,11 @@ public class HUD : MonoBehaviour
         //player 1 combo timer
         if (P2hit.hitStun > 0)
         {
-            if (P2hit.hitStun > 60)
+            if (P2hit.hitStun > 1)
                 combotimer1.fillAmount = 1;
             else
             {
-                combotimer1.fillAmount = P2hit.hitStun / 60f;
+                combotimer1.fillAmount = P2hit.hitStun;
             }
             hitNum1 = P1hit.comboCount;
             combogauge1.enabled = true;
@@ -563,7 +563,7 @@ public class HUD : MonoBehaviour
             P1TrueCombo = true;
             combotimer1.color = Color.white;
         }
-        else if (P1hit.comboCount > 0 && hitNum1Memo == hitNum1 && P2hit.hitStun == 0 && P2hit.Actions.airborne && !P2hit.anim.GetCurrentAnimatorStateInfo(0).IsName("Launch")
+        else if (P1hit.comboCount > 0 && hitNum1Memo == hitNum1 && P2hit.hitStun <= 0 && P2hit.Actions.airborne && !P2hit.anim.GetCurrentAnimatorStateInfo(0).IsName("Launch")
             && !P2hit.anim.GetCurrentAnimatorStateInfo(0).IsName("WallStick"))
         {
             P1TrueCombo = false;
@@ -594,10 +594,10 @@ public class HUD : MonoBehaviour
         //player 2 combo timer
         if (P1hit.hitStun > 0)
         {
-            if (P1hit.hitStun > 60)
+            if (P1hit.hitStun > 1)
                 combotimer2.fillAmount = 1;
             else
-                combotimer2.fillAmount = P1hit.hitStun / 60f;
+                combotimer2.fillAmount = P1hit.hitStun;
 
             hitNum2 = P2hit.comboCount;
             combogauge2.enabled = true;
@@ -629,7 +629,7 @@ public class HUD : MonoBehaviour
             P2TrueCombo = true;
             combotimer2.color = Color.white;
         }
-        else if (P2hit.comboCount > 0 && hitNum2Memo == hitNum2 && P1hit.hitStun == 0 && P1hit.Actions.airborne && !P1hit.anim.GetCurrentAnimatorStateInfo(0).IsName("Launch")
+        else if (P2hit.comboCount > 0 && hitNum2Memo == hitNum2 && P1hit.hitStun <= 0 && P1hit.Actions.airborne && !P1hit.anim.GetCurrentAnimatorStateInfo(0).IsName("Launch")
             && !P1hit.anim.GetCurrentAnimatorStateInfo(0).IsName("WallStick"))
         {
             P2TrueCombo = false;

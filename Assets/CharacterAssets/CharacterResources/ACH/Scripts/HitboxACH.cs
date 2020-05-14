@@ -272,6 +272,8 @@ public class HitboxACH : MonoBehaviour
         HitDetect.attackLevel = 1;
         HitDetect.guard = "Mid";
 
+        HitDetect.slash = true;
+
         HitDetect.allowMedium = true;
         HitDetect.allowHeavy = true;
         HitDetect.allowBreak = true;
