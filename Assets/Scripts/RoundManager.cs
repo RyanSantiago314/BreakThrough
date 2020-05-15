@@ -92,15 +92,17 @@ public class RoundManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        if(!PhotonNetwork.IsMasterClient)
-        {
-            return;
-        }
+        //Need to do a few more checks: Check if both players have been instantiated.
+        //if(!PhotonNetwork.IsMasterClient)
+        //{
+        //    return;
+        //}
 
         if(changedProps.ContainsKey(BREAKTHROUGH.PLAYER_LOADED_LEVEL))
         {
             if(CheckAllPlayersLoaded())
             {
+                Debug.Log("Starting Game!");
                 PlayersSetup();
             }
         }
