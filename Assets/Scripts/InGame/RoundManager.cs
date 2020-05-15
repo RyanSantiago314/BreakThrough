@@ -233,6 +233,7 @@ public class RoundManager : MonoBehaviour
         //Setting player health to max
         P1Prop.currentHealth = P1Prop.maxHealth;
         P2Prop.currentHealth = P2Prop.maxHealth;
+
         //Setting players to starting location vectors
         GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
         GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
@@ -275,14 +276,7 @@ public class RoundManager : MonoBehaviour
 
     public void DetermineWinMethod()
     {
-        if (roundTimer <= 0 && P1Prop.currentHealth != 0 && P2Prop.currentHealth != 0)
-        {
-            centerText.text = "Time Up";
-            centerShadow.text = "Time Up";
-            if (suddenDeath)
-                ScreenGraphics.SetBool("SuddenDeath", true);
-        }
-        else if ((P1Prop.currentHealth == P1Prop.maxHealth && P2Prop.currentHealth == 0) || (P2Prop.currentHealth == P2Prop.maxHealth && P1Prop.currentHealth == 0))
+        if ((P1Prop.currentHealth == P1Prop.maxHealth && P2Prop.currentHealth == 0) || (P2Prop.currentHealth == P2Prop.maxHealth && P1Prop.currentHealth == 0))
         {
             centerText.text = "PERFECT";
             centerShadow.text = "PERFECT";
@@ -297,6 +291,15 @@ public class RoundManager : MonoBehaviour
             centerText.text = "Double KO";
             centerShadow.text = "Double KO";
         }
+        else if (roundTimer <= 0 && ((P1Prop.currentHealth != 0 && P2Prop.currentHealth != 0) ||
+            ((P1Prop.currentHealth != 0 && P2Prop.currentHealth == 0) || (P1Prop.currentHealth == 0 && P2Prop.currentHealth != 0))))
+        {
+            centerText.text = "Time Up";
+            centerShadow.text = "Time Up";
+            if (suddenDeath)
+                ScreenGraphics.SetBool("SuddenDeath", true);
+        }
+
 
         if ((int)((float)(P1Prop.currentHealth / P1Prop.maxHealth) * 100) == (int)((float)(P2Prop.currentHealth / P2Prop.maxHealth) * 100)
             || (P1Prop.currentHealth == 0 && P2Prop.currentHealth == 0))
