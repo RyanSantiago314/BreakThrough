@@ -52,7 +52,7 @@ public class CharacterProperties : MonoBehaviour
     void Update()
     {
         currentState = HitDetect.anim.GetCurrentAnimatorStateInfo(0);
-        if (currentHealth <= 0 && HitDetect.hitStop == 0)
+        if (currentHealth <= 0 && HitDetect.hitStop <= 0)
         {
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
             {
@@ -142,7 +142,7 @@ public class CharacterProperties : MonoBehaviour
             else
                 durabilityRefillTimer = 0;
 
-            if (!HitDetect.pauseScreen.isPaused && !HitDetect.anim.GetBool(KOID) && !HitDetect.OpponentDetector.anim.GetBool(KOID))
+            if (!HitDetect.pauseScreen.isPaused && !HitDetect.anim.GetBool(KOID) && !HitDetect.OpponentDetector.anim.GetBool(KOID) && RoundManager.gameActive)
             {
                 if (durabilityRefillTimer >= 3 && refillCounter == refillInterval)
                 {

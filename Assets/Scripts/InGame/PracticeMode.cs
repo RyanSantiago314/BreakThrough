@@ -217,7 +217,7 @@ public class PracticeMode : MonoBehaviour
                         P1Prop.durability = 100;
                     }
                     //Refill P2 Armor when P2 combo finishes
-                    if (HUD.combogauge1.enabled == false && P2inCombo && P2Prop.HitDetect.comboCount == 0)
+                    if (HUD.combogauge1.enabled == false && P1inCombo && P2Prop.HitDetect.comboCount == 0)
                     {
                         P2Prop.armor = 4;
                         P2Prop.durability = 100;
@@ -244,12 +244,12 @@ public class PracticeMode : MonoBehaviour
                 //Refill P1 HP after P2 combo finishes
                 if (P1Prop.HitDetect.hitStun > 0)
                 {
-                    //P1inCombo = true;
+                    P1inCombo = true;
                 }
                 if (P2Prop.HitDetect.comboCount == 0)
                 {
                     P1Prop.currentHealth = P1Prop.maxHealth * (P1ValorSetting / 100f);
-                    //P1inCombo = false;
+                    P1inCombo = false;
                     P2CurrentHitDamage = 0;
                     P1PrevHealth = P1Prop.currentHealth;
                     P2CurrentComboTotalDamage = 0;
