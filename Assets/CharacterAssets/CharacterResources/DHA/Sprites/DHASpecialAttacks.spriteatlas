@@ -43,11 +43,11 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: b0ff77980f6ec7e43ae00dea8010862c, type: 3}
-    totalSpriteSurfaceArea: 1428374433
+    totalSpriteSurfaceArea: 1415791521
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: 7472ea4dd6301aed995edf988a9e7e11
+      Hash: 00ad1057800c6d469f23977e36b6824e
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 77a66e102ae9399428c326060afc0b96, type: 3}
@@ -196,7 +196,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a383571944e81444da9704d690365e83, type: 3}
   - {fileID: 21300000, guid: e485df1952c86de40b2a40466889889c, type: 3}
   - {fileID: 21300000, guid: 6927302998700434fb83a3899eb1db97, type: 3}
-  - {fileID: 21300000, guid: 3347b8294c06ac54aac900a5ab20f3b3, type: 3}
   - {fileID: 21300000, guid: 8bc3f459ef2d86a49a1d3ea2624d0632, type: 3}
   - {fileID: 21300000, guid: b399055939569f5459cef7077d7be412, type: 3}
   - {fileID: 21300000, guid: 483e9e79621dc9d41a00210d9e979be6, type: 3}
@@ -278,7 +277,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7502fbedec4ee6d40a681fb7eafe8cae, type: 3}
   - {fileID: 21300000, guid: 8a8d23fd67b9a684eadfa81264d095b4, type: 3}
   - {fileID: 21300000, guid: 13034dfdb34ff1140a286f00bc46536a, type: 3}
-  - {fileID: 21300000, guid: e9f7780e5b604d74c9a3b4ec35e2cf3f, type: 3}
   - {fileID: 21300000, guid: 6867602efe75d5249a02f87f84bde2f9, type: 3}
   - {fileID: 21300000, guid: cd481e2ebf669004c87867d1f8342c6a, type: 3}
   - {fileID: 21300000, guid: d2062e3e564ec064f9aebab3eae78b59, type: 3}
@@ -301,7 +299,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b202becee87178a40a599f058ffdc863, type: 3}
   - {fileID: 21300000, guid: 7e39f5de4b4fa24478d916a339428332, type: 3}
   - {fileID: 21300000, guid: e531aadefa6ca97418decea97aa3f3ae, type: 3}
-  - {fileID: 21300000, guid: d576880ff1fb9e34aa82b687fe968ab7, type: 3}
   - {fileID: 21300000, guid: b9cc890fe87266f409ddf146da97df83, type: 3}
   - {fileID: 21300000, guid: 14437f0fed3c14743a741120dce34424, type: 3}
   - {fileID: 21300000, guid: 853c451fd4d120c47ab6ab99bac23a0e, type: 3}
@@ -463,7 +460,6 @@ SpriteAtlas:
   - BasketCaseActive_02
   - Patissiere_07
   - JSStartDemon_01-9
-  - Baguette_02
   - BaguetteBeamEnd_04
   - JSActive_02
   - JSEnd_01-2
@@ -545,7 +541,6 @@ SpriteAtlas:
   - BasketCaseActiveSin_01
   - ToasterRecovery_05
   - BasketCaseFlash_05
-  - Baguette_01
   - ToasterSuperFlash_03
   - JSCleaverEnd_02
   - Baguette_21
@@ -568,7 +563,6 @@ SpriteAtlas:
   - BasketCaseActiveFull_02
   - BaguetteBeamEnd_01
   - JSCleaverEnd_11
-  - Baguette_03
   - Baguette_14
   - BasketCaseFlash_01
   - BaguetteBeam_06
