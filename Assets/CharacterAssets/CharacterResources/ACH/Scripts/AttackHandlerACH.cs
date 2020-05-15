@@ -400,7 +400,7 @@ public class AttackHandlerACH : MonoBehaviour
 
         //aerial recovery, press a button after hitstun ends
         if((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") || currentState.IsName("LaunchTransition") ||
-            currentState.IsName("LaunchFall") || currentState.IsName("Unstick")) && Move.HitDetect.hitStun == 0 &&
+            currentState.IsName("LaunchFall") || currentState.IsName("Unstick")) && Move.HitDetect.hitStun <= 0 &&
             Move.transform.position.y > 1.1f && (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
         {
             anim.SetTrigger(IDRec);
@@ -421,8 +421,8 @@ public class AttackHandlerACH : MonoBehaviour
             Hitboxes.ClearHitBox();
 
         //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
-        if ((Actions.blitzCancel && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && CharProp.armor >= 1) &&
-            Move.HitDetect.hitStop == 0 && heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f)
+        if ((Actions.blitzCancel && Move.HitDetect.hitStun <= 0 && Move.HitDetect.blockStun <= 0 && CharProp.armor >= 1) &&
+            Move.HitDetect.hitStop <= 0 && heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f)
         {
             RefreshMoveList();
             BlitzWave.SetTrigger(IDBlitz);
@@ -471,7 +471,7 @@ public class AttackHandlerACH : MonoBehaviour
             mediumButton = 0;
         }
         // basic throw performed by pressing both light and break attack
-        else if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0)
+        else if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0)
         {
             if (Actions.standing)
             {
@@ -484,7 +484,7 @@ public class AttackHandlerACH : MonoBehaviour
                 Actions.throwTech = true;
             }
         }
-        else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop == 0)
+        else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop <= 0)
         {
             //break attacks
             if (Actions.standing)
@@ -527,7 +527,7 @@ public class AttackHandlerACH : MonoBehaviour
             }
             breakButton = 0;
         }
-        else if (Actions.acceptHeavy && heavyButton > 0 && Move.HitDetect.hitStop == 0)
+        else if (Actions.acceptHeavy && heavyButton > 0 && Move.HitDetect.hitStop <= 0)
         {
             //heavy attacks
             if (Actions.standing)
@@ -560,7 +560,7 @@ public class AttackHandlerACH : MonoBehaviour
             }
             heavyButton = 0;
         }
-        else if (Actions.acceptMedium && mediumButton > 0 && Move.HitDetect.hitStop == 0)
+        else if (Actions.acceptMedium && mediumButton > 0 && Move.HitDetect.hitStop <= 0)
         {
             //medium attacks
             if (Actions.standing)
@@ -592,7 +592,7 @@ public class AttackHandlerACH : MonoBehaviour
             }
             mediumButton = 0;
         }
-        else if (Actions.acceptLight && lightButton > 0 && Move.HitDetect.hitStop == 0)
+        else if (Actions.acceptLight && lightButton > 0 && Move.HitDetect.hitStop <= 0)
         {
             //light attacks
             if (Actions.standing)

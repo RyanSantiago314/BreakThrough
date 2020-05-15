@@ -24,6 +24,9 @@ public class ToasterHitbox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!PHitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("BaguetteEnd"))
+            charAnim.ResetTrigger("ToasterDeactivate");
+
         if (PHitDetect.hit)
         {
             ClearHitBox();
@@ -162,6 +165,9 @@ public class ToasterHitbox : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (hit1.size.x >= 1000 && other.CompareTag("HurtBox") && other.gameObject.transform.parent.parent == PHitDetect.Actions.Move.opponent)
+        {
+            ClearHitBox();
             transform.gameObject.SetActive(false);
+        }
     }
 }

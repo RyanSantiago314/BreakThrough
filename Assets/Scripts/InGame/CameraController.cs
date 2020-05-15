@@ -50,16 +50,16 @@ public class CameraController : MonoBehaviour
            (Char1Move.HitDetect.hitStop > 0 && Character1.GetComponent<CharacterProperties>().currentHealth <= 0) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" ||
             (Char2Move.HitDetect.hitStop > 0 && Char2Move.Actions.shattered) ||
             (Char1Move.HitDetect.hitStop > 0 && Char1Move.Actions.shattered) ||
-            Char1Move.Actions.superFlash > 10 || Char2Move.Actions.superFlash > 10)
+            Char1Move.Actions.superFlash > (float)7/60 || Char2Move.Actions.superFlash > (float)7/60)
         {
             //zooming in "dynamic/cinematic" camera
             cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2, zPosZoom);
 
             if ((Char2Move.Actions.shattered || (Character2.GetComponent<CharacterProperties>().currentHealth <= 0) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice") || 
-                Char2Move.Actions.superFlash > 10)
+                Char2Move.Actions.superFlash > (float)7 / 60)
                 cameraPos = new Vector3(Character2.position.x, Character2.position.y, zPosZoom);
             else if (Char1Move.Actions.shattered || (Character1.GetComponent<CharacterProperties>().currentHealth <= 0 && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice") ||
-                    Char1Move.Actions.superFlash > 10)
+                    Char1Move.Actions.superFlash > (float)7 / 60)
                 cameraPos = new Vector3(Character1.position.x, Character1.position.y, zPosZoom);
 
             smooth = 5;
@@ -85,7 +85,7 @@ public class CameraController : MonoBehaviour
 
             smooth = 10;
 
-            if (Char1Move.wallStickTimer == 35 || Char2Move.wallStickTimer == 35)
+            if ((Char1Move.wallStickTimer <= (float)35/60 && Char1Move.wallStickTimer >= (float)34 / 60)  || (Char2Move.wallStickTimer <= (float)35/60 && Char2Move.wallStickTimer >= (float)34 / 60))
             {
                 screenShake = .1f;
             }

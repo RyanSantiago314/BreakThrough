@@ -10,8 +10,8 @@ public class ProjectileProperties : MonoBehaviour
 
     PauseMenu pauseScreen;
 
-    public int maxLife;
-    public int currentLife;
+    public float maxLife;
+    public float currentLife;
 
     public int maxHits;
     public int currentHits;
@@ -40,8 +40,13 @@ public class ProjectileProperties : MonoBehaviour
             projectileActive = false;
         }
 
-        if (projectileActive && currentLife > 0 && PHitDetect.hitStop == 0 && hasLifeSpan && !pauseScreen.isPaused)
-            currentLife--;        
+        if (projectileActive && currentLife > 0 && PHitDetect.hitStop <= 0 && hasLifeSpan && !pauseScreen.isPaused)
+        {
+            if (PHitDetect.OpponentDetector.Actions.blitzed > 0)
+                currentLife -= Time.deltaTime/2;
+            else
+                currentLife -= Time.deltaTime;
+        }
     }
 
     public void Deactivate()

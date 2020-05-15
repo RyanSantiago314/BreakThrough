@@ -23,8 +23,8 @@ public class HitDetector : MonoBehaviour
     public float forcedProration;
     public Vector2 potentialKnockBack;
     public Vector2 potentialAirKnockBack;
-    public int potentialHitStun;
-    public int potentialHitStop;
+    public float potentialHitStun;
+    public float potentialHitStop;
     public int attackLevel;
     public string guard;
     public int durabilityDamage;
@@ -40,9 +40,9 @@ public class HitDetector : MonoBehaviour
 
     public Vector2 KnockBack;
     public Vector2 ProjectileKnockBack;
-    public int hitStop = 0;
-    public int hitStun = 0;
-    public int blockStun = 0;
+    public float hitStop = 0;
+    public float hitStun = 0;
+    public float blockStun = 0;
 
     public bool grab = false;
     public bool commandGrab = false;
@@ -181,21 +181,30 @@ public class HitDetector : MonoBehaviour
                 Actions.Move.rb.velocity = new Vector2(0, rb.velocity.y);
         }
 
-        if(hitStun > 0 && hitStop == 0)
+        if(hitStun > 0 && hitStop <= 0)
         {
             anim.SetBool(runID, false);
             //hitStun only counts down if not in the groundbounce or crumple animations
-            if(!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && 
-                Actions.blitzed % 2 == 0  && !pauseScreen.isPaused)
-                hitStun--;
-            anim.SetInteger(hitStunID, hitStun);
+            if (!currentState.IsName("GroundBounce") && !currentState.IsName("Crumple") && !currentState.IsName("SweepHit") && !pauseScreen.isPaused)
+            {
+                if (Actions.blitzed > 0)
+                    hitStun -= Time.deltaTime / 2;
+                else
+                    hitStun -= Time.deltaTime;
+            }
+            anim.SetFloat(hitStunID, hitStun);
         }
-        if(blockStun > 0 && hitStop == 0)
+        if(blockStun > 0 && hitStop <= 0)
         {
             Actions.Guard();
             if (!pauseScreen.isPaused)
-                blockStun--;
-            anim.SetInteger(blockStunID, blockStun);
+            {
+                if (Actions.blitzed > 0)
+                    blockStun -= Time.deltaTime / 2;
+                else
+                    blockStun -= Time.deltaTime;
+            }
+            anim.SetFloat(blockStunID, blockStun);
         }
 
         if (hitStop > 0)
@@ -204,7 +213,7 @@ public class HitDetector : MonoBehaviour
             anim.SetFloat(animSpeedID, 0f);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
             if (!pauseScreen.isPaused)
-                hitStop--;
+                hitStop -= Time.deltaTime;
         }
         else if (Actions.grabbed)
         {
@@ -221,7 +230,7 @@ public class HitDetector : MonoBehaviour
 
             if (Actions.superFlash > 0)
             {
-                OpponentDetector.hitStop = 2;
+                OpponentDetector.hitStop = (float)2/60;
                 rb.constraints = RigidbodyConstraints2D.FreezeAll;
             }
 
@@ -229,10 +238,10 @@ public class HitDetector : MonoBehaviour
             {
                 rb.velocity = Vector2.zero;
             }
-            else if (Actions.blitzed > 1)
+            else if (Actions.blitzed > (float)1/60)
             {
                 //simulate slow motion if within range of a blitz cancel or blitz attack
-                if (Actions.blitzed == 58)
+                if (Actions.blitzed >= (float)58/60 && Actions.blitzed <= (float)59 / 60)
                 {
                      rb.velocity *= new Vector2(.65f, 1f);
                     if (rb.velocity.y < 0)
@@ -240,7 +249,7 @@ public class HitDetector : MonoBehaviour
                 }
 
                 if (hitStun == 0 && !Actions.attacking && !Actions.active && !Actions.recovering)
-                    Actions.blitzed = 1;
+                    Actions.blitzed = (float)1/60;
 
                 anim.SetFloat(animSpeedID, .5f);
 
@@ -257,7 +266,7 @@ public class HitDetector : MonoBehaviour
             }
             else
             {
-                if (Actions.blitzed == 1)
+                if (Actions.blitzed <= (float)1/60 && Actions.blitzed > 0)
                 {
                     rb.velocity *= new Vector2(1.35f, 1f);
                     Actions.blitzed = 0;
@@ -302,10 +311,10 @@ public class HitDetector : MonoBehaviour
             }
         }
 
-        if (hitStun == 0 && blockStun == 0 && hitStop == 0)
+        if (hitStun <= 0 && blockStun <= 0 && hitStop <= 0)
         {
-            anim.SetInteger(hitStunID, 0);
-            anim.SetInteger(blockStunID, 0);
+            anim.SetFloat(hitStunID, -1);
+            anim.SetFloat(blockStunID, -1);
             anim.ResetTrigger(deflectID);
             anim.ResetTrigger(parryID);
             anim.ResetTrigger(successID);
@@ -323,7 +332,7 @@ public class HitDetector : MonoBehaviour
     {
         collideCount++;
         if (!(OpponentDetector.anim.GetBool(crouchID) && guard == "High") && !((guard == "Low" && OpponentDetector.Actions.lowInvincible) ||
-                ((guard == "Mid" || guard == "High" || guard == "Overhead") && OpponentDetector.Actions.hiInvincible)) && hitStop == 0)
+                ((guard == "Mid" || guard == "High" || guard == "Overhead") && OpponentDetector.Actions.hiInvincible)) && hitStop <= 0)
         {
             if (allowHit && !grab && !commandGrab && !blitz && !usingSuper && ((guard == "Low" && OpponentDetector.Actions.lowCounter) || 
                 ((guard == "Mid" || guard == "High" || guard == "Overhead") && OpponentDetector.Actions.hiCounter)))
@@ -344,23 +353,23 @@ public class HitDetector : MonoBehaviour
                 {
                     OpponentDetector.anim.SetTrigger("Blocked");
                     if (potentialHitStun <= 19)
-                        OpponentDetector.blockStun = potentialHitStun - 1;
+                        OpponentDetector.blockStun = (potentialHitStun - 1)/60;
                     else if (guardCancel)
-                        OpponentDetector.blockStun = potentialHitStun - potentialHitStun / 2;
+                        OpponentDetector.blockStun = (potentialHitStun - potentialHitStun / 2)/60;
                     else
-                        OpponentDetector.blockStun = potentialHitStun - potentialHitStun / 10;
+                        OpponentDetector.blockStun = (potentialHitStun - potentialHitStun / 10)/60;
 
-                    if (OpponentDetector.blockStun > 30)
-                        OpponentDetector.blockStun = 30;
+                    if (OpponentDetector.blockStun > .5f)
+                        OpponentDetector.blockStun = .5f;
                     // guarding right as the attack lands (just defend) reduces blockstun and negates chip damage
                     if (OpponentDetector.Actions.Move.justDefenseTime > 0)
                     {
-                        OpponentDetector.blockStun -= OpponentDetector.blockStun / 3;
+                        OpponentDetector.blockStun -= (float)(OpponentDetector.blockStun / 3);
                         OpponentDetector.Actions.CharProp.durability += 25;
                         OpponentDetector.justDefense = true;
                         Debug.Log("JUST DEFEND");
                     }
-                    OpponentDetector.anim.SetInteger(blockStunID, OpponentDetector.blockStun);
+                    OpponentDetector.anim.SetFloat(blockStunID, OpponentDetector.blockStun);
                     //what to do if an attack is blocked
                     //mid can be guarded by any guard, lows must be guarded low, overheads must be guarded high
                     //deal durability/chip damage equaling 10-20% of base damage
@@ -553,7 +562,7 @@ public class HitDetector : MonoBehaviour
                     if (Actions.Move.facingRight)
                         KnockBack *= new Vector2(-1, 0);
                 }
-                else if (((OpponentDetector.hitStun == 0 && OpponentDetector.blockStun == 0) || OpponentDetector.Actions.grabbed) && hitStun == 0 && !currentState.IsName("Deflected"))
+                else if (((OpponentDetector.hitStun <= 0 && OpponentDetector.blockStun <= 0) || OpponentDetector.Actions.grabbed) && hitStun <= 0 && !currentState.IsName("Deflected"))
                 {
                     Actions.throwTech = false;
 
@@ -630,7 +639,7 @@ public class HitDetector : MonoBehaviour
         allowHit = false;
         hit = true;
 
-        if (OpponentDetector.hitStun == 0)
+        if (OpponentDetector.hitStun <= 0)
             OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;
 
         hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
@@ -842,7 +851,7 @@ public class HitDetector : MonoBehaviour
             (OpponentDetector.Actions.armorActive && !OpponentDetector.Actions.acceptGuard) ||
             OpponentDetector.hitStun > 0 || OpponentDetector.anim.GetCurrentAnimatorStateInfo(0).IsName("Deflected")))
         {
-            OpponentDetector.Actions.blitzed = 60;
+            OpponentDetector.Actions.blitzed = 1;
             if (Actions.Move.OpponentProperties.comboTimer > 0)
                 Actions.Move.OpponentProperties.comboTimer -= 1.5f;
         }
@@ -900,47 +909,55 @@ public class HitDetector : MonoBehaviour
         //apply hitstun
         if (blitz && potentialHitStun == 0 && OpponentDetector.hitStun > 0)
         {
-            OpponentDetector.hitStun += 1;
+            OpponentDetector.hitStun += (float)(1/60);
         }
         else if (OpponentDetector.currentState.IsName("FDKnockdown") || OpponentDetector.currentState.IsName("FUKnockdown"))
         {
-            OpponentDetector.hitStun = potentialHitStun/2;
+            OpponentDetector.hitStun = potentialHitStun / 120;
         }
         else
         {
-            OpponentDetector.hitStun = potentialHitStun;
+            OpponentDetector.hitStun = potentialHitStun/60;
             if (OpponentDetector.Actions.airborne && usingSpecial)
             {
                 if (Actions.Move.OpponentProperties.comboTimer > 18)
-                    OpponentDetector.hitStun = 6 * potentialHitStun / 10;
+                    OpponentDetector.hitStun = (6 * potentialHitStun / 600);
                 else if (Actions.Move.OpponentProperties.comboTimer > 16)
-                    OpponentDetector.hitStun = 7 * potentialHitStun / 10;
+                    OpponentDetector.hitStun = (7 * potentialHitStun / 600);
                 else if (Actions.Move.OpponentProperties.comboTimer >= 13)
-                    OpponentDetector.hitStun = 8 * potentialHitStun / 10;
+                    OpponentDetector.hitStun = (8 * potentialHitStun / 600);
                 else if (Actions.Move.OpponentProperties.comboTimer > 10)
-                    OpponentDetector.hitStun = 9 * potentialHitStun / 10;
+                    OpponentDetector.hitStun = (9 * potentialHitStun / 600);
             }
             else if (OpponentDetector.Actions.airborne && !usingSuper)
             {
                 if (Actions.Move.OpponentProperties.comboTimer > 18)
-                    OpponentDetector.hitStun = 1;
+                    OpponentDetector.hitStun = (float)(1/60);
                 else if (Actions.Move.OpponentProperties.comboTimer > 16)
-                    OpponentDetector.hitStun = 6 * potentialHitStun/10;
+                    OpponentDetector.hitStun = (6 * potentialHitStun/600);
                 else if (Actions.Move.OpponentProperties.comboTimer >= 13)
-                    OpponentDetector.hitStun = 7 * potentialHitStun/10;
+                    OpponentDetector.hitStun = (7 * potentialHitStun/600);
                 else if (Actions.Move.OpponentProperties.comboTimer > 10)
-                    OpponentDetector.hitStun = 8 * potentialHitStun/10;
+                    OpponentDetector.hitStun = (8 * potentialHitStun/600);
                 else if (Actions.Move.OpponentProperties.comboTimer > 7)
-                    OpponentDetector.hitStun = 9 * potentialHitStun/10;
+                    OpponentDetector.hitStun = (9 * potentialHitStun/600);
             }
 
             if (OpponentDetector.anim.GetBool("Crouch"))
-                OpponentDetector.hitStun += 2;
+                OpponentDetector.hitStun += (float)(1/30);
             //increase hitstun upon landing a shatter or counter hit
             if (OpponentDetector.Actions.shattered || OpponentDetector.Actions.attacking)
             {
                 Actions.Move.OpponentProperties.comboTimer = 0;
                 OpponentDetector.hitStun *= 2;
+                if (OpponentDetector.Actions.shattered)
+                {
+                    //shatter graphic and voice clip
+                }
+                else
+                {
+                    //counter graphic on attacker's side and voice clip
+                }
             }
             OpponentDetector.blockStun = 0;
         }
@@ -1086,23 +1103,23 @@ public class HitDetector : MonoBehaviour
     }
 
 
-    void ApplyHitStop(int i)
+    void ApplyHitStop(float i)
     {
         currentVelocity = rb.velocity;
         OpponentDetector.currentVelocity = OpponentDetector.rb.velocity;
 
         if ((Actions.Move.OpponentProperties.currentHealth <= 0|| RoundManager.suddenDeath) && !OpponentDetector.anim.GetBool(KOID) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
         {
-            hitStop = 90;
-            OpponentDetector.hitStop = 90;
+            hitStop = 1.5f;
+            OpponentDetector.hitStop = hitStop;
             Actions.Move.OpponentProperties.currentHealth = 0;
             OpponentDetector.anim.SetBool(KOID, true);
             hitEffect.SetFloat(animSpeedID, 0);
         }
         else if (Actions.Move.OpponentProperties.currentHealth > 0 || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
-            hitStop = potentialHitStop + i;
-            OpponentDetector.hitStop = potentialHitStop + i;
+            hitStop = (potentialHitStop + i)/60;
+            OpponentDetector.hitStop = hitStop;
             if (usingSuper)
                 hitEffect.SetFloat(animSpeedID, 0);
         }

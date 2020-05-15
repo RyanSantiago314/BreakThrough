@@ -408,7 +408,7 @@ AnimationClip:
     functionName: StartSuperFlash
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
+    floatParameter: 90
     intParameter: 88
     messageOptions: 0
   - time: 1.5666667

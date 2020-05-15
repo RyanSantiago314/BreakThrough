@@ -18,7 +18,7 @@ public class BlitzImage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (OpponentActions.blitzed > 30)
+        if (OpponentActions.blitzed > .5f)
         {
             AfterImage.color = new Color(AfterImage.color.r, AfterImage.color.g, AfterImage.color.b, .7f);
         }
