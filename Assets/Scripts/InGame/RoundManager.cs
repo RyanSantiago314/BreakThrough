@@ -130,7 +130,7 @@ public class RoundManager : MonoBehaviour
 
         //temporary function until system using victory pose anims is implemented (automatically set nextround to true when win pose ends or if break is pressed during win pose)
         if (ScreenGraphics.GetCurrentAnimatorStateInfo(0).IsName("BreakDown") && !gameActive && (P1Prop.currentHealth == 0 || P2Prop.currentHealth == 0) &&
-            P1Prop.HitDetect.hitStop == 0 && P2Prop.HitDetect.hitStop == 0 && p1Win < 2 && p2Win < 2)
+            P1Prop.HitDetect.hitStop <= 0 && P2Prop.HitDetect.hitStop <= 0 && p1Win < 2 && p2Win < 2)
             NextRound();
 
         if (P1Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") && P2Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") &&
