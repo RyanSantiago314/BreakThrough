@@ -73,7 +73,7 @@ public class PracticeMode : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {       
+    {
         Player1 = GameObject.Find("Player1");
         Player2 = GameObject.Find("Player2");
         P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
@@ -113,7 +113,7 @@ public class PracticeMode : MonoBehaviour
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
             DamageDisplays.SetActive(true);
-        }       
+        }
     }
 
     // Update is called once per frame
@@ -121,18 +121,34 @@ public class PracticeMode : MonoBehaviour
     {
         //Practice Mode Handler
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
-        {      
-            //Changed popups to be the same text box, just changing what text displays
+        {
+            //Changed popups to be the same text box, just changing what text displays                
             if (popUpIndex == 0)
             {
                 popUps.SetActive(true);
+                popUps.GetComponent<Text>().text = "Welcome to training mode! Here you can practice and learn the basics of Breakthrough! \n (Press ENTER to continue)";
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    popUpIndex++;
+                }
+            }
+            else if (popUpIndex == 1)
+            {
+                popUps.GetComponent<Text>().text = "Let's start with the tutorial! \n (Press ENTER to continue or TAB to skip)";
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    popUpIndex++;
+                }
+            }
+            else if (popUpIndex == 2)
+            {
                 popUps.GetComponent<Text>().text = "Press D or D-Pad Foward to move foward!";
                 if (Input.GetAxis(inputHorizontal) > 0)
                 {
                     popUpIndex++;
                 }
             }
-            else if (popUpIndex == 1)
+            else if (popUpIndex == 3)
             {
                 popUps.GetComponent<Text>().text = "Press A or D-Pad Back to move back!";
                 if (Input.GetAxis(inputHorizontal) < 0)
@@ -140,7 +156,7 @@ public class PracticeMode : MonoBehaviour
                     popUpIndex++;
                 }
             }
-            else if (popUpIndex == 2)
+            else if (popUpIndex == 4)
             {
                 popUps.GetComponent<Text>().text = "Press S or D-Pad Down to crouch!";
                 if (Input.GetAxis(inputVertical) < 0)
@@ -148,7 +164,7 @@ public class PracticeMode : MonoBehaviour
                     popUpIndex++;
                 }
             }
-            else if (popUpIndex == 3)
+            else if (popUpIndex == 5)
             {
                 popUps.GetComponent<Text>().text = "Press W or D-Pad Up once to jump or double press them to double jump! ";
                 if (Input.GetAxis(inputVertical) > 0)
@@ -156,7 +172,7 @@ public class PracticeMode : MonoBehaviour
                     popUpIndex++;
                 }
             }
-            else if (popUpIndex == 4)
+            else if (popUpIndex == 6)
             {
                 popUps.GetComponent<Text>().text = "Press U or Square to do a light attack!";
                 if (Input.GetButtonDown(inputSquare))
@@ -164,7 +180,7 @@ public class PracticeMode : MonoBehaviour
                     popUpIndex++;
                 }
             }
-            else if (popUpIndex == 5)
+            else if (popUpIndex == 7)
             {
                 popUps.GetComponent<Text>().text = "Press I or Triangle to do a medium attack!";
                 if (Input.GetButtonDown(inputTriangle))
@@ -172,7 +188,7 @@ public class PracticeMode : MonoBehaviour
                     popUpIndex++;
                 }
             }
-            else if (popUpIndex == 6)
+            else if (popUpIndex == 8)
             {
                 popUps.GetComponent<Text>().text = "Press O or Circle to do a medium heavy attack!";
                 if (Input.GetButtonDown(inputCircle))
@@ -180,75 +196,67 @@ public class PracticeMode : MonoBehaviour
                     popUpIndex++;
                 }
             }
-            else if (popUpIndex == 7)
+            else if (popUpIndex == 9)
             {
                 popUps.GetComponent<Text>().text = "Press J or Cross to do a heavy attack!";
                 if (Input.GetButtonDown(inputCross))
                 {
                     popUpIndex++;
-                }
-            }
-            else if (popUpIndex == 8)
-            {
-                popUps.GetComponent<Text>().text = "Now hold J or Cross to power up a heavy attack and use it on the dummy!";
-                if (P2Prop.currentHealth <= 800)
-                {
-                    popUpIndex++;
-                }
-            }
-            else if (popUpIndex == 9)
-            {
-                popUps.GetComponent<Text>().text = "Now perform a combo attack on the dummy! \n (You can view your characters move list in the Pause Menu)";
-                if (P1Prop.HitDetect.comboCount >= 3)
-                {
-                    popUpIndex++;
+                    P1CurrentHitDamage = 0;
+
                 }
             }
             else if (popUpIndex == 10)
             {
-                popUps.GetComponent<Text>().text = "Now use one of your characters super moves by pressing ";
-                if (P2Prop.currentHealth <= 650)
+                popUps.GetComponent<Text>().text = "Now hold J or Cross to power up a heavy attack and use it on the dummy!";
+                if (P1CurrentHitDamage >= 100)
                 {
                     popUpIndex++;
-                    //popUps.SetActive(false);
                 }
             }
             else if (popUpIndex == 11)
             {
-                popUps.GetComponent<Text>().text = "Now use the other super move by pressing ";
-                if (P2Prop.currentHealth <= 650)
+                popUps.GetComponent<Text>().text = "Now perform a combo attack on the dummy! \n (You can view your characters move list in the Pause Menu)";
+                if (P1Prop.HitDetect.comboCount >= 5)
                 {
                     popUpIndex++;
-                    //popUps.SetActive(false);
                 }
             }
             else if (popUpIndex == 12)
             {
-                popUps.GetComponent<Text>().text = "Shield Mechanic ";
-                if (P2Prop.currentHealth <= 650)
+                popUps.GetComponent<Text>().text = "Now use one of your characters super moves by pressing ";
+                if (P1CurrentComboTotalDamage >= 250)
                 {
                     popUpIndex++;
-                    //popUps.SetActive(false);
+                    P1CurrentHitDamage = 0;
                 }
             }
             else if (popUpIndex == 13)
+            {
+                popUps.GetComponent<Text>().text = "Shield Mechanic ";
+                if (P1CurrentHitDamage >= 100)
+                {
+                    popUpIndex++;
+                }
+            }
+            else if (popUpIndex == 14)
             {
                 popUps.GetComponent<Text>().text = "Use the resolve meter by pressing H or ... This allows you to ... ";
                 if (Input.GetButtonDown(inputCross))
                 {
                     popUpIndex++;
-                    //popUps.SetActive(false);
                 }
             }
-            
             else
             {
                 popUps.GetComponent<Text>().text = "";
-            } 
+            }
 
-            if (Input.GetButtonDown(inputL3))
+            if (Input.GetKeyDown(KeyCode.Tab))            
             {
-                popUpIndex = 0;
+                popUpIndex = 1;
+                popUps.GetComponent<Text>().text = "";
+                popUps.SetActive(false);
             }
 
             //Check Settings from Practice Pause Menu
@@ -277,8 +285,8 @@ public class PracticeMode : MonoBehaviour
                     dummyState = "Player";
                     break;
             }
-            
-            switch(PracticeModeSettings.GetComponent<PauseMenu>().ArmorRefill)
+
+            switch (PracticeModeSettings.GetComponent<PauseMenu>().ArmorRefill)
             {
                 case 0:
                     enableArmorRefill = true;
@@ -500,7 +508,7 @@ public class PracticeMode : MonoBehaviour
                     {
                         MaxInput.Cross("Player2");
                         P2inAirTrueCombo = false;
-                    }                  
+                    }
                 }
 
                 //CPU ground guard after first hit
@@ -574,7 +582,7 @@ public class PracticeMode : MonoBehaviour
                     fixAnimBug = true;
                 }
             }
-            
+
         }
     }
 
@@ -635,7 +643,7 @@ public class PracticeMode : MonoBehaviour
 
     //Character Specific Reset Properties
     private void resetDhalia(GameObject player)
-    {   
+    {
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetTrigger(Animator.StringToHash("Blitz"));
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Hitboxes.BlitzCancel();
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Actions.landingLag = 0;
