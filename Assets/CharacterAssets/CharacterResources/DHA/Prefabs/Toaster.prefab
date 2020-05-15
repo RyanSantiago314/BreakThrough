@@ -142,8 +142,8 @@ MonoBehaviour:
   anim: {fileID: 1571492460223486445}
   rb: {fileID: 1571492460223486444}
   PHitDetect: {fileID: 1571492461831992422}
-  maxLife: 420
-  currentLife: 0
+  maxLife: 500
+  currentLife: -1
   maxHits: 24
   currentHits: 0
   projectileActive: 1
@@ -377,6 +377,7 @@ MonoBehaviour:
   crumple: 0
   sweep: 0
   forceCrouch: 0
+  forceStand: 0
   shatter: 0
   allowWallStick: 0
   allowGroundBounce: 0

@@ -640,6 +640,7 @@ MonoBehaviour:
   allowWallBounce: 0
   usingSuper: 0
   usingSpecial: 0
+  guardCancel: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0
@@ -3723,6 +3724,7 @@ MonoBehaviour:
   allowWallBounce: 0
   usingSuper: 0
   usingSpecial: 0
+  guardCancel: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0
@@ -4876,8 +4878,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   neural: 0
   training: 0
-  player2: {fileID: 0}
-  player1: {fileID: 0}
 --- !u!114 &1227274344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5316,7 +5316,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -5998939954949626797, guid: 250dd0ad805d8dc469473a76bc548189,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 100ffdcc43b8f7b4ea0b91c45ffec2e0, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 18fef790af4b27947857937886477536, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.3
   m_Pitch: 1
@@ -6743,6 +6743,7 @@ MonoBehaviour:
   allowWallBounce: 0
   usingSuper: 0
   usingSpecial: 0
+  guardCancel: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0
@@ -6970,8 +6971,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   neural: 0
   training: 0
-  player2: {fileID: 0}
-  player1: {fileID: 0}
 --- !u!114 &1696544980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8382,6 +8381,7 @@ MonoBehaviour:
   allowWallBounce: 0
   usingSuper: 0
   usingSpecial: 0
+  guardCancel: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0

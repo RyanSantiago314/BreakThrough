@@ -21,21 +21,21 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: d115e721f96a1d84ba0b68aaef565585, type: 3}
-    - time: 0.23333333
+    - time: 0.18333334
       value: {fileID: 21300000, guid: f17b102c445e4bc489291d94a6972205, type: 3}
-    - time: 0.28333333
+    - time: 0.23333333
       value: {fileID: 21300000, guid: d2062e3e564ec064f9aebab3eae78b59, type: 3}
-    - time: 0.33333334
+    - time: 0.28333333
       value: {fileID: 21300000, guid: 8903c0beb524cea4e86168a8902429c9, type: 3}
-    - time: 0.38333333
+    - time: 0.33333334
       value: {fileID: 21300000, guid: 3936c50bcbee3e74495a501f2ea379cc, type: 3}
-    - time: 0.43333334
+    - time: 0.38333333
       value: {fileID: 21300000, guid: e2d89a98cd0eaf6498844dc317bd5869, type: 3}
-    - time: 0.48333332
+    - time: 0.43333334
       value: {fileID: 21300000, guid: 45fa0beff0ca49b44b5a423ab6cd48db, type: 3}
-    - time: 0.53333336
+    - time: 0.48333332
       value: {fileID: 21300000, guid: 23d84920b17f3254ca0782b255bcd983, type: 3}
-    - time: 0.5833333
+    - time: 0.53333336
       value: {fileID: 21300000, guid: e9555d8eef6de5744af1778736609d73, type: 3}
     attribute: m_Sprite
     path: 
@@ -44,13 +44,13 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: 7e39f5de4b4fa24478d916a339428332, type: 3}
-    - time: 0.06666667
+    - time: 0.05
       value: {fileID: 21300000, guid: 0304bfd704fc04046bf194db0bbb7aaa, type: 3}
-    - time: 0.13333334
+    - time: 0.1
       value: {fileID: 21300000, guid: f185c8cffab26b045a2a5afc259d594d, type: 3}
-    - time: 0.2
+    - time: 0.15
       value: {fileID: 21300000, guid: 8bc3f459ef2d86a49a1d3ea2624d0632, type: 3}
-    - time: 0.26666668
+    - time: 0.21666667
       value: {fileID: 21300000, guid: e9555d8eef6de5744af1778736609d73, type: 3}
     attribute: m_Sprite
     path: Beam
@@ -97,7 +97,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.59999996
+    m_StopTime: 0.55
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -138,14 +138,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.26666668
+  - time: 0.21666667
     functionName: RecoveryStart
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.55
+  - time: 0.5
     functionName: Deactivate
     data: 
     objectReferenceParameter: {fileID: 0}

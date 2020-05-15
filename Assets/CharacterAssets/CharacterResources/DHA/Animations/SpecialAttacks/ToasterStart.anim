@@ -162,10 +162,10 @@ AnimationClip:
     functionName: StartSuperFlash
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
+    floatParameter: 80
     intParameter: 68
     messageOptions: 0
-  - time: 0.46666667
+  - time: 0.5
     functionName: SummonToaster
     data: 
     objectReferenceParameter: {fileID: 0}

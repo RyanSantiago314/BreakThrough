@@ -308,7 +308,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 1e436b694af1fcc4194ecb9fa4183721, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c70667b885e8cd44396944c737c04de0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -363,6 +363,8 @@ MonoBehaviour:
   active: 0
   recovering: 0
   throwInvincible: 0
+  hiInvincible: 0
+  lowInvincible: 0
   hiCounter: 0
   lowCounter: 0
   shattered: 0
@@ -378,6 +380,7 @@ MonoBehaviour:
   originalGravity: 1.05
   gravScale: 1
   comboHits: 0
+  hitType: 
   anim: {fileID: 4805734550476353333}
   Move: {fileID: 4805734551550778301}
   CharProp: {fileID: 4805734551550778304}
@@ -550,7 +553,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.73, y: 0.5}
+  m_Offset: {x: 0.04, y: -0.72}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -561,7 +564,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1499999, y: 0.21}
+  m_Size: {x: 2, y: 0.34}
   m_EdgeRadius: 0
 --- !u!61 &4805734550646551876
 BoxCollider2D:
@@ -961,12 +964,14 @@ MonoBehaviour:
   crumple: 0
   sweep: 0
   forceCrouch: 0
+  forceStand: 0
   shatter: 0
   allowWallStick: 0
   allowGroundBounce: 0
   allowWallBounce: 0
   usingSuper: 0
   usingSpecial: 0
+  guardCancel: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0
@@ -1226,6 +1231,7 @@ MonoBehaviour:
   minPosY: 1.1
   justDefenseTime: 6
   hittingWall: 0
+  hittingBound: 0
   playing: 0
   wallStickTimer: 0
   jumping: 0

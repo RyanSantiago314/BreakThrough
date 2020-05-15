@@ -3127,6 +3127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 650a6d9f2f495b347b08d266088d9227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  P1Prop: {fileID: 0}
+  P2Prop: {fileID: 0}
   p1menu: {fileID: 1129626044708017407}
   p2menu: {fileID: 1129626046257296813}
   p1Replay: {fileID: 1129626045137476938}
@@ -3173,6 +3175,7 @@ MonoBehaviour:
   TimeUp: {fileID: 8300000, guid: 13bec65232af85d44aeeb62d636a1944, type: 3}
   Versus: {fileID: 8300000, guid: 2ca8813941abef441835b82416cac208, type: 3}
   DhaliaTheme: {fileID: 8300000, guid: 5f8ebdb799b6da1478a54dc81edd6723, type: 3}
+  AchealisTheme: {fileID: 8300000, guid: 343d1885098d1794aa4bd97be14461c9, type: 3}
 --- !u!1 &1129626046257296813
 GameObject:
   m_ObjectHideFlags: 0

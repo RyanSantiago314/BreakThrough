@@ -36,8 +36,8 @@ public class AttackHandlerDHA : MonoBehaviour
     private string MH;
     private string LB;
 
-    float bufferTime = .15f;
-    float directionBufferTime = .25f;
+    float bufferTime = .2f;
+    float directionBufferTime = .3f;
     float lightButton;
     float mediumButton;
     float heavyButton;
@@ -98,7 +98,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int runID;
     static int IDRec;
     static int IDBlitz;
-    static int IDBurst;
+    static int IDGuardCancel;
     static int IDThrow;
 
     static int lowGuardID;
@@ -144,7 +144,7 @@ public class AttackHandlerDHA : MonoBehaviour
         runID = Animator.StringToHash("Run");
         IDRec = Animator.StringToHash("Recover");
         IDBlitz = Animator.StringToHash("Blitz");
-        IDBurst = Animator.StringToHash("BurstBreaker");
+        IDGuardCancel = Animator.StringToHash("GuardCancel");
         IDThrow = Animator.StringToHash("Throw");
 
         if (transform.parent.name == "Player1")
@@ -179,7 +179,9 @@ public class AttackHandlerDHA : MonoBehaviour
         colorControl = transform.GetChild(0).GetComponent<ColorSwapDHA>();
 
         Projectile = Instantiate(Prefab, new Vector3(0, 5, -3), Quaternion.identity, transform.root);
+
         Toaster = Instantiate(ToasterPrefab, new Vector3(0, -5, -3), Quaternion.identity, transform.root);
+
         BlitzEffect = Instantiate(BlitzPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
         BlitzImage = BlitzEffect.transform.GetChild(0).GetComponent<SpriteRenderer>();
         BlitzWave = BlitzEffect.transform.GetComponentInChildren<Animator>();
@@ -425,7 +427,7 @@ public class AttackHandlerDHA : MonoBehaviour
 
         //aerial recovery, press a button after hitstun ends
         if ((currentState.IsName("HitAir") || currentState.IsName("FallForward") || currentState.IsName("SweepHit") || currentState.IsName("LaunchTransition") ||
-            currentState.IsName("LaunchFall") || currentState.IsName("Unstick")) && Move.HitDetect.hitStun == 0 &&
+            currentState.IsName("LaunchFall") || currentState.IsName("Unstick")) && Move.HitDetect.hitStun <= 0 &&
             Move.transform.position.y > 1.1f && (lightButton > 0 || mediumButton > 0 || heavyButton > 0 || breakButton > 0))
         {
             anim.SetTrigger(IDRec);
@@ -446,9 +448,10 @@ public class AttackHandlerDHA : MonoBehaviour
             Hitboxes.ClearHitBox();
 
         //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
-        if ((Actions.blitzCancel && Move.HitDetect.hitStun == 0 && Move.HitDetect.blockStun == 0 && CharProp.armor >= 1) &&
-            Move.HitDetect.hitStop == 0 && heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f)
+        if ((Actions.blitzCancel && Move.HitDetect.hitStun <= 0 && Move.HitDetect.blockStun <= 0 && CharProp.armor >= 1) &&
+            Move.HitDetect.hitStop <= 0 && heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f)
         {
+            RefreshMoveList();
             BlitzWave.SetTrigger(IDBlitz);
             Hitboxes.BlitzCancel();
             Actions.landingLag = 0;
@@ -483,6 +486,9 @@ public class AttackHandlerDHA : MonoBehaviour
                     Move.rb.AddForce(new Vector2(2.7f, 0), ForceMode2D.Impulse);
             }
 
+            if (Move.HitDetect.comboCount > 0)
+                Move.HitDetect.specialProration *= .85f;
+
             //cost for executing blitz cancel
             CharProp.armor--;
             CharProp.durability = 70;
@@ -491,8 +497,20 @@ public class AttackHandlerDHA : MonoBehaviour
             heavyButton = 0;
             mediumButton = 0;
         }
+        //a maneuver done while blocking that knocks back the opponent
+        else if (Move.HitDetect.blockStun > 0 && CharProp.armor >= 1 && Actions.standing &&  Move.HitDetect.hitStop <= 0 && 
+            dir6 > 0 && heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f)
+        {
+            anim.SetTrigger(IDGuardCancel);
+            CharProp.armor--;
+            CharProp.durability = 50;
+            Move.HitDetect.blockStun = 0;
+            CharProp.durabilityRefillTimer = 0;
+            heavyButton = 0;
+            mediumButton = 0;
+        }
         // basic throw performed by pressing both light and break attack
-        else if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0)
+        else if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0)
         {
             if(Actions.standing)
             {
@@ -505,7 +523,7 @@ public class AttackHandlerDHA : MonoBehaviour
                 Actions.throwTech = true;
             }
         }
-        else if (Actions.acceptSuper && lightButton > 0 && mediumButton > 0 && Move.HitDetect.hitStop == 0 && QCB > 0 && CharProp.armor >= 2 && Actions.standing)
+        else if (Actions.acceptSuper && lightButton > 0 && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0 && CharProp.armor >= 2 && Actions.standing)
         {
             Move.jumping = 0;
             // Judgment Sabre super attack, executed by doing a QCB and pressing L and M together
@@ -517,7 +535,7 @@ public class AttackHandlerDHA : MonoBehaviour
             mediumButton = 0;
             QCB = 0;
         }
-        else if (Actions.acceptSuper && heavyButton > 0 && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && CharProp.armor >= 2 && Actions.standing && !Toaster.activeSelf)
+        else if (Actions.acceptSuper && heavyButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && CharProp.armor >= 2 && Actions.standing && !Toaster.activeSelf)
         {
             Move.jumping = 0;
             // Toaster super attack, executed by doing a QCF and pressing H and B
@@ -529,7 +547,7 @@ public class AttackHandlerDHA : MonoBehaviour
             heavyButton = 0;
             QCF = 0;
         }
-        else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && Actions.standing)
+        else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && Actions.standing)
         {
             Move.jumping = 0;
             // Basket Case special attack, executed by doing a QCF and pressing B, can be used up to twice in succession
@@ -538,7 +556,7 @@ public class AttackHandlerDHA : MonoBehaviour
             breakButton = 0;
             QCF = 0;
         }
-        else if (Actions.acceptSpecial && heavyButton > 0 && Move.HitDetect.hitStop == 0 && QCB > 0)
+        else if (Actions.acceptSpecial && heavyButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0)
         {
             Move.jumping = 0;
             // Blood Brave special attack, executed by doing a QCB and pressing H
@@ -547,7 +565,7 @@ public class AttackHandlerDHA : MonoBehaviour
             heavyButton = 0;
             QCB = 0;
         }
-        else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop == 0 && HCB > 0 && Actions.standing)
+        else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && HCB > 0 && Actions.standing)
         {
             Move.jumping = 0;
             // Head Rush special attack, executed by doing a HCB and pressing M
@@ -555,7 +573,7 @@ public class AttackHandlerDHA : MonoBehaviour
             mediumButton = 0;
             HCB = 0;
         }
-        else if (Actions.acceptSpecial && lightButton > 0 && Move.HitDetect.hitStop == 0 && QCF > 0 && Actions.standing && !Projectile.activeSelf)
+        else if (Actions.acceptSpecial && lightButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && Actions.standing && !Projectile.activeSelf)
         {
             Move.jumping = 0;
             // Patissiere projectile special attack, executed by doing a QCF and pressing L
@@ -564,7 +582,7 @@ public class AttackHandlerDHA : MonoBehaviour
             lightButton = 0;
             QCF = 0;
         }
-        else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop == 0)
+        else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop <= 0)
         {
             //break attacks
             if(Actions.standing)
@@ -607,7 +625,7 @@ public class AttackHandlerDHA : MonoBehaviour
             }
             breakButton = 0;
         }
-        else if (Actions.acceptHeavy && heavyButton > 0 && Move.HitDetect.hitStop == 0)
+        else if (Actions.acceptHeavy && heavyButton > 0 && Move.HitDetect.hitStop <= 0)
         {
             //heavy attacks
             if(Actions.standing)
@@ -655,7 +673,7 @@ public class AttackHandlerDHA : MonoBehaviour
             }
             heavyButton = 0;
         }
-        else if (Actions.acceptMedium && mediumButton > 0 && Move.HitDetect.hitStop == 0)
+        else if (Actions.acceptMedium && mediumButton > 0 && Move.HitDetect.hitStop <= 0)
         {
             //medium attacks
             if(Actions.standing)
@@ -687,7 +705,7 @@ public class AttackHandlerDHA : MonoBehaviour
             }
             mediumButton = 0;
         }
-        else if (Actions.acceptLight && lightButton > 0 && Move.HitDetect.hitStop == 0)
+        else if (Actions.acceptLight && lightButton > 0 && Move.HitDetect.hitStop <= 0)
         {
             //light attacks
             if(Actions.standing)
@@ -696,6 +714,8 @@ public class AttackHandlerDHA : MonoBehaviour
                 {
                     if(CrouchL > 0)
                     {
+                        if (StandL < 3)
+                            StandL = 0;
                         anim.SetTrigger(ID2L);
                         CrouchL--;
                     }
@@ -748,12 +768,13 @@ public class AttackHandlerDHA : MonoBehaviour
                     }
                     else if (StandL > 0)
                     {
+                        if (CrouchL < 3)
+                            CrouchL = 0;
                         anim.SetTrigger(ID5L);
                         StandL--;
                     }
                 }
             }
-
             else
             {
                 if(JumpL > 0)

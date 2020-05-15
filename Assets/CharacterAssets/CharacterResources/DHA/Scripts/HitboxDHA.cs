@@ -86,6 +86,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.shatter = false;
         HitDetect.usingSuper = false;
         HitDetect.usingSpecial = false;
+        HitDetect.guardCancel = false;
         HitDetect.slash = false;
         HitDetect.vertSlash = false;
         HitDetect.horiSlash = false;
@@ -111,10 +112,33 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.blitz = true; 
     }
 
+    void GuardCancelHitBox()
+    {
+        ClearHitBox();
+        HitDetect.Actions.AttackActive();
+        hit1.enabled = true;
+        hit2.enabled = true;
+        hit1.offset = new Vector2(.82f, -.6f);
+        hit1.size = new Vector2(1.34f, .8f);
+
+        HitDetect.damage = 30;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 0;
+        HitDetect.potentialHitStun = 32;
+        HitDetect.potentialHitStop = hitStopLv3;
+        HitDetect.potentialKnockBack = new Vector2(3f, 2f);
+        HitDetect.initialProration = .5f;
+        HitDetect.attackLevel = 7;
+        HitDetect.guard = "Mid";
+
+        HitDetect.piercing = true;
+        HitDetect.usingSpecial = true;
+        HitDetect.guardCancel = true;
+    }
+
     public void SummonPastry()
     {
         //Pastry projectile, angle of throw changes based on direction held after execution
-        AttackHandler.Projectile.SetActive(true);
         AttackHandler.Projectile.GetComponent<PatissiereHitbox>().flash.intensity = 0;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetInteger("Pastry", Random.Range(0, 5));
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetTrigger("Activate");
@@ -124,8 +148,10 @@ public class HitboxDHA : MonoBehaviour
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().rb.velocity = Vector2.zero;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().rb.angularVelocity = 0;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentHits = 0;
-        AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife;
+        AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife/60;
         AttackHandler.Projectile.transform.localRotation = Quaternion.identity;
+        AttackHandler.Projectile.SetActive(true);
+
         if (HitDetect.Actions.Move.facingRight)
             AttackHandler.Projectile.transform.position = new Vector3(transform.position.x + .4f, transform.position.y + .45f, transform.position.z);
         else
@@ -140,7 +166,6 @@ public class HitboxDHA : MonoBehaviour
             else
             {
                 AttackHandler.Projectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(-2, 1), ForceMode2D.Impulse);
-                AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife -= 30;
             }
         }
         else if (AttackHandler.MaxInput.GetAxis(HitDetect.Actions.Move.Horizontal) > 0)
@@ -148,7 +173,6 @@ public class HitboxDHA : MonoBehaviour
             if (HitDetect.Actions.Move.facingRight)
             {
                 AttackHandler.Projectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(2, 1), ForceMode2D.Impulse);
-                AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife -= 30;
             }
             else
             {
@@ -172,12 +196,12 @@ public class HitboxDHA : MonoBehaviour
     public void SummonToaster()
     {
         AttackHandler.Toaster.SetActive(true);
-        AttackHandler.Toaster.GetComponent<ProjectileProperties>().anim.SetTrigger("Summon");
         AttackHandler.Toaster.GetComponent<ProjectileProperties>().projectileActive = true;
         AttackHandler.Toaster.GetComponent<ProjectileProperties>().currentHits = 0;
-        AttackHandler.Toaster.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife;
+        AttackHandler.Toaster.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife / 60;
         AttackHandler.Toaster.transform.rotation = transform.rotation;
         AttackHandler.Toaster.transform.position = transform.position;
+        AttackHandler.Toaster.GetComponent<ProjectileProperties>().anim.SetTrigger("Summon");
     }
 
     //push damage values, knockback, and proration to hitdetector from hitbox events
@@ -323,7 +347,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStun = hitStunLv2;
         HitDetect.potentialHitStop = hitStopLv1;
         HitDetect.potentialKnockBack = new Vector2(1f, 0);
-        HitDetect.potentialAirKnockBack = new Vector2(.7f, 2f);
+        HitDetect.potentialAirKnockBack = new Vector2(1f, 2f);
         HitDetect.initialProration = .8f;
         HitDetect.attackLevel = 0;
         HitDetect.guard = "Overhead";
@@ -351,6 +375,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStun = hitStunLv1;
         HitDetect.potentialHitStop = hitStopLv1;
         HitDetect.potentialKnockBack = new Vector2(1.5f, 0);
+        HitDetect.potentialAirKnockBack = new Vector2(1.5f, 1.5f);
         HitDetect.initialProration = .85f;
         HitDetect.attackLevel = 1;
         HitDetect.guard = "Low";
@@ -844,7 +869,7 @@ public class HitboxDHA : MonoBehaviour
             HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialKnockBack = new Vector2(.5f, 1.5f);
-        HitDetect.potentialHitStun = 60;
+        HitDetect.potentialHitStun = 24;
         HitDetect.potentialHitStop = hitStopLv2 + sinCharge;
         HitDetect.initialProration = 1;
         HitDetect.attackLevel = 3;
@@ -1022,8 +1047,8 @@ public class HitboxDHA : MonoBehaviour
         hit1.enabled = true;
 
 
-        hit1.offset = new Vector2(.29f, -.09f);
-        hit1.size = new Vector2(.28f, .9f);
+        hit1.offset = new Vector2(.34f, -.09f);
+        hit1.size = new Vector2(.4f, .9f);
 
         HitDetect.armorDamage = 1;
         HitDetect.durabilityDamage = 50;
@@ -1164,7 +1189,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialKnockBack = new Vector2(1.5f, 3.5f);
         HitDetect.potentialAirKnockBack = new Vector2(2f, -2f);
-        HitDetect.potentialHitStun = 42;
+        HitDetect.potentialHitStun = 24;
         HitDetect.potentialHitStop = hitStopLv4;
         HitDetect.attackLevel = 4;
         HitDetect.guard = "Overhead";
@@ -1191,9 +1216,9 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialKnockBack = new Vector2(1f, 0f);
-        HitDetect.potentialAirKnockBack = new Vector2(2f, 1.5f);
-        HitDetect.forcedProration = 1.1f;
-        HitDetect.potentialHitStun = 24;
+        HitDetect.potentialAirKnockBack = new Vector2(2.5f, 1.5f);
+        HitDetect.forcedProration = 1.15f;
+        HitDetect.potentialHitStun = 16;
         HitDetect.potentialHitStop = 1;
         HitDetect.attackLevel = 3;
         HitDetect.guard = "Low";

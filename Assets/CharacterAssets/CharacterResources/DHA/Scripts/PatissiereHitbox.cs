@@ -17,6 +17,9 @@ public class PatissiereHitbox : MonoBehaviour
 
     public ProjectileHitDetector PHitDetect;
 
+    float flickerTimer = 0;
+    bool flickerRed = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +37,7 @@ public class PatissiereHitbox : MonoBehaviour
     {
         if (PHitDetect.Actions.superFlash > 0)
         {
-            PHitDetect.hitStop = 2;
+            PHitDetect.hitStop = (float)2/60;
             if (PHitDetect.currentVelocity == Vector2.zero)
             {
                 PHitDetect.currentVelocity = PHitDetect.rb.velocity;
@@ -45,10 +48,26 @@ public class PatissiereHitbox : MonoBehaviour
         if (flash.intensity > 0)
             flash.intensity -= .75f;
 
-        if (PHitDetect.ProjProp.currentLife != 0 && PHitDetect.ProjProp.currentLife < 30 && PHitDetect.ProjProp.currentLife % 4 == 0)
-            sprite.color = Color.red;
+        if (PHitDetect.ProjProp.currentLife > 0 && PHitDetect.ProjProp.currentLife < .5f)
+        {
+            if (flickerTimer > 0)
+            {
+                flickerTimer -= Time.deltaTime;
+            }
+            else
+            {
+                flickerRed = !flickerRed;
+                flickerTimer = .01f;
+            }
+
+            if (flickerRed)
+                sprite.color = Color.red;
+            else
+                sprite.color = Color.white;
+        }
         else
             sprite.color = Color.white;
+            
 
         if (PHitDetect.HitDetect.hitStun > 0)
             PHitDetect.ProjProp.Deactivate();
@@ -160,7 +179,7 @@ public class PatissiereHitbox : MonoBehaviour
             PHitDetect.potentialKnockBack = new Vector2(1.5f, 3f);
             PHitDetect.potentialAirKnockBack = new Vector2(1.5f, 3f);
             PHitDetect.initialProration = .85f;
-            PHitDetect.forcedProration = 1.2f;
+            PHitDetect.forcedProration = 1.1f;
             PHitDetect.attackLevel = 3;
             PHitDetect.guard = "Mid";
 
@@ -191,6 +210,9 @@ public class PatissiereHitbox : MonoBehaviour
             }
         }
         else if (other.CompareTag("HurtBox") && other.gameObject.transform.parent.parent == PHitDetect.Actions.Move.opponent)
+        {
+            ClearHitBox();
             transform.gameObject.SetActive(false);
+        }
     }
 }
