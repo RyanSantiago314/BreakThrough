@@ -62,6 +62,9 @@ public class RoundManager : MonoBehaviour
     //Timer variable
     float timer;
 
+    //bool to set and hold starting positions
+    private bool holdpositions;
+
     void Awake()
     {
         roundCount = 0;
@@ -121,6 +124,7 @@ public class RoundManager : MonoBehaviour
             roundCount = 0;
             startReady = true;
         }
+        holdpositions = false;
     }
 
     // Update is called once per frame
@@ -224,6 +228,13 @@ public class RoundManager : MonoBehaviour
                 p1Win++;
                 RoundStop();
             }
+        }
+
+        if (holdpositions)
+        {
+            //Setting players to starting location vectors
+            GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
+            GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
         }
     }
 
@@ -450,5 +461,15 @@ public class RoundManager : MonoBehaviour
         p2menu.SetActive(false);
         ResetPositions();
         NextRound();
+    }
+
+    public void HoldPositions()
+    {
+        holdpositions = true;
+    }
+
+    public void FreePositions()
+    {
+        holdpositions = false;
     }
 }
