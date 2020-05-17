@@ -75,24 +75,27 @@ public class CursorMovementStageSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Manage Cursor movement
-        float x = Input.GetAxis(p1Hor);
-        float y = Input.GetAxis(p1Ver);
+        if (!SceneTransitions.lockinputs)
+        {
+            //Manage Cursor movement
+            float x = Input.GetAxis(p1Hor);
+            float y = Input.GetAxis(p1Ver);
 
-        //Enable P2 to also control cursor
-        float x2 = Input.GetAxis(p2Hor);
-        float y2 = Input.GetAxis(p2Ver);
+            //Enable P2 to also control cursor
+            float x2 = Input.GetAxis(p2Hor);
+            float y2 = Input.GetAxis(p2Ver);
 
-        transform.position += new Vector3(Mathf.Clamp(x+x2,-1,1), Mathf.Clamp(y+y2,-1,1), 0) * Time.deltaTime * speed;
+            transform.position += new Vector3(Mathf.Clamp(x+x2,-1,1), Mathf.Clamp(y+y2,-1,1), 0) * Time.deltaTime * speed;
 
-        Vector3 worldSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+            Vector3 worldSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
 
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -worldSize.x, worldSize.x),
-        Mathf.Clamp(transform.position.y, -worldSize.y, worldSize.y),
-        transform.position.z);
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, -worldSize.x, worldSize.x),
+            Mathf.Clamp(transform.position.y, -worldSize.y, worldSize.y),
+            transform.position.z);
+        }
 
         //Manage Selection input
-        if (isOverlap)
+        if (isOverlap && !SceneTransitions.lockinputs)
         {
             borders[stageNum].SetActive(true);
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
@@ -129,7 +132,7 @@ public class CursorMovementStageSelect : MonoBehaviour
             
         }
 
-        if (Input.GetButtonDown(p1Circle) || Input.GetButtonDown(p2Circle))
+        if ((Input.GetButtonDown(p1Circle) || Input.GetButtonDown(p2Circle)) && !SceneTransitions.lockinputs)
         {
                 stageSelect.SetActive(false);
                 resetPosition();

@@ -145,14 +145,14 @@ public class PauseMenu : MonoBehaviour
                     playerPaused = 2;
                 }
             }
-            else if ((Input.GetButtonDown(pauseCode1) && isPaused && !moveList && playerPaused == 1) || (Input.GetButtonDown(pauseCode) && isPaused && !moveList && playerPaused == 2))
+            else if (!SceneTransitions.lockinputs && (Input.GetButtonDown(pauseCode1) && isPaused && !moveList && playerPaused == 1) || (Input.GetButtonDown(pauseCode) && isPaused && !moveList && playerPaused == 2))
             {
                 DisableControls(false);
                 DeactivateMenu();
                 isPaused = false;
             }
 
-            if(isPaused)
+            if(isPaused && !SceneTransitions.lockinputs)
             {
                 //Handle Vertical Selection
                 if(playerPaused == 1)
@@ -270,7 +270,7 @@ public class PauseMenu : MonoBehaviour
                 isPaused = false;
             }
 
-            if (isPaused)
+            if (isPaused && !SceneTransitions.lockinputs)
             {             
                 //Handle Vertical Selection
                 vertical = Input.GetAxisRaw(inputVertical);

@@ -45,6 +45,10 @@ public class CursorMovement : MonoBehaviour {
     public GameObject P2ReadyText;
     public GameObject stageSelect;
     public GameObject CharacterModels;
+    public GameObject P1CursorText;
+    public GameObject P2CursorText;
+    public GameObject P1COMText;
+    public GameObject P2COMText;
 
     public GameObject[] icons;
     public GameObject[] P1Models;
@@ -69,6 +73,22 @@ public class CursorMovement : MonoBehaviour {
 
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
         {
+            //Set Cursor Text
+
+            P1CursorText.SetActive(true);
+            P2CursorText.SetActive(true);
+
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
+            {
+                
+                P1CursorText.GetComponent<TMPro.TextMeshProUGUI>().text = "P1";
+                P2CursorText.GetComponent<TMPro.TextMeshProUGUI>().text = "P2";
+            }
+            else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
+            {
+                P1CursorText.GetComponent<TMPro.TextMeshProUGUI>().text = "P2";
+                P2CursorText.GetComponent<TMPro.TextMeshProUGUI>().text = "P1";
+            }
             //Check P1 Side
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
             {
@@ -105,10 +125,15 @@ public class CursorMovement : MonoBehaviour {
             //First Deactivate P1/P2 cursor depending on the chosen side
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
             {
+                P1CursorText.SetActive(true);
+                P2COMText.SetActive(true);
                 P2Cursor.SetActive(false);
             }
             else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
             {
+                P1COMText.SetActive(true);
+                P2CursorText.SetActive(true);
+                P2CursorText.GetComponent<TMPro.TextMeshProUGUI>().text = "P1";              
                 P1Cursor.SetActive(false);
             }
         }
@@ -139,7 +164,7 @@ public class CursorMovement : MonoBehaviour {
         //Handle Back Menu PvP
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
         {
-            if (!isPaused)
+            if (!isPaused && !SceneTransitions.lockinputs)
             {
                 if (Input.GetButtonDown(p1Circle) && !P1.P1Selected)
                 {
@@ -161,7 +186,7 @@ public class CursorMovement : MonoBehaviour {
                     noButton.Select();
                 }
             }
-            else if (isPaused)
+            else if (isPaused && !SceneTransitions.lockinputs)
             {
                 if (playerPaused == 1)
                 {
@@ -244,7 +269,7 @@ public class CursorMovement : MonoBehaviour {
         //Back Menu AI/Training
         else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
-            if (!isPaused)
+            if (!isPaused && !SceneTransitions.lockinputs)
             {
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
                 {
@@ -268,7 +293,7 @@ public class CursorMovement : MonoBehaviour {
                     }
                 }              
             }
-            else if (isPaused)
+            else if (isPaused && !SceneTransitions.lockinputs)
             {
                 if (Input.GetAxis(p1Hor) == -1)
                 {
@@ -507,7 +532,7 @@ public class CursorMovement : MonoBehaviour {
             }
 
             //Deselect P1 from Ready state
-            if (Input.GetButtonDown(p1Circle) && P1Ready)
+            if (Input.GetButtonDown(p1Circle) && P1Ready && !SceneTransitions.lockinputs)
             {
                 P1Color = 0;
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
@@ -754,7 +779,7 @@ public class CursorMovement : MonoBehaviour {
             }
 
             //Deselect P2 from Ready state
-            if (Input.GetButtonDown(p2Circle) && P2Ready)
+            if (Input.GetButtonDown(p2Circle) && P2Ready && !SceneTransitions.lockinputs)
             {
                 P2Color = 0;
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
