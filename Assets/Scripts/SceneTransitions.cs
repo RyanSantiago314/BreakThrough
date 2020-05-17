@@ -10,6 +10,7 @@ public class SceneTransitions : MonoBehaviour
     private int sceneNumber;
     AsyncOperation asyncLoadLevel;
     public GameObject loadingGraphic;
+    static public bool lockinputs = false;
 
     void Awake()
     {
@@ -33,6 +34,7 @@ public class SceneTransitions : MonoBehaviour
     {
         sceneNumber = sceneIndex;
         SceneTransition.SetTrigger("FadeIn");
+        lockinputs = true;
     }
 
     IEnumerator TransitionScene(int sceneIndex)
@@ -44,6 +46,7 @@ public class SceneTransitions : MonoBehaviour
         }
         loadingGraphic.SetActive(false);
         SceneTransition.SetTrigger("FadeOut");
+        lockinputs = false;
     }
 
     public void BlackScreen()

@@ -430,7 +430,7 @@ public class PracticeMode : MonoBehaviour
                         break;
                 }
 
-                //CPU Air Tech Option (True Combo Test)
+                //CPU Air Tech Option
                 if (enableCPUAirTech && dummyState != "Player" && dummyState != "CPU")
                 {
                     //Air tech if in combo and hitstun = 0
@@ -438,7 +438,7 @@ public class PracticeMode : MonoBehaviour
                     {
                         P2inAirTrueCombo = true;
                     }
-                    else if (P2Prop.HitDetect.hitStun == 0 && Player2.GetComponentInChildren<AcceptInputs>().airborne && P2inAirTrueCombo)
+                    else if (P2Prop.HitDetect.hitStun <= 0 && Player2.GetComponentInChildren<AcceptInputs>().airborne && P2inAirTrueCombo)
                     {
                         MaxInput.Cross("Player2");
                         P2inAirTrueCombo = false;
@@ -453,7 +453,7 @@ public class PracticeMode : MonoBehaviour
                     {
                         P2inGroundTrueCombo = true;
                     }
-                    if (P2Prop.HitDetect.hitStun == 0 && P2inGroundTrueCombo)
+                    if (P2Prop.HitDetect.hitStun <= 0 && P2inGroundTrueCombo)
                     {
                         guardAfterTrueCombo = true;
                         P2inGroundTrueCombo = false;
@@ -462,11 +462,25 @@ public class PracticeMode : MonoBehaviour
                     {
                         if (p1x - p2x < 0)
                         {
-                            MaxInput.MoveRight("Player2");
+                            if (guardLevel == "Low" && (p1x - p2x > -2))
+                            {
+                                MaxInput.DownRight("Player2");
+                            }
+                            else
+                            {
+                                MaxInput.MoveRight("Player2");
+                            }
                         }
                         else
                         {
-                            MaxInput.MoveLeft("Player2");
+                            if (guardLevel == "Low" && (p1x - p2x < 2))
+                            {
+                                MaxInput.DownLeft("Player2");
+                            }
+                            else
+                            {
+                                MaxInput.MoveLeft("Player2");
+                            }
                         }
                         if (!P1Prop.HitDetect.Actions.attacking)
                         {

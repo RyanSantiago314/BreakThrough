@@ -485,7 +485,7 @@ public class MenuInputManager : MonoBehaviour
         }
 
         //SideSelection Management
-        if (sideSelectScreen.activeSelf)
+        if (sideSelectScreen.activeSelf && !SceneTransitions.lockinputs)
         {
             //Handle Player vs. Player side selection
             if (mode == "PvP")
