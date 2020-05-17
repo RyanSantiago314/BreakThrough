@@ -224,7 +224,7 @@ public class PracticeMode : MonoBehaviour
             }
             else if (popUpIndex == 12)
             {
-                popUps.GetComponent<Text>().text = "Now use one of your characters super moves by pressing ";
+                popUps.GetComponent<Text>().text = "Now use one of your characters super moves by pressing 236 H + B";
                 if (P1CurrentComboTotalDamage >= 250)
                 {
                     popUpIndex++;
