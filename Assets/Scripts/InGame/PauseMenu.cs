@@ -190,13 +190,13 @@ public class PauseMenu : MonoBehaviour
                     }
                 }
 
-                if (optionIndex == 5)
+                if (optionIndex == 4)
                 {
                     optionIndex = 0;
                 }
                 else if (optionIndex == -1)
                 {
-                    optionIndex = 4;
+                    optionIndex = 3;
                 }
 
                 if (((Input.GetButton(p1circle) && !moveList && playerPaused == 1) || (Input.GetButton(p2circle) && !moveList && playerPaused == 2)) && acceptInputCirc)
