@@ -388,7 +388,7 @@ public class AIInput : MonoBehaviour
         else if (AI.doing2H_1 == 12 && AI.pIsHitstun)
         {
             AI.doing2H_1 = 13;
-            AI.delayTimer = 1.25f;
+            AI.delayTimer = 1f;
         }
 
         else if (AI.doing2H_1 == 13 && AI.pIsHitstun && AI.armor >= 2)
