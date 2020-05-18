@@ -20,6 +20,8 @@ public class HitSFX : MonoBehaviour
     public AudioClip GuardL;
     public AudioClip GuardM;
     public AudioClip GuardH;
+    public AudioClip ArmorL;
+    public AudioClip ArmorH;
     public AudioClip Shatter;
 
     public void ShatterPlay()
@@ -116,5 +118,15 @@ public class HitSFX : MonoBehaviour
                 FX.PlayOneShot(SlashH, .8f);
                 break;
         }
+    }
+
+    public void ArmorHeavy()
+    {
+        FX.PlayOneShot(ArmorH, .8f);
+    }
+
+    public void ArmorLight()
+    {
+        FX.PlayOneShot(ArmorL, .8f);
     }
 }

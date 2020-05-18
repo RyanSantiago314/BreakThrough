@@ -29,11 +29,11 @@ AnimationClip:
       value: {fileID: 21300000, guid: a56bdf205749e4646811cbda61f3e26d, type: 3}
     - time: 0.25
       value: {fileID: 21300000, guid: 455e13b1aab0ec54883920fcf915893a, type: 3}
-    - time: 0.38333333
+    - time: 0.45
       value: {fileID: 21300000, guid: 64062f24945399748a7caa3d0a34e521, type: 3}
-    - time: 0.48333332
+    - time: 0.53333336
       value: {fileID: 21300000, guid: 56582b76a521c6b48abf4ee5e5ed028a, type: 3}
-    - time: 0.5833333
+    - time: 0.6166667
       value: {fileID: 21300000, guid: fac50f38d03c9b44db485909b21fd0c4, type: 3}
     - time: 0.68333334
       value: {fileID: 21300000, guid: fac50f38d03c9b44db485909b21fd0c4, type: 3}
@@ -179,7 +179,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.5833333
+  - time: 0.6166667
     functionName: Crouching
     data: 
     objectReferenceParameter: {fileID: 0}

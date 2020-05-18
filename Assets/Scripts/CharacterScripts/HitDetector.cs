@@ -181,7 +181,26 @@ public class HitDetector : MonoBehaviour
                 Actions.Move.rb.velocity = new Vector2(0, rb.velocity.y);
         }
 
-        if(hitStun > 0 && hitStop <= 0)
+        if (hitStun <= 0 && blockStun <= 0 && hitStop <= 0)
+        {
+            hitStun = 0;
+            hitStop = 0;
+            blockStun = 0;
+            anim.SetFloat(hitStunID, -1);
+            anim.SetFloat(blockStunID, -1);
+            anim.ResetTrigger(deflectID);
+            anim.ResetTrigger(parryID);
+            anim.ResetTrigger(successID);
+            anim.ResetTrigger(hitID);
+            anim.ResetTrigger(hitAirID);
+            anim.ResetTrigger(hitBodyID);
+            anim.ResetTrigger(hitLegsID);
+            anim.ResetTrigger(crumpleID);
+            anim.SetBool(launchID, false);
+            anim.SetBool(sweepID, false);
+        }
+
+        if (hitStun > 0 && hitStop <= 0)
         {
             anim.SetBool(runID, false);
             //hitStun only counts down if not in the groundbounce or crumple animations
@@ -199,9 +218,6 @@ public class HitDetector : MonoBehaviour
             Actions.Guard();
             if (!pauseScreen.isPaused)
             {
-                if (Actions.blitzed > 0)
-                    blockStun -= Time.deltaTime / 2;
-                else
                     blockStun -= Time.deltaTime;
             }
             anim.SetFloat(blockStunID, blockStun);
@@ -238,13 +254,13 @@ public class HitDetector : MonoBehaviour
             {
                 rb.velocity = Vector2.zero;
             }
-            else if (Actions.blitzed > (float)1/60)
+            else if (Actions.blitzed > 0)
             {
                 //simulate slow motion if within range of a blitz cancel or blitz attack
-                if (Actions.blitzed >= (float)58/60 && Actions.blitzed <= (float)59 / 60)
+                if (Actions.blitzed > (float)58/60)
                 {
                      rb.velocity *= new Vector2(.65f, 1f);
-                    if (rb.velocity.y < 0)
+                    if (rb.velocity.y < .5f)
                         rb.velocity *= new Vector2(1f, .5f);
                 }
 
@@ -256,6 +272,9 @@ public class HitDetector : MonoBehaviour
                 rb.mass = Actions.Move.weight * .65f;
                 if (rb.velocity.y < 0.5f)
                     rb.gravityScale = .6f * Actions.gravScale * Actions.originalGravity;
+
+                if (!pauseScreen.isPaused)
+                    Actions.blitzed -= Time.deltaTime;
 
             }
             else if (Actions.shattered && hitStun > 0)
@@ -309,22 +328,6 @@ public class HitDetector : MonoBehaviour
                 KnockBack = Vector2.zero;
                 ProjectileKnockBack = Vector2.zero;
             }
-        }
-
-        if (hitStun <= 0 && blockStun <= 0 && hitStop <= 0)
-        {
-            anim.SetFloat(hitStunID, -1);
-            anim.SetFloat(blockStunID, -1);
-            anim.ResetTrigger(deflectID);
-            anim.ResetTrigger(parryID);
-            anim.ResetTrigger(successID);
-            anim.ResetTrigger(hitID);
-            anim.ResetTrigger(hitAirID);
-            anim.ResetTrigger(hitBodyID);
-            anim.ResetTrigger(hitLegsID);
-            anim.ResetTrigger(crumpleID);
-            anim.SetBool(launchID, false);
-            anim.SetBool(sweepID, false);
         }
     }
 
@@ -914,6 +917,9 @@ public class HitDetector : MonoBehaviour
         else if (OpponentDetector.currentState.IsName("FDKnockdown") || OpponentDetector.currentState.IsName("FUKnockdown"))
         {
             OpponentDetector.hitStun = potentialHitStun / 120;
+            OpponentDetector.Actions.groundBounce = false;
+            OpponentDetector.Actions.wallBounce = false;
+            OpponentDetector.Actions.wallStick = 0;
         }
         else
         {
@@ -997,8 +1003,8 @@ public class HitDetector : MonoBehaviour
                 if (potentialAirKnockBack == Vector2.zero)
                 {
                     OpponentDetector.KnockBack = potentialKnockBack;
-                    if (potentialKnockBack.y == 0)
-                        OpponentDetector.KnockBack += new Vector2(0, 2f);
+                    if (OpponentDetector.KnockBack.y == 0)
+                        OpponentDetector.KnockBack = new Vector2(OpponentDetector.KnockBack.x, 2f);
                 }
                 else
                 {

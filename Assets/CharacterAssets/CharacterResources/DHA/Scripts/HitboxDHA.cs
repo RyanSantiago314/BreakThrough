@@ -139,8 +139,9 @@ public class HitboxDHA : MonoBehaviour
     public void SummonPastry()
     {
         //Pastry projectile, angle of throw changes based on direction held after execution
+        AttackHandler.Projectile.SetActive(true);
         AttackHandler.Projectile.GetComponent<PatissiereHitbox>().flash.intensity = 0;
-        AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetInteger("Pastry", Random.Range(0, 5));
+        AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetInteger("Pastry", Random.Range(0,5));
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetTrigger("Activate");
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().projectileActive = true;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().rb.mass = .45f;
@@ -150,7 +151,6 @@ public class HitboxDHA : MonoBehaviour
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentHits = 0;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife/60;
         AttackHandler.Projectile.transform.localRotation = Quaternion.identity;
-        AttackHandler.Projectile.SetActive(true);
 
         if (HitDetect.Actions.Move.facingRight)
             AttackHandler.Projectile.transform.position = new Vector3(transform.position.x + .4f, transform.position.y + .45f, transform.position.z);
@@ -445,7 +445,6 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.allowBreak = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
-        HitDetect.jumpCancellable = true;
     }
 
     void JumpMHitBoxSecond()

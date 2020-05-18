@@ -32,7 +32,7 @@ public class AttackHandlerACH : MonoBehaviour
     private string MH;
     private string LB;
 
-    float bufferTime = .2f;
+    float bufferTime = .25f;
     float directionBufferTime = .3f;
     float lightButton;
     float mediumButton;
@@ -422,7 +422,7 @@ public class AttackHandlerACH : MonoBehaviour
 
         //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
         if ((Actions.blitzCancel && Move.HitDetect.hitStun <= 0 && Move.HitDetect.blockStun <= 0 && CharProp.armor >= 1) &&
-            Move.HitDetect.hitStop <= 0 && heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f)
+            Move.HitDetect.hitStop == 0 && heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f)
         {
             RefreshMoveList();
             BlitzWave.SetTrigger(IDBlitz);

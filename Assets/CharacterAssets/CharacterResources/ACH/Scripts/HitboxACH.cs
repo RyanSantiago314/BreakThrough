@@ -209,9 +209,10 @@ public class HitboxACH : MonoBehaviour
         HitDetect.damage = 20;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 50;
-        HitDetect.potentialHitStun = hitStunLv1;
+        HitDetect.potentialHitStun = hitStunLv2;
         HitDetect.potentialHitStop = hitStopLv1;
         HitDetect.potentialKnockBack = new Vector2(.5f, 0);
+        HitDetect.potentialAirKnockBack = new Vector2(.25f, 1f);
         HitDetect.attackLevel = 1;
         HitDetect.guard = "Mid";
 
@@ -242,6 +243,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.potentialHitStun = hitStunLv2;
         HitDetect.potentialHitStop = hitStopLv2;
         HitDetect.potentialKnockBack = new Vector2(1.5f, 0);
+        HitDetect.potentialAirKnockBack = new Vector2(1f, 2f);
         HitDetect.initialProration = .9f;
         HitDetect.attackLevel = 1;
         HitDetect.guard = "Mid";
@@ -306,7 +308,6 @@ public class HitboxACH : MonoBehaviour
         HitDetect.allowBreak = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
-        HitDetect.jumpCancellable = true;
     }
 
     void StandingHHitBoxFirst()
@@ -317,7 +318,7 @@ public class HitboxACH : MonoBehaviour
         hit1.offset = new Vector2(1.43f, .51f);
         hit1.size = new Vector2(2.26f, .168f);
 
-        HitDetect.damage = 50;
+        HitDetect.damage = 45;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv3;
@@ -358,6 +359,8 @@ public class HitboxACH : MonoBehaviour
         HitDetect.potentialHitStop = hitStopLv2;
         HitDetect.potentialKnockBack = new Vector2(-1.5f, 0);
         HitDetect.potentialAirKnockBack = new Vector2(-1f, 1.5f);
+        HitDetect.initialProration = .9f;
+        HitDetect.forcedProration = .9f;
         HitDetect.attackLevel = 2;
         HitDetect.guard = "Mid";
 
@@ -383,7 +386,7 @@ public class HitboxACH : MonoBehaviour
         hit2.size = new Vector2(.44f, .9f);
         hit3.offset = new Vector2(.54f, .51f);
         hit3.size = new Vector2(.58f, .54f);
-        HitDetect.damage = 45;
+        HitDetect.damage = 35;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv2;
@@ -416,7 +419,7 @@ public class HitboxACH : MonoBehaviour
         hit3.size = new Vector2(.34f, 1.32f);
         hit4.offset = new Vector2(.63f, .66f);
         hit4.size = new Vector2(.52f, .82f);
-        HitDetect.damage = 45;
+        HitDetect.damage = 40;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv4;
@@ -445,29 +448,30 @@ public class HitboxACH : MonoBehaviour
         hit4.enabled = true;
         hit5.enabled = true;
 
-        hit1.offset = new Vector2(.59f, -.09f);
-        hit1.size = new Vector2(.52f, .26f);
-        hit2.offset = new Vector2(.91f, .027f);
-        hit2.size = new Vector2(.27f, .26f);
-        hit3.offset = new Vector2(.88f, .265f);
-        hit3.size = new Vector2(.275f, .228f);
-        hit4.offset = new Vector2(.76f, .41f);
-        hit4.size = new Vector2(.22f, .08f);
-        hit5.offset = new Vector2(.56f, .49f);
-        hit5.size = new Vector2(.37f, .087f);
+        hit1.offset = new Vector2(-.63f, -.168f);
+        hit1.size = new Vector2(.97f, .43f);
+        hit2.offset = new Vector2(.34f, -.11f);
+        hit2.size = new Vector2(.3f, .4f);
+        hit3.offset = new Vector2(.635f, .05f);
+        hit3.size = new Vector2(.43f, .35f);
+        hit4.offset = new Vector2(.79f, .18f);
+        hit4.size = new Vector2(.44f, .31f);
+        hit5.offset = new Vector2(1.1f, .43f);
+        hit5.size = new Vector2(.215f, .59f);
 
-        HitDetect.damage = 50;
+        HitDetect.damage = 75;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
-        HitDetect.potentialHitStun = hitStunLv4;
-        HitDetect.potentialHitStop = 6;
-        HitDetect.potentialKnockBack = new Vector2(1.2f, 0f);
-        HitDetect.potentialAirKnockBack = new Vector2(.8f, 1.5f);
-        HitDetect.attackLevel = 2;
+        HitDetect.potentialHitStun = hitStunLv3;
+        HitDetect.potentialHitStop = hitStopLv3;
+        HitDetect.potentialKnockBack = new Vector2(1.5f, 0f);
+        HitDetect.potentialAirKnockBack = new Vector2(1.5f, 2.5f);
+        HitDetect.attackLevel = 3;
         HitDetect.guard = "Overhead";
 
         HitDetect.horiSlash = true;
 
+        HitDetect.allowMedium = true;
         HitDetect.allowHeavy = true;
         HitDetect.allowBreak = true;
         HitDetect.allowSpecial = true;
@@ -516,16 +520,16 @@ public class HitboxACH : MonoBehaviour
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialKnockBack = new Vector2(2f, 0f);
-        HitDetect.potentialAirKnockBack = new Vector2(1f, -1.5f);
+        HitDetect.potentialAirKnockBack = new Vector2(1f, -2f);
         HitDetect.potentialHitStun = 20;
         HitDetect.potentialHitStop = hitStopLv3;
-        HitDetect.initialProration = .75f;
-        HitDetect.attackLevel = 2;
+        if (HitDetect.OpponentDetector.Actions.armorActive)
+            HitDetect.initialProration = .75f;
+        HitDetect.attackLevel = 1;
         HitDetect.guard = "Overhead";
 
         HitDetect.piercing = true;
-        if (HitDetect.OpponentDetector.Actions.airborne || !HitDetect.OpponentDetector.Actions.standing || HitDetect.OpponentDetector.Actions.Move.jumping > 0)
-            HitDetect.allowGroundBounce = true;
+        HitDetect.allowGroundBounce = true;
 
         HitDetect.vertSlash = true;
         HitDetect.allowSpecial = true;
@@ -548,8 +552,9 @@ public class HitboxACH : MonoBehaviour
         HitDetect.potentialKnockBack = new Vector2(1f, 0f);
         HitDetect.potentialHitStun = hitStunLv2;
         HitDetect.potentialHitStop = hitStopLv2;
-        HitDetect.initialProration = .75f;
-        HitDetect.attackLevel = 2;
+        if (HitDetect.OpponentDetector.Actions.armorActive)
+            HitDetect.initialProration = .75f;
+        HitDetect.attackLevel = 1;
         HitDetect.guard = "Low";
 
         HitDetect.slash = true;
@@ -571,7 +576,7 @@ public class HitboxACH : MonoBehaviour
         hit2.offset = new Vector2(-.83f, -.57f);
         hit2.size = new Vector2(1.48f, .685f);
 
-        HitDetect.damage = 65;
+        HitDetect.damage = 55;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialKnockBack = new Vector2(.5f, 2f);
@@ -587,7 +592,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.allowSuper = true;
     }
 
-    void JumpBHitBox()
+    void JumpBHitBoxInit()
     {
         ClearHitBox();
         HitDetect.Actions.AttackActive();
@@ -596,29 +601,63 @@ public class HitboxACH : MonoBehaviour
         hit2.enabled = true;
         hit3.enabled = true;
         hit4.enabled = true;
-        hit5.enabled = true;
 
-        hit1.offset = new Vector2(-.1f, -.21f);
-        hit1.size = new Vector2(.71f, .74f);
-        hit2.offset = new Vector2(.26f, .09f);
-        hit2.size = new Vector2(.57f, .73f);
-        hit3.offset = new Vector2(.47f, .32f);
-        hit3.size = new Vector2(.51f, .74f);
-        hit4.offset = new Vector2(.61f, .665f);
-        hit4.size = new Vector2(.395f, 1.16f);
-        hit5.offset = new Vector2(.82f, .71f);
-        hit5.size = new Vector2(.21f, .76f);
+        hit1.offset = new Vector2(.76f, -.07f);
+        hit1.size = new Vector2(1.37f, .62f);
+        hit2.offset = new Vector2(.83f, -.38f);
+        hit2.size = new Vector2(1.18f, .44f);
+        hit3.offset = new Vector2(.73f, -.69f);
+        hit3.size = new Vector2(1.01f, .32f);
+        hit4.offset = new Vector2(.57f, -.88f);
+        hit4.size = new Vector2(.61f, .235f);
 
-        HitDetect.damage = 85;
-        HitDetect.durabilityDamage = 100;
-        HitDetect.potentialKnockBack = new Vector2(2f, 0f);
-        HitDetect.potentialAirKnockBack = new Vector2(2f, 2f);
-        HitDetect.potentialHitStun = 25;
-        HitDetect.potentialHitStop = hitStopLv4;
-        HitDetect.initialProration = .9f;
-        HitDetect.attackLevel = 4;
+        HitDetect.damage = 40;
+        HitDetect.durabilityDamage = 0;
+        HitDetect.potentialKnockBack = new Vector2(.5f, 3f);
+        HitDetect.potentialHitStun = hitStunLv4;
+        HitDetect.potentialHitStop = hitStopLv2;
+        if (HitDetect.OpponentDetector.Actions.armorActive)
+            HitDetect.initialProration = .75f;
+        HitDetect.attackLevel = 1;
         HitDetect.guard = "Overhead";
 
+        HitDetect.vertSlash = true;
+        HitDetect.piercing = true;
+        HitDetect.launch = true;
+        HitDetect.allowSpecial = true;
+        HitDetect.allowSuper = true;
+    }
+
+    void JumpBHitBoxNext()
+    {
+        ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
+        hit1.enabled = true;
+        hit2.enabled = true;
+        hit3.enabled = true;
+        hit4.enabled = true;
+
+        hit1.offset = new Vector2(.3f, .54f);
+        hit1.size = new Vector2(.71f, 2.96f);
+        hit2.offset = new Vector2(.81f, .59f);
+        hit2.size = new Vector2(.45f, 2.38f);
+        hit3.offset = new Vector2(1.06f, .47f);
+        hit3.size = new Vector2(.46f, 2f);
+        hit4.offset = new Vector2(1.35f, .38f);
+        hit4.size = new Vector2(.38f, 1.07f);
+
+        HitDetect.damage = 40;
+        HitDetect.durabilityDamage = 100;
+        HitDetect.potentialKnockBack = new Vector2(.5f, 3f);
+        HitDetect.potentialHitStun = 32;
+        HitDetect.potentialHitStop = hitStopLv4;
+        HitDetect.attackLevel = 1;
+        HitDetect.guard = "Overhead";
+
+        HitDetect.vertSlash = true;
+        HitDetect.piercing = true;
+        HitDetect.launch = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
     }

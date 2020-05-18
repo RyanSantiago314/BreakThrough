@@ -188,9 +188,6 @@ public class AcceptInputs : MonoBehaviour
         if(wallStick == 0)
             anim.SetBool("WallStick", false);
 
-        if (blitzed > 0 && Move.HitDetect.hitStop <= 0 && !Move.HitDetect.pauseScreen.isPaused)
-            blitzed -= Time.deltaTime;
-
         anim.SetBool(airID, airborne);
         anim.SetBool(standID, standing);
 
@@ -294,7 +291,7 @@ public class AcceptInputs : MonoBehaviour
         superFlash = i/60;
 
         Move.HitDetect.OpponentDetector.currentVelocity = Move.HitDetect.OpponentDetector.rb.velocity;
-        Move.HitDetect.OpponentDetector.Actions.blitzed = (float)1/30;
+        //Move.HitDetect.OpponentDetector.Actions.blitzed = (float)1/30;
     }
 
     public void DisableMovement()
@@ -498,7 +495,7 @@ public class AcceptInputs : MonoBehaviour
     {
         if (backThrow)
         {
-            if (Move.hittingWall || Move.transform.position.x - 10 < distance + 1 || Move.transform.position.x + 10 > distance + 1)
+            if (Move.hittingWall || Move.transform.position.x - .5f * opponentMove.pushBox.size.x - 9.8f < distance + 1 || Move.transform.position.x + .5f * opponentMove.pushBox.size.x + 9.8f > distance + 1)
             {
                 if (Move.facingRight)
                 {
@@ -522,12 +519,18 @@ public class AcceptInputs : MonoBehaviour
         }
         else
         {
-            if (opponentMove.hittingWall || Move.opponent.position.x - 9.8 < distance + 1 ||Move.opponent.position.x + 9.8 > distance + 1)
+            if (opponentMove.hittingWall || Move.opponent.position.x - 9.8f < distance + 1 ||Move.opponent.position.x + 9.8f > distance + 1)
             {
                 if (Move.facingRight)
+                {
                     Move.transform.position = new Vector3(Move.opponent.transform.position.x - distance, Move.transform.position.y, Move.transform.position.z);
+                    Move.opponent.position = new Vector3(Move.transform.position.x + distance, Move.transform.position.y, Move.transform.position.z);
+                }
                 else
+                {
                     Move.transform.position = new Vector3(Move.opponent.transform.position.x + distance, Move.transform.position.y, Move.transform.position.z);
+                    Move.opponent.position = new Vector3(Move.transform.position.x - distance, Move.transform.position.y, Move.transform.position.z);
+                }
             }
             else
             {
