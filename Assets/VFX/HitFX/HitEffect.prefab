@@ -129,6 +129,8 @@ MonoBehaviour:
   GuardL: {fileID: 8300000, guid: dcc09199365e4774487205beb89a9039, type: 3}
   GuardM: {fileID: 8300000, guid: fa6026bcbf3750243b33e0008732207b, type: 3}
   GuardH: {fileID: 8300000, guid: 7aba084a73fd8d4438adcb0a3438b55b, type: 3}
+  ArmorL: {fileID: 8300000, guid: eb81b17bbda811449884352d846c42e6, type: 3}
+  ArmorH: {fileID: 8300000, guid: f2ab5f42a4c4e3a4493348d396399473, type: 3}
   Shatter: {fileID: 8300000, guid: 5d09839cd3365b147951bfcf90865fe8, type: 3}
 --- !u!82 &359418739850599879
 AudioSource:

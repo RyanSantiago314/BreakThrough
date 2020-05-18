@@ -70,7 +70,7 @@ public class CameraController : MonoBehaviour
         else
         {
             //gameplay camera
-            if (Char1Move.hittingBound || Char2Move.hittingBound)
+            if (Char1Move.hittingBound && Char2Move.hittingBound)
                 cameraPos = transform.position;
             else
             {
