@@ -26,6 +26,7 @@ public class PracticeMode : MonoBehaviour
     private bool guardAfterTrueCombo;
     private bool fixAnimBug;
     private float InputTimer;
+    private float popUpDelay;
 
     private int popUpIndex;
     double p1x;
@@ -122,129 +123,148 @@ public class PracticeMode : MonoBehaviour
         //Practice Mode Handler
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
+
+            if (popUpDelay > 0) popUpDelay -= Time.deltaTime;
+            else popUpDelay = 0;
+
             //Changed popups to be the same text box, just changing what text displays                
             if (popUpIndex == 0)
             {
                 popUps.SetActive(true);
                 popUps.GetComponent<Text>().text = "Welcome to training mode! Here you can practice and learn the basics of Breakthrough! \n (Press ENTER to continue)";
-                if (Input.GetKeyDown(KeyCode.Return))
+                
+                if (Input.GetKeyDown(KeyCode.Return) && popUpDelay == 0)
                 {
                     popUpIndex++;
+                    popUpDelay = 0.2f;
                 }
             }
             else if (popUpIndex == 1)
             {
                 popUps.GetComponent<Text>().text = "Let's start with the tutorial! \n (Press ENTER to continue or TAB to skip)";
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (Input.GetKeyDown(KeyCode.Return) && popUpDelay == 0)
                 {
                     popUpIndex++;
+                    popUpDelay = 0.2f;
                 }
             }
             else if (popUpIndex == 2)
             {
                 popUps.GetComponent<Text>().text = "Press D or D-Pad Foward to move foward!";
-                if (Input.GetAxis(inputHorizontal) > 0)
+                if (Input.GetAxis(inputHorizontal) > 0 && popUpDelay == 0)
                 {
                     popUpIndex++;
+                    popUpDelay = 0.2f;
                 }
             }
             else if (popUpIndex == 3)
             {
                 popUps.GetComponent<Text>().text = "Press A or D-Pad Back to move back!";
-                if (Input.GetAxis(inputHorizontal) < 0)
+                if (Input.GetAxis(inputHorizontal) < 0 && popUpDelay == 0)
                 {
                     popUpIndex++;
+                    popUpDelay = 0.2f;
                 }
             }
             else if (popUpIndex == 4)
             {
                 popUps.GetComponent<Text>().text = "Press S or D-Pad Down to crouch!";
-                if (Input.GetAxis(inputVertical) < 0)
+                if (Input.GetAxis(inputVertical) < 0 && popUpDelay == 0)
                 {
                     popUpIndex++;
+                    popUpDelay = 0.2f;
                 }
             }
             else if (popUpIndex == 5)
             {
                 popUps.GetComponent<Text>().text = "Press W or D-Pad Up once to jump or double press them to double jump! ";
-                if (Input.GetAxis(inputVertical) > 0)
+                if (Input.GetAxis(inputVertical) > 0 && popUpDelay == 0)
                 {
                     popUpIndex++;
+                    popUpDelay = 0.2f;
                 }
             }
             else if (popUpIndex == 6)
             {
                 popUps.GetComponent<Text>().text = "Press U or Square to do a light attack!";
-                if (Input.GetButtonDown(inputSquare))
+                if (Input.GetButtonDown(inputSquare) && popUpDelay == 0)
                 {
                     popUpIndex++;
+                    popUpDelay = 0.2f;
                 }
             }
             else if (popUpIndex == 7)
             {
                 popUps.GetComponent<Text>().text = "Press I or Triangle to do a medium attack!";
-                if (Input.GetButtonDown(inputTriangle))
+                if (Input.GetButtonDown(inputTriangle) && popUpDelay == 0)
                 {
                     popUpIndex++;
+                    popUpDelay = 0.2f;
                 }
             }
             else if (popUpIndex == 8)
             {
                 popUps.GetComponent<Text>().text = "Press O or Circle to do a medium heavy attack!";
-                if (Input.GetButtonDown(inputCircle))
+                if (Input.GetButtonDown(inputCircle) && popUpDelay == 0)
                 {
                     popUpIndex++;
+                    popUpDelay = 0.2f;
                 }
             }
             else if (popUpIndex == 9)
             {
                 popUps.GetComponent<Text>().text = "Press J or Cross to do a heavy attack!";
-                if (Input.GetButtonDown(inputCross))
+                if (Input.GetButtonDown(inputCross) && popUpDelay == 0)
                 {
                     popUpIndex++;
                     P1CurrentHitDamage = 0;
-
+                    popUpDelay = 0.2f;
                 }
             }
             else if (popUpIndex == 10)
             {
                 popUps.GetComponent<Text>().text = "Now hold J or Cross to power up a heavy attack and use it on the dummy!";
-                if (P1CurrentHitDamage >= 100)
+                if (P1CurrentHitDamage >= 100 && popUpDelay == 0)
                 {
                     popUpIndex++;
+                    popUpDelay = 0.2f;
                 }
             }
             else if (popUpIndex == 11)
             {
                 popUps.GetComponent<Text>().text = "Now perform a combo attack on the dummy! \n (You can view your characters move list in the Pause Menu)";
-                if (P1Prop.HitDetect.comboCount >= 5)
+                if (P1Prop.HitDetect.comboCount >= 5 && popUpDelay == 0)
                 {
                     popUpIndex++;
+                    popUpDelay = 0.2f;
                 }
             }
             else if (popUpIndex == 12)
             {
                 popUps.GetComponent<Text>().text = "Now use one of your characters super moves by pressing 236 H + B";
-                if (P1CurrentComboTotalDamage >= 250)
+                if (P1CurrentComboTotalDamage >= 250 && popUpDelay == 0)
                 {
                     popUpIndex++;
                     P1CurrentHitDamage = 0;
+                    popUpDelay = 0.2f;
                 }
             }
             else if (popUpIndex == 13)
             {
                 popUps.GetComponent<Text>().text = "Shield Mechanic ";
-                if (P1CurrentHitDamage >= 100)
+                if (P1CurrentHitDamage >= 100 && popUpDelay == 0)
                 {
                     popUpIndex++;
+                    popUpDelay = 0.2f;
                 }
             }
             else if (popUpIndex == 14)
             {
                 popUps.GetComponent<Text>().text = "Use the resolve meter by pressing H or ... This allows you to ... ";
-                if (Input.GetButtonDown(inputCross))
+                if (Input.GetButtonDown(inputCross)&& popUpDelay == 0)
                 {
                     popUpIndex++;
+                    popUpDelay = 0.2f;
                 }
             }
             else
