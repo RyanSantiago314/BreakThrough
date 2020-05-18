@@ -1,0 +1,163 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ACHHitstun
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 63608bc5567f30147a70c74c3d34ae1e, type: 3}
+    totalSpriteSurfaceArea: 388320775
+    bindAsDefault: 1
+    storedHash:
+      serializedVersion: 2
+      Hash: cc30b4d951f275ca56bf674453c6af96
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: d4ebbc909efffdc4293448e9ff0bf091, type: 3}
+  - {fileID: 21300000, guid: 3ea4b7619db864745b7dd8599235dfee, type: 3}
+  - {fileID: 21300000, guid: 3d96d291e10baa84ab250dbdd833b231, type: 3}
+  - {fileID: 21300000, guid: 51c3fbb103c5b134198d14d917ada8fb, type: 3}
+  - {fileID: 21300000, guid: 7110e6d1fe90e1545a290f5c3092831a, type: 3}
+  - {fileID: 21300000, guid: 36757902bdd745942b610abcedfba1a5, type: 3}
+  - {fileID: 21300000, guid: 88636c7235f6eab4cb635759783e49df, type: 3}
+  - {fileID: 21300000, guid: e8d96c82893e8de488c7c4b560ca55ea, type: 3}
+  - {fileID: 21300000, guid: 5ddb90929e4bf614dbb641d7ca23e26d, type: 3}
+  - {fileID: 21300000, guid: 62df5492c70d9af459f0112bd7a81155, type: 3}
+  - {fileID: 21300000, guid: 2ba399b29c5916941809881ccb238de7, type: 3}
+  - {fileID: 21300000, guid: 265bfb137614d7a46b589518b601643b, type: 3}
+  - {fileID: 21300000, guid: ab0cab2429e8d104980d10616bfe7566, type: 3}
+  - {fileID: 21300000, guid: 46b869059db33a349ae5c69bac96da98, type: 3}
+  - {fileID: 21300000, guid: 9f0596651fd92bd4d8d0251786ec0b32, type: 3}
+  - {fileID: 21300000, guid: 342a8495b582d12479495c9949f98862, type: 3}
+  - {fileID: 21300000, guid: 499e19d5a8c177b4abcc0d16b60d3f6d, type: 3}
+  - {fileID: 21300000, guid: b26ee536f6631cb43824ffe185668bfa, type: 3}
+  - {fileID: 21300000, guid: feed70d6fd05be14db38e168ece9e27e, type: 3}
+  - {fileID: 21300000, guid: 72462b374e3bed843a70aa44d5e8aa86, type: 3}
+  - {fileID: 21300000, guid: d025c1d7ce9a1ba48b547aee6035c54c, type: 3}
+  - {fileID: 21300000, guid: ac53b708123a9ff47b1124dc59edc3f5, type: 3}
+  - {fileID: 21300000, guid: 363b8948bb4c7e44899a698f7ea2a36f, type: 3}
+  - {fileID: 21300000, guid: 866fc7791d4b63a40a2cce1ee64d40a0, type: 3}
+  - {fileID: 21300000, guid: 543a151aff845064099804daf07a5f58, type: 3}
+  - {fileID: 21300000, guid: 24f0942a3d096624e8b1973169e0bea3, type: 3}
+  - {fileID: 21300000, guid: 68f0653a2d931ad4f92f176ea67471e5, type: 3}
+  - {fileID: 21300000, guid: d3dee05a8e936714db9c378c2055b55d, type: 3}
+  - {fileID: 21300000, guid: a238786a2ca1ef84eac9133730f7157b, type: 3}
+  - {fileID: 21300000, guid: 13f301aafc4c0d24c9d2b23e2964a15d, type: 3}
+  - {fileID: 21300000, guid: f46161bac2556754fb107d75f0643b39, type: 3}
+  - {fileID: 21300000, guid: 1a9c52ba64df8a6429572a8ce61bbfc2, type: 3}
+  - {fileID: 21300000, guid: a4ce25ba7a56a6c4da5eb410d862149a, type: 3}
+  - {fileID: 21300000, guid: 57ba1e2b274b5164c91da960b873a7c9, type: 3}
+  - {fileID: 21300000, guid: 8240c4db297e80f4fbbf4742c5c8ed2c, type: 3}
+  - {fileID: 21300000, guid: 6bc561fbcfc4d5946a4b7515be8feab1, type: 3}
+  - {fileID: 21300000, guid: 5c46a51c321eff745a49c3c2be24b162, type: 3}
+  - {fileID: 21300000, guid: 2e92d82c8ec204e45875e9f1a758551f, type: 3}
+  - {fileID: 21300000, guid: 6b16d34c48fb4f0429fee7ba6e31d632, type: 3}
+  - {fileID: 21300000, guid: 913390bc87af33e4c9a8451778d5b917, type: 3}
+  - {fileID: 21300000, guid: 8b093e0d940a44344a2655c679052a05, type: 3}
+  - {fileID: 21300000, guid: 3c4d411dc35add54aa2dd0c23bc0fb67, type: 3}
+  - {fileID: 21300000, guid: 918ba91d5f3c0584cafed602ab04aca5, type: 3}
+  - {fileID: 21300000, guid: 7d7d0f4dcbf96f74a9f1778440d6b0a6, type: 3}
+  - {fileID: 21300000, guid: 9cacc88d3a2c9f946a6edd2d1ba6fc70, type: 3}
+  - {fileID: 21300000, guid: afb11cfdf20c9964aa113226919cdec5, type: 3}
+  - {fileID: 21300000, guid: fe36081e93b6b06468d961250276fe0f, type: 3}
+  - {fileID: 21300000, guid: 591cfe3ea94ae4844a1bc86ba3dd52e9, type: 3}
+  - {fileID: 21300000, guid: bc26378ecca44bd4287e56b49398ecae, type: 3}
+  - {fileID: 21300000, guid: f0abe8be92de0bf40866a0c3e85b9a8d, type: 3}
+  - {fileID: 21300000, guid: 16df4dbef0a898149b2281a1bfe7da5e, type: 3}
+  - {fileID: 21300000, guid: c271809f231e01141a34cd2af7a6c48a, type: 3}
+  - {fileID: 21300000, guid: b90514af920dde445a3a8164f318659e, type: 3}
+  - {fileID: 21300000, guid: 781098bfb79ed71449f43433dd123e4a, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - HitstunSH_03
+  - Crumple_01
+  - HitAir_03
+  - FallForward_03
+  - HitAir_01
+  - LaunchFall_03
+  - Deflected_04
+  - Crumple_09
+  - LaunchFall_02
+  - HitstunSL_05
+  - Crumple_03
+  - WallBounce_03
+  - Deflected_01
+  - Deflected_06
+  - HitstunSH_04
+  - HitstunC_07
+  - HitstunC_02
+  - LaunchFall_01
+  - HitstunSL_07
+  - LaunchTrans_01
+  - Deflected_02
+  - HitstunSH_07
+  - WallBounce_04
+  - WallBounce_01
+  - HitstunC_01
+  - Crumple_07
+  - HitstunC_05
+  - HitAir_02
+  - HitstunC_04
+  - HitstunSL_04
+  - Crumple_02
+  - Deflected_03
+  - FallForward_02
+  - Crumple_05
+  - HitstunSH_02
+  - HitstunSL_03
+  - HitstunSL_02
+  - LaunchTrans_03
+  - HitstunSH_05
+  - Launch_01
+  - HitstunSL_06
+  - HitstunC_03
+  - FallForward_01
+  - LaunchTrans_02
+  - WallStick_01
+  - Crumple_08
+  - Crumple_06
+  - Deflected_05
+  - HitstunSH_06
+  - Crumple_04
+  - HitstunC_06
+  - WallBounce_02
+  - HitstunSH_01
+  - HitstunSL_01
+  m_Tag: ACHHitstun
+  m_IsVariant: 0

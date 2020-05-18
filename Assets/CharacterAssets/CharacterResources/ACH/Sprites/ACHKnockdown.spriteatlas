@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ACHKnockdown
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 0fa0c0b369c26884f92c957ff3adf740, type: 3}
+    totalSpriteSurfaceArea: 106779325
+    bindAsDefault: 1
+    storedHash:
+      serializedVersion: 2
+      Hash: 36c2fb58c102bc724b0c558e6b6b5a17
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: eaf387a2f58768846b9c1adc53f969a0, type: 3}
+  - {fileID: 21300000, guid: 19fecec20d30cf04bae6d56fa03a0f47, type: 3}
+  - {fileID: 21300000, guid: baf8a984371ec3449bf04ebf05d92f9a, type: 3}
+  - {fileID: 21300000, guid: 4766c525de191d14fa7f5ec8bf963144, type: 3}
+  - {fileID: 21300000, guid: 85f6a276bbc23ae4bba9e6db9a076224, type: 3}
+  - {fileID: 21300000, guid: 53ec10a6d43b2284986e4af9b3703386, type: 3}
+  - {fileID: 21300000, guid: 69e68127aec322b43aa38fc3616fc31e, type: 3}
+  - {fileID: 21300000, guid: d93513c7a021fa6488138805ca15f3db, type: 3}
+  - {fileID: 21300000, guid: 9927f018f984302448ad1c7bf300815c, type: 3}
+  - {fileID: 21300000, guid: e112cf0b536c4534293ded46b237b8a2, type: 3}
+  - {fileID: 21300000, guid: df20d7bb25810c14a95d666f4b73dede, type: 3}
+  - {fileID: 21300000, guid: ad1a216cf51a7b248b9a027e1146b51a, type: 3}
+  - {fileID: 21300000, guid: 1ce9b3dc4955c3a43a1e5d6a839736b7, type: 3}
+  - {fileID: 21300000, guid: 9930d45d7ebed364b841347c958c5df2, type: 3}
+  - {fileID: 21300000, guid: d7e924dd5b7e54648bf16609f335bd6a, type: 3}
+  - {fileID: 21300000, guid: a39ace5e8b9022c40925fb14f88aa1fd, type: 3}
+  - {fileID: 21300000, guid: c1ad6a5f520e32548b57c053a8f98870, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - FUKnockdownSpear_06
+  - FDKnockdown_04
+  - FUKnockdownSpear_03
+  - FUKnockdown_04
+  - FDKnockdown_01
+  - FUKnockdownSpear_01
+  - FDKnockdown_03
+  - FDKnockdown_02
+  - FUKnockdownSpear_05
+  - FUKnockdown_01
+  - FUKnockdown_05
+  - FUKnockdownSpear_07
+  - FUKnockdown_02
+  - FUKnockdownSpear_02
+  - FUKnockdownSpear_08
+  - FUKnockdownSpear_04
+  - FUKnockdown_03
+  m_Tag: ACHKnockdown
+  m_IsVariant: 0

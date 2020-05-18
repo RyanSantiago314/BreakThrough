@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ACHRecovery
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 341f97cd0373fcd4c888d3145050080e, type: 3}
+    totalSpriteSurfaceArea: 107273025
+    bindAsDefault: 1
+    storedHash:
+      serializedVersion: 2
+      Hash: 4ef2b7e80f670f687b696728d981980b
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: dde09130aab560247bb8859324fc95ef, type: 3}
+  - {fileID: 21300000, guid: cc816e51a3e15c546849d8face4de732, type: 3}
+  - {fileID: 21300000, guid: 498894f13fb6c1c4ba2dbcfff3bec6e0, type: 3}
+  - {fileID: 21300000, guid: 58407bf1948807f41a6e2561aec140e8, type: 3}
+  - {fileID: 21300000, guid: 8107b2220bcc69d4e9d20c548c8a801d, type: 3}
+  - {fileID: 21300000, guid: ef3d1a72edc2d6841836887dd728af34, type: 3}
+  - {fileID: 21300000, guid: 1f26c9d27476b224397c36df306d2e5f, type: 3}
+  - {fileID: 21300000, guid: ca0a14c7b13b15c438f571187258d569, type: 3}
+  - {fileID: 21300000, guid: 1a6082e8f6381fc4bb2bef8168086aa5, type: 3}
+  - {fileID: 21300000, guid: 1c28b96920191274f8d64fdad1d0c7b8, type: 3}
+  - {fileID: 21300000, guid: 377111a97eb05114b81a01c01602601c, type: 3}
+  - {fileID: 21300000, guid: 0a56562ac8518634fb46b6755520d7ae, type: 3}
+  - {fileID: 21300000, guid: 4961460bead9b8f43886ac1d89071492, type: 3}
+  - {fileID: 21300000, guid: f985a44b8d4b45c49b46573e424da154, type: 3}
+  - {fileID: 21300000, guid: 9682297b417dd5e4fa001fb346c53ccb, type: 3}
+  - {fileID: 21300000, guid: 3b35031c395347746a575906af9dcc1c, type: 3}
+  - {fileID: 21300000, guid: 094d971d90c59074a9c69d70fd5aeeb7, type: 3}
+  - {fileID: 21300000, guid: 4a5817ae903354642ae575aed336ccc4, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - FDGetup_06
+  - AirRecover_01
+  - FDGetup_02
+  - FDGetup_03
+  - FUGetup_03
+  - FDGetup_05
+  - AirRecover_02
+  - FUGetup_02
+  - FUGetup_07
+  - AirRecover_03
+  - FDGetup_01
+  - FUGetup_04
+  - FUGetup_06
+  - FUGetup_09
+  - FUGetup_01
+  - FDGetup_04
+  - FUGetup_08
+  - FUGetup_05
+  m_Tag: ACHRecovery
+  m_IsVariant: 0

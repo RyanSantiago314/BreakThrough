@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ACHGuard
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 3a932217505480f419f86b0bc5010511, type: 3}
+    totalSpriteSurfaceArea: 99680700
+    bindAsDefault: 1
+    storedHash:
+      serializedVersion: 2
+      Hash: ccd9085bbc0f2254169e8e8bc9dc330a
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: f8b83001a3156f542a5ed7a18b2c2bf7, type: 3}
+  - {fileID: 21300000, guid: 6a77e141e244555478631c0b91408701, type: 3}
+  - {fileID: 21300000, guid: 9f364b239afc047409b4ea5c5e969fb7, type: 3}
+  - {fileID: 21300000, guid: bc2b3a25d9bed5f4cbc9ae8e84aeabee, type: 3}
+  - {fileID: 21300000, guid: 5082d586c3e25c74d970ff9aa48d732b, type: 3}
+  - {fileID: 21300000, guid: fac2fa17cddf83f4b9f6b7ca3827be33, type: 3}
+  - {fileID: 21300000, guid: 4fbc2b188fcb7634886607fb5c4bb158, type: 3}
+  - {fileID: 21300000, guid: f0024a49b055a2b4096e91c966fa384a, type: 3}
+  - {fileID: 21300000, guid: 7645f47980ef8434e96450f9f594ffdc, type: 3}
+  - {fileID: 21300000, guid: fe165b9ab05f512498c8f890ea0d43c1, type: 3}
+  - {fileID: 21300000, guid: b63cae5b4b556d54d84854a6911f7633, type: 3}
+  - {fileID: 21300000, guid: 0acf404d87814f247a1bf74ed5374e28, type: 3}
+  - {fileID: 21300000, guid: 70ee832edcc215e49ad1708b60c28fa9, type: 3}
+  - {fileID: 21300000, guid: fe01959e3ece8d04e85e3455c0d1d04c, type: 3}
+  - {fileID: 21300000, guid: 5c64c25f021dd654e85c820852387a48, type: 3}
+  - {fileID: 21300000, guid: bc18737faa80cb84b8e45314285aee01, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - LoGuard_01
+  - AirGuardOut_01
+  - LoGuard_05
+  - HiGuard_01
+  - HiGuard_02
+  - AirGuard_02
+  - LoGuard_03
+  - AirGuard_03
+  - HiGuard_04
+  - AirGuard_01
+  - HiGuard_05
+  - LoGuard_06
+  - HiGuard_03
+  - LoGuard_04
+  - LoGuard_02
+  - HiGuard_06
+  m_Tag: ACHGuard
+  m_IsVariant: 0

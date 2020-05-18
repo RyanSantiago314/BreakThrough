@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DHAKnockdown
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: c6d081e74b6f9d647a847ec2153ee688, type: 3}
+    totalSpriteSurfaceArea: 21299800
+    bindAsDefault: 1
+    storedHash:
+      serializedVersion: 2
+      Hash: 776b5d91c93078d3901adacc04d277f8
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 378a6100540b6314d8a440d617cff9d4, type: 3}
+  - {fileID: 21300000, guid: 883f9db2607a2d34193daa550266cb6b, type: 3}
+  - {fileID: 21300000, guid: a4435d8367ac2d145aa15890a7a6327c, type: 3}
+  - {fileID: 21300000, guid: 850721e77714dc44b87b1d688cc0a66f, type: 3}
+  - {fileID: 21300000, guid: 8b2e9529e50c9a7448d0964e8f5e3ea6, type: 3}
+  - {fileID: 21300000, guid: d53f18fbe2f030f448c249798a63b481, type: 3}
+  - {fileID: 21300000, guid: e240deadbcf307d4e92deea15771aa7a, type: 3}
+  - {fileID: 21300000, guid: e1620cedce0cd1a4782b0d528a870ba7, type: 3}
+  - {fileID: 21300000, guid: daa5dabff4e061d48aef4d9bec3bfc21, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - FUDown_01
+  - FDDown_03
+  - FUDown_05
+  - FDDown_01
+  - FDDown_02
+  - FUDown_04
+  - FDDown_00
+  - FUDown_02
+  - FUDown_03
+  m_Tag: DHAKnockdown
+  m_IsVariant: 0
