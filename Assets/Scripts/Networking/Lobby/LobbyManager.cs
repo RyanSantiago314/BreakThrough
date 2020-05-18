@@ -146,8 +146,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(property);
-        if(PhotonNetwork.IsMasterClient)
-        {
+        //if(PhotonNetwork.IsMasterClient)
+       // {
             //else we are master client. 
             //Grabbing Second players CharManager Data that was set right above.
             p2Data = GameObject.Find("PlayerData");
@@ -166,10 +166,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
             }
 
-            
+            p2Data.GetComponent<SelectedCharacterManager>().gameMode = "PvP";
             p2Data.GetComponent<SelectedCharacterManager>().P2Side = "Right";
-        }
-        p2Data.GetComponent<SelectedCharacterManager>().gameMode = "PvP";
+        //}
+        
 
         if(PhotonNetwork.CountOfPlayers == 1)
         {
