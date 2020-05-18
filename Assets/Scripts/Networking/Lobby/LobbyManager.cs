@@ -140,7 +140,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Hashtable property = new Hashtable
         {
             
-            {BREAKTHROUGH.PLAYER_LOADED_LEVEL, false}, // TODO: loaded level set TRUE
+            {BREAKTHROUGH.PLAYER_LOADED_LEVEL, false}, 
             {"Character", pData.GetComponent<SelectedCharacterManager>().P1Character},
             {"Color", pData.GetComponent<SelectedCharacterManager>().P1Color}
             
@@ -166,9 +166,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
             }
 
-            p2Data.GetComponent<SelectedCharacterManager>().gameMode = "PvP";
+            
             p2Data.GetComponent<SelectedCharacterManager>().P2Side = "Right";
         }
+        p2Data.GetComponent<SelectedCharacterManager>().gameMode = "PvP";
 
         if(PhotonNetwork.CountOfPlayers == 1)
         {
@@ -233,7 +234,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         GameObject entry;
         if(playerEntries.TryGetValue(targetPlayer.ActorNumber, out entry))
         {
-            object isPlayerReady; // TODO: CREATE THE PLAYER READY FLAG 
+            object isPlayerReady; 
             if(changedProps.TryGetValue(BREAKTHROUGH.PLAYER_READY, out isPlayerReady))//TRY GET VALUE PLAYER READY
             {
                 entry.GetComponent<ListEntry>().setPlayerReady((bool) isPlayerReady);
