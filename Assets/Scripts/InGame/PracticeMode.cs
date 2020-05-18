@@ -224,14 +224,16 @@ public class PracticeMode : MonoBehaviour
                     }
                     //Refill P1 armor after move whiffed
                     if (P1Prop.HitDetect.Actions.acceptSuper && !P2inCombo && (P1Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") ||
-                        P1Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("Jump")))
+                        P1Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("Jump") ||
+                        P1Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleCrouch")))
                     {
                         P1Prop.armor = 4;
                         P1Prop.durability = 100;
                     }
                     //Refill P2 armor after move whiffed
                     if (P2Prop.HitDetect.Actions.acceptSuper && !P1inCombo && (P2Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") ||
-                        P2Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("Jump")))
+                        P2Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("Jump") ||
+                        P2Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleCrouch")))
                     {
                         P2Prop.armor = 4;
                         P2Prop.durability = 100;
