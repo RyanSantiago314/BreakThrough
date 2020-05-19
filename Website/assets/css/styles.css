@@ -1,0 +1,33 @@
+.poster-box
+{
+	position: relative;
+	text-align: center;
+	width: 100%;
+}
+
+.title-video
+{
+	position: absolute;
+	align-items: center;
+	width: 80%;
+	height: 80%;
+	padding-right: 15px;
+	padding-left: 15px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.project-box
+{
+	position: relative;
+	text-align: center;
+	width: 100%;
+}
+
+.team-box
+{
+	position: relative;
+	text-align: center;
+	width: 100%;
+}
