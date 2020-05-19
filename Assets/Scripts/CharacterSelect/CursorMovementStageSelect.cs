@@ -26,7 +26,6 @@ public class CursorMovementStageSelect : MonoBehaviour
 
     public GameObject[] borders;
     public GameObject[] stagePreviews;
-    public GameObject[] stageNames;
 
     public GameObject stageSelect;
 
@@ -46,16 +45,17 @@ public class CursorMovementStageSelect : MonoBehaviour
             case "DhaliaStage":
                 stageNum = 1;
                 break;
+            case "TakeruStage":
+                stageNum = 2;
+                break;
         }
         stagePreviews[stageNum].SetActive(true);
-        stageNames[stageNum].SetActive(true);
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
         borders[stageNum].SetActive(false);
         stagePreviews[stageNum].SetActive(false);
-        stageNames[stageNum].SetActive(false);
         currentStage = "";
         isOverlap = false;
     }
@@ -90,7 +90,7 @@ public class CursorMovementStageSelect : MonoBehaviour
             Vector3 worldSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
 
             transform.position = new Vector3(Mathf.Clamp(transform.position.x, -worldSize.x, worldSize.x),
-            Mathf.Clamp(transform.position.y, -worldSize.y, worldSize.y),
+            Mathf.Clamp(transform.position.y, -worldSize.y-25, worldSize.y),
             transform.position.z);
         }
 
@@ -111,6 +111,9 @@ public class CursorMovementStageSelect : MonoBehaviour
                         case "DhaliaStage":
                             GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(3);
                             break;
+                        case "TakeruStage":
+                            GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(4);
+                            break;
                     }
                 }
             } else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
@@ -125,6 +128,9 @@ public class CursorMovementStageSelect : MonoBehaviour
                             break;
                         case "DhaliaStage":
                             GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(3);
+                            break;
+                        case "TakeruStage":
+                            GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(4);
                             break;
                     }
                 }
@@ -141,7 +147,7 @@ public class CursorMovementStageSelect : MonoBehaviour
     }
 
     private void resetPosition() {
-        transform.GetComponent<RectTransform>().localPosition = new Vector3(-392, -362, 0);
+        transform.GetComponent<RectTransform>().localPosition = new Vector3(-585, -362, 0);
     }
 
     private bool CheckXbox(int player)
