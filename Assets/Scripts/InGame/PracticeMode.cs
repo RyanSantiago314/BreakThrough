@@ -619,8 +619,8 @@ public class PracticeMode : MonoBehaviour
         Player2.transform.GetChild(0).GetComponent<MovementHandler>().rb.velocity = Vector2.zero;
 
         //Reset Camera
-        Player1.transform.GetChild(0).GetComponent<MovementHandler>().Actions.superFlash = 0;
-        Player2.transform.GetChild(0).GetComponent<MovementHandler>().Actions.superFlash = 0;
+        Player1.transform.GetChild(0).GetComponent<MovementHandler>().Actions.blitzed = 0;
+        Player2.transform.GetChild(0).GetComponent<MovementHandler>().Actions.blitzed = 0;
         GameObject.Find("CameraPos").transform.GetChild(1).transform.position = GameObject.Find("CameraPos").transform.position;
 
         //Refill Armor
@@ -667,7 +667,6 @@ public class PracticeMode : MonoBehaviour
     private void resetDhalia(GameObject player)
     {
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetTrigger(Animator.StringToHash("Blitz"));
-        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Hitboxes.BlitzCancel();
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Actions.landingLag = 0;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Move.HitDetect.KnockBack = Vector2.zero;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetBool(Animator.StringToHash("Run"), false);
@@ -678,7 +677,6 @@ public class PracticeMode : MonoBehaviour
     private void resetAchealis(GameObject player)
     {
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().anim.SetTrigger(Animator.StringToHash("Blitz"));
-        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Hitboxes.BlitzCancel();
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Actions.landingLag = 0;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Move.HitDetect.KnockBack = Vector2.zero;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().anim.SetBool(Animator.StringToHash("Run"), false);
