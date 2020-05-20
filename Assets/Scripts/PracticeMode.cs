@@ -150,7 +150,7 @@ public class PracticeMode : MonoBehaviour
             }
             else if (popUpIndex == 2)
             {
-                popUps.GetComponent<Text>().text = "Try moving closer to your opponet! \n (Pressing the right or left buttons wil move your character in that direction)";
+                popUps.GetComponent<Text>().text = "Try moving closer to your opponet! \n (Pressing the right or left buttons will move your character in that direction)";
                 if ((Input.GetAxis(inputHorizontal) > 0 || Input.GetAxis(inputHorizontal) < 0) && popUpDelay == 0)
                 {
                     popUpIndex++;
@@ -273,6 +273,7 @@ public class PracticeMode : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Return) && popUpDelay == 0)
                 {
                     resetPositions();
+                    GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().CPUState = 5;
                     popUpIndex++;
                     popUpDelay = 0.2f;                   
                 }
