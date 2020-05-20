@@ -150,14 +150,14 @@ public class PracticeMode : MonoBehaviour
             }
             else if (popUpIndex == 2)
             {
-                popUps.GetComponent<Text>().text = "Press D or D-Pad Foward to move foward!";
-                if (Input.GetAxis(inputHorizontal) > 0 && popUpDelay == 0)
+                popUps.GetComponent<Text>().text = "Try moving closer to your opponet! \n (Pressing the right or left buttons wil move your character in that direction)";
+                if ((Input.GetAxis(inputHorizontal) > 0 || Input.GetAxis(inputHorizontal) < 0) && popUpDelay == 0)
                 {
                     popUpIndex++;
                     popUpDelay = 0.2f;
                 }
             }
-            else if (popUpIndex == 3)
+            /* else if (popUpIndex == 3)
             {
                 popUps.GetComponent<Text>().text = "Press A or D-Pad Back to move back!";
                 if (Input.GetAxis(inputHorizontal) < 0 && popUpDelay == 0)
@@ -165,26 +165,26 @@ public class PracticeMode : MonoBehaviour
                     popUpIndex++;
                     popUpDelay = 0.2f;
                 }
-            }
-            else if (popUpIndex == 4)
+            } */
+            else if (popUpIndex == 3)
             {
-                popUps.GetComponent<Text>().text = "Press S or D-Pad Down to crouch!";
+                popUps.GetComponent<Text>().text = "Press the down button to crouch!";
                 if (Input.GetAxis(inputVertical) < 0 && popUpDelay == 0)
                 {
                     popUpIndex++;
                     popUpDelay = 0.2f;
                 }
             }
-            else if (popUpIndex == 5)
+            else if (popUpIndex == 4)
             {
-                popUps.GetComponent<Text>().text = "Press W or D-Pad Up once to jump or double press them to double jump! ";
+                popUps.GetComponent<Text>().text = "Press the up botton to jump or double press it to double jump! ";
                 if (Input.GetAxis(inputVertical) > 0 && popUpDelay == 0)
                 {
                     popUpIndex++;
                     popUpDelay = 0.2f;
                 }
             }
-            else if (popUpIndex == 6)
+            else if (popUpIndex == 5)
             {
                 popUps.GetComponent<Text>().text = "Press U or Square to do a light attack!";
                 if (Input.GetButtonDown(inputSquare) && popUpDelay == 0)
@@ -193,7 +193,7 @@ public class PracticeMode : MonoBehaviour
                     popUpDelay = 0.2f;
                 }
             }
-            else if (popUpIndex == 7)
+            else if (popUpIndex == 6)
             {
                 popUps.GetComponent<Text>().text = "Press I or Triangle to do a medium attack!";
                 if (Input.GetButtonDown(inputTriangle) && popUpDelay == 0)
@@ -202,18 +202,18 @@ public class PracticeMode : MonoBehaviour
                     popUpDelay = 0.2f;
                 }
             }
-            else if (popUpIndex == 8)
+            else if (popUpIndex == 7)
             {
-                popUps.GetComponent<Text>().text = "Press O or Circle to do a medium heavy attack!";
+                popUps.GetComponent<Text>().text = "Press O or Circle to do a heavy attack!";
                 if (Input.GetButtonDown(inputCircle) && popUpDelay == 0)
                 {
                     popUpIndex++;
                     popUpDelay = 0.2f;
                 }
             }
-            else if (popUpIndex == 9)
+            else if (popUpIndex == 8)
             {
-                popUps.GetComponent<Text>().text = "Press J or Cross to do a heavy attack!";
+                popUps.GetComponent<Text>().text = "Press J or Cross to do a BREAK attack!";
                 if (Input.GetButtonDown(inputCross) && popUpDelay == 0)
                 {
                     popUpIndex++;
@@ -221,16 +221,16 @@ public class PracticeMode : MonoBehaviour
                     popUpDelay = 0.2f;
                 }
             }
-            else if (popUpIndex == 10)
+            else if (popUpIndex == 9)
             {
-                popUps.GetComponent<Text>().text = "Now hold J or Cross to power up a heavy attack and use it on the dummy!";
+                popUps.GetComponent<Text>().text = "Now hold J or Cross to power up a BREAK attack and use it on the dummy!";
                 if (P1CurrentHitDamage >= 100 && popUpDelay == 0)
                 {
                     popUpIndex++;
                     popUpDelay = 0.2f;
                 }
             }
-            else if (popUpIndex == 11)
+            else if (popUpIndex == 10)
             {
                 popUps.GetComponent<Text>().text = "Now perform a combo attack on the dummy! \n (You can view your characters move list in the Pause Menu)";
                 if (P1Prop.HitDetect.comboCount >= 5 && popUpDelay == 0)
@@ -239,7 +239,7 @@ public class PracticeMode : MonoBehaviour
                     popUpDelay = 0.2f;
                 }
             }
-            else if (popUpIndex == 12)
+            else if (popUpIndex == 11)
             {
                 popUps.GetComponent<Text>().text = "Now use one of your characters super moves by pressing 236 H + B";
                 if (P1CurrentComboTotalDamage >= 250 && popUpDelay == 0)
@@ -249,10 +249,19 @@ public class PracticeMode : MonoBehaviour
                     popUpDelay = 0.2f;
                 }
             }
+            else if (popUpIndex == 12)
+            {
+                popUps.GetComponent<Text>().text = "Hold the direction away from your opponent to block incoming attacks! \n This can be used on the ground and in the air!";
+                if (Input.GetKeyDown(KeyCode.Return) && popUpDelay == 0)
+                {
+                    popUpIndex++;
+                    popUpDelay = 0.2f;
+                }
+            }
             else if (popUpIndex == 13)
             {
-                popUps.GetComponent<Text>().text = "Shield Mechanic ";
-                if (P1CurrentHitDamage >= 100 && popUpDelay == 0)
+                popUps.GetComponent<Text>().text = "Consume one segment of the resolve meter by pressing H or L2. \n This allows you to cancel your current action which can used to set up some cool combos! ";
+                if (Input.GetKeyDown(KeyCode.Return) && popUpDelay == 0)
                 {
                     popUpIndex++;
                     popUpDelay = 0.2f;
@@ -260,11 +269,12 @@ public class PracticeMode : MonoBehaviour
             }
             else if (popUpIndex == 14)
             {
-                popUps.GetComponent<Text>().text = "Use the resolve meter by pressing H or ... This allows you to ... ";
-                if (Input.GetButtonDown(inputCross)&& popUpDelay == 0)
+                popUps.GetComponent<Text>().text = "Now use everthing you've learned to beat the dummy! \n (Press ENTER to start)";
+                if (Input.GetKeyDown(KeyCode.Return) && popUpDelay == 0)
                 {
+                    resetPositions();
                     popUpIndex++;
-                    popUpDelay = 0.2f;
+                    popUpDelay = 0.2f;                   
                 }
             }
             else
@@ -274,7 +284,7 @@ public class PracticeMode : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Tab))            
             {
-                popUpIndex = 1;
+                popUpIndex++;
                 popUps.GetComponent<Text>().text = "";
                 popUps.SetActive(false);
             }
