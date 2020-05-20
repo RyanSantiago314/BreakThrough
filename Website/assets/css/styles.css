@@ -31,3 +31,15 @@
 	text-align: center;
 	width: 100%;
 }
+
+.team-member
+{
+	margin-bottom: 50px;
+	text-align: center;
+}
+
+.team-member img
+{
+	width: 250px;
+	height: 250px;
+}
