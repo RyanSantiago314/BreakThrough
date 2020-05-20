@@ -765,6 +765,7 @@ MonoBehaviour:
   MaxInputObject: {fileID: 1948197656}
   PracticeModeSettings: {fileID: 1816309730}
   popUps: {fileID: 2051205889}
+  popUpsBackground: {fileID: 2016389925}
   enableArmorRefill: 1
   enableCPUAirTech: 1
   enableGuardAfterFirstHit: 0

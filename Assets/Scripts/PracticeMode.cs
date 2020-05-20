@@ -19,14 +19,17 @@ public class PracticeMode : MonoBehaviour
     public GameObject MaxInputObject;
     public GameObject PracticeModeSettings;
     public GameObject popUps;
+    public GameObject popUpsBackground;
     private bool P1inCombo;
     private bool P2inCombo;
     private bool P2inAirTrueCombo;
     private bool P2inGroundTrueCombo;
     private bool guardAfterTrueCombo;
     private bool fixAnimBug;
+    private bool preventReset = false;
     private float InputTimer;
     private float popUpDelay;
+    private float popupDelayDuration = 0.5f;
 
     private int popUpIndex;
     double p1x;
@@ -39,6 +42,7 @@ public class PracticeMode : MonoBehaviour
     private string inputHorizontal = "Horizontal_P1";
     private string inputVertical = "Vertical_P1";
     private string inputSelect = "Select_P1";
+    private string inputL2 = "L2_P1";
     private string inputL3 = "L3_P1";
 
     public bool enableArmorRefill = true;
@@ -100,6 +104,7 @@ public class PracticeMode : MonoBehaviour
         inputHorizontal += UpdateControls(CheckXbox(0));
         inputVertical += UpdateControls(CheckXbox(0));
         inputSelect += UpdateControls(CheckXbox(0));
+        inputL2 += UpdateControls(CheckXbox(0));
         inputL3 += UpdateControls(CheckXbox(0));
 
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
@@ -131,21 +136,24 @@ public class PracticeMode : MonoBehaviour
             if (popUpIndex == 0)
             {
                 popUps.SetActive(true);
-                popUps.GetComponent<Text>().text = "Welcome to training mode! Here you can practice and learn the basics of Breakthrough! \n (Press ENTER to continue)";
+                popUpsBackground.SetActive(true);
+                popUps.GetComponent<Text>().text = "Welcome to training mode! Here you can practice and learn the basics of Breakthrough! \n (Press ENTER or Select to continue)";
+                preventReset = true;
                 
-                if (Input.GetKeyDown(KeyCode.Return) && popUpDelay == 0)
+                if ((Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
                 {
                     popUpIndex++;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
                 }
             }
             else if (popUpIndex == 1)
             {
-                popUps.GetComponent<Text>().text = "Let's start with the tutorial! \n (Press ENTER to continue or TAB to skip)";
-                if (Input.GetKeyDown(KeyCode.Return) && popUpDelay == 0)
+                popUps.GetComponent<Text>().text = "Let's start with the tutorial! \n (Press ENTER or Select to continue and TAB to skip)";
+                if ((Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
                 {
                     popUpIndex++;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
+                    preventReset = false;
                 }
             }
             else if (popUpIndex == 2)
@@ -154,7 +162,7 @@ public class PracticeMode : MonoBehaviour
                 if ((Input.GetAxis(inputHorizontal) > 0 || Input.GetAxis(inputHorizontal) < 0) && popUpDelay == 0)
                 {
                     popUpIndex++;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
                 }
             }
             /* else if (popUpIndex == 3)
@@ -163,7 +171,7 @@ public class PracticeMode : MonoBehaviour
                 if (Input.GetAxis(inputHorizontal) < 0 && popUpDelay == 0)
                 {
                     popUpIndex++;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
                 }
             } */
             else if (popUpIndex == 3)
@@ -172,7 +180,7 @@ public class PracticeMode : MonoBehaviour
                 if (Input.GetAxis(inputVertical) < 0 && popUpDelay == 0)
                 {
                     popUpIndex++;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
                 }
             }
             else if (popUpIndex == 4)
@@ -181,7 +189,7 @@ public class PracticeMode : MonoBehaviour
                 if (Input.GetAxis(inputVertical) > 0 && popUpDelay == 0)
                 {
                     popUpIndex++;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
                 }
             }
             else if (popUpIndex == 5)
@@ -190,7 +198,7 @@ public class PracticeMode : MonoBehaviour
                 if (Input.GetButtonDown(inputSquare) && popUpDelay == 0)
                 {
                     popUpIndex++;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
                 }
             }
             else if (popUpIndex == 6)
@@ -199,7 +207,7 @@ public class PracticeMode : MonoBehaviour
                 if (Input.GetButtonDown(inputTriangle) && popUpDelay == 0)
                 {
                     popUpIndex++;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
                 }
             }
             else if (popUpIndex == 7)
@@ -208,7 +216,7 @@ public class PracticeMode : MonoBehaviour
                 if (Input.GetButtonDown(inputCircle) && popUpDelay == 0)
                 {
                     popUpIndex++;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
                 }
             }
             else if (popUpIndex == 8)
@@ -218,7 +226,7 @@ public class PracticeMode : MonoBehaviour
                 {
                     popUpIndex++;
                     P1CurrentHitDamage = 0;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
                 }
             }
             else if (popUpIndex == 9)
@@ -227,7 +235,7 @@ public class PracticeMode : MonoBehaviour
                 if (P1CurrentHitDamage >= 100 && popUpDelay == 0)
                 {
                     popUpIndex++;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
                 }
             }
             else if (popUpIndex == 10)
@@ -236,7 +244,7 @@ public class PracticeMode : MonoBehaviour
                 if (P1Prop.HitDetect.comboCount >= 5 && popUpDelay == 0)
                 {
                     popUpIndex++;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
                 }
             }
             else if (popUpIndex == 11)
@@ -246,41 +254,44 @@ public class PracticeMode : MonoBehaviour
                 {
                     popUpIndex++;
                     P1CurrentHitDamage = 0;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
                 }
             }
             else if (popUpIndex == 12)
             {
                 popUps.GetComponent<Text>().text = "Hold the direction away from your opponent to block incoming attacks! \n This can be used on the ground and in the air!";
-                if (Input.GetKeyDown(KeyCode.Return) && popUpDelay == 0)
+                if (Input.GetAxis(inputHorizontal) < 0 && popUpDelay == 0)
                 {
                     popUpIndex++;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
                 }
             }
             else if (popUpIndex == 13)
             {
                 popUps.GetComponent<Text>().text = "Consume one segment of the resolve meter by pressing H or L2. \n This allows you to cancel your current action which can used to set up some cool combos! ";
-                if (Input.GetKeyDown(KeyCode.Return) && popUpDelay == 0)
+                if ((Input.GetAxis(inputL2) > 0 || Input.GetButtonDown(inputL2)) && popUpDelay == 0)
                 {
                     popUpIndex++;
-                    popUpDelay = 0.2f;
+                    popUpDelay = popupDelayDuration;
                 }
             }
             else if (popUpIndex == 14)
             {
-                popUps.GetComponent<Text>().text = "Now use everthing you've learned to beat the dummy! \n (Press ENTER to start)";
-                if (Input.GetKeyDown(KeyCode.Return) && popUpDelay == 0)
+                popUps.GetComponent<Text>().text = "Now use everthing you've learned to beat the dummy! \n (Press ENTER or Select to start)";
+                preventReset = true;
+                if ((Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
                 {
+                    preventReset = false;
                     resetPositions();
                     GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().CPUState = 5;
                     popUpIndex++;
-                    popUpDelay = 0.2f;                   
+                    popUpDelay = popupDelayDuration;                   
                 }
             }
             else
             {
                 popUps.GetComponent<Text>().text = "";
+                popUpsBackground.SetActive(false);
             }
 
             if (Input.GetKeyDown(KeyCode.Tab))            
@@ -288,6 +299,7 @@ public class PracticeMode : MonoBehaviour
                 popUpIndex++;
                 popUps.GetComponent<Text>().text = "";
                 popUps.SetActive(false);
+                popUpsBackground.SetActive(false);
             }
 
             //Check Settings from Practice Pause Menu
@@ -593,7 +605,7 @@ public class PracticeMode : MonoBehaviour
                 }
 
                 //Reset Positions back to start
-                if (Input.GetButtonDown(inputSelect))
+                if (Input.GetButtonDown(inputSelect) && !preventReset)
                 {
                     resetPositions();
                     //Reset Character Specific things
