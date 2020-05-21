@@ -1,3 +1,14 @@
+@font-face {
+	src: url(D:/Documents/GitHub/BreakThrough/Website/assets/fonts/BreakThrough-Regular.ttf) format('truetype');
+	font-family: Breakthrough;
+}
+
+.important-text
+{
+	font-family: Breakthrough;
+	font-size: 44px;
+}
+
 .poster-box
 {
 	position: relative;
