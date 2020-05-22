@@ -29,7 +29,7 @@ public class PracticeMode : MonoBehaviour
     private bool preventReset = false;
     private float InputTimer;
     private float popUpDelay;
-    private float popupDelayDuration = 0.5f;
+    private float popupDelayDuration = 1.0f;
 
     private int popUpIndex;
     double p1x;
@@ -165,15 +165,6 @@ public class PracticeMode : MonoBehaviour
                     popUpDelay = popupDelayDuration;
                 }
             }
-            /* else if (popUpIndex == 3)
-            {
-                popUps.GetComponent<Text>().text = "Press A or D-Pad Back to move back!";
-                if (Input.GetAxis(inputHorizontal) < 0 && popUpDelay == 0)
-                {
-                    popUpIndex++;
-                    popUpDelay = popupDelayDuration;
-                }
-            } */
             else if (popUpIndex == 3)
             {
                 popUps.GetComponent<Text>().text = "Press the down button to crouch!";
@@ -253,7 +244,6 @@ public class PracticeMode : MonoBehaviour
                 if (P1CurrentComboTotalDamage >= 250 && popUpDelay == 0)
                 {
                     popUpIndex++;
-                    P1CurrentHitDamage = 0;
                     popUpDelay = popupDelayDuration;
                 }
             }
