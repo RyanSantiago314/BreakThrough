@@ -71,27 +71,20 @@ public class PauseMenu : MonoBehaviour
     {
         playerPaused = 0;
 
-        pauseCode1 += UpdateControls(CheckXbox(0));
-        pauseCode += UpdateControls(CheckXbox(1));
+        SetControllers();
 
         pauseQuit = false;
         allowPause = false;
         //moveList = false;
         
 
-        inputHorizontal += UpdateControls(CheckXbox(0));
-        inputVertical += UpdateControls(CheckXbox(0));
-        p1cross += UpdateControls(CheckXbox(0));
-        p1circle += UpdateControls(CheckXbox(0));
-        inputHorizontal2 += UpdateControls(CheckXbox(1));
-        inputVertical2 += UpdateControls(CheckXbox(1));
-        p2cross += UpdateControls(CheckXbox(1));
-        p2circle += UpdateControls(CheckXbox(1));
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        SetControllers();
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" && allowPause)
         {
             /*if (isPaused)
@@ -718,6 +711,21 @@ public class PauseMenu : MonoBehaviour
         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = "";
         pauseQuit = true;
         GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(1);
+    }
+
+    private void SetControllers()
+    {
+        p1cross = "Cross_P1" + UpdateControls(CheckXbox(0));
+        p1circle = "Circle_P1" + UpdateControls(CheckXbox(0));
+        inputHorizontal = "Horizontal_P1" + UpdateControls(CheckXbox(0));
+        inputVertical = "Vertical_P1" + UpdateControls(CheckXbox(0));
+        pauseCode1 = "Start_P1" + UpdateControls(CheckXbox(0));
+
+        p2cross = "Cross_P2" + UpdateControls(CheckXbox(1));
+        p2circle = "Circle_P2" + UpdateControls(CheckXbox(1));
+        inputHorizontal2 = "Horizontal_P2" + UpdateControls(CheckXbox(1));
+        inputVertical2 = "Vertical_P2" + UpdateControls(CheckXbox(1));
+        pauseCode = "Start_P2" + UpdateControls(CheckXbox(1));
     }
 
     private bool CheckXbox(int player)

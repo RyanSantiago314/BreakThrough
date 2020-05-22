@@ -94,7 +94,7 @@ public class MenuInputManager : MonoBehaviour
         COMLevel = 1;
         //isXbox = false;
         Time.timeScale = 1;
-
+        /*
         inputCross += UpdateControls(CheckXbox(0));
         inputCircle += UpdateControls(CheckXbox(0));
         inputHorizontal += UpdateControls(CheckXbox(0));
@@ -104,6 +104,8 @@ public class MenuInputManager : MonoBehaviour
         inputCircle2 += UpdateControls(CheckXbox(1));
         inputHorizontal2 += UpdateControls(CheckXbox(1));
         inputVertical2 += UpdateControls(CheckXbox(1));
+        */
+        SetControllers();
 
         resolutions = Screen.resolutions;
         resoutionDropdown.ClearOptions();
@@ -134,7 +136,8 @@ public class MenuInputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    	horizontal = Input.GetAxis(inputHorizontal);
+        SetControllers();
+        horizontal = Input.GetAxis(inputHorizontal);
     	vertical = Input.GetAxis(inputVertical);
     	if (InputTimer > 0) InputTimer -= Time.deltaTime;
     	else InputTimer = 0;
@@ -778,6 +781,19 @@ public class MenuInputManager : MonoBehaviour
         {
             resetDifficulty = false;
         }
+    }
+
+    private void SetControllers()
+    {
+        inputCross = "Cross_P1" + UpdateControls(CheckXbox(0));
+        inputCircle = "Circle_P1" + UpdateControls(CheckXbox(0));
+        inputHorizontal = "Horizontal_P1" + UpdateControls(CheckXbox(0));
+        inputVertical = "Vertical_P1" + UpdateControls(CheckXbox(0));
+
+        inputCross2 = "Cross_P2" + UpdateControls(CheckXbox(1));
+        inputCircle2 = "Circle_P2" + UpdateControls(CheckXbox(1));
+        inputHorizontal2 = "Horizontal_P2" + UpdateControls(CheckXbox(1));
+        inputVertical2 = "Vertical_P2" + UpdateControls(CheckXbox(1));
     }
 
     private bool CheckXbox(int player)
