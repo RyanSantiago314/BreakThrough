@@ -40,7 +40,6 @@ public class Tutorial : MonoBehaviour
         inputTriangle += UpdateControls(CheckXbox(0));
         inputSquare += UpdateControls(CheckXbox(0));
         inputHorizontal += UpdateControls(CheckXbox(0));
-        inputHorizontal += UpdateControls(CheckXbox(0));
         inputVertical += UpdateControls(CheckXbox(0));
     }
 
