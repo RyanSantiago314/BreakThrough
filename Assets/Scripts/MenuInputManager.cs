@@ -22,6 +22,7 @@ public class MenuInputManager : MonoBehaviour
 	public Button PlayVsPlayerButton;
 	public Button PlayVsAiButton;
 	public Button PracticeButton;
+	public Button TutorialButton;
 	public Button BackButton;
 	public Button OptionsBackButton;
 	public Button soundOptionsBackButton;
@@ -222,7 +223,7 @@ public class MenuInputManager : MonoBehaviour
 		else if (state == "local")
     	{
 	        if (buttonIndex < 1) buttonIndex = 1;
-			else if (buttonIndex > 4) buttonIndex = 4;
+			else if (buttonIndex > 5) buttonIndex = 5;
 			if (buttonIndex == 1)
 			{
 				PlayVsPlayerButton.Select();
@@ -268,6 +269,23 @@ public class MenuInputManager : MonoBehaviour
 
             }
             else if (buttonIndex == 4)
+            {
+                TutorialButton.Select();
+                if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
+                {
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "Practice";
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = "TrainingStage";
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "Dhalia";
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "Dhalia";
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side = "Left";
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side = "Right";
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = 1;
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 2;
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().CPUDifficulty = 50;
+                    TutorialButton.onClick.Invoke();
+                }
+            }
+            else if (buttonIndex == 5)
 			{
 				BackButton.Select();
 				if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
