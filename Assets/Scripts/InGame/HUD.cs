@@ -139,7 +139,7 @@ public class HUD : MonoBehaviour
             P2HealthUI.fillAmount += .015f;
 
         if (P1HealthUI.fillAmount == 1)
-            P1HealthUI.color = new Color32(93, 255, 175, 255);
+            P1HealthUI.color = new Color32(170, 255, 255, 255);
         else if (P1HealthUI.fillAmount <= .1f)
         {
             if (P1HealthUI.color == new Color32(255, 175, 175, 255) && flickerTimer <= 0)
@@ -153,11 +153,13 @@ public class HUD : MonoBehaviour
         }
         else if (P1HealthUI.fillAmount <= .25f)
             P1HealthUI.color = new Color32(255, 76, 98, 255);
-        else if (P1HealthUI.fillAmount < 1f)
+        else if (P1HealthUI.fillAmount <= .5f)
             P1HealthUI.color = new Color32(255, 223, 105, 255);
+        else if (P1HealthUI.fillAmount < 1f)
+            P1HealthUI.color = new Color32(93, 255, 175, 255);
 
         if (P2HealthUI.fillAmount == 1)
-            P2HealthUI.color = new Color32(93, 255, 175, 255);
+            P2HealthUI.color = new Color32(170, 255, 255, 255);
         else if (P2HealthUI.fillAmount <= .1f)
         {
             if (P2HealthUI.color == new Color32(255, 175, 175, 255) && flickerTimer <= 0)
@@ -171,8 +173,10 @@ public class HUD : MonoBehaviour
         }
         else if (P2HealthUI.fillAmount <= .25f)
             P2HealthUI.color = new Color32(255, 76, 98, 255);
-        else if (P2HealthUI.fillAmount < 1f)
+        else if (P2HealthUI.fillAmount <= .5f)
             P2HealthUI.color = new Color32(255, 223, 105, 255);
+        else if (P2HealthUI.fillAmount < 1f)
+            P2HealthUI.color = new Color32(93, 255, 175, 255);
 
         if (flickerTimer <= 0)
             flickerTimer = 4;
@@ -545,7 +549,8 @@ public class HUD : MonoBehaviour
        
         if (displayTime1 > 0)
         {
-            Player1Combo.text = hitNum1.ToString();
+            if (hitNum1 > 1)
+                Player1Combo.text = hitNum1.ToString();
             Player1Hits.text = "HITS";
             displayTime1 -= Time.fixedDeltaTime;
         }
@@ -612,7 +617,8 @@ public class HUD : MonoBehaviour
 
         if (displayTime2 > 0)
         {
-            Player2Combo.text = hitNum2.ToString();
+            if (hitNum2 > 1)
+                Player2Combo.text = hitNum2.ToString();
             Player2Hits.text = "HITS";
             displayTime2 -= Time.fixedDeltaTime;
         }

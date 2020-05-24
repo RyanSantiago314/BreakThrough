@@ -45,7 +45,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Char1Move.Actions.grabbed || Char2Move.Actions.grabbed ||
+        if (Char1Move.Actions.grabbed || Char2Move.Actions.grabbed || Char1Move.Actions.grabZoom > 0 || Char2Move.Actions.grabZoom > 0 ||
            (Char2Move.HitDetect.hitStop > 0 && Character2.GetComponent<CharacterProperties>().currentHealth <= 0 && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice") ||
            (Char1Move.HitDetect.hitStop > 0 && Character1.GetComponent<CharacterProperties>().currentHealth <= 0) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" ||
             (Char2Move.HitDetect.hitStop > 0 && Char2Move.Actions.shattered) ||
@@ -71,7 +71,7 @@ public class CameraController : MonoBehaviour
         {
             //gameplay camera
             if (Char1Move.hittingBound && Char2Move.hittingBound)
-                cameraPos = transform.position;
+                cameraPos = new Vector3(transform.position.x, (Character1.position.y + Character2.position.y) / 2 + yOffset, transform.position.z);
             else
             {
                 if (Mathf.Abs(Character1.position.x - Character2.position.x) > 3.5)

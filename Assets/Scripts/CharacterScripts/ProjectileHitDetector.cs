@@ -314,10 +314,7 @@ public class ProjectileHitDetector : MonoBehaviour
                             Debug.Log("SHATTERED");
                             //damage, hitstun, etc.
                             HitSuccess(other);
-                            if (potentialHitStop > 0)
-                                ApplyHitStop(2 * potentialHitStop);
-                            else
-                                ApplyHitStop(30);
+                            ApplyHitStop(30);
 
                             //chip damage
                             /*if (Actions.Move.OpponentProperties.currentHealth - damage/10 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
@@ -358,7 +355,7 @@ public class ProjectileHitDetector : MonoBehaviour
                     Debug.Log("SHATTERED");
                     //damage, hitstun, etc.
                     HitSuccess(other);
-                    ApplyHitStop(2 * potentialHitStop);
+                    ApplyHitStop(30);
                 }
                 else if (piercing && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                 {

@@ -35,11 +35,12 @@ public class AcceptInputs : MonoBehaviour
     public bool superHit = false;
     public float blitzed = 0;
     public int wallStick = 0;
-    public int landingLag = 0;
+    public float landingLag = 0;
     public bool groundBounce = false;
     public bool wallBounce = false;
 
     public bool grabbed = false;
+    public float grabZoom;
     public bool throwTech = false;
     public bool backThrow = false;
 
@@ -107,10 +108,12 @@ public class AcceptInputs : MonoBehaviour
             DisableAll();
             StopAttacking();
             anim.SetBool(crouchID, true);
+            anim.SetFloat(landLagID, landingLag);
             if (!airborne)
-                landingLag--;
+                landingLag -= Time.deltaTime;
         }
-        anim.SetInteger(landLagID, landingLag);
+        else
+            anim.SetFloat(landLagID, -1);
 
         if (anim.GetBool(dizzyID) || grabbed || Move.HitDetect.hitStun > 0 || currentState.IsName("Deflected"))
         {
@@ -157,12 +160,15 @@ public class AcceptInputs : MonoBehaviour
         }
 
         if (currentState.IsName("ThrowReject") || currentState.IsName("FUGetup") || currentState.IsName("FDGetup"))
-            throwInvulnCounter = (float)8/60;
+            throwInvulnCounter = (float)1/10;
 
         if (superFlash > 0 && !Move.HitDetect.pauseScreen.isPaused)
         {
             superFlash -= Time.deltaTime;
         }
+
+        if (grabZoom > 0)
+            grabZoom -= Time.deltaTime;
 
 
         //change character properties based on current animation state
@@ -173,9 +179,9 @@ public class AcceptInputs : MonoBehaviour
         {
             standing = true;
         }
-        else if ((currentState.IsName("FUKnockdown") || currentState.IsName("FDKnockdown")) && Move.HitDetect.hitStun > (float)24/60)
+        else if ((currentState.IsName("FUKnockdown") || currentState.IsName("FDKnockdown")) && Move.HitDetect.hitStun > .5f)
         {
-            Move.HitDetect.hitStun = (float)24/60;
+            Move.HitDetect.hitStun = .5f;
         }
         else if (currentState.IsName("FUGetup") || currentState.IsName("FDGetup"))
         {
@@ -332,10 +338,10 @@ public class AcceptInputs : MonoBehaviour
         lowCounter = false;
     }
 
-    public void SetLandLag(int x)
+    public void SetLandLag(float x)
     {
-        landingLag = x;
-        anim.SetInteger(landLagID, landingLag);
+        landingLag = x/60;
+        anim.SetFloat(landLagID, landingLag);
     }
 
     public void DisableBlitz()
@@ -468,9 +474,10 @@ public class AcceptInputs : MonoBehaviour
         throwTech = false;
     }
 
-    public void StartGrab()
+    public void StartGrab(float i)
     {
         opponentMove.Actions.grabbed = true;
+        grabZoom = i / 60;
     }
 
     public void EndGrab()

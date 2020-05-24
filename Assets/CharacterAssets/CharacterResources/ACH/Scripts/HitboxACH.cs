@@ -20,10 +20,10 @@ public class HitboxACH : MonoBehaviour
     int hitStunLv3 = 17;
     int hitStunLv4 = 19;
 
-    int hitStopLv1 = 8;
-    int hitStopLv2 = 9;
-    int hitStopLv3 = 10;
-    int hitStopLv4 = 11;
+    int hitStopLv1 = 9;
+    int hitStopLv2 = 10;
+    int hitStopLv3 = 11;
+    int hitStopLv4 = 12;
 
     public int sinCharge; // variable used to charge/enhance Genesis Assault special attack, similar to sin charge from DHA
 
@@ -76,12 +76,15 @@ public class HitboxACH : MonoBehaviour
         HitDetect.sweep = false;
         HitDetect.forceCrouch = false;
         HitDetect.forceStand = false;
+        HitDetect.turnOffEffect = false;
         HitDetect.allowWallStick = false;
         HitDetect.allowGroundBounce = false;
         HitDetect.allowWallBounce = false;
         HitDetect.shatter = false;
         HitDetect.usingSuper = false;
         HitDetect.usingSpecial = false;
+        HitDetect.guardCancel = false;
+        HitDetect.disableBlitz = false;
         HitDetect.slash = false;
         HitDetect.vertSlash = false;
         HitDetect.horiSlash = false;
@@ -462,7 +465,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.damage = 75;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
-        HitDetect.potentialHitStun = hitStunLv3;
+        HitDetect.potentialHitStun = hitStunLv4;
         HitDetect.potentialHitStop = hitStopLv3;
         HitDetect.potentialKnockBack = new Vector2(1.5f, 0f);
         HitDetect.potentialAirKnockBack = new Vector2(1.5f, 2.5f);
@@ -579,7 +582,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.damage = 55;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 0;
-        HitDetect.potentialKnockBack = new Vector2(.5f, 2f);
+        HitDetect.potentialKnockBack = new Vector2(.2f, 2f);
         HitDetect.potentialHitStun = 24;
         HitDetect.potentialHitStop = hitStopLv3;
         HitDetect.initialProration = 1;
@@ -670,8 +673,8 @@ public class HitboxACH : MonoBehaviour
         hit1.enabled = true;
 
 
-        hit1.offset = new Vector2(.29f, -.09f);
-        hit1.size = new Vector2(.28f, .9f);
+        hit1.offset = new Vector2(.35f, -.09f);
+        hit1.size = new Vector2(.45f, .9f);
 
         HitDetect.armorDamage = 1;
         HitDetect.durabilityDamage = 50;
@@ -691,16 +694,18 @@ public class HitboxACH : MonoBehaviour
         hit1.enabled = true;
 
 
-        hit1.offset = new Vector2(.975f, .1f);
-        hit1.size = new Vector2(.45f, .79f);
+        hit1.offset = new Vector2(.56f, .37f);
+        hit1.size = new Vector2(.69f, 1.8f);
 
         HitDetect.potentialHitStun = 60;
         HitDetect.potentialHitStop = 0;
         HitDetect.attackLevel = 0;
+        HitDetect.potentialKnockBack = new Vector2(.2f, 3f);
         HitDetect.guard = "Unblockable";
 
         HitDetect.launch = true;
-        HitDetect.grab = true;
+        HitDetect.turnOffEffect = true;
+        HitDetect.disableBlitz = true;
 
     }
 
@@ -710,20 +715,20 @@ public class HitboxACH : MonoBehaviour
         hit1.enabled = true;
 
 
-        hit1.offset = new Vector2(1.4f, .5f);
-        hit1.size = new Vector2(1.3f, .47f);
+        hit1.offset = new Vector2(1.2f, -.19f);
+        hit1.size = new Vector2(1.35f, .27f);
         HitDetect.damage = 100;
         HitDetect.initialProration = .7f;
         HitDetect.forcedProration = .7f;
-        HitDetect.potentialAirKnockBack = new Vector2(2.5f, 2f);
+        HitDetect.potentialAirKnockBack = new Vector2(2.5f, 1f);
         HitDetect.potentialHitStun = 60;
-        HitDetect.potentialHitStop = 7;
-        HitDetect.attackLevel = 4;
+        HitDetect.potentialHitStop = hitStopLv4;
+        HitDetect.attackLevel = 5;
         HitDetect.guard = "Unblockable";
 
-        HitDetect.piercing = true;
-        HitDetect.allowWallBounce = true;
+        HitDetect.horiSlash = true;
         HitDetect.allowSuper = true;
+        HitDetect.allowWallStick = true;
     }
 
     void BBCycleHit3()
