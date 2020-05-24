@@ -38,6 +38,7 @@ public class PracticeMode : MonoBehaviour
     private bool fixAnimBug;
     private float InputTimer;
     private string guardLevel;
+
     double p1x;
     double p2x;
 
@@ -51,9 +52,9 @@ public class PracticeMode : MonoBehaviour
 
     private float P1PrevHealth;
     private float P2PrevHealth;
-    private float P1CurrentHitDamage;
+    public float P1CurrentHitDamage;
     private float P2CurrentHitDamage;
-    private float P1CurrentComboTotalDamage;
+    public float P1CurrentComboTotalDamage;
     private float P2CurrentComboTotalDamage;
     private float P1HighestComboDamage;
     private float P2HighestComboDamage;
@@ -86,7 +87,14 @@ public class PracticeMode : MonoBehaviour
 
     private string inputSelect = "Select_P1";
     private string inputR3 = "R3_P1";
+    private string inputL2 = "L2_P1";
     private string inputL3 = "L3_P1";
+    private string inputCross = "Cross_P1";
+    private string inputCircle = "Circle_P1";
+    private string inputTriangle = "Triangle_P1";
+    private string inputSquare = "Square_P1";
+    private string inputHorizontal = "Horizontal_P1";
+    private string inputVertical = "Vertical_P1";
 
     // Start is called before the first frame update
     void Start()
@@ -120,7 +128,14 @@ public class PracticeMode : MonoBehaviour
 
         inputSelect += UpdateControls(CheckXbox(0));
         inputR3 += UpdateControls(CheckXbox(0));
+        inputL2 += UpdateControls(CheckXbox(0));
         inputL3 += UpdateControls(CheckXbox(0));
+        inputCross += UpdateControls(CheckXbox(0));
+        inputCircle += UpdateControls(CheckXbox(0));
+        inputTriangle += UpdateControls(CheckXbox(0));
+        inputSquare += UpdateControls(CheckXbox(0));
+        inputHorizontal += UpdateControls(CheckXbox(0));
+        inputVertical += UpdateControls(CheckXbox(0));
 
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
@@ -143,7 +158,7 @@ public class PracticeMode : MonoBehaviour
     {
         //Practice Mode Handler
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
-        {
+        {        
             //Check Settings from Practice Pause Menu
             //CPUState Check
             switch (PracticeModeSettings.GetComponent<PauseMenu>().CPUState)
@@ -608,7 +623,7 @@ public class PracticeMode : MonoBehaviour
         }
     }
 
-    void resetPositions()
+    public void resetPositions()
     {
         //Reset Player Knockback
         Player1.transform.GetChild(0).GetComponent<MovementHandler>().HitDetect.KnockBack = new Vector2(0, 0);
@@ -619,8 +634,8 @@ public class PracticeMode : MonoBehaviour
         Player2.transform.GetChild(0).GetComponent<MovementHandler>().rb.velocity = Vector2.zero;
 
         //Reset Camera
-        Player1.transform.GetChild(0).GetComponent<MovementHandler>().Actions.superFlash = 0;
-        Player2.transform.GetChild(0).GetComponent<MovementHandler>().Actions.superFlash = 0;
+        Player1.transform.GetChild(0).GetComponent<MovementHandler>().Actions.blitzed = 0;
+        Player2.transform.GetChild(0).GetComponent<MovementHandler>().Actions.blitzed = 0;
         GameObject.Find("CameraPos").transform.GetChild(1).transform.position = GameObject.Find("CameraPos").transform.position;
 
         //Refill Armor
@@ -667,7 +682,6 @@ public class PracticeMode : MonoBehaviour
     private void resetDhalia(GameObject player)
     {
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetTrigger(Animator.StringToHash("Blitz"));
-        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Hitboxes.BlitzCancel();
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Actions.landingLag = 0;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Move.HitDetect.KnockBack = Vector2.zero;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetBool(Animator.StringToHash("Run"), false);
@@ -678,7 +692,6 @@ public class PracticeMode : MonoBehaviour
     private void resetAchealis(GameObject player)
     {
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().anim.SetTrigger(Animator.StringToHash("Blitz"));
-        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Hitboxes.BlitzCancel();
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Actions.landingLag = 0;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Move.HitDetect.KnockBack = Vector2.zero;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().anim.SetBool(Animator.StringToHash("Run"), false);

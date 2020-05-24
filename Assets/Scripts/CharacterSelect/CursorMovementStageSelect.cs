@@ -62,19 +62,13 @@ public class CursorMovementStageSelect : MonoBehaviour
 
     private void Start()
     {
-        p1Cross += UpdateControls(CheckXbox(p1Num));
-        p2Cross += UpdateControls(CheckXbox(p2Num));
-        p1Circle += UpdateControls(CheckXbox(p1Num));
-        p2Circle += UpdateControls(CheckXbox(p2Num));
-        p1Ver += UpdateControls(CheckXbox(p1Num));
-        p1Hor += UpdateControls(CheckXbox(p1Num));
-        p2Ver += UpdateControls(CheckXbox(p2Num));
-        p2Hor += UpdateControls(CheckXbox(p2Num));
+        SetControllers();
     }
 
     // Update is called once per frame
     void Update()
     {
+        SetControllers();
         if (!SceneTransitions.lockinputs)
         {
             //Manage Cursor movement
@@ -150,6 +144,18 @@ public class CursorMovementStageSelect : MonoBehaviour
         transform.GetComponent<RectTransform>().localPosition = new Vector3(-585, -362, 0);
     }
 
+    private void SetControllers()
+    {
+        p1Cross = "Cross_P1" + UpdateControls(CheckXbox(0));
+        p1Circle = "Circle_P1" + UpdateControls(CheckXbox(0));
+        p1Hor = "Horizontal_P1" + UpdateControls(CheckXbox(0));
+        p1Ver = "Vertical_P1" + UpdateControls(CheckXbox(0));
+
+        p2Cross = "Cross_P2" + UpdateControls(CheckXbox(1));
+        p2Circle = "Circle_P2" + UpdateControls(CheckXbox(1));
+        p2Hor = "Horizontal_P2" + UpdateControls(CheckXbox(1));
+        p2Ver = "Vertical_P2" + UpdateControls(CheckXbox(1));
+    }
     private bool CheckXbox(int player)
     {
         if (Input.GetJoystickNames().Length > player)

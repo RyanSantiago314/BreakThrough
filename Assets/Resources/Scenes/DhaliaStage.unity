@@ -408,7 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6fbaa8c22c19774f86d376136f95b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMode: PvP
+  gameMode: Practice
   stage: TrainingStage
   P1Character: Dhalia
   P2Character: Dhalia
@@ -832,6 +832,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3652805009582818685, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
+        type: 3}
+      propertyPath: m_Text
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3669784695140853204, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
         type: 3}
@@ -1549,7 +1554,7 @@ MonoBehaviour:
   P2HighComboDamage: {fileID: 685034352}
   P1HitType: {fileID: 685034351}
   P2HitType: {fileID: 685034350}
-  RecordingState: {fileID: 0}
+  RecordingState: {fileID: 2012125839}
   DamageDisplays: {fileID: 685034349}
   P1Displays: {fileID: 685034348}
   P2Displays: {fileID: 685034347}
@@ -2418,6 +2423,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2012125839 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3652805009582818685, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 685034346}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2046267382
 GameObject:
   m_ObjectHideFlags: 0
