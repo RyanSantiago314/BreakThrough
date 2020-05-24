@@ -799,4 +799,22 @@ public class HurtboxACH : MonoBehaviour
         legs2.offset = new Vector2(-.117f, -.54f);
         legs2.size = new Vector2(.43f, .68f);
     }
+
+    public void ThrowRecovery()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(.38f, .5f);
+        head.size = new Vector2(.76f, .28f);
+        body.offset = new Vector2(.45f, .2f);
+        body.size = new Vector2(.6f, .46f);
+        legs1.offset = new Vector2(.49f, -.48f);
+        legs1.size = new Vector2(.4f, .87f);
+        legs2.offset = new Vector2(0f, -.21f);
+        legs2.size = new Vector2(.765f, .325f);
+    }
 }

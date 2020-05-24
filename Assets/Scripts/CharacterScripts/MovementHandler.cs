@@ -507,7 +507,7 @@ public class MovementHandler : MonoBehaviour
     {
         if (collision.collider.CompareTag("Floor"))
         {
-            if (Actions.groundBounce && rb.velocity.y == 0 && !Actions.standing)
+            if (Actions.groundBounce && !Actions.standing)
             {
                 anim.ResetTrigger(KDID);
                 anim.SetTrigger(groundBounceID);
@@ -1000,7 +1000,6 @@ public class MovementHandler : MonoBehaviour
 
     void WallStates()
     {
-        hittingWall = true;
         //makes characters stick against wall and slowly fall
         if (Actions.wallStick > 0 && HitDetect.hitStun > 0 && rb.velocity.y >= 0 && transform.position.y > 1.3f && !currentState.IsName("WallStick"))
         {
