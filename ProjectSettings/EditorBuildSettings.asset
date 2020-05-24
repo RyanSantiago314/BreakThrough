@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Resources/Scenes/TakeruStage.unity
     guid: 385dc0aa9dae6dd469d38dc5918429ab
+  - enabled: 1
+    path: Assets/Resources/Scenes/Tutorial.unity
+    guid: e2617b2c9eccb9d4c943996d4fa539ae
   m_configObjects: {}
