@@ -361,7 +361,10 @@ public class HitboxACH : MonoBehaviour
         HitDetect.potentialHitStun = hitStunLv4;
         HitDetect.potentialHitStop = hitStopLv2;
         HitDetect.potentialKnockBack = new Vector2(-1.5f, 0);
-        HitDetect.potentialAirKnockBack = new Vector2(-1f, 1.5f);
+        if (Mathf.Abs(HitDetect.Actions.Move.transform.position.x - HitDetect.Actions.Move.opponent.position.x) > 1.75f)
+            HitDetect.potentialAirKnockBack = new Vector2(-1.25f, 1.5f);
+        else
+            HitDetect.potentialAirKnockBack = new Vector2(-1f, 1.5f);
         HitDetect.initialProration = .9f;
         HitDetect.forcedProration = .9f;
         HitDetect.attackLevel = 2;

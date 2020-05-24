@@ -363,6 +363,7 @@ MonoBehaviour:
   active: 0
   recovering: 0
   throwInvincible: 0
+  projInvincible: 0
   hiInvincible: 0
   lowInvincible: 0
   hiCounter: 0
@@ -375,6 +376,7 @@ MonoBehaviour:
   groundBounce: 0
   wallBounce: 0
   grabbed: 0
+  grabZoom: 0
   throwTech: 0
   backThrow: 0
   originalGravity: 1.05
@@ -959,6 +961,7 @@ MonoBehaviour:
   grab: 0
   commandGrab: 0
   blitz: 0
+  turnOffEffect: 0
   piercing: 0
   launch: 0
   crumple: 0
@@ -972,6 +975,7 @@ MonoBehaviour:
   usingSuper: 0
   usingSpecial: 0
   guardCancel: 0
+  disableBlitz: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0
