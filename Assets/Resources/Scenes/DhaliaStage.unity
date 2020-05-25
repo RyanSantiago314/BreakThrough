@@ -2356,8 +2356,9 @@ GameObject:
   - component: {fileID: 2007458732}
   - component: {fileID: 2007458731}
   - component: {fileID: 2007458734}
+  - component: {fileID: 2007458735}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Clouds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2371,7 +2372,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2007458729}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 8.1, z: 15}
+  m_LocalPosition: {x: 0, y: 8.1, z: 14}
   m_LocalScale: {x: 7, y: 2.5000007, z: 2.5000007}
   m_Children: []
   m_Father: {fileID: 1209920577}
@@ -2450,6 +2451,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollspeed: 0.05
+--- !u!210 &2007458735
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007458729}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -9
 --- !u!114 &2012125839 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3652805009582818685, guid: 0ab7bc3416871a94a80b2827c03fc0bc,

@@ -12,6 +12,7 @@ public class ScrollingBG : MonoBehaviour
     void Start()
     {
          rend = GetComponent<Renderer>();   
+         rend.material.renderQueue = -10;
     }
 
     // Update is called once per frame
