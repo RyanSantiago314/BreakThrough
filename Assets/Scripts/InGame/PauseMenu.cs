@@ -702,15 +702,19 @@ public class PauseMenu : MonoBehaviour
 
     public void ReturntoCharacterSelect()
     {
-        RoundManager.gameActive = false;
-        RoundManager.lockInputs = false;
-        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
-        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
-        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = 0;
-        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 0;
-        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = "";
-        pauseQuit = true;
-        GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(1);
+        if(GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Tutorial")
+        {
+            RoundManager.gameActive = false;
+            RoundManager.lockInputs = false;
+            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
+            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
+            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = 0;
+            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 0;
+            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = "";
+            pauseQuit = true;
+            GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(1);
+        }
+        
     }
 
     private void SetControllers()
