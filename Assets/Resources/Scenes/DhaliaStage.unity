@@ -1546,8 +1546,6 @@ MonoBehaviour:
   dummyState: Stand
   P1ValorSetting: 100
   P2ValorSetting: 100
-  P1CurrentHitDamage: 0
-  P1CurrentComboTotalDamage: 0
   P1HitDamage: {fileID: 685034357}
   P2HitDamage: {fileID: 685034356}
   P1ComboDamage: {fileID: 685034355}
@@ -1698,6 +1696,11 @@ PrefabInstance:
     - target: {fileID: 1940637821154889844, guid: 33666162bd57d2447a2c8d5017fa56b3,
         type: 3}
       propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1940637821154889847, guid: 33666162bd57d2447a2c8d5017fa56b3,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

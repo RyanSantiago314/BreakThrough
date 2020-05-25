@@ -33,7 +33,6 @@ public class PauseMenu : MonoBehaviour
     public Button moveListButtonMatch;
     public Button quitButtonMatch;
     public GameObject UIBar;
-    int[] barCords = new int[] { 759, 833, 828, 764, 899, 703, 959, 633, 703 };
     private float InputTimer;
     private string inputHorizontal = "Horizontal_P1";
     private string inputVertical = "Vertical_P1";
@@ -94,8 +93,8 @@ public class PauseMenu : MonoBehaviour
         p2circle += UpdateControls(CheckXbox(1));
     }
     // top bottom
-    // Resume:  759  833
-    // Movelist:  828 764
+    // Resume:  0 32
+    // Movelist:  0 -36
     // character select:  889 703
     // end Match:  959 633
     // 703.7
@@ -227,7 +226,7 @@ public class PauseMenu : MonoBehaviour
                 if (optionIndex == 0)
                 {
                     resumeButtonMatch.Select();
-                    //UIBar.GetComponent<RectTransform>().;
+                    UIBar.transform.localPosition = new Vector2(0, 32);
                     if ((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2))
                     {
                         DisableControls(false);
@@ -238,6 +237,7 @@ public class PauseMenu : MonoBehaviour
                 else if (optionIndex == 1)
                 {
                     moveListButtonMatch.Select();
+                    UIBar.transform.localPosition = new Vector2(0, -32);
                     if ((Input.GetButton(p1cross) && !moveList && playerPaused == 1) || (Input.GetButton(p2cross) && !moveList && playerPaused == 2))
                     {
                         MoveList();
@@ -252,6 +252,7 @@ public class PauseMenu : MonoBehaviour
                 else if (optionIndex == 2)
                 {
                     characterselectButtonMatch.Select();
+                    UIBar.transform.localPosition = new Vector2(0, -94);
                     if ((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2))
                     {
                         ReturntoCharacterSelect();
@@ -260,6 +261,7 @@ public class PauseMenu : MonoBehaviour
                 else if (optionIndex == 3)
                 {
                     quitButtonMatch.Select();
+                    UIBar.transform.localPosition = new Vector2(0, -163);
                     if ((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2))
                     {
                         QuitToMenu();

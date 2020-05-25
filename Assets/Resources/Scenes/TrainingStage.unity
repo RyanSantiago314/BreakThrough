@@ -1599,6 +1599,7 @@ MonoBehaviour:
   characterselectButtonMatch: {fileID: 0}
   moveListButtonMatch: {fileID: 1385942827}
   quitButtonMatch: {fileID: 418734596}
+  UIBar: {fileID: 0}
   CPUState: 0
   P1Valor: 100
   P2Valor: 100
@@ -3566,7 +3567,6 @@ MonoBehaviour:
   grab: 0
   commandGrab: 0
   blitz: 0
-  turnOffEffect: 0
   piercing: 0
   launch: 0
   crumple: 0
@@ -3580,7 +3580,6 @@ MonoBehaviour:
   usingSuper: 0
   usingSpecial: 0
   guardCancel: 0
-  disableBlitz: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0
@@ -4014,7 +4013,6 @@ MonoBehaviour:
   groundBounce: 0
   wallBounce: 0
   grabbed: 0
-  grabZoom: 0
   throwTech: 0
   backThrow: 0
   originalGravity: 1
@@ -5959,7 +5957,6 @@ MonoBehaviour:
   groundBounce: 0
   wallBounce: 0
   grabbed: 0
-  grabZoom: 0
   throwTech: 0
   backThrow: 0
   originalGravity: 1.15
@@ -7585,7 +7582,6 @@ MonoBehaviour:
   grab: 0
   commandGrab: 0
   blitz: 0
-  turnOffEffect: 0
   piercing: 0
   launch: 0
   crumple: 0
@@ -7599,7 +7595,6 @@ MonoBehaviour:
   usingSuper: 0
   usingSpecial: 0
   guardCancel: 0
-  disableBlitz: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0
@@ -11411,8 +11406,6 @@ MonoBehaviour:
   dummyState: Stand
   P1ValorSetting: 0
   P2ValorSetting: 0
-  P1CurrentHitDamage: 0
-  P1CurrentComboTotalDamage: 0
   P1HitDamage: {fileID: 133986473}
   P2HitDamage: {fileID: 1217463144}
   P1ComboDamage: {fileID: 1124085493}
