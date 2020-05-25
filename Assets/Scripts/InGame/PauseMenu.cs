@@ -32,6 +32,8 @@ public class PauseMenu : MonoBehaviour
     public Button characterselectButtonMatch;
     public Button moveListButtonMatch;
     public Button quitButtonMatch;
+    public GameObject UIBar;
+    int[] barCords = new int[] { 759, 833, 828, 764, 899, 703, 959, 633, 703 };
     private float InputTimer;
     private string inputHorizontal = "Horizontal_P1";
     private string inputVertical = "Vertical_P1";
@@ -59,6 +61,9 @@ public class PauseMenu : MonoBehaviour
     public GameObject ArmorRefillText;
     public GameObject CPUAirRecoverText;
     public GameObject CPUGroundGuardText;
+
+    public Text PlayerIdentifier;
+    
 
     static public bool allowPause;
 
@@ -88,6 +93,14 @@ public class PauseMenu : MonoBehaviour
         p2cross += UpdateControls(CheckXbox(1));
         p2circle += UpdateControls(CheckXbox(1));
     }
+    // top bottom
+    // Resume:  759  833
+    // Movelist:  828 764
+    // character select:  889 703
+    // end Match:  959 633
+    // 703.7
+
+
 
     // Update is called once per frame
     void Update()
@@ -139,10 +152,14 @@ public class PauseMenu : MonoBehaviour
                 if(Input.GetButtonDown(pauseCode1))
                 {
                     playerPaused = 1;
+
+                    PlayerIdentifier.text = "P1";
                 }
                 else if(Input.GetButtonDown(pauseCode))
                 {
                     playerPaused = 2;
+
+                    PlayerIdentifier.text = "P2";
                 }
             }
             else if (!SceneTransitions.lockinputs && (Input.GetButtonDown(pauseCode1) && isPaused && !moveList && playerPaused == 1) || (Input.GetButtonDown(pauseCode) && isPaused && !moveList && playerPaused == 2))
@@ -210,6 +227,7 @@ public class PauseMenu : MonoBehaviour
                 if (optionIndex == 0)
                 {
                     resumeButtonMatch.Select();
+                    //UIBar.GetComponent<RectTransform>().;
                     if ((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2))
                     {
                         DisableControls(false);
