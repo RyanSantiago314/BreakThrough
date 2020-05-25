@@ -85,7 +85,7 @@ public class PauseMenu : MonoBehaviour
     void Update()
     {
         SetControllers();
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" && allowPause)
+        if ((GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Tutorial") && allowPause)
         {
             /*if (isPaused)
             {
@@ -246,7 +246,7 @@ public class PauseMenu : MonoBehaviour
             }
         }
         //Handle Practice Mode Pause Menu
-        else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {
             if (Input.GetButtonDown(pauseCode1) && !isPaused)
             {
@@ -625,7 +625,7 @@ public class PauseMenu : MonoBehaviour
         if (!moveList)
         {
             moveListUI.SetActive(false);
-            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
             {
                 practicePauseMenuUI.SetActive(true);
             }
@@ -637,7 +637,7 @@ public class PauseMenu : MonoBehaviour
         else
         {
             moveListUI.SetActive(true);
-            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
             {
                 practicePauseMenuUI.SetActive(false);
             }
@@ -654,7 +654,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
         playerPaused = 0;
         DisableControls(false);
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {
             practicePauseMenuUI.SetActive(false);
         }
@@ -666,7 +666,7 @@ public class PauseMenu : MonoBehaviour
 
     public void MoveList()
     {
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {
             practicePauseMenuUI.SetActive(false);
         }
@@ -682,7 +682,7 @@ public class PauseMenu : MonoBehaviour
     {
         moveList = false;
         moveListUI.SetActive(false);
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {
             practicePauseMenuUI.SetActive(true);
         }

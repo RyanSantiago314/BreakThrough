@@ -27,6 +27,7 @@ public class Tutorial : MonoBehaviour
     private string inputSquare = "Square_P1";
     private string inputHorizontal = "Horizontal_P1";
     private string inputVertical = "Vertical_P1";
+    private string inputR3 = "R3_P1";
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +42,7 @@ public class Tutorial : MonoBehaviour
         inputSquare += UpdateControls(CheckXbox(0));
         inputHorizontal += UpdateControls(CheckXbox(0));
         inputVertical += UpdateControls(CheckXbox(0));
+        inputR3 += UpdateControls(CheckXbox(0));
     }
 
     // Update is called once per frame
@@ -68,7 +70,7 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 1)
         {
-            popUps.GetComponent<Text>().text = "Let's start with the tutorial! \n (Press C or Select to continue and TAB to skip)";
+            popUps.GetComponent<Text>().text = "Let's start with the tutorial! \n (Press C or Select to continue and TAB or R3 to skip)";
             if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
             {
                 popUpIndex++;
@@ -204,7 +206,7 @@ public class Tutorial : MonoBehaviour
             popUpsBackground.SetActive(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetButtonDown(inputR3))
         {
             popUpIndex++;
             popUps.GetComponent<Text>().text = "";

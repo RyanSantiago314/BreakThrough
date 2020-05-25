@@ -87,7 +87,7 @@ public class RoundManager : MonoBehaviour
         else
             p2Start = new Vector3(-1f, 1.10f, -3);
 
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Tutorial")
         {
             //Setting private character property variables to their appropriate player 1 and 2 child respectively
             P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
@@ -115,7 +115,7 @@ public class RoundManager : MonoBehaviour
             xboxInput = "Controller (Xbox One For Windows)";
             ps4Input = "Wireless Controller";
         }
-        else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {
             //Setting private character property variables to their appropriate player 1 and 2 child respectively
             P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
@@ -145,7 +145,7 @@ public class RoundManager : MonoBehaviour
 
         //STARTTEXT LOGIC
         //Debug.Log(BoBB.time);
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Tutorial")
         {
             //GAMEOVER LOGIC
 

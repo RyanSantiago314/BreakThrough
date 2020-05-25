@@ -157,7 +157,7 @@ public class PracticeMode : MonoBehaviour
     void Update()
     {
         //Practice Mode Handler
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Training")
         {        
             //Check Settings from Practice Pause Menu
             //CPUState Check
@@ -562,63 +562,67 @@ public class PracticeMode : MonoBehaviour
                     fixAnimBug = true;
                 }
 
-                // Recording
-                if (Input.GetButtonDown(inputL3) && !isReplaying) recording++; //L3
-
-                switch (recording)
+                if(GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
                 {
-                    case 1:     // Switch player controls
-                        RecordingDisplay.SetActive(true);
-                        RecordingState.text = "Recording Armed";
-                        isRecording = true;
-                        switchControls(true);
-                        break;
-                    case 2:     // Get inputs from MaxInput. returnMovement() returnInputs()
-                        RecordingState.text = "Now Recording " + recordingFrame;
-                        recordingFrame++;
-                        List<float> getMoves = MaxInput.returnMovement("Player1");
-                        List<bool> getInputs = MaxInput.returnInputs("Player1");
-                        movement.Add(getMoves);
-                        inputs.Add(getInputs);
-                        break;
-                    case 3:     // Create a txt file that has all the inputs for each frame
-                        RecordingState.text = "Recording Saved";
-                        switchControls(false);
-                        saveRecording();
-                        isRecording = false;
-                        recording = 0;
-                        recordingFrame = 0;
-                        break;
-                }
+                    // Recording
+                    if (Input.GetButtonDown(inputL3) && !isReplaying) recording++; //L3
 
-                // Replaying the Recording
-                if (Input.GetButtonDown(inputR3) && !isReplaying && !isRecording) //R3
-                {
-                    isReplaying = true;
-                    reader = new StreamReader(path);
-
-                    string temp = reader.ReadLine();
-                    if (temp == "True") faceLeft = true;
-                    else faceLeft = false;
-                }
-
-                if (isReplaying)
-                {
-                    // Read file, execute MaxInput actions every frame
-                    string line;
-                    if ((line = reader.ReadLine()) != null)
+                    switch (recording)
                     {
-                        RecordingState.text = "Replaying " + recordingFrame;
-                        MaxInput.ClearInput("Player2");
-                        replay(line);
+                        case 1:     // Switch player controls
+                            RecordingDisplay.SetActive(true);
+                            RecordingState.text = "Recording Armed";
+                            isRecording = true;
+                            switchControls(true);
+                            break;
+                        case 2:     // Get inputs from MaxInput. returnMovement() returnInputs()
+                            RecordingState.text = "Now Recording " + recordingFrame;
+                            recordingFrame++;
+                            List<float> getMoves = MaxInput.returnMovement("Player1");
+                            List<bool> getInputs = MaxInput.returnInputs("Player1");
+                            movement.Add(getMoves);
+                            inputs.Add(getInputs);
+                            break;
+                        case 3:     // Create a txt file that has all the inputs for each frame
+                            RecordingState.text = "Recording Saved";
+                            switchControls(false);
+                            saveRecording();
+                            isRecording = false;
+                            recording = 0;
+                            recordingFrame = 0;
+                            break;
                     }
-                    else
+
+                    // Replaying the Recording
+                    if (Input.GetButtonDown(inputR3) && !isReplaying && !isRecording) //R3
                     {
-                        isReplaying = false;
-                        recordingFrame = 0;
-                        reader.Close();
+                        isReplaying = true;
+                        reader = new StreamReader(path);
+
+                        string temp = reader.ReadLine();
+                        if (temp == "True") faceLeft = true;
+                        else faceLeft = false;
+                    }
+
+                    if (isReplaying)
+                    {
+                        // Read file, execute MaxInput actions every frame
+                        string line;
+                        if ((line = reader.ReadLine()) != null)
+                        {
+                            RecordingState.text = "Replaying " + recordingFrame;
+                            MaxInput.ClearInput("Player2");
+                            replay(line);
+                        }
+                        else
+                        {
+                            isReplaying = false;
+                            recordingFrame = 0;
+                            reader.Close();
+                        }
                     }
                 }
+                
             }
         }
     }

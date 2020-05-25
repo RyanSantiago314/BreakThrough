@@ -273,7 +273,7 @@ public class MenuInputManager : MonoBehaviour
                 TutorialButton.Select();
                 if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
                 {
-                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "Practice";
+                    GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "Tutorial";
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = "TrainingStage";
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "Dhalia";
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "Dhalia";
