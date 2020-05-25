@@ -325,16 +325,17 @@ public class PracticeMode : MonoBehaviour
                     }
                     P2ComboDamage.text += P1CurrentComboTotalDamage;
                 }
-                if (HUD.Player1Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
+                if (HUD.Player1Hits.text == "" && P1Prop.HitDetect.comboCount != 1)
                 {
                     P1HitDamage.text = "";
                     P1HitType.text = "";
                 }
-                if (HUD.Player2Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
+                if (HUD.Player2Hits.text == "" && P1Prop.HitDetect.comboCount != 1)
                 {
                     P2HitDamage.text = "";
                     P2HitType.text = "";
                 }
+                Debug.Log(P1Prop.HitDetect.comboCount);
                 //Update Highest Combo Damage
                 if (P1CurrentComboTotalDamage > P1HighestComboDamage)
                 {
@@ -538,7 +539,6 @@ public class PracticeMode : MonoBehaviour
                 if (Input.GetButtonDown(inputSelect))   // Temporarily changed to P2
                 {
                     resetPositions();
-                    Player1.GetComponentInChildren<AcceptInputs>().hitType = "";
                     //Reset Character Specific things
                     switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
                     {
