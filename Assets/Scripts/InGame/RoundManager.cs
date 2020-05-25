@@ -41,6 +41,8 @@ public class RoundManager : MonoBehaviour
     //Bool variable deciding if timer should be running or not
     private bool timeWarningPlayed = false;
 
+    private bool reset = false;
+
     Vector3 p1Start;
     Vector3 p2Start;
 
@@ -64,6 +66,9 @@ public class RoundManager : MonoBehaviour
 
     //bool to set and hold starting positions
     private bool holdpositions;
+
+    //bool for Replaying a game
+    private bool resetValues = false;
 
     void Awake()
     {
@@ -257,16 +262,13 @@ public class RoundManager : MonoBehaviour
         suddenDeath = false;
         timeWarningPlayed = false;
         roundTimer = 99;
-        //If someone has won the game, reset wins for both players to 0 and reset armor to max
-        if (p1Win == 2 || p2Win == 2)
+        if (resetValues)
         {
-            p1Win = 0;
-            p2Win = 0;
             P1Prop.armor = 4;
             P2Prop.armor = 4;
             P1Prop.durability = 100;
             P2Prop.durability = 100;
-            roundCount = 0;
+            resetValues = false;
         }
     }
 
@@ -459,7 +461,10 @@ public class RoundManager : MonoBehaviour
     public void ReplayGame() {
         p1menu.SetActive(false);
         p2menu.SetActive(false);
-        ResetPositions();
+        p1Win = 0;
+        p2Win = 0;
+        resetValues = true;
+        roundCount = 0;
         NextRound();
     }
 
