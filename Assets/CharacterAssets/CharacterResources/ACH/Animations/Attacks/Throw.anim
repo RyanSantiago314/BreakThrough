@@ -25,13 +25,15 @@ AnimationClip:
       value: {fileID: 21300000, guid: 204174f455456404ba4e6465aea8d46c, type: 3}
     - time: 0.18333334
       value: {fileID: 21300000, guid: b60a16e57b1e58d4a9c636a6cab58112, type: 3}
-    - time: 0.23333333
+    - time: 0.25
       value: {fileID: 21300000, guid: 6326a236da7035e4ebfbd70592e7c2ef, type: 3}
-    - time: 0.36666667
+    - time: 0.35
+      value: {fileID: 21300000, guid: fa3ce1799eb31b844808f2c7c0759e2f, type: 3}
+    - time: 0.45
       value: {fileID: 21300000, guid: 9af1e57cca9906d40b32350c6282258e, type: 3}
-    - time: 0.46666667
+    - time: 0.53333336
       value: {fileID: 21300000, guid: 5214139212884374ea162cde61f6963a, type: 3}
-    - time: 0.56666666
+    - time: 0.6166667
       value: {fileID: 21300000, guid: f27aa30ee1d20a74bac0b9f34d46e678, type: 3}
     - time: 0.7
       value: {fileID: 21300000, guid: 5cd9b9a2fca20544abb73948e81d0714, type: 3}
@@ -98,6 +100,7 @@ AnimationClip:
     - {fileID: 21300000, guid: 204174f455456404ba4e6465aea8d46c, type: 3}
     - {fileID: 21300000, guid: b60a16e57b1e58d4a9c636a6cab58112, type: 3}
     - {fileID: 21300000, guid: 6326a236da7035e4ebfbd70592e7c2ef, type: 3}
+    - {fileID: 21300000, guid: fa3ce1799eb31b844808f2c7c0759e2f, type: 3}
     - {fileID: 21300000, guid: 9af1e57cca9906d40b32350c6282258e, type: 3}
     - {fileID: 21300000, guid: 5214139212884374ea162cde61f6963a, type: 3}
     - {fileID: 21300000, guid: f27aa30ee1d20a74bac0b9f34d46e678, type: 3}
@@ -166,7 +169,7 @@ AnimationClip:
     functionName: StartGrab
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 45
+    floatParameter: 60
     intParameter: 0
     messageOptions: 0
   - time: 0
@@ -195,6 +198,13 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.81666666
+    functionName: Advance
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 2
     intParameter: 0
     messageOptions: 0
   - time: 0.81666666
