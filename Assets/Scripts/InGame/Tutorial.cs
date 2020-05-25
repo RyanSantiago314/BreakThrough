@@ -15,7 +15,7 @@ public class Tutorial : MonoBehaviour
     private float P1CurrentHitDamage;
     private float P1CurrentComboTotalDamage;
 
-    private bool preventReset = false;
+    //private bool preventReset = false;
 
     private int popUpIndex;
 
@@ -60,7 +60,7 @@ public class Tutorial : MonoBehaviour
             popUps.SetActive(true);
             popUpsBackground.SetActive(true);
             popUps.GetComponent<Text>().text = "Welcome to training mode! Here you can practice and learn the basics of Breakthrough! \n (Press C or Select to continue)";
-            preventReset = true;
+            //preventReset = true;
 
             if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
             {
@@ -75,7 +75,7 @@ public class Tutorial : MonoBehaviour
             {
                 popUpIndex++;
                 popUpDelay = popupDelayDuration;
-                preventReset = false;
+                //preventReset = false;
             }
         }
         else if (popUpIndex == 2)
@@ -190,10 +190,10 @@ public class Tutorial : MonoBehaviour
         else if (popUpIndex == 14)
         {
             popUps.GetComponent<Text>().text = "Now use everthing you've learned to beat the dummy! \n (Press C or Select to start)";
-            preventReset = true;
+            //preventReset = true;
             if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
             {
-                preventReset = false;
+                //preventReset = false;
                 GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().resetPositions();
                 GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().CPUState = 6;
                 popUpIndex++;
