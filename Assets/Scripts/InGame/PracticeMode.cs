@@ -157,7 +157,7 @@ public class PracticeMode : MonoBehaviour
     void Update()
     {
         //Practice Mode Handler
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Training")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {        
             //Check Settings from Practice Pause Menu
             //CPUState Check
