@@ -113,6 +113,14 @@ public class HitboxACH : MonoBehaviour
         }
     }
 
+    public void SummonHCEffect()
+    {
+        AttackHandler.HCWave.SetActive(true);
+        AttackHandler.HCWave.transform.rotation = transform.rotation;
+        AttackHandler.HCWave.transform.position = transform.position;
+        AttackHandler.HCWave.GetComponent<HeavenClimber>().anim.SetTrigger("Activate");
+    }
+
     //push damage values, knockback, and proration to hitdetector from hitbox events
     void StandingLHitBox()
     {
@@ -703,7 +711,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.potentialHitStun = 60;
         HitDetect.potentialHitStop = 0;
         HitDetect.attackLevel = 0;
-        HitDetect.potentialKnockBack = new Vector2(.2f, 3f);
+        HitDetect.potentialKnockBack = new Vector2(.15f, 3f);
         HitDetect.guard = "Unblockable";
 
         HitDetect.launch = true;
@@ -734,68 +742,82 @@ public class HitboxACH : MonoBehaviour
         HitDetect.allowWallStick = true;
     }
 
-    void BBCycleHit3()
+    void HCHeavy()
     {
         ClearHitBox();
 
         hit1.enabled = true;
         hit2.enabled = true;
         hit3.enabled = true;
+        hit4.enabled = true;
+        hit5.enabled = true;
+        hit6.enabled = true;
 
-        hit1.offset = new Vector2(.54f, -.26f);
-        hit1.size = new Vector2(.7f, .94f);
-        hit2.offset = new Vector2(-.22f, .8f);
-        hit2.size = new Vector2(.44f, .74f);
-        hit3.offset = new Vector2(-.58f, .71f);
-        hit3.size = new Vector2(.41f, .63f);
+        hit1.offset = new Vector2(.68f, .58f);
+        hit1.size = new Vector2(.73f, 1.5f);
+        hit2.offset = new Vector2(.46f, 1.3f);
+        hit2.size = new Vector2(.74f, .79f);
+        hit3.offset = new Vector2(.25f, 1.42f);
+        hit3.size = new Vector2(.89f, .86f);
+        hit4.offset = new Vector2(-.5f, .8f);
+        hit4.size = new Vector2(.52f, 1.4f);
+        hit5.offset = new Vector2(-.99f, .67f);
+        hit5.size = new Vector2(.45f, 1f);
+        hit6.offset = new Vector2(-1.26f, .45f);
+        hit6.size = new Vector2(.73f, .65f);
 
-        HitDetect.damage = 15;
+        HitDetect.damage = 75;
         HitDetect.armorDamage = 0;
-        HitDetect.durabilityDamage = 50;
-        HitDetect.potentialKnockBack = new Vector2(.5f, .5f);
-        HitDetect.potentialAirKnockBack = new Vector2(.5f, -.75f);
-        HitDetect.potentialHitStun = hitStunLv2;
-        HitDetect.potentialHitStop = 1;
-        HitDetect.initialProration = .7f;
-        HitDetect.attackLevel = 2;
-        HitDetect.guard = "Overhead";
-        HitDetect.slash = true;
+        HitDetect.durabilityDamage = 0;
+        HitDetect.potentialKnockBack = new Vector2(1f, 3.75f);
+        HitDetect.potentialHitStun = 30;
+        HitDetect.potentialHitStop = 15;
+        HitDetect.attackLevel = 4;
+        HitDetect.guard = "Mid";
+        HitDetect.vertSlash = true;
 
-        HitDetect.allowGroundBounce = true;
-
+        HitDetect.launch = true;
+        HitDetect.piercing = true;
         HitDetect.usingSpecial = true;
         HitDetect.allowSuper = true;
     }
 
-    void BBCycleHit5()
+    void HCBreak()
     {
         ClearHitBox();
 
         hit1.enabled = true;
         hit2.enabled = true;
         hit3.enabled = true;
+        hit4.enabled = true;
+        hit5.enabled = true;
+        hit6.enabled = true;
 
-        hit1.offset = new Vector2(.6f, .01f);
-        hit1.size = new Vector2(.64f, .96f);
-        hit2.offset = new Vector2(-.58f, .4f);
-        hit2.size = new Vector2(.82f, .5f);
-        hit3.offset = new Vector2(-.85f, -.1f);
-        hit3.size = new Vector2(.48f, .62f);
+        hit1.offset = new Vector2(.68f, .58f);
+        hit1.size = new Vector2(.73f, 1.5f);
+        hit2.offset = new Vector2(.46f, 1.3f);
+        hit2.size = new Vector2(.74f, .79f);
+        hit3.offset = new Vector2(.25f, 1.42f);
+        hit3.size = new Vector2(.89f, .86f);
+        hit4.offset = new Vector2(-.5f, .8f);
+        hit4.size = new Vector2(.52f, 1.4f);
+        hit5.offset = new Vector2(-.99f, .67f);
+        hit5.size = new Vector2(.45f, 1f);
+        hit6.offset = new Vector2(-1.26f, .45f);
+        hit6.size = new Vector2(.73f, .65f);
 
-        HitDetect.damage = 15;
+        HitDetect.damage = 105;
         HitDetect.armorDamage = 0;
-        HitDetect.durabilityDamage = 50;
-        HitDetect.potentialKnockBack = new Vector2(.5f, .5f);
-        HitDetect.potentialAirKnockBack = new Vector2(.5f, -.75f);
-        HitDetect.potentialHitStun = hitStunLv2;
-        HitDetect.potentialHitStop = 1;
-        HitDetect.initialProration = .7f;
-        HitDetect.attackLevel = 2;
-        HitDetect.guard = "Overhead";
-        HitDetect.slash = true;
+        HitDetect.durabilityDamage = 0;
+        HitDetect.potentialKnockBack = new Vector2(1.5f, 4.65f);
+        HitDetect.potentialHitStun = 72;
+        HitDetect.potentialHitStop = 15;
+        HitDetect.attackLevel = 5;
+        HitDetect.guard = "Mid";
+        HitDetect.vertSlash = true;
 
-        HitDetect.allowGroundBounce = true;
-
+        HitDetect.launch = true;
+        HitDetect.shatter = true;
         HitDetect.usingSpecial = true;
         HitDetect.allowSuper = true;
     }

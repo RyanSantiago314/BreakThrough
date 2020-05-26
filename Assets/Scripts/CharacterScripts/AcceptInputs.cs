@@ -286,10 +286,13 @@ public class AcceptInputs : MonoBehaviour
 
     public void SigilJump()
     {
-        Move.sigil.GetComponent<Sigil>().colorChange = 0;
-        Move.sigil.GetComponent<Sigil>().scaleChange = 0;
-        Move.sigil.transform.position = new Vector3(Move.transform.position.x, Move.transform.position.y - .5f * Move.pushBox.size.y, Move.transform.position.z);
-        Move.sigil.transform.eulerAngles = new Vector3(80, 0, 0);
+        if (airborne)
+        {
+            Move.sigil.GetComponent<Sigil>().colorChange = 0;
+            Move.sigil.GetComponent<Sigil>().scaleChange = 0;
+            Move.sigil.transform.position = new Vector3(Move.transform.position.x, Move.transform.position.y - .5f * Move.pushBox.size.y, Move.transform.position.z);
+            Move.sigil.transform.eulerAngles = new Vector3(80, 0, 0);
+        }
     }
 
     public void StartSuperFlash(float i)

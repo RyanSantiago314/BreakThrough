@@ -808,7 +808,7 @@ public class MovementHandler : MonoBehaviour
             }
         }
         //double tap forward to run
-        if (((MaxInput.GetAxisRaw(Horizontal) == 1 && facingRight) || (MaxInput.GetAxisRaw(Horizontal) == -1 && !facingRight)))
+        if (((MaxInput.GetAxisRaw(Horizontal) == 1 && facingRight) || (MaxInput.GetAxisRaw(Horizontal) == -1 && !facingRight)) && !Actions.airborne)
         {
             if (!horiAxisInUse)
             {

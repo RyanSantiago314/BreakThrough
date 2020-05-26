@@ -104,19 +104,19 @@ public class CameraController : MonoBehaviour
             }
             screenShake -= Time.deltaTime;
 
-            if (cameraPos.x < -8.5)
-                cameraPos = new Vector3(-8.5f, cameraPos.y, cameraPos.z);
-            else if (cameraPos.x > 8.5)
-                cameraPos = new Vector3(8.5f, cameraPos.y, cameraPos.z);
+            if (cameraPos.x < -7.8)
+                cameraPos = new Vector3(-7.8f, cameraPos.y, cameraPos.z);
+            else if (cameraPos.x > 7.8)
+                cameraPos = new Vector3(7.8f, cameraPos.y, cameraPos.z);
             if (cameraPos.y < 1.5)
                 cameraPos = new Vector3(cameraPos.x, 1.5f, cameraPos.z);
-            else if (cameraPos.y > 5)
-                cameraPos = new Vector3(cameraPos.x, 5f, cameraPos.z);
+            else if (cameraPos.y > 6)
+                cameraPos = new Vector3(cameraPos.x, 6f, cameraPos.z);
         }
 
         if (cameraPos.y < 1.45)
             cameraPos = new Vector3(cameraPos.x, 1.45f, cameraPos.z);
-        else if (cameraPos.y > 5)
+        else if (cameraPos.y > 6)
             cameraPos = new Vector3(cameraPos.x, 5f, cameraPos.z);
 
         transform.position = Vector3.Lerp(transform.position, cameraPos, Time.smoothDeltaTime * smooth);

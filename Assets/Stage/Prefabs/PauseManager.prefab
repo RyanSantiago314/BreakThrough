@@ -5125,7 +5125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc7276b11d164c44bb9fe0b020b2d8fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameOver: {fileID: 0}
   pauseMenuUI: {fileID: 1940637821154889847}
   practicePauseMenuUI: {fileID: 1940637820838352576}
   moveListUI: {fileID: 1940637819962161902}
@@ -7494,7 +7493,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1940637821154889844
 RectTransform:
   m_ObjectHideFlags: 0

@@ -1266,8 +1266,11 @@ MonoBehaviour:
   CharProp: {fileID: 4805734551550778304}
   MaxInput: {fileID: 0}
   Hitboxes: {fileID: 4805734550476353336}
+  HCPrefab: {fileID: 9200606419266321567, guid: f452a91ade6a3a14a85887b6e2d5f3d5,
+    type: 3}
   BlitzPrefab: {fileID: 5624907148042030614, guid: eb89495abd7591d4296e898d5ff395c3,
     type: 3}
+  HCWave: {fileID: 0}
   BlitzEffect: {fileID: 0}
   dir1: 0
   dir2: 0
