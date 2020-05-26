@@ -97,6 +97,13 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
+    functionName: clearHitType
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
     functionName: Invincible
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -104,7 +111,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0
-    functionName: clearHitType
+    functionName: StrongBreak
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -118,17 +125,17 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.05
-    functionName: Advance
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0.5
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.05
     functionName: StandingBFullChargeHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.05
+    functionName: Advance
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0.5
     intParameter: 0
     messageOptions: 0
   - time: 0.18333334

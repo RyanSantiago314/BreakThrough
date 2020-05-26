@@ -289,7 +289,15 @@ public class RoundManager : MonoBehaviour
 
     public void DetermineWinMethod()
     {
-        if ((P1Prop.currentHealth == P1Prop.maxHealth && P2Prop.currentHealth == 0) || (P2Prop.currentHealth == P2Prop.maxHealth && P1Prop.currentHealth == 0))
+        if (roundTimer <= 0 && ((P1Prop.currentHealth != 0 && P2Prop.currentHealth != 0) ||
+            ((P1Prop.currentHealth != 0 && P2Prop.currentHealth == 0) || (P1Prop.currentHealth == 0 && P2Prop.currentHealth != 0))))
+        {
+            centerText.text = "Time Up";
+            centerShadow.text = "Time Up";
+            if (suddenDeath)
+                ScreenGraphics.SetBool("SuddenDeath", true);
+        }
+        else if ((P1Prop.currentHealth == P1Prop.maxHealth && P2Prop.currentHealth == 0) || (P2Prop.currentHealth == P2Prop.maxHealth && P1Prop.currentHealth == 0))
         {
             centerText.text = "PERFECT";
             centerShadow.text = "PERFECT";
@@ -303,14 +311,6 @@ public class RoundManager : MonoBehaviour
         {
             centerText.text = "Double KO";
             centerShadow.text = "Double KO";
-        }
-        else if (roundTimer <= 0 && ((P1Prop.currentHealth != 0 && P2Prop.currentHealth != 0) ||
-            ((P1Prop.currentHealth != 0 && P2Prop.currentHealth == 0) || (P1Prop.currentHealth == 0 && P2Prop.currentHealth != 0))))
-        {
-            centerText.text = "Time Up";
-            centerShadow.text = "Time Up";
-            if (suddenDeath)
-                ScreenGraphics.SetBool("SuddenDeath", true);
         }
 
 
