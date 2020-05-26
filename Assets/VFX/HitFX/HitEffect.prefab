@@ -121,11 +121,9 @@ MonoBehaviour:
   StrikeM2: {fileID: 8300000, guid: f1da6cf56dfe9a741a68efc5898e6b1c, type: 3}
   StrikeH: {fileID: 8300000, guid: b2ddc312618e59d4e9a59142a80b2208, type: 3}
   StrikeH2: {fileID: 8300000, guid: eabdfa245789b244aa1a96df7bb8f683, type: 3}
-  SlashL: {fileID: 8300000, guid: e0a9b3121c7abe448a3721ae5323be77, type: 3}
-  SlashL2: {fileID: 8300000, guid: c5924d81ea2bea04498ed1958f8a246a, type: 3}
-  SlashH: {fileID: 8300000, guid: 2e6aaa6cacdd7be489275f54a27d61b7, type: 3}
-  SlashH2: {fileID: 8300000, guid: 84d733dc6e14cda4481e3727bf5ff352, type: 3}
-  SlashH3: {fileID: 8300000, guid: 4588870a8a967c84792972eaa08cb833, type: 3}
+  SlashL: {fileID: 8300000, guid: aa9757910d3bf524eb622941f9840fd6, type: 3}
+  SlashH: {fileID: 8300000, guid: 4b8181a440be97b42bbe6ccb6a70fb21, type: 3}
+  SlashSuper: {fileID: 8300000, guid: f6dbebc719e647c4abce773e730e28f7, type: 3}
   GuardL: {fileID: 8300000, guid: dcc09199365e4774487205beb89a9039, type: 3}
   GuardM: {fileID: 8300000, guid: fa6026bcbf3750243b33e0008732207b, type: 3}
   GuardH: {fileID: 8300000, guid: 7aba084a73fd8d4438adcb0a3438b55b, type: 3}
