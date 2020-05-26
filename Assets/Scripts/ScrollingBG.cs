@@ -18,7 +18,7 @@ public class ScrollingBG : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         float offset = -(Time.time * scrollspeed)/100;
+         float offset = -(Time.time * scrollspeed)/50;
          rend.material.SetTextureOffset("_MainTex", new Vector2(offset,0));
     }
 }
