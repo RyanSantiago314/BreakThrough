@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657916, g: 0.49641287, b: 0.57481915, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465794, g: 0.4964134, b: 0.57481974, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -178,14 +178,14 @@ MonoBehaviour:
   MaxInput: {fileID: 1948197657}
   MaxInputObject: {fileID: 1948197656}
   PracticeModeSettings: {fileID: 1816309730}
-  popUps: {fileID: 0}
-  popUpsBackground: {fileID: 0}
   enableArmorRefill: 1
   enableCPUAirTech: 1
   enableGuardAfterFirstHit: 0
   dummyState: Stand
   P1ValorSetting: 100
   P2ValorSetting: 100
+  P1CurrentHitDamage: 0
+  P1CurrentComboTotalDamage: 0
   P1HitDamage: {fileID: 65660352}
   P2HitDamage: {fileID: 830373155}
   P1ComboDamage: {fileID: 1858274740}
@@ -339,8 +339,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: Practice
   stage: TrainingStage
-  P1Character: Dhalia
-  P2Character: Dhalia
+  P1Character: Achealis
+  P2Character: Achealis
   P1Color: 1
   P2Color: 2
   P1Side: Left
