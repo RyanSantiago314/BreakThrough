@@ -131,6 +131,8 @@ public class HurtboxACH : MonoBehaviour
         legs2.enabled = false;
         misc1.enabled = false;
         misc2.enabled = false;
+        CharProp.HitDetect.Actions.hiInvincible = false;
+        CharProp.HitDetect.Actions.lowInvincible = false;
     }
 
     public void Walk()
@@ -798,5 +800,41 @@ public class HurtboxACH : MonoBehaviour
         legs1.size = new Vector2(.6f, .57f);
         legs2.offset = new Vector2(-.117f, -.54f);
         legs2.size = new Vector2(.43f, .68f);
+    }
+
+    public void ThrowRecovery()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(.38f, .5f);
+        head.size = new Vector2(.76f, .28f);
+        body.offset = new Vector2(.45f, .2f);
+        body.size = new Vector2(.6f, .46f);
+        legs1.offset = new Vector2(.49f, -.48f);
+        legs1.size = new Vector2(.4f, .87f);
+        legs2.offset = new Vector2(0f, -.21f);
+        legs2.size = new Vector2(.765f, .325f);
+    }
+
+    public void HCRecovery()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(.06f, .745f);
+        head.size = new Vector2(.55f, .41f);
+        body.offset = new Vector2(-.215f, .3f);
+        body.size = new Vector2(.655f, .55f);
+        legs1.offset = new Vector2(.01f, -.19f);
+        legs1.size = new Vector2(.56f, .51f);
+        legs2.offset = new Vector2(-.38f, -.495f);
+        legs2.size = new Vector2(.43f, .9f);
     }
 }

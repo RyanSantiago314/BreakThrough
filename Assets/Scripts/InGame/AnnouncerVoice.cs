@@ -257,7 +257,7 @@ public class AnnouncerVoice : MonoBehaviour
 
     public void PlayBGMTraining()
     {
-        if (startBGM && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        if (startBGM && (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial"))
         {
             startBGM = false;
             BGM.clip = AchealisTheme;

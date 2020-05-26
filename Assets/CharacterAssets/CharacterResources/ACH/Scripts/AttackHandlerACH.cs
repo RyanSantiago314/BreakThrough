@@ -11,8 +11,10 @@ public class AttackHandlerACH : MonoBehaviour
     public MaxInput MaxInput;
     public HitboxACH Hitboxes;
 
+    public GameObject HCPrefab;
     public GameObject BlitzPrefab;
 
+    public GameObject HCWave;
     public GameObject BlitzEffect;
     SpriteRenderer BlitzImage;
     Animator BlitzWave;
@@ -74,8 +76,10 @@ public class AttackHandlerACH : MonoBehaviour
     static int ID5B;
     static int ID2B;
     static int ID3B;
+    static int IDHeavenClimberH;
+    static int IDHeavenClimberB;
     /*static int BreakCharge;
-    static int IDBloodBrave;
+    
     static int IDPatissiere;
     static int IDHeadRush;
     static int IDBasketCase;
@@ -108,6 +112,8 @@ public class AttackHandlerACH : MonoBehaviour
         ID5B = Animator.StringToHash("5B");
         ID2B = Animator.StringToHash("2B");
         ID3B = Animator.StringToHash("3B");
+        IDHeavenClimberH = Animator.StringToHash("HeavenClimberH");
+        IDHeavenClimberB = Animator.StringToHash("HeavenClimberB");
         /*BreakCharge = Animator.StringToHash("BreakCharge");
         IDBloodBrave = Animator.StringToHash("BloodBrave");
         IDPatissiere = Animator.StringToHash("Patissiere");
@@ -159,6 +165,9 @@ public class AttackHandlerACH : MonoBehaviour
         }
 
         colorControl = transform.GetChild(0).GetComponent<ColorSwapACH>();
+
+        HCWave = Instantiate(HCPrefab, new Vector3(0, -10, -3), Quaternion.identity, transform.root);
+        HCWave.SetActive(false);
 
         BlitzEffect = Instantiate(BlitzPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
         BlitzImage = BlitzEffect.transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -422,7 +431,7 @@ public class AttackHandlerACH : MonoBehaviour
 
         //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
         if ((Actions.blitzCancel && Move.HitDetect.hitStun <= 0 && Move.HitDetect.blockStun <= 0 && CharProp.armor >= 1) &&
-            Move.HitDetect.hitStop == 0 && heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f)
+            Move.HitDetect.hitStop <= 0 && heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f)
         {
             RefreshMoveList();
             BlitzWave.SetTrigger(IDBlitz);
@@ -483,6 +492,19 @@ public class AttackHandlerACH : MonoBehaviour
 
                 Actions.throwTech = true;
             }
+        }
+        else if (Actions.acceptSpecial && (heavyButton > 0 || breakButton > 0) && Move.HitDetect.hitStop <= 0 && DP > 0)
+        {
+            Move.jumping = 0;
+            // Heaven Climber special attack, executed by doing a DP and pressing H or B
+            if (Actions.airborne || heavyButton > 0)
+                anim.SetTrigger(IDHeavenClimberH);
+            else
+                anim.SetTrigger(IDHeavenClimberB);
+            Actions.TurnAroundCheck();
+            heavyButton = 0;
+            breakButton = 0;
+            DP = 0;
         }
         else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop <= 0)
         {

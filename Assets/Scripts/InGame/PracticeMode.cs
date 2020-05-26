@@ -38,6 +38,7 @@ public class PracticeMode : MonoBehaviour
     private bool fixAnimBug;
     private float InputTimer;
     private string guardLevel;
+
     double p1x;
     double p2x;
 
@@ -51,9 +52,9 @@ public class PracticeMode : MonoBehaviour
 
     private float P1PrevHealth;
     private float P2PrevHealth;
-    private float P1CurrentHitDamage;
+    public float P1CurrentHitDamage;
     private float P2CurrentHitDamage;
-    private float P1CurrentComboTotalDamage;
+    public float P1CurrentComboTotalDamage;
     private float P2CurrentComboTotalDamage;
     private float P1HighestComboDamage;
     private float P2HighestComboDamage;
@@ -86,7 +87,14 @@ public class PracticeMode : MonoBehaviour
 
     private string inputSelect = "Select_P1";
     private string inputR3 = "R3_P1";
+    private string inputL2 = "L2_P1";
     private string inputL3 = "L3_P1";
+    private string inputCross = "Cross_P1";
+    private string inputCircle = "Circle_P1";
+    private string inputTriangle = "Triangle_P1";
+    private string inputSquare = "Square_P1";
+    private string inputHorizontal = "Horizontal_P1";
+    private string inputVertical = "Vertical_P1";
 
     // Start is called before the first frame update
     void Start()
@@ -120,7 +128,14 @@ public class PracticeMode : MonoBehaviour
 
         inputSelect += UpdateControls(CheckXbox(0));
         inputR3 += UpdateControls(CheckXbox(0));
+        inputL2 += UpdateControls(CheckXbox(0));
         inputL3 += UpdateControls(CheckXbox(0));
+        inputCross += UpdateControls(CheckXbox(0));
+        inputCircle += UpdateControls(CheckXbox(0));
+        inputTriangle += UpdateControls(CheckXbox(0));
+        inputSquare += UpdateControls(CheckXbox(0));
+        inputHorizontal += UpdateControls(CheckXbox(0));
+        inputVertical += UpdateControls(CheckXbox(0));
 
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
@@ -142,8 +157,8 @@ public class PracticeMode : MonoBehaviour
     void Update()
     {
         //Practice Mode Handler
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
-        {
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
+        {        
             //Check Settings from Practice Pause Menu
             //CPUState Check
             switch (PracticeModeSettings.GetComponent<PauseMenu>().CPUState)
@@ -310,16 +325,17 @@ public class PracticeMode : MonoBehaviour
                     }
                     P2ComboDamage.text += P1CurrentComboTotalDamage;
                 }
-                if (HUD.Player1Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
+                if (HUD.Player1Hits.text == "" && P1Prop.HitDetect.comboCount != 1)
                 {
                     P1HitDamage.text = "";
                     P1HitType.text = "";
                 }
-                if (HUD.Player2Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
+                if (HUD.Player2Hits.text == "" && P1Prop.HitDetect.comboCount != 1)
                 {
                     P2HitDamage.text = "";
                     P2HitType.text = "";
                 }
+                Debug.Log(P1Prop.HitDetect.comboCount);
                 //Update Highest Combo Damage
                 if (P1CurrentComboTotalDamage > P1HighestComboDamage)
                 {
@@ -523,7 +539,6 @@ public class PracticeMode : MonoBehaviour
                 if (Input.GetButtonDown(inputSelect))   // Temporarily changed to P2
                 {
                     resetPositions();
-                    Player1.GetComponentInChildren<AcceptInputs>().hitType = "";
                     //Reset Character Specific things
                     switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
                     {
@@ -547,68 +562,72 @@ public class PracticeMode : MonoBehaviour
                     fixAnimBug = true;
                 }
 
-                // Recording
-                if (Input.GetButtonDown(inputL3) && !isReplaying) recording++; //L3
-
-                switch (recording)
+                if(GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
                 {
-                    case 1:     // Switch player controls
-                        RecordingDisplay.SetActive(true);
-                        RecordingState.text = "Recording Armed";
-                        isRecording = true;
-                        switchControls(true);
-                        break;
-                    case 2:     // Get inputs from MaxInput. returnMovement() returnInputs()
-                        RecordingState.text = "Now Recording " + recordingFrame;
-                        recordingFrame++;
-                        List<float> getMoves = MaxInput.returnMovement("Player1");
-                        List<bool> getInputs = MaxInput.returnInputs("Player1");
-                        movement.Add(getMoves);
-                        inputs.Add(getInputs);
-                        break;
-                    case 3:     // Create a txt file that has all the inputs for each frame
-                        RecordingState.text = "Recording Saved";
-                        switchControls(false);
-                        saveRecording();
-                        isRecording = false;
-                        recording = 0;
-                        recordingFrame = 0;
-                        break;
-                }
+                    // Recording
+                    if (Input.GetButtonDown(inputL3) && !isReplaying) recording++; //L3
 
-                // Replaying the Recording
-                if (Input.GetButtonDown(inputR3) && !isReplaying && !isRecording) //R3
-                {
-                    isReplaying = true;
-                    reader = new StreamReader(path);
-
-                    string temp = reader.ReadLine();
-                    if (temp == "True") faceLeft = true;
-                    else faceLeft = false;
-                }
-
-                if (isReplaying)
-                {
-                    // Read file, execute MaxInput actions every frame
-                    string line;
-                    if ((line = reader.ReadLine()) != null)
+                    switch (recording)
                     {
-                        RecordingState.text = "Replaying " + recordingFrame;
-                        MaxInput.ClearInput("Player2");
-                        replay(line);
+                        case 1:     // Switch player controls
+                            RecordingDisplay.SetActive(true);
+                            RecordingState.text = "Recording Armed";
+                            isRecording = true;
+                            switchControls(true);
+                            break;
+                        case 2:     // Get inputs from MaxInput. returnMovement() returnInputs()
+                            RecordingState.text = "Now Recording " + recordingFrame;
+                            recordingFrame++;
+                            List<float> getMoves = MaxInput.returnMovement("Player1");
+                            List<bool> getInputs = MaxInput.returnInputs("Player1");
+                            movement.Add(getMoves);
+                            inputs.Add(getInputs);
+                            break;
+                        case 3:     // Create a txt file that has all the inputs for each frame
+                            RecordingState.text = "Recording Saved";
+                            switchControls(false);
+                            saveRecording();
+                            isRecording = false;
+                            recording = 0;
+                            recordingFrame = 0;
+                            break;
                     }
-                    else
+
+                    // Replaying the Recording
+                    if (Input.GetButtonDown(inputR3) && !isReplaying && !isRecording) //R3
                     {
-                        isReplaying = false;
-                        recordingFrame = 0;
-                        reader.Close();
+                        isReplaying = true;
+                        reader = new StreamReader(path);
+
+                        string temp = reader.ReadLine();
+                        if (temp == "True") faceLeft = true;
+                        else faceLeft = false;
+                    }
+
+                    if (isReplaying)
+                    {
+                        // Read file, execute MaxInput actions every frame
+                        string line;
+                        if ((line = reader.ReadLine()) != null)
+                        {
+                            RecordingState.text = "Replaying " + recordingFrame;
+                            MaxInput.ClearInput("Player2");
+                            replay(line);
+                        }
+                        else
+                        {
+                            isReplaying = false;
+                            recordingFrame = 0;
+                            reader.Close();
+                        }
                     }
                 }
+                
             }
         }
     }
 
-    void resetPositions()
+    public void resetPositions()
     {
         //Reset Player Knockback
         Player1.transform.GetChild(0).GetComponent<MovementHandler>().HitDetect.KnockBack = new Vector2(0, 0);

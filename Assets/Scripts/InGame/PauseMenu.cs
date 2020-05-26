@@ -75,22 +75,14 @@ public class PauseMenu : MonoBehaviour
     {
         playerPaused = 0;
 
-        pauseCode1 += UpdateControls(CheckXbox(0));
-        pauseCode += UpdateControls(CheckXbox(1));
+        SetControllers();
 
         pauseQuit = false;
         allowPause = false;
         //moveList = false;
         
 
-        inputHorizontal += UpdateControls(CheckXbox(0));
-        inputVertical += UpdateControls(CheckXbox(0));
-        p1cross += UpdateControls(CheckXbox(0));
-        p1circle += UpdateControls(CheckXbox(0));
-        inputHorizontal2 += UpdateControls(CheckXbox(1));
-        inputVertical2 += UpdateControls(CheckXbox(1));
-        p2cross += UpdateControls(CheckXbox(1));
-        p2circle += UpdateControls(CheckXbox(1));
+        
     }
     // top bottom
     // Resume:  0 32
@@ -104,7 +96,8 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" && allowPause)
+        SetControllers();
+        if ((GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Tutorial") && allowPause)
         {
             /*if (isPaused)
             {
@@ -273,7 +266,7 @@ public class PauseMenu : MonoBehaviour
             }
         }
         //Handle Practice Mode Pause Menu
-        else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {
             if (Input.GetButtonDown(pauseCode1) && !isPaused)
             {
@@ -652,7 +645,7 @@ public class PauseMenu : MonoBehaviour
         if (!moveList)
         {
             moveListUI.SetActive(false);
-            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
             {
                 practicePauseMenuUI.SetActive(true);
             }
@@ -664,7 +657,7 @@ public class PauseMenu : MonoBehaviour
         else
         {
             moveListUI.SetActive(true);
-            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+            if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
             {
                 practicePauseMenuUI.SetActive(false);
             }
@@ -681,7 +674,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
         playerPaused = 0;
         DisableControls(false);
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {
             practicePauseMenuUI.SetActive(false);
         }
@@ -693,7 +686,7 @@ public class PauseMenu : MonoBehaviour
 
     public void MoveList()
     {
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {
             practicePauseMenuUI.SetActive(false);
         }
@@ -709,7 +702,7 @@ public class PauseMenu : MonoBehaviour
     {
         moveList = false;
         moveListUI.SetActive(false);
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {
             practicePauseMenuUI.SetActive(true);
         }
@@ -729,15 +722,34 @@ public class PauseMenu : MonoBehaviour
 
     public void ReturntoCharacterSelect()
     {
-        RoundManager.gameActive = false;
-        RoundManager.lockInputs = false;
-        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
-        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
-        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = 0;
-        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 0;
-        GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = "";
-        pauseQuit = true;
-        GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(1);
+        if(GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Tutorial")
+        {
+            RoundManager.gameActive = false;
+            RoundManager.lockInputs = false;
+            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character = "";
+            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character = "";
+            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = 0;
+            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = 0;
+            GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().stage = "";
+            pauseQuit = true;
+            GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(1);
+        }
+        
+    }
+
+    private void SetControllers()
+    {
+        p1cross = "Cross_P1" + UpdateControls(CheckXbox(0));
+        p1circle = "Circle_P1" + UpdateControls(CheckXbox(0));
+        inputHorizontal = "Horizontal_P1" + UpdateControls(CheckXbox(0));
+        inputVertical = "Vertical_P1" + UpdateControls(CheckXbox(0));
+        pauseCode1 = "Start_P1" + UpdateControls(CheckXbox(0));
+
+        p2cross = "Cross_P2" + UpdateControls(CheckXbox(1));
+        p2circle = "Circle_P2" + UpdateControls(CheckXbox(1));
+        inputHorizontal2 = "Horizontal_P2" + UpdateControls(CheckXbox(1));
+        inputVertical2 = "Vertical_P2" + UpdateControls(CheckXbox(1));
+        pauseCode = "Start_P2" + UpdateControls(CheckXbox(1));
     }
 
     private bool CheckXbox(int player)

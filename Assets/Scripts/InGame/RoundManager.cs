@@ -41,6 +41,8 @@ public class RoundManager : MonoBehaviour
     //Bool variable deciding if timer should be running or not
     private bool timeWarningPlayed = false;
 
+    private bool reset = false;
+
     Vector3 p1Start;
     Vector3 p2Start;
 
@@ -65,6 +67,9 @@ public class RoundManager : MonoBehaviour
     //bool to set and hold starting positions
     private bool holdpositions;
 
+    //bool for Replaying a game
+    private bool resetValues = false;
+
     void Awake()
     {
         roundCount = 0;
@@ -87,7 +92,7 @@ public class RoundManager : MonoBehaviour
         else
             p2Start = new Vector3(-1f, 1.10f, -3);
 
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Tutorial")
         {
             //Setting private character property variables to their appropriate player 1 and 2 child respectively
             P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
@@ -115,7 +120,7 @@ public class RoundManager : MonoBehaviour
             xboxInput = "Controller (Xbox One For Windows)";
             ps4Input = "Wireless Controller";
         }
-        else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {
             //Setting private character property variables to their appropriate player 1 and 2 child respectively
             P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
@@ -145,7 +150,7 @@ public class RoundManager : MonoBehaviour
 
         //STARTTEXT LOGIC
         //Debug.Log(BoBB.time);
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Tutorial")
         {
             //GAMEOVER LOGIC
 
@@ -257,16 +262,13 @@ public class RoundManager : MonoBehaviour
         suddenDeath = false;
         timeWarningPlayed = false;
         roundTimer = 99;
-        //If someone has won the game, reset wins for both players to 0 and reset armor to max
-        if (p1Win == 2 || p2Win == 2)
+        if (resetValues)
         {
-            p1Win = 0;
-            p2Win = 0;
             P1Prop.armor = 4;
             P2Prop.armor = 4;
             P1Prop.durability = 100;
             P2Prop.durability = 100;
-            roundCount = 0;
+            resetValues = false;
         }
     }
 
@@ -459,7 +461,10 @@ public class RoundManager : MonoBehaviour
     public void ReplayGame() {
         p1menu.SetActive(false);
         p2menu.SetActive(false);
-        ResetPositions();
+        p1Win = 0;
+        p2Win = 0;
+        resetValues = true;
+        roundCount = 0;
         NextRound();
     }
 

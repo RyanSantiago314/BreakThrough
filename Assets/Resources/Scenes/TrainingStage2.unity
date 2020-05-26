@@ -184,6 +184,8 @@ MonoBehaviour:
   dummyState: Stand
   P1ValorSetting: 100
   P2ValorSetting: 100
+  P1CurrentHitDamage: 0
+  P1CurrentComboTotalDamage: 0
   P1HitDamage: {fileID: 65660352}
   P2HitDamage: {fileID: 830373155}
   P1ComboDamage: {fileID: 1858274740}
@@ -337,8 +339,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: Practice
   stage: TrainingStage
-  P1Character: Dhalia
-  P2Character: Dhalia
+  P1Character: Achealis
+  P2Character: Achealis
   P1Color: 1
   P2Color: 2
   P1Side: Left

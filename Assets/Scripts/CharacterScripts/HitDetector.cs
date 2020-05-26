@@ -48,6 +48,7 @@ public class HitDetector : MonoBehaviour
     public bool commandGrab = false;
 
     public bool blitz = false;
+    public bool turnOffEffect = false;
 
     public bool piercing = false;
     public bool launch = false;
@@ -62,6 +63,7 @@ public class HitDetector : MonoBehaviour
     public bool usingSuper;
     public bool usingSpecial;
     public bool guardCancel;
+    public bool disableBlitz = false;
 
     public bool slash = false;
     public bool vertSlash = false;
@@ -280,7 +282,7 @@ public class HitDetector : MonoBehaviour
             else if (Actions.shattered && hitStun > 0)
             {
                 //reward attacker for landing a shattering attack
-                rb.gravityScale = .7f * Actions.originalGravity;
+                rb.gravityScale = .9f * Actions.originalGravity;
                 anim.SetFloat(animSpeedID, .75f);
             }
             else
@@ -305,8 +307,7 @@ public class HitDetector : MonoBehaviour
             if (KnockBack != Vector2.zero || ProjectileKnockBack != Vector2.zero)
             {
                 //apply knockback/pushback once hitstop has ceased
-                if (((hitStun > 0 || blockStun > 0) && Actions.airborne) || ((hitStun > 0 || blockStun > 0) && Actions.comboHits <= 1 && Actions.standing) ||
-                    (Actions.Move.facingRight && Actions.Move.rb.velocity.x > 0 && hitStun > 0) || (!Actions.Move.facingRight && Actions.Move.rb.velocity.x < 0 && hitStun > 0))
+                if ((hitStun > 0 || blockStun > 0) && (Actions.airborne || (Actions.comboHits <= 1 && Actions.standing)))
                     rb.velocity = Vector2.zero;
                 else if (comboCount > 5)
                     rb.velocity = new Vector2(.65f * rb.velocity.x, rb.velocity.y);
@@ -533,7 +534,7 @@ public class HitDetector : MonoBehaviour
                             OpponentDetector.armorHit = true;
                         }
                         HitSuccess(other);
-                        ApplyHitStop(potentialHitStop/2);
+                        ApplyHitStop(3*potentialHitStop/2);
                     }
                     else if (!blitz && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                     {
@@ -562,8 +563,11 @@ public class HitDetector : MonoBehaviour
                     anim.SetTrigger(throwRejectID);
                     OpponentDetector.anim.SetTrigger(throwRejectID);
                     KnockBack = new Vector2(2, 0);
+                    OpponentDetector.KnockBack = new Vector2(2, 0);
                     if (Actions.Move.facingRight)
                         KnockBack *= new Vector2(-1, 0);
+                    else
+                        OpponentDetector.KnockBack *= new Vector2(-1, 0);
                 }
                 else if (((OpponentDetector.hitStun <= 0 && OpponentDetector.blockStun <= 0) || OpponentDetector.Actions.grabbed) && hitStun <= 0 && !currentState.IsName("Deflected"))
                 {
@@ -636,8 +640,8 @@ public class HitDetector : MonoBehaviour
             Actions.acceptSpecial = true;
         if (allowSuper)
             Actions.acceptSuper = true;
-
-        Actions.blitzCancel = true;
+        if (!disableBlitz)
+            Actions.blitzCancel = true;
 
         allowHit = false;
         hit = true;
@@ -654,7 +658,7 @@ public class HitDetector : MonoBehaviour
             hitEffect.SetInteger("AttackLevel", attackLevel);
 
         //set hit effect to play based on attack properties
-        if (!blitz && !grab)
+        if (!blitz && !grab && !turnOffEffect)
         {
             HitFX.transform.rotation = Actions.Move.transform.rotation;
             if (OpponentDetector.Actions.shattered)
@@ -856,7 +860,7 @@ public class HitDetector : MonoBehaviour
         {
             OpponentDetector.Actions.blitzed = 1;
             if (Actions.Move.OpponentProperties.comboTimer > 0)
-                Actions.Move.OpponentProperties.comboTimer -= 1.5f;
+                Actions.Move.OpponentProperties.comboTimer -= 1f;
         }
         if (!OpponentDetector.currentState.IsName("FDKnockdown") && !OpponentDetector.currentState.IsName("FUKnockdown"))
         {
@@ -980,7 +984,14 @@ public class HitDetector : MonoBehaviour
             }
             else if (OpponentDetector.currentState.IsName("Crumple"))
             {
-                OpponentDetector.anim.SetTrigger(hitAirID);
+                if (launch)
+                {
+                    OpponentDetector.anim.SetBool(launchID, true);
+                    OpponentDetector.anim.SetTrigger(hitID);
+                }
+                else
+                    OpponentDetector.anim.SetTrigger(hitAirID);
+
                 if (potentialAirKnockBack.y < 0)
                 {
                     OpponentDetector.KnockBack = potentialKnockBack;
@@ -1084,7 +1095,7 @@ public class HitDetector : MonoBehaviour
             }
         }
 
-        if (!grab && potentialHitStun != 0)
+        if (!grab && potentialHitStun != 0 && !turnOffEffect)
             comboCount++;
     }
 

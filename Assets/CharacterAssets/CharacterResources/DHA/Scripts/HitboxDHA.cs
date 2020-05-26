@@ -87,6 +87,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.usingSuper = false;
         HitDetect.usingSpecial = false;
         HitDetect.guardCancel = false;
+        HitDetect.disableBlitz = false;
         HitDetect.slash = false;
         HitDetect.vertSlash = false;
         HitDetect.horiSlash = false;
@@ -433,7 +434,10 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStun = hitStunLv2;
         HitDetect.potentialHitStop = hitStopLv2;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 0);
-        HitDetect.potentialAirKnockBack = new Vector2(1.2f, 2f);
+        if (Mathf.Abs(HitDetect.Actions.Move.transform.position.x - HitDetect.Actions.Move.opponent.position.x) < 1)
+            HitDetect.potentialAirKnockBack = new Vector2(1.2f, 2.5f);
+        else
+            HitDetect.potentialAirKnockBack = new Vector2(-.5f, 2.5f);
         HitDetect.attackLevel = 1;
         HitDetect.guard = "Overhead";
 
@@ -1099,6 +1103,7 @@ public class HitboxDHA : MonoBehaviour
 
         HitDetect.allowWallBounce = true;
         HitDetect.allowSuper = true;
+        HitDetect.disableBlitz = true;
     }
 
     void BBCycleHit3()
