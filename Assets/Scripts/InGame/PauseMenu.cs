@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
+    public Animator MarkAnimator;
+
     public GameObject pauseMenuUI;
     public GameObject practicePauseMenuUI;
     public GameObject moveListUI;
@@ -47,6 +49,8 @@ public class PauseMenu : MonoBehaviour
     private bool acceptInputVer;
     private bool acceptInputHor;
     private bool acceptInputCirc;
+    private int inputTimer = 0;
+    private bool holdScroll = false;
 
     public int CPUState = 0;
     public int P1Valor;
@@ -183,11 +187,27 @@ public class PauseMenu : MonoBehaviour
                     {
                         optionIndex += 1;
                         acceptInputVer = false;
+                        if (MarkAnimator.GetCurrentAnimatorStateInfo(0).IsName("MarkAnimation"))
+                        {
+                            MarkAnimator.Play("MarkAnimation", -1, 0f);
+                        }
+                        else
+                        {
+                            MarkAnimator.SetTrigger("PlayMarkAnimation");
+                        }
                     }
                     else if (vertical > 0)
                     {
                         optionIndex -= 1;
                         acceptInputVer = false;
+                        if (MarkAnimator.GetCurrentAnimatorStateInfo(0).IsName("MarkAnimation"))
+                        {
+                            MarkAnimator.Play("MarkAnimation", -1, 0f);
+                        }
+                        else
+                        {
+                            MarkAnimator.SetTrigger("PlayMarkAnimation");
+                        }
                     }
                 }
 
@@ -320,12 +340,29 @@ public class PauseMenu : MonoBehaviour
 
                 //Check Horizontal Input
                 horizontal = Input.GetAxisRaw(inputHorizontal);
-                if (!acceptInputHor)
+
+                //Timer for holding a horizontal input
+                if (horizontal > 0 || horizontal < 0)
                 {
-                    if (horizontal == 0)
+                    if (inputTimer == 1)
                     {
-                        acceptInputHor = true;
+                        holdScroll = true;
+                        inputTimer++;
                     }
+                    else if (inputTimer < 30)
+                    {
+                        inputTimer++;
+                        holdScroll = false;
+                    }
+                    else
+                    {
+                        holdScroll = true;
+                    }
+                }
+                else
+                {
+                    inputTimer = 0;
+                    holdScroll = false;
                 }
 
                 //Cycle option scrolling
@@ -376,39 +413,35 @@ public class PauseMenu : MonoBehaviour
                         }
                     }
                 }
-                //P1 Valor
+                //P1 Health
                 else if (optionIndex == 2)
                 {
                     P1ValorHighlight.Select();
-                    if (acceptInputHor)
+                    if (holdScroll)
                     {
                         if (horizontal < 0)
                         {
                             P1Valor -= 1;
-                            acceptInputHor = false;
                         }
                         else if (horizontal > 0)
                         {
                             P1Valor += 1;
-                            acceptInputHor = false;
                         }
                     }
                 }
-                //P2 Valor
+                //P2 Health
                 else if (optionIndex == 3)
                 {
                     P2ValorHighlight.Select();
-                    if (acceptInputHor)
+                    if (holdScroll)
                     {
                         if (horizontal < 0)
                         {
                             P2Valor -= 1;
-                            acceptInputHor = false;
                         }
                         else if (horizontal > 0)
                         {
                             P2Valor += 1;
-                            acceptInputHor = false;
                         }
                     }
                 }
