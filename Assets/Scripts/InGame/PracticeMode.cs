@@ -335,7 +335,7 @@ public class PracticeMode : MonoBehaviour
                     P2HitDamage.text = "";
                     P2HitType.text = "";
                 }
-                Debug.Log(P1Prop.HitDetect.comboCount);
+
                 //Update Highest Combo Damage
                 if (P1CurrentComboTotalDamage > P1HighestComboDamage)
                 {
