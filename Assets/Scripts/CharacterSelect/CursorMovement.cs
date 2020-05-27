@@ -37,8 +37,6 @@ public class CursorMovement : MonoBehaviour {
     public GameObject backMenuUI;
     public GameObject P1Cursor;
     public GameObject P2Cursor;
-    public GameObject fightButton;
-    public GameObject loadingScreen;
     public GameObject P1ColorSelect;
     public GameObject P2ColorSelect;
     public GameObject P1ReadyText;

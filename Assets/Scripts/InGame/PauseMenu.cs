@@ -341,8 +341,16 @@ public class PauseMenu : MonoBehaviour
                 //Check Horizontal Input
                 horizontal = Input.GetAxisRaw(inputHorizontal);
 
-                //Timer for holding a horizontal input
-                if (horizontal > 0 || horizontal < 0)
+                if (!acceptInputHor)
+                {
+                    if (horizontal == 0)
+                    {
+                        acceptInputHor = true;
+                    }
+                }
+
+                    //Timer for holding a horizontal input
+                    if (horizontal > 0 || horizontal < 0)
                 {
                     if (inputTimer == 1)
                     {
