@@ -114,3 +114,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 6963551943932594299}
+  sprite: {fileID: 1182141781692932600}

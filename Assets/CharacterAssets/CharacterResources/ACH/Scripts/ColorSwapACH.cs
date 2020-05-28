@@ -146,6 +146,27 @@ public class ColorSwapACH : MonoBehaviour
     {
         switch (colorNum)
         {
+            case 5:
+                {
+                    ColorSwap(SwapIndex.Outline, new Color32(0, 0, 0, 255));
+                    ColorSwap(SwapIndex.Hair, new Color32(206, 218, 232, 255));
+                    ColorSwap(SwapIndex.Eyes, new Color32(111, 176, 242, 255));
+                    ColorSwap(SwapIndex.Skin, new Color32(233, 199, 188, 255));
+                    ColorSwap(SwapIndex.Seals, new Color32(139, 158, 175, 255));
+                    ColorSwap(SwapIndex.Wrap, new Color32(46, 50, 60, 255));
+                    ColorSwap(SwapIndex.ShoesGloves, new Color32(46, 50, 60, 255));
+                    ColorSwap(SwapIndex.HipArmor, new Color32(140, 107, 84, 255));
+                    ColorSwap(SwapIndex.HipCloth, new Color32(165, 52, 88, 255));
+                    ColorSwap(SwapIndex.Belt, new Color32(165, 52, 88, 255));
+                    ColorSwap(SwapIndex.BeltTrim, new Color32(167, 169, 182, 255));
+                    ColorSwap(SwapIndex.Pants, new Color32(215, 225, 226, 255));
+                    ColorSwap(SwapIndex.MetalOrnaments, new Color32(192, 196, 226, 255));
+                    ColorSwap(SwapIndex.SpearheadSoles, new Color32(69, 75, 109, 255));
+                    ColorSwap(SwapIndex.SpearBodyStraps, new Color32(173, 160, 142, 255));
+                    ColorSwap(SwapIndex.SpearEdge, new Color32(195, 220, 254, 255));
+                    ColorSwap(SwapIndex.SpearCloth, new Color32(207, 217, 228, 255));
+                    break;
+                }
             case 4:
                 {
                     ColorSwap(SwapIndex.Outline, new Color32(0, 0, 0, 255));

@@ -12,9 +12,13 @@ public class AttackHandlerACH : MonoBehaviour
     public HitboxACH Hitboxes;
 
     public GameObject HCPrefab;
+    public GameObject LHSlidePrefab;
+    public GameObject LHPrefab;
     public GameObject BlitzPrefab;
 
     public GameObject HCWave;
+    public GameObject LHSlide;
+    public GameObject LHWave;
     public GameObject BlitzEffect;
     SpriteRenderer BlitzImage;
     Animator BlitzWave;
@@ -78,9 +82,10 @@ public class AttackHandlerACH : MonoBehaviour
     static int ID3B;
     static int IDHeavenClimberH;
     static int IDHeavenClimberB;
+    static int IDLevelHell;
     /*static int BreakCharge;
     
-    static int IDPatissiere;
+    
     static int IDHeadRush;
     static int IDBasketCase;
     static int IDToaster;
@@ -114,6 +119,7 @@ public class AttackHandlerACH : MonoBehaviour
         ID3B = Animator.StringToHash("3B");
         IDHeavenClimberH = Animator.StringToHash("HeavenClimberH");
         IDHeavenClimberB = Animator.StringToHash("HeavenClimberB");
+        IDLevelHell = Animator.StringToHash("LevelHell");
         /*BreakCharge = Animator.StringToHash("BreakCharge");
         IDBloodBrave = Animator.StringToHash("BloodBrave");
         IDPatissiere = Animator.StringToHash("Patissiere");
@@ -168,6 +174,12 @@ public class AttackHandlerACH : MonoBehaviour
 
         HCWave = Instantiate(HCPrefab, new Vector3(0, -10, -3), Quaternion.identity, transform.root);
         HCWave.SetActive(false);
+
+        LHSlide = Instantiate(LHSlidePrefab, new Vector3(0, -10, -3), Quaternion.identity, transform.root);
+        LHSlide.SetActive(false);
+
+        LHWave = Instantiate(LHPrefab, new Vector3(0, -10, -3), Quaternion.identity, transform.root);
+        LHWave.SetActive(false);
 
         BlitzEffect = Instantiate(BlitzPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
         BlitzImage = BlitzEffect.transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -505,6 +517,15 @@ public class AttackHandlerACH : MonoBehaviour
             heavyButton = 0;
             breakButton = 0;
             DP = 0;
+        }
+        else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && !Actions.airborne)
+        {
+            Move.jumping = 0;
+            // Level Hell special attack, executed by doing a QCF and pressing M
+            anim.SetTrigger(IDLevelHell);
+            Actions.TurnAroundCheck();
+            mediumButton = 0;
+            QCF = 0;
         }
         else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop <= 0)
         {

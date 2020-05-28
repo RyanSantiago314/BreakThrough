@@ -81,7 +81,7 @@ public class CharacterProperties : MonoBehaviour
                 comboTimer += Time.deltaTime;
             else if (!HitDetect.anim.GetBool(dizzyID))
                 comboTimer = 0;
-            if (HitDetect.Actions.grabbed)
+            if (HitDetect.Actions.grabbed || HitDetect.OpponentDetector.Actions.grabZoom > 0)
             {
                 comboTimer = 0;
                 durabilityRefillTimer = 0;

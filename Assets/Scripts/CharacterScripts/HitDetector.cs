@@ -23,6 +23,7 @@ public class HitDetector : MonoBehaviour
     public float forcedProration;
     public Vector2 potentialKnockBack;
     public Vector2 potentialAirKnockBack;
+    public float potentialBlockStun;
     public float potentialHitStun;
     public float potentialHitStop;
     public int attackLevel;
@@ -282,7 +283,7 @@ public class HitDetector : MonoBehaviour
             else if (Actions.shattered && hitStun > 0)
             {
                 //reward attacker for landing a shattering attack
-                rb.gravityScale = .9f * Actions.originalGravity;
+                rb.gravityScale = .8f * Actions.originalGravity;
                 anim.SetFloat(animSpeedID, .75f);
             }
             else
@@ -356,12 +357,17 @@ public class HitDetector : MonoBehaviour
                     (guard == "High" && (OpponentDetector.anim.GetBool(HiGuard) || OpponentDetector.anim.GetBool(AirGuard))))
                 {
                     OpponentDetector.anim.SetTrigger("Blocked");
-                    if (potentialHitStun <= 19)
-                        OpponentDetector.blockStun = (potentialHitStun - 1)/60;
-                    else if (guardCancel)
-                        OpponentDetector.blockStun = (potentialHitStun - potentialHitStun / 2)/60;
+                    if (potentialBlockStun > 0)
+                        OpponentDetector.blockStun = potentialBlockStun/60;
                     else
-                        OpponentDetector.blockStun = (potentialHitStun - potentialHitStun / 10)/60;
+                    {
+                        if (potentialHitStun <= 19)
+                            OpponentDetector.blockStun = (potentialHitStun - 1) / 60;
+                        else if (guardCancel)
+                            OpponentDetector.blockStun = (potentialHitStun - potentialHitStun / 2) / 60;
+                        else
+                            OpponentDetector.blockStun = (potentialHitStun - potentialHitStun / 10) / 60;
+                    }
 
                     if (OpponentDetector.blockStun > .5f)
                         OpponentDetector.blockStun = .5f;
@@ -408,6 +414,11 @@ public class HitDetector : MonoBehaviour
                         if (Actions.airborne && KnockBack.x > 1f)
                         {
                             KnockBack = new Vector2(1f, KnockBack.y);
+                        }
+
+                        if (usingSpecial)
+                        {
+                            KnockBack = new Vector2(.5f * KnockBack.x, KnockBack.y);
                         }
 
                     }
@@ -600,7 +611,12 @@ public class HitDetector : MonoBehaviour
                     OpponentDetector.anim.SetTrigger(deflectID);
                     Actions.jumpCancel = true;
                     Actions.CharProp.durabilityRefillTimer = 0;
-                    Contact(other);
+                    Actions.EnableAll();
+                    if (usingSuper)
+                    {
+                        HitSuccess(other);
+                        ApplyHitStop(0);
+                    }
                 }
                 else if (Mathf.Abs(attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
                 {
@@ -830,7 +846,7 @@ public class HitDetector : MonoBehaviour
             specialProration *= forcedProration;
         if (comboCount != 0 && comboCount < 11)
         {
-            if (comboCount < 3)
+            if (comboCount < 2)
                 comboProration = 1;
             else if (comboCount < 4)
                 comboProration = .8f;
@@ -1137,7 +1153,7 @@ public class HitDetector : MonoBehaviour
         {
             hitStop = (potentialHitStop + i)/60;
             OpponentDetector.hitStop = hitStop;
-            if (usingSuper)
+            if (usingSuper || hitStop > 2f/5f)
                 hitEffect.SetFloat(animSpeedID, 0);
         }
     }

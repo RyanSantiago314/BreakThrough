@@ -1001,7 +1001,7 @@ public class MovementHandler : MonoBehaviour
     void WallStates()
     {
         //makes characters stick against wall and slowly fall
-        if (Actions.wallStick > 0 && HitDetect.hitStun > 0 && rb.velocity.y >= 0 && transform.position.y > 1.3f && !currentState.IsName("WallStick"))
+        if (Actions.wallStick > 0 && HitDetect.hitStun > 0 && transform.position.y > 1.25f && !currentState.IsName("WallStick"))
         {
             Actions.groundBounce = false;
             rb.velocity = new Vector2(0, rb.velocity.y);

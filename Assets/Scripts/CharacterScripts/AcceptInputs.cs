@@ -238,32 +238,35 @@ public class AcceptInputs : MonoBehaviour
     }
     public void EnableAll()
     {
-        acceptMove = true;
-        acceptGuard = true;
-        acceptLight = true;
-        acceptMedium = true;
-        acceptHeavy = true;
-        acceptBreak = true;
-        acceptSpecial = true;
-        acceptSuper = true;
-        jumpCancel = true;
-        blitzCancel = true;
-        gravScale = 1f;
-        Move.HitDetect.hitStun = 0;
-        Move.HitDetect.blockStun = 0;
-        shattered = false;
-        superHit = false;
-        wallStick = 0;
-        groundBounce = false;
-        wallBounce = false;
-        grabbed = false;
-        throwInvincible = false;
-        recovering = false;
-        attacking = false;
-        hiCounter = false;
-        lowCounter = false;
-        hiInvincible = false;
-        lowInvincible = false;
+        if (landingLag <= 0)
+        {
+            acceptMove = true;
+            acceptGuard = true;
+            acceptLight = true;
+            acceptMedium = true;
+            acceptHeavy = true;
+            acceptBreak = true;
+            acceptSpecial = true;
+            acceptSuper = true;
+            jumpCancel = true;
+            blitzCancel = true;
+            gravScale = 1f;
+            Move.HitDetect.hitStun = 0;
+            Move.HitDetect.blockStun = 0;
+            shattered = false;
+            superHit = false;
+            wallStick = 0;
+            groundBounce = false;
+            wallBounce = false;
+            grabbed = false;
+            throwInvincible = false;
+            recovering = false;
+            attacking = false;
+            hiCounter = false;
+            lowCounter = false;
+            hiInvincible = false;
+            lowInvincible = false;
+        }
     }
 
     public void Attacking()

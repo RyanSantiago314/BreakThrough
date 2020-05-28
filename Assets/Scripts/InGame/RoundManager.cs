@@ -240,7 +240,6 @@ public class RoundManager : MonoBehaviour
                 RoundStop();
             }
         }
-
         if (holdpositions)
         {
             //Setting players to starting location vectors
@@ -283,8 +282,6 @@ public class RoundManager : MonoBehaviour
         gameActive = true;
         lockInputs = false;
         startReady = true;
-        P1Inputs.enabled = true;
-        P2Inputs.enabled = true;
     }
 
     public void RoundStop()
@@ -292,14 +289,13 @@ public class RoundManager : MonoBehaviour
         gameActive = false;
         lockInputs = true;
         startReady = false;
-        P1Inputs.enabled = false;
-        P2Inputs.enabled = false;
         ScreenGraphics.SetBool("RoundOver", true);
     }
 
     public void DetermineWinMethod()
     {
-        if (roundTimer <= 0 && P1Prop.currentHealth != 0 && P2Prop.currentHealth != 0)
+        if (roundTimer <= 0 && ((P1Prop.currentHealth != 0 && P2Prop.currentHealth != 0) ||
+            ((P1Prop.currentHealth != 0 && P2Prop.currentHealth == 0) || (P1Prop.currentHealth == 0 && P2Prop.currentHealth != 0))))
         {
             centerText.text = "Time Up";
             centerShadow.text = "Time Up";
