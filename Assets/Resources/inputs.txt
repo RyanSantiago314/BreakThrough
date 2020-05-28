@@ -36,4 +36,6 @@ True
 35 0 0 False False False False False False False False False 
 36 0 0 False False False False False False False False False 
 37 0 0 False False False False False False False False False 
-38 0 0 False False False False False False False False False 
+38 0 -0.00280112 False False False False False False False False False 
+39 0 -0.00280112 False False False False False False False False False 
+40 0 0 False False False False False False False False False 

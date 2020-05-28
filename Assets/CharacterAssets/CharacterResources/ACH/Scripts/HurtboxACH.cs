@@ -837,4 +837,61 @@ public class HurtboxACH : MonoBehaviour
         legs2.offset = new Vector2(-.38f, -.495f);
         legs2.size = new Vector2(.43f, .9f);
     }
+
+    public void LHSlide()
+    {
+        ClearHurtBox();
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        legs1.offset = new Vector2(.31f, -.79f);
+        legs1.size = new Vector2(1.16f, .25f);
+        legs2.offset = new Vector2(0f, -.69f);
+        legs2.size = new Vector2(1f, .44f);
+    }
+
+    public void LHTransition()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(.06f, .55f);
+        head.size = new Vector2(.2f, .27f);
+        body.offset = new Vector2(.027f, .18f);
+        body.size = new Vector2(.41f, .49f);
+        legs1.offset = new Vector2(.11f, -.48f);
+        legs1.size = new Vector2(.75f, .87f);
+        legs2.offset = new Vector2(0f, -.69f);
+        legs2.size = new Vector2(1f, .44f);
+        misc1.offset = new Vector2(.08f, .225f);
+        misc1.size = new Vector2(.85f, .215f);
+    }
+
+    public void LHActive()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+        misc2.enabled = true;
+
+        head.offset = new Vector2(.195f, .705f);
+        head.size = new Vector2(.28f, .29f);
+        body.offset = new Vector2(.16f, .264f);
+        body.size = new Vector2(.427f, .66f);
+        legs1.offset = new Vector2(.017f, -.73f);
+        legs1.size = new Vector2(1.11f, .39f);
+        legs2.offset = new Vector2(.08f, -.29f);
+        legs2.size = new Vector2(.8f, .52f);
+        misc1.offset = new Vector2(.66f, .42f);
+        misc1.size = new Vector2(.645f, .24f);
+        misc2.offset = new Vector2(-.18f, .16f);
+        misc2.size = new Vector2(.51f, .31f);
+    }
 }
