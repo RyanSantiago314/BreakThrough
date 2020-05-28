@@ -682,8 +682,8 @@ public class PauseMenu : MonoBehaviour
                 GameObject.Find("Player2").transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
                 break;
             case "Achealis":
-                GameObject.Find("Player1").transform.GetChild(0).GetComponent<AttackHandlerACH>().enabled = !enable;
-                GameObject.Find("Player1").transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
+                GameObject.Find("Player2").transform.GetChild(0).GetComponent<AttackHandlerACH>().enabled = !enable;
+                GameObject.Find("Player2").transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
                 break;
         }
     }
