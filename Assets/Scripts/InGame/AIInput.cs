@@ -218,10 +218,9 @@ public class AIInput : MonoBehaviour
             AI.delayTimer = .1f;
         }
 
-        // Step 3: Left/Right movement
+        // Step 3: Down Left/Right movement
         else if (AI.doingHCB == 3)
         {
-            MaxInput.DownMove("Player2");
             if (AI.faceLeft == true)
             {
                 MaxInput.MoveRight("Player2");
@@ -244,6 +243,62 @@ public class AIInput : MonoBehaviour
             if (AI.keepAction == "RBumper") MaxInput.RBumper("Player2");
 
             AI.doingHCB = 0;
+            AI.keepAction = "";
+            AI.keepInput = false;
+        }
+    }
+
+    public void DP()
+    {
+        // Step 1: Right/Left movement
+        if (AI.doingDP == 1)
+        {
+            if (AI.faceLeft == true)
+            {
+                MaxInput.MoveLeft("Player2");
+            }
+            else
+            {
+                MaxInput.MoveRight("Player2");
+            }
+            AI.doingDP = 2;
+            AI.delayTimer = .08f;
+            AI.keepInput = true;
+        }
+
+        // Step 2: Down movement
+        else if (AI.doingDP == 2)
+        {
+            MaxInput.Crouch("Player2");
+            AI.doingDP = 3;
+            AI.delayTimer = .1f;
+        }
+
+        // Step 3: Left/Right movement
+        else if (AI.doingDP == 3)
+        {
+            if (AI.faceLeft == true)
+            {
+                MaxInput.MoveLeft("Player2");
+            }
+            else
+            {
+                MaxInput.MoveRight("Player2");
+            }
+            AI.doingDP = 4;
+            AI.delayTimer = .1f;
+        }
+        // Step 4: Pressing Attack button
+        else if (AI.doingDP == 4)
+        {
+            if (AI.keepAction == "Square") MaxInput.Square("Player2");
+            if (AI.keepAction == "Triangle") MaxInput.Triangle("Player2");
+            if (AI.keepAction == "Circle") MaxInput.Circle("Player2");
+            if (AI.keepAction == "Cross") MaxInput.Cross("Player2");
+            if (AI.keepAction == "RTrigger") MaxInput.RTrigger("Player2");
+            if (AI.keepAction == "RBumper") MaxInput.RBumper("Player2");
+
+            AI.doingDP = 0;
             AI.keepAction = "";
             AI.keepInput = false;
         }
