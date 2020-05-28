@@ -13,6 +13,8 @@ public class RoundManager : MonoBehaviour
     //Variables for character properties for both player 1 and 2
     public CharacterProperties P1Prop;
     public CharacterProperties P2Prop;
+    AcceptInputs P1Inputs;
+    AcceptInputs P2Inputs;
     //Menu object variables
     public GameObject p1menu;
     public GameObject p2menu;
@@ -97,6 +99,10 @@ public class RoundManager : MonoBehaviour
             //Setting private character property variables to their appropriate player 1 and 2 child respectively
             P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
             P2Prop = GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>();
+
+            //Setting AcceptInputs to lock them on transitions
+            P1Inputs = GameObject.Find("Player1").transform.GetComponentInChildren<AcceptInputs>();
+            P2Inputs = GameObject.Find("Player2").transform.GetComponentInChildren<AcceptInputs>();
 
             //Setting private menu child game obejcts to their appropriate menu children respectively
             child1 = p1menu.transform.GetChild(0).gameObject;
@@ -277,6 +283,8 @@ public class RoundManager : MonoBehaviour
         gameActive = true;
         lockInputs = false;
         startReady = true;
+        P1Inputs.enabled = true;
+        P2Inputs.enabled = true;
     }
 
     public void RoundStop()
@@ -284,13 +292,14 @@ public class RoundManager : MonoBehaviour
         gameActive = false;
         lockInputs = true;
         startReady = false;
+        P1Inputs.enabled = false;
+        P2Inputs.enabled = false;
         ScreenGraphics.SetBool("RoundOver", true);
     }
 
     public void DetermineWinMethod()
     {
-        if (roundTimer <= 0 && ((P1Prop.currentHealth != 0 && P2Prop.currentHealth != 0) ||
-            ((P1Prop.currentHealth != 0 && P2Prop.currentHealth == 0) || (P1Prop.currentHealth == 0 && P2Prop.currentHealth != 0))))
+        if (roundTimer <= 0 && P1Prop.currentHealth != 0 && P2Prop.currentHealth != 0)
         {
             centerText.text = "Time Up";
             centerShadow.text = "Time Up";

@@ -669,6 +669,10 @@ public class PauseMenu : MonoBehaviour
                 GameObject.Find("Player1").transform.GetChild(0).GetComponent<AttackHandlerDHA>().enabled = !enable;
                 GameObject.Find("Player1").transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
                 break;
+            case "Achealis":
+                GameObject.Find("Player1").transform.GetChild(0).GetComponent<AttackHandlerACH>().enabled = !enable;
+                GameObject.Find("Player1").transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
+                break;
         }
 
         switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
@@ -676,6 +680,10 @@ public class PauseMenu : MonoBehaviour
             case "Dhalia":
                 GameObject.Find("Player2").transform.GetChild(0).GetComponent<AttackHandlerDHA>().enabled = !enable;
                 GameObject.Find("Player2").transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
+                break;
+            case "Achealis":
+                GameObject.Find("Player1").transform.GetChild(0).GetComponent<AttackHandlerACH>().enabled = !enable;
+                GameObject.Find("Player1").transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
                 break;
         }
     }
