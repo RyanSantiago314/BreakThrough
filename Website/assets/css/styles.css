@@ -3,6 +3,10 @@
 	font-family: Breakthrough;
 }
 
+body, html {
+  height: 100%;
+}
+
 .important-text
 {
 	font-family: Breakthrough;
@@ -15,6 +19,17 @@
 	position: relative;
 	text-align: center;
 	width: 100%;
+	height: 100%;
+}
+
+.parallax
+{
+	background-image: url(D:/Documents/GitHub/BreakThrough/Website/images/poster.png);
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100%;
 }
 
 .title-video
@@ -25,7 +40,7 @@
 	height: 80%;
 	padding-right: 15px;
 	padding-left: 15px;
-	top: 50%;
+	top: 45%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
