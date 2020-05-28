@@ -85,6 +85,15 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
         Debug.Log(info);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character = this.gameObject;
+        }
+        else
+        {
+            GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character = this.gameObject;
+            
+        }
     }
     
 
