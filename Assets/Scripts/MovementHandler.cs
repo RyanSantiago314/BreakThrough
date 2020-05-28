@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement; //Temporary
 using Photon.Pun;
 using Photon.Realtime;
 
-public class MovementHandler : MonoBehaviourPun
+public class MovementHandler : MonoBehaviourPunCallbacks
 {
     public Animator anim;
     public Rigidbody2D rb;
@@ -82,7 +82,7 @@ public class MovementHandler : MonoBehaviourPun
     static int yVeloID;
     static int KOID;
 
-    void OnPhotonInstantiate(PhotonMessageInfo info)
+    public override void OnPhotonInstantiate(PhotonMessageInfo info)
     {
         Debug.Log(info);
     }

@@ -47,11 +47,12 @@ public class CharacterLoader : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Player 1 Loaded");
+        
         //Load Character and set name
         if(PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            P1Character = PhotonNetwork.Instantiate(P1Char, GameObject.Find("Player1").transform.position, Quaternion.identity) as GameObject;
+            P1Character = PhotonNetwork.Instantiate(P1Char, GameObject.Find("Player1").transform.position, Quaternion.identity);
+            Debug.Log("Player 1 Loaded");
         }
         else {
             P1Character = Instantiate(Resources.Load(P1Char, typeof(GameObject)), GameObject.Find("Player1").transform) as GameObject;
@@ -91,11 +92,12 @@ public class CharacterLoader : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Player 2 Instantiated");
+        
         //Load Character and set name
         if(PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient)
         {
-            P2Character = PhotonNetwork.Instantiate(P2Char, GameObject.Find("Player2").transform.position, Quaternion.identity) as GameObject;
+            P2Character = PhotonNetwork.Instantiate(P2Char, GameObject.Find("Player2").transform.position, Quaternion.identity);
+            Debug.Log("Player 2 Instantiated");
         }
         else if (!PhotonNetwork.IsConnected)
         {
