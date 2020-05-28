@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
+    public Animator MarkAnimator;
+
     public GameObject pauseMenuUI;
     public GameObject practicePauseMenuUI;
     public GameObject moveListUI;
@@ -32,6 +34,7 @@ public class PauseMenu : MonoBehaviour
     public Button characterselectButtonMatch;
     public Button moveListButtonMatch;
     public Button quitButtonMatch;
+    public GameObject UIBar;
     private float InputTimer;
     private string inputHorizontal = "Horizontal_P1";
     private string inputVertical = "Vertical_P1";
@@ -46,6 +49,8 @@ public class PauseMenu : MonoBehaviour
     private bool acceptInputVer;
     private bool acceptInputHor;
     private bool acceptInputCirc;
+    private int inputTimer = 0;
+    private bool holdScroll = false;
 
     public int CPUState = 0;
     public int P1Valor;
@@ -59,6 +64,9 @@ public class PauseMenu : MonoBehaviour
     public GameObject ArmorRefillText;
     public GameObject CPUAirRecoverText;
     public GameObject CPUGroundGuardText;
+
+    public Text PlayerIdentifier;
+    
 
     static public bool allowPause;
 
@@ -80,6 +88,14 @@ public class PauseMenu : MonoBehaviour
 
         
     }
+    // top bottom
+    // Resume:  0 32
+    // Movelist:  0 -36
+    // character select:  889 703
+    // end Match:  959 633
+    // 703.7
+
+
 
     // Update is called once per frame
     void Update()
@@ -132,10 +148,14 @@ public class PauseMenu : MonoBehaviour
                 if(Input.GetButtonDown(pauseCode1))
                 {
                     playerPaused = 1;
+
+                    PlayerIdentifier.text = "P1";
                 }
                 else if(Input.GetButtonDown(pauseCode))
                 {
                     playerPaused = 2;
+
+                    PlayerIdentifier.text = "P2";
                 }
             }
             else if (!SceneTransitions.lockinputs && (Input.GetButtonDown(pauseCode1) && isPaused && !moveList && playerPaused == 1) || (Input.GetButtonDown(pauseCode) && isPaused && !moveList && playerPaused == 2))
@@ -167,11 +187,27 @@ public class PauseMenu : MonoBehaviour
                     {
                         optionIndex += 1;
                         acceptInputVer = false;
+                        if (MarkAnimator.GetCurrentAnimatorStateInfo(0).IsName("MarkAnimation"))
+                        {
+                            MarkAnimator.Play("MarkAnimation", -1, 0f);
+                        }
+                        else
+                        {
+                            MarkAnimator.SetTrigger("PlayMarkAnimation");
+                        }
                     }
                     else if (vertical > 0)
                     {
                         optionIndex -= 1;
                         acceptInputVer = false;
+                        if (MarkAnimator.GetCurrentAnimatorStateInfo(0).IsName("MarkAnimation"))
+                        {
+                            MarkAnimator.Play("MarkAnimation", -1, 0f);
+                        }
+                        else
+                        {
+                            MarkAnimator.SetTrigger("PlayMarkAnimation");
+                        }
                     }
                 }
 
@@ -203,6 +239,7 @@ public class PauseMenu : MonoBehaviour
                 if (optionIndex == 0)
                 {
                     resumeButtonMatch.Select();
+                    UIBar.transform.localPosition = new Vector2(0, 32);
                     if ((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2))
                     {
                         DisableControls(false);
@@ -213,6 +250,7 @@ public class PauseMenu : MonoBehaviour
                 else if (optionIndex == 1)
                 {
                     moveListButtonMatch.Select();
+                    UIBar.transform.localPosition = new Vector2(0, -32);
                     if ((Input.GetButton(p1cross) && !moveList && playerPaused == 1) || (Input.GetButton(p2cross) && !moveList && playerPaused == 2))
                     {
                         MoveList();
@@ -227,6 +265,7 @@ public class PauseMenu : MonoBehaviour
                 else if (optionIndex == 2)
                 {
                     characterselectButtonMatch.Select();
+                    UIBar.transform.localPosition = new Vector2(0, -94);
                     if ((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2))
                     {
                         ReturntoCharacterSelect();
@@ -235,6 +274,7 @@ public class PauseMenu : MonoBehaviour
                 else if (optionIndex == 3)
                 {
                     quitButtonMatch.Select();
+                    UIBar.transform.localPosition = new Vector2(0, -163);
                     if ((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2))
                     {
                         QuitToMenu();
@@ -300,12 +340,37 @@ public class PauseMenu : MonoBehaviour
 
                 //Check Horizontal Input
                 horizontal = Input.GetAxisRaw(inputHorizontal);
+
                 if (!acceptInputHor)
                 {
                     if (horizontal == 0)
                     {
                         acceptInputHor = true;
                     }
+                }
+
+                    //Timer for holding a horizontal input
+                    if (horizontal > 0 || horizontal < 0)
+                {
+                    if (inputTimer == 1)
+                    {
+                        holdScroll = true;
+                        inputTimer++;
+                    }
+                    else if (inputTimer < 30)
+                    {
+                        inputTimer++;
+                        holdScroll = false;
+                    }
+                    else
+                    {
+                        holdScroll = true;
+                    }
+                }
+                else
+                {
+                    inputTimer = 0;
+                    holdScroll = false;
                 }
 
                 //Cycle option scrolling
@@ -356,39 +421,35 @@ public class PauseMenu : MonoBehaviour
                         }
                     }
                 }
-                //P1 Valor
+                //P1 Health
                 else if (optionIndex == 2)
                 {
                     P1ValorHighlight.Select();
-                    if (acceptInputHor)
+                    if (holdScroll)
                     {
                         if (horizontal < 0)
                         {
                             P1Valor -= 1;
-                            acceptInputHor = false;
                         }
                         else if (horizontal > 0)
                         {
                             P1Valor += 1;
-                            acceptInputHor = false;
                         }
                     }
                 }
-                //P2 Valor
+                //P2 Health
                 else if (optionIndex == 3)
                 {
                     P2ValorHighlight.Select();
-                    if (acceptInputHor)
+                    if (holdScroll)
                     {
                         if (horizontal < 0)
                         {
                             P2Valor -= 1;
-                            acceptInputHor = false;
                         }
                         else if (horizontal > 0)
                         {
                             P2Valor += 1;
-                            acceptInputHor = false;
                         }
                     }
                 }
@@ -608,12 +669,20 @@ public class PauseMenu : MonoBehaviour
                 GameObject.Find("Player1").transform.GetChild(0).GetComponent<AttackHandlerDHA>().enabled = !enable;
                 GameObject.Find("Player1").transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
                 break;
+            case "Achealis":
+                GameObject.Find("Player1").transform.GetChild(0).GetComponent<AttackHandlerACH>().enabled = !enable;
+                GameObject.Find("Player1").transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
+                break;
         }
 
         switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character)
         {
             case "Dhalia":
                 GameObject.Find("Player2").transform.GetChild(0).GetComponent<AttackHandlerDHA>().enabled = !enable;
+                GameObject.Find("Player2").transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
+                break;
+            case "Achealis":
+                GameObject.Find("Player2").transform.GetChild(0).GetComponent<AttackHandlerACH>().enabled = !enable;
                 GameObject.Find("Player2").transform.GetChild(0).GetComponent<MovementHandler>().enabled = !enable;
                 break;
         }

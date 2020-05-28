@@ -103,8 +103,15 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0
+    functionName: WeakBreak
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.06666667
-    functionName: StandBreakActive
+    functionName: StandingBHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -118,7 +125,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.06666667
-    functionName: StandingBHitBox
+    functionName: StandBreakActive
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

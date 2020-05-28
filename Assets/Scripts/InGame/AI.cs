@@ -53,6 +53,7 @@ public class AI : MonoBehaviour
     public int doingQCB;
     public int doingHCF;
     public int doingHCB;
+    public int doingDP;
 
     // Combos
     public int doing5L_1;
@@ -124,6 +125,7 @@ public class AI : MonoBehaviour
         doingQCB = 0;
         doingHCF = 0;
         doingHCB = 0;
+        doingDP = 0;
 
         // Combos
         doing5L_1 = 0;
@@ -216,6 +218,10 @@ public class AI : MonoBehaviour
                 else if (doingHCB > 0)
                 {
                     AIInput.HCB();
+                }
+                else if (doingDP > 0)
+                {
+                    AIInput.DP();
                 }
                 else if (doing5L_1 > 0)
                 {
@@ -459,10 +465,18 @@ public class AI : MonoBehaviour
                     circleTimer = .5f;
                 }
                 // 5H
-                else if (rand > 70 && circleTimer <= 0)
+                else if (rand > 70 && rand <= 95 && circleTimer <= 0)
                 {
                     MaxInput.Circle("Player2");
                     triangleTimer = .5f;
+                }
+                // DP
+                else if (rand > 95)
+                {
+                    doingDP = 1;
+                    if (rand > 97) keepAction = "Circle";
+                    else keepAction = "Cross";
+                    AIInput.DP();
                 }
                 else MaxInput.Square("Player2");
             }
@@ -764,8 +778,9 @@ public class AI : MonoBehaviour
     // Testing specific actions
     void testActions()
     {
-        doing2H_1 = 1;
-        AIInput.combo2H_1();
-        triangleTimer = .5f;
+        Debug.Log("Test DP");
+        doingDP = 1;
+        keepAction = "Circle";
+        AIInput.DP();
     }
 }

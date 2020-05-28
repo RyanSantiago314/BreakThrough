@@ -387,7 +387,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 56738509}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.435, y: -0.17, z: 0}
+  m_LocalPosition: {x: -0.019, y: -0.17, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 180353326}
@@ -458,7 +458,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 0309c09103942d64ea8dc571a38eb49e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c70667b885e8cd44396944c737c04de0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -477,9 +477,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 56738509}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d46d7e9571342b54b82cfe510b2c4d40, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5150fee798d6ded4498dd004e3674b6b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -628,6 +628,7 @@ MonoBehaviour:
   grab: 0
   commandGrab: 0
   blitz: 0
+  turnOffEffect: 0
   piercing: 0
   launch: 0
   crumple: 0
@@ -641,6 +642,7 @@ MonoBehaviour:
   usingSuper: 0
   usingSpecial: 0
   guardCancel: 0
+  disableBlitz: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0
@@ -3431,7 +3433,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 780954734}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.19, y: -0.17, z: 0}
+  m_LocalPosition: {x: -0.585, y: -0.17, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 106198833}
@@ -3502,7 +3504,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 0309c09103942d64ea8dc571a38eb49e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9798251205bbfea468480af8ed5c799f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3521,9 +3523,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 780954734}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d46d7e9571342b54b82cfe510b2c4d40, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5150fee798d6ded4498dd004e3674b6b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4020,6 +4022,7 @@ MonoBehaviour:
   grab: 0
   commandGrab: 0
   blitz: 0
+  turnOffEffect: 0
   piercing: 0
   launch: 0
   crumple: 0
@@ -4033,6 +4036,7 @@ MonoBehaviour:
   usingSuper: 0
   usingSpecial: 0
   guardCancel: 0
+  disableBlitz: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0
@@ -4357,7 +4361,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 854ec3d7c2cfc6f4290e138d976e86a9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6f85d13f56541644c8c5f9b3abb967e4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -5590,8 +5594,6 @@ MonoBehaviour:
   backMenuUI: {fileID: 162332385}
   P1Cursor: {fileID: 713610514}
   P2Cursor: {fileID: 592413031}
-  fightButton: {fileID: 0}
-  loadingScreen: {fileID: 0}
   P1ColorSelect: {fileID: 895446707}
   P2ColorSelect: {fileID: 2104712055}
   P1ReadyText: {fileID: 211880796}
@@ -6579,7 +6581,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1493288186}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1140, y: 127, z: 0}
+  m_LocalPosition: {x: 1108, y: 127, z: 0}
   m_LocalScale: {x: 270, y: 270, z: 1}
   m_Children:
   - {fileID: 839079292}
@@ -7357,7 +7359,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 0
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -7889,6 +7891,7 @@ MonoBehaviour:
   grab: 0
   commandGrab: 0
   blitz: 0
+  turnOffEffect: 0
   piercing: 0
   launch: 0
   crumple: 0
@@ -7902,6 +7905,7 @@ MonoBehaviour:
   usingSuper: 0
   usingSpecial: 0
   guardCancel: 0
+  disableBlitz: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0
@@ -8326,7 +8330,7 @@ SpriteRenderer:
   m_Size: {x: 15, y: 15}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1698416811
@@ -9382,7 +9386,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021470586844992098}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 57, y: 127, z: 0}
+  m_LocalPosition: {x: 102, y: 127, z: 0}
   m_LocalScale: {x: 270, y: 270, z: 1}
   m_Children:
   - {fileID: 1021470587938170600}
@@ -9508,7 +9512,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 854ec3d7c2cfc6f4290e138d976e86a9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6f4031066ff9a2f41af7a601d153d83a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9705,6 +9709,7 @@ MonoBehaviour:
   grab: 0
   commandGrab: 0
   blitz: 0
+  turnOffEffect: 0
   piercing: 0
   launch: 0
   crumple: 0
@@ -9718,6 +9723,7 @@ MonoBehaviour:
   usingSuper: 0
   usingSpecial: 0
   guardCancel: 0
+  disableBlitz: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0
