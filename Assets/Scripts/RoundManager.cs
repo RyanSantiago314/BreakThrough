@@ -92,12 +92,7 @@ public class RoundManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        //Need to do a few more checks: Check if both players have been instantiated.
-        //if(!PhotonNetwork.IsMasterClient)
-        //{
-        //    return;
-        //}
-
+      
         if(changedProps.ContainsKey(BREAKTHROUGH.PLAYER_LOADED_LEVEL))
         {
             if(CheckAllPlayersLoaded())
@@ -108,6 +103,7 @@ public class RoundManager : MonoBehaviourPunCallbacks
         }
     }
 
+    //PunRPC this once we get a photonview on it.
     void PlayersSetup()
     {
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")

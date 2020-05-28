@@ -82,13 +82,17 @@ public class MovementHandler : MonoBehaviourPun
     static int yVeloID;
     static int KOID;
 
+    void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        Debug.Log(info);
+    }
     
 
     // Set Up inputs, anim variable hashes, and opponent in awake
     void Awake()
     {
        
-
+        
         //Original system to use in original Training Stage
         if (SceneManager.GetActiveScene().name == "TrainingStage")
         {
@@ -112,6 +116,7 @@ public class MovementHandler : MonoBehaviourPun
 
     void Start()
     {
+        
         //Added for character loading system. Needs to start here for it to work
         if (SceneManager.GetActiveScene().name != "TrainingStage")
         {
