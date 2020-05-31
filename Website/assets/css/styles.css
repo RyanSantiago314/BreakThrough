@@ -1,16 +1,23 @@
-@font-face {
-	src: url(https://people.ucsc.edu/~erjihu/BreakThrough/assets/fonts/BreakThrough-Regular.ttf) format('truetype');
+@font-face
+{
+	/* src: url(https://people.ucsc.edu/~erjihu/BreakThrough/assets/fonts/BreakThrough-Regular.ttf) format('truetype'); */
+	src: url(D:/Documents/GitHub/BreakThrough/Website/assets/fonts/BreakThrough-Regular.ttf) format('truetype');
 	font-family: Breakthrough;
 }
 
 /* body, html {
   height: 100%;
 } */
+p, h3
+{
+	color: white;
+}
 
 .important-text
 {
 	font-family: Breakthrough;
 	font-size: 50px;
+	color: white;
 	line-height: 80px;
 }
 
@@ -23,11 +30,14 @@
 
 .parallax
 {
-	background-image: url(D:/Documents/GitHub/BreakThrough/Website/images/poster.png);
+	background-image: url(D:/Documents/GitHub/BreakThrough/Website/images/Poster.png);
 	background-attachment: fixed;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	height: 1200px;
+
+	/* filter: blur(25px); */
 }
 
 .title-video
@@ -38,9 +48,14 @@
 	height: 80%;
 	padding-right: 15px;
 	padding-left: 15px;
-	top: 45%;
+	top: 40%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+}
+
+.char-renders
+{
+	position: fixed;
 }
 
 .project-box
