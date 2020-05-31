@@ -192,8 +192,8 @@ public class MenuInputManager : MonoBehaviour
         //Main Menu Management
     	if (state == "main")
     	{
-	        if (buttonIndex < 1) buttonIndex = 1;
-			else if (buttonIndex > 4) buttonIndex = 4;
+	        if (buttonIndex < 1) buttonIndex = 4;
+			else if (buttonIndex > 4) buttonIndex = 1;
 			if (buttonIndex == 1)
 			{
 				PlayLocalButton.Select();
@@ -228,8 +228,8 @@ public class MenuInputManager : MonoBehaviour
         //Local Menu Management
 		else if (state == "local")
     	{
-	        if (buttonIndex < 1) buttonIndex = 1;
-			else if (buttonIndex > 5) buttonIndex = 5;
+	        if (buttonIndex < 1) buttonIndex = 5;
+			else if (buttonIndex > 5) buttonIndex = 1;
 			if (buttonIndex == 1)
 			{
 				PlayVsPlayerButton.Select();
@@ -315,8 +315,8 @@ public class MenuInputManager : MonoBehaviour
     	{
 			if (optionState == "mainOptions")
 			{
-		        if (buttonIndex < 1) buttonIndex = 1;
-				else if (buttonIndex > 3) buttonIndex = 3;
+		        if (buttonIndex < 1) buttonIndex = 3;
+				else if (buttonIndex > 3) buttonIndex = 1;
 
 				if (buttonIndex == 1)
 				{
@@ -359,8 +359,8 @@ public class MenuInputManager : MonoBehaviour
 			}
 			else if (optionState == "soundOptions")
 			{
-				if (buttonIndex < 1) buttonIndex = 1;
-				else if (buttonIndex > 5) buttonIndex = 5;
+				if (buttonIndex < 1) buttonIndex = 5;
+				else if (buttonIndex > 5) buttonIndex = 1;
 
 				if (buttonIndex == 1)
 				{
@@ -405,8 +405,8 @@ public class MenuInputManager : MonoBehaviour
 			}
 			else if (optionState == "displayOptions")
 			{
-				if (buttonIndex < 1) buttonIndex = 1;
-				else if (buttonIndex > 3) buttonIndex = 3;
+				if (buttonIndex < 1) buttonIndex = 3;
+				else if (buttonIndex > 3) buttonIndex = 1;
 
 				if (buttonIndex == 1)
 				{
