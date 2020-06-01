@@ -545,7 +545,7 @@ public class HitDetector : MonoBehaviour
                             OpponentDetector.armorHit = true;
                         }
                         HitSuccess(other);
-                        ApplyHitStop(3*potentialHitStop/2);
+                        ApplyHitStop(0);
                     }
                     else if (!blitz && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                     {
@@ -883,6 +883,7 @@ public class HitDetector : MonoBehaviour
             if (launch)
             {
                 OpponentDetector.anim.SetBool(launchID, true);
+                OpponentDetector.Actions.standing = false;
             }
             else if (crumple)
             {
@@ -944,7 +945,7 @@ public class HitDetector : MonoBehaviour
         else
         {
             OpponentDetector.hitStun = potentialHitStun/60;
-            if (OpponentDetector.Actions.airborne && usingSpecial)
+            /*if (OpponentDetector.Actions.airborne && usingSpecial)
             {
                 if (Actions.Move.OpponentProperties.comboTimer > 18)
                     OpponentDetector.hitStun = (6 * potentialHitStun / 600);
@@ -955,7 +956,7 @@ public class HitDetector : MonoBehaviour
                 else if (Actions.Move.OpponentProperties.comboTimer > 10)
                     OpponentDetector.hitStun = (9 * potentialHitStun / 600);
             }
-            else if (OpponentDetector.Actions.airborne && !usingSuper)
+            else*/ if (OpponentDetector.Actions.airborne && !usingSuper)
             {
                 if (Actions.Move.OpponentProperties.comboTimer > 18)
                     OpponentDetector.hitStun = (float)(1/60);

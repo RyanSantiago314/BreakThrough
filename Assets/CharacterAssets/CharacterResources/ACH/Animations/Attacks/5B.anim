@@ -190,7 +190,7 @@ AnimationClip:
     functionName: Advance
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 2.5
+    floatParameter: 2
     intParameter: 0
     messageOptions: 0
   - time: 0.06666667

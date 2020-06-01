@@ -33,19 +33,19 @@ AnimationClip:
       value: {fileID: 21300000, guid: a5731edb0771b7b4ca4073614a5ec234, type: 3}
     - time: 0.38333333
       value: {fileID: 21300000, guid: d788f50fbb6e93d4c960a962ae478bf7, type: 3}
-    - time: 0.45
+    - time: 0.43333334
       value: {fileID: 21300000, guid: b53a874e2938fe943919bb9692ba250b, type: 3}
-    - time: 0.51666665
+    - time: 0.48333332
       value: {fileID: 21300000, guid: 843a10001b54f4b4c822d5206b2714d9, type: 3}
-    - time: 0.5833333
+    - time: 0.56666666
       value: {fileID: 21300000, guid: 484fcf46ac989164c86b4d9b28dd9be6, type: 3}
     - time: 0.65
       value: {fileID: 21300000, guid: 54e43f18129345045929d34df2c64f12, type: 3}
-    - time: 0.8
+    - time: 0.78333336
       value: {fileID: 21300000, guid: a18d06ab917210049bd3221b16c8453a, type: 3}
-    - time: 0.8666667
+    - time: 0.85
       value: {fileID: 21300000, guid: df6b005a9d4a31e459f11296097c34f9, type: 3}
-    - time: 0.9166667
+    - time: 0.9
       value: {fileID: 21300000, guid: df6b005a9d4a31e459f11296097c34f9, type: 3}
     attribute: m_Sprite
     path: 
@@ -85,7 +85,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.93333334
+    m_StopTime: 0.9166666
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -106,14 +106,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: LHSlide
+    functionName: SummonLHSlideEffect
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0
-    functionName: DisableAll
+    functionName: LHSlide
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -127,28 +127,35 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0
+    functionName: DisableAll
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
     functionName: setLow
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0
-    functionName: SummonLHSlideEffect
+  - time: 0.033333335
+    functionName: Advance
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 4.5
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.083333336
+    functionName: LHFirstHit
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0
+  - time: 0.26666668
     functionName: Advance
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 5
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.083333336
-    functionName: LHFirstHit
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -168,35 +175,35 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.43333334
+  - time: 0.41666666
     functionName: SummonLHEffect
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.45
-    functionName: LHFinalHit
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.45
+  - time: 0.43333334
     functionName: LHActive
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.51666665
+  - time: 0.43333334
+    functionName: LHFinalHit
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.5
     functionName: ClearHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.53333336
+  - time: 0.51666665
     functionName: StopAttacking
     data: 
     objectReferenceParameter: {fileID: 0}

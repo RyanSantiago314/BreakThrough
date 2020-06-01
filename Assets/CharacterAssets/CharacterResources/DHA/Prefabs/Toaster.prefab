@@ -144,7 +144,7 @@ MonoBehaviour:
   anim: {fileID: 1571492460223486445}
   rb: {fileID: 1571492460223486444}
   PHitDetect: {fileID: 1571492461831992422}
-  maxLife: 500
+  maxLife: 1000
   currentLife: -1
   maxHits: 24
   currentHits: 0

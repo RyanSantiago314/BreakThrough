@@ -141,6 +141,14 @@ public class HitboxACH : MonoBehaviour
         AttackHandler.LHWave.GetComponent<HeavenClimber>().anim.SetTrigger("Activate");
     }
 
+    public void SummonSFEffect()
+    {
+        AttackHandler.SFWave.SetActive(true);
+        AttackHandler.SFWave.transform.rotation = transform.rotation;
+        AttackHandler.SFWave.transform.position = transform.position;
+        AttackHandler.SFWave.GetComponent<HeavenClimber>().anim.SetTrigger("Activate");
+    }
+
     //push damage values, knockback, and proration to hitdetector from hitbox events
     void StandingLHitBox()
     {
@@ -685,7 +693,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialKnockBack = new Vector2(.5f, 3f);
         HitDetect.potentialHitStun = 32;
-        HitDetect.potentialHitStop = hitStopLv4;
+        HitDetect.potentialHitStop = hitStopLv3;
         HitDetect.attackLevel = 1;
         HitDetect.guard = "Overhead";
 
@@ -894,7 +902,7 @@ public class HitboxACH : MonoBehaviour
 
         HitDetect.horiSlash = true;
         HitDetect.shatter = true;
-        if (HitDetect.OpponentDetector.Actions.Move.jumping > 0 || HitDetect.OpponentDetector.Actions.airborne || HitDetect.OpponentDetector.Actions.attacking || HitDetect.OpponentDetector.Actions.active || HitDetect.OpponentDetector.Actions.recovering)
+        if (HitDetect.OpponentDetector.Actions.attacking || HitDetect.OpponentDetector.Actions.active || HitDetect.OpponentDetector.Actions.recovering)
         {
             HitDetect.allowWallStick = true;
             HitDetect.potentialKnockBack = new Vector2(3.5f, 2.5f);
@@ -907,25 +915,42 @@ public class HitboxACH : MonoBehaviour
         HitDetect.allowSuper = true;
     }
 
-    void HRLaunchHit()
+    void StarfallHit()
     {
         ClearHitBox();
+        HitDetect.Actions.AttackActive();
 
         hit1.enabled = true;
+        hit2.enabled = true;
+        hit3.enabled = true;
+        hit4.enabled = true;
 
-        hit1.offset = new Vector2(.65f, -.55f);
-        hit1.size = new Vector2(.38f, .55f);
+        hit1.offset = new Vector2(.67f, -.73f);
+        hit1.size = new Vector2(.29f, .385f);
+        hit2.offset = new Vector2(.47f, -.45f);
+        hit2.size = new Vector2(.29f, .385f);
+        hit3.offset = new Vector2(.22f, -.16f);
+        hit3.size = new Vector2(.29f, .385f);
+        hit4.offset = new Vector2(0f, .14f);
+        hit4.size = new Vector2(.29f, .385f);
 
-        HitDetect.damage = 0;
+        HitDetect.damage = 120;
         HitDetect.armorDamage = 0;
-        HitDetect.durabilityDamage = 100;
-        HitDetect.potentialKnockBack = new Vector2(0f, 2f);
-        HitDetect.potentialAirKnockBack = new Vector2(2f, 2f);
-        HitDetect.potentialHitStun = 24;
-        HitDetect.potentialHitStop = 0;
-        HitDetect.attackLevel = 3;
-        HitDetect.guard = "Low";
+        HitDetect.durabilityDamage = 0;
+        HitDetect.potentialKnockBack = new Vector2(.75f, 3.3f);
+        HitDetect.potentialAirKnockBack = new Vector2(2f, -4f);
+        HitDetect.potentialHitStun = 36;
+        HitDetect.potentialBlockStun = 24;
+        HitDetect.potentialHitStop = 15;
+        HitDetect.attackLevel = 5;
+        HitDetect.guard = "Overhead";
 
+        if (HitDetect.OpponentDetector.Actions.standing)
+            HitDetect.launch = true;
+
+        HitDetect.vertSlash = true;
+        HitDetect.allowGroundBounce = true;
+        HitDetect.shatter = true;
         HitDetect.usingSpecial = true;
         HitDetect.allowSuper = true;
     }
