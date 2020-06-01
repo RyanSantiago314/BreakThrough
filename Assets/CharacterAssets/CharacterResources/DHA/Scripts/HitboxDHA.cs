@@ -150,7 +150,7 @@ public class HitboxDHA : MonoBehaviour
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().rb.velocity = Vector2.zero;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().rb.angularVelocity = 0;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentHits = 0;
-        AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife/60;
+        AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife/60f;
         AttackHandler.Projectile.transform.localRotation = Quaternion.identity;
 
         if (HitDetect.Actions.Move.facingRight)
@@ -199,7 +199,7 @@ public class HitboxDHA : MonoBehaviour
         AttackHandler.Toaster.SetActive(true);
         AttackHandler.Toaster.GetComponent<ProjectileProperties>().projectileActive = true;
         AttackHandler.Toaster.GetComponent<ProjectileProperties>().currentHits = 0;
-        AttackHandler.Toaster.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife / 60;
+        AttackHandler.Toaster.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Toaster.GetComponent<ProjectileProperties>().maxLife / 60;
         AttackHandler.Toaster.transform.rotation = transform.rotation;
         AttackHandler.Toaster.transform.position = transform.position;
         AttackHandler.Toaster.GetComponent<ProjectileProperties>().anim.SetTrigger("Summon");
@@ -1213,8 +1213,8 @@ public class HitboxDHA : MonoBehaviour
 
         hit1.enabled = true;
 
-        hit1.offset = new Vector2(.65f, -.55f);
-        hit1.size = new Vector2(.38f, .55f);
+        hit1.offset = new Vector2(.65f, -.5f);
+        hit1.size = new Vector2(.38f, .6f);
 
         HitDetect.damage = 22;
         HitDetect.armorDamage = 0;

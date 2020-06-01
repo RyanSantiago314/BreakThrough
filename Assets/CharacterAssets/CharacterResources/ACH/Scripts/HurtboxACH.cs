@@ -894,4 +894,43 @@ public class HurtboxACH : MonoBehaviour
         misc2.offset = new Vector2(-.18f, .16f);
         misc2.size = new Vector2(.51f, .31f);
     }
+
+    public void SFActive()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(-.145f, .71f);
+        head.size = new Vector2(.42f, .465f);
+        body.offset = new Vector2(-.23f, .5f);
+        body.size = new Vector2(.61f, .51f);
+        legs1.offset = new Vector2(-.59f, .275f);
+        legs1.size = new Vector2(.48f, .9f);
+        legs2.offset = new Vector2(-1.03f, .85f);
+        legs2.size = new Vector2(.61f, .61f);
+        misc1.offset = new Vector2(.1f, .04f);
+        misc1.size = new Vector2(.47f, .755f);
+    }
+
+    public void SFRecover()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(.32f, .29f);
+        head.size = new Vector2(.21f, .32f);
+        body.offset = new Vector2(.12f, .14f);
+        body.size = new Vector2(.49f, .68f);
+        legs1.offset = new Vector2(-.11f, .57f);
+        legs1.size = new Vector2(.92f, .69f);
+        legs2.offset = new Vector2(-.71f, -.7f);
+        legs2.size = new Vector2(.37f, .39f);
+    }
 }

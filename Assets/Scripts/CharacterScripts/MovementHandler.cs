@@ -224,6 +224,11 @@ public class MovementHandler : MonoBehaviour
             transform.position = new Vector3(transform.position.x, minPosY, transform.position.z);
             Actions.airborne = false;
         }
+        else if (transform.position.y > 1.2f)
+        {
+            Actions.airborne = true;
+        }
+
         if (playing && !HitDetect.pauseScreen.isPaused)
         {
             if (HitDetect.hitStop <= 0)
@@ -397,6 +402,7 @@ public class MovementHandler : MonoBehaviour
             jumpRight = false;
             jumpLeft = false;
             Actions.EnableAll();
+            Actions.airborne = true;
         }
         else
         {
@@ -744,11 +750,11 @@ public class MovementHandler : MonoBehaviour
                 rb.velocity = Vector2.zero;
                 if (facingRight)
                 {
-                    HitDetect.KnockBack = new Vector2(.6f, 1.5f);
+                    HitDetect.KnockBack = new Vector2(.6f, 2f);
                 }
                 else
                 {
-                    HitDetect.KnockBack = new Vector2(-.6f, 1.5f);
+                    HitDetect.KnockBack = new Vector2(-.6f, 2f);
                 }
                 anim.SetTrigger(wallBounceID);
                 //set off wall hit effect
