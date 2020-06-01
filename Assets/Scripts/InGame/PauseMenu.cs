@@ -70,6 +70,11 @@ public class PauseMenu : MonoBehaviour
 
     static public bool allowPause;
 
+    //Dev tool to remove HUD
+    public GameObject HUD;
+    public GameObject PracticeHUD;
+    public SelectedCharacterManager PlayerData;
+
     private void Awake()
     {
         Time.timeScale = 1;
@@ -84,8 +89,10 @@ public class PauseMenu : MonoBehaviour
         pauseQuit = false;
         allowPause = false;
         //moveList = false;
-        
 
+        HUD = GameObject.Find("HUD");
+        PracticeHUD = GameObject.Find("PracticeHUD");
+        PlayerData = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>();
         
     }
     // top bottom
@@ -100,6 +107,28 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Dev tool to disable HUDS
+        if (Input.GetKeyDown(KeyCode.BackQuote))
+        {
+            if (HUD.activeSelf)
+            {
+                HUD.SetActive(false);
+            }
+            else
+            {
+                HUD.SetActive(true);
+            }
+
+            if (PlayerData.gameMode == "Practice" && PracticeHUD.activeSelf)
+            {
+                PracticeHUD.SetActive(false);
+            }
+            else
+            {
+                PracticeHUD.SetActive(true);
+            }
+        }
+
         SetControllers();
         if ((GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Tutorial") && allowPause)
         {
