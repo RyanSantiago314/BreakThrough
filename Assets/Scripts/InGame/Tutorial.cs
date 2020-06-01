@@ -21,6 +21,7 @@ public class Tutorial : MonoBehaviour
     private int popUpIndex;
 
     private string inputSelect = "Select_P1";
+    private string inputL1 = "L1_P1";
     private string inputL2 = "L2_P1";
     private string inputCross = "Cross_P1";
     private string inputCircle = "Circle_P1";
@@ -36,6 +37,7 @@ public class Tutorial : MonoBehaviour
         P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
 
         inputSelect += UpdateControls(CheckXbox(0));
+        inputL1 += UpdateControls(CheckXbox(0));
         inputL2 += UpdateControls(CheckXbox(0));
         inputCross += UpdateControls(CheckXbox(0));
         inputCircle += UpdateControls(CheckXbox(0));
@@ -169,8 +171,8 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 11)
         {
-            popUps.GetComponent<Text>().text = "You can also grab your enemy by pressing Y or !";
-            if (Input.GetKeyDown(KeyCode.Y) && popUpDelay == 0)
+            popUps.GetComponent<Text>().text = "You can also grab your enemy by pressing L1 or Y!";
+            if (Input.GetButtonDown(inputL1) && popUpDelay == 0)
             {
                 popUpIndex++;
                 popUpDelay = popupDelayDuration;
