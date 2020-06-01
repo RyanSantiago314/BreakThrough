@@ -122,11 +122,9 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
         }
 
         //set parents
-        if (Player1 && Player2)
-        {
-            Player1.transform.parent = GameObject.Find("Player1").transform;
-            Player2.transform.parent = GameObject.Find("Player2").transform;
-        }
+        //if (!Player1 || !Player2) return;
+        Player1.transform.parent = GameObject.Find("Player1").transform;
+        Player2.transform.parent = GameObject.Find("Player2").transform;
     }
     
 
