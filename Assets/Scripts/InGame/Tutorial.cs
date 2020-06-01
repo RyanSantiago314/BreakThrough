@@ -171,7 +171,7 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 12)
         {
-            popUps.GetComponent<Text>().text = "Hold the direction away from your opponent to block incoming attacks! \n This can be used on the ground and in the air!";
+            popUps.GetComponent<Text>().text = "Hold the direction away from your opponent to block incoming attacks! \n This can be used while standing, crouching, or even in the air!";
             if (Input.GetAxis(inputHorizontal) < 0 && popUpDelay == 0)
             {
                 popUpIndex++;
