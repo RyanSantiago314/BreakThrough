@@ -86,15 +86,20 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
     {
         Debug.Log(info);
         
-        //This is pretty much just baseless BS to test that this worked.
-        //we also need to identify who instantiated what. 
-        if (PhotonNetwork.IsMasterClient) 
+        
+        if (PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer)) //If we're master and message was not sent by us
         {
+            //Sets Character manager
             GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character = this.gameObject;
+            //Sets Player2 Prefab
+            
         }
-        else
+        
+        if(!PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer))//If we're not master and message was not sent by us.
         {
+            //Character Manager field
             GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character = this.gameObject;
+            //Sets Player1 Prefab
             
         }
     }
