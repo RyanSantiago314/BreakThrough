@@ -86,15 +86,14 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
     {
         Debug.Log(info);
 
-        GameObject Player1 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character;
-        GameObject Player2 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character;
+        
         
         //Most of this is properly setting online values from CharacterLoader.cs setP#Properties()
         if (PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer)) //If we're master and message was not sent by us
         {
           
             //Sets Character manager
-            Player2 = this.gameObject;
+            GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character = this.gameObject;
             /*
             //Sets Player2 Prefab
             Player2.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character;
@@ -108,7 +107,7 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
         {
             
             //Character Manager field
-            Player1 = this.gameObject;
+            GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character = this.gameObject;
             /*
             //Sets Player1 Prefab
             Player1.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character;
@@ -120,11 +119,13 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
             
 
         }
-
+        
+        GameObject player1 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character;
+        GameObject player2 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character;
         //set parents
         //if (!Player1 || !Player2) return;
-        Player1.transform.parent = GameObject.Find("Player1").transform;
-        Player2.transform.parent = GameObject.Find("Player2").transform;
+        player1.transform.parent = GameObject.Find("Player1").transform;
+        player2.transform.parent = GameObject.Find("Player2").transform;
     }
     
 
