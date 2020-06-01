@@ -120,12 +120,12 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
 
         }
         
-        GameObject player1 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character;
+        /*GameObject player1 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character;
         GameObject player2 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character;
         //set parents
         //if (!Player1 || !Player2) return;
         player1.transform.parent = GameObject.Find("Player1").transform;
-        player2.transform.parent = GameObject.Find("Player2").transform;
+        player2.transform.parent = GameObject.Find("Player2").transform;*/
     }
     
 
