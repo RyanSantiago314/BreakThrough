@@ -72,6 +72,7 @@ public class PracticeMode : MonoBehaviour
     private bool isRecording = false;
     private bool isReplaying = false;
     private bool faceLeft;
+    private bool hold = false;
     private int recording = 0;
     private int recordingFrame = 0;
     private List<List<float>> movement = new List<List<float>>();
@@ -158,7 +159,7 @@ public class PracticeMode : MonoBehaviour
     {
         //Practice Mode Handler
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
-        {        
+        {
             //Check Settings from Practice Pause Menu
             //CPUState Check
             switch (PracticeModeSettings.GetComponent<PauseMenu>().CPUState)
@@ -622,7 +623,7 @@ public class PracticeMode : MonoBehaviour
                         }
                     }
                 }
-                
+
             }
         }
     }
@@ -784,12 +785,29 @@ public class PracticeMode : MonoBehaviour
         if (values[3] == "True") MaxInput.Square("Player2");
         if (values[4] == "True") MaxInput.Triangle("Player2");
         if (values[5] == "True") MaxInput.Circle("Player2");
-        if (values[6] == "True") MaxInput.Cross("Player2");
-        if (values[7] == "True") MaxInput.RBumper("Player2");
-        if (values[8] == "True") MaxInput.RTrigger("Player2");
-        if (values[9] == "True") MaxInput.LBumper("Player2");
-        if (values[10] == "True") MaxInput.LTrigger("Player2");
-        if (values[11] == "True") MaxInput.LStick("Player2");
+        if (values[6] == "True")
+        {
+            MaxInput.Cross("Player2");
+            hold = true;
+        }
+        else if (values[6] == "False" && values[7] == "True" && hold)
+        {
+            if (characterManager.P2Character == "Dhalia")
+            {
+                if (P2Input.attacking)
+                {
+                    MaxInput.Cross("Player2");
+                }
+                else hold = false;
+            }
+            //else MaxInput.Cross("Player2");
+        }
+
+        if (values[8] == "True") MaxInput.RBumper("Player2");
+        if (values[9] == "True") MaxInput.RTrigger("Player2");
+        if (values[10] == "True") MaxInput.LBumper("Player2");
+        if (values[11] == "True") MaxInput.LTrigger("Player2");
+        if (values[12] == "True") MaxInput.LStick("Player2");
     }
 
     private bool CheckXbox(int player)
