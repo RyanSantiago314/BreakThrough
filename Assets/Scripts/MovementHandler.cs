@@ -90,12 +90,16 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
         if (PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer)) //If we're master and message was not sent by us
         {
             GameObject Player2 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character;
+            
             //Sets Character manager
             Player2 = this.gameObject;
+            /*
             //Sets Player2 Prefab
             Player2.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character;
             Player2.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
-            
+            */
+            Player2.transform.parent = GameObject.Find("Player2").transform;
+
         }
         
         if(!PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer))//If we're not master and message was not sent by us.
@@ -103,13 +107,16 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
             GameObject Player1 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character;
             //Character Manager field
             Player1 = this.gameObject;
+            /*
             //Sets Player1 Prefab
             Player1.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character;
 
             //Assign CharacterHandlers
             GameObject.Find("Player1").GetComponent<FighterAgent>().myChar = Player1.GetComponent<CharacterProperties>();
             Player1.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
-            
+            */
+            Player1.transform.parent = GameObject.Find("Player1").transform;
+
         }
     }
     
