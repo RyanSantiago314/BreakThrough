@@ -196,8 +196,9 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 14)
         {
-            popUps.GetComponent<Text>().text = "Hold the direction away from your opponent to block incoming attacks! \n (Note :  This can be used on the ground and in the air)";
-            if (Input.GetAxis(inputHorizontal) < 0 && popUpDelay == 0)
+            popUps.GetComponent<Text>().text = 
+            "Hold the direction away from your opponent to block incoming attacks! \n (Note :  This can be used on the ground and in the air)";
+                        if (Input.GetAxis(inputHorizontal) < 0 && popUpDelay == 0)
             {
                 popUpIndex++;
                 popUpDelay = popupDelayDuration;
@@ -214,7 +215,7 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 16)
         {
-            popUps.GetComponent<Text>().text = "Now use everthing you've learned and try to defeat your oppenent! \n (Press C or Select to start)";
+            popUps.GetComponent<Text>().text = "Now use everthing you've learned and defeat your oppenent! \n (Press C or Select to start)";
             if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
             {
                 GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().resetPositions();
