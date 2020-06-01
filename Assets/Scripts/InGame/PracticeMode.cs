@@ -96,6 +96,9 @@ public class PracticeMode : MonoBehaviour
     private string inputHorizontal = "Horizontal_P1";
     private string inputVertical = "Vertical_P1";
 
+    //For tutorial
+    public bool refillCPUHealth = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -255,7 +258,7 @@ public class PracticeMode : MonoBehaviour
                     }
                 }
 
-                //Update Valor settings from menu
+                //Update Health settings from menu
                 P1ValorSetting = PracticeModeSettings.GetComponent<PauseMenu>().P1Valor;
                 P2ValorSetting = PracticeModeSettings.GetComponent<PauseMenu>().P2Valor;
 
@@ -274,12 +277,12 @@ public class PracticeMode : MonoBehaviour
                     P2CurrentComboTotalDamage = 0;
                 }
                 //Refill P2 HP after P1 combo finishes
-                if (P2Prop.HitDetect.hitStun > 0)
+                if (P2Prop.HitDetect.hitStun > 0 && refillCPUHealth)
                 {
                     P2inCombo = true;
                     InputTimer = 0.0f;
                 }
-                if (P1Prop.HitDetect.comboCount == 0)
+                if (P1Prop.HitDetect.comboCount == 0 && refillCPUHealth)
                 {
                     P2Prop.currentHealth = P2Prop.maxHealth * (P2ValorSetting / 100f);
                     P2inCombo = false;

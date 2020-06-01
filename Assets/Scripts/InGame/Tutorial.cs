@@ -220,7 +220,9 @@ public class Tutorial : MonoBehaviour
             if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
             {
                 GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().resetPositions();
+                GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().refillCPUHealth = false;
                 GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().CPUState = 6;
+                GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().ArmorRefill = 1;
                 popUpIndex++;
                 popUpDelay = popupDelayDuration;
             }
