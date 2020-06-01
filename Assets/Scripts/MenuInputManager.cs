@@ -57,6 +57,8 @@ public class MenuInputManager : MonoBehaviour
     public GameObject P1Arrows;
     public GameObject P2Arrows;
     public GameObject CPULevel;
+    public GameObject BackgroundRuins;
+    public GameObject BackgroundSky;
 
     private int P1Position;
     private int P2Position;
@@ -90,6 +92,9 @@ public class MenuInputManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+    	if (Random.Range(0,2) == 0) BackgroundSky.SetActive(true);
+    	else BackgroundRuins.SetActive(true);
+
         buttonIndex = 1;
         InputTimer = 0;
         //xboxInput = "Controller (Xbox One For Windows)";
