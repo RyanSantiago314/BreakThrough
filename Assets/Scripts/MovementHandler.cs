@@ -86,8 +86,8 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
     {
         Debug.Log(info);
 
-        GameObject Player1 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character;
-        GameObject Player2 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character;
+        GameObject Player1 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character;
+        GameObject Player2 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character;
         
         //Most of this is properly setting online values from CharacterLoader.cs setP#Properties()
         if (PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer)) //If we're master and message was not sent by us
