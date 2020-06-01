@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LevelHellWave
+  serializedVersion: 6
+  m_Legacy: 0
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves: []
+  m_ScaleCurves: []
+  m_FloatCurves: []
+  m_PPtrCurves:
+  - curve:
+    - time: 0
+      value: {fileID: 21300000, guid: f110660586002004ba6e1dee655ed80e, type: 3}
+    - time: 0.05
+      value: {fileID: 21300000, guid: 4f15184c9513011488da123ab95d7adf, type: 3}
+    - time: 0.1
+      value: {fileID: 21300000, guid: 8b1645fd3dbfe304ea2435a64edcd2fb, type: 3}
+    - time: 0.15
+      value: {fileID: 21300000, guid: 45ff1ae58d345a54e95a621e3cffcf6b, type: 3}
+    - time: 0.21666667
+      value: {fileID: 21300000, guid: bfb86a11fbde8a442a49fae3d070a6da, type: 3}
+    - time: 0.28333333
+      value: {fileID: 21300000, guid: 4aa4e27f5f630d4468e2c7c799ea7518, type: 3}
+    - time: 0.35
+      value: {fileID: 21300000, guid: d52d785c837e70646b2c256b9bd3d452, type: 3}
+    - time: 0.41666666
+      value: {fileID: 21300000, guid: 0024e1901392d7d4fb882c74dabc76e6, type: 3}
+    - time: 0.48333332
+      value: {fileID: 21300000, guid: 67cfee5f57b5c2f4c9a8374c154d9e10, type: 3}
+    - time: 0.55
+      value: {fileID: 21300000, guid: d38942b277ce2874c88057e4ce5b527e, type: 3}
+    - time: 0.6166667
+      value: {fileID: 0}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: 21300000, guid: 0fcec21391183a34e974ada667616637, type: 3}
+    - time: 0.05
+      value: {fileID: 0}
+    attribute: m_Sprite
+    path: Channel2
+    classID: 212
+    script: {fileID: 0}
+  m_SampleRate: 60
+  m_WrapMode: 0
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 196735462
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    pptrCurveMapping:
+    - {fileID: 21300000, guid: f110660586002004ba6e1dee655ed80e, type: 3}
+    - {fileID: 21300000, guid: 4f15184c9513011488da123ab95d7adf, type: 3}
+    - {fileID: 21300000, guid: 8b1645fd3dbfe304ea2435a64edcd2fb, type: 3}
+    - {fileID: 21300000, guid: 45ff1ae58d345a54e95a621e3cffcf6b, type: 3}
+    - {fileID: 21300000, guid: bfb86a11fbde8a442a49fae3d070a6da, type: 3}
+    - {fileID: 21300000, guid: 4aa4e27f5f630d4468e2c7c799ea7518, type: 3}
+    - {fileID: 21300000, guid: d52d785c837e70646b2c256b9bd3d452, type: 3}
+    - {fileID: 21300000, guid: 0024e1901392d7d4fb882c74dabc76e6, type: 3}
+    - {fileID: 21300000, guid: 67cfee5f57b5c2f4c9a8374c154d9e10, type: 3}
+    - {fileID: 21300000, guid: d38942b277ce2874c88057e4ce5b527e, type: 3}
+    - {fileID: 0}
+    - {fileID: 21300000, guid: 0fcec21391183a34e974ada667616637, type: 3}
+    - {fileID: 0}
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 0.6333333
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 0
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves: []
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_Events:
+  - time: 0
+    functionName: Unfollow
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: FadeOff
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: MatchHitStop
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: FlickerOff
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.06666667
+    functionName: DesyncHitStop
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.6166667
+    functionName: Deactivate
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
