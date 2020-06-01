@@ -1,7 +1,7 @@
 @font-face
 {
-	/* src: url(https://people.ucsc.edu/~erjihu/BreakThrough/assets/fonts/BreakThrough-Regular.ttf) format('truetype'); */
-	src: url(D:/Documents/GitHub/BreakThrough/Website/assets/fonts/BreakThrough-Regular.ttf) format('truetype');
+	src: url(https://shatterpointgs.netlify.app/assets/fonts/BreakThrough-Regular.ttf) format('truetype');
+	/* src: url(D:/Documents/GitHub/BreakThrough/Website/assets/fonts/BreakThrough-Regular.ttf) format('truetype'); */
 	font-family: Breakthrough;
 }
 
@@ -30,7 +30,8 @@ p, h3
 
 .parallax
 {
-	background-image: url(D:/Documents/GitHub/BreakThrough/Website/images/Poster.png);
+	/* background-image: url(D:/Documents/GitHub/BreakThrough/Website/images/Poster.png); */
+	background-image: url(https://shatterpointgs.netlify.app/images/Poster.png);
 	background-attachment: fixed;
 	background-position: center;
 	background-repeat: no-repeat;
