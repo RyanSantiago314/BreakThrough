@@ -86,20 +86,29 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
     {
         Debug.Log(info);
         
-        
+        //Most of this is properly setting online values from CharacterLoader.cs setP#Properties()
         if (PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer)) //If we're master and message was not sent by us
         {
+            GameObject Player2 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character;
             //Sets Character manager
-            GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character = this.gameObject;
+            Player2 = this.gameObject;
             //Sets Player2 Prefab
+            Player2.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character;
+            Player2.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
             
         }
         
         if(!PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer))//If we're not master and message was not sent by us.
         {
+            GameObject Player1 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character;
             //Character Manager field
-            GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character = this.gameObject;
+            Player1 = this.gameObject;
             //Sets Player1 Prefab
+            Player1.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character;
+
+            //Assign CharacterHandlers
+            GameObject.Find("Player1").GetComponent<FighterAgent>().myChar = Player1.GetComponent<CharacterProperties>();
+            Player1.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
             
         }
     }
