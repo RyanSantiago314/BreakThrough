@@ -85,12 +85,14 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
         Debug.Log(info);
+
+        GameObject Player1 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character;
+        GameObject Player2 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character;
         
         //Most of this is properly setting online values from CharacterLoader.cs setP#Properties()
         if (PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer)) //If we're master and message was not sent by us
         {
-            GameObject Player2 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character;
-            
+          
             //Sets Character manager
             Player2 = this.gameObject;
             /*
@@ -98,13 +100,13 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
             Player2.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character;
             Player2.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
             */
-            Player2.transform.parent = GameObject.Find("Player2").transform;
+            
 
         }
         
         if(!PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer))//If we're not master and message was not sent by us.
         {
-            GameObject Player1 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character;
+            
             //Character Manager field
             Player1 = this.gameObject;
             /*
@@ -115,8 +117,15 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
             GameObject.Find("Player1").GetComponent<FighterAgent>().myChar = Player1.GetComponent<CharacterProperties>();
             Player1.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
             */
-            Player1.transform.parent = GameObject.Find("Player1").transform;
+            
 
+        }
+
+        //set parents
+        if (Player1 && Player2)
+        {
+            Player1.transform.parent = GameObject.Find("Player1").transform;
+            Player2.transform.parent = GameObject.Find("Player2").transform;
         }
     }
     
