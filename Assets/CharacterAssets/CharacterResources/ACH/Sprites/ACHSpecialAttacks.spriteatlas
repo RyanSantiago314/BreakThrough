@@ -55,13 +55,105 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 97d99a49137fca54d953b645c55e59bb, type: 3}
-    totalSpriteSurfaceArea: 0
+    totalSpriteSurfaceArea: 352867200
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: 00000000000000000000000000000000
+      Hash: 9792ffdfcb3ccb60dde9a6ab2f92ab84
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 843a10001b54f4b4c822d5206b2714d9, type: 3}
+  - {fileID: 21300000, guid: 55fe832077a626b40b0584c75dba06e7, type: 3}
+  - {fileID: 21300000, guid: 0024e1901392d7d4fb882c74dabc76e6, type: 3}
+  - {fileID: 21300000, guid: bfb86a11fbde8a442a49fae3d070a6da, type: 3}
+  - {fileID: 21300000, guid: 46cc7871b2ea8cd4bb06c918514c191c, type: 3}
+  - {fileID: 21300000, guid: 97355ba19b676f04b8a8f71f5fbf219e, type: 3}
+  - {fileID: 21300000, guid: 36cfbba1708596f40b4eaec43964ce29, type: 3}
+  - {fileID: 21300000, guid: 21e88ad1ccd08244d89a58edf0e91cc0, type: 3}
+  - {fileID: 21300000, guid: 391f98f14c872b64fb192032a2ce67ad, type: 3}
+  - {fileID: 21300000, guid: d38942b277ce2874c88057e4ce5b527e, type: 3}
+  - {fileID: 21300000, guid: 0fcec21391183a34e974ada667616637, type: 3}
+  - {fileID: 21300000, guid: 977930641fccd0542aa916262fb35c89, type: 3}
+  - {fileID: 21300000, guid: e31312946c08f49438c231efae869760, type: 3}
+  - {fileID: 21300000, guid: 6a8e65a4d73e3084198e64af9a5ba566, type: 3}
+  - {fileID: 21300000, guid: f110660586002004ba6e1dee655ed80e, type: 3}
+  - {fileID: 21300000, guid: 3f543d2537c87224d848f834bdc00b2f, type: 3}
+  - {fileID: 21300000, guid: 82f0e3757ddacd24dbd1ff7f862ac311, type: 3}
+  - {fileID: 21300000, guid: 45ff1ae58d345a54e95a621e3cffcf6b, type: 3}
+  - {fileID: 21300000, guid: 484fcf46ac989164c86b4d9b28dd9be6, type: 3}
+  - {fileID: 21300000, guid: 214b5be6a5c81584c9bcd3d4e1affb52, type: 3}
+  - {fileID: 21300000, guid: b6ebb7272e2da954a93d795944d6141e, type: 3}
+  - {fileID: 21300000, guid: 5d9e2927d85a95742a0d4a9c8ea8b683, type: 3}
+  - {fileID: 21300000, guid: 54e43f18129345045929d34df2c64f12, type: 3}
+  - {fileID: 21300000, guid: 7a70fe980fd11164dafe1d833b2cb5e3, type: 3}
+  - {fileID: 21300000, guid: df6b005a9d4a31e459f11296097c34f9, type: 3}
+  - {fileID: 21300000, guid: 75a4aaba02535eb468e40027dc9b2c39, type: 3}
+  - {fileID: 21300000, guid: f94fefdaa8f85674e83cbccd14128193, type: 3}
+  - {fileID: 21300000, guid: dc42f91baaebc334eb18a0f34f9c8423, type: 3}
+  - {fileID: 21300000, guid: 9ba3f67b06feb0b41b6f95f59324f18b, type: 3}
+  - {fileID: 21300000, guid: 620d2d8b16f6cf84fa2ed5932ffe35de, type: 3}
+  - {fileID: 21300000, guid: 32d3ac9be5d9a734599c4db6842063bc, type: 3}
+  - {fileID: 21300000, guid: a18d06ab917210049bd3221b16c8453a, type: 3}
+  - {fileID: 21300000, guid: a5731edb0771b7b4ca4073614a5ec234, type: 3}
+  - {fileID: 21300000, guid: be32afebb6cad4b4fab099bf1c4ff6c5, type: 3}
+  - {fileID: 21300000, guid: 56f4b7fb6e6ffa44aa73cbebb9901616, type: 3}
+  - {fileID: 21300000, guid: 4f15184c9513011488da123ab95d7adf, type: 3}
+  - {fileID: 21300000, guid: d52d785c837e70646b2c256b9bd3d452, type: 3}
+  - {fileID: 21300000, guid: d4534c0dd926dcf468b38bc962489a37, type: 3}
+  - {fileID: 21300000, guid: 8b1645fd3dbfe304ea2435a64edcd2fb, type: 3}
+  - {fileID: 21300000, guid: 315a7ffd293e2f64293a622564d56c63, type: 3}
+  - {fileID: 21300000, guid: b53a874e2938fe943919bb9692ba250b, type: 3}
+  - {fileID: 21300000, guid: d788f50fbb6e93d4c960a962ae478bf7, type: 3}
+  - {fileID: 21300000, guid: 782abd1fbdc7dd24ea0900f9bcde488a, type: 3}
+  - {fileID: 21300000, guid: 67cfee5f57b5c2f4c9a8374c154d9e10, type: 3}
+  - {fileID: 21300000, guid: 4aa4e27f5f630d4468e2c7c799ea7518, type: 3}
+  - {fileID: 21300000, guid: fa2a46ef78199a7438f2333764b05eb1, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - LH_04
+  - LHSlide_02
+  - LHSlash_08
+  - LHSlash_05
+  - LHSlideFX_04
+  - LHSlide_01
+  - HC_02
+  - HC_01
+  - HCFX_08
+  - LHSlash_10
+  - LHSlash_01Front
+  - HC_04
+  - HC_06
+  - LHSlideFX_03
+  - LHSlash_01Back
+  - HC_03
+  - HC_08
+  - LHSlash_04
+  - LH_05
+  - LHSlideFX_05
+  - HCFX_06
+  - LHSlideFX_01
+  - LH_06
+  - LHSlideFX_07
+  - LH_08
+  - HCFX_07
+  - LHSlideFX_02
+  - HCFX_01
+  - HCFX_05
+  - LHSlide_03
+  - HCFX_02
+  - LH_07
+  - LH_01
+  - HC_05
+  - HCFX_04
+  - LHSlash_02
+  - LHSlash_07
+  - HC_07
+  - LHSlash_03
+  - LHSlideFX_08
+  - LH_03
+  - LH_02
+  - LHSlideFX_06
+  - LHSlash_09
+  - LHSlash_06
+  - HCFX_03
   m_Tag: ACHSpecialAttacks
   m_IsVariant: 0

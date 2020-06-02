@@ -14,11 +14,13 @@ public class AttackHandlerACH : MonoBehaviour
     public GameObject HCPrefab;
     public GameObject LHSlidePrefab;
     public GameObject LHPrefab;
+    public GameObject SFPrefab;
     public GameObject BlitzPrefab;
 
     public GameObject HCWave;
     public GameObject LHSlide;
     public GameObject LHWave;
+    public GameObject SFWave;
     public GameObject BlitzEffect;
     SpriteRenderer BlitzImage;
     Animator BlitzWave;
@@ -83,9 +85,10 @@ public class AttackHandlerACH : MonoBehaviour
     static int IDHeavenClimberH;
     static int IDHeavenClimberB;
     static int IDLevelHell;
-    /*static int BreakCharge;
+    static int IDStarfall;
+    static int BreakCharge;
     
-    
+    /*
     static int IDHeadRush;
     static int IDBasketCase;
     static int IDToaster;
@@ -120,8 +123,9 @@ public class AttackHandlerACH : MonoBehaviour
         IDHeavenClimberH = Animator.StringToHash("HeavenClimberH");
         IDHeavenClimberB = Animator.StringToHash("HeavenClimberB");
         IDLevelHell = Animator.StringToHash("LevelHell");
-        /*BreakCharge = Animator.StringToHash("BreakCharge");
-        IDBloodBrave = Animator.StringToHash("BloodBrave");
+        BreakCharge = Animator.StringToHash("BreakCharge");
+        IDStarfall = Animator.StringToHash("Starfall");
+        /*
         IDPatissiere = Animator.StringToHash("Patissiere");
         IDHeadRush = Animator.StringToHash("HeadRush");
         IDBasketCase = Animator.StringToHash("BasketCase");
@@ -180,6 +184,9 @@ public class AttackHandlerACH : MonoBehaviour
 
         LHWave = Instantiate(LHPrefab, new Vector3(0, -10, -3), Quaternion.identity, transform.root);
         LHWave.SetActive(false);
+
+        SFWave = Instantiate(SFPrefab, new Vector3(0, -10, -3), Quaternion.identity, transform.root);
+        SFWave.SetActive(false);
 
         BlitzEffect = Instantiate(BlitzPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
         BlitzImage = BlitzEffect.transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -518,6 +525,15 @@ public class AttackHandlerACH : MonoBehaviour
             breakButton = 0;
             DP = 0;
         }
+        else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0 && Actions.airborne && Hitboxes.HitDetect.Actions.Move.transform.position.y > 1.35f)
+        {
+            Move.jumping = 0;
+            // Starfall special attack, executed by doing a QCB and pressing B
+            anim.SetTrigger(IDStarfall);
+            Actions.TurnAroundCheck();
+            breakButton = 0;
+            QCB = 0;
+        }
         else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && !Actions.airborne)
         {
             Move.jumping = 0;
@@ -670,15 +686,18 @@ public class AttackHandlerACH : MonoBehaviour
             lightButton = 0;
         }
 
-        // ACH character specific, can charge a single special attack until it becomes enormously powerful
-        /*if (MaxInput.GetButton(Break))
+        // ACH character specific, can charge or delay certain special attacks
+        if (MaxInput.GetButton(Break))
         {
             anim.SetBool(BreakCharge, true);
+
+            if (currentState.IsName("StarfallDelay") && Hitboxes.HitDetect.Actions.Move.transform.position.y < 1.8f)
+                anim.SetBool(BreakCharge, false);
         }
         else
         {
             anim.SetBool(BreakCharge, false);
-        }*/
+        }
 
 
     }

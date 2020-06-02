@@ -72,6 +72,7 @@ public class PracticeMode : MonoBehaviour
     private bool isRecording = false;
     private bool isReplaying = false;
     private bool faceLeft;
+    private bool hold = false;
     private int recording = 0;
     private int recordingFrame = 0;
     private List<List<float>> movement = new List<List<float>>();
@@ -95,6 +96,9 @@ public class PracticeMode : MonoBehaviour
     private string inputSquare = "Square_P1";
     private string inputHorizontal = "Horizontal_P1";
     private string inputVertical = "Vertical_P1";
+
+    //For tutorial
+    public bool refillCPUHealth = true;
 
     // Start is called before the first frame update
     void Start()
@@ -158,7 +162,7 @@ public class PracticeMode : MonoBehaviour
     {
         //Practice Mode Handler
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
-        {        
+        {
             //Check Settings from Practice Pause Menu
             //CPUState Check
             switch (PracticeModeSettings.GetComponent<PauseMenu>().CPUState)
@@ -255,7 +259,7 @@ public class PracticeMode : MonoBehaviour
                     }
                 }
 
-                //Update Valor settings from menu
+                //Update Health settings from menu
                 P1ValorSetting = PracticeModeSettings.GetComponent<PauseMenu>().P1Valor;
                 P2ValorSetting = PracticeModeSettings.GetComponent<PauseMenu>().P2Valor;
 
@@ -274,12 +278,12 @@ public class PracticeMode : MonoBehaviour
                     P2CurrentComboTotalDamage = 0;
                 }
                 //Refill P2 HP after P1 combo finishes
-                if (P2Prop.HitDetect.hitStun > 0)
+                if (P2Prop.HitDetect.hitStun > 0 && refillCPUHealth)
                 {
                     P2inCombo = true;
                     InputTimer = 0.0f;
                 }
-                if (P1Prop.HitDetect.comboCount == 0)
+                if (P1Prop.HitDetect.comboCount == 0 && refillCPUHealth)
                 {
                     P2Prop.currentHealth = P2Prop.maxHealth * (P2ValorSetting / 100f);
                     P2inCombo = false;
@@ -622,7 +626,7 @@ public class PracticeMode : MonoBehaviour
                         }
                     }
                 }
-                
+
             }
         }
     }
@@ -784,12 +788,29 @@ public class PracticeMode : MonoBehaviour
         if (values[3] == "True") MaxInput.Square("Player2");
         if (values[4] == "True") MaxInput.Triangle("Player2");
         if (values[5] == "True") MaxInput.Circle("Player2");
-        if (values[6] == "True") MaxInput.Cross("Player2");
-        if (values[7] == "True") MaxInput.RBumper("Player2");
-        if (values[8] == "True") MaxInput.RTrigger("Player2");
-        if (values[9] == "True") MaxInput.LBumper("Player2");
-        if (values[10] == "True") MaxInput.LTrigger("Player2");
-        if (values[11] == "True") MaxInput.LStick("Player2");
+        if (values[6] == "True")
+        {
+            MaxInput.Cross("Player2");
+            hold = true;
+        }
+        else if (values[6] == "False" && values[7] == "True" && hold)
+        {
+            if (characterManager.P2Character == "Dhalia")
+            {
+                if (P2Input.attacking)
+                {
+                    MaxInput.Cross("Player2");
+                }
+                else hold = false;
+            }
+            //else MaxInput.Cross("Player2");
+        }
+
+        if (values[8] == "True") MaxInput.RBumper("Player2");
+        if (values[9] == "True") MaxInput.RTrigger("Player2");
+        if (values[10] == "True") MaxInput.LBumper("Player2");
+        if (values[11] == "True") MaxInput.LTrigger("Player2");
+        if (values[12] == "True") MaxInput.LStick("Player2");
     }
 
     private bool CheckXbox(int player)

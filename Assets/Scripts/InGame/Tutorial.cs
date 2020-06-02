@@ -14,12 +14,14 @@ public class Tutorial : MonoBehaviour
     private float popupDelayDuration = 0.5f;
     private float P1CurrentHitDamage;
     private float P1CurrentComboTotalDamage;
+    private float startTime, endTime;
 
     //private bool preventReset = false;
 
     private int popUpIndex;
 
     private string inputSelect = "Select_P1";
+    private string inputL1 = "L1_P1";
     private string inputL2 = "L2_P1";
     private string inputCross = "Cross_P1";
     private string inputCircle = "Circle_P1";
@@ -35,6 +37,7 @@ public class Tutorial : MonoBehaviour
         P1Prop = GameObject.Find("Player1").transform.GetComponentInChildren<CharacterProperties>();
 
         inputSelect += UpdateControls(CheckXbox(0));
+        inputL1 += UpdateControls(CheckXbox(0));
         inputL2 += UpdateControls(CheckXbox(0));
         inputCross += UpdateControls(CheckXbox(0));
         inputCircle += UpdateControls(CheckXbox(0));
@@ -59,9 +62,7 @@ public class Tutorial : MonoBehaviour
         {
             popUps.SetActive(true);
             popUpsBackground.SetActive(true);
-            popUps.GetComponent<Text>().text = "Welcome to training mode! Here you can practice and learn the basics of Breakthrough! \n (Press C or Select to continue)";
-            //preventReset = true;
-
+            popUps.GetComponent<Text>().text = "Welcome to the tutorial! Here you will learn the basics of Breakthrough! \n (Press C or Select to continue)";
             if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
             {
                 popUpIndex++;
@@ -70,17 +71,16 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 1)
         {
-            popUps.GetComponent<Text>().text = "Let's start with the tutorial! \n (Press C or Select to continue and TAB or R3 to skip)";
+            popUps.GetComponent<Text>().text = "Let's start with movement! \n (Press C or Select to continue)";
             if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
             {
                 popUpIndex++;
                 popUpDelay = popupDelayDuration;
-                //preventReset = false;
             }
         }
         else if (popUpIndex == 2)
         {
-            popUps.GetComponent<Text>().text = "Try moving closer to your opponet! \n (Pressing the right or left buttons will move your character in that direction)";
+            popUps.GetComponent<Text>().text = "Try moving closer to your opponent! \n Pressing the right or left buttons will move your character in that direction \n (Note :  You can also double tap to dash in that direction)";
             if ((Input.GetAxis(inputHorizontal) > 0 || Input.GetAxis(inputHorizontal) < 0) && popUpDelay == 0)
             {
                 popUpIndex++;
@@ -98,7 +98,7 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 4)
         {
-            popUps.GetComponent<Text>().text = "Press the up botton to jump or double press it to double jump! ";
+            popUps.GetComponent<Text>().text = "Press the up botton once to jump or twice to double jump! ";
             if (Input.GetAxis(inputVertical) > 0 && popUpDelay == 0)
             {
                 popUpIndex++;
@@ -107,6 +107,15 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 5)
         {
+            popUps.GetComponent<Text>().text = "Now that you know how to move, it's time to learn how to attack! \n (Press C or Select to continue)";
+            if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
+            {
+                popUpIndex++;
+                popUpDelay = popupDelayDuration;
+            }
+        }
+        else if (popUpIndex == 6)
+        {
             popUps.GetComponent<Text>().text = "Press U or Square to do a light attack!";
             if (Input.GetButtonDown(inputSquare) && popUpDelay == 0)
             {
@@ -114,7 +123,7 @@ public class Tutorial : MonoBehaviour
                 popUpDelay = popupDelayDuration;
             }
         }
-        else if (popUpIndex == 6)
+        else if (popUpIndex == 7)
         {
             popUps.GetComponent<Text>().text = "Press I or Triangle to do a medium attack!";
             if (Input.GetButtonDown(inputTriangle) && popUpDelay == 0)
@@ -123,7 +132,7 @@ public class Tutorial : MonoBehaviour
                 popUpDelay = popupDelayDuration;
             }
         }
-        else if (popUpIndex == 7)
+        else if (popUpIndex == 8)
         {
             popUps.GetComponent<Text>().text = "Press O or Circle to do a heavy attack!";
             if (Input.GetButtonDown(inputCircle) && popUpDelay == 0)
@@ -132,35 +141,53 @@ public class Tutorial : MonoBehaviour
                 popUpDelay = popupDelayDuration;
             }
         }
-        else if (popUpIndex == 8)
+        else if (popUpIndex == 9)
         {
             popUps.GetComponent<Text>().text = "Press J or Cross to do a BREAK attack!";
             if (Input.GetButtonDown(inputCross) && popUpDelay == 0)
             {
                 popUpIndex++;
-                P1CurrentHitDamage = 0;
                 popUpDelay = popupDelayDuration;
             }
-        }
-        else if (popUpIndex == 9)
-        {
-            popUps.GetComponent<Text>().text = "Now hold J or Cross to power up a BREAK attack and use it on the dummy!";
-            if (P1CurrentHitDamage >= 100 && popUpDelay == 0)
-            {
-                popUpIndex++;
-                popUpDelay = popupDelayDuration;
-            }
-        }
+        } 
         else if (popUpIndex == 10)
         {
-            popUps.GetComponent<Text>().text = "Now perform a combo attack on the dummy! \n (You can view your characters move list in the Pause Menu)";
-            if (P1Prop.HitDetect.comboCount >= 5 && popUpDelay == 0)
+            startTime = 0f;
+            endTime = 0f;
+            popUps.GetComponent<Text>().text = "Now hold J or Cross to power up a BREAK attack!";
+            if (Input.GetButtonDown(inputCross))
+            {
+                startTime = Time.time;
+            }
+            if (Input.GetButtonUp(inputCross))
+            {
+                endTime = Time.time;
+            }
+            if ((endTime - startTime > 0.4f) && popUpDelay == 0)
             {
                 popUpIndex++;
                 popUpDelay = popupDelayDuration;
             }
         }
         else if (popUpIndex == 11)
+        {
+            popUps.GetComponent<Text>().text = "You can also grab your enemy by pressing L1 or Y!";
+            if (Input.GetButtonDown(inputL1) && popUpDelay == 0)
+            {
+                popUpIndex++;
+                popUpDelay = popupDelayDuration;
+            }
+        }
+        else if (popUpIndex == 12)
+        {
+            popUps.GetComponent<Text>().text = "Now perform a combo attack on the dummy! \n (Note :  You can view your characters move list in the Pause Menu)";
+            if (P1Prop.HitDetect.comboCount >= 5 && popUpDelay == 0)
+            {
+                popUpIndex++;
+                popUpDelay = popupDelayDuration;
+            }
+        }
+        else if (popUpIndex == 13)
         {
             popUps.GetComponent<Text>().text = "Now use one of your characters super moves by pressing 236 H + B";
             if (P1CurrentComboTotalDamage >= 250 && popUpDelay == 0)
@@ -169,52 +196,51 @@ public class Tutorial : MonoBehaviour
                 popUpDelay = popupDelayDuration;
             }
         }
-        else if (popUpIndex == 12)
+        else if (popUpIndex == 14)
         {
-            popUps.GetComponent<Text>().text = "Hold the direction away from your opponent to block incoming attacks! \n This can be used while standing, crouching, or even in the air!";
+            popUps.GetComponent<Text>().text = "Hold the direction away from your opponent to block incoming attacks! \n (Note :  This can be used on the ground and in the air)";
             if (Input.GetAxis(inputHorizontal) < 0 && popUpDelay == 0)
             {
                 popUpIndex++;
                 popUpDelay = popupDelayDuration;
             }
         }
-        else if (popUpIndex == 13)
+        else if (popUpIndex == 15)
         {
-            popUps.GetComponent<Text>().text = "Consume one segment of the resolve meter by pressing H or L2. \n This allows you to cancel your current action which can be used to set up some cool combos! ";
+            popUps.GetComponent<Text>().text = "Consume one segment of the resolve meter by pressing H or L2. \n (Note :  This allows you to cancel your current action which can be used to set up some cool combos!) ";
             if ((Input.GetAxis(inputL2) > 0 || Input.GetButtonDown(inputL2)) && popUpDelay == 0)
             {
                 popUpIndex++;
                 popUpDelay = popupDelayDuration;
             }
         }
-        else if (popUpIndex == 14)
+        else if (popUpIndex == 16)
         {
-            popUps.GetComponent<Text>().text = "Now use everthing you've learned to beat the dummy! \n (Press C or Select to start)";
-            //preventReset = true;
+            popUps.GetComponent<Text>().text = "Now use everthing you've learned and try to defeat your oppenent! \n (Press C or Select to start)";
             if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
             {
-                //preventReset = false;
                 GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().resetPositions();
+                GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().refillCPUHealth = false;
                 GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().CPUState = 6;
+                GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().ArmorRefill = 1;
+                
+            }
+            if (GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>().currentHealth == 0)
+            {
                 popUpIndex++;
                 popUpDelay = popupDelayDuration;
             }
+        }
+        else if (popUpIndex == 17)
+        {
+            popUps.GetComponent<Text>().text = "Tutorial Completed!";
         }
         else
         {
             popUps.GetComponent<Text>().text = "";
             popUpsBackground.SetActive(false);
         }
-
-        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetButtonDown(inputR3))
-        {
-            popUpIndex++;
-            popUps.GetComponent<Text>().text = "";
-            popUps.SetActive(false);
-            popUpsBackground.SetActive(false);
-        }
     }
-
     private bool CheckXbox(int player)
     {
         if (Input.GetJoystickNames().Length > player)

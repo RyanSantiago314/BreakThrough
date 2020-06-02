@@ -382,6 +382,7 @@ public class MaxInput : MonoBehaviour
             inputs.Add(GetButtonDown("Triangle_P1"));
             inputs.Add(GetButtonDown("Circle_P1"));
             inputs.Add(GetButtonDown("Cross_P1"));
+            inputs.Add(GetButton("Cross_P1"));
             inputs.Add(GetButtonDown("R1_P1"));
             inputs.Add(GetButtonDown("R2_P1"));
             inputs.Add(GetButtonDown("L1_P1"));
@@ -394,6 +395,7 @@ public class MaxInput : MonoBehaviour
             inputs.Add(GetButtonDown("Triangle_P2"));
             inputs.Add(GetButtonDown("Circle_P2"));
             inputs.Add(GetButtonDown("Cross_P2"));
+            inputs.Add(GetButton("Cross_P2"));
             inputs.Add(GetButtonDown("R1_P2"));
             inputs.Add(GetButtonDown("R2_P2"));
             inputs.Add(GetButtonDown("L1_P2"));
