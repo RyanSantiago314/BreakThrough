@@ -223,21 +223,21 @@ public class Tutorial : MonoBehaviour
                 GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().refillCPUHealth = false;
                 GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().CPUState = 6;
                 GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().ArmorRefill = 1;
+                
+            }
+            if (GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>().currentHealth == 0)
+            {
                 popUpIndex++;
                 popUpDelay = popupDelayDuration;
             }
         }
+        else if (popUpIndex == 17)
+        {
+            popUps.GetComponent<Text>().text = "Tutorial Completed!";
+        }
         else
         {
             popUps.GetComponent<Text>().text = "";
-            popUpsBackground.SetActive(false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetButtonDown(inputR3))
-        {
-            popUpIndex++;
-            popUps.GetComponent<Text>().text = "";
-            popUps.SetActive(false);
             popUpsBackground.SetActive(false);
         }
     }
