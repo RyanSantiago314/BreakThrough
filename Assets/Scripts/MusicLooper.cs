@@ -9,6 +9,14 @@ public class MusicLooper : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip audioClip;
 
+    //For Testing Looping
+    public float startPoint;
+
+    private void Start()
+    {
+        audioSource.timeSamples += Mathf.RoundToInt(startPoint * audioClip.frequency);
+    }
+
     public void Update()
     {
         if (loopLength > 0 && loopPoint > 0)
