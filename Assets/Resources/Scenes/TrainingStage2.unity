@@ -199,6 +199,7 @@ MonoBehaviour:
   P1Displays: {fileID: 1609458486}
   P2Displays: {fileID: 1878893716}
   RecordingDisplay: {fileID: 2014833181}
+  refillCPUHealth: 1
 --- !u!114 &190983066 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8094539978171423737, guid: 0ab7bc3416871a94a80b2827c03fc0bc,

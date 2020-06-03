@@ -79,7 +79,7 @@ public class PracticeMode : MonoBehaviour
     private List<List<bool>> inputs = new List<List<bool>>();
     private StreamWriter writer;
     private StreamReader reader;
-    private string path = "Assets/Resources/inputs.txt";
+    private string path;
 
     public GameObject DamageDisplays;
     public GameObject P1Displays;
@@ -120,6 +120,7 @@ public class PracticeMode : MonoBehaviour
         if (characterManager.P2Character == "Dhalia") P2AttackDHA = GameObject.Find("Player2").transform.GetComponentInChildren<AttackHandlerDHA>();
         if (characterManager.P1Character == "Achealis") P1AttackACH = GameObject.Find("Player1").transform.GetComponentInChildren<AttackHandlerACH>();
         if (characterManager.P2Character == "Achealis") P2AttackACH = GameObject.Find("Player2").transform.GetComponentInChildren<AttackHandlerACH>();
+        path = Application.persistentDataPath + "/inputs.txt";
 
         P1PrevHealth = P1Prop.maxHealth;
         P2PrevHealth = P2Prop.maxHealth;
