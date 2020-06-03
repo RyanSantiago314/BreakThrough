@@ -77,8 +77,11 @@ p, h3 {
 	filter: brightness(120%);
 }
 
-.char-renders {
-    position: fixed;
+.content {
+    background: url(D:/Documents/GitHub/BreakThrough/Website/images/InGame.png) no-repeat top center;
+    background-color: rgb(26, 21, 20);
+    color: rgb(240, 239, 236);
+    margin-top: -50px;
 }
 
 .project-box {
@@ -179,7 +182,7 @@ footer {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #242f3f;
+    background-color: #d38960;
     display: flex;
     justify-content: center;
     align-items: center;
