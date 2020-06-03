@@ -12,9 +12,9 @@ public class Tutorial : MonoBehaviour
 
     private float popUpDelay;
     private float popupDelayDuration = 0.5f;
+    private float breakChargeDuration;
     private float P1CurrentHitDamage;
     private float P1CurrentComboTotalDamage;
-    private float startTime, endTime;
 
     //private bool preventReset = false;
 
@@ -152,18 +152,15 @@ public class Tutorial : MonoBehaviour
         } 
         else if (popUpIndex == 10)
         {
-            startTime = 0f;
-            endTime = 0f;
             popUps.GetComponent<Text>().text = "Now hold J or Cross to power up a BREAK attack!";
-            if (Input.GetButtonDown(inputCross))
+            
+            if (breakChargeDuration > 0) breakChargeDuration -= Time.deltaTime;
+            else breakChargeDuration = 0;
+            if (!Input.GetButton(inputCross))
             {
-                startTime = Time.time;
+                breakChargeDuration = 0.4f;
             }
-            if (Input.GetButtonUp(inputCross))
-            {
-                endTime = Time.time;
-            }
-            if ((endTime - startTime > 0.4f) && popUpDelay == 0)
+            if(breakChargeDuration == 0 && popUpDelay == 0)
             {
                 popUpIndex++;
                 popUpDelay = popupDelayDuration;
