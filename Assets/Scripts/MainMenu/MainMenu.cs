@@ -27,6 +27,11 @@ public class MainMenu : MonoBehaviour
         MaxInput.enableAI();
     }
 
+    public void PlayTutorial()
+    {
+        GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(5);
+    }
+
     public void QuitGame()
     {
     	Application.Quit();

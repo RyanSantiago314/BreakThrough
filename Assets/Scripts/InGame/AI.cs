@@ -53,6 +53,7 @@ public class AI : MonoBehaviour
     public int doingQCB;
     public int doingHCF;
     public int doingHCB;
+    public int doingDP;
 
     // Combos
     public int doing5L_1;
@@ -124,6 +125,7 @@ public class AI : MonoBehaviour
         doingQCB = 0;
         doingHCF = 0;
         doingHCB = 0;
+        doingDP = 0;
 
         // Combos
         doing5L_1 = 0;
@@ -217,6 +219,10 @@ public class AI : MonoBehaviour
                 {
                     AIInput.HCB();
                 }
+                else if (doingDP > 0)
+                {
+                    AIInput.DP();
+                }
                 else if (doing5L_1 > 0)
                 {
                     AIInput.combo5L_1();
@@ -240,7 +246,7 @@ public class AI : MonoBehaviour
                     }
 
                     // Executes AI's state
-                    if (aiCharacter == "Dhalia")
+                    if (aiCharacter == "Dhalia" || aiCharacter == "Achealis")
                     {
                         if (max == "Attack") attack();
                         if (max == "Defend") defend();
@@ -262,7 +268,6 @@ public class AI : MonoBehaviour
 
         var maxAttack = attackStates.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;   // Gets key with highest value
         Debug.Log(maxAttack);
-
         if (aiCharacter == "Dhalia")
         {
             // Attacks that hit low
@@ -407,6 +412,96 @@ public class AI : MonoBehaviour
                 }
             }
         }
+
+        else if (aiCharacter == "Achealis")
+        {
+            // Attacks that hit low
+            if (maxAttack == "Low")
+            {
+                MaxInput.Crouch("Player2");
+
+                // 2L (doesn't actually hit low)
+                if (rand <= 25 && squareTimer <= 0)
+                {
+                    MaxInput.Square("Player2");
+                    crossTimer = .5f;
+                }
+                // 2M
+                else if (rand > 25 && rand <= 50 && triangleTimer <= 0)
+                {
+                    MaxInput.Triangle("Player2");
+                    circleTimer = .5f;
+                }
+                // 2H
+                else if (rand > 50 && rand <= 75 && circleTimer <= 0)
+                {
+                    MaxInput.Circle("Player2");
+                    triangleTimer = .5f;
+                }
+                // 2B
+                else if (rand > 75 && crossTimer <= 0)
+                {
+                    MaxInput.Cross("Player2");
+                    squareTimer = .5f;
+                }
+                else MaxInput.Square("Player2");
+            }
+
+            // Attacks that hit mid
+            if (maxAttack == "Mid")
+            {
+                // 5L
+                if (rand <= 35 && squareTimer <= 0)
+                {
+                    doing5L_1 = 1;
+                    AIInput.combo5L_1();
+                    //MaxInput.Square("Player2");
+                    crossTimer = .5f;
+                }
+                // 5M
+                else if (rand > 35 && rand <= 70 && triangleTimer <= 0)
+                {
+                    MaxInput.Triangle("Player2");
+                    circleTimer = .5f;
+                }
+                // 5H
+                else if (rand > 70 && rand <= 95 && circleTimer <= 0)
+                {
+                    MaxInput.Circle("Player2");
+                    triangleTimer = .5f;
+                }
+                // DP
+                else if (rand > 95)
+                {
+                    doingDP = 1;
+                    if (rand > 97) keepAction = "Circle";
+                    else keepAction = "Cross";
+                    AIInput.DP();
+                }
+                else MaxInput.Square("Player2");
+            }
+
+            if (maxAttack == "Overhead")
+            {
+                if (crossTimer <= 0)
+                {
+                    MaxInput.Cross("Player2");
+                    squareTimer = .5f;
+                }
+            }
+
+            // If very close to the player, attempt to grab
+            if (maxAttack == "Grab")
+            {
+                MaxInput.LBumper("Player2");
+            }
+
+            // Attacking from a distance
+            if (maxAttack == "Zone")
+            {
+                approach();
+            }
+        }
     }
 
     void holdBreak(float hold)
@@ -434,31 +529,28 @@ public class AI : MonoBehaviour
     // AI defending attacks based off of direction
     void defend()
     {
-        if (aiCharacter == "Dhalia")
+        if (pAttackingGuard == "Low")
         {
-            if (pAttackingGuard == "Low")
+            if (faceLeft)
             {
-                if (faceLeft)
-                {
-                    MaxInput.Crouch("Player2");
-                    MaxInput.MoveRight("Player2");
-                }
-                else
-                {
-                    MaxInput.Crouch("Player2");
-                    MaxInput.MoveLeft("Player2");
-                }
+                MaxInput.Crouch("Player2");
+                MaxInput.MoveRight("Player2");
             }
             else
             {
-                if (faceLeft)
-                {
-                    MaxInput.MoveRight("Player2");
-                }
-                else
-                {
-                    MaxInput.MoveLeft("Player2");
-                }
+                MaxInput.Crouch("Player2");
+                MaxInput.MoveLeft("Player2");
+            }
+        }
+        else
+        {
+            if (faceLeft)
+            {
+                MaxInput.MoveRight("Player2");
+            }
+            else
+            {
+                MaxInput.MoveLeft("Player2");
             }
         }
     }
@@ -607,7 +699,8 @@ public class AI : MonoBehaviour
 
         pArmor = PlayerProp.armor;
         pDurability = PlayerProp.durability;
-        pCharging = playerInput.GetComponent<HitboxDHA>().sinCharge;
+        if (pCharacter == "Dhalia") pCharging = playerInput.GetComponent<HitboxDHA>().sinCharge;
+        else pCharging = 0;
 
         pIsBlocking = playerInput.GetComponent<Animator>().GetBool("Blocked");
         pIsAirborne = playerInput.GetComponent<AcceptInputs>().airborne;
@@ -618,7 +711,8 @@ public class AI : MonoBehaviour
         pIsRecovering = playerInput.GetComponent<AcceptInputs>().recovering;
         pIsHitstun = playerHit.GetComponent<HitDetector>().hitStun > 0;
         pIsBlockstun = playerHit.GetComponent<HitDetector>().blockStun > 0;
-        pIsSupering = GameObject.Find("Player1").transform.GetChild(3).gameObject.activeSelf;
+        if (pCharacter == "Dhalia") pIsSupering = GameObject.Find("Player1").transform.GetChild(3).gameObject.activeSelf;
+        else pIsSupering = false;
         pAttackingGuard = playerHit.GetComponent<HitDetector>().guard;
 
         if (playerInput.GetComponent<Animator>().GetBool("HighGuard") == true) pGuard = "High";
@@ -684,8 +778,9 @@ public class AI : MonoBehaviour
     // Testing specific actions
     void testActions()
     {
-        doing2H_1 = 1;
-        AIInput.combo2H_1();
-        triangleTimer = .5f;
+        Debug.Log("Test DP");
+        doingDP = 1;
+        keepAction = "Circle";
+        AIInput.DP();
     }
 }

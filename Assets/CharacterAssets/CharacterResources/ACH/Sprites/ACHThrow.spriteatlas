@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ACHThrow
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Standalone
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 25
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 25285ee4c29fe814389a0c8b1aefdba9, type: 3}
+    totalSpriteSurfaceArea: 210996000
+    bindAsDefault: 1
+    storedHash:
+      serializedVersion: 2
+      Hash: ab3140a24e61cbba4afa955a70179f5d
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 189500503699aee4aa54b5454502021e, type: 3}
+  - {fileID: 21300000, guid: 63e6a2319aa4beb4ab3d36aa0a2be213, type: 3}
+  - {fileID: 21300000, guid: ab8462924f81c83499ae5d6d9803a324, type: 3}
+  - {fileID: 21300000, guid: 5214139212884374ea162cde61f6963a, type: 3}
+  - {fileID: 21300000, guid: 5cd9b9a2fca20544abb73948e81d0714, type: 3}
+  - {fileID: 21300000, guid: 87e38764397f82f4bb6d490c679c3642, type: 3}
+  - {fileID: 21300000, guid: a9f9c294e19f3784aa7f24c6696d0d98, type: 3}
+  - {fileID: 21300000, guid: 204174f455456404ba4e6465aea8d46c, type: 3}
+  - {fileID: 21300000, guid: b60a16e57b1e58d4a9c636a6cab58112, type: 3}
+  - {fileID: 21300000, guid: 6326a236da7035e4ebfbd70592e7c2ef, type: 3}
+  - {fileID: 21300000, guid: e5904637c894f0b41bc998387d4ae689, type: 3}
+  - {fileID: 21300000, guid: cef122977c63a844a9ee205983ed09f4, type: 3}
+  - {fileID: 21300000, guid: a1c5342974e25d642bb210b3aad83894, type: 3}
+  - {fileID: 21300000, guid: fa3ce1799eb31b844808f2c7c0759e2f, type: 3}
+  - {fileID: 21300000, guid: 949cf94a2a4a5214eabe8066a717843a, type: 3}
+  - {fileID: 21300000, guid: 4385b81b92a1cff4993f466d47b2a6e9, type: 3}
+  - {fileID: 21300000, guid: 9af1e57cca9906d40b32350c6282258e, type: 3}
+  - {fileID: 21300000, guid: 8899ac7c016da194b8c76b518797b71b, type: 3}
+  - {fileID: 21300000, guid: 32381f9c64290814aa83a0ed6918fa7a, type: 3}
+  - {fileID: 21300000, guid: f27aa30ee1d20a74bac0b9f34d46e678, type: 3}
+  - {fileID: 21300000, guid: 62f3951eeec86044e9f092588384de2f, type: 3}
+  - {fileID: 21300000, guid: 0d56134eac7d2944c867074017dafabf, type: 3}
+  - {fileID: 21300000, guid: 070aea6e1b59dd54c93ccbec42810cf7, type: 3}
+  - {fileID: 21300000, guid: a2c9fd9ef7a3da445a37e46c2d5a240a, type: 3}
+  - {fileID: 21300000, guid: 66e0adee16464674ba20f1ae5d1c847d, type: 3}
+  - {fileID: 21300000, guid: 5310fe9f877031344821f510b8064229, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Throw_14
+  - Throw_12
+  - ThrowFX_01
+  - Throw_06
+  - Throw_08
+  - ThrowAttempt_02
+  - Throw_13
+  - Throw_02
+  - Throw_03
+  - Throw_04
+  - ThrowAttempt_05
+  - ThrowFX_05
+  - Throw_11
+  - Throw_04-2
+  - ThrowAttempt_06
+  - Throw_09
+  - Throw_05
+  - ThrowFX_04
+  - Throw_10
+  - Throw_07
+  - ThrowAttempt_01
+  - Throw_01
+  - ThrowFX_03
+  - ThrowAttempt_03
+  - ThrowAttempt_04
+  - ThrowFX_02
+  m_Tag: ACHThrow
+  m_IsVariant: 0

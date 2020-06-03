@@ -45,7 +45,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Char1Move.Actions.grabbed || Char2Move.Actions.grabbed ||
+        if (Char1Move.Actions.grabbed || Char2Move.Actions.grabbed || Char1Move.Actions.grabZoom > 0 || Char2Move.Actions.grabZoom > 0 ||
            (Char2Move.HitDetect.hitStop > 0 && Character2.GetComponent<CharacterProperties>().currentHealth <= 0 && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice") ||
            (Char1Move.HitDetect.hitStop > 0 && Character1.GetComponent<CharacterProperties>().currentHealth <= 0) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" ||
             (Char2Move.HitDetect.hitStop > 0 && Char2Move.Actions.shattered) ||
@@ -70,8 +70,8 @@ public class CameraController : MonoBehaviour
         else
         {
             //gameplay camera
-            if (Char1Move.hittingBound || Char2Move.hittingBound)
-                cameraPos = transform.position;
+            if (Char1Move.hittingBound && Char2Move.hittingBound)
+                cameraPos = new Vector3(transform.position.x, (Character1.position.y + Character2.position.y) / 2 + yOffset, transform.position.z);
             else
             {
                 if (Mathf.Abs(Character1.position.x - Character2.position.x) > 3.5)
@@ -104,19 +104,19 @@ public class CameraController : MonoBehaviour
             }
             screenShake -= Time.deltaTime;
 
-            if (cameraPos.x < -8.5)
-                cameraPos = new Vector3(-8.5f, cameraPos.y, cameraPos.z);
-            else if (cameraPos.x > 8.5)
-                cameraPos = new Vector3(8.5f, cameraPos.y, cameraPos.z);
+            if (cameraPos.x < -7.8)
+                cameraPos = new Vector3(-7.8f, cameraPos.y, cameraPos.z);
+            else if (cameraPos.x > 7.8)
+                cameraPos = new Vector3(7.8f, cameraPos.y, cameraPos.z);
             if (cameraPos.y < 1.5)
                 cameraPos = new Vector3(cameraPos.x, 1.5f, cameraPos.z);
-            else if (cameraPos.y > 5)
-                cameraPos = new Vector3(cameraPos.x, 5f, cameraPos.z);
+            else if (cameraPos.y > 6)
+                cameraPos = new Vector3(cameraPos.x, 6f, cameraPos.z);
         }
 
         if (cameraPos.y < 1.45)
             cameraPos = new Vector3(cameraPos.x, 1.45f, cameraPos.z);
-        else if (cameraPos.y > 5)
+        else if (cameraPos.y > 6)
             cameraPos = new Vector3(cameraPos.x, 5f, cameraPos.z);
 
         transform.position = Vector3.Lerp(transform.position, cameraPos, Time.smoothDeltaTime * smooth);

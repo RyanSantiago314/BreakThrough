@@ -116,6 +116,7 @@ public class ToasterHitbox : MonoBehaviour
         PHitDetect.attackLevel = 10;
         PHitDetect.guard = "Mid";
 
+        PHitDetect.piercing = true;
         PHitDetect.usingSuper = true;
     }
 

@@ -43,15 +43,29 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 5067ee57d9e04b6499b68f74e0ffac14, type: 3}
-    totalSpriteSurfaceArea: 4403200
+    totalSpriteSurfaceArea: 35225600
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: 2ceeb6c09ad4a6a5d4a431a6d159255d
+      Hash: 01eff0b638fc63470943b87a7b512a84
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 9798251205bbfea468480af8ed5c799f, type: 3}
+  - {fileID: 21300000, guid: b691d7d65f404014389ce44bc06ce341, type: 3}
   - {fileID: 21300000, guid: c70667b885e8cd44396944c737c04de0, type: 3}
+  - {fileID: 21300000, guid: 53bcb44ae302e2a43a05e2bf19b240cf, type: 3}
+  - {fileID: 21300000, guid: 02968d4aafaaf9b4c89f5da2d10d2e87, type: 3}
+  - {fileID: 21300000, guid: 49e94dca01e260b48bab5d20a88e8b23, type: 3}
+  - {fileID: 21300000, guid: f8c4bdddecb14bb43a9b4a773373e8e5, type: 3}
+  - {fileID: 21300000, guid: 473b974f110573847b1c175b740e137b, type: 3}
   m_PackedSpriteNamesToIndex:
+  - Standing_02
+  - Standing_04
   - Standing_01
+  - Standing_07
+  - Standing_06
+  - Standing_03
+  - Standing_08
+  - Standing_05
   m_Tag: ACHStanding
   m_IsVariant: 0

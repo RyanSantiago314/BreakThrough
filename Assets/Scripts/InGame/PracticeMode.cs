@@ -38,6 +38,7 @@ public class PracticeMode : MonoBehaviour
     private bool fixAnimBug;
     private float InputTimer;
     private string guardLevel;
+
     double p1x;
     double p2x;
 
@@ -51,9 +52,9 @@ public class PracticeMode : MonoBehaviour
 
     private float P1PrevHealth;
     private float P2PrevHealth;
-    private float P1CurrentHitDamage;
+    public float P1CurrentHitDamage;
     private float P2CurrentHitDamage;
-    private float P1CurrentComboTotalDamage;
+    public float P1CurrentComboTotalDamage;
     private float P2CurrentComboTotalDamage;
     private float P1HighestComboDamage;
     private float P2HighestComboDamage;
@@ -71,6 +72,7 @@ public class PracticeMode : MonoBehaviour
     private bool isRecording = false;
     private bool isReplaying = false;
     private bool faceLeft;
+    private bool hold = false;
     private int recording = 0;
     private int recordingFrame = 0;
     private List<List<float>> movement = new List<List<float>>();
@@ -86,7 +88,17 @@ public class PracticeMode : MonoBehaviour
 
     private string inputSelect = "Select_P1";
     private string inputR3 = "R3_P1";
+    private string inputL2 = "L2_P1";
     private string inputL3 = "L3_P1";
+    private string inputCross = "Cross_P1";
+    private string inputCircle = "Circle_P1";
+    private string inputTriangle = "Triangle_P1";
+    private string inputSquare = "Square_P1";
+    private string inputHorizontal = "Horizontal_P1";
+    private string inputVertical = "Vertical_P1";
+
+    //For tutorial
+    public bool refillCPUHealth = true;
 
     // Start is called before the first frame update
     void Start()
@@ -120,7 +132,14 @@ public class PracticeMode : MonoBehaviour
 
         inputSelect += UpdateControls(CheckXbox(0));
         inputR3 += UpdateControls(CheckXbox(0));
+        inputL2 += UpdateControls(CheckXbox(0));
         inputL3 += UpdateControls(CheckXbox(0));
+        inputCross += UpdateControls(CheckXbox(0));
+        inputCircle += UpdateControls(CheckXbox(0));
+        inputTriangle += UpdateControls(CheckXbox(0));
+        inputSquare += UpdateControls(CheckXbox(0));
+        inputHorizontal += UpdateControls(CheckXbox(0));
+        inputVertical += UpdateControls(CheckXbox(0));
 
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
@@ -142,7 +161,7 @@ public class PracticeMode : MonoBehaviour
     void Update()
     {
         //Practice Mode Handler
-        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {
             //Check Settings from Practice Pause Menu
             //CPUState Check
@@ -223,20 +242,24 @@ public class PracticeMode : MonoBehaviour
                         P2Prop.durability = 100;
                     }
                     //Refill P1 armor after move whiffed
-                    if (P1Prop.HitDetect.Actions.acceptSuper && !P2inCombo)
+                    if (P1Prop.HitDetect.Actions.acceptSuper && !P2inCombo && (P1Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") ||
+                        P1Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("Jump") ||
+                        P1Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleCrouch")))
                     {
                         P1Prop.armor = 4;
                         P1Prop.durability = 100;
                     }
                     //Refill P2 armor after move whiffed
-                    if (P2Prop.HitDetect.Actions.acceptSuper && !P1inCombo)
+                    if (P2Prop.HitDetect.Actions.acceptSuper && !P1inCombo && (P2Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleStand") ||
+                        P2Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("Jump") ||
+                        P2Prop.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("IdleCrouch")))
                     {
                         P2Prop.armor = 4;
                         P2Prop.durability = 100;
                     }
                 }
 
-                //Update Valor settings from menu
+                //Update Health settings from menu
                 P1ValorSetting = PracticeModeSettings.GetComponent<PauseMenu>().P1Valor;
                 P2ValorSetting = PracticeModeSettings.GetComponent<PauseMenu>().P2Valor;
 
@@ -255,12 +278,12 @@ public class PracticeMode : MonoBehaviour
                     P2CurrentComboTotalDamage = 0;
                 }
                 //Refill P2 HP after P1 combo finishes
-                if (P2Prop.HitDetect.hitStun > 0)
+                if (P2Prop.HitDetect.hitStun > 0 && refillCPUHealth)
                 {
                     P2inCombo = true;
                     InputTimer = 0.0f;
                 }
-                if (P1Prop.HitDetect.comboCount == 0)
+                if (P1Prop.HitDetect.comboCount == 0 && refillCPUHealth)
                 {
                     P2Prop.currentHealth = P2Prop.maxHealth * (P2ValorSetting / 100f);
                     P2inCombo = false;
@@ -306,16 +329,17 @@ public class PracticeMode : MonoBehaviour
                     }
                     P2ComboDamage.text += P1CurrentComboTotalDamage;
                 }
-                if (HUD.Player1Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
+                if (HUD.Player1Hits.text == "" && P1Prop.HitDetect.comboCount != 1)
                 {
                     P1HitDamage.text = "";
                     P1HitType.text = "";
                 }
-                if (HUD.Player2Combo.text == "" && P1Prop.HitDetect.comboCount != 1)
+                if (HUD.Player2Hits.text == "" && P1Prop.HitDetect.comboCount != 1)
                 {
                     P2HitDamage.text = "";
                     P2HitType.text = "";
                 }
+
                 //Update Highest Combo Damage
                 if (P1CurrentComboTotalDamage > P1HighestComboDamage)
                 {
@@ -519,7 +543,6 @@ public class PracticeMode : MonoBehaviour
                 if (Input.GetButtonDown(inputSelect))   // Temporarily changed to P2
                 {
                     resetPositions();
-                    Player1.GetComponentInChildren<AcceptInputs>().hitType = "";
                     //Reset Character Specific things
                     switch (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character)
                     {
@@ -543,68 +566,72 @@ public class PracticeMode : MonoBehaviour
                     fixAnimBug = true;
                 }
 
-                // Recording
-                if (Input.GetButtonDown(inputL3) && !isReplaying) recording++; //L3
-
-                switch (recording)
+                if(GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
                 {
-                    case 1:     // Switch player controls
-                        RecordingDisplay.SetActive(true);
-                        RecordingState.text = "Recording Armed";
-                        isRecording = true;
-                        switchControls(true);
-                        break;
-                    case 2:     // Get inputs from MaxInput. returnMovement() returnInputs()
-                        RecordingState.text = "Now Recording " + recordingFrame;
-                        recordingFrame++;
-                        List<float> getMoves = MaxInput.returnMovement("Player1");
-                        List<bool> getInputs = MaxInput.returnInputs("Player1");
-                        movement.Add(getMoves);
-                        inputs.Add(getInputs);
-                        break;
-                    case 3:     // Create a txt file that has all the inputs for each frame
-                        RecordingState.text = "Recording Saved";
-                        switchControls(false);
-                        saveRecording();
-                        isRecording = false;
-                        recording = 0;
-                        recordingFrame = 0;
-                        break;
-                }
+                    // Recording
+                    if (Input.GetButtonDown(inputL3) && !isReplaying) recording++; //L3
 
-                // Replaying the Recording
-                if (Input.GetButtonDown(inputR3) && !isReplaying && !isRecording) //R3
-                {
-                    isReplaying = true;
-                    reader = new StreamReader(path);
-
-                    string temp = reader.ReadLine();
-                    if (temp == "True") faceLeft = true;
-                    else faceLeft = false;
-                }
-
-                if (isReplaying)
-                {
-                    // Read file, execute MaxInput actions every frame
-                    string line;
-                    if ((line = reader.ReadLine()) != null)
+                    switch (recording)
                     {
-                        RecordingState.text = "Replaying " + recordingFrame;
-                        MaxInput.ClearInput("Player2");
-                        replay(line);
+                        case 1:     // Switch player controls
+                            RecordingDisplay.SetActive(true);
+                            RecordingState.text = "Recording Armed";
+                            isRecording = true;
+                            switchControls(true);
+                            break;
+                        case 2:     // Get inputs from MaxInput. returnMovement() returnInputs()
+                            RecordingState.text = "Now Recording " + recordingFrame;
+                            recordingFrame++;
+                            List<float> getMoves = MaxInput.returnMovement("Player1");
+                            List<bool> getInputs = MaxInput.returnInputs("Player1");
+                            movement.Add(getMoves);
+                            inputs.Add(getInputs);
+                            break;
+                        case 3:     // Create a txt file that has all the inputs for each frame
+                            RecordingState.text = "Recording Saved";
+                            switchControls(false);
+                            saveRecording();
+                            isRecording = false;
+                            recording = 0;
+                            recordingFrame = 0;
+                            break;
                     }
-                    else
+
+                    // Replaying the Recording
+                    if (Input.GetButtonDown(inputR3) && !isReplaying && !isRecording) //R3
                     {
-                        isReplaying = false;
-                        recordingFrame = 0;
-                        reader.Close();
+                        isReplaying = true;
+                        reader = new StreamReader(path);
+
+                        string temp = reader.ReadLine();
+                        if (temp == "True") faceLeft = true;
+                        else faceLeft = false;
+                    }
+
+                    if (isReplaying)
+                    {
+                        // Read file, execute MaxInput actions every frame
+                        string line;
+                        if ((line = reader.ReadLine()) != null)
+                        {
+                            RecordingState.text = "Replaying " + recordingFrame;
+                            MaxInput.ClearInput("Player2");
+                            replay(line);
+                        }
+                        else
+                        {
+                            isReplaying = false;
+                            recordingFrame = 0;
+                            reader.Close();
+                        }
                     }
                 }
+
             }
         }
     }
 
-    void resetPositions()
+    public void resetPositions()
     {
         //Reset Player Knockback
         Player1.transform.GetChild(0).GetComponent<MovementHandler>().HitDetect.KnockBack = new Vector2(0, 0);
@@ -615,8 +642,8 @@ public class PracticeMode : MonoBehaviour
         Player2.transform.GetChild(0).GetComponent<MovementHandler>().rb.velocity = Vector2.zero;
 
         //Reset Camera
-        Player1.transform.GetChild(0).GetComponent<MovementHandler>().Actions.superFlash = 0;
-        Player2.transform.GetChild(0).GetComponent<MovementHandler>().Actions.superFlash = 0;
+        Player1.transform.GetChild(0).GetComponent<MovementHandler>().Actions.blitzed = 0;
+        Player2.transform.GetChild(0).GetComponent<MovementHandler>().Actions.blitzed = 0;
         GameObject.Find("CameraPos").transform.GetChild(1).transform.position = GameObject.Find("CameraPos").transform.position;
 
         //Refill Armor
@@ -663,7 +690,6 @@ public class PracticeMode : MonoBehaviour
     private void resetDhalia(GameObject player)
     {
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetTrigger(Animator.StringToHash("Blitz"));
-        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Hitboxes.BlitzCancel();
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Actions.landingLag = 0;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().Move.HitDetect.KnockBack = Vector2.zero;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerDHA>().anim.SetBool(Animator.StringToHash("Run"), false);
@@ -674,7 +700,6 @@ public class PracticeMode : MonoBehaviour
     private void resetAchealis(GameObject player)
     {
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().anim.SetTrigger(Animator.StringToHash("Blitz"));
-        player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Hitboxes.BlitzCancel();
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Actions.landingLag = 0;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().Move.HitDetect.KnockBack = Vector2.zero;
         player.transform.GetChild(0).GetComponentInChildren<AttackHandlerACH>().anim.SetBool(Animator.StringToHash("Run"), false);
@@ -763,12 +788,29 @@ public class PracticeMode : MonoBehaviour
         if (values[3] == "True") MaxInput.Square("Player2");
         if (values[4] == "True") MaxInput.Triangle("Player2");
         if (values[5] == "True") MaxInput.Circle("Player2");
-        if (values[6] == "True") MaxInput.Cross("Player2");
-        if (values[7] == "True") MaxInput.RBumper("Player2");
-        if (values[8] == "True") MaxInput.RTrigger("Player2");
-        if (values[9] == "True") MaxInput.LBumper("Player2");
-        if (values[10] == "True") MaxInput.LTrigger("Player2");
-        if (values[11] == "True") MaxInput.LStick("Player2");
+        if (values[6] == "True")
+        {
+            MaxInput.Cross("Player2");
+            hold = true;
+        }
+        else if (values[6] == "False" && values[7] == "True" && hold)
+        {
+            if (characterManager.P2Character == "Dhalia")
+            {
+                if (P2Input.attacking)
+                {
+                    MaxInput.Cross("Player2");
+                }
+                else hold = false;
+            }
+            //else MaxInput.Cross("Player2");
+        }
+
+        if (values[8] == "True") MaxInput.RBumper("Player2");
+        if (values[9] == "True") MaxInput.RTrigger("Player2");
+        if (values[10] == "True") MaxInput.LBumper("Player2");
+        if (values[11] == "True") MaxInput.LTrigger("Player2");
+        if (values[12] == "True") MaxInput.LStick("Player2");
     }
 
     private bool CheckXbox(int player)

@@ -37,8 +37,6 @@ public class CursorMovement : MonoBehaviour {
     public GameObject backMenuUI;
     public GameObject P1Cursor;
     public GameObject P2Cursor;
-    public GameObject fightButton;
-    public GameObject loadingScreen;
     public GameObject P1ColorSelect;
     public GameObject P2ColorSelect;
     public GameObject P1ReadyText;
@@ -92,35 +90,38 @@ public class CursorMovement : MonoBehaviour {
             //Check P1 Side
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Right")
             {
-                p1Cross = "Cross_P2";
+                /*p1Cross = "Cross_P2";
                 p1Circle = "Circle_P2";
                 p1Hor = "Horizontal_P2";
-                p1Ver = "Vertical_P2";
+                p1Ver = "Vertical_P2";*/
 
                 p1Num = 1;
+                SetControllers();
             }
 
             //Check P2Side
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
             {
-                p2Cross = "Cross_P1";
+                /*p2Cross = "Cross_P1";
                 p2Circle = "Circle_P1";
                 p2Hor = "Horizontal_P1";
-                p2Ver = "Vertical_P1";
+                p2Ver = "Vertical_P1";*/
 
                 p2Num = 0;
+                SetControllers();
             }
         }
 
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI"  || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice")
         {
             //P1 will control both cursors (one at a time)
-            p2Cross = "Cross_P1";
+            /*p2Cross = "Cross_P1";
             p2Circle = "Circle_P1";
             p2Hor = "Horizontal_P1";
-            p2Ver = "Vertical_P1";
+            p2Ver = "Vertical_P1";*/
 
             p2Num = 0;
+            SetControllers();
 
             //First Deactivate P1/P2 cursor depending on the chosen side
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
@@ -137,21 +138,15 @@ public class CursorMovement : MonoBehaviour {
                 P1Cursor.SetActive(false);
             }
         }
-        
-        p1Cross += UpdateControls(CheckXbox(p1Num));
-        p2Cross += UpdateControls(CheckXbox(p2Num));
-        p1Circle += UpdateControls(CheckXbox(p1Num));
-        p2Circle += UpdateControls(CheckXbox(p2Num));
-        p1Ver += UpdateControls(CheckXbox(p1Num));
-        p1Hor += UpdateControls(CheckXbox(p1Num));
-        p2Ver += UpdateControls(CheckXbox(p2Num));
-        p2Hor += UpdateControls(CheckXbox(p2Num));
+
+        SetControllers();
 
 
     }
 
     void Update()
     {
+        SetControllers();
         //Prevent cross input from selecting a character and exiting back menu simultaneously
         if (backMenuUI.activeSelf)
         {
@@ -922,6 +917,41 @@ public class CursorMovement : MonoBehaviour {
      public void QuitToMenu()
      {
         GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(0);
+    }
+
+    private void SetControllers()
+    {
+        if(p1Num == 0)
+        {
+            p1Cross = "Cross_P1" + UpdateControls(CheckXbox(p1Num));
+            p1Circle = "Circle_P1" + UpdateControls(CheckXbox(p1Num));
+            p1Hor = "Horizontal_P1" + UpdateControls(CheckXbox(p1Num));
+            p1Ver = "Vertical_P1" + UpdateControls(CheckXbox(p1Num));
+        }
+        else
+        {
+            p1Cross = "Cross_P2" + UpdateControls(CheckXbox(p1Num));
+            p1Circle = "Circle_P2" + UpdateControls(CheckXbox(p1Num));
+            p1Hor = "Horizontal_P2" + UpdateControls(CheckXbox(p1Num));
+            p1Ver = "Vertical_P2" + UpdateControls(CheckXbox(p1Num));
+        }
+        
+        if(p2Num == 0)
+        {
+            p2Cross = "Cross_P1" + UpdateControls(CheckXbox(p2Num));
+            p2Circle = "Circle_P1" + UpdateControls(CheckXbox(p2Num));
+            p2Hor = "Horizontal_P1" + UpdateControls(CheckXbox(p2Num));
+            p2Ver = "Vertical_P1" + UpdateControls(CheckXbox(p2Num));
+        }
+        else
+        {
+            p2Cross = "Cross_P2" + UpdateControls(CheckXbox(p2Num));
+            p2Circle = "Circle_P2" + UpdateControls(CheckXbox(p2Num));
+            p2Hor = "Horizontal_P2" + UpdateControls(CheckXbox(p2Num));
+            p2Ver = "Vertical_P2" + UpdateControls(CheckXbox(p2Num));
+        }
+
+        
     }
 
     private bool CheckXbox(int player)

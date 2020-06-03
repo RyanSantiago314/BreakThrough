@@ -224,6 +224,11 @@ public class MovementHandler : MonoBehaviour
             transform.position = new Vector3(transform.position.x, minPosY, transform.position.z);
             Actions.airborne = false;
         }
+        else if (transform.position.y > 1.2f)
+        {
+            Actions.airborne = true;
+        }
+
         if (playing && !HitDetect.pauseScreen.isPaused)
         {
             if (HitDetect.hitStop <= 0)
@@ -273,7 +278,7 @@ public class MovementHandler : MonoBehaviour
                     Actions.EnableAll();
                     pushBox.isTrigger = true;
                     jumps++;
-                    jumping = .25f;
+                    jumping = .3f;
 
 
                     if (MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
@@ -396,6 +401,8 @@ public class MovementHandler : MonoBehaviour
             jumping = 0;
             jumpRight = false;
             jumpLeft = false;
+            Actions.EnableAll();
+            Actions.airborne = true;
         }
         else
         {
@@ -506,7 +513,7 @@ public class MovementHandler : MonoBehaviour
     {
         if (collision.collider.CompareTag("Floor"))
         {
-            if (HitDetect.hitStun > 0 && Actions.groundBounce && rb.velocity.y == 0 && !Actions.standing)
+            if (Actions.groundBounce && !Actions.standing)
             {
                 anim.ResetTrigger(KDID);
                 anim.SetTrigger(groundBounceID);
@@ -544,7 +551,7 @@ public class MovementHandler : MonoBehaviour
                     HitDetect.KnockBack = new Vector2(1f, 3.3f);
                 }
             }
-            else if (HitDetect.hitStop <= 0 && HitDetect.KnockBack == Vector2.zero && HitDetect.ProjectileKnockBack == Vector2.zero && !currentState.IsName("GroundBounce"))
+            else if (HitDetect.hitStop <= 0 && HitDetect.KnockBack == Vector2.zero && HitDetect.ProjectileKnockBack == Vector2.zero && !Actions.groundBounce)
             {
                 if (HitDetect.hitStun <= 0 && Actions.airborne)
                     Actions.airborne = false;
@@ -743,11 +750,11 @@ public class MovementHandler : MonoBehaviour
                 rb.velocity = Vector2.zero;
                 if (facingRight)
                 {
-                    HitDetect.KnockBack = new Vector2(.6f, 1.5f);
+                    HitDetect.KnockBack = new Vector2(.6f, 2f);
                 }
                 else
                 {
-                    HitDetect.KnockBack = new Vector2(-.6f, 1.5f);
+                    HitDetect.KnockBack = new Vector2(-.6f, 2f);
                 }
                 anim.SetTrigger(wallBounceID);
                 //set off wall hit effect
@@ -807,7 +814,7 @@ public class MovementHandler : MonoBehaviour
             }
         }
         //double tap forward to run
-        if (((MaxInput.GetAxisRaw(Horizontal) == 1 && facingRight) || (MaxInput.GetAxisRaw(Horizontal) == -1 && !facingRight)))
+        if (((MaxInput.GetAxisRaw(Horizontal) == 1 && facingRight) || (MaxInput.GetAxisRaw(Horizontal) == -1 && !facingRight)) && !Actions.airborne)
         {
             if (!horiAxisInUse)
             {
@@ -999,9 +1006,8 @@ public class MovementHandler : MonoBehaviour
 
     void WallStates()
     {
-        hittingWall = true;
         //makes characters stick against wall and slowly fall
-        if (Actions.wallStick > 0 && HitDetect.hitStun > 0 && rb.velocity.y >= 0 && transform.position.y > 1.3f && !currentState.IsName("WallStick"))
+        if (Actions.wallStick > 0 && HitDetect.hitStun > 0 && transform.position.y > 1.25f && !currentState.IsName("WallStick"))
         {
             Actions.groundBounce = false;
             rb.velocity = new Vector2(0, rb.velocity.y);
@@ -1013,18 +1019,18 @@ public class MovementHandler : MonoBehaviour
                 opponentMove.sigil.transform.position = new Vector3(transform.position.x + .5f * pushBox.size.x, transform.position.y, transform.position.z);
             opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
         }
-        else if (Actions.wallBounce && HitDetect.hitStun > 0  && transform.position.y > 1.3f)
+        else if (Actions.wallBounce && HitDetect.hitStun > 0  && transform.position.y > 1.2f)
         {
             Actions.groundBounce = false;
             Actions.wallBounce = false;
             rb.velocity = Vector2.zero;
             if (facingRight)
             {
-                HitDetect.KnockBack = new Vector2(.6f, 1.5f);
+                HitDetect.KnockBack = new Vector2(1f, 1.5f);
             }
             else
             {
-                HitDetect.KnockBack = new Vector2(-.6f, 1.5f);
+                HitDetect.KnockBack = new Vector2(-1f, 1.5f);
             }
             anim.ResetTrigger(hitAirID);
             anim.SetTrigger(wallBounceID);

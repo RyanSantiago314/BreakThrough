@@ -66,15 +66,15 @@ AnimationClip:
       value: {fileID: 21300000, guid: 043eea77b01e85f46b6752a5420e6c43, type: 3}
     - time: 0.56666666
       value: {fileID: 21300000, guid: b8d3305d3d4f60648b5310dda8150b71, type: 3}
-    - time: 0.6166667
+    - time: 0.6
       value: {fileID: 21300000, guid: bdacf0aa2920cba47b6501f1a0b6defa, type: 3}
-    - time: 0.6666667
+    - time: 0.6333333
       value: {fileID: 21300000, guid: 5688f8dc0236bf04a91ae039f7181591, type: 3}
-    - time: 0.71666664
+    - time: 0.6666667
       value: {fileID: 21300000, guid: c393ed00a742f6a4fa61db06cc708f86, type: 3}
-    - time: 0.76666665
+    - time: 0.7
       value: {fileID: 21300000, guid: d1fa7b772ac69b14a8b424b31508b7d4, type: 3}
-    - time: 0.81666666
+    - time: 0.73333335
       value: {fileID: 0}
     attribute: m_Sprite
     path: CharEffects1

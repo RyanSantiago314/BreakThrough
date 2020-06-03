@@ -131,6 +131,8 @@ public class HurtboxACH : MonoBehaviour
         legs2.enabled = false;
         misc1.enabled = false;
         misc2.enabled = false;
+        CharProp.HitDetect.Actions.hiInvincible = false;
+        CharProp.HitDetect.Actions.lowInvincible = false;
     }
 
     public void Walk()
@@ -614,7 +616,7 @@ public class HurtboxACH : MonoBehaviour
         misc1.size = new Vector2(.39f, .55f);
     }
 
-    public void FHeavyFirstStartup()
+    public void FHeavyStartup()
     {
         ClearHurtBox();
         legs1.enabled = true;
@@ -654,18 +656,15 @@ public class HurtboxACH : MonoBehaviour
         body.enabled = true;
         legs1.enabled = true;
         legs2.enabled = true;
-        misc1.enabled = true;
 
-        head.offset = new Vector2(.28f, .4f);
-        head.size = new Vector2(.3f, .295f);
-        body.offset = new Vector2(-.02f, .25f);
-        body.size = new Vector2(.58f, .48f);
-        legs1.offset = new Vector2(.01f, -.13f);
-        legs1.size = new Vector2(.67f, .39f);
-        legs2.offset = new Vector2(-.46f, -.36f);
-        legs2.size = new Vector2(.29f, .24f);
-        misc1.offset = new Vector2(-.67f, -.53f);
-        misc1.size = new Vector2(.15f, .25f);
+        head.offset = new Vector2(.48f, .31f);
+        head.size = new Vector2(.2f, .3f);
+        body.offset = new Vector2(-.232f, .214f);
+        body.size = new Vector2(.56f, .61f);
+        legs1.offset = new Vector2(-.62f, -.17f);
+        legs1.size = new Vector2(1.1f, .41f);
+        legs2.offset = new Vector2(-1.35f, -.3f);
+        legs2.size = new Vector2(.46f, .19f);
     }
 
     public void StandBreakStartup()
@@ -776,19 +775,13 @@ public class HurtboxACH : MonoBehaviour
         head.enabled = true;
         body.enabled = true;
         legs1.enabled = true;
-        legs2.enabled = true;
-        misc1.enabled = true;
 
-        head.offset = new Vector2(.3f, .62f);
-        head.size = new Vector2(.83f, .26f);
-        body.offset = new Vector2(-0.07f, .32f);
-        body.size = new Vector2(.515f, .33f);
-        legs1.offset = new Vector2(-.165f, -.09f);
-        legs1.size = new Vector2(.59f, .52f);
-        legs2.offset = new Vector2(-.1f, -.5f);
-        legs2.size = new Vector2(.16f, .32f);
-        misc1.offset = new Vector2(-.22f, -.77f);
-        misc1.size = new Vector2(.18f, .275f);
+        head.offset = new Vector2(-.03f, .58f);
+        head.size = new Vector2(.48f, .3f);
+        body.offset = new Vector2(-0.07f, .31f);
+        body.size = new Vector2(.63f, .4f);
+        legs1.offset = new Vector2(-.27f, -.21f);
+        legs1.size = new Vector2(.56f, .68f);
     }
 
     public void JumpBreakActive()
@@ -798,21 +791,18 @@ public class HurtboxACH : MonoBehaviour
         body.enabled = true;
         legs1.enabled = true;
         legs2.enabled = true;
-        misc1.enabled = true;
 
-        head.offset = new Vector2(-.03f, .6f);
-        head.size = new Vector2(.81f, .35f);
-        body.offset = new Vector2(-.19f, .26f);
-        body.size = new Vector2(.63f, .35f);
-        legs1.offset = new Vector2(-.13f, -.11f);
-        legs1.size = new Vector2(.52f, .49f);
-        legs2.offset = new Vector2(-.48f, -.29f);
-        legs2.size = new Vector2(.18f, .315f);
-        misc1.offset = new Vector2(-.657f, -.53f);
-        misc1.size = new Vector2(.18f, .29f);
+        head.offset = new Vector2(-.2f, .81f);
+        head.size = new Vector2(.41f, .76f);
+        body.offset = new Vector2(-.35f, .25f);
+        body.size = new Vector2(.49f, .36f);
+        legs1.offset = new Vector2(-.05f, .05f);
+        legs1.size = new Vector2(.6f, .57f);
+        legs2.offset = new Vector2(-.117f, -.54f);
+        legs2.size = new Vector2(.43f, .68f);
     }
 
-    public void JumpBreakRecovery()
+    public void ThrowRecovery()
     {
         ClearHurtBox();
         head.enabled = true;
@@ -820,13 +810,127 @@ public class HurtboxACH : MonoBehaviour
         legs1.enabled = true;
         legs2.enabled = true;
 
-        head.offset = new Vector2(-.09f, .65f);
-        head.size = new Vector2(.45f, .25f);
-        body.offset = new Vector2(0.07f, .41f);
-        body.size = new Vector2(.65f, .32f);
-        legs1.offset = new Vector2(-.13f, 0f);
-        legs1.size = new Vector2(.65f, .53f);
-        legs2.offset = new Vector2(-.655f, .073f);
-        legs2.size = new Vector2(.41f, .22f);
+        head.offset = new Vector2(.38f, .5f);
+        head.size = new Vector2(.76f, .28f);
+        body.offset = new Vector2(.45f, .2f);
+        body.size = new Vector2(.6f, .46f);
+        legs1.offset = new Vector2(.49f, -.48f);
+        legs1.size = new Vector2(.4f, .87f);
+        legs2.offset = new Vector2(0f, -.21f);
+        legs2.size = new Vector2(.765f, .325f);
+    }
+
+    public void HCRecovery()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(.06f, .745f);
+        head.size = new Vector2(.55f, .41f);
+        body.offset = new Vector2(-.215f, .3f);
+        body.size = new Vector2(.655f, .55f);
+        legs1.offset = new Vector2(.01f, -.19f);
+        legs1.size = new Vector2(.56f, .51f);
+        legs2.offset = new Vector2(-.38f, -.495f);
+        legs2.size = new Vector2(.43f, .9f);
+    }
+
+    public void LHSlide()
+    {
+        ClearHurtBox();
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        legs1.offset = new Vector2(.31f, -.79f);
+        legs1.size = new Vector2(1.16f, .25f);
+        legs2.offset = new Vector2(0f, -.69f);
+        legs2.size = new Vector2(1f, .44f);
+    }
+
+    public void LHTransition()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(.06f, .55f);
+        head.size = new Vector2(.2f, .27f);
+        body.offset = new Vector2(.027f, .18f);
+        body.size = new Vector2(.41f, .49f);
+        legs1.offset = new Vector2(.11f, -.48f);
+        legs1.size = new Vector2(.75f, .87f);
+        legs2.offset = new Vector2(0f, -.69f);
+        legs2.size = new Vector2(1f, .44f);
+        misc1.offset = new Vector2(.08f, .225f);
+        misc1.size = new Vector2(.85f, .215f);
+    }
+
+    public void LHActive()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+        misc2.enabled = true;
+
+        head.offset = new Vector2(.195f, .705f);
+        head.size = new Vector2(.28f, .29f);
+        body.offset = new Vector2(.16f, .264f);
+        body.size = new Vector2(.427f, .66f);
+        legs1.offset = new Vector2(.017f, -.73f);
+        legs1.size = new Vector2(1.11f, .39f);
+        legs2.offset = new Vector2(.08f, -.29f);
+        legs2.size = new Vector2(.8f, .52f);
+        misc1.offset = new Vector2(.66f, .42f);
+        misc1.size = new Vector2(.645f, .24f);
+        misc2.offset = new Vector2(-.18f, .16f);
+        misc2.size = new Vector2(.51f, .31f);
+    }
+
+    public void SFActive()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(-.145f, .71f);
+        head.size = new Vector2(.42f, .465f);
+        body.offset = new Vector2(-.23f, .5f);
+        body.size = new Vector2(.61f, .51f);
+        legs1.offset = new Vector2(-.59f, .275f);
+        legs1.size = new Vector2(.48f, .9f);
+        legs2.offset = new Vector2(-1.03f, .85f);
+        legs2.size = new Vector2(.61f, .61f);
+        misc1.offset = new Vector2(.1f, .04f);
+        misc1.size = new Vector2(.47f, .755f);
+    }
+
+    public void SFRecover()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(.32f, .29f);
+        head.size = new Vector2(.21f, .32f);
+        body.offset = new Vector2(.12f, .14f);
+        body.size = new Vector2(.49f, .68f);
+        legs1.offset = new Vector2(-.11f, .57f);
+        legs1.size = new Vector2(.92f, .69f);
+        legs2.offset = new Vector2(-.71f, -.7f);
+        legs2.size = new Vector2(.37f, .39f);
     }
 }

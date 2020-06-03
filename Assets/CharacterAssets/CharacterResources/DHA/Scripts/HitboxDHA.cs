@@ -87,6 +87,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.usingSuper = false;
         HitDetect.usingSpecial = false;
         HitDetect.guardCancel = false;
+        HitDetect.disableBlitz = false;
         HitDetect.slash = false;
         HitDetect.vertSlash = false;
         HitDetect.horiSlash = false;
@@ -139,8 +140,9 @@ public class HitboxDHA : MonoBehaviour
     public void SummonPastry()
     {
         //Pastry projectile, angle of throw changes based on direction held after execution
+        AttackHandler.Projectile.SetActive(true);
         AttackHandler.Projectile.GetComponent<PatissiereHitbox>().flash.intensity = 0;
-        AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetInteger("Pastry", Random.Range(0, 5));
+        AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetInteger("Pastry", Random.Range(0,5));
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().anim.SetTrigger("Activate");
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().projectileActive = true;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().rb.mass = .45f;
@@ -148,9 +150,8 @@ public class HitboxDHA : MonoBehaviour
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().rb.velocity = Vector2.zero;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().rb.angularVelocity = 0;
         AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentHits = 0;
-        AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife/60;
+        AttackHandler.Projectile.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife/60f;
         AttackHandler.Projectile.transform.localRotation = Quaternion.identity;
-        AttackHandler.Projectile.SetActive(true);
 
         if (HitDetect.Actions.Move.facingRight)
             AttackHandler.Projectile.transform.position = new Vector3(transform.position.x + .4f, transform.position.y + .45f, transform.position.z);
@@ -198,7 +199,7 @@ public class HitboxDHA : MonoBehaviour
         AttackHandler.Toaster.SetActive(true);
         AttackHandler.Toaster.GetComponent<ProjectileProperties>().projectileActive = true;
         AttackHandler.Toaster.GetComponent<ProjectileProperties>().currentHits = 0;
-        AttackHandler.Toaster.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Projectile.GetComponent<ProjectileProperties>().maxLife / 60;
+        AttackHandler.Toaster.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Toaster.GetComponent<ProjectileProperties>().maxLife / 60;
         AttackHandler.Toaster.transform.rotation = transform.rotation;
         AttackHandler.Toaster.transform.position = transform.position;
         AttackHandler.Toaster.GetComponent<ProjectileProperties>().anim.SetTrigger("Summon");
@@ -433,7 +434,10 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.potentialHitStun = hitStunLv2;
         HitDetect.potentialHitStop = hitStopLv2;
         HitDetect.potentialKnockBack = new Vector2(1.2f, 0);
-        HitDetect.potentialAirKnockBack = new Vector2(1.2f, 2f);
+        if (Mathf.Abs(HitDetect.Actions.Move.transform.position.x - HitDetect.Actions.Move.opponent.position.x) < 1)
+            HitDetect.potentialAirKnockBack = new Vector2(1.2f, 2.5f);
+        else
+            HitDetect.potentialAirKnockBack = new Vector2(-.5f, 2.5f);
         HitDetect.attackLevel = 1;
         HitDetect.guard = "Overhead";
 
@@ -445,7 +449,6 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.allowBreak = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
-        HitDetect.jumpCancellable = true;
     }
 
     void JumpMHitBoxSecond()
@@ -1100,6 +1103,7 @@ public class HitboxDHA : MonoBehaviour
 
         HitDetect.allowWallBounce = true;
         HitDetect.allowSuper = true;
+        HitDetect.disableBlitz = true;
     }
 
     void BBCycleHit3()
@@ -1209,8 +1213,8 @@ public class HitboxDHA : MonoBehaviour
 
         hit1.enabled = true;
 
-        hit1.offset = new Vector2(.65f, -.55f);
-        hit1.size = new Vector2(.38f, .55f);
+        hit1.offset = new Vector2(.65f, -.5f);
+        hit1.size = new Vector2(.38f, .6f);
 
         HitDetect.damage = 22;
         HitDetect.armorDamage = 0;

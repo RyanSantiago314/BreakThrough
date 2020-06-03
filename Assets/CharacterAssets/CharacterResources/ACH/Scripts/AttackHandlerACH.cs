@@ -11,8 +11,16 @@ public class AttackHandlerACH : MonoBehaviour
     public MaxInput MaxInput;
     public HitboxACH Hitboxes;
 
+    public GameObject HCPrefab;
+    public GameObject LHSlidePrefab;
+    public GameObject LHPrefab;
+    public GameObject SFPrefab;
     public GameObject BlitzPrefab;
 
+    public GameObject HCWave;
+    public GameObject LHSlide;
+    public GameObject LHWave;
+    public GameObject SFWave;
     public GameObject BlitzEffect;
     SpriteRenderer BlitzImage;
     Animator BlitzWave;
@@ -32,7 +40,7 @@ public class AttackHandlerACH : MonoBehaviour
     private string MH;
     private string LB;
 
-    float bufferTime = .2f;
+    float bufferTime = .25f;
     float directionBufferTime = .3f;
     float lightButton;
     float mediumButton;
@@ -74,9 +82,13 @@ public class AttackHandlerACH : MonoBehaviour
     static int ID5B;
     static int ID2B;
     static int ID3B;
-    /*static int BreakCharge;
-    static int IDBloodBrave;
-    static int IDPatissiere;
+    static int IDHeavenClimberH;
+    static int IDHeavenClimberB;
+    static int IDLevelHell;
+    static int IDStarfall;
+    static int BreakCharge;
+    
+    /*
     static int IDHeadRush;
     static int IDBasketCase;
     static int IDToaster;
@@ -108,8 +120,12 @@ public class AttackHandlerACH : MonoBehaviour
         ID5B = Animator.StringToHash("5B");
         ID2B = Animator.StringToHash("2B");
         ID3B = Animator.StringToHash("3B");
-        /*BreakCharge = Animator.StringToHash("BreakCharge");
-        IDBloodBrave = Animator.StringToHash("BloodBrave");
+        IDHeavenClimberH = Animator.StringToHash("HeavenClimberH");
+        IDHeavenClimberB = Animator.StringToHash("HeavenClimberB");
+        IDLevelHell = Animator.StringToHash("LevelHell");
+        BreakCharge = Animator.StringToHash("BreakCharge");
+        IDStarfall = Animator.StringToHash("Starfall");
+        /*
         IDPatissiere = Animator.StringToHash("Patissiere");
         IDHeadRush = Animator.StringToHash("HeadRush");
         IDBasketCase = Animator.StringToHash("BasketCase");
@@ -159,6 +175,18 @@ public class AttackHandlerACH : MonoBehaviour
         }
 
         colorControl = transform.GetChild(0).GetComponent<ColorSwapACH>();
+
+        HCWave = Instantiate(HCPrefab, new Vector3(0, -10, -3), Quaternion.identity, transform.root);
+        HCWave.SetActive(false);
+
+        LHSlide = Instantiate(LHSlidePrefab, new Vector3(0, -10, -3), Quaternion.identity, transform.root);
+        LHSlide.SetActive(false);
+
+        LHWave = Instantiate(LHPrefab, new Vector3(0, -10, -3), Quaternion.identity, transform.root);
+        LHWave.SetActive(false);
+
+        SFWave = Instantiate(SFPrefab, new Vector3(0, -10, -3), Quaternion.identity, transform.root);
+        SFWave.SetActive(false);
 
         BlitzEffect = Instantiate(BlitzPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
         BlitzImage = BlitzEffect.transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -484,6 +512,37 @@ public class AttackHandlerACH : MonoBehaviour
                 Actions.throwTech = true;
             }
         }
+        else if (Actions.acceptSpecial && (heavyButton > 0 || breakButton > 0) && Move.HitDetect.hitStop <= 0 && DP > 0)
+        {
+            Move.jumping = 0;
+            // Heaven Climber special attack, executed by doing a DP and pressing H or B
+            if (Actions.airborne || heavyButton > 0)
+                anim.SetTrigger(IDHeavenClimberH);
+            else
+                anim.SetTrigger(IDHeavenClimberB);
+            Actions.TurnAroundCheck();
+            heavyButton = 0;
+            breakButton = 0;
+            DP = 0;
+        }
+        else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0 && Actions.airborne && Hitboxes.HitDetect.Actions.Move.transform.position.y > 1.35f)
+        {
+            Move.jumping = 0;
+            // Starfall special attack, executed by doing a QCB and pressing B
+            anim.SetTrigger(IDStarfall);
+            Actions.TurnAroundCheck();
+            breakButton = 0;
+            QCB = 0;
+        }
+        else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && !Actions.airborne)
+        {
+            Move.jumping = 0;
+            // Level Hell special attack, executed by doing a QCF and pressing M
+            anim.SetTrigger(IDLevelHell);
+            Actions.TurnAroundCheck();
+            mediumButton = 0;
+            QCF = 0;
+        }
         else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop <= 0)
         {
             //break attacks
@@ -627,15 +686,18 @@ public class AttackHandlerACH : MonoBehaviour
             lightButton = 0;
         }
 
-        // ACH character specific, can charge a single special attack until it becomes enormously powerful
-        /*if (MaxInput.GetButton(Break))
+        // ACH character specific, can charge or delay certain special attacks
+        if (MaxInput.GetButton(Break))
         {
             anim.SetBool(BreakCharge, true);
+
+            if (currentState.IsName("StarfallDelay") && Hitboxes.HitDetect.Actions.Move.transform.position.y < 1.8f)
+                anim.SetBool(BreakCharge, false);
         }
         else
         {
             anim.SetBool(BreakCharge, false);
-        }*/
+        }
 
 
     }

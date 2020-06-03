@@ -143,8 +143,8 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.85
-    functionName: InitialHitBox
+  - time: 0.78333336
+    functionName: FiringToaster
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -152,6 +152,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0.85
     functionName: FiringLight
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.85
+    functionName: InitialHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

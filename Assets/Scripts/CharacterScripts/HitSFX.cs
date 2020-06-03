@@ -6,6 +6,7 @@ public class HitSFX : MonoBehaviour
 {
     public AudioSource FX;
     int soundSelect;
+    HitDetector HitDetect;
 
     public AudioClip StrikeL;
     public AudioClip StrikeM;
@@ -13,14 +14,19 @@ public class HitSFX : MonoBehaviour
     public AudioClip StrikeH;
     public AudioClip StrikeH2;
     public AudioClip SlashL;
-    public AudioClip SlashL2;
     public AudioClip SlashH;
-    public AudioClip SlashH2;
-    public AudioClip SlashH3;
+    public AudioClip SlashSuper;
     public AudioClip GuardL;
     public AudioClip GuardM;
     public AudioClip GuardH;
+    public AudioClip ArmorL;
+    public AudioClip ArmorH;
     public AudioClip Shatter;
+
+    void Start()
+    {
+        HitDetect = transform.root.GetChild(0).GetComponentInChildren<HitDetector>();
+    }
 
     public void ShatterPlay()
     {
@@ -83,38 +89,24 @@ public class HitSFX : MonoBehaviour
 
     public void LightSlash()
     {
-        soundSelect = Random.Range(0, 2);
-        switch (soundSelect)
-        {
-            case 1:
-                FX.PlayOneShot(SlashL2, .8f);
-                break;
-            case 0:
                 FX.PlayOneShot(SlashL, .8f);
-                break;
-            default:
-                FX.PlayOneShot(SlashL, .8f);
-                break;
-        }
     }
 
     public void HeavySlash()
     {
-        soundSelect = Random.Range(0, 3);
-        switch (soundSelect)
-        {
-            case 2:
-                FX.PlayOneShot(SlashH3, .8f);
-                break;
-            case 1:
-                FX.PlayOneShot(SlashH2, .8f);
-                break;
-            case 0:
-                FX.PlayOneShot(SlashH, .8f);
-                break;
-            default:
-                FX.PlayOneShot(SlashH, .8f);
-                break;
-        }
+        if (HitDetect.OpponentDetector.Actions.superHit)
+            FX.PlayOneShot(SlashSuper, .8f);
+        else
+            FX.PlayOneShot(SlashH, .8f);
+    }
+
+    public void ArmorHeavy()
+    {
+        FX.PlayOneShot(ArmorH, .8f);
+    }
+
+    public void ArmorLight()
+    {
+        FX.PlayOneShot(ArmorL, .8f);
     }
 }
