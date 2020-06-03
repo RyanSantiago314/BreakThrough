@@ -1,170 +1,219 @@
-@font-face
-{
-	src: url(https://shatterpointgs.netlify.app/assets/fonts/BreakThrough-Regular.ttf) format('truetype');
-	/* src: url(D:/Documents/GitHub/BreakThrough/Website/assets/fonts/BreakThrough-Regular.ttf) format('truetype'); */
-	font-family: Breakthrough;
+@font-face {
+    src: url(https://shatterpointgs.netlify.app/assets/fonts/BreakThrough-Regular.ttf) format('truetype');
+    /* src: url(D:/Documents/GitHub/BreakThrough/Website/assets/fonts/BreakThrough-Regular.ttf) format('truetype'); */
+    font-family: Breakthrough;
 }
 
-/* body, html {
-  height: 100%;
-} */
-p, h3
-{
-	color: white;
+html, body {
+    height: 100%;
+    overflow: visible;
 }
 
-.important-text
-{
-	font-family: Breakthrough;
-	font-size: 50px;
-	color: white;
-	line-height: 80px;
+p, h3 {
+    color: white;
 }
 
-.poster-box
-{
-	position: relative;
-	text-align: center;
-	width: 100%;
+.important-text {
+    font-family: Breakthrough;
+    font-size: 50px;
+    color: white;
+    line-height: 80px;
 }
 
-.parallax
-{
-	/* background-image: url(D:/Documents/GitHub/BreakThrough/Website/images/Poster.png); */
-	background-image: url(https://shatterpointgs.netlify.app/images/Poster.png);
-	background-attachment: fixed;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	height: 1200px;
-
-	/* filter: blur(25px); */
+.poster-box {
+    position: relative;
+    text-align: center;
+    width: 100%;
 }
 
-.title-video
-{
-	position: absolute;
-	align-items: center;
-	width: 80%;
-	height: 80%;
-	padding-right: 15px;
-	padding-left: 15px;
-	top: 40%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+.parallax {
+    /* background-image: url(D:/Documents/GitHub/BreakThrough/Website/images/Poster.png); */
+    background-image: url(https://shatterpointgs.netlify.app/images/Poster.png);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 1200px;
+    /* filter: blur(25px); */
 }
 
-.char-renders
-{
-	position: fixed;
+.blur {
+    animation: blur 3s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
 }
 
-.project-box
-{
-	position: relative;
-	text-align: left;
-	width: 100%;
+@keyframes blur {
+    0% {
+        filter: blur(.5px);
+    }
+
+    25% {
+        filter: blur(1.4px);
+    }
+
+    50% {
+        filter: blur(2.1px);
+    }
+
+    100% {
+        filter: blur(2.8px);
+    }
 }
 
-.project-text
-{
-	font-size: 24px;
-	line-height: 40px;
+.title-video {
+    position: absolute;
+    align-items: center;
+    width: 80%;
+    height: 80%;
+    padding-right: 15px;
+    padding-left: 15px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.team-box
-{
-	position: relative;
-	text-align: center;
-	width: 100%;
+.logo {
+	filter: brightness(120%);
 }
 
-.team-member
-{
-	margin-bottom: 50px;
-	text-align: center;
+.char-renders {
+    position: fixed;
 }
 
-.team-member img
-{
-	width: 250px;
-	height: 250px;
+.project-box {
+    position: relative;
+    text-align: left;
+    width: 100%;
 }
 
-footer
-{
-	text-align: center;
+.project-text {
+    font-size: 24px;
+    line-height: 40px;
+}
+
+.team-box {
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+
+.team-member {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.team-member img {
+    width: 250px;
+    height: 250px;
+}
+
+footer {
+    text-align: center;
 }
 
 /* Style all font awesome icons */
-.fa
-{
-  /* padding: 20px; */
-  font-size: 30px !important;
-  /* width: 50px; */
-  /* text-align: center; */
-  /* text-decoration: none; */
+.fa {
+    /* padding: 20px; */
+    font-size: 30px !important;
+    /* width: 50px; */
+    /* text-align: center; */
+    /* text-decoration: none; */
 }
 
-.fa:hover
-{
-  opacity: 0.7;
+.fa:hover {
+    opacity: 0.7;
 }
 
 /* Twitter */
-.fa-twitter
-{
-  color: white;
+.fa-twitter {
+    color: white;
 }
 
-.fa-linkedin
-{
-	color: white;
+.fa-linkedin {
+    color: white;
 }
 
-.fa-user
-{
-	color: white;
+.fa-user {
+    color: white;
 }
 
-.fa-github
-{
-	color: white;
+.fa-github {
+    color: white;
 }
 
-.fa-tumblr
-{
-	color: white;
+.fa-tumblr {
+    color: white;
 }
 
-.fa-email
-{
-	color: white;
+.fa-email {
+    color: white;
 }
 
-.fa-soundcloud
-{
-	color: white;
+.fa-soundcloud {
+    color: white;
 }
 
-.fa-instagram
-{
-  background: #125688;
-  color: white;
+.fa-instagram {
+    background: #125688;
+    color: white;
 }
 
-.fa-youtube-play
-{
-	color: white;
+.fa-youtube-play {
+    color: white;
 }
 
-.fa-artstation
-{
-	color: white;
+.fa-artstation {
+    color: white;
 }
 
-.fa-google
-{
-  background: #dd4b39;
-  color: white;
+.fa-google {
+    background: #dd4b39;
+    color: white;
+}
+
+/* Website Loading Screen */
+.loader-wrapper {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #242f3f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    /* border: 4px solid #Fff; */
+    background-image: url(D:/Documents/GitHub/BreakThrough/Website/images/LoadingIcon.png);
+    background-size: 100% 100%;
+    animation: loader 2s infinite ease;
+}
+
+@keyframes loader {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(180deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(360deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

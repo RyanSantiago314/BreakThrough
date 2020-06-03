@@ -8,7 +8,9 @@
 	<meta name="description" content="Breakthrough Official Website">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="assets/css/styles.css">
+	<link rel="stylesheet" href="vendor/animate.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
@@ -21,8 +23,6 @@
 				<!-- <img src="images/poster.png" class="mx-auto d-block" width="100%" height="100%" style="opacity:0"> -->
 			</div>
 			<div class="title-video">
-				<img src="images/Logo.png" class="mx-auto d-block" width="80%" height="65%" style="margin-top:-35px;margin-bottom:-35px">
-				<iframe width="60%" height="60%" src="https://www.youtube.com/embed/aTAK9FW3nj8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
 		</div>
 		<br>
@@ -35,7 +35,7 @@
 				<div class="col-sm-6">
 					<div class="project-text container mt-5">
 						<p class="important-text">Will You Crack Under Pressure?</p>
-						<p>Something cool description about our game.</p>
+						<p>According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible.</p>
 					</div>
 				</div>
 				<div class="col-sm-6">
@@ -429,7 +429,23 @@
 		</footer>
 	</div>
 
+	<div class="loader-wrapper">
+		<span class="loader"><span class="loader-inner"></span></span>
+	</div>
 
+	<script>
+		$(window).on("load", function()
+		{
+			$(".loader-wrapper").fadeOut("slow")
+			setTimeout(function(){
+				$('.title-video').append('<img src="images/Logo.png" class="mx-auto d-block zoomIn animated logo" width="80%" height="65%" style="margin-top:-35px;margin-bottom:-35px">');
+				$('.title-video').append('<iframe width="60%" height="60%" src="https://www.youtube.com/embed/aTAK9FW3nj8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="fadeIn animated" style="animation-duration:1.5s"></iframe>');
+			},1000)
+			setTimeout(function(){
+				$(".parallax").addClass("blur");
+			},1200);
+		});
+	</script>
 	<!-- <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
 	  <a class="navbar-brand" href="#">Shatter Point Games</a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
