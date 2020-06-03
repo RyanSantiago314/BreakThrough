@@ -80,6 +80,7 @@ p, h3 {
 .content {
     /* background: url(D:/Documents/GitHub/BreakThrough/Website/images/InGame.png) no-repeat top center; */
     background: url(https://shatterpointgs.netlify.app/images/InGame.png) no-repeat top center;
+    background-size: 120% 80%;
     background-color: rgb(26, 21, 20);
     color: rgb(240, 239, 236);
     margin-top: -50px;
@@ -195,7 +196,8 @@ footer {
     height: 100px;
     position: relative;
     /* border: 4px solid #Fff; */
-    background-image: url(D:/Documents/GitHub/BreakThrough/Website/images/LoadingIcon.png);
+    /* background-image: url(D:/Documents/GitHub/BreakThrough/Website/images/LoadingIcon.png); */
+    background-image: url((https://shatterpointgs.netlify.app/images/LoadingIcon.png);
     background-size: 100% 100%;
     animation: loader 2s infinite ease;
 }
