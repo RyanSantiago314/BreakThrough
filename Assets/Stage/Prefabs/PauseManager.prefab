@@ -3815,6 +3815,7 @@ MonoBehaviour:
   MarkAnimator: {fileID: 4084780004296420362}
   MoveListMarkAnimator: {fileID: 8631945225115745042}
   SelectorMarkAnimator: {fileID: 4923673490772177062}
+  VideoScreen: {fileID: 1401511134479765843}
   pauseMenuUI: {fileID: 1940637821154889847}
   practicePauseMenuUI: {fileID: 1940637820838352576}
   moveListUI: {fileID: 1940637819962161902}
@@ -8025,7 +8026,7 @@ GameObject:
   - component: {fileID: 1401511134479765843}
   - component: {fileID: 2731970444441188557}
   m_Layer: 5
-  m_Name: RawImage
+  m_Name: Video screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

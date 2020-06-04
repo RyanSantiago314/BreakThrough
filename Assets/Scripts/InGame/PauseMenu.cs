@@ -10,6 +10,8 @@ public class PauseMenu : MonoBehaviour
     public Animator MoveListMarkAnimator;
     public Animator SelectorMarkAnimator;
 
+    public RawImage VideoScreen;
+
     public GameObject pauseMenuUI;
     public GameObject practicePauseMenuUI;
     public GameObject moveListUI;
@@ -264,6 +266,7 @@ public class PauseMenu : MonoBehaviour
                         MoveListMarker.color = new Color(1f, 1f, 1f, 0f);
                         mList.resetMarker();
                         mList.enableMarker();
+                        //VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().url = "Assets/VideoCaptures/HeadRush.webm";
                     }
                     if (!acceptMoveList)
                     {
