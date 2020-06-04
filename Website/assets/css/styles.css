@@ -80,13 +80,14 @@ p, h3 {
 .content {
     /* background: url(D:/Documents/GitHub/BreakThrough/Website/images/InGame.png) no-repeat top center; */
     background: url(https://shatterpointgs.netlify.app/images/InGame.png) no-repeat top center;
-    background-size: 120% 80%;
+    background-size: 115% 90%;
     background-color: rgb(26, 21, 20);
     color: rgb(240, 239, 236);
     margin-top: -50px;
 }
 
 .project-box {
+    background-image: linear-gradient(0deg, rgba(49, 49, 49, 0) 0px, #343a40);
     position: relative;
     text-align: left;
     width: 100%;
@@ -98,6 +99,10 @@ p, h3 {
     line-height: 40px;
 }
 
+.promotion-box {
+    background-color: rgb(26, 21, 20);
+}
+
 .team-box {
     /* background: url(D:/Documents/GitHub/BreakThrough/Website/images/DhaliaAchealisRenders.png) no-repeat top center; */
     background: url(https://shatterpointgs.netlify.app/images/DhaliaAchealisRenders.png) no-repeat top center;
@@ -106,6 +111,7 @@ p, h3 {
 }
 
 .team-content {
+    background-image: linear-gradient(0deg, #343a40 0px, rgba(49, 49, 49, 0));
     position: relative;
     text-align: center;
     width: 100%;
@@ -193,7 +199,8 @@ footer {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #d38960;
+    background-color: rgb(26, 21, 20);
+    /* background-color: #d38960; */
     display: flex;
     justify-content: center;
     align-items: center;
