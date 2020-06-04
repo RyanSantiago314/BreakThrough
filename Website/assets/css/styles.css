@@ -90,6 +90,7 @@ p, h3 {
     position: relative;
     text-align: left;
     width: 100%;
+    top: 40px;
 }
 
 .project-text {
@@ -98,6 +99,13 @@ p, h3 {
 }
 
 .team-box {
+    /* background: url(D:/Documents/GitHub/BreakThrough/Website/images/DhaliaAchealisRenders.png) no-repeat top center; */
+    background: url(https://shatterpointgs.netlify.app/images/DhaliaAchealisRenders.png) no-repeat top center;
+    background-size: 100% 100%;
+    background-color: rgb(26, 21, 20);
+}
+
+.team-content {
     position: relative;
     text-align: center;
     width: 100%;
@@ -115,6 +123,7 @@ p, h3 {
 
 footer {
     text-align: center;
+    background-color: rgb(26, 21, 20);
 }
 
 /* Style all font awesome icons */
