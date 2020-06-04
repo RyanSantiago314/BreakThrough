@@ -97,7 +97,7 @@ public class PauseMenu : MonoBehaviour
 
         mList.setCharacter("Dhalia");
         mList.setPage("Normals");
-        mList.setDhaliaPage4();
+        mList.setDhaliaPage5();
 
     }
     // top bottom
