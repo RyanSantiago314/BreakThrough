@@ -67,8 +67,9 @@ public class PauseMenu : MonoBehaviour
 
     public Text PlayerIdentifier;
     
-
     static public bool allowPause;
+
+    public MoveList mList;
 
     //Dev tool to remove HUD
     public GameObject HUD;
@@ -93,7 +94,11 @@ public class PauseMenu : MonoBehaviour
         HUD = GameObject.Find("HUD");
         PracticeHUD = GameObject.Find("PracticeHUD");
         PlayerData = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>();
-        
+
+        mList.setCharacter("Dhalia");
+        mList.setPage("Normals");
+        mList.setDhaliaPage4();
+
     }
     // top bottom
     // Resume:  0 32
@@ -101,8 +106,6 @@ public class PauseMenu : MonoBehaviour
     // character select:  889 703
     // end Match:  959 633
     // 703.7
-
-
 
     // Update is called once per frame
     void Update()
@@ -132,40 +135,6 @@ public class PauseMenu : MonoBehaviour
         SetControllers();
         if ((GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Tutorial") && allowPause)
         {
-            /*if (isPaused)
-            {
-                //Disable player inputs in background
-                DisableControls(true);
-                ActivateMenu();
-                //Record which player paused
-                if (Input.GetButtonDown(pauseCode1) && playerPaused == 1)
-                {
-                    isPaused = !isPaused;
-                    playerPaused = 0;
-                }
-                if (Input.GetButtonDown(pauseCode) && playerPaused == 2)
-                {
-                    isPaused = !isPaused;
-                    playerPaused = 0;
-                }
-            }
-            else if (!isPaused)
-            {
-                DisableControls(false);
-                DeactivateMenu();
-                //Unpause the game (Only the player that paused can unpause)
-                if (Input.GetButtonDown(pauseCode1) && playerPaused == 0)
-                {
-                    isPaused = !isPaused;
-                    playerPaused = 1;
-                }
-                if (Input.GetButtonDown(pauseCode) && playerPaused == 0)
-                {
-                    isPaused = !isPaused;
-                    playerPaused = 2;
-                }
-            }*/
-
             if ((Input.GetButtonDown(pauseCode1)|| Input.GetButtonDown(pauseCode)) && !isPaused)
             {
                 DisableControls(true);
@@ -308,10 +277,7 @@ public class PauseMenu : MonoBehaviour
                     {
                         QuitToMenu();
                     }
-                }
-                
-
-                
+                }                  
             }
         }
         //Handle Practice Mode Pause Menu
