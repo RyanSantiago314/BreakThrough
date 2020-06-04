@@ -55,6 +55,7 @@ public class PauseMenu : MonoBehaviour
     private bool acceptInputCirc;
     private int inputTimer = 0;
     private bool holdScroll = false;
+    private bool updateVideo = false;
 
     public int CPUState = 0;
     public int P1Valor;
@@ -266,7 +267,9 @@ public class PauseMenu : MonoBehaviour
                         MoveListMarker.color = new Color(1f, 1f, 1f, 0f);
                         mList.resetMarker();
                         mList.enableMarker();
-                        //VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().url = "Assets/VideoCaptures/HeadRush.webm";
+                        //Choose what video to display
+                        VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().url = SelectVideo(verticalMoveListIndex, moveListIndex);
+                        
                     }
                     if (!acceptMoveList)
                     {
@@ -285,6 +288,7 @@ public class PauseMenu : MonoBehaviour
                     {
                         //Check Horizontal Input
                         horizontal = Input.GetAxisRaw(inputHorizontal);
+                        updateVideo = false;
 
                         if (!acceptInputHor)
                         {
@@ -298,6 +302,8 @@ public class PauseMenu : MonoBehaviour
                         {
                             moveListIndex -= 1;
                             acceptInputHor = false;
+                            updateVideo = true;
+                           
                             if (verticalMoveListIndex != mList.maxVerticalIndex && moveListIndex != 0)
                             {
                                 verticalMoveListIndex = 1;
@@ -313,6 +319,8 @@ public class PauseMenu : MonoBehaviour
                         {
                             moveListIndex += 1;
                             acceptInputHor = false;
+                            updateVideo = true;
+                           
                             if (verticalMoveListIndex != mList.maxVerticalIndex && moveListIndex != 5)
                             {
                                 verticalMoveListIndex = 1;
@@ -394,6 +402,8 @@ public class PauseMenu : MonoBehaviour
                         {
                             verticalMoveListIndex += 1;
                             acceptInputVer = false;
+                            updateVideo = true;
+                            
                             if (verticalMoveListIndex == mList.maxVerticalIndex)
                             {
                                 mList.disableMarker();
@@ -419,6 +429,8 @@ public class PauseMenu : MonoBehaviour
                         {
                             verticalMoveListIndex -= 1;
                             acceptInputVer = false;
+                            updateVideo = true;
+                            
                             if (verticalMoveListIndex != 0 && verticalMoveListIndex != (mList.maxVerticalIndex - 1))
                             {
                                 mList.moveMarkerUp();
@@ -453,8 +465,18 @@ public class PauseMenu : MonoBehaviour
                         {
                             verticalMoveListIndex = mList.maxVerticalIndex;
                         }
+                        
+                        //changes video if cursor was moved
+                        if(updateVideo)
+                        {
+                            updateVideo = false;
+                            VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().url = SelectVideo(verticalMoveListIndex, moveListIndex);
+                        }
+                       
 
-                        //Go back to pause menu
+                      
+
+                            //Go back to pause menu
                         if (((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2)) && verticalMoveListIndex == mList.maxVerticalIndex && acceptBack)
                         {
                             MoveListBack();
@@ -983,6 +1005,86 @@ public class PauseMenu : MonoBehaviour
             GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(1);
         }
         
+    }
+
+    //creates path to video file based on menu navigation
+    private string SelectVideo(int vertical, int horizontal)
+    {
+        string pathToVideo = "";
+        if (horizontal == 1)
+        {
+            if(vertical == 1)
+            {
+                pathToVideo += "6L";
+            }
+            else if(vertical == 2)
+            {
+                pathToVideo += "6B";
+            }
+        }
+        else if (horizontal == 2)
+        {
+            if(vertical == 1)
+            {
+                pathToVideo += "Patissiere";
+            }
+            else if(vertical == 2)
+            {
+                pathToVideo += "HeadRush";
+            }
+            else if(vertical == 3)
+            {
+                pathToVideo += "BloodBrave";
+            }
+            else if(vertical == 4)
+            {
+                pathToVideo += "BasketCase";
+            }
+        }
+        else if(horizontal == 3)
+        {
+            if(vertical == 1)
+            {
+                pathToVideo += "Toaster";
+            }
+            else if(vertical == 2)
+            {
+                pathToVideo += "JudgementSabre";
+            }
+        }
+        else if(horizontal == 4)
+        {
+            if(vertical == 1)
+            {
+                pathToVideo += "L";
+            }
+            else if(vertical == 2)
+            {
+                pathToVideo += "M";
+            }
+            else if(vertical == 3)
+            {
+                pathToVideo += "H";
+            }
+            else if(vertical == 4)
+            {
+                pathToVideo += "B";
+            }
+            else if(vertical == 5)
+            {
+                pathToVideo += "Cancel";
+            }
+            else if(vertical == 6)
+            {
+                pathToVideo += "Grab";
+            }
+        }
+
+        if (pathToVideo.Equals(""))
+            return null;
+        else
+            return "Assets/VideoCaptures/" + pathToVideo + ".webm";
+
     }
 
     private void SetControllers()
