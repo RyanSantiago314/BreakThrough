@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class PauseMenu : MonoBehaviour
 {
     public Animator MarkAnimator;
+    public Animator MoveListMarkAnimator;
+    public Animator SelectorMarkAnimator;
 
     public GameObject pauseMenuUI;
     public GameObject practicePauseMenuUI;
@@ -70,6 +72,12 @@ public class PauseMenu : MonoBehaviour
     static public bool allowPause;
 
     public MoveList mList;
+    private int moveListIndex = 1;
+    private int verticalMoveListIndex = 1;
+    public Image MoveListMarker;
+    private bool keepMaxIndex;
+    private bool acceptBack = false;
+    private bool acceptMoveList = true;
 
     //Dev tool to remove HUD
     public GameObject HUD;
@@ -94,11 +102,6 @@ public class PauseMenu : MonoBehaviour
         HUD = GameObject.Find("HUD");
         PracticeHUD = GameObject.Find("PracticeHUD");
         PlayerData = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>();
-
-        mList.setCharacter("Dhalia");
-        mList.setPage("Normals");
-        mList.setDhaliaPage5();
-
     }
     // top bottom
     // Resume:  0 32
@@ -249,15 +252,213 @@ public class PauseMenu : MonoBehaviour
                 {
                     moveListButtonMatch.Select();
                     UIBar.transform.localPosition = new Vector2(0, -32);
-                    if ((Input.GetButton(p1cross) && !moveList && playerPaused == 1) || (Input.GetButton(p2cross) && !moveList && playerPaused == 2))
+
+                    if (((Input.GetButtonDown(p1cross) && !moveList && playerPaused == 1) || (Input.GetButtonDown(p2cross) && !moveList && playerPaused == 2)) && acceptMoveList)
                     {
                         MoveList();
+                        acceptBack = false;
+                        mList.setCharacter("Dhalia");
+                        mList.setPage("Command Normals");
+                        mList.setDhaliaPage1();
+                        verticalMoveListIndex = 1;
+                        MoveListMarker.color = new Color(1f, 1f, 1f, 0f);
+                        mList.resetMarker();
+                        mList.enableMarker();
+                    }
+                    if (!acceptMoveList)
+                    {
+                        acceptMoveList = true;
                     }
                     if (((Input.GetButton(p1circle) && moveList && playerPaused == 1) || (Input.GetButton(p2circle) && moveList && playerPaused == 2)) && acceptInputCirc)
                     {
                         MoveListBack();
+                        
                         resumeButtonMatch.Select();
                         acceptInputCirc = false;
+                    }
+
+                    //MoveList Interactions
+                    if (moveListUI.activeSelf)
+                    {
+                        //Check Horizontal Input
+                        horizontal = Input.GetAxisRaw(inputHorizontal);
+
+                        if (!acceptInputHor)
+                        {
+                            if (horizontal == 0)
+                            {
+                                acceptInputHor = true;
+                            }
+                        }
+
+                        if (acceptInputHor && horizontal < 0)
+                        {
+                            moveListIndex -= 1;
+                            acceptInputHor = false;
+                            if (verticalMoveListIndex != mList.maxVerticalIndex && moveListIndex != 0)
+                            {
+                                verticalMoveListIndex = 1;
+                                mList.resetMarker();
+                                SelectorMarkAnimator.Play("SelectionSlide", -1, 0f);
+                            }
+                            else if (verticalMoveListIndex == mList.maxVerticalIndex)
+                            {
+                                keepMaxIndex = true;
+                            }
+                        }
+                        else if (acceptInputHor && horizontal > 0)
+                        {
+                            moveListIndex += 1;
+                            acceptInputHor = false;
+                            if (verticalMoveListIndex != mList.maxVerticalIndex && moveListIndex != 5)
+                            {
+                                verticalMoveListIndex = 1;
+                                mList.resetMarker();
+                                SelectorMarkAnimator.Play("SelectionSlide", -1, 0f);
+                            }
+                            else if (verticalMoveListIndex == mList.maxVerticalIndex)
+                            {
+                                keepMaxIndex = true;
+                            }
+                            if (moveListIndex == 4)
+                            {
+                                mList.setDhaliaPage4();
+                            }
+                        }
+
+                        if (moveListIndex == 1)
+                        {
+                            mList.setDhaliaPage1();
+                            mList.setPage("Command Normals");
+                        }
+                        else if (moveListIndex == 2)
+                        {
+                            mList.setDhaliaPage2();
+                            mList.setPage("Special Moves");
+                        }
+                        else if (moveListIndex == 3)
+                        {
+                            mList.setDhaliaPage3();
+                            mList.setPage("Break Triggers");
+                        }
+                        else if (moveListIndex == 4)
+                        {
+                            mList.setPage("Universal Moves");
+                        }
+
+
+                        if (keepMaxIndex)
+                        {
+                            verticalMoveListIndex = mList.maxVerticalIndex;
+                            switch (verticalMoveListIndex)
+                            {
+                                case 2:
+                                    mList.setMarkerPosition(1);
+                                    break;
+                                case 3:
+                                    mList.setMarkerPosition(2);
+                                    break;
+                                case 4:
+                                    mList.setMarkerPosition(3);
+                                    break;
+                                default:
+                                    mList.setMarkerPosition(4);
+                                    break;
+                            }
+                            keepMaxIndex = false;
+                        }
+
+                        //Movelist hortizontal scrolling
+                        if (moveListIndex < 1)
+                        {
+                            moveListIndex = 1;
+                        }
+                        else if (moveListIndex > 4)
+                        {
+                            moveListIndex = 4;
+                        }
+
+                        //Check Vertical Input
+                        if (!acceptInputVer)
+                        {
+                            if (vertical == 0)
+                            {
+                                acceptInputVer = true;
+                            }
+                        }
+
+                        if (acceptInputVer && vertical < 0)
+                        {
+                            verticalMoveListIndex += 1;
+                            acceptInputVer = false;
+                            if (verticalMoveListIndex == mList.maxVerticalIndex)
+                            {
+                                mList.disableMarker();
+                                MoveListMarker.color = new Color(1f, 1f, 1f, 1f);
+                                MoveListMarkAnimator.Play("MarkAnimation", -1, 0f);
+                            }
+                            else if (verticalMoveListIndex < mList.maxVerticalIndex)
+                            {
+                                mList.moveMarkerDown();
+                                SelectorMarkAnimator.Play("SelectionSlide", -1, 0f);
+                            }
+
+                            if (moveListIndex == 4 && mList.bottomCheck() && verticalMoveListIndex == 5)
+                            {
+                                mList.setDhaliaPage4Scroll1();
+                            }
+                            else if((moveListIndex == 4 && mList.bottomCheck() && verticalMoveListIndex == 6))
+                            {
+                                mList.setDhaliaPage4Scroll2();
+                            }
+                        }
+                        else if (acceptInputVer && vertical > 0)
+                        {
+                            verticalMoveListIndex -= 1;
+                            acceptInputVer = false;
+                            if (verticalMoveListIndex != 0 && verticalMoveListIndex != (mList.maxVerticalIndex - 1))
+                            {
+                                mList.moveMarkerUp();
+                                SelectorMarkAnimator.Play("SelectionSlide", -1, 0f);
+                            }
+                            if (verticalMoveListIndex < mList.maxVerticalIndex)
+                            {
+                                mList.enableMarker();
+                                MoveListMarker.color = new Color(1f, 1f, 1f, 0f);
+                            }
+
+                            if ((moveListIndex == 4 && verticalMoveListIndex == 6) && mList.bottomCheck())
+                            {
+                                mList.setDhaliaPage4Scroll2();
+                            }
+                            else if (moveListIndex == 4 && mList.topCheck() && verticalMoveListIndex == 2)
+                            {
+                                mList.setDhaliaPage4Scroll1();
+                            }
+                            else if (moveListIndex == 4 && mList.topCheck() && verticalMoveListIndex == 1)
+                            {
+                                mList.setDhaliaPage4();
+                            }
+                        }
+
+                        //Movelist vertical scrolling
+                        if (verticalMoveListIndex < 1)
+                        {
+                            verticalMoveListIndex = 1;
+                        }
+                        else if (verticalMoveListIndex > mList.maxVerticalIndex)
+                        {
+                            verticalMoveListIndex = mList.maxVerticalIndex;
+                        }
+
+                        //Go back to pause menu
+                        if (((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2)) && verticalMoveListIndex == mList.maxVerticalIndex && acceptBack)
+                        {
+                            MoveListBack();
+                            acceptMoveList = false;
+                        }
+                        //Prevent double-inputs
+                        acceptBack = true;
                     }
                 }
                 else if (optionIndex == 2)

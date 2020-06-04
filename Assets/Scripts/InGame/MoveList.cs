@@ -20,6 +20,7 @@ public class MoveList : MonoBehaviour
     public Image pageMoveIconL;
     public Image pageMoveIconR;
     public Image carouselSelected;
+    public GameObject selectionMarker;
 
     public Text Move1;
     public Text Description1;
@@ -62,7 +63,9 @@ public class MoveList : MonoBehaviour
     public Image carousel2;
     public Image carousel3;
     public Image carousel4;
-    public Image carousel5;
+
+    //Reference for Vertical Scrolling
+    public int maxVerticalIndex;
 
     //Functions to set pages
     public void setCharacter(string character)
@@ -75,72 +78,85 @@ public class MoveList : MonoBehaviour
         pageIdentifier.text = page;
     }
 
+    public bool topCheck()
+    {
+        if (selectionMarker.GetComponent<RectTransform>().localPosition.y < 121.3f)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public bool bottomCheck()
+    {
+        if (selectionMarker.GetComponent<RectTransform>().localPosition.y > -97.64763f)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    //Functions to move selection marker
+    public void moveMarkerUp()
+    {
+        if (selectionMarker.GetComponent<RectTransform>().localPosition.y < 121.3f)
+        {
+            selectionMarker.transform.position += new Vector3(0, 46f, 0);
+        }
+    }
+
+    public void moveMarkerDown()
+    {
+        if (selectionMarker.GetComponent<RectTransform>().localPosition.y > -97.64763f)
+        {
+            selectionMarker.transform.position -= new Vector3(0, 46f, 0);
+        }
+    }
+
+    public void disableMarker()
+    {
+        selectionMarker.SetActive(false);
+    }
+
+    public void enableMarker()
+    {
+        selectionMarker.SetActive(true);
+    }
+
+    public void setMarkerPosition(int maxNumber)
+    {
+        switch (maxNumber)
+        {
+            case 1:
+                selectionMarker.GetComponent<RectTransform>().localPosition = new Vector3(-115.52f, 121.4f, 0);
+                break;
+            case 2:
+                selectionMarker.GetComponent<RectTransform>().localPosition = new Vector3(-115.52f, 48.38412f, 0);
+                break;
+            case 3:
+                selectionMarker.GetComponent<RectTransform>().localPosition = new Vector3(-115.52f, -24.63176f, 0);
+                break;
+            case 4:
+                selectionMarker.GetComponent<RectTransform>().localPosition = new Vector3(-115.52f, -97.64763f, 0);
+                break;
+        }
+    }
+
+    public void resetMarker()
+    {
+        selectionMarker.GetComponent<RectTransform>().localPosition = new Vector3(-115.52f, 121.4f, 0);
+    }
+
     //Dhalia's Movelist pages
     public void setDhaliaPage1()
     {
         pageMoveIconL.color = new Color(1f, 1f, 1f, .5f);
-        Move1.text = "Light";
-        Description1.text = "";
-        move1Input1.sprite = LightButton.sprite;
-        move2Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move1Input2.sprite = Blank.sprite;
-        move1Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move1Input3.sprite = Blank.sprite;
-        move1Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move1Input4.sprite = Blank.sprite;
-        move1Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move1Input5.sprite = Blank.sprite;
-        move1Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move1Input6.sprite = Blank.sprite;
-        move1Input6.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move1Input7.sprite = Blank.sprite;
-        move1Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
-        Move2.text = "Medium";
-        Description2.text = "";
-        move2Input1.sprite = MediumButton.sprite;
-        move2Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move2Input2.sprite = Blank.sprite;
-        move2Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move2Input3.sprite = Blank.sprite;
-        move2Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move2Input4.sprite = Blank.sprite;
-        move2Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move2Input5.sprite = Blank.sprite;
-        move2Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move2Input6.sprite = Blank.sprite;
-        move2Input6.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move2Input7.sprite = Blank.sprite;
-        move2Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
-        Move3.text = "Heavy";
-        Description3.text = "";
-        move3Input1.sprite = HeavyButton.sprite;
-        move3Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move3Input2.sprite = Blank.sprite;
-        move3Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move3Input3.sprite = Blank.sprite;
-        move3Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move3Input4.sprite = Blank.sprite;
-        move3Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move3Input5.sprite = Blank.sprite;
-        move3Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
-        Move4.text = "Break";
-        Description4.text = "";
-        move4Input1.sprite = BreakButton.sprite;
-        move4Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move4Input2.sprite = Blank.sprite;
-        move4Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move4Input3.sprite = Blank.sprite;
-        move4Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move4Input4.sprite = Blank.sprite;
-        move4Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move4Input5.sprite = Blank.sprite;
-        move4Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
-        carouselSelected.transform.position = carousel1.transform.position;
-    }
-
-    public void setDhaliaPage2()
-    {
-        pageMoveIconL.color = new Color(1f, 1f, 1f, 1f);
         Move1.text = "Normal 1";
         Description1.text = "Can be used repeatedly";
         move1Input1.sprite = arrow.sprite;
@@ -197,49 +213,13 @@ public class MoveList : MonoBehaviour
         move4Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
         move4Input5.sprite = Blank.sprite;
         move4Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
-        carouselSelected.transform.position = carousel2.transform.position;
+        carouselSelected.transform.position = carousel1.transform.position;
+        maxVerticalIndex = 3;
     }
 
-    public void setDhaliaPage3()
+    public void setDhaliaPage2()
     {
-        Move1.text = "";
-        Description1.text = "";
-        move1Input1.sprite = Blank.sprite;
-        move1Input2.sprite = Blank.sprite;
-        move1Input3.sprite = Blank.sprite;
-        move1Input4.sprite = Blank.sprite;
-        move1Input5.sprite = Blank.sprite;
-        move1Input6.sprite = Blank.sprite;
-        move1Input7.sprite = Blank.sprite;
-        Move2.text = "";
-        Description2.text = "";
-        move2Input1.sprite = Blank.sprite;
-        move2Input2.sprite = Blank.sprite;
-        move2Input3.sprite = Blank.sprite;
-        move2Input4.sprite = Blank.sprite;
-        move2Input5.sprite = Blank.sprite;
-        move2Input6.sprite = Blank.sprite;
-        move2Input7.sprite = Blank.sprite;
-        Move3.text = "";
-        Description3.text = "";
-        move3Input1.sprite = Blank.sprite;
-        move3Input2.sprite = Blank.sprite;
-        move3Input3.sprite = Blank.sprite;
-        move3Input4.sprite = Blank.sprite;
-        move3Input5.sprite = Blank.sprite;
-        Move4.text = "";
-        Description4.text = "";
-        move4Input1.sprite = Blank.sprite;
-        move4Input2.sprite = Blank.sprite;
-        move4Input3.sprite = Blank.sprite;
-        move4Input4.sprite = Blank.sprite;
-        move4Input5.sprite = Blank.sprite;
-        carouselSelected.transform.position = carousel3.transform.position;
-    }
-
-    public void setDhaliaPage4()
-    {
-        pageMoveIconR.color = new Color(1f, 1f, 1f, 1f);
+        pageMoveIconL.color = new Color(1f, 1f, 1f, 1f);
         Move1.text = "Patissiere";
         Description1.text = "";
         move1Input1.sprite = arrow.sprite;
@@ -270,7 +250,7 @@ public class MoveList : MonoBehaviour
         move2Input5.transform.rotation = Quaternion.Euler(0, 0, -180);
         move2Input6.sprite = plus.sprite;
         move2Input6.transform.rotation = Quaternion.Euler(0, 0, 0);
-        move2Input7.sprite = BreakButton.sprite;
+        move2Input7.sprite = MediumButton.sprite;
         move2Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         Move3.text = "Blood Brave";
         Description3.text = "Usable in the air.";
@@ -296,12 +276,13 @@ public class MoveList : MonoBehaviour
         move4Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
         move4Input5.sprite = BreakButton.sprite;
         move4Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
-        carouselSelected.transform.position = carousel4.transform.position;
+        carouselSelected.transform.position = carousel2.transform.position;
+        maxVerticalIndex = 5;
     }
 
-    public void setDhaliaPage5()
+    public void setDhaliaPage3()
     {
-        pageMoveIconR.color = new Color(1f, 1f, 1f, .5f);
+        pageMoveIconR.color = new Color(1f, 1f, 1f, 1f);
         Move1.text = "Toaster";
         Description1.text = "";
         move1Input1.sprite = arrow.sprite;
@@ -358,6 +339,196 @@ public class MoveList : MonoBehaviour
         move4Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
         move4Input5.sprite = Blank.sprite;
         move4Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
-        carouselSelected.transform.position = carousel5.transform.position;
+        carouselSelected.transform.position = carousel3.transform.position;
+        maxVerticalIndex = 3;
+    }
+
+    public void setDhaliaPage4()
+    {
+        pageMoveIconR.color = new Color(1f, 1f, 1f, .5f);
+        Move1.text = "Light";
+        Description1.text = "";
+        move1Input1.sprite = LightButton.sprite;
+        move1Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input2.sprite = Blank.sprite;
+        move1Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input3.sprite = Blank.sprite;
+        move1Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input4.sprite = Blank.sprite;
+        move1Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input5.sprite = Blank.sprite;
+        move1Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input6.sprite = Blank.sprite;
+        move1Input6.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input7.sprite = Blank.sprite;
+        move1Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
+        Move2.text = "Medium";
+        Description2.text = "";
+        move2Input1.sprite = MediumButton.sprite;
+        move2Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input2.sprite = Blank.sprite;
+        move2Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input3.sprite = Blank.sprite;
+        move2Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input4.sprite = Blank.sprite;
+        move2Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input5.sprite = Blank.sprite;
+        move2Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input6.sprite = Blank.sprite;
+        move2Input6.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input7.sprite = Blank.sprite;
+        move2Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
+        Move3.text = "Heavy";
+        Description3.text = "";
+        move3Input1.sprite = HeavyButton.sprite;
+        move3Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move3Input2.sprite = Blank.sprite;
+        move3Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move3Input3.sprite = Blank.sprite;
+        move3Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move3Input4.sprite = Blank.sprite;
+        move3Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move3Input5.sprite = Blank.sprite;
+        move3Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
+        Move4.text = "Break";
+        Description4.text = "";
+        move4Input1.sprite = BreakButton.sprite;
+        move4Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move4Input2.sprite = Blank.sprite;
+        move4Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move4Input3.sprite = Blank.sprite;
+        move4Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move4Input4.sprite = Blank.sprite;
+        move4Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move4Input5.sprite = Blank.sprite;
+        move4Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
+        carouselSelected.transform.position = carousel4.transform.position;
+        maxVerticalIndex = 7;
+    }
+
+    public void setDhaliaPage4Scroll1()
+    {
+        pageMoveIconR.color = new Color(1f, 1f, 1f, .5f);
+        Move1.text = "Medium";
+        Description1.text = "";
+        move1Input1.sprite = MediumButton.sprite;
+        move1Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input2.sprite = Blank.sprite;
+        move1Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input3.sprite = Blank.sprite;
+        move1Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input4.sprite = Blank.sprite;
+        move1Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input5.sprite = Blank.sprite;
+        move1Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input6.sprite = Blank.sprite;
+        move1Input6.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input7.sprite = Blank.sprite;
+        move1Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
+        Move2.text = "Heavy";
+        Description2.text = "";
+        move2Input1.sprite = HeavyButton.sprite;
+        move2Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input2.sprite = Blank.sprite;
+        move2Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input3.sprite = Blank.sprite;
+        move2Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input4.sprite = Blank.sprite;
+        move2Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input5.sprite = Blank.sprite;
+        move2Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input6.sprite = Blank.sprite;
+        move2Input6.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input7.sprite = Blank.sprite;
+        move2Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
+        Move3.text = "Break";
+        Description3.text = "";
+        move3Input1.sprite = BreakButton.sprite;
+        move3Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move3Input2.sprite = Blank.sprite;
+        move3Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move3Input3.sprite = Blank.sprite;
+        move3Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move3Input4.sprite = Blank.sprite;
+        move3Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move3Input5.sprite = Blank.sprite;
+        move3Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
+        Move4.text = "Blitz Cancel";
+        Description4.text = "";
+        move4Input1.sprite = MediumButton.sprite;
+        move4Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move4Input2.sprite = plus.sprite;
+        move4Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move4Input3.sprite = HeavyButton.sprite;
+        move4Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move4Input4.sprite = Blank.sprite;
+        move4Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move4Input5.sprite = Blank.sprite;
+        move4Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
+        carouselSelected.transform.position = carousel4.transform.position;
+        maxVerticalIndex = 7;
+    }
+
+    public void setDhaliaPage4Scroll2()
+    {
+        pageMoveIconR.color = new Color(1f, 1f, 1f, .5f);
+        Move1.text = "Heavy";
+        Description1.text = "";
+        move1Input1.sprite = HeavyButton.sprite;
+        move1Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input2.sprite = Blank.sprite;
+        move1Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input3.sprite = Blank.sprite;
+        move1Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input4.sprite = Blank.sprite;
+        move1Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input5.sprite = Blank.sprite;
+        move1Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input6.sprite = Blank.sprite;
+        move1Input6.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move1Input7.sprite = Blank.sprite;
+        move1Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
+        Move2.text = "Break";
+        Description2.text = "";
+        move2Input1.sprite = BreakButton.sprite;
+        move2Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input2.sprite = Blank.sprite;
+        move2Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input3.sprite = Blank.sprite;
+        move2Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input4.sprite = Blank.sprite;
+        move2Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input5.sprite = Blank.sprite;
+        move2Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input6.sprite = Blank.sprite;
+        move2Input6.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move2Input7.sprite = Blank.sprite;
+        move2Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
+        Move3.text = "BlitzCancel";
+        Description3.text = "";
+        move3Input1.sprite = MediumButton.sprite;
+        move3Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move3Input2.sprite = plus.sprite;
+        move3Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move3Input3.sprite = HeavyButton.sprite;
+        move3Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move3Input4.sprite = Blank.sprite;
+        move3Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move3Input5.sprite = Blank.sprite;
+        move3Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
+        Move4.text = "Throw";
+        Description4.text = "";
+        move4Input1.sprite = LightButton.sprite;
+        move4Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move4Input2.sprite = plus.sprite;
+        move4Input2.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move4Input3.sprite = BreakButton.sprite;
+        move4Input3.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move4Input4.sprite = Blank.sprite;
+        move4Input4.transform.rotation = Quaternion.Euler(0, 0, 0);
+        move4Input5.sprite = Blank.sprite;
+        move4Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
+        carouselSelected.transform.position = carousel4.transform.position;
+        maxVerticalIndex = 7;
     }
 }
