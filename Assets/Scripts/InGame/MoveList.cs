@@ -34,6 +34,7 @@ public class MoveList : MonoBehaviour
 
     public Text Move2;
     public Text Description2;
+    public GameObject Move2Break;
     public Image move2Input1;
     public Image move2Input2;
     public Image move2Input3;
@@ -52,6 +53,7 @@ public class MoveList : MonoBehaviour
 
     public Text Move4;
     public Text Description4;
+    public GameObject Move4Break;
     public Image move4Input1;
     public Image move4Input2;
     public Image move4Input3;
@@ -107,7 +109,7 @@ public class MoveList : MonoBehaviour
     {
         if (selectionMarker.GetComponent<RectTransform>().localPosition.y < 121.3f)
         {
-            selectionMarker.transform.position += new Vector3(0, 46f, 0);
+            selectionMarker.GetComponent<RectTransform>().localPosition += new Vector3(0, 74f, 0);
         }
     }
 
@@ -115,7 +117,7 @@ public class MoveList : MonoBehaviour
     {
         if (selectionMarker.GetComponent<RectTransform>().localPosition.y > -97.64763f)
         {
-            selectionMarker.transform.position -= new Vector3(0, 46f, 0);
+            selectionMarker.GetComponent<RectTransform>().localPosition -= new Vector3(0, 74f, 0);
         }
     }
 
@@ -174,7 +176,8 @@ public class MoveList : MonoBehaviour
         move1Input7.sprite = Blank.sprite;
         move1Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         Move2.text = "Normal 2";
-        Description2.text = "Hold B to Charge Attack";
+        Description2.text = "Hold B  to Charge Attack";
+        Move2Break.SetActive(true);
         move2Input1.sprite = arrow.sprite;
         move2Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
         move2Input2.sprite = plus.sprite;
@@ -203,6 +206,7 @@ public class MoveList : MonoBehaviour
         move3Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
         Move4.text = "";
         Description4.text = "";
+        Move4Break.SetActive(false);
         move4Input1.sprite = Blank.sprite;
         move4Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
         move4Input2.sprite = Blank.sprite;
@@ -237,7 +241,8 @@ public class MoveList : MonoBehaviour
         move1Input7.sprite = Blank.sprite;
         move1Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         Move2.text = "Head Rush";
-        Description2.text = "Hold B to extend attack.";
+        Description2.text = "Hold B  to extend attack.";
+        Move2Break.SetActive(true);
         move2Input1.sprite = arrow.sprite;
         move2Input1.transform.rotation = Quaternion.Euler(0, 0, -0);
         move2Input2.sprite = arrow.sprite;
@@ -265,7 +270,8 @@ public class MoveList : MonoBehaviour
         move3Input5.sprite = HeavyButton.sprite;
         move3Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
         Move4.text = "Basket Case";
-        Description4.text = "Hold B to charge attack.";
+        Description4.text = "Hold B  to charge attack.";
+        Move4Break.SetActive(true);
         move4Input1.sprite = arrow.sprite;
         move4Input1.transform.rotation = Quaternion.Euler(0, 0, -90);
         move4Input2.sprite = arrow.sprite;
@@ -301,6 +307,7 @@ public class MoveList : MonoBehaviour
         move1Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         Move2.text = "Judgement Sabre";
         Description2.text = "";
+        Move2Break.SetActive(false);
         move2Input1.sprite = arrow.sprite;
         move2Input1.transform.rotation = Quaternion.Euler(0, 0, -90);
         move2Input2.sprite = arrow.sprite;
@@ -329,6 +336,7 @@ public class MoveList : MonoBehaviour
         move3Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
         Move4.text = "";
         Description4.text = "";
+        Move4Break.SetActive(false);
         move4Input1.sprite = Blank.sprite;
         move4Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
         move4Input2.sprite = Blank.sprite;
@@ -364,6 +372,7 @@ public class MoveList : MonoBehaviour
         move1Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         Move2.text = "Medium";
         Description2.text = "";
+        Move2Break.SetActive(false);
         move2Input1.sprite = MediumButton.sprite;
         move2Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
         move2Input2.sprite = Blank.sprite;
@@ -392,6 +401,7 @@ public class MoveList : MonoBehaviour
         move3Input5.transform.rotation = Quaternion.Euler(0, 0, 0);
         Move4.text = "Break";
         Description4.text = "";
+        Move4Break.SetActive(false);
         move4Input1.sprite = BreakButton.sprite;
         move4Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
         move4Input2.sprite = Blank.sprite;
