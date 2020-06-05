@@ -325,7 +325,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &500688647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,13 +340,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: Practice
   stage: TrainingStage
-  P1Character: Dhalia
+  P1Character: Achealis
   P2Character: Achealis
   P1Color: 1
   P2Color: 2
   P1Side: Left
   P2Side: Right
-  CPUDifficulty: 50
+  CPUDifficulty: 100
 --- !u!4 &500688648
 Transform:
   m_ObjectHideFlags: 0
