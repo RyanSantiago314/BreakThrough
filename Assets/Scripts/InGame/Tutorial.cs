@@ -177,7 +177,7 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 12)
         {
-            popUps.GetComponent<Text>().text = "Now perform a combo attack on the dummy! \n (Note :  You can view your characters move list in the Pause Menu)";
+            popUps.GetComponent<Text>().text = "Now try to perform a combo attack on the enemy!";
             if (P1Prop.HitDetect.comboCount >= 5 && popUpDelay == 0)
             {
                 popUpIndex++;
@@ -220,7 +220,8 @@ public class Tutorial : MonoBehaviour
                 GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().refillCPUHealth = false;
                 GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().CPUState = 6;
                 GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().ArmorRefill = 1;
-                
+                popUpsBackground.SetActive(false);  
+                popUps.GetComponent<Text>().text = " ";
             }
             if (GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>().currentHealth == 0)
             {
@@ -230,7 +231,12 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 17)
         {
-            popUps.GetComponent<Text>().text = "Tutorial Completed!";
+            popUpsBackground.SetActive(true);  
+            popUps.GetComponent<Text>().text = "Tutorial Completed! \n (Press C or Select to go back to the main menu)";
+            if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
+            {
+                GameObject.Find("PauseManager").GetComponent<PauseMenu>().QuitToMenu();
+            }
         }
         else
         {
