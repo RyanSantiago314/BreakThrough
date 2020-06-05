@@ -57,6 +57,12 @@ public class CharacterLoader : MonoBehaviour
         else {
             P1Character = Instantiate(Resources.Load(P1Char, typeof(GameObject)), GameObject.Find("Player1").transform) as GameObject;
         }
+        
+        setFullP1Properties(P1Character);
+    }
+
+    public void setFullP1Properties(GameObject P1Character)
+    {
         P1Character.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character;
 
         //Assign CharacterHandlers
@@ -83,7 +89,6 @@ public class CharacterLoader : MonoBehaviour
         {
             GameObject.Find("Player1").transform.position = new Vector3(1f, 1.127f, -3);
         }
-
     }
 
     void setP2Properties()
@@ -105,6 +110,11 @@ public class CharacterLoader : MonoBehaviour
             P2Character = Instantiate(Resources.Load(P2Char, typeof(GameObject)), GameObject.Find("Player2").transform) as GameObject;
         }
         
+        setFullP2Properties(P2Character);
+    }
+
+    public void setFullP2Properties(GameObject P2Character)
+    {
         P2Character.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character;
 
         //Assign CharacterHandlers

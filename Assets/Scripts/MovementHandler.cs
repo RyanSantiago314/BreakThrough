@@ -82,23 +82,23 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
     static int yVeloID;
     static int KOID;
 
+    private CharacterLoader loader;
+
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
         Debug.Log(info);
-
+        loader = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>();
         
         
         //Most of this is properly setting online values from CharacterLoader.cs setP#Properties()
         if (PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer)) //If we're master and message was not sent by us
         {
-          
+            //Three gameobject find's in a single call. need to fix this.
             //Sets Character manager
-            GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character = this.gameObject;
-            /*
+            loader.P2Character = this.gameObject;
+            
             //Sets Player2 Prefab
-            Player2.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Character;
-            Player2.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
-            */
+            loader.setFullP2Properties(loader.P2Character);
             
 
         }
@@ -107,15 +107,10 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
         {
             
             //Character Manager field
-            GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character = this.gameObject;
-            /*
+            loader.P1Character = this.gameObject;
+            
             //Sets Player1 Prefab
-            Player1.name = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Character;
-
-            //Assign CharacterHandlers
-            GameObject.Find("Player1").GetComponent<FighterAgent>().myChar = Player1.GetComponent<CharacterProperties>();
-            Player1.GetComponent<MovementHandler>().MaxInput = GameObject.Find("MaxInput").GetComponent<MaxInput>();
-            */
+            loader.setFullP1Properties(loader.P1Character);
             
 
         }
