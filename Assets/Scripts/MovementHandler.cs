@@ -86,13 +86,14 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
-        Debug.Log(info);
+        
         loader = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>();
         
         
         //Most of this is properly setting online values from CharacterLoader.cs setP#Properties()
         if (PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer)) //If we're master and message was not sent by us
         {
+            Debug.Log(info);
             //Three gameobject find's in a single call. need to fix this.
             //Sets Character manager
             loader.P2Character = this.gameObject;
