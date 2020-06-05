@@ -102,6 +102,9 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
             //Sets Player2 Prefab
             loader.setFullP2Properties(loader.P2Character);
             loader.P2Character.transform.parent = GameObject.Find("Player2").transform;
+            
+            loader.P1Character.SetActive(true);
+            loader.P2Character.SetActive(true);
 
 
         }
@@ -116,7 +119,8 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
             loader.setFullP1Properties(loader.P1Character);
             loader.P1Character.transform.parent = GameObject.Find("Player1").transform;
 
-
+            loader.P1Character.SetActive(true);
+            loader.P2Character.SetActive(true);
         }
         
         

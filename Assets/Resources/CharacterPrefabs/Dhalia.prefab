@@ -119,7 +119,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5672348969353512146
 Transform:
   m_ObjectHideFlags: 0
@@ -263,6 +263,7 @@ MonoBehaviour:
   Horizontal: Horizontal_P1
   Vertical: Vertical_P1
   L3: L3_P1
+  networkInit: 0
 --- !u!114 &5672348969353512145
 MonoBehaviour:
   m_ObjectHideFlags: 0
