@@ -202,16 +202,16 @@ public class AcceptInputs : MonoBehaviour
         comboHits = Move.OpponentProperties.HitDetect.comboCount;
         if (comboHits == 0 || superHit)
             gravScale = 1;
-        else if (comboHits > 40)
-            gravScale = 1.25f;
-        else if (comboHits > 30)
-            gravScale = 1.2f;
+        else if (comboHits > 24)
+            gravScale = 1.3f;
         else if (comboHits > 20)
+            gravScale = 1.25f;
+        else if (comboHits > 16)
+            gravScale = 1.2f;
+        else if (comboHits > 12)
             gravScale = 1.15f;
-        else if (comboHits > 15)
+        else if (comboHits > 8)
             gravScale = 1.1f;
-        else if (comboHits > 10)
-            gravScale = 1.05f;
     }
 
     public void DisableAll()

@@ -66,6 +66,9 @@ public class HitDetector : MonoBehaviour
     public bool guardCancel;
     public bool disableBlitz = false;
 
+    public bool pierceSuccess;
+    public bool counterSuccess;
+
     public bool slash = false;
     public bool vertSlash = false;
     public bool horiSlash = false;
@@ -522,7 +525,7 @@ public class HitDetector : MonoBehaviour
                         Actions.jumpCancel = true;
                     }
 
-                    if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.recovering))
+                    if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.attacking || OpponentDetector.Actions.active || OpponentDetector.Actions.recovering))
                     {
                         //getting shattered means losing all your meter/armor
                         Actions.Move.OpponentProperties.armor = 0;
@@ -544,6 +547,7 @@ public class HitDetector : MonoBehaviour
                             Actions.Move.OpponentProperties.durability -= durabilityDamage;
                             OpponentDetector.armorHit = true;
                         }
+                        pierceSuccess = true;
                         HitSuccess(other);
                         ApplyHitStop(0);
                     }
@@ -945,7 +949,7 @@ public class HitDetector : MonoBehaviour
         else
         {
             OpponentDetector.hitStun = potentialHitStun/60;
-            /*if (OpponentDetector.Actions.airborne && usingSpecial)
+            if (OpponentDetector.Actions.airborne && usingSpecial)
             {
                 if (Actions.Move.OpponentProperties.comboTimer > 18)
                     OpponentDetector.hitStun = (6 * potentialHitStun / 600);
@@ -956,7 +960,7 @@ public class HitDetector : MonoBehaviour
                 else if (Actions.Move.OpponentProperties.comboTimer > 10)
                     OpponentDetector.hitStun = (9 * potentialHitStun / 600);
             }
-            else*/ if (OpponentDetector.Actions.airborne && !usingSuper)
+            else if (OpponentDetector.Actions.airborne && !usingSuper)
             {
                 if (Actions.Move.OpponentProperties.comboTimer > 18)
                     OpponentDetector.hitStun = (float)(1/60);
@@ -973,7 +977,7 @@ public class HitDetector : MonoBehaviour
             if (OpponentDetector.anim.GetBool("Crouch"))
                 OpponentDetector.hitStun += (float)(1/30);
             //increase hitstun upon landing a shatter or counter hit
-            if (OpponentDetector.Actions.shattered || OpponentDetector.Actions.attacking)
+            if ((OpponentDetector.Actions.shattered || OpponentDetector.Actions.attacking) && !piercing)
             {
                 Actions.Move.OpponentProperties.comboTimer = 0;
                 OpponentDetector.hitStun *= 2;
@@ -983,7 +987,7 @@ public class HitDetector : MonoBehaviour
                 }
                 else
                 {
-                    //counter graphic on attacker's side and voice clip
+                    counterSuccess = true;
                 }
             }
             OpponentDetector.blockStun = 0;
@@ -1045,20 +1049,22 @@ public class HitDetector : MonoBehaviour
             //apply pushback based on certain conditions
             if (!usingSpecial && !usingSuper && guard != "Unblockable")
             {
-                if (comboCount < 2)
+                if (Actions.Move.OpponentProperties.comboTimer < 2)
                     pushBackScale = .9f;
-                else if (comboCount < 10)
+                else if (Actions.Move.OpponentProperties.comboTimer < 4)
                     pushBackScale = .95f;
-                else if (comboCount < 15)
+                else if (Actions.Move.OpponentProperties.comboTimer < 7)
                     pushBackScale = 1f;
-                else if (comboCount < 25)
+                else if (Actions.Move.OpponentProperties.comboTimer < 10)
                     pushBackScale = 1.05f;
-                else if (comboCount < 30)
+                else if (Actions.Move.OpponentProperties.comboTimer < 14)
                     pushBackScale = 1.1f;
-                else if (comboCount < 35)
+                else if (Actions.Move.OpponentProperties.comboTimer < 17)
                     pushBackScale = 1.15f;
-                else if (comboCount < 40)
+                else if (Actions.Move.OpponentProperties.comboTimer < 20)
                     pushBackScale = 1.2f;
+                else
+                    pushBackScale = 1.25f;
 
                 if (Actions.airborne)
                 {

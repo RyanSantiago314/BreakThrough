@@ -840,7 +840,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialKnockBack = new Vector2(1.5f, 4.7f);
-        HitDetect.potentialHitStun = 72;
+        HitDetect.potentialHitStun = 75;
         HitDetect.potentialHitStop = 15;
         HitDetect.attackLevel = 5;
         HitDetect.guard = "Mid";
@@ -869,7 +869,7 @@ public class HitboxACH : MonoBehaviour
         if(HitDetect.OpponentDetector.Actions.airborne)
             HitDetect.potentialHitStun = 24;
         else
-            HitDetect.potentialHitStun = hitStunLv3;
+            HitDetect.potentialHitStun = hitStunLv4;
         HitDetect.potentialHitStop = hitStopLv2;
         HitDetect.attackLevel = 3;
         HitDetect.guard = "Low";
@@ -939,8 +939,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialKnockBack = new Vector2(.75f, 3.3f);
         HitDetect.potentialAirKnockBack = new Vector2(2f, -4f);
-        HitDetect.potentialHitStun = 36;
-        HitDetect.potentialBlockStun = 24;
+        HitDetect.potentialHitStun = 32;
         HitDetect.potentialHitStop = 15;
         HitDetect.attackLevel = 5;
         HitDetect.guard = "Overhead";

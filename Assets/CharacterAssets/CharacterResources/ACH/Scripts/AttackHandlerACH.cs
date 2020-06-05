@@ -105,7 +105,7 @@ public class AttackHandlerACH : MonoBehaviour
     static int dizzyID;
     static int KOID;
     public int dizzyTime;
-    int blitzActive;
+    float blitzActive;
 
     AnimatorStateInfo currentState;
 
@@ -443,10 +443,14 @@ public class AttackHandlerACH : MonoBehaviour
         }
 
 
-        if (blitzActive > 0)
-            blitzActive--;
-        else if (blitzActive == 1)
-            Hitboxes.ClearHitBox();
+        if (blitzActive > 0 && Hitboxes.HitDetect.OpponentDetector.Actions.blitzed <= 0)
+        {
+            Hitboxes.BlitzCancel();
+            blitzActive -= Time.deltaTime;
+
+        }
+        else if (Hitboxes.HitDetect.OpponentDetector.Actions.blitzed > 0)
+            blitzActive = 0;
 
         //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
         if ((Actions.blitzCancel && Move.HitDetect.hitStun <= 0 && Move.HitDetect.blockStun <= 0 && CharProp.armor >= 1) &&
@@ -456,7 +460,6 @@ public class AttackHandlerACH : MonoBehaviour
             BlitzWave.SetTrigger(IDBlitz);
             Hitboxes.BlitzCancel();
             Actions.landingLag = 0;
-            Move.HitDetect.KnockBack = Vector2.zero;
 
             anim.SetBool(runID, false);
             BlitzImage.sprite = anim.gameObject.GetComponent<SpriteRenderer>().sprite;
@@ -493,7 +496,7 @@ public class AttackHandlerACH : MonoBehaviour
             //cost for executing blitz cancel
             CharProp.armor--;
             CharProp.durability = 70;
-            blitzActive = 5;
+            blitzActive = 5f/60f;
             CharProp.durabilityRefillTimer = 0;
             heavyButton = 0;
             mediumButton = 0;
@@ -525,7 +528,7 @@ public class AttackHandlerACH : MonoBehaviour
             breakButton = 0;
             DP = 0;
         }
-        else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0 && Actions.airborne && Hitboxes.HitDetect.Actions.Move.transform.position.y > 1.35f)
+        else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0 && Actions.airborne && Hitboxes.HitDetect.Actions.Move.transform.position.y > 1.5f)
         {
             Move.jumping = 0;
             // Starfall special attack, executed by doing a QCB and pressing B
@@ -691,8 +694,11 @@ public class AttackHandlerACH : MonoBehaviour
         {
             anim.SetBool(BreakCharge, true);
 
-            if (currentState.IsName("StarfallDelay") && Hitboxes.HitDetect.Actions.Move.transform.position.y < 1.8f)
-                anim.SetBool(BreakCharge, false);
+            if (currentState.IsName("StarfallDelay"))
+            {
+                Hitboxes.HitDetect.rb.gravityScale = .35f * Hitboxes.HitDetect.Actions.originalGravity;
+            }
+                
         }
         else
         {

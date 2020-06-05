@@ -30,27 +30,27 @@ public class HitSFX : MonoBehaviour
 
     public void ShatterPlay()
     {
-        FX.PlayOneShot(Shatter, .8f);
+        FX.PlayOneShot(Shatter, .7f);
     }
 
     public void LightGuard()
     {
-        FX.PlayOneShot(GuardL, .8f);
+        FX.PlayOneShot(GuardL, .7f);
     }
 
     public void MediumGuard()
     {
-        FX.PlayOneShot(GuardM, .8f);
+        FX.PlayOneShot(GuardM, .7f);
     }
 
     public void HeavyGuard()
     {
-        FX.PlayOneShot(GuardH, .8f);
+        FX.PlayOneShot(GuardH, .7f);
     }
 
     public void LightStrike()
     {
-        FX.PlayOneShot(StrikeL, .8f);
+        FX.PlayOneShot(StrikeL, .7f);
     }
 
     public void MediumStrike()
@@ -59,13 +59,13 @@ public class HitSFX : MonoBehaviour
         switch (soundSelect)
         {
             case 1:
-                FX.PlayOneShot(StrikeM2, .8f);
+                FX.PlayOneShot(StrikeM2, .7f);
                 break;
             case 0:
-                FX.PlayOneShot(StrikeM, .8f);
+                FX.PlayOneShot(StrikeM, .7f);
                 break;
             default:
-                FX.PlayOneShot(StrikeM, .8f);
+                FX.PlayOneShot(StrikeM, .7f);
                 break;
         }
     }
@@ -89,24 +89,24 @@ public class HitSFX : MonoBehaviour
 
     public void LightSlash()
     {
-                FX.PlayOneShot(SlashL, .8f);
+                FX.PlayOneShot(SlashL, .7f);
     }
 
     public void HeavySlash()
     {
         if (HitDetect.OpponentDetector.Actions.superHit)
-            FX.PlayOneShot(SlashSuper, .8f);
+            FX.PlayOneShot(SlashSuper, .7f);
         else
-            FX.PlayOneShot(SlashH, .8f);
+            FX.PlayOneShot(SlashH, .7f);
     }
 
     public void ArmorHeavy()
     {
-        FX.PlayOneShot(ArmorH, .8f);
+        FX.PlayOneShot(ArmorH, .7f);
     }
 
     public void ArmorLight()
     {
-        FX.PlayOneShot(ArmorL, .8f);
+        FX.PlayOneShot(ArmorL, .7f);
     }
 }
