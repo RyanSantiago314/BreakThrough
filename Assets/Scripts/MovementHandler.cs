@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement; //Temporary
 using Photon.Pun;
 using Photon.Realtime;
 
-public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback
+public class MovementHandler : MonoBehaviourPunCallbacks
 {
     public Animator anim;
     public Rigidbody2D rb;
@@ -82,50 +82,16 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
     static int yVeloID;
     static int KOID;
 
-    private CharacterLoader loader;
+    
     public bool networkInit = false;
 
-    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    public override void OnEnable()
     {
-        
-        loader = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>();
-        
-        
-        //Most of this is properly setting online values from CharacterLoader.cs setP#Properties()
-        if (PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer)) //If we're master and message was not sent by us
-        {
-            loader.P1Character.GetComponent<MovementHandler>().networkInit = true;
-            //Three gameobject find's in a single call. need to fix this.
-            //Sets Character manager
-            loader.P2Character = this.gameObject;
-            
-            //Sets Player2 Prefab
-            loader.setFullP2Properties(loader.P2Character);
-            loader.P2Character.transform.parent = GameObject.Find("Player2").transform;
-            
-            loader.P1Character.SetActive(true);
-            loader.P2Character.SetActive(true);
-
-
-        }
-        
-        if(!PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer))//If we're not master and message was not sent by us.
-        {
-            loader.P2Character.GetComponent<MovementHandler>().networkInit = true;
-            //Character Manager field
-            loader.P1Character = this.gameObject;
-            
-            //Sets Player1 Prefab
-            loader.setFullP1Properties(loader.P1Character);
-            loader.P1Character.transform.parent = GameObject.Find("Player1").transform;
-
-            loader.P1Character.SetActive(true);
-            loader.P2Character.SetActive(true);
-        }
-        
-        
+        base.OnEnable();
+        Debug.Log("Enabled MovementHandler");
+        Init();
     }
-    
+
 
     // Set Up inputs, anim variable hashes, and opponent in awake
     void Awake()
@@ -218,7 +184,7 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
     private void LateStart()
     {
         Debug.Log("Late Start");
-        Init();
+        //Init();
         Debug.Log(opponent);
     }
 
