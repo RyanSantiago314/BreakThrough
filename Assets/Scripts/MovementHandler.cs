@@ -100,6 +100,7 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
             
             //Sets Player2 Prefab
             loader.setFullP2Properties(loader.P2Character);
+            LateStart();
             
 
         }
@@ -112,17 +113,17 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
             
             //Sets Player1 Prefab
             loader.setFullP1Properties(loader.P1Character);
-            
+            LateStart();
 
         }
         
-        GameObject player1 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character;
-        GameObject player2 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character;
+        //GameObject player1 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character;
+        //GameObject player2 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character;
         //set parents
-        if (player1 != null && player2 != null)
+        if (loader.P1Character != null && loader.P2Character != null)
         {
-            player1.transform.parent = GameObject.Find("Player1").transform;
-            player2.transform.parent = GameObject.Find("Player2").transform;
+            loader.P1Character.transform.parent = GameObject.Find("Player1").transform;
+            loader.P2Character.transform.parent = GameObject.Find("Player2").transform;
         }
         
     }
@@ -156,7 +157,13 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
 
     void Start()
     {
-        
+        //Basically everything that was in here has been switched. This allows us to set certain properties late
+        //If we're playing a networked game.
+        Init();
+    }
+
+    private void Init()
+    {
         //Added for character loading system. Needs to start here for it to work
         if (SceneManager.GetActiveScene().name != "TrainingStage")
         {
@@ -208,6 +215,11 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
         wallBounceID = Animator.StringToHash("WallBounce");
         yVeloID = Animator.StringToHash("VertVelocity");
         KOID = Animator.StringToHash("KOed");
+    }
+    
+    private void LateStart()
+    {
+        Init();
     }
 
     // Update is called once per frame
