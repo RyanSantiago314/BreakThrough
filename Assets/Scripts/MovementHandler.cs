@@ -83,6 +83,7 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
     static int KOID;
 
     private CharacterLoader loader;
+    private bool networkInit = false;
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
@@ -124,7 +125,8 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
         {
             player1.transform.parent = GameObject.Find("Player1").transform;
             player2.transform.parent = GameObject.Find("Player2").transform;
-            LateStart();
+            networkInit = true;
+            //LateStart();
         }
         
     }
@@ -232,6 +234,13 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
         {
             return;
         }
+
+        if (networkInit)//using this variable to set the init stuff, workaround from setting it in onInstantiate...
+        {
+            networkInit = false;
+            LateStart();
+        }
+        
         currentState = anim.GetCurrentAnimatorStateInfo(0);
         anim.SetFloat(yVeloID, rb.velocity.y);
 
