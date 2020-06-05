@@ -83,7 +83,7 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
     static int KOID;
 
     private CharacterLoader loader;
-    private bool networkInit = false;
+    public bool networkInit = false;
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
@@ -94,40 +94,31 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
         //Most of this is properly setting online values from CharacterLoader.cs setP#Properties()
         if (PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer)) //If we're master and message was not sent by us
         {
-            Debug.Log(info);
+            loader.P1Character.GetComponent<MovementHandler>().networkInit = true;
             //Three gameobject find's in a single call. need to fix this.
             //Sets Character manager
             loader.P2Character = this.gameObject;
             
             //Sets Player2 Prefab
             loader.setFullP2Properties(loader.P2Character);
-            
-            
+            loader.transform.parent = GameObject.Find("Player2").transform;
+
 
         }
         
         if(!PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer))//If we're not master and message was not sent by us.
         {
-            
+            loader.P2Character.GetComponent<MovementHandler>().networkInit = true;
             //Character Manager field
             loader.P1Character = this.gameObject;
             
             //Sets Player1 Prefab
             loader.setFullP1Properties(loader.P1Character);
-            
+            loader.transform.parent = GameObject.Find("Player1").transform;
+
 
         }
         
-        GameObject player1 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P1Character;
-        GameObject player2 = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>().P2Character;
-        //set parents
-        if (player1 != null && player2 != null) //Need to figure out a way to set this before LateStart.
-        {
-            player1.transform.parent = GameObject.Find("Player1").transform;
-            player2.transform.parent = GameObject.Find("Player2").transform;
-            networkInit = true;
-            //LateStart();
-        }
         
     }
     

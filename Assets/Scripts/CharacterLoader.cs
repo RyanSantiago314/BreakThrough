@@ -52,6 +52,7 @@ public class CharacterLoader : MonoBehaviour
         if(PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
             P1Character = PhotonNetwork.Instantiate(P1Char, GameObject.Find("Player1").transform.position, Quaternion.identity);
+            P1Character.transform.parent = GameObject.Find("Player1").transform;
             Debug.Log("Player 1 Loaded");
         }
         else {
@@ -102,6 +103,7 @@ public class CharacterLoader : MonoBehaviour
         if(PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient)
         {
             P2Character = PhotonNetwork.Instantiate(P2Char, GameObject.Find("Player2").transform.position, Quaternion.identity);
+            P2Character.transform.parent = GameObject.Find("Player2").transform;
             Debug.Log("Player 2 Instantiated");
         }
         else if (!PhotonNetwork.IsConnected)
