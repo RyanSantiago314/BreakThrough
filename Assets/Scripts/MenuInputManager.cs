@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class MenuInputManager : MonoBehaviour
 {
+    public Animator MarkerAnimator;
+    public Image Marker;
 	private float buttonIndex;
 	//private string xboxInput;
 	//private string ps4Input;
@@ -82,6 +84,8 @@ public class MenuInputManager : MonoBehaviour
     Resolution[] resolutions;
     private int dropdownIndex;
     private bool inDropdown;
+    private float xValue;
+    private float yValue;
 
     void Awake()
     {
@@ -143,6 +147,9 @@ public class MenuInputManager : MonoBehaviour
         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side = "";
         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side= "";
         GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().CPUDifficulty = 50;
+
+        xValue = Marker.GetComponent<RectTransform>().localPosition.x;
+        MarkerAnimator.Play("MarkAnimation", -1, 0f);
     }
 
     // Update is called once per frame
@@ -168,11 +175,13 @@ public class MenuInputManager : MonoBehaviour
                 {
                     buttonIndex += 1;
                     InputTimer = 0.2f;
+                    MarkerAnimator.Play("MarkAnimation", -1, 0f);
                 }
                 else if (vertical > 0)
                 {
                     buttonIndex -= 1;
                     InputTimer = 0.2f;
+                    MarkerAnimator.Play("MarkAnimation", -1, 0f);
                 }
             }
             else if (InputTimer == 0 && inDropdown)
@@ -201,32 +210,42 @@ public class MenuInputManager : MonoBehaviour
 			else if (buttonIndex > 4) buttonIndex = 1;
 			if (buttonIndex == 1)
 			{
-				PlayLocalButton.Select();
+                yValue = PlayLocalButton.GetComponent<RectTransform>().localPosition.y;
+                Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue, yValue+10, 0);             
+                //PlayLocalButton.Select();
 				if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
 				{
 					state = "local";
 					buttonIndex = 1;
 					PlayLocalButton.onClick.Invoke();
-				}
+                    MarkerAnimator.Play("MarkAnimation", -1, 0f);
+                }
 			}
 			else if (buttonIndex == 2)
 			{
-				PlayOnlineButton.Select();		
-				if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) PlayOnlineButton.onClick.Invoke();
+                yValue = PlayOnlineButton.GetComponent<RectTransform>().localPosition.y;
+                Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue, yValue+10, 0);
+                //PlayOnlineButton.Select();		
+                if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) PlayOnlineButton.onClick.Invoke();
 			}
 			else if (buttonIndex == 3)
 			{
-				OptionsButton.Select();
-				if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
+                yValue = OptionsButton.GetComponent<RectTransform>().localPosition.y;
+                Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue, yValue+10, 0);
+                //OptionsButton.Select();
+                if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
 				{
 					state = "options";
 					buttonIndex = 1;
 					OptionsButton.onClick.Invoke();
-				}
+                    MarkerAnimator.Play("MarkAnimation", -1, 0f);
+                }
 			}
 			else if (buttonIndex == 4)
 			{
-				QuitButton.Select();
+                yValue = QuitButton.GetComponent<RectTransform>().localPosition.y;
+                Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue, yValue+5, 0);
+                //QuitButton.Select();
 				if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) menu.QuitGame();
 			}
 		}
@@ -237,7 +256,9 @@ public class MenuInputManager : MonoBehaviour
 			else if (buttonIndex > 5) buttonIndex = 1;
 			if (buttonIndex == 1)
 			{
-				PlayVsPlayerButton.Select();
+                yValue = PlayVsPlayerButton.GetComponent<RectTransform>().localPosition.y;
+                Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue, yValue-60, 0);
+                //PlayVsPlayerButton.Select();
 				
                 if ((Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
                 {
@@ -253,7 +274,9 @@ public class MenuInputManager : MonoBehaviour
 			}
 			else if (buttonIndex == 2)
 			{
-				PlayVsAiButton.Select();
+                yValue = PlayVsAiButton.GetComponent<RectTransform>().localPosition.y;
+                Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue, yValue - 70, 0);
+                //PlayVsAiButton.Select();
                 if ((Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf && !AIDifficultyScreen.activeSelf)
                 {
                     x = 0;
@@ -268,7 +291,9 @@ public class MenuInputManager : MonoBehaviour
 			}
             else if (buttonIndex == 3)
             {
-                PracticeButton.Select();
+                yValue = PracticeButton.GetComponent<RectTransform>().localPosition.y;
+                Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue, yValue - 80, 0);
+                //PracticeButton.Select();
                 if ((Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
                 {
                     x = 0;
@@ -281,7 +306,9 @@ public class MenuInputManager : MonoBehaviour
             }
             else if (buttonIndex == 4)
             {
-                TutorialButton.Select();
+                yValue = TutorialButton.GetComponent<RectTransform>().localPosition.y;
+                Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue, yValue - 90, 0);
+                //TutorialButton.Select();
                 if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
                 {
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "Tutorial";
@@ -299,13 +326,16 @@ public class MenuInputManager : MonoBehaviour
             }
             else if (buttonIndex == 5)
 			{
-				BackButton.Select();
+                yValue = BackButton.GetComponent<RectTransform>().localPosition.y;
+                Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue, yValue - 110, 0);
+                //BackButton.Select();
 				if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
 				{
 					state = "main";
 					buttonIndex = 1;
 					BackButton.onClick.Invoke();
-				}
+                    MarkerAnimator.Play("MarkAnimation", -1, 0f);
+                }
 			}
 
 			if ((Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel")) && !sideSelectScreen.activeSelf && !AIDifficultyScreen.activeSelf)
@@ -313,7 +343,8 @@ public class MenuInputManager : MonoBehaviour
 				state = "main";
 				buttonIndex = 1;
 				BackButton.onClick.Invoke();
-			}
+                MarkerAnimator.Play("MarkAnimation", -1, 0f);
+            }
 		}
         //Options Menu Management
 		else if (state == "options")
@@ -325,7 +356,9 @@ public class MenuInputManager : MonoBehaviour
 
 				if (buttonIndex == 1)
 				{
-					soundOptions.Select();
+                    yValue = soundOptions.GetComponent<RectTransform>().localPosition.y;
+                    Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue, yValue-10, 0);
+                    //soundOptions.Select();
 					if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
 					{
 						optionState = "soundOptions";
@@ -336,7 +369,9 @@ public class MenuInputManager : MonoBehaviour
 				}
 				else if (buttonIndex == 2)
 				{
-					displayOptions.Select();
+                    yValue = displayOptions.GetComponent<RectTransform>().localPosition.y;
+                    Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue, yValue-10, 0);
+                    //displayOptions.Select();
 					if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
 					{
 						optionState = "displayOptions";
@@ -346,13 +381,16 @@ public class MenuInputManager : MonoBehaviour
 				}
 				else if (buttonIndex == 3)
 				{
-					OptionsBackButton.Select();
+                    yValue = OptionsBackButton.GetComponent<RectTransform>().localPosition.y;
+                    Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue, yValue+10, 0);
+                    //OptionsBackButton.Select();
 					if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
 					{
 						state = "main";
 						buttonIndex = 3;
 						OptionsBackButton.onClick.Invoke();
-					}
+                        MarkerAnimator.Play("MarkAnimation", -1, 0f);
+                    }
 				}
 
 				if (Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel"))
@@ -360,7 +398,8 @@ public class MenuInputManager : MonoBehaviour
 					state = "main";
 					buttonIndex = 3;
 					OptionsBackButton.onClick.Invoke();
-				}
+                    MarkerAnimator.Play("MarkAnimation", -1, 0f);
+                }
 			}
 			else if (optionState == "soundOptions")
 			{
