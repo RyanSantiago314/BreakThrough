@@ -235,7 +235,7 @@ public class Tutorial : MonoBehaviour
             popUps.GetComponent<Text>().text = "Tutorial Completed! \n (Press C or Select to go back to the main menu)";
             if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
             {
-                GameObject.Find("PauseManager").GetComponent<PauseMenu>().QuitToMenu();
+                GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().QuitToMenu();
             }
         }
         else
