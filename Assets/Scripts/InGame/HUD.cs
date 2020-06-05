@@ -44,6 +44,9 @@ public class HUD : MonoBehaviour
     public Animator P2Seg3;
     public Animator P2Seg4;
 
+    public Animator P1SpecialHit;
+    public Animator P2SpecialHit;
+
     public Text Player1Combo;
     public Text Player2Combo;
     public Text Player1Hits;
@@ -662,6 +665,28 @@ public class HUD : MonoBehaviour
 
         Player2Combo.rectTransform.anchoredPosition = Vector2.Lerp(Player2Combo.rectTransform.anchoredPosition, P2ComboPos, 40 * Time.deltaTime);
         Player2Hits.rectTransform.anchoredPosition = Vector2.Lerp(Player2Hits.rectTransform.anchoredPosition, P2HitsPos, 40 * Time.deltaTime);
+
+        if (P1hit.pierceSuccess)
+        {
+            P1SpecialHit.SetTrigger("Pierce");
+            P1hit.pierceSuccess = false;
+        }
+        else if (P1hit.counterSuccess)
+        {
+            P1SpecialHit.SetTrigger("Counter");
+            P1hit.counterSuccess = false;
+        }
+
+        if (P2hit.pierceSuccess)
+        {
+            P2SpecialHit.SetTrigger("Pierce");
+            P2hit.pierceSuccess = false;
+        }
+        else if (P2hit.counterSuccess)
+        {
+            P2SpecialHit.SetTrigger("Counter");
+            P2hit.counterSuccess = false;
+        }
     }
 
 

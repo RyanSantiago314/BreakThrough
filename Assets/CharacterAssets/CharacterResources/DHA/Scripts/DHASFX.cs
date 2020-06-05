@@ -11,12 +11,12 @@ public class DHASFX : MonoBehaviour
 
     void WeakBreak()
     {
-        SFX.PlayOneShot(Weak5B, .8f);
+        SFX.PlayOneShot(Weak5B, .5f);
     }
 
     void StrongBreak()
     {
-        SFX.PlayOneShot(Strong5B, .8f);
+        SFX.PlayOneShot(Strong5B, .5f);
     }
 
     void StartToaster()
