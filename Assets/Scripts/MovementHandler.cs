@@ -220,7 +220,9 @@ public class MovementHandler : MonoBehaviourPunCallbacks, IPunInstantiateMagicCa
     
     private void LateStart()
     {
+        Debug.Log("Late Start");
         Init();
+        Debug.Log(opponent);
     }
 
     // Update is called once per frame
