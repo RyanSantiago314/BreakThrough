@@ -123,7 +123,7 @@ public class MovementHandler : MonoBehaviourPunCallbacks
     {
         //Basically everything that was in here has been switched. This allows us to set certain properties late
         //If we're playing a networked game.
-        Init();
+        //Init();
     }
 
     private void Init()

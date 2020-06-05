@@ -115,7 +115,7 @@ public class HitDetector : MonoBehaviour
 
     void Start()
     {
-        Init();
+        //Init();
     }
 
     private void OnEnable()
