@@ -23,7 +23,7 @@
 		<a class="navbar-brand" href="#content">About</a>
 		<a class="navbar-brand" href="#team">Meet The Team</a>
 	</nav>
-	
+
 	<div class="opening bg-secondary">
 		<div class="poster-box">
 			<div class="parallax">
@@ -80,7 +80,7 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<a href="https://ryansantiago.itch.io/breakthrough" target="_blank">
-					<img src="images/ItchLogo.png" class="mx-auto d-block">
+					<img src="images/ItchLogo.png" id="itch" class="mx-auto d-block">
 				</a>
 			</div>
 			<div class="col-sm-6">
@@ -387,18 +387,21 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="team-member">
-						<img src="images/DhaliaChibi.png" class="mx-auto rounded-circle">
+						<img src="images/team/Dallas.png" class="mx-auto rounded-circle">
 						<h3>Dallas Truong</h3>
 						<p>SFX Designer</p>
 						<div class="row px-5">
-							<div class="col-sm-4">
-								<!-- <a href="https://twitter.com/lucigoooo" target="_blank" class="fa fa-twitter float-right"></a> -->
+							<div class="col-sm-3">
+								<a href="https://twitter.com/sofishticatedd" target="_blank" class="fa fa-twitter"></a>
 							</div>
-							<div class="col-sm-4">
-								<!-- <a href="https://twitter.com/lucigoooo" target="_blank" class="fa fa-linkedin"></a> -->
+							<div class="col-sm-3">
+								<a href="https://www.linkedin.com/in/dallas-truong-2511b3183/" target="_blank" class="fa fa-linkedin"></a>
 							</div>
-							<div class="col-sm-4">
-								<!-- <a href="https://twitter.com/lucigoooo" target="_blank" class="fa fa-user"></a> -->
+							<div class="col-sm-3">
+								<a href="https://soundcloud.com/discover" target="_blank" class="fa fa-soundcloud"></a>
+							</div>
+							<div class="col-sm-3">
+								<a href="https://minht.bandcamp.com/" target="_blank" class="fa fa-user"></a>
 							</div>
 						</div>
 					</div>
@@ -450,9 +453,9 @@
 			}, 1000);
 
 			setTimeout(function() {
-				$('.title-video').append('<img src="images/Logo.png" class="mx-auto d-block zoomIn animated logo" width="80%" height="65%" style="margin-top:-35px;margin-bottom:-35px">');
+				$('.title-video').append('<img src="images/Logo.png" class="mx-auto d-block zoomIn animated logo" id="logo" width="80%" height="65%" style="margin-top:-35px;margin-bottom:-35px">');
 				$('.title-video').append(
-					'<iframe width="60%" height="60%" src="https://www.youtube.com/embed/aTAK9FW3nj8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="fadeIn animated" style="animation-duration:1.5s"></iframe>'
+					'<iframe width="60%" height="60%" src="https://www.youtube.com/embed/aTAK9FW3nj8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="fadeIn animated" id="video" style="animation-duration:1.5s"></iframe>'
 				);
 				$(".navbar").addClass("fixed-top");
 			}, 2000)

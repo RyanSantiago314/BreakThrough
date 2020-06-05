@@ -13,6 +13,27 @@ p, h3 {
     color: white;
 }
 
+@media (max-width: 500px)
+{
+    .navbar {
+        display: none !important;
+    }
+    #logo {
+        height: 20%;
+        margin-top: 100px !important;
+        margin-bottom: 200px !important;
+    }
+    #video {
+        height: auto;
+    }
+    #itch {
+        width: 80%;
+    }
+    .content {
+        background-size: contain !important;
+    }
+}
+
 .important-text {
     font-family: Breakthrough;
     font-size: 50px;
@@ -33,7 +54,7 @@ p, h3 {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 1200px;
+    height: 1080px;
     /* filter: blur(25px); */
 }
 
