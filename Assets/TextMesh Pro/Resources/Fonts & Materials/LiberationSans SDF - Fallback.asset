@@ -595,12 +595,12 @@ MonoBehaviour:
       m_Height: 59
     m_Scale: 1
     m_AtlasIndex: 0
-  - m_Index: 38
+  - m_Index: 39
     m_Metrics:
-      m_Width: 55
-      m_Height: 61
-      m_HorizontalBearingX: 4
-      m_HorizontalBearingY: 60
+      m_Width: 51
+      m_Height: 59
+      m_HorizontalBearingX: 7
+      m_HorizontalBearingY: 59
       m_HorizontalAdvance: 62
     m_GlyphRect:
       m_X: 253
@@ -1139,10 +1139,6 @@ MonoBehaviour:
     m_Y: 0
     m_Width: 16
     m_Height: 83
-  - m_X: 498
-    m_Y: 0
-    m_Width: 13
-    m_Height: 511
   - m_X: 243
     m_Y: 146
     m_Width: 20

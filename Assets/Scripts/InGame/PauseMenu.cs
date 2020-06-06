@@ -7,6 +7,10 @@ using UnityEngine.UI;
 public class PauseMenu : MonoBehaviour
 {
     public Animator MarkAnimator;
+    public Animator MoveListMarkAnimator;
+    public Animator SelectorMarkAnimator;
+
+    public RawImage VideoScreen;
 
     public GameObject pauseMenuUI;
     public GameObject practicePauseMenuUI;
@@ -51,6 +55,7 @@ public class PauseMenu : MonoBehaviour
     private bool acceptInputCirc;
     private int inputTimer = 0;
     private bool holdScroll = false;
+    private bool updateVideo = false;
 
     public int CPUState = 0;
     public int P1Valor;
@@ -66,9 +71,16 @@ public class PauseMenu : MonoBehaviour
     public GameObject CPUGroundGuardText;
 
     public Text PlayerIdentifier;
-    
 
     static public bool allowPause;
+
+    public MoveList mList;
+    private int moveListIndex = 1;
+    private int verticalMoveListIndex = 1;
+    public Image MoveListMarker;
+    private bool keepMaxIndex;
+    private bool acceptBack = false;
+    private bool acceptMoveList = true;
 
     //Dev tool to remove HUD
     public GameObject HUD;
@@ -93,7 +105,6 @@ public class PauseMenu : MonoBehaviour
         HUD = GameObject.Find("HUD");
         PracticeHUD = GameObject.Find("PracticeHUD");
         PlayerData = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>();
-        
     }
     // top bottom
     // Resume:  0 32
@@ -101,8 +112,6 @@ public class PauseMenu : MonoBehaviour
     // character select:  889 703
     // end Match:  959 633
     // 703.7
-
-
 
     // Update is called once per frame
     void Update()
@@ -132,41 +141,7 @@ public class PauseMenu : MonoBehaviour
         SetControllers();
         if ((GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Tutorial") && allowPause)
         {
-            /*if (isPaused)
-            {
-                //Disable player inputs in background
-                DisableControls(true);
-                ActivateMenu();
-                //Record which player paused
-                if (Input.GetButtonDown(pauseCode1) && playerPaused == 1)
-                {
-                    isPaused = !isPaused;
-                    playerPaused = 0;
-                }
-                if (Input.GetButtonDown(pauseCode) && playerPaused == 2)
-                {
-                    isPaused = !isPaused;
-                    playerPaused = 0;
-                }
-            }
-            else if (!isPaused)
-            {
-                DisableControls(false);
-                DeactivateMenu();
-                //Unpause the game (Only the player that paused can unpause)
-                if (Input.GetButtonDown(pauseCode1) && playerPaused == 0)
-                {
-                    isPaused = !isPaused;
-                    playerPaused = 1;
-                }
-                if (Input.GetButtonDown(pauseCode) && playerPaused == 0)
-                {
-                    isPaused = !isPaused;
-                    playerPaused = 2;
-                }
-            }*/
-
-            if ((Input.GetButtonDown(pauseCode1)|| Input.GetButtonDown(pauseCode)) && !isPaused)
+            if ((Input.GetButtonDown(pauseCode1) || Input.GetButtonDown(pauseCode)) && !isPaused)
             {
                 DisableControls(true);
                 ActivateMenu();
@@ -174,13 +149,13 @@ public class PauseMenu : MonoBehaviour
                 optionIndex = -1;
                 optionIndex = 0;
                 quitButtonMatch.Select();
-                if(Input.GetButtonDown(pauseCode1))
+                if (Input.GetButtonDown(pauseCode1))
                 {
                     playerPaused = 1;
 
                     PlayerIdentifier.text = "P1";
                 }
-                else if(Input.GetButtonDown(pauseCode))
+                else if (Input.GetButtonDown(pauseCode))
                 {
                     playerPaused = 2;
 
@@ -194,10 +169,10 @@ public class PauseMenu : MonoBehaviour
                 isPaused = false;
             }
 
-            if(isPaused && !SceneTransitions.lockinputs)
+            if (isPaused && !SceneTransitions.lockinputs)
             {
                 //Handle Vertical Selection
-                if(playerPaused == 1)
+                if (playerPaused == 1)
                     vertical = Input.GetAxisRaw(inputVertical);
                 else
                     vertical = Input.GetAxisRaw(inputVertical2);
@@ -240,9 +215,9 @@ public class PauseMenu : MonoBehaviour
                     }
                 }
 
-                if(!acceptInputCirc)
+                if (!acceptInputCirc)
                 {
-                    if((!Input.GetButton(p1circle) && playerPaused == 1) || (!Input.GetButton(p2circle) && playerPaused == 2))
+                    if ((!Input.GetButton(p1circle) && playerPaused == 1) || (!Input.GetButton(p2circle) && playerPaused == 2))
                     {
                         acceptInputCirc = true;
                     }
@@ -280,15 +255,37 @@ public class PauseMenu : MonoBehaviour
                 {
                     moveListButtonMatch.Select();
                     UIBar.transform.localPosition = new Vector2(0, -32);
-                    if ((Input.GetButton(p1cross) && !moveList && playerPaused == 1) || (Input.GetButton(p2cross) && !moveList && playerPaused == 2))
+
+                    if (((Input.GetButtonDown(p1cross) && !moveList && playerPaused == 1) || (Input.GetButtonDown(p2cross) && !moveList && playerPaused == 2)) && acceptMoveList)
                     {
                         MoveList();
+                        acceptBack = false;
+                        moveListIndex = 1;
+                        verticalMoveListIndex = 1;
+                        mList.setDhaliaPage1();
+                        MoveListMarker.color = new Color(1f, 1f, 1f, 0f);
+                        mList.resetMarker();
+                        mList.enableMarker();
+                        //Choose what video to display
+                        VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().url = SelectVideo(verticalMoveListIndex, moveListIndex);
+
+                    }
+                    if (!acceptMoveList)
+                    {
+                        acceptMoveList = true;
                     }
                     if (((Input.GetButton(p1circle) && moveList && playerPaused == 1) || (Input.GetButton(p2circle) && moveList && playerPaused == 2)) && acceptInputCirc)
                     {
                         MoveListBack();
+
                         resumeButtonMatch.Select();
                         acceptInputCirc = false;
+                    }
+
+                    //MoveList Interactions
+                    if (moveListUI.activeSelf)
+                    {
+                        MoveListInputs();
                     }
                 }
                 else if (optionIndex == 2)
@@ -309,9 +306,6 @@ public class PauseMenu : MonoBehaviour
                         QuitToMenu();
                     }
                 }
-                
-
-                
             }
         }
         //Handle Practice Mode Pause Menu
@@ -333,10 +327,10 @@ public class PauseMenu : MonoBehaviour
             }
 
             if (isPaused && !SceneTransitions.lockinputs)
-            {             
+            {
                 //Handle Vertical Selection
                 vertical = Input.GetAxisRaw(inputVertical);
-                
+
                 //Check for input
                 if (!acceptInputVer)
                 {
@@ -378,8 +372,8 @@ public class PauseMenu : MonoBehaviour
                     }
                 }
 
-                    //Timer for holding a horizontal input
-                    if (horizontal > 0 || horizontal < 0)
+                //Timer for holding a horizontal input
+                if (horizontal > 0 || horizontal < 0)
                 {
                     if (inputTimer == 1)
                     {
@@ -413,7 +407,7 @@ public class PauseMenu : MonoBehaviour
                     optionIndex = 9;
                 }
 
-                if(Input.GetButton(p1circle) && !moveList && acceptInputCirc)
+                if (Input.GetButton(p1circle) && !moveList && acceptInputCirc)
                 {
                     DisableControls(false);
                     DeactivateMenu();
@@ -552,12 +546,25 @@ public class PauseMenu : MonoBehaviour
                     if (Input.GetButton(p1cross) && !moveList)
                     {
                         MoveList();
+                        acceptBack = false;
+                        moveListIndex = 1;
+                        verticalMoveListIndex = 1;
+                        mList.setDhaliaPage1();
+                        MoveListMarker.color = new Color(1f, 1f, 1f, 0f);
+                        mList.resetMarker();
+                        mList.enableMarker();
+                        //Choose what video to display
+                        VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().url = SelectVideo(verticalMoveListIndex, moveListIndex);
                     }
                     if (Input.GetButton(p1circle) && moveList && acceptInputCirc)
                     {
                         MoveListBack();
                         resumeButton.Select();
                         acceptInputCirc = false;
+                    }
+                    if (moveListUI.activeSelf)
+                    {
+                        MoveListInputs();
                     }
                 }
                 //Quit Button
@@ -800,7 +807,7 @@ public class PauseMenu : MonoBehaviour
 
     public void ReturntoCharacterSelect()
     {
-        if(GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Tutorial")
+        if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Tutorial")
         {
             RoundManager.gameActive = false;
             RoundManager.lockInputs = false;
@@ -812,7 +819,284 @@ public class PauseMenu : MonoBehaviour
             pauseQuit = true;
             GameObject.Find("TransitionCanvas").transform.GetComponentInChildren<SceneTransitions>().LoadScene(1);
         }
-        
+
+    }
+
+    //Function to check inputs on movelist
+    private void MoveListInputs()
+    {
+        //Check Horizontal Input
+        horizontal = Input.GetAxisRaw(inputHorizontal);
+        updateVideo = false;
+
+        if (!acceptInputHor)
+        {
+            if (horizontal == 0)
+            {
+                acceptInputHor = true;
+            }
+        }
+
+        if (acceptInputHor && horizontal < 0)
+        {
+            moveListIndex -= 1;
+            acceptInputHor = false;
+            updateVideo = true;
+
+            if (verticalMoveListIndex != mList.maxVerticalIndex && moveListIndex != 0)
+            {
+                verticalMoveListIndex = 1;
+                mList.resetMarker();
+                SelectorMarkAnimator.Play("SelectionSlide", -1, 0f);
+            }
+            else if (verticalMoveListIndex == mList.maxVerticalIndex)
+            {
+                keepMaxIndex = true;
+            }
+        }
+        else if (acceptInputHor && horizontal > 0)
+        {
+            moveListIndex += 1;
+            acceptInputHor = false;
+            updateVideo = true;
+
+            if (verticalMoveListIndex != mList.maxVerticalIndex && moveListIndex != 5)
+            {
+                verticalMoveListIndex = 1;
+                mList.resetMarker();
+                SelectorMarkAnimator.Play("SelectionSlide", -1, 0f);
+            }
+            else if (verticalMoveListIndex == mList.maxVerticalIndex)
+            {
+                keepMaxIndex = true;
+            }
+            if (moveListIndex == 4)
+            {
+                mList.setDhaliaPage4();
+            }
+        }
+
+        if (moveListIndex == 1)
+        {
+            mList.setDhaliaPage1();
+        }
+        else if (moveListIndex == 2)
+        {
+            mList.setDhaliaPage2();
+        }
+        else if (moveListIndex == 3)
+        {
+            mList.setDhaliaPage3();
+        }
+
+
+
+        if (keepMaxIndex)
+        {
+            verticalMoveListIndex = mList.maxVerticalIndex;
+            switch (verticalMoveListIndex)
+            {
+                case 2:
+                    mList.setMarkerPosition(1);
+                    break;
+                case 3:
+                    mList.setMarkerPosition(2);
+                    break;
+                case 4:
+                    mList.setMarkerPosition(3);
+                    break;
+                default:
+                    mList.setMarkerPosition(4);
+                    break;
+            }
+            keepMaxIndex = false;
+        }
+
+        //Movelist hortizontal scrolling
+        if (moveListIndex < 1)
+        {
+            moveListIndex = 1;
+        }
+        else if (moveListIndex > 4)
+        {
+            moveListIndex = 4;
+        }
+
+        //Check Vertical Input
+        if (!acceptInputVer)
+        {
+            if (vertical == 0)
+            {
+                acceptInputVer = true;
+            }
+        }
+
+        if (acceptInputVer && vertical < 0)
+        {
+            verticalMoveListIndex += 1;
+            acceptInputVer = false;
+            updateVideo = true;
+
+            if (verticalMoveListIndex == mList.maxVerticalIndex)
+            {
+                mList.disableMarker();
+                MoveListMarker.color = new Color(1f, 1f, 1f, 1f);
+                MoveListMarkAnimator.Play("MarkAnimation", -1, 0f);
+            }
+            else if (verticalMoveListIndex < mList.maxVerticalIndex)
+            {
+                mList.moveMarkerDown();
+                SelectorMarkAnimator.Play("SelectionSlide", -1, 0f);
+            }
+
+            if (moveListIndex == 4 && mList.bottomCheck() && verticalMoveListIndex == 5)
+            {
+                mList.setDhaliaPage4Scroll1();
+            }
+            else if ((moveListIndex == 4 && mList.bottomCheck() && verticalMoveListIndex == 6))
+            {
+                mList.setDhaliaPage4Scroll2();
+            }
+        }
+        else if (acceptInputVer && vertical > 0)
+        {
+            verticalMoveListIndex -= 1;
+            acceptInputVer = false;
+            updateVideo = true;
+
+            if (verticalMoveListIndex != 0 && verticalMoveListIndex != (mList.maxVerticalIndex - 1))
+            {
+                mList.moveMarkerUp();
+                SelectorMarkAnimator.Play("SelectionSlide", -1, 0f);
+            }
+            if (verticalMoveListIndex < mList.maxVerticalIndex)
+            {
+                mList.enableMarker();
+                MoveListMarker.color = new Color(1f, 1f, 1f, 0f);
+            }
+
+            if ((moveListIndex == 4 && verticalMoveListIndex == 6) && mList.bottomCheck())
+            {
+                mList.setDhaliaPage4Scroll2();
+            }
+            else if (moveListIndex == 4 && mList.topCheck() && verticalMoveListIndex == 2)
+            {
+                mList.setDhaliaPage4Scroll1();
+            }
+            else if (moveListIndex == 4 && mList.topCheck() && verticalMoveListIndex == 1)
+            {
+                mList.setDhaliaPage4();
+            }
+        }
+
+        //Movelist vertical scrolling
+        if (verticalMoveListIndex < 1)
+        {
+            verticalMoveListIndex = 1;
+        }
+        else if (verticalMoveListIndex > mList.maxVerticalIndex)
+        {
+            verticalMoveListIndex = mList.maxVerticalIndex;
+        }
+
+        //changes video if cursor was moved
+        if (updateVideo)
+        {
+            updateVideo = false;
+            VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().url = SelectVideo(verticalMoveListIndex, moveListIndex);
+        }
+
+
+
+
+        //Go back to pause menu
+        if (((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2)) && verticalMoveListIndex == mList.maxVerticalIndex && acceptBack)
+        {
+            MoveListBack();
+            acceptMoveList = false;
+        }
+        //Prevent double-inputs
+        acceptBack = true;
+    }
+
+    //creates path to video file based on menu navigation
+    private string SelectVideo(int vertical, int horizontal)
+    {
+        string pathToVideo = "";
+        if (horizontal == 1)
+        {
+            if(vertical == 1)
+            {
+                pathToVideo += "6L";
+            }
+            else if(vertical == 2)
+            {
+                pathToVideo += "6B";
+            }
+        }
+        else if (horizontal == 2)
+        {
+            if(vertical == 1)
+            {
+                pathToVideo += "Patissiere";
+            }
+            else if(vertical == 2)
+            {
+                pathToVideo += "HeadRush";
+            }
+            else if(vertical == 3)
+            {
+                pathToVideo += "BloodBrave";
+            }
+            else if(vertical == 4)
+            {
+                pathToVideo += "BasketCase";
+            }
+        }
+        else if(horizontal == 3)
+        {
+            if(vertical == 1)
+            {
+                pathToVideo += "Toaster";
+            }
+            else if(vertical == 2)
+            {
+                pathToVideo += "JudgementSabre";
+            }
+        }
+        else if(horizontal == 4)
+        {
+            if(vertical == 1)
+            {
+                pathToVideo += "L";
+            }
+            else if(vertical == 2)
+            {
+                pathToVideo += "M";
+            }
+            else if(vertical == 3)
+            {
+                pathToVideo += "H";
+            }
+            else if(vertical == 4)
+            {
+                pathToVideo += "B";
+            }
+            else if(vertical == 5)
+            {
+                pathToVideo += "Cancel";
+            }
+            else if(vertical == 6)
+            {
+                pathToVideo += "Grab";
+            }
+        }
+
+        if (pathToVideo.Equals(""))
+            return null;
+        else
+            return "Assets/VideoCaptures/" + pathToVideo + ".webm";
+
     }
 
     private void SetControllers()
