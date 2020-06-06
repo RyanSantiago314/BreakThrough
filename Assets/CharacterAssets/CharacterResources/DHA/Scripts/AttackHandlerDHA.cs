@@ -107,7 +107,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int dizzyID;
     static int KOID;
     public int dizzyTime;
-    public int blitzActive;
+    float blitzActive;
 
     AnimatorStateInfo currentState;
 
@@ -442,10 +442,14 @@ public class AttackHandlerDHA : MonoBehaviour
         }
 
 
-        if (blitzActive > 0)
-            blitzActive--;
-        else if (blitzActive == 1)
-            Hitboxes.ClearHitBox();
+        if (blitzActive > 0 && Hitboxes.HitDetect.OpponentDetector.Actions.blitzed <= 0)
+        {
+            Hitboxes.BlitzCancel();
+            blitzActive -= Time.deltaTime;
+
+        }
+        else if (Hitboxes.HitDetect.OpponentDetector.Actions.blitzed > 0)
+            blitzActive = 0;
 
         //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
         if ((Actions.blitzCancel && Move.HitDetect.hitStun <= 0 && Move.HitDetect.blockStun <= 0 && CharProp.armor >= 1) &&
@@ -455,7 +459,6 @@ public class AttackHandlerDHA : MonoBehaviour
             BlitzWave.SetTrigger(IDBlitz);
             Hitboxes.BlitzCancel();
             Actions.landingLag = 0;
-            Move.HitDetect.KnockBack = Vector2.zero;
 
             anim.SetBool(runID, false);
             BlitzImage.sprite = anim.gameObject.GetComponent<SpriteRenderer>().sprite;
@@ -492,7 +495,7 @@ public class AttackHandlerDHA : MonoBehaviour
             //cost for executing blitz cancel
             CharProp.armor--;
             CharProp.durability = 70;
-            blitzActive = 5;
+            blitzActive = 5f/60f;
             CharProp.durabilityRefillTimer = 0;
             heavyButton = 0;
             mediumButton = 0;

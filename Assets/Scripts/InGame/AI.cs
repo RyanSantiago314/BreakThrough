@@ -201,6 +201,8 @@ public class AI : MonoBehaviour
 
             calculateWeights();
 
+            checkJump();
+
             if (delayTimer <= 0 && breakTimer <= 0 && moveTimer <= 0)
             {
                 if (doingQCF > 0)
@@ -439,10 +441,17 @@ public class AI : MonoBehaviour
                     triangleTimer = .5f;
                 }
                 // 2B
-                else if (rand > 75 && crossTimer <= 0)
+                else if (rand > 75 && rand <= 90 && crossTimer <= 0)
                 {
                     MaxInput.Cross("Player2");
                     squareTimer = .5f;
+                }
+                // Level Hell (236M)
+                else if (rand > 90)
+                {
+                    keepAction = "Triangle";
+                    doingQCF = 1;
+                    AIInput.QCF();
                 }
                 else MaxInput.Square("Player2");
             }
@@ -465,18 +474,25 @@ public class AI : MonoBehaviour
                     circleTimer = .5f;
                 }
                 // 5H
-                else if (rand > 70 && rand <= 95 && circleTimer <= 0)
+                else if (rand > 70 && rand <= 90 && circleTimer <= 0)
                 {
                     MaxInput.Circle("Player2");
                     triangleTimer = .5f;
                 }
-                // DP
-                else if (rand > 95)
+                // Heaven Climber (DP H/B)
+                else if (rand > 90 && rand <= 95)
                 {
                     doingDP = 1;
                     if (rand > 97) keepAction = "Circle";
                     else keepAction = "Cross";
                     AIInput.DP();
+                }
+                // Starfall (214B)
+                else if (rand > 95 && isAirborne)
+                {
+                    keepAction = "Cross";
+                    doingQCB = 1;
+                    AIInput.QCB();
                 }
                 else MaxInput.Square("Player2");
             }
@@ -522,7 +538,8 @@ public class AI : MonoBehaviour
         if (distanceBetweenX >= 2.5) attackStates["Zone"] += 3 + new System.Random().NextDouble() * 2;
         if (pGuard == "Low") attackStates["Overhead"] += 1 + new System.Random().NextDouble() * 2;
         if (pGuard == "High") attackStates["Low"] += 1 + new System.Random().NextDouble() * 2;
-        attackStates["Grab"] += (1 - distanceBetweenX) - (distanceBetweenY * 2);
+        if (aiCharacter == "Dhalia") attackStates["Grab"] += (1 - distanceBetweenX) - (distanceBetweenY * 2);
+        if (aiCharacter == "Achealis") attackStates["Grab"] += (2.3 - distanceBetweenX) - (distanceBetweenY * 2);
         attackStates["Mid"] = 0.75 + new System.Random().NextDouble() * 2;
     }
 
@@ -564,42 +581,39 @@ public class AI : MonoBehaviour
         if (faceLeft)
         {
             MaxInput.MoveLeft("Player2");
-            if (noMoveTimer <= 0) holdMovement(.3f, -1);
+            if (noMoveTimer <= 0 && difficulty <= 50) holdMovement(.6f, -1);
         }
         else
         {
             MaxInput.MoveRight("Player2");
-            if (noMoveTimer <= 0) holdMovement(.3f, 1);
+            if (noMoveTimer <= 0 && difficulty <= 50) holdMovement(.6f, 1);
         }
 
         //Foward Dash
-        if (rand.NextDouble() * distanceBetweenX * 100 >= 140)
+        if (rand.NextDouble() * distanceBetweenX * 100 >= 160)
         {
             if(faceLeft)
             {
                 MaxInput.MoveLeft("Player2");
                 MaxInput.LStick("Player2");
-                if (noMoveTimer <= 0) holdMovement(.3f, -1);
+                if (noMoveTimer <= 0 && difficulty <= 50) holdMovement(.6f, -1);
             }
             else
             {
                 MaxInput.MoveRight("Player2");
                 MaxInput.LStick("Player2");
-                if (noMoveTimer <= 0) holdMovement(.3f, 1);
+                if (noMoveTimer <= 0 && difficulty <= 50) holdMovement(.6f, 1);
             }
-        }
-
-        // Jumping
-        if (distanceBetweenX < 1.8 && p2y < p1y - 0.5 && rand.Next(10) == 1)
-        {
-            MaxInput.Jump("Player2");
         }
     }
 
     void holdMovement(float hold, int direction)
     {
         var rand = new System.Random().Next(101);    // Random int from 0 to 100
-        if (rand < 100 - difficulty && !isAirborne)
+        var modifier = 95;
+        if (difficulty <= 10) modifier = 100;
+
+        if (rand < modifier && !isAirborne)
         {
             if (direction == -1) MaxInput.MoveLeft("Player2");
             else MaxInput.MoveRight("Player2");
@@ -607,6 +621,16 @@ public class AI : MonoBehaviour
             Debug.Log("hold Movement");
         }
         else noMoveTimer = hold;
+    }
+
+    void checkJump()
+    {
+        var rand = new System.Random();
+        // Jumping
+        if (distanceBetweenX < 1.8 && p2y < p1y - 0.5 && rand.Next(100) <= 2)
+        {
+            MaxInput.Jump("Player2");
+        }
     }
 
     // AI teching out of hitstun
@@ -741,7 +765,7 @@ public class AI : MonoBehaviour
 
         // Distance between player and AI
         difficulty = characterManager.CPUDifficulty;
-        Debug.Log("Difficulty = " + difficulty);
+        //Debug.Log("Difficulty = " + difficulty);
         distanceBetweenX = Math.Abs(p1x - p2x);
         distanceBetweenY = Math.Abs(p1y - p2y);
     }
@@ -769,7 +793,7 @@ public class AI : MonoBehaviour
         if (rand.Next(100) < 85 - difficulty)
         {
             delayTimer = (float)rand.NextDouble() * (5/difficulty);
-            Debug.Log("Delayed");
+            //Debug.Log("Delayed");
             return true;
         }
         return false;

@@ -334,7 +334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: PvP
   stage: TrainingStage
-  P1Character: Dhalia
+  P1Character: Achealis
   P2Character: Achealis
   P1Color: 1
   P2Color: 2

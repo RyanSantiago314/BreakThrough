@@ -71,7 +71,7 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 1)
         {
-            popUps.GetComponent<Text>().text = "Let's start with movement! \n (Press C or Select to continue)";
+            popUps.GetComponent<Text>().text = "Let's begin! \n (Press C or Select to continue)";
             if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
             {
                 popUpIndex++;
@@ -107,7 +107,7 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 5)
         {
-            popUps.GetComponent<Text>().text = "Now that you know how to move, it's time to learn how to attack! \n (Press C or Select to continue)";
+            popUps.GetComponent<Text>().text = "Well done! Now let's learn how to attack! \n (Press C or Select to continue)";
             if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
             {
                 popUpIndex++;
@@ -177,7 +177,7 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 12)
         {
-            popUps.GetComponent<Text>().text = "Now perform a combo attack on the dummy! \n (Note :  You can view your characters move list in the Pause Menu)";
+            popUps.GetComponent<Text>().text = "Now try to perform a combo attack on the enemy!";
             if (P1Prop.HitDetect.comboCount >= 5 && popUpDelay == 0)
             {
                 popUpIndex++;
@@ -195,8 +195,8 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 14)
         {
-            popUps.GetComponent<Text>().text = "Hold the direction away from your opponent to block incoming attacks! \n (Note :  This can be used on the ground and in the air)";
-            if (Input.GetAxis(inputHorizontal) < 0 && popUpDelay == 0)
+            popUps.GetComponent<Text>().text = "Hold the direction away from your opponent to block incoming attacks! \n (Note: This can be used on the ground or in the air) \n (Press C or Select to continue)";
+            if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
             {
                 popUpIndex++;
                 popUpDelay = popupDelayDuration;
@@ -213,14 +213,15 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 16)
         {
-            popUps.GetComponent<Text>().text = "Now use everthing you've learned and try to defeat your oppenent! \n (Press C or Select to start)";
+            popUps.GetComponent<Text>().text = "Great job! Now it's time to use everthing you've learned and try to defeat your oppenent! \n (Press C or Select to begin)";
             if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
             {
                 GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().resetPositions();
                 GameObject.Find("PracticeModeManager").GetComponent<PracticeMode>().refillCPUHealth = false;
                 GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().CPUState = 6;
                 GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().ArmorRefill = 1;
-                
+                popUpsBackground.SetActive(false);  
+                popUps.GetComponent<Text>().text = " ";
             }
             if (GameObject.Find("Player2").transform.GetComponentInChildren<CharacterProperties>().currentHealth == 0)
             {
@@ -230,7 +231,12 @@ public class Tutorial : MonoBehaviour
         }
         else if (popUpIndex == 17)
         {
-            popUps.GetComponent<Text>().text = "Tutorial Completed!";
+            popUpsBackground.SetActive(true);  
+            popUps.GetComponent<Text>().text = "Tutorial Completed! \n (Press C or Select to go back to the main menu)";
+            if ((Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown(inputSelect)) && popUpDelay == 0)
+            {
+                GameObject.Find("PauseManager").GetComponentInChildren<PauseMenu>().QuitToMenu();
+            }
         }
         else
         {
