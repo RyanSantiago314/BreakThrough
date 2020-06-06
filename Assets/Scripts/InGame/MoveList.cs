@@ -158,7 +158,10 @@ public class MoveList : MonoBehaviour
     //Dhalia's Movelist pages
     public void setDhaliaPage1()
     {
+        setCharacter("Dhalia");
+        setPage("Command Normals");
         pageMoveIconL.color = new Color(1f, 1f, 1f, .5f);
+        pageMoveIconR.color = new Color(1f, 1f, 1f, 1f);
         Move1.text = "Normal 1";
         Description1.text = "Can be used repeatedly";
         move1Input1.sprite = arrow.sprite;
@@ -176,7 +179,7 @@ public class MoveList : MonoBehaviour
         move1Input7.sprite = Blank.sprite;
         move1Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         Move2.text = "Normal 2";
-        Description2.text = "Hold B  to Charge Attack";
+        Description2.text = "Hold B  to Charge attack";
         Move2Break.SetActive(true);
         move2Input1.sprite = arrow.sprite;
         move2Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -223,7 +226,10 @@ public class MoveList : MonoBehaviour
 
     public void setDhaliaPage2()
     {
+        setCharacter("Dhalia");
+        setPage("Special Moves");
         pageMoveIconL.color = new Color(1f, 1f, 1f, 1f);
+        pageMoveIconR.color = new Color(1f, 1f, 1f, 1f);
         Move1.text = "Patissiere";
         Description1.text = "";
         move1Input1.sprite = arrow.sprite;
@@ -288,6 +294,9 @@ public class MoveList : MonoBehaviour
 
     public void setDhaliaPage3()
     {
+        setCharacter("Dhalia");
+        setPage("Break Triggers");
+        pageMoveIconL.color = new Color(1f, 1f, 1f, 1f);
         pageMoveIconR.color = new Color(1f, 1f, 1f, 1f);
         Move1.text = "Toaster";
         Description1.text = "";
@@ -353,6 +362,9 @@ public class MoveList : MonoBehaviour
 
     public void setDhaliaPage4()
     {
+        setCharacter("Dhalia");
+        setPage("Universal Moves");
+        pageMoveIconL.color = new Color(1f, 1f, 1f, 1f);
         pageMoveIconR.color = new Color(1f, 1f, 1f, .5f);
         Move1.text = "Light";
         Description1.text = "";
