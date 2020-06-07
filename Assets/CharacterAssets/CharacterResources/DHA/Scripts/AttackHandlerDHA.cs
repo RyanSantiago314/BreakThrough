@@ -515,7 +515,8 @@ public class AttackHandlerDHA : MonoBehaviour
         // basic throw performed by pressing both light and break attack
         else if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0)
         {
-            if(Actions.standing)
+            Hitboxes.ClearHitBox();
+            if (Actions.standing)
             {
                 anim.SetTrigger(IDThrow);
                 if (dir4 == directionBufferTime)
@@ -529,6 +530,7 @@ public class AttackHandlerDHA : MonoBehaviour
         else if (Actions.acceptSuper && lightButton > 0 && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0 && CharProp.armor >= 2 && Actions.standing)
         {
             Move.jumping = 0;
+            Hitboxes.ClearHitBox();
             // Judgment Sabre super attack, executed by doing a QCB and pressing L and M together
             anim.SetTrigger(IDSabre);
             CharProp.armor -= 2;
@@ -541,6 +543,7 @@ public class AttackHandlerDHA : MonoBehaviour
         else if (Actions.acceptSuper && heavyButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && CharProp.armor >= 2 && Actions.standing && !Toaster.activeSelf)
         {
             Move.jumping = 0;
+            Hitboxes.ClearHitBox();
             // Toaster super attack, executed by doing a QCF and pressing H and B
             anim.SetTrigger(IDToaster);
             CharProp.armor -= 2;
@@ -553,6 +556,7 @@ public class AttackHandlerDHA : MonoBehaviour
         else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && Actions.standing)
         {
             Move.jumping = 0;
+            Hitboxes.ClearHitBox();
             // Basket Case special attack, executed by doing a QCF and pressing B, can be used up to twice in succession
             anim.SetTrigger(IDBasketCase);
             Actions.TurnAroundCheck();
@@ -562,6 +566,7 @@ public class AttackHandlerDHA : MonoBehaviour
         else if (Actions.acceptSpecial && heavyButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0)
         {
             Move.jumping = 0;
+            Hitboxes.ClearHitBox();
             // Blood Brave special attack, executed by doing a QCB and pressing H
             anim.SetTrigger(IDBloodBrave);
             Actions.TurnAroundCheck();
@@ -571,6 +576,8 @@ public class AttackHandlerDHA : MonoBehaviour
         else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && HCB > 0 && Actions.standing)
         {
             Move.jumping = 0;
+            Hitboxes.ClearHitBox();
+
             // Head Rush special attack, executed by doing a HCB and pressing M
             anim.SetTrigger(IDHeadRush);
             mediumButton = 0;
@@ -579,6 +586,8 @@ public class AttackHandlerDHA : MonoBehaviour
         else if (Actions.acceptSpecial && lightButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && Actions.standing && !Projectile.activeSelf)
         {
             Move.jumping = 0;
+            Hitboxes.ClearHitBox();
+
             // Patissiere projectile special attack, executed by doing a QCF and pressing L
             anim.SetTrigger(IDPatissiere);
             Actions.TurnAroundCheck();
@@ -627,6 +636,7 @@ public class AttackHandlerDHA : MonoBehaviour
                 }
             }
             breakButton = 0;
+            Hitboxes.ClearHitBox();
         }
         else if (Actions.acceptHeavy && heavyButton > 0 && Move.HitDetect.hitStop <= 0)
         {
@@ -675,6 +685,7 @@ public class AttackHandlerDHA : MonoBehaviour
 
             }
             heavyButton = 0;
+            Hitboxes.ClearHitBox();
         }
         else if (Actions.acceptMedium && mediumButton > 0 && Move.HitDetect.hitStop <= 0)
         {
@@ -707,6 +718,7 @@ public class AttackHandlerDHA : MonoBehaviour
                 }
             }
             mediumButton = 0;
+            Hitboxes.ClearHitBox();
         }
         else if (Actions.acceptLight && lightButton > 0 && Move.HitDetect.hitStop <= 0)
         {
@@ -787,6 +799,7 @@ public class AttackHandlerDHA : MonoBehaviour
                 }
             }
             lightButton = 0;
+            Hitboxes.ClearHitBox();
         }
 
         // DHA character specific property, can charge Break attacks to make them more powerful

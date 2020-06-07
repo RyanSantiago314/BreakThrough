@@ -70,7 +70,7 @@ public class PatissiereHitbox : MonoBehaviour
             
 
         if (PHitDetect.HitDetect.hitStun > 0)
-            PHitDetect.ProjProp.Deactivate();
+            PHitDetect.ProjProp.Deactivate(0);
 
         if (PHitDetect.hit)
         {
@@ -183,6 +183,7 @@ public class PatissiereHitbox : MonoBehaviour
             PHitDetect.attackLevel = 3;
             PHitDetect.guard = "Mid";
 
+            PHitDetect.piercing = true;
             PHitDetect.allowSuper = true;
             PHitDetect.usingSpecial = true;
         }

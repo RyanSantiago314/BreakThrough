@@ -58,6 +58,7 @@ public class HitDetector : MonoBehaviour
     public bool forceCrouch = false;
     public bool forceStand = false;
     public bool shatter = false;
+    public bool forceShatter = false;
     public bool allowWallStick = false;
     public bool allowGroundBounce = false;
     public bool allowWallBounce = false;
@@ -525,11 +526,14 @@ public class HitDetector : MonoBehaviour
                         Actions.jumpCancel = true;
                     }
 
-                    if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.attacking || OpponentDetector.Actions.active || OpponentDetector.Actions.recovering))
+                    if (forceShatter || (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.attacking || OpponentDetector.Actions.active || OpponentDetector.Actions.recovering)))
                     {
                         //getting shattered means losing all your meter/armor
-                        Actions.Move.OpponentProperties.armor = 0;
-                        Actions.Move.OpponentProperties.durability = 0;
+                        if (comboCount < 1)
+                        {
+                            Actions.Move.OpponentProperties.armor = 0;
+                            Actions.Move.OpponentProperties.durability = 0;
+                        }
                         //trigger shatter effect
                         OpponentDetector.anim.SetTrigger(shatterID);
                         OpponentDetector.Actions.shattered = true;

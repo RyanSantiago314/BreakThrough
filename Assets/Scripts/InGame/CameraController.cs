@@ -54,12 +54,13 @@ public class CameraController : MonoBehaviour
         {
             //zooming in "dynamic/cinematic" camera
             cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2, zPosZoom);
-
-            if ((Char2Move.Actions.shattered || (Character2.GetComponent<CharacterProperties>().currentHealth <= 0) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice") || 
-                Char2Move.Actions.superFlash > (float)7 / 60)
+            if (Char1Move.Actions.superFlash > (float)7 / 60)
+                cameraPos = new Vector3(Character1.position.x, Character1.position.y, zPosZoom);
+            else if (Char2Move.Actions.superFlash > (float)7 / 60)
                 cameraPos = new Vector3(Character2.position.x, Character2.position.y, zPosZoom);
-            else if (Char1Move.Actions.shattered || (Character1.GetComponent<CharacterProperties>().currentHealth <= 0 && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice") ||
-                    Char1Move.Actions.superFlash > (float)7 / 60)
+            else if ((Char2Move.Actions.shattered || (Character2.GetComponent<CharacterProperties>().currentHealth <= 0) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice"))
+                cameraPos = new Vector3(Character2.position.x, Character2.position.y, zPosZoom);
+            else if (Char1Move.Actions.shattered || (Character1.GetComponent<CharacterProperties>().currentHealth <= 0 && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice"))
                 cameraPos = new Vector3(Character1.position.x, Character1.position.y, zPosZoom);
 
             smooth = 5;

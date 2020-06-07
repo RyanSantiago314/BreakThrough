@@ -172,6 +172,12 @@ public class MovementHandler : MonoBehaviour
             transform.eulerAngles = Vector3.zero;
         else if (!facingRight && transform.eulerAngles != new Vector3(0, 180, 0))
             transform.eulerAngles = new Vector3(0, 180, 0);
+
+        if (transform.position.x < -9.935f)
+            transform.position = new Vector3(-9.935f, transform.position.y, transform.position.z);
+        else if (transform.position.x > 9.935f)
+            transform.position = new Vector3(9.935f, transform.position.y, transform.position.z);
+
         if (Actions.acceptMove && Actions.standing)
         {
             if (opponent.transform.position.x < transform.position.x - .1f)
@@ -218,6 +224,11 @@ public class MovementHandler : MonoBehaviour
 
         pushTrigger.offset = new Vector2(pushBox.offset.x, pushBox.offset.y);
         pushTrigger.size = new Vector2(pushBox.size.x, pushBox.size.y + .3f);
+
+        if (transform.position.x < -9.935f)
+            transform.position = new Vector3(-9.935f, transform.position.y, transform.position.z);
+        else if (transform.position.x > 9.935f)
+            transform.position = new Vector3(9.935f, transform.position.y, transform.position.z);
 
         if (transform.position.y < minPosY)
         {
@@ -456,15 +467,22 @@ public class MovementHandler : MonoBehaviour
             {
                 anim.ResetTrigger(KDID);
                 anim.SetTrigger(groundBounceID);
-                rb.velocity = Vector2.zero;
-                if (facingRight)
+                
+                if (rb.velocity.x < 0)
                 {
                     HitDetect.KnockBack = new Vector2(-1f, 3.3f);
+                    facingRight = true;
                 }
-                else
+                else if (rb.velocity.x > 0)
                 {
                     HitDetect.KnockBack = new Vector2(1f, 3.3f);
+                    facingRight = false;
                 }
+                else if (facingRight)
+                    HitDetect.KnockBack = new Vector2(-1f, 3.3f);
+                else
+                    HitDetect.KnockBack = new Vector2(1f, 3.3f);
+                rb.velocity = Vector2.zero;
                 Actions.groundBounce = false;
                 Actions.airborne = true;
 
@@ -613,7 +631,7 @@ public class MovementHandler : MonoBehaviour
         if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
             //keeps characters from intersecting and occupying the same space
-            if (!Actions.airborne && opponentMove.Actions.airborne && !hittingWall && opponentMove.rb.velocity.y < 0)
+            if (!Actions.airborne && opponentMove.Actions.airborne  && opponentMove.rb.velocity.y < 0) //&& !hittingWall
             {
                 if (opponent.position.x > transform.position.x)
                 {
@@ -1055,7 +1073,8 @@ public class MovementHandler : MonoBehaviour
             {
                 anim.SetBool(wallStickID, false);
             }
-            wallStickTimer -= Time.deltaTime;
+            if (HitDetect.hitStop <= 0)
+                wallStickTimer -= Time.deltaTime;
             if (wallStickTimer >= (float)41/60)
                 opponentMove.sigil.GetComponent<Sigil>().Play();
             opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;

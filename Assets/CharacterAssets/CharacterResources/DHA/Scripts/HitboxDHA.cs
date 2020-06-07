@@ -199,7 +199,7 @@ public class HitboxDHA : MonoBehaviour
         AttackHandler.Toaster.SetActive(true);
         AttackHandler.Toaster.GetComponent<ProjectileProperties>().projectileActive = true;
         AttackHandler.Toaster.GetComponent<ProjectileProperties>().currentHits = 0;
-        AttackHandler.Toaster.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Toaster.GetComponent<ProjectileProperties>().maxLife / 60;
+        AttackHandler.Toaster.GetComponent<ProjectileProperties>().currentLife = AttackHandler.Toaster.GetComponent<ProjectileProperties>().maxLife / 60f;
         AttackHandler.Toaster.transform.rotation = transform.rotation;
         AttackHandler.Toaster.transform.position = transform.position;
         AttackHandler.Toaster.GetComponent<ProjectileProperties>().anim.SetTrigger("Summon");

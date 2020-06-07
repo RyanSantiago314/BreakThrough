@@ -44,12 +44,12 @@ public class HitboxACH : MonoBehaviour
         if (HitDetect.hitStun > 0)
         {
             ClearHitBox();
-            AttackHandler.LHSlide.SetActive(false);
-            AttackHandler.HCWave.SetActive(false);
-            AttackHandler.LHWave.SetActive(false);
+            AttackHandler.ForsythiaReticle.SetActive(false);
             sinCharge = 0;
             HitDetect.anim.SetInteger("SinCharge", sinCharge);
         }
+
+        AttackHandler.anim.SetInteger("Shots", AttackHandler.ForsythiaReticle.GetComponent<ProjectileProperties>().currentHits);
     }
 
     public void ClearHitBox()
@@ -85,6 +85,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.allowGroundBounce = false;
         HitDetect.allowWallBounce = false;
         HitDetect.shatter = false;
+        HitDetect.forceShatter = false;
         HitDetect.usingSuper = false;
         HitDetect.usingSpecial = false;
         HitDetect.guardCancel = false;
@@ -149,6 +150,17 @@ public class HitboxACH : MonoBehaviour
         AttackHandler.SFWave.GetComponent<HeavenClimber>().anim.SetTrigger("Activate");
     }
 
+    public void SummonReticle()
+    {
+        AttackHandler.ForsythiaReticle.SetActive(true);
+        if (HitDetect.Actions.Move.facingRight)
+            AttackHandler.ForsythiaReticle.transform.position = new Vector3(transform.position.x + 1.6f, transform.position.y + .25f, transform.position.z);
+        else
+            AttackHandler.ForsythiaReticle.transform.position = new Vector3(transform.position.x - 1.6f, transform.position.y + .25f, transform.position.z);
+        AttackHandler.ForsythiaReticle.GetComponent<ForsythiaHitbox>().anim.SetTrigger("Activate");
+        AttackHandler.ForsythiaReticle.GetComponent<ProjectileProperties>().currentHits = 0;
+    }
+
     //push damage values, knockback, and proration to hitdetector from hitbox events
     void StandingLHitBox()
     {
@@ -165,7 +177,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.durabilityDamage = 50;
         HitDetect.potentialHitStun = hitStunLv2;
         HitDetect.potentialHitStop = hitStopLv1;
-        HitDetect.potentialKnockBack = new Vector2(1.3f, 0);
+        HitDetect.potentialKnockBack = new Vector2(1.5f, 0);
         HitDetect.initialProration = .8f;
         HitDetect.attackLevel = 0;
         HitDetect.guard = "Mid";
@@ -193,7 +205,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.durabilityDamage = 50;
         HitDetect.potentialHitStun = hitStunLv1;
         HitDetect.potentialHitStop = hitStopLv1;
-        HitDetect.potentialKnockBack = new Vector2(1f, 0);
+        HitDetect.potentialKnockBack = new Vector2(1.2f, 0);
         HitDetect.initialProration = .75f;
         HitDetect.attackLevel = 0;
         HitDetect.guard = "Low";

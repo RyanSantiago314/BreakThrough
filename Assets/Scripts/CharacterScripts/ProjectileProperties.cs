@@ -18,6 +18,7 @@ public class ProjectileProperties : MonoBehaviour
 
     public bool projectileActive = true;
     public bool hasLifeSpan = true;
+    public bool hasMaxHits = true;
 
     static int deactivateID;
 
@@ -34,7 +35,7 @@ public class ProjectileProperties : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((currentLife <= 0 || currentHits >= maxHits) && projectileActive)
+        if (((currentLife <= 0 && hasLifeSpan) || (hasMaxHits && currentHits >= maxHits)) && projectileActive)
         {
             anim.SetTrigger(deactivateID);
             projectileActive = false;
@@ -49,8 +50,13 @@ public class ProjectileProperties : MonoBehaviour
         }
     }
 
-    public void Deactivate()
+    public void Deactivate(int i)
     {
-        transform.gameObject.SetActive(false);
+        if (i == 0)
+            transform.gameObject.SetActive(false);
+        else if (currentHits >= i)
+        {
+            transform.gameObject.SetActive(false);
+        }
     }
 }
