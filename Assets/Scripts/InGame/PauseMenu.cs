@@ -173,9 +173,15 @@ public class PauseMenu : MonoBehaviour
             {
                 //Handle Vertical Selection
                 if (playerPaused == 1)
+                {
                     vertical = Input.GetAxisRaw(inputVertical);
-                else
+                    horizontal = Input.GetAxisRaw(inputHorizontal);
+                }
+                else if(playerPaused == 2)
+                {
                     vertical = Input.GetAxisRaw(inputVertical2);
+                    horizontal = Input.GetAxisRaw(inputHorizontal2);
+                }
 
                 //Check for input
                 if (!acceptInputVer)
@@ -262,7 +268,14 @@ public class PauseMenu : MonoBehaviour
                         acceptBack = false;
                         moveListIndex = 1;
                         verticalMoveListIndex = 1;
-                        mList.setDhaliaPage1();
+                        if (playerPaused == 1)
+                        {
+                            setMoveListPage(1, PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                        }
+                        else if (playerPaused == 2)
+                        {
+                            setMoveListPage(1, PlayerData.GetComponent<SelectedCharacterManager>().P2Character);
+                        }
                         MoveListMarker.color = new Color(1f, 1f, 1f, 0f);
                         mList.resetMarker();
                         mList.enableMarker();
@@ -825,8 +838,6 @@ public class PauseMenu : MonoBehaviour
     //Function to check inputs on movelist
     private void MoveListInputs()
     {
-        //Check Horizontal Input
-        horizontal = Input.GetAxisRaw(inputHorizontal);
         updateVideo = false;
 
         if (!acceptInputHor)
@@ -872,25 +883,28 @@ public class PauseMenu : MonoBehaviour
             }
             if (moveListIndex == 4)
             {
-                mList.setDhaliaPage4();
+                mList.setUniversal1();
+                if (playerPaused == 1)
+                {
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                }
+                else if(playerPaused == 2)
+                {
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character);
+                }
             }
         }
 
-        if (moveListIndex == 1)
+        //Set Pages
+        if (playerPaused == 1)
         {
-            mList.setDhaliaPage1();
+            setMoveListPage(moveListIndex, PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
         }
-        else if (moveListIndex == 2)
+        else if(playerPaused == 2)
         {
-            mList.setDhaliaPage2();
+            setMoveListPage(moveListIndex, PlayerData.GetComponent<SelectedCharacterManager>().P2Character);
         }
-        else if (moveListIndex == 3)
-        {
-            mList.setDhaliaPage3();
-        }
-
-
-
+       
         if (keepMaxIndex)
         {
             verticalMoveListIndex = mList.maxVerticalIndex;
@@ -951,11 +965,11 @@ public class PauseMenu : MonoBehaviour
 
             if (moveListIndex == 4 && mList.bottomCheck() && verticalMoveListIndex == 5)
             {
-                mList.setDhaliaPage4Scroll1();
+                mList.setUniversal2();
             }
             else if ((moveListIndex == 4 && mList.bottomCheck() && verticalMoveListIndex == 6))
             {
-                mList.setDhaliaPage4Scroll2();
+                mList.setUniversal3();
             }
         }
         else if (acceptInputVer && vertical > 0)
@@ -977,15 +991,39 @@ public class PauseMenu : MonoBehaviour
 
             if ((moveListIndex == 4 && verticalMoveListIndex == 6) && mList.bottomCheck())
             {
-                mList.setDhaliaPage4Scroll2();
+                mList.setUniversal3();
+                if (playerPaused == 1)
+                {
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                }
+                else if (playerPaused == 2)
+                {
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character);
+                }
             }
             else if (moveListIndex == 4 && mList.topCheck() && verticalMoveListIndex == 2)
             {
-                mList.setDhaliaPage4Scroll1();
+                mList.setUniversal2();
+                if (playerPaused == 1)
+                {
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                }
+                else if (playerPaused == 2)
+                {
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character);
+                }
             }
             else if (moveListIndex == 4 && mList.topCheck() && verticalMoveListIndex == 1)
             {
-                mList.setDhaliaPage4();
+                mList.setUniversal1();
+                if (playerPaused == 1)
+                {
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                }
+                else if (playerPaused == 2)
+                {
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character);
+                }
             }
         }
 
@@ -1097,6 +1135,42 @@ public class PauseMenu : MonoBehaviour
         else
             return "Assets/VideoCaptures/" + pathToVideo + ".webm";
 
+    }
+
+    //Function to set page
+    private void setMoveListPage(int page, string character)
+    {
+        switch (character)
+        {
+            case "Dhalia":
+                switch (page)
+                {
+                    case 1:
+                        mList.setDhaliaPage1();
+                        break;
+                    case 2:
+                        mList.setDhaliaPage2();
+                        break;
+                    case 3:
+                        mList.setDhaliaPage3();
+                        break;
+                }
+                break;
+            case "Achealis":
+                switch (page)
+                {
+                    case 1:
+                        mList.setAchealisPage1();
+                        break;
+                    case 2:
+                        mList.setAchealisPage2();
+                        break;
+                    case 3:
+                        mList.setAchealisPage3();
+                        break;
+                }
+                break;
+        }
     }
 
     private void SetControllers()

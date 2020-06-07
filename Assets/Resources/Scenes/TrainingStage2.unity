@@ -319,7 +319,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &500688647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,10 +334,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: PvP
   stage: TrainingStage
-  P1Character: Achealis
+  P1Character: Dhalia
   P2Character: Achealis
   P1Color: 1
-  P2Color: 2
+  P2Color: 1
   P1Side: Left
   P2Side: Right
   CPUDifficulty: 50
@@ -540,7 +540,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 7.17e-43, z: 7.54e-43, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -773,6 +773,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1940637819962161903, guid: 33666162bd57d2447a2c8d5017fa56b3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1940637820110212172, guid: 33666162bd57d2447a2c8d5017fa56b3,
         type: 3}
       propertyPath: m_Name
