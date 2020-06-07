@@ -150,6 +150,7 @@ MonoBehaviour:
   currentHits: 0
   projectileActive: 1
   hasLifeSpan: 1
+  hasMaxHits: 1
 --- !u!114 &1571492460223489552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,6 +499,7 @@ MonoBehaviour:
   allowWallBounce: 0
   usingSuper: 0
   usingSpecial: 0
+  autoCorrectKnockBack: 1
   OpponentDetector: {fileID: 0}
   hit: 0
   armorHit: 0

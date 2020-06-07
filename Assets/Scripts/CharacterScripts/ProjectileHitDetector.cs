@@ -46,11 +46,13 @@ public class ProjectileHitDetector : MonoBehaviour
     public bool forceCrouch = false;
     public bool forceStand = false;
     public bool shatter = false;
+    public bool forceShatter = false;
     public bool allowWallStick = false;
     public bool allowGroundBounce = false;
     public bool allowWallBounce = false;
     public bool usingSuper;
     public bool usingSpecial;
+    public bool autoCorrectKnockBack;
 
     public HitDetector OpponentDetector;
 
@@ -344,18 +346,21 @@ public class ProjectileHitDetector : MonoBehaviour
                     Actions.jumpCancel = true;
                 }
 
-                if (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.recovering))
+                if (forceShatter ||(shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.attacking || OpponentDetector.Actions.active || OpponentDetector.Actions.recovering)))
                 {
                     //getting shattered means losing all your meter/armor
-                    Actions.Move.OpponentProperties.armor = 0;
-                    Actions.Move.OpponentProperties.durability = 0;
+                    if (HitDetect.comboCount < 1)
+                    {
+                        Actions.Move.OpponentProperties.armor = 0;
+                        Actions.Move.OpponentProperties.durability = 0;
+                    }
                     //trigger shatter effect
                     OpponentDetector.anim.SetTrigger(shatterID);
                     OpponentDetector.Actions.shattered = true;
                     Debug.Log("SHATTERED");
                     //damage, hitstun, etc.
                     HitSuccess(other);
-                    ApplyHitStop(30);
+                    ApplyHitStop(2 * potentialHitStop);
                 }
                 else if (piercing && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                 {
@@ -366,7 +371,7 @@ public class ProjectileHitDetector : MonoBehaviour
                         OpponentDetector.armorHit = true;
                     }
                     HitSuccess(other);
-                    ApplyHitStop(potentialHitStop / 2);
+                    ApplyHitStop(0);
                 }
                 else if (!blitz && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                 {
@@ -650,7 +655,7 @@ public class ProjectileHitDetector : MonoBehaviour
                 }
                 else
                 {
-                    //counter graphic on attacker's side and voice clip
+                    HitDetect.counterSuccess = true;
                 }
             }
             OpponentDetector.blockStun = 0;
@@ -662,13 +667,13 @@ public class ProjectileHitDetector : MonoBehaviour
             if (OpponentDetector.currentState.IsName("Crumple"))
             {
                 OpponentDetector.anim.SetTrigger(hitAirID);
-                if (potentialAirKnockBack.y < 0)
+                if (potentialAirKnockBack == Vector2.zero)
                 {
                     OpponentDetector.ProjectileKnockBack = potentialKnockBack;
                     if (potentialKnockBack.y == 0)
                         OpponentDetector.ProjectileKnockBack += new Vector2(0, 1.5f);
                 }
-                else if (potentialAirKnockBack == Vector2.zero)
+                else if (potentialAirKnockBack.y == 0)
                 {
                     OpponentDetector.ProjectileKnockBack = potentialKnockBack;
                     if (potentialKnockBack.y == 0)
@@ -695,10 +700,13 @@ public class ProjectileHitDetector : MonoBehaviour
             else
                 OpponentDetector.ProjectileKnockBack = potentialKnockBack;
 
-            if (Mathf.Abs(transform.position.x - OpponentDetector.Actions.Move.transform.position.x) < .3f || OpponentDetector.Actions.Move.hittingWall)
-                OpponentDetector.ProjectileKnockBack *= new Vector2(0f, 1);
-            else if (transform.position.x > OpponentDetector.Actions.Move.transform.position.x)
-                OpponentDetector.ProjectileKnockBack *= new Vector2(-1f, 1);
+            if (autoCorrectKnockBack)
+            {
+                if (Mathf.Abs(transform.position.x - OpponentDetector.Actions.Move.transform.position.x) < .3f || OpponentDetector.Actions.Move.hittingWall)
+                    OpponentDetector.ProjectileKnockBack *= new Vector2(0f, 1);
+                else if (transform.position.x > OpponentDetector.Actions.Move.transform.position.x)
+                    OpponentDetector.ProjectileKnockBack *= new Vector2(-1f, 1);
+            }
         }
 
         if (potentialHitStun != 0)
@@ -798,7 +806,8 @@ public class ProjectileHitDetector : MonoBehaviour
             OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;
 
         anim.SetTrigger(successID);
-        ProjProp.currentHits++;
+        if (ProjProp.hasMaxHits)
+            ProjProp.currentHits++;
     }
 
     void Clash(Collider2D other)
@@ -838,6 +847,9 @@ public class ProjectileHitDetector : MonoBehaviour
         {
             hitStop = (potentialHitStop + i)/60;
             OpponentDetector.hitStop = hitStop;
+
+            if (OpponentDetector.Actions.shattered)
+                HitDetect.hitStop = hitStop;
             if (usingSuper)
                 HitDetect.hitEffect.SetFloat(animSpeedID, 0);
         }

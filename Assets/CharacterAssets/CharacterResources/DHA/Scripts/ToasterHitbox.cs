@@ -45,7 +45,7 @@ public class ToasterHitbox : MonoBehaviour
         }
 
         if (PHitDetect.HitDetect.hitStun > 0)
-            PHitDetect.ProjProp.Deactivate();
+            PHitDetect.ProjProp.Deactivate(0);
     }
 
     public void ChargeLight()

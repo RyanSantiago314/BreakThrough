@@ -6,10 +6,13 @@ public class Shadows : MonoBehaviour
 {
     public SpriteRenderer mainBody;
     public SpriteRenderer effects;
+    public SpriteRenderer effects1;
 
     public SpriteRenderer shadow;
     public SpriteRenderer subShadow;
+    public SpriteRenderer subShadow2;
     public SpriteMask cutSubShadow;
+    public SpriteMask cutSubShadow2;
 
     float mainBodyYPos;
     float yPos;
@@ -34,6 +37,8 @@ public class Shadows : MonoBehaviour
         transform.position = new Vector3(mainBody.transform.position.x, yPos, zPos + mainBody.transform.position.y - mainBodyYPos);
         shadow.sprite = mainBody.sprite;
         cutSubShadow.sprite = shadow.sprite;
+        cutSubShadow2.sprite = shadow.sprite;
         subShadow.sprite = effects.sprite;
+        subShadow2.sprite = effects1.sprite;
     }
 }

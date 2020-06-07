@@ -15,6 +15,7 @@ public class AttackHandlerACH : MonoBehaviour
     public GameObject LHSlidePrefab;
     public GameObject LHPrefab;
     public GameObject SFPrefab;
+    public GameObject FMPrefab;
     public GameObject BlitzPrefab;
 
     public GameObject HCWave;
@@ -22,23 +23,24 @@ public class AttackHandlerACH : MonoBehaviour
     public GameObject LHWave;
     public GameObject SFWave;
     public GameObject BlitzEffect;
+    public GameObject ForsythiaReticle;
     SpriteRenderer BlitzImage;
     Animator BlitzWave;
 
 
     ColorSwapACH colorControl;
 
-    private string Horizontal;
-    private string Vertical;
+    public string Horizontal;
+    public string Vertical;
 
-    private string Light;
-    private string Medium;
-    private string Heavy;
-    private string Break;
-    private string LM;
-    private string HB;
-    private string MH;
-    private string LB;
+    public string Light;
+    public string Medium;
+    public string Heavy;
+    public string Break;
+    public string LM;
+    public string HB;
+    public string MH;
+    public string LB;
 
     float bufferTime = .25f;
     float directionBufferTime = .3f;
@@ -87,7 +89,8 @@ public class AttackHandlerACH : MonoBehaviour
     static int IDLevelHell;
     static int IDStarfall;
     static int BreakCharge;
-    
+    static int IDForsythia;
+
     /*
     static int IDHeadRush;
     static int IDBasketCase;
@@ -125,12 +128,13 @@ public class AttackHandlerACH : MonoBehaviour
         IDLevelHell = Animator.StringToHash("LevelHell");
         BreakCharge = Animator.StringToHash("BreakCharge");
         IDStarfall = Animator.StringToHash("Starfall");
+        IDForsythia = Animator.StringToHash("Forsythia");
         /*
         IDPatissiere = Animator.StringToHash("Patissiere");
         IDHeadRush = Animator.StringToHash("HeadRush");
         IDBasketCase = Animator.StringToHash("BasketCase");
 
-        IDToaster = Animator.StringToHash("Toaster");
+        
         IDSabre = Animator.StringToHash("JudgmentSabre");*/
 
         lowGuardID = Animator.StringToHash("LowGuard");
@@ -187,6 +191,8 @@ public class AttackHandlerACH : MonoBehaviour
 
         SFWave = Instantiate(SFPrefab, new Vector3(0, -10, -3), Quaternion.identity, transform.root);
         SFWave.SetActive(false);
+
+        ForsythiaReticle = Instantiate(FMPrefab, new Vector3(0, -5, -3), Quaternion.identity, transform.root);
 
         BlitzEffect = Instantiate(BlitzPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
         BlitzImage = BlitzEffect.transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -461,6 +467,7 @@ public class AttackHandlerACH : MonoBehaviour
             Hitboxes.BlitzCancel();
             Actions.landingLag = 0;
 
+            ForsythiaReticle.SetActive(false);
             anim.SetBool(runID, false);
             BlitzImage.sprite = anim.gameObject.GetComponent<SpriteRenderer>().sprite;
             BlitzImage.color = new Color(BlitzImage.color.r, BlitzImage.color.g, BlitzImage.color.b, .75f);
@@ -504,6 +511,7 @@ public class AttackHandlerACH : MonoBehaviour
         // basic throw performed by pressing both light and break attack
         else if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0)
         {
+            Hitboxes.ClearHitBox();
             if (Actions.standing)
             {
                 anim.SetTrigger(IDThrow);
@@ -515,9 +523,23 @@ public class AttackHandlerACH : MonoBehaviour
                 Actions.throwTech = true;
             }
         }
+        else if (Actions.acceptSuper && lightButton > 0 && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && CharProp.armor >= 2 && Actions.standing)
+        {
+            Move.jumping = 0;
+            Hitboxes.ClearHitBox();
+            // Forsythia Marduk super attack, executed by doing a QCF and pressing L and M together
+            anim.SetTrigger(IDForsythia);
+            CharProp.armor -= 2; 
+            CharProp.durability = 70;
+            CharProp.durabilityRefillTimer = 0;
+            lightButton = 0;
+            mediumButton = 0;
+            QCF = 0;
+        }
         else if (Actions.acceptSpecial && (heavyButton > 0 || breakButton > 0) && Move.HitDetect.hitStop <= 0 && DP > 0)
         {
             Move.jumping = 0;
+            Hitboxes.ClearHitBox();
             // Heaven Climber special attack, executed by doing a DP and pressing H or B
             if (Actions.airborne || heavyButton > 0)
                 anim.SetTrigger(IDHeavenClimberH);
@@ -531,6 +553,7 @@ public class AttackHandlerACH : MonoBehaviour
         else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0 && Actions.airborne && Hitboxes.HitDetect.Actions.Move.transform.position.y > 1.5f)
         {
             Move.jumping = 0;
+            Hitboxes.ClearHitBox();
             // Starfall special attack, executed by doing a QCB and pressing B
             anim.SetTrigger(IDStarfall);
             Actions.TurnAroundCheck();
@@ -540,6 +563,7 @@ public class AttackHandlerACH : MonoBehaviour
         else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && !Actions.airborne)
         {
             Move.jumping = 0;
+            Hitboxes.ClearHitBox();
             // Level Hell special attack, executed by doing a QCF and pressing M
             anim.SetTrigger(IDLevelHell);
             Actions.TurnAroundCheck();
@@ -558,6 +582,7 @@ public class AttackHandlerACH : MonoBehaviour
                         anim.SetTrigger(ID2B);
                         CrouchB = false;
                         Actions.TurnAroundCheck();
+                        Hitboxes.ClearHitBox();
                     }
                 }
                 else if (dir3 == directionBufferTime)
@@ -567,6 +592,7 @@ public class AttackHandlerACH : MonoBehaviour
                         anim.SetTrigger(ID3B);
                         DFB = false;
                         anim.SetBool(runID, false);
+                        Hitboxes.ClearHitBox();
                     }
                 }
                 else
@@ -576,6 +602,7 @@ public class AttackHandlerACH : MonoBehaviour
                         anim.SetTrigger(ID5B);
                         StandB = false;
                         Actions.TurnAroundCheck();
+                        Hitboxes.ClearHitBox();
                     }
                 }
             }
@@ -585,8 +612,10 @@ public class AttackHandlerACH : MonoBehaviour
                 {
                     anim.SetTrigger(ID5B);
                     JumpB = false;
+                    Hitboxes.ClearHitBox();
                 }
             }
+            Hitboxes.ClearHitBox();
             breakButton = 0;
         }
         else if (Actions.acceptHeavy && heavyButton > 0 && Move.HitDetect.hitStop <= 0)
@@ -620,6 +649,7 @@ public class AttackHandlerACH : MonoBehaviour
                 }
 
             }
+            Hitboxes.ClearHitBox();
             heavyButton = 0;
         }
         else if (Actions.acceptMedium && mediumButton > 0 && Move.HitDetect.hitStop <= 0)
@@ -652,6 +682,7 @@ public class AttackHandlerACH : MonoBehaviour
                     JumpM = false;
                 }
             }
+            Hitboxes.ClearHitBox();
             mediumButton = 0;
         }
         else if (Actions.acceptLight && lightButton > 0 && Move.HitDetect.hitStop <= 0)
@@ -686,6 +717,7 @@ public class AttackHandlerACH : MonoBehaviour
                     JumpL--;
                 }
             }
+            Hitboxes.ClearHitBox();
             lightButton = 0;
         }
 

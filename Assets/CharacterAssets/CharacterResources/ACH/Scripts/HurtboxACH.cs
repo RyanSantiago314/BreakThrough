@@ -79,7 +79,7 @@ public class HurtboxACH : MonoBehaviour
         body.size = new Vector2(.39f, .497f);
         legs1.offset = new Vector2(-.047f, -.23f);
         legs1.size = new Vector2(.83f, .42f);
-        legs2.offset = new Vector2(.125f, -.67f);
+        legs2.offset = new Vector2(0f, -.67f);
         legs2.size = new Vector2(1f, .5f);
         misc1.offset = new Vector2(-.28f, .54f);
         misc1.size = new Vector2(.395f, .21f);
@@ -607,7 +607,7 @@ public class HurtboxACH : MonoBehaviour
         head.offset = new Vector2(.13f, .79f);
         head.size = new Vector2(.24f, .28f);
         body.offset = new Vector2(-.02f, .43f);
-        body.size = new Vector2(55f, .57f);
+        body.size = new Vector2(.55f, .57f);
         legs1.offset = new Vector2(-.03f, -.16f);
         legs1.size = new Vector2(.57f, .73f);
         legs2.offset = new Vector2(.06f, -.63f);
@@ -928,9 +928,51 @@ public class HurtboxACH : MonoBehaviour
         head.size = new Vector2(.21f, .32f);
         body.offset = new Vector2(.12f, .14f);
         body.size = new Vector2(.49f, .68f);
-        legs1.offset = new Vector2(-.11f, .57f);
+        legs1.offset = new Vector2(-.11f, -.57f);
         legs1.size = new Vector2(.92f, .69f);
         legs2.offset = new Vector2(-.71f, -.7f);
         legs2.size = new Vector2(.37f, .39f);
+    }
+
+    public void FMAim()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(.03f, .35f);
+        head.size = new Vector2(.2f, .27f);
+        body.offset = new Vector2(-.04f, -.017f);
+        body.size = new Vector2(.36f, .54f);
+        legs1.offset = new Vector2(-.05f, -.57f);
+        legs1.size = new Vector2(.82f, .69f);
+        legs2.offset = new Vector2(.39f, -.7f);
+        legs2.size = new Vector2(.1625f, .39f);
+        misc1.offset = new Vector2(.268f, .12f);
+        misc1.size = new Vector2(1.03f, .26f);
+    }
+
+    public void FMReco()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(.05f, .76f);
+        head.size = new Vector2(.19f, .33f);
+        body.offset = new Vector2(0f, .324f);
+        body.size = new Vector2(.4f, .6f);
+        legs1.offset = new Vector2(0f, -.2f);
+        legs1.size = new Vector2(.56f, .585f);
+        legs2.offset = new Vector2(0f, -.67f);
+        legs2.size = new Vector2(.6f, .43f);
+        misc1.offset = new Vector2(-.1f, .247f);
+        misc1.size = new Vector2(.87f, .51f);
     }
 }

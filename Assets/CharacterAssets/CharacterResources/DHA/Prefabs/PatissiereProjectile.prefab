@@ -825,6 +825,7 @@ MonoBehaviour:
   allowWallBounce: 0
   usingSuper: 0
   usingSpecial: 0
+  autoCorrectKnockBack: 1
   OpponentDetector: {fileID: 0}
   hit: 0
   armorHit: 0
