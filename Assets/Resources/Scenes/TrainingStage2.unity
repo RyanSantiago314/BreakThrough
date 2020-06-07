@@ -177,7 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxInput: {fileID: 1948197657}
   MaxInputObject: {fileID: 1948197656}
-  PracticeModeSettings: {fileID: 0}
+  PracticeModeSettings: {fileID: 1710894488}
   enableArmorRefill: 1
   enableCPUAirTech: 1
   enableGuardAfterFirstHit: 0
@@ -332,10 +332,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6fbaa8c22c19774f86d376136f95b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMode: PvP
+  gameMode: Practice
   stage: TrainingStage
-  P1Character: Dhalia
-  P2Character: Achealis
+  P1Character: Achealis
+  P2Character: Dhalia
   P1Color: 1
   P2Color: 1
   P1Side: Left
@@ -540,7 +540,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 3.7616967e-37, w: 2.9057e-41}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -766,6 +766,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1710894488 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1940637820361389436, guid: 33666162bd57d2447a2c8d5017fa56b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1792018780}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1792018780
 PrefabInstance:
   m_ObjectHideFlags: 0
