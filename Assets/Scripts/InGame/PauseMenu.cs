@@ -324,8 +324,10 @@ public class PauseMenu : MonoBehaviour
         //Handle Practice Mode Pause Menu
         else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {
+
             if (Input.GetButtonDown(pauseCode1) && !isPaused)
             {
+                playerPaused = 1;
                 DisableControls(true);
                 ActivateMenu();
                 isPaused = true;
