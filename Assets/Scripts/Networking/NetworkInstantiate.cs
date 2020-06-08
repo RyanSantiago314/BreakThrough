@@ -17,6 +17,7 @@ namespace Networking
 
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
+            loader = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>(); //Not updating this instantiates Dhalia in the wrong place with the wrong settings.
 
             //Most of this is properly setting online values from CharacterLoader.cs setP#Properties()
             if (PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer)) //If we're master and message was not sent by us
