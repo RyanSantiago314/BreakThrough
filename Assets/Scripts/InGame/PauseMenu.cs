@@ -271,6 +271,7 @@ public class PauseMenu : MonoBehaviour
                         if (playerPaused == 1)
                         {
                             setMoveListPage(1, PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                            //print(PlayerData.GetComponent<SelectedCharacterManager>().P1Character == "Achealis");
                         }
                         else if (playerPaused == 2)
                         {
@@ -324,8 +325,10 @@ public class PauseMenu : MonoBehaviour
         //Handle Practice Mode Pause Menu
         else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {
+
             if (Input.GetButtonDown(pauseCode1) && !isPaused)
             {
+                playerPaused = 1;
                 DisableControls(true);
                 ActivateMenu();
                 isPaused = true;
@@ -556,7 +559,7 @@ public class PauseMenu : MonoBehaviour
                 else if (optionIndex == 8)
                 {
                     moveListButton.Select();
-                    if (Input.GetButton(p1cross) && !moveList)
+                    if (Input.GetButtonDown(p1cross) && !moveList)
                     {
                         MoveList();
                         acceptBack = false;
@@ -568,6 +571,10 @@ public class PauseMenu : MonoBehaviour
                         mList.enableMarker();
                         //Choose what video to display
                         VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().url = SelectVideo(verticalMoveListIndex, moveListIndex);
+                    }
+                    if (!acceptMoveList)
+                    {
+                        acceptMoveList = true;
                     }
                     if (Input.GetButton(p1circle) && moveList && acceptInputCirc)
                     {
@@ -886,11 +893,11 @@ public class PauseMenu : MonoBehaviour
                 mList.setUniversal1();
                 if (playerPaused == 1)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character + " Thorne");
                 }
                 else if(playerPaused == 2)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character + " Thorne");
                 }
             }
         }
@@ -994,11 +1001,11 @@ public class PauseMenu : MonoBehaviour
                 mList.setUniversal3();
                 if (playerPaused == 1)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character + " Thorne");
                 }
                 else if (playerPaused == 2)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character + " Thorne");
                 }
             }
             else if (moveListIndex == 4 && mList.topCheck() && verticalMoveListIndex == 2)
@@ -1006,11 +1013,11 @@ public class PauseMenu : MonoBehaviour
                 mList.setUniversal2();
                 if (playerPaused == 1)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character + " Thorne");
                 }
                 else if (playerPaused == 2)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character + " Thorne");
                 }
             }
             else if (moveListIndex == 4 && mList.topCheck() && verticalMoveListIndex == 1)
@@ -1018,11 +1025,11 @@ public class PauseMenu : MonoBehaviour
                 mList.setUniversal1();
                 if (playerPaused == 1)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character + " Thorne");
                 }
                 else if (playerPaused == 2)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character + " Thorne");
                 }
             }
         }
@@ -1052,6 +1059,8 @@ public class PauseMenu : MonoBehaviour
         {
             MoveListBack();
             acceptMoveList = false;
+            quitButton.Select();
+            moveListButton.Select();
         }
         //Prevent double-inputs
         acceptBack = true;
@@ -1061,75 +1070,85 @@ public class PauseMenu : MonoBehaviour
     private string SelectVideo(int vertical, int horizontal)
     {
         string pathToVideo = "";
-        if (horizontal == 1)
+        //dhalia menu
+        if((PlayerData.GetComponent<SelectedCharacterManager>().P1Character == "Dhalia" && playerPaused == 1) || (PlayerData.GetComponent<SelectedCharacterManager>().P2Character == "Dhalia" && playerPaused == 2))
         {
-            if(vertical == 1)
+            if (horizontal == 1)
             {
-                pathToVideo += "6L";
+                if (vertical == 1)
+                {
+                    pathToVideo += "6L";
+                }
+                else if (vertical == 2)
+                {
+                    pathToVideo += "6B";
+                }
             }
-            else if(vertical == 2)
+            else if (horizontal == 2)
             {
-                pathToVideo += "6B";
+                if (vertical == 1)
+                {
+                    pathToVideo += "Patissiere";
+                }
+                else if (vertical == 2)
+                {
+                    pathToVideo += "HeadRush";
+                }
+                else if (vertical == 3)
+                {
+                    pathToVideo += "BloodBrave";
+                }
+                else if (vertical == 4)
+                {
+                    pathToVideo += "BasketCase";
+                }
+            }
+            else if (horizontal == 3)
+            {
+                if (vertical == 1)
+                {
+                    pathToVideo += "Toaster";
+                }
+                else if (vertical == 2)
+                {
+                    pathToVideo += "JudgementSabre";
+                }
+            }
+            else if (horizontal == 4)
+            {
+                if (vertical == 1)
+                {
+                    pathToVideo += "L";
+                }
+                else if (vertical == 2)
+                {
+                    pathToVideo += "M";
+                }
+                else if (vertical == 3)
+                {
+                    pathToVideo += "H";
+                }
+                else if (vertical == 4)
+                {
+                    pathToVideo += "B";
+                }
+                else if (vertical == 5)
+                {
+                    pathToVideo += "Cancel";
+                }
+                else if (vertical == 6)
+                {
+                    pathToVideo += "Grab";
+                }
             }
         }
-        else if (horizontal == 2)
+        //achealis menu
+        else if((PlayerData.GetComponent<SelectedCharacterManager>().P1Character == "Achealis" && playerPaused == 1) || (PlayerData.GetComponent<SelectedCharacterManager>().P2Character == "Achealis" && playerPaused == 2))
         {
-            if(vertical == 1)
-            {
-                pathToVideo += "Patissiere";
-            }
-            else if(vertical == 2)
-            {
-                pathToVideo += "HeadRush";
-            }
-            else if(vertical == 3)
-            {
-                pathToVideo += "BloodBrave";
-            }
-            else if(vertical == 4)
-            {
-                pathToVideo += "BasketCase";
-            }
-        }
-        else if(horizontal == 3)
-        {
-            if(vertical == 1)
-            {
-                pathToVideo += "Toaster";
-            }
-            else if(vertical == 2)
-            {
-                pathToVideo += "JudgementSabre";
-            }
-        }
-        else if(horizontal == 4)
-        {
-            if(vertical == 1)
-            {
-                pathToVideo += "L";
-            }
-            else if(vertical == 2)
-            {
-                pathToVideo += "M";
-            }
-            else if(vertical == 3)
-            {
-                pathToVideo += "H";
-            }
-            else if(vertical == 4)
-            {
-                pathToVideo += "B";
-            }
-            else if(vertical == 5)
-            {
-                pathToVideo += "Cancel";
-            }
-            else if(vertical == 6)
-            {
-                pathToVideo += "Grab";
-            }
-        }
 
+        }
+        
+        //fallback case
         if (pathToVideo.Equals(""))
             return null;
         else

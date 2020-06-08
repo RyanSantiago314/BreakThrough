@@ -160,7 +160,7 @@ public class MoveList : MonoBehaviour
     //Dhalia's Movelist pages
     public void setDhaliaPage1()
     {
-        setCharacter("Dhalia");
+        setCharacter("Dhalia Thorne");
         setPage("Command Normals");
         pageMoveIconL.color = new Color(1f, 1f, 1f, .5f);
         pageMoveIconR.color = new Color(1f, 1f, 1f, 1f);
@@ -231,7 +231,7 @@ public class MoveList : MonoBehaviour
 
     public void setDhaliaPage2()
     {
-        setCharacter("Dhalia");
+        setCharacter("Dhalia Thorne");
         setPage("Special Moves");
         pageMoveIconL.color = new Color(1f, 1f, 1f, 1f);
         pageMoveIconR.color = new Color(1f, 1f, 1f, 1f);
@@ -302,7 +302,7 @@ public class MoveList : MonoBehaviour
 
     public void setDhaliaPage3()
     {
-        setCharacter("Dhalia");
+        setCharacter("Dhalia Thorne");
         setPage("Break Triggers");
         pageMoveIconL.color = new Color(1f, 1f, 1f, 1f);
         pageMoveIconR.color = new Color(1f, 1f, 1f, 1f);
@@ -374,7 +374,7 @@ public class MoveList : MonoBehaviour
     //Achealis' Movelist Pages
     public void setAchealisPage1()
     {
-        setCharacter("Achealis");
+        setCharacter("Achealis Thorne");
         setPage("Command Normals");
         pageMoveIconL.color = new Color(1f, 1f, 1f, .5f);
         pageMoveIconR.color = new Color(1f, 1f, 1f, 1f);
@@ -445,7 +445,7 @@ public class MoveList : MonoBehaviour
 
     public void setAchealisPage2()
     {
-        setCharacter("Achealis");
+        setCharacter("Achealis Thorne");
         setPage("Special Moves");
         pageMoveIconL.color = new Color(1f, 1f, 1f, 1f);
         pageMoveIconR.color = new Color(1f, 1f, 1f, 1f);
@@ -516,7 +516,7 @@ public class MoveList : MonoBehaviour
 
     public void setAchealisPage3()
     {
-        setCharacter("Achealis");
+        setCharacter("Achealis Thorne");
         setPage("Break Triggers");
         pageMoveIconL.color = new Color(1f, 1f, 1f, 1f);
         pageMoveIconR.color = new Color(1f, 1f, 1f, 1f);
@@ -588,7 +588,6 @@ public class MoveList : MonoBehaviour
     //Universal Movelist Pages
     public void setUniversal1()
     {
-        setCharacter("");
         setPage("Universal Moves");
         pageMoveIconL.color = new Color(1f, 1f, 1f, 1f);
         pageMoveIconR.color = new Color(1f, 1f, 1f, .5f);
