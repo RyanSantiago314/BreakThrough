@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class CursorMovementStageSelect : MonoBehaviour
 {
     public float speed;
-    private int stageNum;
+    private int stageNum = -1;
     private int prevStageNum;
     public string currentStage;
 
@@ -28,15 +28,19 @@ public class CursorMovementStageSelect : MonoBehaviour
     public GameObject[] stagePreviews;
 
     public GameObject stageSelect;
+    public GameObject P1Cursor;
+    public GameObject P2Cursor;
 
     public CursorMovement cursordata;
+
+    public Animator FlowerAnimator;
+    public Animator FadeBG;
 
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
         currentStage = collider.transform.parent.name;
         isOverlap = true;
-
         switch (currentStage)
         {
             case "TrainingStage":
@@ -48,14 +52,24 @@ public class CursorMovementStageSelect : MonoBehaviour
             case "TakeruStage":
                 stageNum = 2;
                 break;
+            default:
+                stageNum = -1;
+                break;
         }
-        stagePreviews[stageNum].SetActive(true);
+        if (stageNum != -1)
+        {
+            borders[stageNum].SetActive(true);
+            stagePreviews[stageNum].SetActive(true);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        borders[stageNum].SetActive(false);
-        stagePreviews[stageNum].SetActive(false);
+        if (stageNum != -1)
+        {
+            borders[stageNum].SetActive(false);
+            stagePreviews[stageNum].SetActive(false);
+        }
         currentStage = "";
         isOverlap = false;
     }
@@ -68,6 +82,7 @@ public class CursorMovementStageSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        cursordata.lockInputs = false;
         SetControllers();
         if (!SceneTransitions.lockinputs)
         {
@@ -91,7 +106,10 @@ public class CursorMovementStageSelect : MonoBehaviour
         //Manage Selection input
         if (isOverlap && !SceneTransitions.lockinputs)
         {
-            borders[stageNum].SetActive(true);
+            if (stageNum != -1)
+            {
+                stagePreviews[stageNum].SetActive(true);
+            }
             if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
             {
                 if (Input.GetButtonDown(p1Cross) || Input.GetButtonDown(p2Cross))
@@ -134,9 +152,13 @@ public class CursorMovementStageSelect : MonoBehaviour
 
         if ((Input.GetButtonDown(p1Circle) || Input.GetButtonDown(p2Circle)) && !SceneTransitions.lockinputs)
         {
-                stageSelect.SetActive(false);
-                resetPosition();
-                stageNum = 0;       
+            P1Cursor.SetActive(true);
+            P2Cursor.SetActive(true);
+            stageSelect.SetActive(false);
+            resetPosition();
+            stageNum = -1;
+            FlowerAnimator.Play("FlowerIdle", -1, 0f);
+            FadeBG.Play("Idle", -1, 0f);
         }
     }
 

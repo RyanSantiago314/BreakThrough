@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CursorDetection : MonoBehaviour
 {
+    public Animator P1Animator;
+    public Animator P2Animator;
     public GameObject[] borders;
     public GameObject[] P1Portraits;
     public GameObject[] P2Portraits;
@@ -14,13 +16,14 @@ public class CursorDetection : MonoBehaviour
     public bool P1Selected;
     public bool P2Selected;
 
+    public CursorDetection otherPlayer;
+
     private string p1Circle = "Circle_P1";
     private string p2Circle = "Circle_P2";
 
     private void OnTriggerEnter2D(Collider2D collider) {
-        currentChar = collider.transform.parent.name;
+        currentChar = collider.transform.name;
         isOverlap = true;
-
         switch (currentChar)
         {
             case "Dhalia":
@@ -30,11 +33,46 @@ public class CursorDetection : MonoBehaviour
                 charNum = 1;
                 break;
         }
+
+        //Play Slide Animation
+        if (this.name == "P1Cursor")
+        {
+            if (!P1Selected)
+            {
+                switch (charNum)
+                {
+                    case 0:
+                        P1Animator.Play("DhaliaModelSlide", -1, 0f);
+                        break;
+                    case 1:
+                        P1Animator.Play("AchealisModelSlide", -1, 0f);
+                        break;
+                }
+            }
+        }
+        else
+        {
+            if(!P2Selected)
+            {
+                switch (charNum)
+                {
+                    case 0:
+                        P2Animator.Play("DhaliaModelSlide", -1, 0f);
+                        break;
+                    case 1:
+                        P2Animator.Play("AchealisModelSlide", -1, 0f);
+                        break;
+                }
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        borders[charNum].SetActive(false);
+        if (!(otherPlayer.isOverlap && otherPlayer.currentChar == currentChar))
+        {
+            borders[charNum].SetActive(false);
+        }
         currentChar = "";
         isOverlap = false;
         if (this.name == "P1Cursor")
