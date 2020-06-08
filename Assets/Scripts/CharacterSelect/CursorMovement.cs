@@ -15,6 +15,7 @@ public class CursorMovement : MonoBehaviour {
     public bool isPaused;
     public bool P1Ready;
     public bool P2Ready;
+    public bool lockInputs;
     private bool acceptP1Input;
     private bool acceptP2Input;
     private bool preventDeselect = true;
@@ -63,6 +64,11 @@ public class CursorMovement : MonoBehaviour {
 
     public AudioClip DhaliaAnnouncer;
     public AudioClip AchealisAnnouncer;
+
+    public Animator P1Animator;
+    public Animator P2Animator;
+    public Animator FlowerAnimator;
+    public Animator FadeBG;
 
     void Start()
     {
@@ -412,12 +418,12 @@ public class CursorMovement : MonoBehaviour {
                     acceptP1Input = true;
                 }
 
-                if (P1ColorIndex == P2ColorIndex && P1.currentChar == P2.currentChar && P2Ready)
+                if (P1ColorIndex == P2ColorIndex && P1.currentChar == P2.currentChar && P2Ready && P1.currentChar != "")
                 {
                     P1ColorIndex++;
                 }
 
-                if (P1ColorIndex == 1 && P2ColorIndex == 1 && P1.currentChar == P2.currentChar && P2Ready)
+                if (P1ColorIndex == 1 && P2ColorIndex == 1 && P1.currentChar == P2.currentChar && P2Ready && P1.currentChar != "")
                 {
                     P1ColorIndex = 2;
                 }
@@ -460,6 +466,7 @@ public class CursorMovement : MonoBehaviour {
                                 GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P1Color;
                                 P1Ready = true;
                                 P1ColorSelect.SetActive(false);
+                                checkAndPlayFlowerAnim();
                             }
                         }
                         else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Left")
@@ -468,6 +475,7 @@ public class CursorMovement : MonoBehaviour {
                             {
                                 GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P1Color;
                                 P1Ready = true;
+                                checkAndPlayFlowerAnim();
                                 P1ColorSelect.SetActive(false);
                             }
                         }
@@ -483,6 +491,7 @@ public class CursorMovement : MonoBehaviour {
                             GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P1Color;
                         }
                         P1Ready = true;
+                        checkAndPlayFlowerAnim();
                         P1ColorSelect.SetActive(false);
                     }
                 }
@@ -508,9 +517,11 @@ public class CursorMovement : MonoBehaviour {
                 {
                     case "Dhalia":
                         P1Models[0].SetActive(false);
+                        P1Animator.Play("DhaliaModelSlide", -1, 0f);
                         break;
                     case "Achealis":
                         P1Models[1].SetActive(false);
+                        P1Animator.Play("AchealisModelSlide", -1, 0f);
                         break;
                 }
                 P1.P1Selected = false;
@@ -527,7 +538,7 @@ public class CursorMovement : MonoBehaviour {
             }
 
             //Deselect P1 from Ready state
-            if (Input.GetButtonDown(p1Circle) && P1Ready && !SceneTransitions.lockinputs)
+            if (Input.GetButtonDown(p1Circle) && P1Ready && !SceneTransitions.lockinputs && !lockInputs)
             {
                 P1Color = 0;
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
@@ -572,7 +583,7 @@ public class CursorMovement : MonoBehaviour {
             if (P1Ready)
             {
                 P1ReadyText.SetActive(true);
-                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left" && (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice"))
+                if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left" && (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice") && !lockInputs)
                 {
                     P2Cursor.SetActive(true);
                 }
@@ -599,10 +610,12 @@ public class CursorMovement : MonoBehaviour {
                             case "Dhalia":
                                 P1Announcer.PlayOneShot(DhaliaAnnouncer, .8f);
                                 P1Models[0].SetActive(true);
+                                P1Animator.Play("DhaliaModelFade", -1, 0f);
                                 break;
                             case "Achealis":
                                 P1Announcer.PlayOneShot(AchealisAnnouncer, .8f);
                                 P1Models[1].SetActive(true);
+                                P1Animator.Play("AchealisModelFade", -1, 0f);
                                 break;
                         }
                     }
@@ -666,12 +679,12 @@ public class CursorMovement : MonoBehaviour {
                     acceptP2Input = true;
                 }
 
-                if (P2ColorIndex == P1ColorIndex && P1.currentChar == P2.currentChar && P1Ready)
+                if (P2ColorIndex == P1ColorIndex && P1.currentChar == P2.currentChar && P1Ready && P2.currentChar != "")
                 {
                     P2ColorIndex++;
                 }
 
-                if (P1ColorIndex == 1 && P2ColorIndex == 1 && P1.currentChar == P2.currentChar && P1Ready)
+                if (P1ColorIndex == 1 && P2ColorIndex == 1 && P1.currentChar == P2.currentChar && P1Ready && P2.currentChar != "")
                 {
                     P2ColorIndex = 2;
                 }
@@ -713,6 +726,7 @@ public class CursorMovement : MonoBehaviour {
                             {
                                 GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Color = P2Color;
                                 P2Ready = true;
+                                checkAndPlayFlowerAnim();
                                 P2ColorSelect.SetActive(false);
                                 preventDeselect = true;
                             }
@@ -723,6 +737,7 @@ public class CursorMovement : MonoBehaviour {
                             {
                                 GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Color = P2Color;
                                 P2Ready = true;
+                                checkAndPlayFlowerAnim();
                                 P2ColorSelect.SetActive(false);
                             }
                         }
@@ -739,6 +754,7 @@ public class CursorMovement : MonoBehaviour {
                             preventDeselect = true;
                         }
                         P2Ready = true;
+                        checkAndPlayFlowerAnim();
                         P2ColorSelect.SetActive(false);
                     }
                 }
@@ -756,9 +772,11 @@ public class CursorMovement : MonoBehaviour {
                 {
                     case "Dhalia":
                         P2Models[0].SetActive(false);
+                        P2Animator.Play("DhaliaModelSlide", -1, 0f);
                         break;
                     case "Achealis":
                         P2Models[1].SetActive(false);
+                        P2Animator.Play("AchealisModelSlide", -1, 0f);
                         break;
                 }
                 P2.P2Selected = false;
@@ -774,7 +792,7 @@ public class CursorMovement : MonoBehaviour {
             }
 
             //Deselect P2 from Ready state
-            if (Input.GetButtonDown(p2Circle) && P2Ready && !SceneTransitions.lockinputs)
+            if (Input.GetButtonDown(p2Circle) && P2Ready && !SceneTransitions.lockinputs && !lockInputs)
             {
                 P2Color = 0;
                 if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "PvP")
@@ -844,10 +862,12 @@ public class CursorMovement : MonoBehaviour {
                             case "Dhalia":
                                 P2Announcer.PlayOneShot(DhaliaAnnouncer, .8f);
                                 P2Models[0].SetActive(true);
+                                P2Animator.Play("DhaliaModelFade", -1, 0f);
                                 break;
                             case "Achealis":
                                 P2Announcer.PlayOneShot(AchealisAnnouncer, .8f);
                                 P2Models[1].SetActive(true);
+                                P2Animator.Play("AchealisModelFade", -1, 0f);
                                 break;
                         }
                     }
@@ -869,26 +889,23 @@ public class CursorMovement : MonoBehaviour {
             //Bring up Stage Select once both players are ready
             if (P1Ready && P2Ready)
             {
-                CharacterModels.SetActive(false);
-                stageSelect.SetActive(true);               
-                //Disable Icons so hitboxes don't detect in the background
-                for (int i = 0; i < icons.Length; i++)
-                {
-                    icons[i].SetActive(false);
-                }
-            }
-            else
-            {
-                CharacterModels.SetActive(true);
-                //Re-Enable Icons when brought back to character select
-                for (int i = 0; i < icons.Length; i++)
-                {
-                    icons[i].SetActive(true);
-                }
+                //stageSelect.SetActive(true);               
             }
         }
 
         
+    }
+
+    private void checkAndPlayFlowerAnim()
+    {
+        if (P1Ready && P2Ready)
+        {
+            lockInputs = true;
+            P1Cursor.SetActive(false);
+            P2Cursor.SetActive(false);
+            FadeBG.Play("FadeOut", -1, 0f);
+            FlowerAnimator.Play("FlowerBreak", -1, 0f);
+        }
     }
 
     private void resetP1Cursor()
@@ -971,5 +988,10 @@ public class CursorMovement : MonoBehaviour {
         if (xbox)
             return "_Xbox";
         return "";
+    }
+
+    public void enableStageSelect()
+    {
+        stageSelect.SetActive(true);
     }
 }
