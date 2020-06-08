@@ -16,6 +16,8 @@ public class CursorDetection : MonoBehaviour
     public bool P1Selected;
     public bool P2Selected;
 
+    public CursorDetection otherPlayer;
+
     private string p1Circle = "Circle_P1";
     private string p2Circle = "Circle_P2";
 
@@ -67,7 +69,10 @@ public class CursorDetection : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        borders[charNum].SetActive(false);
+        if (!(otherPlayer.isOverlap && otherPlayer.currentChar == currentChar))
+        {
+            borders[charNum].SetActive(false);
+        }
         currentChar = "";
         isOverlap = false;
         if (this.name == "P1Cursor")
