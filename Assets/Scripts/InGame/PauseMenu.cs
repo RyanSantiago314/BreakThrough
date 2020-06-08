@@ -559,7 +559,7 @@ public class PauseMenu : MonoBehaviour
                 else if (optionIndex == 8)
                 {
                     moveListButton.Select();
-                    if (Input.GetButton(p1cross) && !moveList)
+                    if (Input.GetButtonDown(p1cross) && !moveList)
                     {
                         MoveList();
                         acceptBack = false;
@@ -571,6 +571,10 @@ public class PauseMenu : MonoBehaviour
                         mList.enableMarker();
                         //Choose what video to display
                         VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().url = SelectVideo(verticalMoveListIndex, moveListIndex);
+                    }
+                    if (!acceptMoveList)
+                    {
+                        acceptMoveList = true;
                     }
                     if (Input.GetButton(p1circle) && moveList && acceptInputCirc)
                     {
@@ -889,11 +893,11 @@ public class PauseMenu : MonoBehaviour
                 mList.setUniversal1();
                 if (playerPaused == 1)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character + " Thorne");
                 }
                 else if(playerPaused == 2)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character + " Thorne");
                 }
             }
         }
@@ -997,11 +1001,11 @@ public class PauseMenu : MonoBehaviour
                 mList.setUniversal3();
                 if (playerPaused == 1)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character + " Thorne");
                 }
                 else if (playerPaused == 2)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character + " Thorne");
                 }
             }
             else if (moveListIndex == 4 && mList.topCheck() && verticalMoveListIndex == 2)
@@ -1009,11 +1013,11 @@ public class PauseMenu : MonoBehaviour
                 mList.setUniversal2();
                 if (playerPaused == 1)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character + " Thorne");
                 }
                 else if (playerPaused == 2)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character + " Thorne");
                 }
             }
             else if (moveListIndex == 4 && mList.topCheck() && verticalMoveListIndex == 1)
@@ -1021,11 +1025,11 @@ public class PauseMenu : MonoBehaviour
                 mList.setUniversal1();
                 if (playerPaused == 1)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character + " Thorne");
                 }
                 else if (playerPaused == 2)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character);
+                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character + " Thorne");
                 }
             }
         }
@@ -1055,6 +1059,8 @@ public class PauseMenu : MonoBehaviour
         {
             MoveListBack();
             acceptMoveList = false;
+            quitButton.Select();
+            moveListButton.Select();
         }
         //Prevent double-inputs
         acceptBack = true;
