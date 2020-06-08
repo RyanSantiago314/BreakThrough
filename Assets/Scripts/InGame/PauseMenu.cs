@@ -271,6 +271,7 @@ public class PauseMenu : MonoBehaviour
                         if (playerPaused == 1)
                         {
                             setMoveListPage(1, PlayerData.GetComponent<SelectedCharacterManager>().P1Character);
+                            //print(PlayerData.GetComponent<SelectedCharacterManager>().P1Character == "Achealis");
                         }
                         else if (playerPaused == 2)
                         {
@@ -1063,75 +1064,85 @@ public class PauseMenu : MonoBehaviour
     private string SelectVideo(int vertical, int horizontal)
     {
         string pathToVideo = "";
-        if (horizontal == 1)
+        //dhalia menu
+        if((PlayerData.GetComponent<SelectedCharacterManager>().P1Character == "Dhalia" && playerPaused == 1) || (PlayerData.GetComponent<SelectedCharacterManager>().P2Character == "Dhalia" && playerPaused == 2))
         {
-            if(vertical == 1)
+            if (horizontal == 1)
             {
-                pathToVideo += "6L";
+                if (vertical == 1)
+                {
+                    pathToVideo += "6L";
+                }
+                else if (vertical == 2)
+                {
+                    pathToVideo += "6B";
+                }
             }
-            else if(vertical == 2)
+            else if (horizontal == 2)
             {
-                pathToVideo += "6B";
+                if (vertical == 1)
+                {
+                    pathToVideo += "Patissiere";
+                }
+                else if (vertical == 2)
+                {
+                    pathToVideo += "HeadRush";
+                }
+                else if (vertical == 3)
+                {
+                    pathToVideo += "BloodBrave";
+                }
+                else if (vertical == 4)
+                {
+                    pathToVideo += "BasketCase";
+                }
+            }
+            else if (horizontal == 3)
+            {
+                if (vertical == 1)
+                {
+                    pathToVideo += "Toaster";
+                }
+                else if (vertical == 2)
+                {
+                    pathToVideo += "JudgementSabre";
+                }
+            }
+            else if (horizontal == 4)
+            {
+                if (vertical == 1)
+                {
+                    pathToVideo += "L";
+                }
+                else if (vertical == 2)
+                {
+                    pathToVideo += "M";
+                }
+                else if (vertical == 3)
+                {
+                    pathToVideo += "H";
+                }
+                else if (vertical == 4)
+                {
+                    pathToVideo += "B";
+                }
+                else if (vertical == 5)
+                {
+                    pathToVideo += "Cancel";
+                }
+                else if (vertical == 6)
+                {
+                    pathToVideo += "Grab";
+                }
             }
         }
-        else if (horizontal == 2)
+        //achealis menu
+        else if((PlayerData.GetComponent<SelectedCharacterManager>().P1Character == "Achealis" && playerPaused == 1) || (PlayerData.GetComponent<SelectedCharacterManager>().P2Character == "Achealis" && playerPaused == 2))
         {
-            if(vertical == 1)
-            {
-                pathToVideo += "Patissiere";
-            }
-            else if(vertical == 2)
-            {
-                pathToVideo += "HeadRush";
-            }
-            else if(vertical == 3)
-            {
-                pathToVideo += "BloodBrave";
-            }
-            else if(vertical == 4)
-            {
-                pathToVideo += "BasketCase";
-            }
-        }
-        else if(horizontal == 3)
-        {
-            if(vertical == 1)
-            {
-                pathToVideo += "Toaster";
-            }
-            else if(vertical == 2)
-            {
-                pathToVideo += "JudgementSabre";
-            }
-        }
-        else if(horizontal == 4)
-        {
-            if(vertical == 1)
-            {
-                pathToVideo += "L";
-            }
-            else if(vertical == 2)
-            {
-                pathToVideo += "M";
-            }
-            else if(vertical == 3)
-            {
-                pathToVideo += "H";
-            }
-            else if(vertical == 4)
-            {
-                pathToVideo += "B";
-            }
-            else if(vertical == 5)
-            {
-                pathToVideo += "Cancel";
-            }
-            else if(vertical == 6)
-            {
-                pathToVideo += "Grab";
-            }
-        }
 
+        }
+        
+        //fallback case
         if (pathToVideo.Equals(""))
             return null;
         else
