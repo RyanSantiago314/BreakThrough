@@ -173,9 +173,9 @@ public class MovementHandler : MonoBehaviour
         else if (!facingRight && transform.eulerAngles != new Vector3(0, 180, 0))
             transform.eulerAngles = new Vector3(0, 180, 0);
 
-        if (transform.position.x < -9.935f)
+        if (transform.position.x < -9.935f && !Actions.grabbed)
             transform.position = new Vector3(-9.935f, transform.position.y, transform.position.z);
-        else if (transform.position.x > 9.935f)
+        else if (transform.position.x > 9.935f && !Actions.grabbed)
             transform.position = new Vector3(9.935f, transform.position.y, transform.position.z);
 
         if (Actions.acceptMove && Actions.standing)

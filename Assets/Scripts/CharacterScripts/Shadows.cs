@@ -34,7 +34,7 @@ public class Shadows : MonoBehaviour
         else
             transform.eulerAngles = new Vector3(-90, 180, 0);
 
-        transform.position = new Vector3(mainBody.transform.position.x, yPos, zPos + mainBody.transform.position.y - mainBodyYPos);
+        transform.position = new Vector3(mainBody.transform.position.x, yPos, zPos - mainBody.transform.position.y + mainBodyYPos);
         shadow.sprite = mainBody.sprite;
         cutSubShadow.sprite = shadow.sprite;
         cutSubShadow2.sprite = shadow.sprite;
