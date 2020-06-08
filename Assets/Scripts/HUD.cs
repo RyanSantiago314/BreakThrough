@@ -145,6 +145,7 @@ public class HUD : MonoBehaviour
         {
             runOnce = false;
             Init();
+            Debug.Log("Hud lateStart");
         }
         
         

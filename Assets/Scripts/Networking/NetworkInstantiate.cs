@@ -34,7 +34,7 @@ namespace Networking
                 loader.P1Character.SetActive(true);
                 loader.P2Character.SetActive(true);
                 //Setting Latestart bools for scripts.
-                SetBools();
+                GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>().allPlayersInstantiated = true;
 
             }
         
@@ -50,28 +50,12 @@ namespace Networking
 
                 loader.P1Character.SetActive(true);
                 loader.P2Character.SetActive(true);
-                SetBools();
-            }
-        
-        
-        }
-
-        private void SetBools()
-        {
-            //Set bools for local char.
-
-            if (PhotonNetwork.IsMasterClient)
-            {
-                GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>().allPlayersInstantiated = true;
-            }
-            else
-            {
                 GameObject.Find("Player2").GetComponentInChildren<NetworkInstantiate>().allPlayersInstantiated = true;
             }
-            
-            
-            allPlayersInstantiated = true;
-            
+        
+        
         }
+
+        
     }
 }

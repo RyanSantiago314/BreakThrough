@@ -42,6 +42,7 @@ public class BlitzImage : MonoBehaviour
         {
             runOnce = false;
             Init();
+            Debug.Log("BlitzImage lateStart");
         }
         
         

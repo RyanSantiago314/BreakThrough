@@ -64,6 +64,7 @@ public class CameraController : MonoBehaviour
         {
             runOnce = false;
             Init();
+            Debug.Log("CameraController LateStart");
         }
         
         

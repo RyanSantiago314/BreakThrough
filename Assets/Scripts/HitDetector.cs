@@ -180,6 +180,7 @@ public class HitDetector : MonoBehaviour
         {
             runOnce = false;
             Init();
+            Debug.Log("HitDetector lateStart");
         }
         
         

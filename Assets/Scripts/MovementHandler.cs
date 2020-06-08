@@ -92,7 +92,14 @@ public class MovementHandler : MonoBehaviourPunCallbacks
     // Set Up inputs, anim variable hashes, and opponent in awake
     void Awake()
     {
-        netBool = GetComponent<NetworkInstantiate>();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            netBool = GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>();
+        }
+        else
+        {
+            netBool = GameObject.Find("Player2").GetComponentInChildren<NetworkInstantiate>();
+        }
         
         //Original system to use in original Training Stage
         if (SceneManager.GetActiveScene().name == "TrainingStage")
@@ -176,12 +183,6 @@ public class MovementHandler : MonoBehaviourPunCallbacks
         KOID = Animator.StringToHash("KOed");
     }
     
-    private void LateStart()
-    {
-        Debug.Log("Late Start");
-        Init();
-        Debug.Log(opponent);
-    }
 
     // Update is called once per frame
     void Update()
@@ -194,7 +195,8 @@ public class MovementHandler : MonoBehaviourPunCallbacks
         if (networkInit && netBool.allPlayersInstantiated)//if all players in run once.
         {
             networkInit = false;
-            LateStart();
+            Init();
+            Debug.Log("MovementHandler lateStart");
         }
         
         currentState = anim.GetCurrentAnimatorStateInfo(0);

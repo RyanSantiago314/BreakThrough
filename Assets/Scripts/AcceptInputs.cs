@@ -112,6 +112,7 @@ public class AcceptInputs : MonoBehaviour
         {
             runOnce = false;
             Init();
+            Debug.Log("AcceptInput LateStart");
         }
         
         

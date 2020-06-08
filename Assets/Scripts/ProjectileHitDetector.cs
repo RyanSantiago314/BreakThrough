@@ -156,6 +156,7 @@ public class ProjectileHitDetector : MonoBehaviour
         {
             runOnce = false;
             Init();
+            Debug.Log("ProjectileHitDetector lateStart");
         }
         
         

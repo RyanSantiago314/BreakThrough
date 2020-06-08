@@ -76,6 +76,7 @@ public class CharacterProperties : MonoBehaviour
         {
             runOnce = false;
             Init();
+            Debug.Log("CharacterProperties LateStart");
         }
         
         

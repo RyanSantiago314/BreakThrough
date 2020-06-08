@@ -54,7 +54,7 @@ public class Lighting : MonoBehaviour
         {
             runOnce = false;
             Init();
-            
+            Debug.Log("Lighting LateStart");
         }
         
         if (Character1Sprite.GetComponent<AcceptInputs>().blitzed > 0 || Character2Sprite.GetComponent<AcceptInputs>().blitzed > 0 || 
