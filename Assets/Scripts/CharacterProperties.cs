@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Networking;
 using UnityEngine;
+
+using Photon.Pun;
 
 public class CharacterProperties : MonoBehaviour
 {
@@ -30,9 +33,26 @@ public class CharacterProperties : MonoBehaviour
     static int dizzyID;
     static int runID;
     static int KOID;
+    
+    //Networking
+    private NetworkInstantiate netBool;
+    private bool runOnce = true;
 
     // Start is called before the first frame update
     void Start()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            netBool = GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>();
+        }
+        else
+        {
+            netBool = GameObject.Find("Player2").GetComponentInChildren<NetworkInstantiate>();
+        }
+        Init();
+    }
+
+    private void Init()
     {
         crouchID = Animator.StringToHash("Crouch");
         dizzyID = Animator.StringToHash("Dizzy");
@@ -51,6 +71,14 @@ public class CharacterProperties : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (runOnce && netBool.allPlayersInstantiated)
+        {
+            runOnce = false;
+            Init();
+        }
+        
+        
         currentState = HitDetect.anim.GetCurrentAnimatorStateInfo(0);
         if (currentHealth <= 0 && HitDetect.hitStop == 0)
         {

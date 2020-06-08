@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Networking;
 using UnityEngine;
+using Photon.Pun;
 
 public class AcceptInputs : MonoBehaviour
 {
@@ -65,8 +67,26 @@ public class AcceptInputs : MonoBehaviour
     static int landLagID;
 
     float zPos;
+    
+    //Networking
+    private NetworkInstantiate netBool;
+    private bool runOnce = true;
 
     void Start()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            netBool = GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>();
+        }
+        else
+        {
+            netBool = GameObject.Find("Player2").GetComponentInChildren<NetworkInstantiate>();
+        }
+        
+        Init();
+    }
+
+    private void Init()
     {
         Application.targetFrameRate = 60;
 
@@ -88,6 +108,13 @@ public class AcceptInputs : MonoBehaviour
 
     void Update()
     {
+        if (runOnce && netBool.allPlayersInstantiated)
+        {
+            runOnce = false;
+            Init();
+        }
+        
+        
         currentState = anim.GetCurrentAnimatorStateInfo(0);
         //draws the defending character first to allow visibility on attacking character
         if (shattered && CharProp.currentHealth > 0)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Networking;
 using UnityEngine;
 using UnityEngine.SceneManagement; //Temporary
 
@@ -82,8 +83,9 @@ public class MovementHandler : MonoBehaviourPunCallbacks
     static int yVeloID;
     static int KOID;
 
-    
-    public bool networkInit = false;
+
+    private NetworkInstantiate netBool;
+    public bool networkInit = true;
 
     public override void OnEnable()
     {
@@ -96,7 +98,7 @@ public class MovementHandler : MonoBehaviourPunCallbacks
     // Set Up inputs, anim variable hashes, and opponent in awake
     void Awake()
     {
-       
+        netBool = GetComponent<NetworkInstantiate>();
         
         //Original system to use in original Training Stage
         if (SceneManager.GetActiveScene().name == "TrainingStage")
@@ -196,7 +198,7 @@ public class MovementHandler : MonoBehaviourPunCallbacks
             return;
         }
 
-        if (networkInit)//using this variable to set the init stuff, workaround from setting it in onInstantiate...
+        if (networkInit && netBool.allPlayersInstantiated)//if all players in run once.
         {
             networkInit = false;
             LateStart();

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Networking;
 using UnityEngine;
+using Photon.Pun;
 using Random = UnityEngine.Random;
 
 public class HitDetector : MonoBehaviour
@@ -112,17 +114,25 @@ public class HitDetector : MonoBehaviour
     static int KOID;
 
     static int guardID;
+    
+    //Networking
+    private NetworkInstantiate netBool;
+    private bool runOnce = true;
 
     void Start()
     {
-        //Init();
-    }
-
-    private void OnEnable()
-    {
-        Debug.Log("Enabled HitDetector");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            netBool = GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>();
+        }
+        else
+        {
+            netBool = GameObject.Find("Player2").GetComponentInChildren<NetworkInstantiate>();
+        }
         Init();
     }
+
+   
 
     private void Init()
     {
@@ -166,6 +176,13 @@ public class HitDetector : MonoBehaviour
 
     void Update()
     {
+        if (runOnce && netBool.allPlayersInstantiated)
+        {
+            runOnce = false;
+            Init();
+        }
+        
+        
         currentState = anim.GetCurrentAnimatorStateInfo(0);
         opponentValor = Actions.Move.OpponentProperties.currentValor;
 

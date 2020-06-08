@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Networking;
 using UnityEngine;
+
+using Photon.Pun;
 
 public class Lighting : MonoBehaviour
 {
@@ -12,9 +15,27 @@ public class Lighting : MonoBehaviour
 
     Light enviroLight;
     float intensity;
+    
+    //Networking
+    private NetworkInstantiate netBool;
+    private bool runOnce = true;
 
     // Start is called before the first frame update
     void Start()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            netBool = GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>();
+        }
+        else
+        {
+            netBool = GameObject.Find("Player2").GetComponentInChildren<NetworkInstantiate>();
+        }
+        
+        Init();
+    }
+
+    void Init()
     {
         Player1 = GameObject.Find("Player1");
         Player2 = GameObject.Find("Player2");
@@ -28,6 +49,14 @@ public class Lighting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (runOnce && netBool.allPlayersInstantiated)
+        {
+            runOnce = false;
+            Init();
+            
+        }
+        
         if (Character1Sprite.GetComponent<AcceptInputs>().blitzed > 0 || Character2Sprite.GetComponent<AcceptInputs>().blitzed > 0 || 
             Character1Sprite.GetComponent<AcceptInputs>().superFlash > 0 || Character2Sprite.GetComponent<AcceptInputs>().superFlash > 0)
         {
