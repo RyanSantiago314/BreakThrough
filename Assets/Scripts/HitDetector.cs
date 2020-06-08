@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class HitDetector : MonoBehaviour
 {
@@ -112,6 +114,17 @@ public class HitDetector : MonoBehaviour
     static int guardID;
 
     void Start()
+    {
+        //Init();
+    }
+
+    private void OnEnable()
+    {
+        Debug.Log("Enabled HitDetector");
+        Init();
+    }
+
+    private void Init()
     {
         Application.targetFrameRate = 60;
 
