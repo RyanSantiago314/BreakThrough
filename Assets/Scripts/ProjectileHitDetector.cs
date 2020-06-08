@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Networking;
 using UnityEngine;
+using Photon.Pun;
 
 public class ProjectileHitDetector : MonoBehaviour
 {
@@ -89,9 +91,27 @@ public class ProjectileHitDetector : MonoBehaviour
     static int KOID;
 
     static int guardID;
+    
+    //Networking
+    private NetworkInstantiate netBool;
+    private bool runOnce = true;
 
     // Start is called before the first frame update
     void Start()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            netBool = GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>();
+        }
+        else
+        {
+            netBool = GameObject.Find("Player2").GetComponentInChildren<NetworkInstantiate>();
+        }
+        
+        Init();
+    }
+
+    private void Init()
     {
         Application.targetFrameRate = 60;
 
@@ -132,6 +152,13 @@ public class ProjectileHitDetector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (runOnce && netBool.allPlayersInstantiated)
+        {
+            runOnce = false;
+            Init();
+        }
+        
+        
         opponentValor = Actions.Move.OpponentProperties.currentValor;
 
         if ((Input.GetButtonDown("Start_P1") || Input.GetButtonDown("Start_P2")) && pauseScreen.isPaused)

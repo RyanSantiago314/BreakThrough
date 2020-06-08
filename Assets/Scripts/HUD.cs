@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Networking;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class HUD : MonoBehaviour
 {
@@ -83,9 +85,26 @@ public class HUD : MonoBehaviour
     Color32 P2ResolveColor;
     float P1Transition;
     float P2Transition;
+    
+    //Networking
+    private NetworkInstantiate netBool;
+    private bool runOnce = true;
 
     // Start is called before the first frame update
     void Start()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            netBool = GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>();
+        }
+        else
+        {
+            netBool = GameObject.Find("Player2").GetComponentInChildren<NetworkInstantiate>();
+        }
+        Init();
+    }
+
+    private void Init()
     {
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
         {
@@ -122,6 +141,13 @@ public class HUD : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (runOnce && netBool.allPlayersInstantiated)
+        {
+            runOnce = false;
+            Init();
+        }
+        
+        
         if (RoundManager.roundCount > 0)
             roundTimer.enabled = true;
         else

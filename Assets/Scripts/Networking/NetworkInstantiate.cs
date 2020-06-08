@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using System;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Networking
@@ -6,17 +7,21 @@ namespace Networking
     public class NetworkInstantiate : MonoBehaviour, IPunInstantiateMagicCallback
     {
         private CharacterLoader loader;
+
+        public bool allPlayersInstantiated = false;
         // Start is called before the first frame update
+        private void Start()
+        {
+            loader = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>();
+        }
+
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
-        
-            loader = GameObject.Find("CharacterManager").GetComponent<CharacterLoader>();
-        
-        
+
             //Most of this is properly setting online values from CharacterLoader.cs setP#Properties()
             if (PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer)) //If we're master and message was not sent by us
             {
-                loader.P1Character.GetComponent<MovementHandler>().networkInit = true;
+                
                 //Three gameobject find's in a single call. need to fix this.
                 //Sets Character manager
                 loader.P2Character = this.gameObject;
@@ -27,13 +32,14 @@ namespace Networking
             
                 loader.P1Character.SetActive(true);
                 loader.P2Character.SetActive(true);
-
+                //Setting Latestart bools for scripts.
+                SetBools();
 
             }
         
             if(!PhotonNetwork.IsMasterClient && !info.Sender.Equals(PhotonNetwork.LocalPlayer))//If we're not master and message was not sent by us.
             {
-                loader.P2Character.GetComponent<MovementHandler>().networkInit = true;
+                
                 //Character Manager field
                 loader.P1Character = this.gameObject;
             
@@ -43,9 +49,16 @@ namespace Networking
 
                 loader.P1Character.SetActive(true);
                 loader.P2Character.SetActive(true);
+                SetBools();
             }
         
         
+        }
+
+        private void SetBools()
+        {
+            allPlayersInstantiated = true;
+            loader.P1Character.GetComponent<MovementHandler>().networkInit = true;
         }
     }
 }

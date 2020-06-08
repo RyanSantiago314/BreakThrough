@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Networking;
 using UnityEngine;
+using Photon.Pun;
 
 public class CameraController : MonoBehaviour
 {
@@ -21,10 +23,28 @@ public class CameraController : MonoBehaviour
 
     Vector3 cameraPos;
     float smooth = 4;
+    
+    //Networking
+    private NetworkInstantiate netBool;
+    private bool runOnce = true;
 
 
     // Start is called before the first frame update
     void Start()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            netBool = GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>();
+        }
+        else
+        {
+            netBool = GameObject.Find("Player2").GetComponentInChildren<NetworkInstantiate>();
+        }
+        
+        Init();
+    }
+
+    private void Init()
     {
         zPos = transform.position.z;
         zPosZoom = zPos + 1;
@@ -40,6 +60,13 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (runOnce && netBool.allPlayersInstantiated)
+        {
+            runOnce = false;
+            Init();
+        }
+        
+        
         if (Character1.GetComponent<MovementHandler>().Actions.grabbed || Character2.GetComponent<MovementHandler>().Actions.grabbed ||
            (Character2.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character2.GetComponent<CharacterProperties>().currentHealth <= 0 && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice") ||
            (Character1.GetComponent<MovementHandler>().HitDetect.hitStop > 0 && Character1.GetComponent<CharacterProperties>().currentHealth <= 0) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" ||
