@@ -58,8 +58,20 @@ namespace Networking
 
         private void SetBools()
         {
+            //Set bools for local char.
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>().allPlayersInstantiated = true;
+            }
+            else
+            {
+                GameObject.Find("Player2").GetComponentInChildren<NetworkInstantiate>().allPlayersInstantiated = true;
+            }
+            
+            
             allPlayersInstantiated = true;
-            loader.P1Character.GetComponent<MovementHandler>().networkInit = true;
+            
         }
     }
 }

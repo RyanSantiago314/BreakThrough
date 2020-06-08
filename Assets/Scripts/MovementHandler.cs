@@ -87,13 +87,7 @@ public class MovementHandler : MonoBehaviourPunCallbacks
     private NetworkInstantiate netBool;
     public bool networkInit = true;
 
-    public override void OnEnable()
-    {
-        base.OnEnable();
-        Debug.Log("Enabled MovementHandler");
-        Init();
-    }
-
+   
 
     // Set Up inputs, anim variable hashes, and opponent in awake
     void Awake()
@@ -123,9 +117,8 @@ public class MovementHandler : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        //Basically everything that was in here has been switched. This allows us to set certain properties late
-        //If we're playing a networked game.
-        //Init();
+        
+        Init();
     }
 
     private void Init()
@@ -186,7 +179,7 @@ public class MovementHandler : MonoBehaviourPunCallbacks
     private void LateStart()
     {
         Debug.Log("Late Start");
-        //Init();
+        Init();
         Debug.Log(opponent);
     }
 
