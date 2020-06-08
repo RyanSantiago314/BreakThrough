@@ -3442,6 +3442,7 @@ MonoBehaviour:
   doingQCB: 0
   doingHCF: 0
   doingHCB: 0
+  doingDP: 0
   doing5L_1: 0
   doing2H_1: 0
   delayTimer: 0
@@ -4689,8 +4690,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 921069966}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.1, z: 11.84}
-  m_LocalScale: {x: 1.6, y: 1.4375, z: 1.4375}
+  m_LocalPosition: {x: 0, y: 4.5, z: 15}
+  m_LocalScale: {x: 2, y: 2, z: 1.4375}
   m_Children: []
   m_Father: {fileID: 1209920577}
   m_RootOrder: 0
@@ -5281,6 +5282,8 @@ MonoBehaviour:
   dummyState: Stand
   P1ValorSetting: 100
   P2ValorSetting: 100
+  P1CurrentHitDamage: 0
+  P1CurrentComboTotalDamage: 0
   P1HitDamage: {fileID: 685034357}
   P2HitDamage: {fileID: 685034356}
   P1ComboDamage: {fileID: 685034355}
@@ -5294,6 +5297,7 @@ MonoBehaviour:
   P1Displays: {fileID: 685034348}
   P2Displays: {fileID: 685034347}
   RecordingDisplay: {fileID: 685034358}
+  refillCPUHealth: 1
 --- !u!4 &1075336606
 Transform:
   m_ObjectHideFlags: 0
@@ -7291,7 +7295,7 @@ Light:
   serializedVersion: 9
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -8210,8 +8214,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2007458729}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 4.66, z: 10.86}
-  m_LocalScale: {x: 4.0250077, y: 1.4375013, z: 1.4375013}
+  m_LocalPosition: {x: 0, y: 6, z: 12}
+  m_LocalScale: {x: 5, y: 1.5, z: 1.4375013}
   m_Children: []
   m_Father: {fileID: 1209920577}
   m_RootOrder: 1

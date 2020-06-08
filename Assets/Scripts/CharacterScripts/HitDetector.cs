@@ -257,7 +257,7 @@ public class HitDetector : MonoBehaviour
                 rb.constraints = RigidbodyConstraints2D.FreezeAll;
             }
 
-            if(currentState.IsName("WallStick"))
+            if(currentState.IsName("WallStick") && Actions.Move.hittingWall)
             {
                 rb.velocity = Vector2.zero;
             }

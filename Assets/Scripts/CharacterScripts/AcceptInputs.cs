@@ -508,7 +508,7 @@ public class AcceptInputs : MonoBehaviour
     {
         if (backThrow)
         {
-            if (Move.hittingWall || Move.transform.position.x - .5f * opponentMove.pushBox.size.x - 9.8f < distance + 1 || Move.transform.position.x + .5f * opponentMove.pushBox.size.x + 9.8f > distance + 1)
+            if (Move.hittingWall || Move.transform.position.x + distance > 9.9f || Move.transform.position.x - distance < -9.9f)
             {
                 if (Move.facingRight)
                 {
@@ -532,16 +532,16 @@ public class AcceptInputs : MonoBehaviour
         }
         else
         {
-            if (opponentMove.hittingWall || Move.opponent.position.x - 9.8f < distance + 1 ||Move.opponent.position.x + 9.8f > distance + 1)
+            if (opponentMove.hittingWall || Move.opponent.position.x + distance > 9.9f ||Move.opponent.position.x - distance < -9.9f)
             {
                 if (Move.facingRight)
                 {
-                    Move.transform.position = new Vector3(Move.opponent.transform.position.x - distance, Move.transform.position.y, Move.transform.position.z);
+                    Move.transform.position = new Vector3(Move.opponent.transform.position.x - 1.75f*distance, Move.transform.position.y, Move.transform.position.z);
                     Move.opponent.position = new Vector3(Move.transform.position.x + distance, Move.transform.position.y, Move.transform.position.z);
                 }
                 else
                 {
-                    Move.transform.position = new Vector3(Move.opponent.transform.position.x + distance, Move.transform.position.y, Move.transform.position.z);
+                    Move.transform.position = new Vector3(Move.opponent.transform.position.x + 1.75f*distance, Move.transform.position.y, Move.transform.position.z);
                     Move.opponent.position = new Vector3(Move.transform.position.x - distance, Move.transform.position.y, Move.transform.position.z);
                 }
             }
