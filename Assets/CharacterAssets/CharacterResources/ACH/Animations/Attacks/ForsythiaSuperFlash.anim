@@ -614,6 +614,13 @@ AnimationClip:
     floatParameter: 63
     intParameter: 0
     messageOptions: 0
+  - time: 0.6666667
+    functionName: FMAim
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 1.1333333
     functionName: SummonReticle
     data: 
