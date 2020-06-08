@@ -48,9 +48,23 @@ public class RoundManager : MonoBehaviour
     Vector3 p1Start;
     Vector3 p2Start;
 
-    private bool isXbox;
-    private string xboxInput;
-    private string ps4Input;
+
+    private string inputHorizontal = "Horizontal_P1";
+    private string inputVertical = "Vertical_P1";
+    private string p1cross = "Cross_P1";
+    
+    private string inputHorizontal2 = "Horizontal_P2";
+    private string inputVertical2 = "Vertical_P2";
+    private string p2cross = "Cross_P2";
+
+    private float vertical;
+    private float vertical2;
+    private float horizontal;
+    private float horizontal2;
+
+    private int postGameMenuIndex = 1;
+    private int postGameMenuOpen = 0;
+
 
     //STARTTEXT
     //Global bool controlling whether or not user input is allowed
@@ -121,10 +135,6 @@ public class RoundManager : MonoBehaviour
 
             dizzyKO = false;
             matchOver = false;
-            isXbox = false;
-
-            xboxInput = "Controller (Xbox One For Windows)";
-            ps4Input = "Wireless Controller";
         }
         else if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial")
         {
@@ -141,6 +151,11 @@ public class RoundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        SetControllers();
+        horizontal = Input.GetAxis(inputHorizontal);
+        vertical = Input.GetAxis(inputVertical);
+        horizontal2 = Input.GetAxis(inputHorizontal2);
+        vertical2 = Input.GetAxis(inputVertical2);
         ScreenGraphics.SetInteger("RoundCount", roundCount);
 
         //temporary function until system using victory pose anims is implemented (automatically set nextround to true when win pose ends or if break is pressed during win pose)
@@ -173,13 +188,6 @@ public class RoundManager : MonoBehaviour
             //If round time is still greater than 0 and timer is allowed to be on, time ticks
             if (roundTimer > 0 && gameActive && !suddenDeath && !matchOver && !lockInputs) roundTimer -= Time.deltaTime / 1.5f;
 
-            //If an input device is detected then establish what device it is in order to properly decipher inputs
-            if (Input.GetJoystickNames().Length > 0)
-            {
-                if (Input.GetJoystickNames()[0] == xboxInput) isXbox = true;
-                else if (Input.GetJoystickNames()[0] == ps4Input) isXbox = false;
-                else if (Input.GetJoystickNames()[0] == "") isXbox = false;
-            }
 
             //If the round timer runs out decide who wins
             if (roundTimer < 0)
@@ -245,6 +253,11 @@ public class RoundManager : MonoBehaviour
             //Setting players to starting location vectors
             GameObject.Find("Player1").transform.GetChild(0).transform.position = p1Start;
             GameObject.Find("Player2").transform.GetChild(0).transform.position = p2Start;
+        }
+
+        if(postGameMenuOpen > 0)
+        {
+            PostGameMenuControl();
         }
     }
 
@@ -422,34 +435,66 @@ public class RoundManager : MonoBehaviour
         p2Win = 0;
     }
 
+    public void PostGameMenuControl()
+    {
+        if(postGameMenuOpen == 1)
+        {
+            if (vertical < 0)
+            {
+                p1Quit.Select();
+                postGameMenuIndex = 1;
+                print("hover quit");
+            }
+            else if (vertical > 0)
+            {
+                p1Replay.Select();
+                postGameMenuIndex = 2;
+                print("hover replay");
+            }
+            if (Input.GetButtonDown(p1cross) && postGameMenuIndex == 1)
+            {
+                QuitToMenu();
+            }
+            else if (Input.GetButtonDown(p1cross) && postGameMenuIndex == 2)
+            {
+                ReplayGame();
+            }
+        }
+        else if(postGameMenuOpen == 2)
+        {
+            if (vertical2 < 0)
+            {
+                p2Quit.Select();
+                postGameMenuIndex = 1;
+            }
+            else if (vertical2 > 0)
+            {
+                p2Replay.Select();
+                postGameMenuIndex = 2;
+            }
+            if (Input.GetButtonDown(p2cross) && postGameMenuIndex == 1)
+            {
+                QuitToMenu();
+            }
+            else if (Input.GetButtonDown(p2cross) && postGameMenuIndex == 2)
+            {
+                ReplayGame();
+            }
+        }
+    }
+
     public void MatchEndMenus(){
         if (p1Win == 2) {
             p1menu.SetActive(true);
             p1Replay.Select();
-            if (isXbox)
-            {
-                if (Input.GetAxis("Horizontal_P1") < 0) p1Quit.Select();
-                else if (Input.GetAxis("Horizontal_P1") > 0) p1Replay.Select();
-            }
-            else
-            {
-                if (Input.GetAxis("Vertical_P1") < 0) p1Quit.Select();
-                else if (Input.GetAxis("Vertical_P1") > 0) p1Replay.Select();
-            }
+            print("player 1 won");
+            postGameMenuOpen = 1;
         }
         else if (p2Win == 2) {
             p2menu.SetActive(true);
             p2Replay.Select();
-            if (isXbox)
-            {
-                if (Input.GetAxis("Horizontal_P2") < 0) p2Quit.Select();
-                else if (Input.GetAxis("Horizontal_P2") > 0) p2Replay.Select();
-            }
-            else
-            {
-                if (Input.GetAxis("Vertical_P2") < 0) p2Quit.Select();
-                else if (Input.GetAxis("Vertical_P2") > 0) p2Replay.Select();
-            }
+            print("player 2 won");
+            postGameMenuOpen = 2;
         }
     }
 
@@ -481,5 +526,39 @@ public class RoundManager : MonoBehaviour
     public void FreePositions()
     {
         holdpositions = false;
+    }
+
+    private void SetControllers()
+    {
+        p1cross = "Cross_P1" + UpdateControls(CheckXbox(0));
+        
+        inputHorizontal = "Horizontal_P1" + UpdateControls(CheckXbox(0));
+        inputVertical = "Vertical_P1" + UpdateControls(CheckXbox(0));
+        
+
+        p2cross = "Cross_P2" + UpdateControls(CheckXbox(1));
+        
+        inputHorizontal2 = "Horizontal_P2" + UpdateControls(CheckXbox(1));
+        inputVertical2 = "Vertical_P2" + UpdateControls(CheckXbox(1));
+        
+    }
+
+    private bool CheckXbox(int player)
+    {
+        if (Input.GetJoystickNames().Length > player)
+        {
+            if (Input.GetJoystickNames()[player].Contains("Xbox"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private string UpdateControls(bool xbox)
+    {
+        if (xbox)
+            return "_Xbox";
+        return "";
     }
 }
