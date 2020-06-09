@@ -453,11 +453,11 @@ public class RoundManager : MonoBehaviour
             }
             if (Input.GetButtonDown(p1cross) && postGameMenuIndex == 1)
             {
-                QuitToMenu();
+                ReplayGame();
             }
             else if (Input.GetButtonDown(p1cross) && postGameMenuIndex == 2)
             {
-                ReplayGame();
+                QuitToMenu();
             }
         }
         else if(postGameMenuOpen == 2)
@@ -474,11 +474,11 @@ public class RoundManager : MonoBehaviour
             }
             if (Input.GetButtonDown(p2cross) && postGameMenuIndex == 1)
             {
-                QuitToMenu();
+                ReplayGame();
             }
             else if (Input.GetButtonDown(p2cross) && postGameMenuIndex == 2)
             {
-                ReplayGame();
+                QuitToMenu();
             }
         }
     }
