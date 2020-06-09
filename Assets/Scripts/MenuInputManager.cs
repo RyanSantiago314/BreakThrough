@@ -59,8 +59,6 @@ public class MenuInputManager : MonoBehaviour
     public GameObject P1Arrows;
     public GameObject P2Arrows;
     public GameObject CPULevel;
-    public GameObject BackgroundRuins;
-    public GameObject BackgroundSky;
 
     private int P1Position;
     private int P2Position;
@@ -96,9 +94,6 @@ public class MenuInputManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-    	if (Random.Range(0,2) == 0) BackgroundSky.SetActive(true);
-    	else BackgroundRuins.SetActive(true);
-
         buttonIndex = 1;
         InputTimer = 0;
         //xboxInput = "Controller (Xbox One For Windows)";
@@ -488,7 +483,6 @@ public class MenuInputManager : MonoBehaviour
 						dropdownIndex = 24;
 						resoutionDropdown.value = dropdownIndex;
 						inDropdown = true;
-						Debug.Log("HWER");
 					}
 					if (Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel"))
 					{
@@ -549,15 +543,15 @@ public class MenuInputManager : MonoBehaviour
             switch (COMLevel)
             {
                 case 0:
-                    CPULevel.GetComponent<TMPro.TextMeshProUGUI>().text = "< Easy >";
+                    CPULevel.GetComponent<Text>().text = "< Easy >";
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().CPUDifficulty = 10;
                     break;
                 case 1:
-                    CPULevel.GetComponent<TMPro.TextMeshProUGUI>().text = "< Medium >";
+                    CPULevel.GetComponent<Text>().text = "< Medium >";
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().CPUDifficulty = 50;
                     break;
                 case 2:
-                    CPULevel.GetComponent<TMPro.TextMeshProUGUI>().text = "< Hard >";
+                    CPULevel.GetComponent<Text>().text = "< Hard >";
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().CPUDifficulty = 90;
                     break;
             }
@@ -752,7 +746,7 @@ public class MenuInputManager : MonoBehaviour
             {
                 case -1:
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side = "Left";
-                    P1Arrows.GetComponent<TMPro.TextMeshProUGUI>().text = "                     >";
+                    P1Arrows.GetComponent<Text>().text = "                     >";
                     //Smoothly move controller icon
                     if (x > -425)
                     {
@@ -770,7 +764,7 @@ public class MenuInputManager : MonoBehaviour
                     }
                     break;
                 case 0:
-                    P1Arrows.GetComponent<TMPro.TextMeshProUGUI>().text = "<                    >";
+                    P1Arrows.GetComponent<Text>().text = "<                    >";
                     //Smoothly move controller icon
                     if (x > 0)
                     {
@@ -789,7 +783,7 @@ public class MenuInputManager : MonoBehaviour
                     P1Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(x, y, 0);
                     break;
                 case 1:
-                    P1Arrows.GetComponent<TMPro.TextMeshProUGUI>().text = "<                     ";
+                    P1Arrows.GetComponent<Text>().text = "<                     ";
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side = "Right";
                     //Smoothly move controller icon
                     if (x < 425)
@@ -814,7 +808,7 @@ public class MenuInputManager : MonoBehaviour
             {
                 case -1:
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side = "Left";
-                    P2Arrows.GetComponent<TMPro.TextMeshProUGUI>().text = "                     >";
+                    P2Arrows.GetComponent<Text>().text = "                     >";
                     //Smoothly move controller icon
                     if (x2 > -425)
                     {
@@ -828,7 +822,7 @@ public class MenuInputManager : MonoBehaviour
                     P2Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(x2, y2, 0);                  
                     break;
                 case 0:
-                    P2Arrows.GetComponent<TMPro.TextMeshProUGUI>().text = "<                    >";
+                    P2Arrows.GetComponent<Text>().text = "<                    >";
                     //Smoothly move controller icon
                     if (x2 > 0)
                     {
@@ -847,7 +841,7 @@ public class MenuInputManager : MonoBehaviour
                     P2Controller.transform.GetComponent<RectTransform>().localPosition = new Vector3(x2, y2, 0);
                     break;
                 case 1:
-                    P2Arrows.GetComponent<TMPro.TextMeshProUGUI>().text = "<                     ";
+                    P2Arrows.GetComponent<Text>().text = "<                     ";
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side = "Right";
                     //Smoothly move controller icon
                     if (x2 < 425)
