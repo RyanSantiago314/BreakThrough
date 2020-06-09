@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -81,6 +82,8 @@ public class PauseMenu : MonoBehaviour
     private bool keepMaxIndex;
     private bool acceptBack = false;
     private bool acceptMoveList = true;
+
+    public VideoClip[] videoToPlay = new VideoClip[26];
 
     //Dev tool to remove HUD
     public GameObject HUD;
@@ -281,7 +284,7 @@ public class PauseMenu : MonoBehaviour
                         mList.resetMarker();
                         mList.enableMarker();
                         //Choose what video to display
-                        VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().url = SelectVideo(verticalMoveListIndex, moveListIndex);
+                        VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().clip = videoToPlay[SelectVideo(verticalMoveListIndex, moveListIndex)];//SelectVideo(verticalMoveListIndex, moveListIndex);
 
                     }
                     if (!acceptMoveList)
@@ -570,7 +573,7 @@ public class PauseMenu : MonoBehaviour
                         mList.resetMarker();
                         mList.enableMarker();
                         //Choose what video to display
-                        VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().url = SelectVideo(verticalMoveListIndex, moveListIndex);
+                        VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().clip = videoToPlay[SelectVideo(verticalMoveListIndex, moveListIndex)];//SelectVideo(verticalMoveListIndex, moveListIndex);
                     }
                     if (!acceptMoveList)
                     {
@@ -1048,7 +1051,7 @@ public class PauseMenu : MonoBehaviour
         if (updateVideo)
         {
             updateVideo = false;
-            VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().url = SelectVideo(verticalMoveListIndex, moveListIndex);
+            VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().clip = videoToPlay[SelectVideo(verticalMoveListIndex, moveListIndex)];//SelectVideo(verticalMoveListIndex, moveListIndex);
             VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().Play();
 
         }
@@ -1069,144 +1072,156 @@ public class PauseMenu : MonoBehaviour
     }
 
     //creates path to video file based on menu navigation
-    private string SelectVideo(int vertical, int horizontal)
+    private int SelectVideo(int vertical, int horizontal)
     {
-        string pathToVideo = "";
+        int pathToVideo = -1;
         string characterToShow = "";
         //dhalia menu
         if((PlayerData.GetComponent<SelectedCharacterManager>().P1Character == "Dhalia" && playerPaused == 1) || (PlayerData.GetComponent<SelectedCharacterManager>().P2Character == "Dhalia" && playerPaused == 2))
         {
-            characterToShow += "DHA/";
+            characterToShow += "DHA";
             if (horizontal == 1)
             {
                 if (vertical == 1)
                 {
-                    pathToVideo += "6L";
+                    pathToVideo = 0;
                 }
                 else if (vertical == 2)
                 {
-                    pathToVideo += "6B";
+                    pathToVideo = 1;
                 }
             }
             else if (horizontal == 2)
             {
                 if (vertical == 1)
                 {
-                    pathToVideo += "Patissiere";
+                    pathToVideo = 2;
                 }
                 else if (vertical == 2)
                 {
-                    pathToVideo += "HeadRush";
+                    pathToVideo = 3;
                 }
                 else if (vertical == 3)
                 {
-                    pathToVideo += "BloodBrave";
+                    pathToVideo = 4;
                 }
                 else if (vertical == 4)
                 {
-                    pathToVideo += "BasketCase";
+                    pathToVideo = 5;
                 }
             }
             else if (horizontal == 3)
             {
                 if (vertical == 1)
                 {
-                    pathToVideo += "Toaster";
+                    pathToVideo = 6;
                 }
                 else if (vertical == 2)
                 {
-                    pathToVideo += "JudgementSabre";
+                    pathToVideo = 7;
                 }
             }
             else if (horizontal == 4)
             {
                 if (vertical == 1)
                 {
-                    pathToVideo += "L";
+                    pathToVideo = 8;
                 }
                 else if (vertical == 2)
                 {
-                    pathToVideo += "M";
+                    pathToVideo = 9;
                 }
                 else if (vertical == 3)
                 {
-                    pathToVideo += "H";
+                    pathToVideo = 10;
                 }
                 else if (vertical == 4)
                 {
-                    pathToVideo += "B";
+                    pathToVideo = 11;
                 }
                 else if (vertical == 5)
                 {
-                    pathToVideo += "Cancel";
+                    pathToVideo = 12;
                 }
                 else if (vertical == 6)
                 {
-                    pathToVideo += "Grab";
+                    pathToVideo = 13;
                 }
             }
         }
         //achealis menu
         else if((PlayerData.GetComponent<SelectedCharacterManager>().P1Character == "Achealis" && playerPaused == 1) || (PlayerData.GetComponent<SelectedCharacterManager>().P2Character == "Achealis" && playerPaused == 2))
         {
-            characterToShow += "ACH/";
+            characterToShow += "ACH";
             if(horizontal == 2)
             {
                 if(vertical == 1)
                 {
-                    pathToVideo += "HeavenClimber";
+                    pathToVideo = 15;
                 }
                 else if (vertical == 2)
                 {
-                    pathToVideo += "Starfall";
+                    pathToVideo = 16;
                 }
                 else if (vertical == 3)
                 {
-                    pathToVideo += "LevelHell";
+                    pathToVideo = 17;
                 }
             }
             else if (horizontal == 3)
             {
                 if (vertical == 1)
                 {
-                    pathToVideo += "ForsythiaMarduk";
+                    pathToVideo = 18;
                 }
             }
             else if (horizontal == 4)
             {
                 if(vertical == 1)
                 {
-                    pathToVideo += "L";
+                    pathToVideo = 19;
                 }
                 else if (vertical == 2)
                 {
-                    pathToVideo += "M";
+                    pathToVideo = 20;
                 }
                 else if (vertical == 3)
                 {
-                    pathToVideo += "H";
+                    pathToVideo = 21;
                 }
                 else if (vertical == 4)
                 {
-                    pathToVideo += "B";
+                    pathToVideo = 22;
                 }
                 else if (vertical == 5)
                 {
-                    pathToVideo += "Cancel";
+                    pathToVideo = 23;
                 }
                 else if (vertical == 6)
                 {
-                    pathToVideo += "Grab";
+                    pathToVideo = 24;
                 }
             }
         }
-        print(pathToVideo);
-        //Assets / VideoCaptures / ACH / ForsythiaMarduk.webm
+        //print(pathToVideo);
         //fallback case
-        if (pathToVideo.Equals(""))
-            return "Assets/VideoCaptures/" + characterToShow + "Neutral" + ".webm";  
+        if (pathToVideo == -1)
+        {
+            if (characterToShow.Equals("DHA"))
+            {
+                return 14;
+            }
+            else if (characterToShow.Equals("ACH"))
+            {
+                return 25;
+            }
+            else
+            {
+                return 0;
+            }
+        }
         else
-            return "Assets/VideoCaptures/" + characterToShow + pathToVideo + ".webm";
+            return pathToVideo;
 
     }
 

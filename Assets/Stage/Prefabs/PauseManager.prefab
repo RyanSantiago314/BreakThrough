@@ -3923,6 +3923,33 @@ MonoBehaviour:
   PlayerIdentifier: {fileID: 7592735217644756229}
   mList: {fileID: 8954168531199062874}
   MoveListMarker: {fileID: 5733625236446511632}
+  videoToPlay:
+  - {fileID: 32900000, guid: e809e25525def1a4d8fa685826d113dd, type: 3}
+  - {fileID: 32900000, guid: 9d689dc747e601b4191edcbf4648562f, type: 3}
+  - {fileID: 32900000, guid: 6a4a001ff5f7d974190d3ea768d7ea65, type: 3}
+  - {fileID: 32900000, guid: 2b5ca32f2162bb54bbbefacb950a9136, type: 3}
+  - {fileID: 32900000, guid: 6e56345186a5eca469490d4a64b3578f, type: 3}
+  - {fileID: 32900000, guid: e2160343072a62b44b8af5c085e28fd2, type: 3}
+  - {fileID: 32900000, guid: 4e449b45af5a2d7409dac3a93065325e, type: 3}
+  - {fileID: 32900000, guid: 04858759b7335da4f8295232819050ec, type: 3}
+  - {fileID: 32900000, guid: afebb4513998c144eb20e7ed16ab42f1, type: 3}
+  - {fileID: 32900000, guid: 0a30e56eaa7bac74fb4e7718941046dc, type: 3}
+  - {fileID: 32900000, guid: 630eabbe19feb9546b9f1b28ea806dda, type: 3}
+  - {fileID: 32900000, guid: 98138d2635c6dff458979f023cf11f76, type: 3}
+  - {fileID: 32900000, guid: 7d5730209eceb054496024fc3189ec6f, type: 3}
+  - {fileID: 32900000, guid: 38254879f4c872048985b99ad5432978, type: 3}
+  - {fileID: 32900000, guid: f19f66f3255aaca428d8808b24d7f4e1, type: 3}
+  - {fileID: 32900000, guid: 13f656657271e6c4aa7f3882210f5de2, type: 3}
+  - {fileID: 32900000, guid: 24972259b29299343a596631df548c3c, type: 3}
+  - {fileID: 32900000, guid: 844b5b8955101754181177f50fbd3853, type: 3}
+  - {fileID: 32900000, guid: 687b12b8648041241b9aeb53d6f43a79, type: 3}
+  - {fileID: 32900000, guid: 32eb50deb236b234e92ed88ab46f3e72, type: 3}
+  - {fileID: 32900000, guid: e9ea2bb92ef969047a5354cab84a289e, type: 3}
+  - {fileID: 32900000, guid: bc13c0bb0ac13b442aab6e630c4965b9, type: 3}
+  - {fileID: 32900000, guid: 294c984573901ea49948265eada513f9, type: 3}
+  - {fileID: 32900000, guid: b535e01c43e81ed49af1c02ae8ebe833, type: 3}
+  - {fileID: 32900000, guid: 3251df1a0733aa1429865aa8a7accea2, type: 3}
+  - {fileID: 32900000, guid: d936a0c391670f14597a6265558cc919, type: 3}
   HUD: {fileID: 0}
   PracticeHUD: {fileID: 0}
   PlayerData: {fileID: 0}
