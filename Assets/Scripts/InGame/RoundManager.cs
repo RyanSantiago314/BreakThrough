@@ -62,7 +62,7 @@ public class RoundManager : MonoBehaviour
     private float horizontal;
     private float horizontal2;
 
-    private int postGameMenuIndex = 1;
+    private int postGameMenuIndex = 2;
     private int postGameMenuOpen = 0;
 
 
@@ -453,11 +453,11 @@ public class RoundManager : MonoBehaviour
             }
             if (Input.GetButtonDown(p1cross) && postGameMenuIndex == 1)
             {
-                ReplayGame();
+                QuitToMenu();
             }
             else if (Input.GetButtonDown(p1cross) && postGameMenuIndex == 2)
             {
-                QuitToMenu();
+                ReplayGame();
             }
         }
         else if(postGameMenuOpen == 2)
@@ -474,11 +474,11 @@ public class RoundManager : MonoBehaviour
             }
             if (Input.GetButtonDown(p2cross) && postGameMenuIndex == 1)
             {
-                ReplayGame();
+                QuitToMenu();
             }
             else if (Input.GetButtonDown(p2cross) && postGameMenuIndex == 2)
             {
-                QuitToMenu();
+                ReplayGame();
             }
         }
     }
