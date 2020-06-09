@@ -1049,6 +1049,8 @@ public class PauseMenu : MonoBehaviour
         {
             updateVideo = false;
             VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().url = SelectVideo(verticalMoveListIndex, moveListIndex);
+            VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().Play();
+
         }
 
 
@@ -1070,9 +1072,11 @@ public class PauseMenu : MonoBehaviour
     private string SelectVideo(int vertical, int horizontal)
     {
         string pathToVideo = "";
+        string characterToShow = "";
         //dhalia menu
         if((PlayerData.GetComponent<SelectedCharacterManager>().P1Character == "Dhalia" && playerPaused == 1) || (PlayerData.GetComponent<SelectedCharacterManager>().P2Character == "Dhalia" && playerPaused == 2))
         {
+            characterToShow += "DHA/";
             if (horizontal == 1)
             {
                 if (vertical == 1)
@@ -1145,14 +1149,64 @@ public class PauseMenu : MonoBehaviour
         //achealis menu
         else if((PlayerData.GetComponent<SelectedCharacterManager>().P1Character == "Achealis" && playerPaused == 1) || (PlayerData.GetComponent<SelectedCharacterManager>().P2Character == "Achealis" && playerPaused == 2))
         {
-
+            characterToShow += "ACH/";
+            if(horizontal == 2)
+            {
+                if(vertical == 1)
+                {
+                    pathToVideo += "HeavenClimber";
+                }
+                else if (vertical == 2)
+                {
+                    pathToVideo += "Starfall";
+                }
+                else if (vertical == 3)
+                {
+                    pathToVideo += "LevelHell";
+                }
+            }
+            else if (horizontal == 3)
+            {
+                if (vertical == 1)
+                {
+                    pathToVideo += "ForsythiaMarduk";
+                }
+            }
+            else if (horizontal == 4)
+            {
+                if(vertical == 1)
+                {
+                    pathToVideo += "L";
+                }
+                else if (vertical == 2)
+                {
+                    pathToVideo += "M";
+                }
+                else if (vertical == 3)
+                {
+                    pathToVideo += "H";
+                }
+                else if (vertical == 4)
+                {
+                    pathToVideo += "B";
+                }
+                else if (vertical == 5)
+                {
+                    pathToVideo += "Cancel";
+                }
+                else if (vertical == 6)
+                {
+                    pathToVideo += "Grab";
+                }
+            }
         }
-        
+        print(pathToVideo);
+        //Assets / VideoCaptures / ACH / ForsythiaMarduk.webm
         //fallback case
         if (pathToVideo.Equals(""))
-            return null;
+            return "Assets/VideoCaptures/" + characterToShow + "Neutral" + ".webm";  
         else
-            return "Assets/VideoCaptures/" + pathToVideo + ".webm";
+            return "Assets/VideoCaptures/" + characterToShow + pathToVideo + ".webm";
 
     }
 
