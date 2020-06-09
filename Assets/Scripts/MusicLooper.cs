@@ -14,7 +14,8 @@ public class MusicLooper : MonoBehaviour
 
     private void Start()
     {
-        audioSource.timeSamples += Mathf.RoundToInt(startPoint * audioClip.frequency);
+        //Debug Tool
+        //audioSource.timeSamples += Mathf.RoundToInt(startPoint * audioClip.frequency);
     }
 
     public void Update()

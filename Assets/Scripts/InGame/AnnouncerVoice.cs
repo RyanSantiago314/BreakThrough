@@ -5,6 +5,8 @@ using UnityEngine;
 public class AnnouncerVoice : MonoBehaviour
 {
     RoundManager roundManager;
+    SelectedCharacterManager PlayerData;
+    public MusicLooper looper;
 
     public AudioSource Announcer;
     public AudioSource BGM;
@@ -30,14 +32,56 @@ public class AnnouncerVoice : MonoBehaviour
     public AudioClip SuperKO;
     public AudioClip TimeUp;
     public AudioClip Versus;
+
     public AudioClip DhaliaTheme;
     public AudioClip AchealisTheme;
 
     private bool startBGM = true;
+    private string characterTheme;
+    private int playerRNG;
 
     void Start()
     {
         roundManager = GetComponent<RoundManager>();
+        PlayerData = GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>();
+
+        //Determine Character Theme to play
+        //Play character theme if both players are the same character
+        if (PlayerData.P1Character == PlayerData.P2Character)
+        {
+            characterTheme = PlayerData.P1Character;
+        }
+        //50/50 chance if different characters
+        else
+        {
+            playerRNG = Random.Range(1, 3);
+            if (playerRNG == 1)
+            {
+                characterTheme = PlayerData.P1Character;
+            }
+            else
+            {
+                characterTheme = PlayerData.P2Character;
+            }
+        }
+
+        switch (characterTheme)
+        {
+            case "Dhalia":
+                BGM.clip = DhaliaTheme;
+                looper.audioClip = DhaliaTheme;
+                //looper.loopLength = 0f;
+                //looper.loopPoint = 0f;
+                break;
+            case "Achealis":
+                BGM.clip = AchealisTheme;
+                looper.audioClip = AchealisTheme;
+                //looper.loopLength = 0f;
+                //looper.loopPoint = 0f;
+                break;
+        }
+        //Debug Tool
+        //looper.audioSource.timeSamples += Mathf.RoundToInt(looper.startPoint * looper.audioClip.frequency);
     }
 
     //Individual Voice Clip Functions
@@ -250,7 +294,6 @@ public class AnnouncerVoice : MonoBehaviour
         if (startBGM)
         {
             startBGM = false;
-            BGM.clip = AchealisTheme;
             BGM.Play();
         }
     }
@@ -260,7 +303,6 @@ public class AnnouncerVoice : MonoBehaviour
         if (startBGM && (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Practice" || GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "Tutorial"))
         {
             startBGM = false;
-            BGM.clip = AchealisTheme;
             BGM.Play();
         }
     }

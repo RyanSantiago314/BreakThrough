@@ -2189,6 +2189,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1129626045621311230}
   - component: {fileID: 1129626045621311225}
+  - component: {fileID: 615669278668106772}
   m_Layer: 0
   m_Name: BGM
   m_TagString: Untagged
@@ -2307,6 +2308,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &615669278668106772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129626045621311231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3725d865703e17341bcf26359450ce06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loopLength: 0
+  loopPoint: 0
+  audioSource: {fileID: 1129626045621311225}
+  audioClip: {fileID: 0}
+  startPoint: 0
 --- !u!1 &1129626045631476000
 GameObject:
   m_ObjectHideFlags: 0
@@ -3151,6 +3169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6c121d00a0fce244992b7048da89a6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  looper: {fileID: 615669278668106772}
   Announcer: {fileID: 1129626045266779381}
   BGM: {fileID: 1129626045621311225}
   AchealisP1: {fileID: 8300000, guid: 907c7f5d414fa8c4181ff5387de09ad4, type: 3}
@@ -3174,8 +3193,8 @@ MonoBehaviour:
   SuperKO: {fileID: 8300000, guid: dac8727544168f149be9ed0c95fb8dd4, type: 3}
   TimeUp: {fileID: 8300000, guid: 13bec65232af85d44aeeb62d636a1944, type: 3}
   Versus: {fileID: 8300000, guid: 2ca8813941abef441835b82416cac208, type: 3}
-  DhaliaTheme: {fileID: 8300000, guid: 5f8ebdb799b6da1478a54dc81edd6723, type: 3}
-  AchealisTheme: {fileID: 8300000, guid: 343d1885098d1794aa4bd97be14461c9, type: 3}
+  DhaliaTheme: {fileID: 8300000, guid: 0604d205389bb7f4cb9d9fe0e089102b, type: 3}
+  AchealisTheme: {fileID: 8300000, guid: b2cf024ad8f94c640a3a4e094251df22, type: 3}
 --- !u!1 &1129626046257296813
 GameObject:
   m_ObjectHideFlags: 0
