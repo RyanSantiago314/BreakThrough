@@ -30,7 +30,7 @@ public class HitSFX : MonoBehaviour
 
     public void ShatterPlay()
     {
-        FX.PlayOneShot(Shatter, .7f);
+        FX.PlayOneShot(Shatter, .8f);
     }
 
     public void LightGuard()
