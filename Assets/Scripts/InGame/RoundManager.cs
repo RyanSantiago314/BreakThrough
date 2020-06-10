@@ -151,9 +151,6 @@ public class RoundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Menu open: " + postGameMenuOpen);
-        Debug.Log("Menu index: " + postGameMenuIndex);
-
         SetControllers();
         horizontal = Input.GetAxis(inputHorizontal);
         vertical = Input.GetAxis(inputVertical);
