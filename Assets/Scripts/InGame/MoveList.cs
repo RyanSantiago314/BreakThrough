@@ -768,7 +768,7 @@ public class MoveList : MonoBehaviour
         move2Input7.sprite = Blank.sprite;
         move2Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         inAir.text = "";
-        Move3.text = "BlitzCancel";
+        Move3.text = "Blitz Cancel";
         Move3Break.SetActive(false);
         Description3.text = "";
         move3Input1.sprite = MediumButton.sprite;
