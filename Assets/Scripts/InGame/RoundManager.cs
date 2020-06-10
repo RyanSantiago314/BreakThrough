@@ -151,6 +151,9 @@ public class RoundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Menu open: " + postGameMenuOpen);
+        Debug.Log("Menu index: " + postGameMenuIndex);
+
         SetControllers();
         horizontal = Input.GetAxis(inputHorizontal);
         vertical = Input.GetAxis(inputVertical);
@@ -353,7 +356,11 @@ public class RoundManager : MonoBehaviour
     public void MatchEndCheck()
     {
         if (p1Win == 2 || p2Win == 2)
+        {
+            postGameMenuIndex = 2;
+            postGameMenuOpen = 1;
             ScreenGraphics.SetBool("RoundOver", false);
+        }
     }
 
     public void SetCharacterNames()
@@ -426,6 +433,7 @@ public class RoundManager : MonoBehaviour
     //Function to load main menu scene
     public void QuitToMenu()
     {
+        postGameMenuOpen = 0;
         p1menu.SetActive(false);
         p2menu.SetActive(false);
         lockInputs = false;
@@ -516,6 +524,7 @@ public class RoundManager : MonoBehaviour
         resetValues = true;
         roundCount = 0;
         NextRound();
+        postGameMenuOpen = 0;
     }
 
     public void HoldPositions()
