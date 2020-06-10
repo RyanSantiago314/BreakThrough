@@ -603,7 +603,7 @@ public class ProjectileHitDetector : MonoBehaviour
                 OpponentDetector.Actions.wallStick = 4;
                 HitDetect.usedWallStick = true;
             }
-            else if (OpponentDetector.Actions.wallStick > 0)
+            else if (OpponentDetector.Actions.wallStick > 0 && !usingSuper)
             {
                 OpponentDetector.Actions.wallStick--;
             }
