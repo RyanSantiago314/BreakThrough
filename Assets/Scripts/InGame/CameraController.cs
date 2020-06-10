@@ -117,7 +117,7 @@ public class CameraController : MonoBehaviour
 
         if (cameraPos.y < 1.45)
             cameraPos = new Vector3(cameraPos.x, 1.45f, cameraPos.z);
-        else if (cameraPos.y > 6)
+        else if (cameraPos.y > 5)
             cameraPos = new Vector3(cameraPos.x, 5f, cameraPos.z);
 
         transform.position = Vector3.Lerp(transform.position, cameraPos, Time.smoothDeltaTime * smooth);
