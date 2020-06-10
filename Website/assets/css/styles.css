@@ -196,7 +196,10 @@ footer {
 }
 
 .fa-instagram {
-    background: #125688;
+    color: white;
+}
+
+.fa-etsy {
     color: white;
 }
 
@@ -205,6 +208,10 @@ footer {
 }
 
 .fa-archive {
+    color: white;
+}
+
+.fa-paint-brush {
     color: white;
 }
 
