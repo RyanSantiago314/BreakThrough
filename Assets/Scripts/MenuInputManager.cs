@@ -211,7 +211,7 @@ public class MenuInputManager : MonoBehaviour
                 Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue-30, yValue+15, 0);
                 Marker.GetComponent<RectTransform>().sizeDelta = new Vector2(410f, 88.3f);
                 //PlayLocalButton.Select();
-                if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
+                if (Input.GetButtonDown(inputCross))
 				{
 					state = "local";
 					buttonIndex = 1;
@@ -225,7 +225,7 @@ public class MenuInputManager : MonoBehaviour
                 Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue-30, yValue+15, 0);
                 Marker.GetComponent<RectTransform>().sizeDelta = new Vector2(410f, 88.3f);
                 //PlayOnlineButton.Select();		
-                if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) PlayOnlineButton.onClick.Invoke();
+                if (Input.GetButtonDown(inputCross)) PlayOnlineButton.onClick.Invoke();
 			}
 			else if (buttonIndex == 3)
 			{
@@ -233,7 +233,7 @@ public class MenuInputManager : MonoBehaviour
                 Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue-70, yValue+15, 0);
                 Marker.GetComponent<RectTransform>().sizeDelta = new Vector2(320f, 88.3f);
                 //OptionsButton.Select();
-                if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
+                if (Input.GetButtonDown(inputCross))
 				{
 					state = "options";
 					buttonIndex = 1;
@@ -247,7 +247,7 @@ public class MenuInputManager : MonoBehaviour
                 Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue-100, yValue+10, 0);
                 Marker.GetComponent<RectTransform>().sizeDelta = new Vector2(240f, 88.3f);
                 //QuitButton.Select();
-                if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) menu.QuitGame();
+                if (Input.GetButtonDown(inputCross)) menu.QuitGame();
 			}
 		}
         //Local Menu Management
@@ -262,7 +262,7 @@ public class MenuInputManager : MonoBehaviour
                 Marker.GetComponent<RectTransform>().sizeDelta = new Vector2(500f, 88.3f);
                 //PlayVsPlayerButton.Select();
 
-                if ((Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
+                if ((Input.GetButtonDown(inputCross)) && !sideSelectScreen.activeSelf)
                 {
                     x = 0;
                     y = 126;
@@ -280,7 +280,7 @@ public class MenuInputManager : MonoBehaviour
                 Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue-30, yValue - 80, 0);
                 Marker.GetComponent<RectTransform>().sizeDelta = new Vector2(410f, 88.3f);
                 //PlayVsAiButton.Select();
-                if ((Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf && !AIDifficultyScreen.activeSelf)
+                if ((Input.GetButtonDown(inputCross)) && !sideSelectScreen.activeSelf && !AIDifficultyScreen.activeSelf)
                 {
                     x = 0;
                     y = 126;
@@ -298,7 +298,7 @@ public class MenuInputManager : MonoBehaviour
                 Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue-60, yValue - 90, 0);
                 Marker.GetComponent<RectTransform>().sizeDelta = new Vector2(340f, 88.3f);
                 //PracticeButton.Select();
-                if ((Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) && !sideSelectScreen.activeSelf)
+                if ((Input.GetButtonDown(inputCross)) && !sideSelectScreen.activeSelf)
                 {
                     x = 0;
                     y = 126;
@@ -314,7 +314,7 @@ public class MenuInputManager : MonoBehaviour
                 Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue-60, yValue - 105, 0);
                 Marker.GetComponent<RectTransform>().sizeDelta = new Vector2(340f, 88.3f);
                 //TutorialButton.Select();
-                if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
+                if (Input.GetButtonDown(inputCross))
                 {
                     GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "Tutorial";
                     //GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode = "Practice";
@@ -335,7 +335,7 @@ public class MenuInputManager : MonoBehaviour
                 Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue-100, yValue - 120, 0);
                 Marker.GetComponent<RectTransform>().sizeDelta = new Vector2(240f, 88.3f);
                 //BackButton.Select();
-                if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
+                if (Input.GetButtonDown(inputCross))
 				{
 					state = "main";
 					buttonIndex = 1;
@@ -344,7 +344,7 @@ public class MenuInputManager : MonoBehaviour
                 }
 			}
 
-			if ((Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel")) && !sideSelectScreen.activeSelf && !AIDifficultyScreen.activeSelf)
+			if ((Input.GetButtonDown(inputCircle)) && !sideSelectScreen.activeSelf && !AIDifficultyScreen.activeSelf)
 			{
 				state = "main";
 				buttonIndex = 1;
@@ -366,11 +366,12 @@ public class MenuInputManager : MonoBehaviour
                     Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue - 70, yValue - 10, 0);
                     Marker.GetComponent<RectTransform>().sizeDelta = new Vector2(240f, 88.3f);
                     //soundOptions.Select();
-                    if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
-                    {
-                        optionState = "soundOptions";
-                        buttonIndex = 1;
-                        soundOptions.onClick.Invoke();
+
+                    if (Input.GetButtonDown(inputCross))
+					{
+						optionState = "soundOptions";
+						buttonIndex = 1;
+						soundOptions.onClick.Invoke();
                         Marker.color = new Color(Marker.color.r, Marker.color.g, Marker.color.b, 0f);
                     }
 
@@ -381,11 +382,11 @@ public class MenuInputManager : MonoBehaviour
                     Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue - 50, yValue - 10, 0);
                     Marker.GetComponent<RectTransform>().sizeDelta = new Vector2(270f, 88.3f);
                     //displayOptions.Select();
-                    if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
-                    {
-                        optionState = "displayOptions";
-                        buttonIndex = 1;
-                        displayOptions.onClick.Invoke();
+                    if (Input.GetButtonDown(inputCross))
+					{
+						optionState = "displayOptions";
+						buttonIndex = 1;
+						displayOptions.onClick.Invoke();
                         Marker.color = new Color(Marker.color.r, Marker.color.g, Marker.color.b, 0f);
                     }
                 }
@@ -395,7 +396,7 @@ public class MenuInputManager : MonoBehaviour
                     Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue - 30, yValue - 10, 0);
                     Marker.GetComponent<RectTransform>().sizeDelta = new Vector2(320f, 88.3f);
                     //controlsOptions.Select();
-                    if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
+                    if (Input.GetButtonDown(inputCross))
                     {
                         optionState = "controlsOptions";
                         yValue = controlsOptionsBackButton.GetComponent<RectTransform>().localPosition.y;
@@ -412,122 +413,122 @@ public class MenuInputManager : MonoBehaviour
                     Marker.GetComponent<RectTransform>().localPosition = new Vector3(xValue - 70, yValue + 10, 0);
                     Marker.GetComponent<RectTransform>().sizeDelta = new Vector2(240f, 88.3f);
                     //OptionsBackButton.Select();
-                    if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
-                    {
-                        state = "main";
-                        buttonIndex = 3;
-                        OptionsBackButton.onClick.Invoke();
+                    if (Input.GetButtonDown(inputCross))
+					{
+						state = "main";
+						buttonIndex = 3;
+						OptionsBackButton.onClick.Invoke();
                         MarkerAnimator.Play("MarkAnimation", -1, 0f);
                     }
-                }
+				}
 
-                if (Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel"))
-                {
-                    state = "main";
-                    buttonIndex = 3;
-                    OptionsBackButton.onClick.Invoke();
+				if (Input.GetButtonDown(inputCircle))
+				{
+					state = "main";
+					buttonIndex = 3;
+					OptionsBackButton.onClick.Invoke();
                     MarkerAnimator.Play("MarkAnimation", -1, 0f);
 
                 }
-            }
-            else if (optionState == "soundOptions")
-            {
-                if (buttonIndex < 1) buttonIndex = 5;
-                else if (buttonIndex > 5) buttonIndex = 1;
+			}
+			else if (optionState == "soundOptions")
+			{
+				if (buttonIndex < 1) buttonIndex = 5;
+				else if (buttonIndex > 5) buttonIndex = 1;
 
-                if (buttonIndex == 1)
-                {
-                    MasterSlider.Select();
-                    if (horizontal > 0) MasterSlider.value += 0.01f;
-                    else if (horizontal < 0) MasterSlider.value -= 0.01f;
-                }
-                else if (buttonIndex == 2)
-                {
-                    MusicSlider.Select();
-                    if (horizontal > 0) MusicSlider.value += 0.01f;
-                    else if (horizontal < 0) MusicSlider.value -= 0.01f;
-                }
-                else if (buttonIndex == 3)
-                {
-                    VoiceSlider.Select();
-                    if (horizontal > 0) VoiceSlider.value += 0.01f;
-                    else if (horizontal < 0) VoiceSlider.value -= 0.01f;
-                }
-                else if (buttonIndex == 4)
-                {
-                    EffectsSlider.Select();
-                    if (horizontal > 0) EffectsSlider.value += 0.01f;
-                    else if (horizontal < 0) EffectsSlider.value -= 0.01f;
-                }
-                else if (buttonIndex == 5)
-                {
-                    soundOptionsBackButton.Select();
-                    if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
-                    {
-                        optionState = "mainOptions";
-                        buttonIndex = 1;
-                        soundOptionsBackButton.onClick.Invoke();
+				if (buttonIndex == 1)
+				{
+					MasterSlider.Select();
+					if (horizontal > 0) MasterSlider.value += 0.01f;
+					else if (horizontal < 0) MasterSlider.value -= 0.01f;
+				}
+				else if (buttonIndex == 2)
+				{
+					MusicSlider.Select();
+					if (horizontal > 0) MusicSlider.value += 0.01f;
+					else if (horizontal < 0) MusicSlider.value -= 0.01f;
+				}
+				else if (buttonIndex == 3)
+				{
+					VoiceSlider.Select();
+					if (horizontal > 0) VoiceSlider.value += 0.01f;
+					else if (horizontal < 0) VoiceSlider.value -= 0.01f;
+				}
+				else if (buttonIndex == 4)
+				{
+					EffectsSlider.Select();
+					if (horizontal > 0) EffectsSlider.value += 0.01f;
+					else if (horizontal < 0) EffectsSlider.value -= 0.01f;
+				}
+				else if (buttonIndex == 5)
+				{
+					soundOptionsBackButton.Select();
+					if (Input.GetButtonDown(inputCross))
+					{
+						optionState = "mainOptions";
+						buttonIndex = 1;
+						soundOptionsBackButton.onClick.Invoke();
                         Marker.color = new Color(Marker.color.r, Marker.color.g, Marker.color.b, 1f);
                         MarkerAnimator.Play("MarkAnimation", -1, 0f);
                     }
-                }
-                if (Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel"))
-                {
-                    optionState = "mainOptions";
-                    buttonIndex = 1;
-                    soundOptionsBackButton.onClick.Invoke();
+				}
+				if (Input.GetButtonDown(inputCircle))
+				{
+					optionState = "mainOptions";
+					buttonIndex = 1;
+					soundOptionsBackButton.onClick.Invoke();
                     Marker.color = new Color(Marker.color.r, Marker.color.g, Marker.color.b, 1f);
                     MarkerAnimator.Play("MarkAnimation", -1, 0f);
                 }
-            }
-            else if (optionState == "displayOptions")
-            {
-                if (buttonIndex < 1) buttonIndex = 3;
-                else if (buttonIndex > 3) buttonIndex = 1;
+			}
+			else if (optionState == "displayOptions")
+			{
+				if (buttonIndex < 1) buttonIndex = 3;
+				else if (buttonIndex > 3) buttonIndex = 1;
 
-                if (buttonIndex == 1)
-                {
-                    windowToggle.Select();
-                    if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
-                    {
-                        windowToggle.isOn = !windowToggle.isOn;
-                        toggleWindowed();
-                    }
-                }
-                else if (buttonIndex == 2)
-                {
-                    resoutionDropdown.Select();
-                    if ((Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit")) && !inDropdown)
-                    {
-                        dropdownIndex = 24;
-                        resoutionDropdown.value = dropdownIndex;
-                        inDropdown = true;
-                    }
-                    if (Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel"))
-                    {
-                        inDropdown = false;
-                        optionState = "mainOptions";
-                        buttonIndex = 2;
-                        displayOptionsBackButton.onClick.Invoke();
-                    }
-                }
-                else if (buttonIndex == 3)
-                {
-                    displayOptionsBackButton.Select();
-                    if (Input.GetButtonDown(inputCross) || Input.GetButtonDown("Submit"))
-                    {
-                        optionState = "mainOptions";
-                        buttonIndex = 2;
-                        displayOptionsBackButton.onClick.Invoke();
+				if (buttonIndex == 1)
+				{
+					windowToggle.Select();
+					if (Input.GetButtonDown(inputCross))
+					{
+						windowToggle.isOn = !windowToggle.isOn;
+						toggleWindowed();
+					}
+				}
+				else if (buttonIndex == 2)
+				{
+					resoutionDropdown.Select();
+					if ((Input.GetButtonDown(inputCross)) && !inDropdown)
+					{
+						dropdownIndex = 24;
+						resoutionDropdown.value = dropdownIndex;
+						inDropdown = true;
+					}
+					if (Input.GetButtonDown(inputCircle))
+					{
+						inDropdown = false;
+						optionState = "mainOptions";
+						buttonIndex = 2;
+						displayOptionsBackButton.onClick.Invoke();
+					}
+				}
+				else if (buttonIndex == 3)
+				{
+					displayOptionsBackButton.Select();
+					if (Input.GetButtonDown(inputCross))
+					{
+						optionState = "mainOptions";
+						buttonIndex = 2;
+						displayOptionsBackButton.onClick.Invoke();
                         Marker.color = new Color(Marker.color.r, Marker.color.g, Marker.color.b, 1f);
                         MarkerAnimator.Play("MarkAnimation", -1, 0f);
                     }
-                }
-                if (Input.GetButtonDown(inputCircle) || Input.GetButtonDown("Cancel") && !inDropdown)
-                {
-                    optionState = "mainOptions";
-                    buttonIndex = 2;
-                    displayOptionsBackButton.onClick.Invoke();
+				}
+				if (Input.GetButtonDown(inputCircle) && !inDropdown)
+				{
+					optionState = "mainOptions";
+					buttonIndex = 2;
+					displayOptionsBackButton.onClick.Invoke();
                     Marker.color = new Color(Marker.color.r, Marker.color.g, Marker.color.b, 1f);
                     MarkerAnimator.Play("MarkAnimation", -1, 0f);
                 }
