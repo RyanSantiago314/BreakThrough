@@ -165,7 +165,7 @@ public class MoveList : MonoBehaviour
         pageMoveIconL.color = new Color(1f, 1f, 1f, .5f);
         pageMoveIconR.color = new Color(1f, 1f, 1f, 1f);
         Move1.text = "Normal 1";
-        Description1.text = "Can be used repeatedly";
+        Description1.text = "Can be used repeatedly.";
         move1Input1.sprite = arrow.sprite;
         move1Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
         move1Input2.sprite = plus.sprite;
@@ -183,7 +183,7 @@ public class MoveList : MonoBehaviour
         move1Input7.rectTransform.localPosition = new Vector3(295.23f, move1Input7.rectTransform.localPosition.y, 0);
         orText.text = "";
         Move2.text = "Normal 2";
-        Description2.text = "Hold B  to Charge attack";
+        Description2.text = "Hold B  to Charge attack.";
         Move2Break.SetActive(true);
         move2Input1.sprite = arrow.sprite;
         move2Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
