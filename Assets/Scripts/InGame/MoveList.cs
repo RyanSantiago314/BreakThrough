@@ -46,6 +46,7 @@ public class MoveList : MonoBehaviour
     public Image move2Input7;
 
     public Text Move3;
+    public GameObject Move3Break;
     public Text Description3;
     public Image move3Input1;
     public Image move3Input2;
@@ -201,6 +202,7 @@ public class MoveList : MonoBehaviour
         move2Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         inAir.text = "";
         Move3.text = "";
+        Move3Break.SetActive(false);
         Description3.text = "";
         move3Input1.sprite = Blank.sprite;
         move3Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -272,6 +274,7 @@ public class MoveList : MonoBehaviour
         move2Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         inAir.text = "";
         Move3.text = "Blood Brave";
+        Move3Break.SetActive(false);
         Description3.text = "Usable in the air.";
         move3Input1.sprite = arrow.sprite;
         move3Input1.transform.rotation = Quaternion.Euler(0, 0, -90);
@@ -343,6 +346,7 @@ public class MoveList : MonoBehaviour
         move2Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         inAir.text = "";
         Move3.text = "";
+        Move3Break.SetActive(false);
         Description3.text = "";
         move3Input1.sprite = Blank.sprite;
         move3Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -415,6 +419,7 @@ public class MoveList : MonoBehaviour
         move2Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         inAir.text = "";
         Move3.text = "";
+        Move3Break.SetActive(false);
         Description3.text = "";
         move3Input1.sprite = Blank.sprite;
         move3Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -485,7 +490,7 @@ public class MoveList : MonoBehaviour
         move2Input7.rectTransform.localPosition = new Vector3(295.23f, move1Input7.rectTransform.localPosition.y, 0);
         Move3.text = "Starfall";
         Description3.text = "Hold B  to delay.";
-        //Move3.Break.SetActive(true);
+        Move3Break.SetActive(true);    
         move3Input1.sprite = arrow.sprite;
         move3Input1.transform.rotation = Quaternion.Euler(0, 0, -90);
         move3Input2.sprite = arrow.sprite;
@@ -557,6 +562,7 @@ public class MoveList : MonoBehaviour
         move2Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         inAir.text = "";
         Move3.text = "";
+        Move3Break.SetActive(false);
         Description3.text = "";
         move3Input1.sprite = Blank.sprite;
         move3Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -628,6 +634,7 @@ public class MoveList : MonoBehaviour
         move2Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         inAir.text = "";
         Move3.text = "Heavy";
+        Move3Break.SetActive(false);
         Description3.text = "";
         move3Input1.sprite = HeavyButton.sprite;
         move3Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -695,6 +702,7 @@ public class MoveList : MonoBehaviour
         move2Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         inAir.text = "";
         Move3.text = "Break";
+        Move3Break.SetActive(false);
         Description3.text = "";
         move3Input1.sprite = BreakButton.sprite;
         move3Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -761,6 +769,7 @@ public class MoveList : MonoBehaviour
         move2Input7.transform.rotation = Quaternion.Euler(0, 0, 0);
         inAir.text = "";
         Move3.text = "BlitzCancel";
+        Move3Break.SetActive(false);
         Description3.text = "";
         move3Input1.sprite = MediumButton.sprite;
         move3Input1.transform.rotation = Quaternion.Euler(0, 0, 0);
