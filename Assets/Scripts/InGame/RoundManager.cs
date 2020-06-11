@@ -99,14 +99,14 @@ public class RoundManager : MonoBehaviour
     void Start()
     {
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P1Side == "Left")
-            p1Start = new Vector3(-1f, 1.10f, -3);
+            p1Start = new Vector3(-1f, 1.127f, -3);
         else
-            p1Start = new Vector3(1f, 1.10f, -3);
+            p1Start = new Vector3(1f, 1.127f, -3);
 
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().P2Side == "Right")
-            p2Start = new Vector3(1f, 1.10f, -3);
+            p2Start = new Vector3(1f, 1.127f, -3);
         else
-            p2Start = new Vector3(-1f, 1.10f, -3);
+            p2Start = new Vector3(-1f, 1.127f, -3);
 
         if (GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Tutorial")
         {
