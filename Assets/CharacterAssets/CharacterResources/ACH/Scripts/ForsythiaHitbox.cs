@@ -222,7 +222,6 @@ public class ForsythiaHitbox : MonoBehaviour
         if (other.CompareTag("HurtBox") && other.gameObject.transform.parent.parent == PHitDetect.Actions.Move.opponent && hit1.size.x > 1000)
         {
             ClearHitBox();
-            transform.gameObject.SetActive(false);
         }
     }
 }

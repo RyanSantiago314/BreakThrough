@@ -139,6 +139,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.016666668
+    functionName: DisableBlitz
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.13333334
     functionName: JumpStart
     data: 
@@ -185,7 +192,7 @@ AnimationClip:
     functionName: SetLandLag
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 10
+    floatParameter: 12
     intParameter: 0
     messageOptions: 0
   - time: 0.23333333

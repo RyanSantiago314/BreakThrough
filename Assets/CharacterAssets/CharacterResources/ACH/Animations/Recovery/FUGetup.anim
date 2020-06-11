@@ -49,7 +49,7 @@ AnimationClip:
     - time: 0.38333333
       value: {fileID: 0}
     attribute: m_Sprite
-    path: CharEffects1
+    path: CharEffects0
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 60
@@ -67,7 +67,7 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     - serializedVersion: 2
-      path: 529285965
+      path: 1753969627
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -91,7 +91,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.48333332
+    m_StopTime: 0.48333335
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

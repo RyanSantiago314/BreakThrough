@@ -37,7 +37,6 @@ public class MovementHandler : MonoBehaviour
     public int justDefenseTime = 5;
     public bool hittingWall = false;
     public bool hittingBound = false;
-    public bool playing;
 
     float inputTime = 0.3f;
     float runInputTime = 0.3f;
@@ -186,7 +185,7 @@ public class MovementHandler : MonoBehaviour
                 facingRight = true;
         }
 
-        if (anim.GetBool(KOID) || !playing)
+        if (anim.GetBool(KOID) || RoundManager.lockInputs)
         {
             anim.SetBool(crouchID, false);
             anim.SetBool(walkFID, false);
@@ -240,7 +239,7 @@ public class MovementHandler : MonoBehaviour
             Actions.airborne = true;
         }
 
-        if (playing && !HitDetect.pauseScreen.isPaused)
+        if (RoundManager.gameActive && !RoundManager.lockInputs && !HitDetect.pauseScreen.isPaused)
         {
             if (HitDetect.hitStop <= 0)
             {
@@ -286,10 +285,11 @@ public class MovementHandler : MonoBehaviour
                         sigil.transform.eulerAngles = new Vector3(75, 0, 0);
                     }
 
-                    Actions.EnableAll();
+                    Actions.DisableAll();
                     pushBox.isTrigger = true;
                     jumps++;
                     jumping = .3f;
+                    Actions.recovering = true;
 
 
                     if (MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
@@ -502,6 +502,8 @@ public class MovementHandler : MonoBehaviour
                 pushBox.isTrigger = false;
                 if (currentState.IsName("HitAir") || currentState.IsName("LaunchFall") || currentState.IsName("Unstick"))
                     anim.SetTrigger(KDID);
+                else if (Actions.landingLag > 0)
+                    Actions.DisableAll();
             }
         }
         else if (collision.collider.CompareTag("Wall"))

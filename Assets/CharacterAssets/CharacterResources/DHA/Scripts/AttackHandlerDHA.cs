@@ -192,17 +192,6 @@ public class AttackHandlerDHA : MonoBehaviour
         currentState = anim.GetCurrentAnimatorStateInfo(0);
         anim.ResetTrigger(IDRec);
 
-        if (RoundManager.gameActive && !RoundManager.lockInputs)
-        {
-            Move.playing = true;
-            Move.opponent.GetComponent<MovementHandler>().playing = true;
-        }
-        else if (!RoundManager.gameActive && RoundManager.lockInputs)
-        {
-            Move.playing = false;
-            Move.opponent.GetComponent<MovementHandler>().playing = false;
-        }
-
         if (Move.HitDetect.hitStun > 0)
         {
             anim.ResetTrigger(ID5L);

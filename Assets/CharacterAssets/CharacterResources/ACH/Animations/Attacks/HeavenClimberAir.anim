@@ -29,11 +29,11 @@ AnimationClip:
       value: {fileID: 21300000, guid: 977930641fccd0542aa916262fb35c89, type: 3}
     - time: 0.31666666
       value: {fileID: 21300000, guid: be32afebb6cad4b4fab099bf1c4ff6c5, type: 3}
-    - time: 0.4
+    - time: 0.41666666
       value: {fileID: 21300000, guid: e31312946c08f49438c231efae869760, type: 3}
-    - time: 0.48333332
+    - time: 0.51666665
       value: {fileID: 21300000, guid: d4534c0dd926dcf468b38bc962489a37, type: 3}
-    - time: 0.55
+    - time: 0.6
       value: {fileID: 21300000, guid: 82f0e3757ddacd24dbd1ff7f862ac311, type: 3}
     attribute: m_Sprite
     path: 
@@ -88,7 +88,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.56666666
+    m_StopTime: 0.6166667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -136,6 +136,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.016666668
+    functionName: DisableBlitz
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.11666667
     functionName: Rise
     data: 
@@ -147,7 +154,7 @@ AnimationClip:
     functionName: Advance
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 0.5
+    floatParameter: 1
     intParameter: 0
     messageOptions: 0
   - time: 0.11666667
@@ -201,6 +208,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0.31666666
     functionName: JumpStart
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.6
+    functionName: EnableAll
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
