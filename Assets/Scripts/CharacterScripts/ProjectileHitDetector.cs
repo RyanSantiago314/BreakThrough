@@ -357,6 +357,8 @@ public class ProjectileHitDetector : MonoBehaviour
                     //trigger shatter effect
                     OpponentDetector.anim.SetTrigger(shatterID);
                     OpponentDetector.Actions.shattered = true;
+                    if (!forceShatter)
+                        HitDetect.shatterSuccess = true;
                     Debug.Log("SHATTERED");
                     //damage, hitstun, etc.
                     HitSuccess(other);

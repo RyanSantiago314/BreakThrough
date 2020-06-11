@@ -486,6 +486,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.vertSlash = true;
         HitDetect.forceStand = true;
         HitDetect.allowHeavy = true;
+        HitDetect.allowBreak = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
         HitDetect.jumpCancellable = true;

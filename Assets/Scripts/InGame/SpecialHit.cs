@@ -9,6 +9,7 @@ public class SpecialHit : MonoBehaviour
     public AudioSource announcer;
     public AudioClip counter;
     public AudioClip pierce;
+    public AudioClip shatter;
 
     void Counter()
     {
@@ -20,5 +21,11 @@ public class SpecialHit : MonoBehaviour
     {
         status.text = "Pierce";
         announcer.PlayOneShot(pierce, .75f);
+    }
+
+    void Shatter()
+    {
+        status.text = "SHATTER";
+        announcer.PlayOneShot(shatter, .8f);
     }
 }

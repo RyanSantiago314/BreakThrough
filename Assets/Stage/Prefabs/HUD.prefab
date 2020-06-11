@@ -3761,6 +3761,7 @@ MonoBehaviour:
   announcer: {fileID: 6142725847190580244}
   counter: {fileID: 8300000, guid: 030a0200aa28c4542944cbba2d1b2dd1, type: 3}
   pierce: {fileID: 8300000, guid: 5b816e9340affb449adff030546c7ef8, type: 3}
+  shatter: {fileID: 8300000, guid: b6c4929bfc2e32f478e9879a86c0b358, type: 3}
 --- !u!82 &6142725847190580244
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4586,7 +4587,7 @@ RectTransform:
   m_GameObject: {fileID: 7016397353885734808}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.49999997, y: 0.49999997, z: 1}
+  m_LocalScale: {x: 0.49999997, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 7106652693965186304}
   m_RootOrder: 1
@@ -4635,9 +4636,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Pierce
-
-'
+  m_Text: SHATTER
 --- !u!114 &7814345675754536960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4951,6 +4950,7 @@ MonoBehaviour:
   announcer: {fileID: 7134285793664820700}
   counter: {fileID: 8300000, guid: 030a0200aa28c4542944cbba2d1b2dd1, type: 3}
   pierce: {fileID: 8300000, guid: 5b816e9340affb449adff030546c7ef8, type: 3}
+  shatter: {fileID: 8300000, guid: b6c4929bfc2e32f478e9879a86c0b358, type: 3}
 --- !u!82 &7134285793664820700
 AudioSource:
   m_ObjectHideFlags: 0

@@ -204,17 +204,6 @@ public class AttackHandlerACH : MonoBehaviour
         currentState = anim.GetCurrentAnimatorStateInfo(0);
         anim.ResetTrigger(IDRec);
 
-        if (RoundManager.gameActive && !RoundManager.lockInputs)
-        {
-            Move.playing = true;
-            Move.opponent.GetComponent<MovementHandler>().playing = true;
-        }
-        else if (!RoundManager.gameActive && RoundManager.lockInputs)
-        {
-            Move.playing = false;
-            Move.opponent.GetComponent<MovementHandler>().playing = false;
-        }
-
         if (Move.HitDetect.hitStun > 0)
         {
             anim.ResetTrigger(ID5L);
@@ -298,13 +287,13 @@ public class AttackHandlerACH : MonoBehaviour
 
 
         //record buttons pressed
-        if (MaxInput.GetButtonDown(Light))
+        if (MaxInput.GetButtonDown(Light) && !anim.GetCurrentAnimatorStateInfo(0).IsName("ForsythiaAim"))
             lightButton = bufferTime;
         if (MaxInput.GetButtonDown(Medium))
             mediumButton = bufferTime;
         if (MaxInput.GetButtonDown(Heavy))
             heavyButton = bufferTime;
-        if (MaxInput.GetButtonDown(Break))
+        if (MaxInput.GetButtonDown(Break) && !anim.GetCurrentAnimatorStateInfo(0).IsName("ForsythiaAim"))
             breakButton = bufferTime;
         if (MaxInput.GetButtonDown(LM))
         {

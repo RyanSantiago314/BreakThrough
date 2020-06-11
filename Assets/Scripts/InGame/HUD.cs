@@ -666,7 +666,12 @@ public class HUD : MonoBehaviour
         Player2Combo.rectTransform.anchoredPosition = Vector2.Lerp(Player2Combo.rectTransform.anchoredPosition, P2ComboPos, 40 * Time.deltaTime);
         Player2Hits.rectTransform.anchoredPosition = Vector2.Lerp(Player2Hits.rectTransform.anchoredPosition, P2HitsPos, 40 * Time.deltaTime);
 
-        if (P1hit.pierceSuccess)
+        if (P1hit.shatterSuccess)
+        {
+            P1SpecialHit.SetTrigger("ShatterP1");
+            P1hit.shatterSuccess = false;
+        }
+        else if (P1hit.pierceSuccess)
         {
             P1SpecialHit.SetTrigger("Pierce");
             P1hit.pierceSuccess = false;
@@ -676,8 +681,12 @@ public class HUD : MonoBehaviour
             P1SpecialHit.SetTrigger("Counter");
             P1hit.counterSuccess = false;
         }
-
-        if (P2hit.pierceSuccess)
+        if (P2hit.shatterSuccess)
+        {
+            P2SpecialHit.SetTrigger("ShatterP2");
+            P2hit.shatterSuccess = false;
+        }
+        else if (P2hit.pierceSuccess)
         {
             P2SpecialHit.SetTrigger("Pierce");
             P2hit.pierceSuccess = false;
