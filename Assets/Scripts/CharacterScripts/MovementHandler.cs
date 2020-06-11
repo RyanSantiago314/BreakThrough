@@ -285,10 +285,11 @@ public class MovementHandler : MonoBehaviour
                         sigil.transform.eulerAngles = new Vector3(75, 0, 0);
                     }
 
-                    Actions.EnableAll();
+                    Actions.DisableAll();
                     pushBox.isTrigger = true;
                     jumps++;
                     jumping = .3f;
+                    Actions.recovering = true;
 
 
                     if (MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
@@ -501,6 +502,8 @@ public class MovementHandler : MonoBehaviour
                 pushBox.isTrigger = false;
                 if (currentState.IsName("HitAir") || currentState.IsName("LaunchFall") || currentState.IsName("Unstick"))
                     anim.SetTrigger(KDID);
+                else if (Actions.landingLag > 0)
+                    Actions.DisableAll();
             }
         }
         else if (collision.collider.CompareTag("Wall"))

@@ -918,6 +918,7 @@ public class HitboxACH : MonoBehaviour
         if (HitDetect.OpponentDetector.Actions.attacking || HitDetect.OpponentDetector.Actions.active || HitDetect.OpponentDetector.Actions.recovering)
         {
             HitDetect.allowWallStick = true;
+            HitDetect.allowGroundBounce = true;
             HitDetect.potentialKnockBack = new Vector2(3.5f, 2.5f);
         }
         else

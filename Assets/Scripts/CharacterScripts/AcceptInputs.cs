@@ -103,7 +103,7 @@ public class AcceptInputs : MonoBehaviour
         else
             sprite.sortingOrder = 1;
 
-        if (landingLag > 0)
+        if (landingLag > 0 && !airborne)
         {
             DisableAll();
             StopAttacking();
@@ -238,8 +238,7 @@ public class AcceptInputs : MonoBehaviour
     }
     public void EnableAll()
     {
-        if (landingLag <= 0)
-        {
+        if (airborne ||(landingLag <= 0 && !airborne))
             acceptMove = true;
             acceptGuard = true;
             acceptLight = true;
@@ -266,7 +265,6 @@ public class AcceptInputs : MonoBehaviour
             lowCounter = false;
             hiInvincible = false;
             lowInvincible = false;
-        }
     }
 
     public void Attacking()
@@ -346,7 +344,7 @@ public class AcceptInputs : MonoBehaviour
 
     public void SetLandLag(float x)
     {
-        landingLag = x/60;
+        landingLag += x/60;
         anim.SetFloat(landLagID, landingLag);
     }
 
