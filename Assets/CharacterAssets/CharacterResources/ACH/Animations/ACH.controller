@@ -776,6 +776,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Forsythia
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Airborne
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1369673243993941595}
   m_Solo: 0

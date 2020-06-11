@@ -29,17 +29,17 @@ AnimationClip:
       value: {fileID: 21300000, guid: 97355ba19b676f04b8a8f71f5fbf219e, type: 3}
     - time: 0.26666668
       value: {fileID: 21300000, guid: 55fe832077a626b40b0584c75dba06e7, type: 3}
-    - time: 0.33333334
+    - time: 0.31666666
       value: {fileID: 21300000, guid: a5731edb0771b7b4ca4073614a5ec234, type: 3}
-    - time: 0.38333333
+    - time: 0.35
       value: {fileID: 21300000, guid: d788f50fbb6e93d4c960a962ae478bf7, type: 3}
-    - time: 0.43333334
+    - time: 0.38333333
       value: {fileID: 21300000, guid: b53a874e2938fe943919bb9692ba250b, type: 3}
-    - time: 0.48333332
+    - time: 0.43333334
       value: {fileID: 21300000, guid: 843a10001b54f4b4c822d5206b2714d9, type: 3}
-    - time: 0.56666666
+    - time: 0.51666665
       value: {fileID: 21300000, guid: 484fcf46ac989164c86b4d9b28dd9be6, type: 3}
-    - time: 0.65
+    - time: 0.6
       value: {fileID: 21300000, guid: 54e43f18129345045929d34df2c64f12, type: 3}
     - time: 0.78333336
       value: {fileID: 21300000, guid: a18d06ab917210049bd3221b16c8453a, type: 3}
@@ -144,7 +144,7 @@ AnimationClip:
     functionName: Advance
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 4.5
+    floatParameter: 4.75
     intParameter: 0
     messageOptions: 0
   - time: 0.083333336
@@ -175,7 +175,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.41666666
+  - time: 0.36666667
     functionName: SummonLHEffect
     data: 
     objectReferenceParameter: {fileID: 0}

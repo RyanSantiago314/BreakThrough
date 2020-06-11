@@ -37,7 +37,6 @@ public class MovementHandler : MonoBehaviour
     public int justDefenseTime = 5;
     public bool hittingWall = false;
     public bool hittingBound = false;
-    public bool playing;
 
     float inputTime = 0.3f;
     float runInputTime = 0.3f;
@@ -186,7 +185,7 @@ public class MovementHandler : MonoBehaviour
                 facingRight = true;
         }
 
-        if (anim.GetBool(KOID) || !playing)
+        if (anim.GetBool(KOID) || RoundManager.lockInputs)
         {
             anim.SetBool(crouchID, false);
             anim.SetBool(walkFID, false);
@@ -240,7 +239,7 @@ public class MovementHandler : MonoBehaviour
             Actions.airborne = true;
         }
 
-        if (playing && !HitDetect.pauseScreen.isPaused)
+        if (RoundManager.gameActive && !RoundManager.lockInputs && !HitDetect.pauseScreen.isPaused)
         {
             if (HitDetect.hitStop <= 0)
             {

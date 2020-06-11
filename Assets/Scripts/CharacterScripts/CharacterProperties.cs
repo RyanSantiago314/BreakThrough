@@ -69,8 +69,6 @@ public class CharacterProperties : MonoBehaviour
 
                 HitDetect.Actions.DisableAll();
                 HitDetect.Actions.DisableBlitz();
-                HitDetect.Actions.Move.playing = false;
-                HitDetect.Actions.Move.opponent.GetComponent<MovementHandler>().playing = false;
                 HitDetect.Actions.Move.OpponentProperties.HitDetect.anim.SetBool(crouchID, false);
             }           
         }

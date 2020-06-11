@@ -69,6 +69,7 @@ public class HitDetector : MonoBehaviour
 
     public bool pierceSuccess;
     public bool counterSuccess;
+    public bool shatterSuccess;
 
     public bool slash = false;
     public bool vertSlash = false;
@@ -537,6 +538,8 @@ public class HitDetector : MonoBehaviour
                         //trigger shatter effect
                         OpponentDetector.anim.SetTrigger(shatterID);
                         OpponentDetector.Actions.shattered = true;
+                        if (!forceShatter)
+                            shatterSuccess = true;
                         Debug.Log("SHATTERED");
                         //damage, hitstun, etc.
                         specialProration *= 1.1f;
