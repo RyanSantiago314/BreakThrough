@@ -442,7 +442,7 @@ public class RoundManager : MonoBehaviour
 
     public void PostGameMenuControl()
     {
-        if(postGameMenuOpen == 1)
+        if(postGameMenuOpen == 1 && p1menu.activeSelf)
         {
             if (vertical < 0)
             {
@@ -465,7 +465,7 @@ public class RoundManager : MonoBehaviour
                 ReplayGame();
             }
         }
-        else if(postGameMenuOpen == 2)
+        else if(postGameMenuOpen == 2 && p2menu.activeSelf)
         {
             if (vertical2 < 0)
             {
