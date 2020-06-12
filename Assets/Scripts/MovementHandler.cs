@@ -189,10 +189,6 @@ public class MovementHandler : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if(photonView.IsMine == false && PhotonNetwork.IsConnected == true)
-        {
-            return;
-        }
         
         Debug.Log("netBool MovementHandler: " + netBool.allPlayersInstantiated);
         if (runOnce && netBool.allPlayersInstantiated)//if all players in run once.
@@ -201,6 +197,14 @@ public class MovementHandler : MonoBehaviourPunCallbacks
             Init();
             Debug.Log("MovementHandler lateStart");
         }
+        
+        
+        if(photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
+        
+        
         
         currentState = anim.GetCurrentAnimatorStateInfo(0);
         anim.SetFloat(yVeloID, rb.velocity.y);
