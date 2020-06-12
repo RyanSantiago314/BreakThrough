@@ -85,7 +85,7 @@ public class MovementHandler : MonoBehaviourPunCallbacks
 
 
     private NetworkInstantiate netBool;
-    public bool networkInit = true;
+    private bool networkInit = true;
 
    
 
