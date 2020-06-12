@@ -264,7 +264,6 @@ MonoBehaviour:
   Horizontal: Horizontal_P1
   Vertical: Vertical_P1
   L3: L3_P1
-  networkInit: 0
 --- !u!114 &5672348969353512145
 MonoBehaviour:
   m_ObjectHideFlags: 0

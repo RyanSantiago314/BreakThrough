@@ -85,7 +85,7 @@ public class MovementHandler : MonoBehaviourPunCallbacks
 
 
     private NetworkInstantiate netBool;
-    private bool networkInit = true;
+    private bool runOnce = true;
 
    
 
@@ -95,10 +95,12 @@ public class MovementHandler : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             netBool = GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>();
+            Debug.Log("Netbool Set: Movement Handler");
         }
         else
         {
             netBool = GameObject.Find("Player2").GetComponentInChildren<NetworkInstantiate>();
+            Debug.Log("Netbool Set: Movement Handler");
         }
         
         //Original system to use in original Training Stage
@@ -191,10 +193,11 @@ public class MovementHandler : MonoBehaviourPunCallbacks
         {
             return;
         }
-
-        if (networkInit && netBool.allPlayersInstantiated)//if all players in run once.
+        
+        Debug.Log("netBool MovementHandler: " + netBool.allPlayersInstantiated);
+        if (runOnce && netBool.allPlayersInstantiated)//if all players in run once.
         {
-            networkInit = false;
+            runOnce = false;
             Init();
             Debug.Log("MovementHandler lateStart");
         }
