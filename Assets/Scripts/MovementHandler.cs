@@ -192,18 +192,12 @@ public class MovementHandler : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(photonView.IsMine);
+        /*Debug.Log(photonView.IsMine);
         //Only local players need to be re initialized.
         if (photonView.IsMine)
         {
             
-            if (runOnce && netBool.allPlayersInstantiated)//if all players in run once.
-            {    //This doesn't run, only on this script. I think ther is something wrong with the photonView we use.
-                Debug.Log("runOnce MovementHandler: " + runOnce);
-                runOnce = false;
-                Init();
-                Debug.Log("MovementHandler lateStart");
-            }
+            
         }
         
         
@@ -211,6 +205,14 @@ public class MovementHandler : MonoBehaviourPunCallbacks
         {
             Debug.Log("PhotonView, not mine"); //this should print if our photon view is actually used.
             return;
+        }*/
+        
+        if (runOnce && netBool.allPlayersInstantiated)//if all players in run once.
+        {    //This doesn't run, only on this script. I think ther is something wrong with the photonView we use.
+            Debug.Log("runOnce MovementHandler: " + runOnce);
+            runOnce = false;
+            Init();
+            Debug.Log("MovementHandler lateStart");
         }
         
         
@@ -368,10 +370,10 @@ public class MovementHandler : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-        if(photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        /*if(photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
             return;
-        }
+        }*/
         //walking
         if(anim.GetBool(walkFID) && !anim.GetBool(crouchID))
         {
