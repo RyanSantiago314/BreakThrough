@@ -190,17 +190,23 @@ public class MovementHandler : MonoBehaviourPunCallbacks
     void Update()
     {
         
-        Debug.Log("netBool MovementHandler: " + netBool.allPlayersInstantiated);
-        if (runOnce && netBool.allPlayersInstantiated)//if all players in run once.
+        //Only local players need to be re initialized.
+        if (photonView.IsMine)
         {
-            runOnce = false;
-            Init();
-            Debug.Log("MovementHandler lateStart");
+            
+            if (runOnce && netBool.allPlayersInstantiated)//if all players in run once.
+            {
+                Debug.Log("runOnce MovementHandler: " + runOnce);
+                runOnce = false;
+                Init();
+                Debug.Log("MovementHandler lateStart");
+            }
         }
         
         
         if(photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
+            
             return;
         }
         
