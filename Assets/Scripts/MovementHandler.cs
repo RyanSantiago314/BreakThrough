@@ -95,13 +95,16 @@ public class MovementHandler : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             netBool = GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>();
-            Debug.Log("Netbool Set: Movement Handler");
+            Debug.Log("Netbool Set: Movement Handler for P1");
         }
         else
         {
             netBool = GameObject.Find("Player2").GetComponentInChildren<NetworkInstantiate>();
-            Debug.Log("Netbool Set: Movement Handler");
+            Debug.Log("Netbool Set: Movement Handler for P2");
         }
+
+        
+        
         
         //Original system to use in original Training Stage
         if (SceneManager.GetActiveScene().name == "TrainingStage")
@@ -189,13 +192,13 @@ public class MovementHandler : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log(photonView.IsMine);
         //Only local players need to be re initialized.
         if (photonView.IsMine)
         {
             
             if (runOnce && netBool.allPlayersInstantiated)//if all players in run once.
-            {
+            {    //This doesn't run, only on this script. I think ther is something wrong with the photonView we use.
                 Debug.Log("runOnce MovementHandler: " + runOnce);
                 runOnce = false;
                 Init();
@@ -204,9 +207,9 @@ public class MovementHandler : MonoBehaviourPunCallbacks
         }
         
         
-        if(photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        if(photonView.IsMine == false && PhotonNetwork.IsConnected == true) //I'm actually questioning if we need this.
         {
-            
+            Debug.Log("PhotonView, not mine"); //this should print if our photon view is actually used.
             return;
         }
         
