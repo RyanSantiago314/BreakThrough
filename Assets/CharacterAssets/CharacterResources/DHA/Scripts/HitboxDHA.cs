@@ -26,6 +26,7 @@ public class HitboxDHA : MonoBehaviour
     int hitStopLv4 = 11;
 
     public int sinCharge; // variable used to charge/enhance break attacks, unique to DHA
+    int sinBoost;
 
 
     void Start()
@@ -37,8 +38,16 @@ public class HitboxDHA : MonoBehaviour
     {
         if (HitDetect.hit)
         {
+            if (sinBoost > 0)
+            {
+                sinCharge += sinBoost;
+                HitDetect.anim.SetInteger("SinCharge", sinCharge);
+                sinBoost = 0;
+            }
             ClearHitBox();
             HitDetect.hit = false;
+
+            
         }
 
         if (HitDetect.hitStun > 0)
@@ -993,7 +1002,7 @@ public class HitboxDHA : MonoBehaviour
             HitDetect.damage = 150;
             HitDetect.durabilityDamage = 0;
             HitDetect.potentialKnockBack = new Vector2(-.5f, 3f);
-            HitDetect.potentialHitStun = 36;
+            HitDetect.potentialHitStun = 48;
             HitDetect.potentialHitStop = hitStopLv4;
             HitDetect.initialProration = 1.1f;
             HitDetect.attackLevel = 5;
@@ -1221,7 +1230,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialKnockBack = new Vector2(1f, 0f);
         HitDetect.potentialAirKnockBack = new Vector2(2.75f, 1f);
-        HitDetect.forcedProration = 1.15f;
+        HitDetect.forcedProration = 1.2f;
         if (HitDetect.OpponentDetector.Actions.standing)
             HitDetect.potentialHitStun = 16;
         else
@@ -1352,6 +1361,65 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.allowSuper = true;
     }
 
+    void RVHit1()
+    {
+        sinBoost = 1;
+
+        ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
+        hit1.enabled = true;
+        hit2.enabled = true;
+
+        hit1.offset = new Vector2(.66f, .4f);
+        hit1.size = new Vector2(.36f, .74f);
+        hit2.offset = new Vector2(.57f, -.08f);
+        hit2.size = new Vector2(.25f, .76f);
+
+        HitDetect.damage = 70;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 0;
+        HitDetect.potentialHitStun = hitStunLv4;
+        HitDetect.potentialHitStop = hitStopLv2;
+        HitDetect.potentialKnockBack = new Vector2(1.2f, 3f);
+        HitDetect.attackLevel = 5;
+        HitDetect.guard = "Mid";
+
+        HitDetect.piercing = true;
+        HitDetect.usingSpecial = true;
+        HitDetect.allowSuper = true;
+    }
+
+    void RVHit2()
+    {
+        ClearHitBox();
+        HitDetect.Actions.AttackActive();
+
+        hit1.enabled = true;
+        hit2.enabled = true;
+        hit3.enabled = true;
+
+        hit1.offset = new Vector2(.4f, .87f);
+        hit1.size = new Vector2(.82f, .75f);
+        hit2.offset = new Vector2(.75f, .51f);
+        hit2.size = new Vector2(.61f, .69f);
+        hit3.offset = new Vector2(.79f, -.02f);
+        hit3.size = new Vector2(.28f, .56f);
+
+        HitDetect.damage = 50;
+        HitDetect.armorDamage = 0;
+        HitDetect.durabilityDamage = 100;
+        HitDetect.potentialHitStun = 24;
+        HitDetect.potentialHitStop = hitStopLv4;
+        HitDetect.potentialKnockBack = new Vector2(1.5f, 3.5f);
+        HitDetect.attackLevel = 5;
+        HitDetect.guard = "Mid";
+
+        HitDetect.launch = true;
+        HitDetect.usingSpecial = true;
+        HitDetect.allowSuper = true;
+    }
+
     void BCWeakCharge()
     {
         ClearHitBox();
@@ -1438,7 +1506,7 @@ public class HitboxDHA : MonoBehaviour
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialHitStun = 600;
         HitDetect.potentialHitStop = 24;
-        HitDetect.potentialKnockBack = new Vector2(.7f, 8f);
+        HitDetect.potentialKnockBack = new Vector2(.7f, 7.5f);
         HitDetect.initialProration = .7f;
         HitDetect.forcedProration = .75f;
         HitDetect.attackLevel = 10;

@@ -183,7 +183,7 @@ public class HurtboxACH : MonoBehaviour
         legs1.offset = new Vector2(0f, -.1f);
         legs1.size = new Vector2(.44f, .69f);
         legs2.offset = new Vector2(-0.04f, -.695f);
-        legs2.size = new Vector2(.23f, .53f);
+        legs2.size = new Vector2(.35f, .53f);
     }
 
     public void SweepHit()

@@ -204,7 +204,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 21.666666, y: 24.333334}
+  m_Size: {x: 20.2, y: 22.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -379,7 +379,6 @@ MonoBehaviour:
   justDefenseTime: 6
   hittingWall: 0
   hittingBound: 0
-  playing: 0
   wallStickTimer: 0
   jumping: 0
   backDash: 0
@@ -1557,6 +1556,7 @@ MonoBehaviour:
   disableBlitz: 0
   pierceSuccess: 0
   counterSuccess: 0
+  shatterSuccess: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0

@@ -164,7 +164,7 @@ AnimationClip:
     functionName: Rise
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 4
+    floatParameter: 3.85
     intParameter: 0
     messageOptions: 0
   - time: 0.15
@@ -192,7 +192,7 @@ AnimationClip:
     functionName: SetLandLag
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 12
+    floatParameter: 8
     intParameter: 0
     messageOptions: 0
   - time: 0.23333333

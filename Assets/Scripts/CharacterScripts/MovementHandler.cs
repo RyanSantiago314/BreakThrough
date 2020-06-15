@@ -125,7 +125,6 @@ public class MovementHandler : MonoBehaviour
             }
             OpponentProperties = opponent.GetComponent<CharacterProperties>();
         }
-        //
         Application.targetFrameRate = 60;
 
         pushBox.enabled = true;
@@ -176,6 +175,9 @@ public class MovementHandler : MonoBehaviour
             transform.position = new Vector3(-9.935f, transform.position.y, transform.position.z);
         else if (transform.position.x > 9.935f && !Actions.grabbed)
             transform.position = new Vector3(9.935f, transform.position.y, transform.position.z);
+
+        if(transform.position.y < 1.3f && Actions.landingLag > 0)
+            Actions.DisableAll();
 
         if (Actions.acceptMove && Actions.standing)
         {
@@ -285,7 +287,6 @@ public class MovementHandler : MonoBehaviour
                         sigil.transform.eulerAngles = new Vector3(75, 0, 0);
                     }
 
-                    Actions.DisableAll();
                     pushBox.isTrigger = true;
                     jumps++;
                     jumping = .3f;
@@ -305,6 +306,7 @@ public class MovementHandler : MonoBehaviour
 
 
                     vertAxisInUse = true;
+                    Actions.DisableAll();
                 }
             }
         }
@@ -375,26 +377,12 @@ public class MovementHandler : MonoBehaviour
 
             anim.SetTrigger(jumpID);
             Actions.TurnAroundCheck();
-            if(Actions.airborne)
+            if (!Actions.airborne && !anim.GetBool(runID))
                 rb.velocity = new Vector2(0, 0);
             else
-                rb.velocity = new Vector2(.5f * rb.velocity.x, 0);
+                rb.velocity = new Vector2(.55f * rb.velocity.x, 0);
             Actions.airborne = true;
             Actions.standing = false;
-
-            if (MaxInput.GetAxis(Horizontal) > 0 && !anim.GetBool(runID))
-            {
-                jumpRight = true;
-                sigil.transform.eulerAngles = new Vector3(60, -40, 0);
-            }
-            else if (MaxInput.GetAxis(Horizontal) < 0 && !anim.GetBool(runID))
-            {
-                jumpLeft = true;
-                sigil.transform.eulerAngles = new Vector3(60, 40, 0);
-            }
-
-            if(!anim.GetBool(runID))
-                rb.velocity = new Vector2(0, rb.velocity.y);
 
             if (jumpRight)
             {
@@ -412,7 +400,6 @@ public class MovementHandler : MonoBehaviour
             jumping = 0;
             jumpRight = false;
             jumpLeft = false;
-            Actions.EnableAll();
             Actions.airborne = true;
         }
         else
@@ -501,9 +488,7 @@ public class MovementHandler : MonoBehaviour
                 jumps = 0;
                 pushBox.isTrigger = false;
                 if (currentState.IsName("HitAir") || currentState.IsName("LaunchFall") || currentState.IsName("Unstick"))
-                    anim.SetTrigger(KDID);
-                else if (Actions.landingLag > 0)
-                    Actions.DisableAll();
+                    anim.SetTrigger(KDID);     
             }
         }
         else if (collision.collider.CompareTag("Wall"))
@@ -633,39 +618,27 @@ public class MovementHandler : MonoBehaviour
         if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
             //keeps characters from intersecting and occupying the same space
-            if (!Actions.airborne && opponentMove.Actions.airborne  && opponentMove.rb.velocity.y < 0) //&& !hittingWall
+            if (!Actions.airborne && opponentMove.Actions.airborne  && opponentMove.rb.velocity.y <= 0)
             {
                 if (opponent.position.x > transform.position.x)
                 {
-                    if (transform.position.x + .5f * pushBox.size.x > opponent.position.x - .5f * opponentMove.pushBox.size.x)
-                    {
                         float translateX = (transform.position.x + .51f * pushBox.size.x) - (opponent.position.x - .51f * opponentMove.pushBox.size.x);
                         transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
-                    }
                 }
                 else if (opponent.position.x < transform.position.x)
                 {
-                    if (transform.position.x - .5f * pushBox.size.x < opponent.position.x + .5f * opponentMove.pushBox.size.x)
-                    {
                         float translateX = (transform.position.x - .51f * pushBox.size.x) - (opponent.position.x + .51f * opponentMove.pushBox.size.x);
                         transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
-                    }
                 }
                 else if (facingRight)
                 {
-                    if (transform.position.x - .5f * pushBox.size.x < opponent.position.x + .5f * opponentMove.pushBox.size.x)
-                    {
                         float translateX = (transform.position.x - .51f * pushBox.size.x) - (opponent.position.x + .51f * opponentMove.pushBox.size.x);
                         transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
-                    }
                 }
                 else
                 {
-                    if (transform.position.x + .5f * pushBox.size.x > opponent.position.x - .5f * opponentMove.pushBox.size.x)
-                    {
                         float translateX = (transform.position.x + .51f * pushBox.size.x) - (opponent.position.x - .51f * opponentMove.pushBox.size.x);
                         transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
-                    }
                 }
             }
             else if (Actions.airborne && opponentMove.Actions.airborne && ((HitDetect.OpponentDetector.hitStun <= 0 && HitDetect.hitStun <= 0)||(HitDetect.OpponentDetector.hitStun != 0 && HitDetect.hitStun <= 0)))
@@ -741,6 +714,29 @@ public class MovementHandler : MonoBehaviour
                 if (((opponent.position.x > transform.position.x && facingRight)|| (opponent.position.x < transform.position.x && !facingRight)) && rb.velocity.y < 0)
                 {
                     rb.velocity = new Vector2(0, rb.velocity.y);
+                }
+            }
+            else if (!Actions.airborne && opponentMove.Actions.airborne && opponentMove.rb.velocity.y <= 0)
+            {
+                if (opponent.position.x > transform.position.x)
+                {
+                        float translateX = (transform.position.x + .51f * pushBox.size.x) - (opponent.position.x - .51f * opponentMove.pushBox.size.x);
+                        transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
+                }
+                else if (opponent.position.x < transform.position.x)
+                {
+                        float translateX = (transform.position.x - .51f * pushBox.size.x) - (opponent.position.x + .51f * opponentMove.pushBox.size.x);
+                        transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
+                }
+                else if (facingRight)
+                {
+                    float translateX = (transform.position.x - .51f * pushBox.size.x) - (opponent.position.x + .51f * opponentMove.pushBox.size.x);
+                    transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
+                }
+                else
+                {
+                    float translateX = (transform.position.x + .51f * pushBox.size.x) - (opponent.position.x - .51f * opponentMove.pushBox.size.x);
+                    transform.position = new Vector3(transform.position.x - translateX, transform.position.y, transform.position.z);
                 }
             }
             else

@@ -781,7 +781,6 @@ public class HitDetector : MonoBehaviour
             OpponentDetector.Actions.CharProp.refill = true;
             OpponentDetector.Actions.CharProp.comboTimer = 5;
             forceCrouch = true;
-            specialProration = .55f;
         }
         if(Actions.Move.OpponentProperties.armor < 0 && !grab && !piercing)
         {

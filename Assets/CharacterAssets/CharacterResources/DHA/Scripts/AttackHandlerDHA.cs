@@ -44,6 +44,7 @@ public class AttackHandlerDHA : MonoBehaviour
     float breakButton;
     float QCF;
     float QCB;
+    float DP;
     float HCB;
 
     //directional variables using numpad notation
@@ -73,6 +74,7 @@ public class AttackHandlerDHA : MonoBehaviour
     private int FLx = 2;
     private bool FLF = true;
     private bool FB = true;
+    private bool RushVelvet = true;
 
     static int ID5L;
     static int ID2L;
@@ -92,6 +94,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int IDPatissiere;
     static int IDHeadRush;
     static int IDBasketCase;
+    static int IDRushVelvet;
     static int IDToaster;
     static int IDSabre;
 
@@ -131,6 +134,7 @@ public class AttackHandlerDHA : MonoBehaviour
         IDPatissiere = Animator.StringToHash("Patissiere");
         IDHeadRush = Animator.StringToHash("HeadRush");
         IDBasketCase = Animator.StringToHash("BasketCase");
+        IDRushVelvet = Animator.StringToHash("RushVelvet");
 
         IDToaster = Animator.StringToHash("Toaster");
         IDSabre = Animator.StringToHash("JudgmentSabre");
@@ -278,6 +282,8 @@ public class AttackHandlerDHA : MonoBehaviour
             QCB -= Time.deltaTime;
         if (HCB > 0)
             HCB -= Time.deltaTime;
+        if (DP > 0)
+            DP -= Time.deltaTime;
 
 
         //record buttons pressed
@@ -312,6 +318,7 @@ public class AttackHandlerDHA : MonoBehaviour
         QCFCheck();
         QCBCheck();
         HCBCheck();
+        DPCheck();
 
         //record directional input
         //float dir# corresponds to numpad notation for character facing to the right
@@ -467,7 +474,7 @@ public class AttackHandlerDHA : MonoBehaviour
                     Move.rb.velocity = Vector2.zero;
                 else
                     Move.rb.velocity = new Vector2(0, Move.rb.velocity.y);
-                    Move.rb.AddForce(new Vector2(-2.7f, 0), ForceMode2D.Impulse);
+                Move.rb.AddForce(new Vector2(-2.7f, 0), ForceMode2D.Impulse);
             }
             else if (Actions.airborne && MaxInput.GetAxis(Horizontal) > 0)
             {
@@ -475,7 +482,7 @@ public class AttackHandlerDHA : MonoBehaviour
                     Move.rb.velocity = Vector2.zero;
                 else
                     Move.rb.velocity = new Vector2(0, Move.rb.velocity.y);
-                    Move.rb.AddForce(new Vector2(2.7f, 0), ForceMode2D.Impulse);
+                Move.rb.AddForce(new Vector2(2.7f, 0), ForceMode2D.Impulse);
             }
 
             if (Move.HitDetect.comboCount > 0)
@@ -484,13 +491,13 @@ public class AttackHandlerDHA : MonoBehaviour
             //cost for executing blitz cancel
             CharProp.armor--;
             CharProp.durability = 70;
-            blitzActive = 5f/60f;
+            blitzActive = 5f / 60f;
             CharProp.durabilityRefillTimer = 0;
             heavyButton = 0;
             mediumButton = 0;
         }
         //a maneuver done while blocking that knocks back the opponent
-        else if (Move.HitDetect.blockStun > 0 && CharProp.armor >= 1 && Actions.standing &&  Move.HitDetect.hitStop <= 0 && 
+        else if (Move.HitDetect.blockStun > 0 && CharProp.armor >= 1 && Actions.standing && Move.HitDetect.hitStop <= 0 &&
             dir6 > 0 && heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f)
         {
             anim.SetTrigger(IDGuardCancel);
@@ -501,267 +508,258 @@ public class AttackHandlerDHA : MonoBehaviour
             heavyButton = 0;
             mediumButton = 0;
         }
-        // basic throw performed by pressing both light and break attack
-        else if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0)
+        else if (!(Actions.landingLag > 0 && Actions.standing))
         {
-            Hitboxes.ClearHitBox();
-            if (Actions.standing)
+            // basic throw performed by pressing both light and break attack
+            if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0)
             {
-                anim.SetTrigger(IDThrow);
-                if (dir4 == directionBufferTime)
-                    Actions.backThrow = true;
-                else
-                    Actions.backThrow = false;
+                Hitboxes.ClearHitBox();
+                if (Actions.standing)
+                {
+                    anim.SetTrigger(IDThrow);
+                    if (dir4 == directionBufferTime)
+                        Actions.backThrow = true;
+                    else
+                        Actions.backThrow = false;
 
-                Actions.throwTech = true;
+                    Actions.throwTech = true;
+                }
             }
-        }
-        else if (Actions.acceptSuper && lightButton > 0 && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0 && CharProp.armor >= 2 && Actions.standing)
-        {
-            Move.jumping = 0;
-            Hitboxes.ClearHitBox();
-            // Judgment Sabre super attack, executed by doing a QCB and pressing L and M together
-            anim.SetTrigger(IDSabre);
-            CharProp.armor -= 2;
-            CharProp.durability = 70;
-            CharProp.durabilityRefillTimer = 0;
-            lightButton = 0;
-            mediumButton = 0;
-            QCB = 0;
-        }
-        else if (Actions.acceptSuper && heavyButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && CharProp.armor >= 2 && Actions.standing && !Toaster.activeSelf)
-        {
-            Move.jumping = 0;
-            Hitboxes.ClearHitBox();
-            // Toaster super attack, executed by doing a QCF and pressing H and B
-            anim.SetTrigger(IDToaster);
-            CharProp.armor -= 2;
-            CharProp.durability = 70;
-            CharProp.durabilityRefillTimer = 0;
-            breakButton = 0;
-            heavyButton = 0;
-            QCF = 0;
-        }
-        else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && Actions.standing)
-        {
-            Move.jumping = 0;
-            Hitboxes.ClearHitBox();
-            // Basket Case special attack, executed by doing a QCF and pressing B, can be used up to twice in succession
-            anim.SetTrigger(IDBasketCase);
-            Actions.TurnAroundCheck();
-            breakButton = 0;
-            QCF = 0;
-        }
-        else if (Actions.acceptSpecial && heavyButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0)
-        {
-            Move.jumping = 0;
-            Hitboxes.ClearHitBox();
-            // Blood Brave special attack, executed by doing a QCB and pressing H
-            anim.SetTrigger(IDBloodBrave);
-            Actions.TurnAroundCheck();
-            heavyButton = 0;
-            QCB = 0;
-        }
-        else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && HCB > 0 && Actions.standing)
-        {
-            Move.jumping = 0;
-            Hitboxes.ClearHitBox();
-
-            // Head Rush special attack, executed by doing a HCB and pressing M
-            anim.SetTrigger(IDHeadRush);
-            mediumButton = 0;
-            HCB = 0;
-        }
-        else if (Actions.acceptSpecial && lightButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && Actions.standing && !Projectile.activeSelf)
-        {
-            Move.jumping = 0;
-            Hitboxes.ClearHitBox();
-
-            // Patissiere projectile special attack, executed by doing a QCF and pressing L
-            anim.SetTrigger(IDPatissiere);
-            Actions.TurnAroundCheck();
-            lightButton = 0;
-            QCF = 0;
-        }
-        else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop <= 0)
-        {
-            //break attacks
-            if(Actions.standing)
+            else if (Actions.acceptSuper && lightButton > 0 && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0 && CharProp.armor >= 2 && Actions.standing)
             {
-                if(MaxInput.GetAxis(Vertical) < 0)
+                Move.jumping = 0;
+                Hitboxes.ClearHitBox();
+                // Judgment Sabre super attack, executed by doing a QCB and pressing L and M together
+                anim.SetTrigger(IDSabre);
+                CharProp.armor -= 2;
+                CharProp.durability = 70;
+                CharProp.durabilityRefillTimer = 0;
+                lightButton = 0;
+                mediumButton = 0;
+                QCB = 0;
+            }
+            else if (Actions.acceptSuper && heavyButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && CharProp.armor >= 2 && Actions.standing && !Toaster.activeSelf)
+            {
+                Move.jumping = 0;
+                Hitboxes.ClearHitBox();
+                // Toaster super attack, executed by doing a QCF and pressing H and B
+                anim.SetTrigger(IDToaster);
+                CharProp.armor -= 2;
+                CharProp.durability = 70;
+                CharProp.durabilityRefillTimer = 0;
+                breakButton = 0;
+                heavyButton = 0;
+                QCF = 0;
+            }
+            else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && Actions.standing)
+            {
+                Move.jumping = 0;
+                Hitboxes.ClearHitBox();
+                // Basket Case special attack, executed by doing a QCF and pressing B, can be used up to twice in succession
+                anim.SetTrigger(IDBasketCase);
+                Actions.TurnAroundCheck();
+                breakButton = 0;
+                QCF = 0;
+            }
+            else if (Actions.acceptSpecial && heavyButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0)
+            {
+                Move.jumping = 0;
+                Hitboxes.ClearHitBox();
+                // Blood Brave special attack, executed by doing a QCB and pressing H
+                anim.SetTrigger(IDBloodBrave);
+                Actions.TurnAroundCheck();
+                heavyButton = 0;
+                QCB = 0;
+            }
+            else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && DP > 0 && Actions.airborne)
+            {
+                Move.jumping = 0;
+                Hitboxes.ClearHitBox();
+                RushVelvet = false;
+                // Rush Velvet special attack, executed by doing a DP and pressing M, can be used up to twice in succession
+                anim.SetTrigger(IDRushVelvet);
+                Actions.TurnAroundCheck();
+                mediumButton = 0;
+                DP = 0;
+            }
+            else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && HCB > 0 && Actions.standing)
+            {
+                Move.jumping = 0;
+                Hitboxes.ClearHitBox();
+
+                // Head Rush special attack, executed by doing a HCB and pressing M
+                anim.SetTrigger(IDHeadRush);
+                mediumButton = 0;
+                HCB = 0;
+            }
+            else if (Actions.acceptSpecial && lightButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && Actions.standing && !Projectile.activeSelf)
+            {
+                Move.jumping = 0;
+                Hitboxes.ClearHitBox();
+
+                // Patissiere projectile special attack, executed by doing a QCF and pressing L
+                anim.SetTrigger(IDPatissiere);
+                Actions.TurnAroundCheck();
+                lightButton = 0;
+                QCF = 0;
+            }
+            else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop <= 0)
+            {
+                //break attacks
+                if (Actions.standing)
                 {
-                    if(CrouchB)
+                    if (MaxInput.GetAxis(Vertical) < 0)
                     {
-                        anim.SetTrigger(ID2B);
-                        CrouchB = false;
-                        Actions.TurnAroundCheck();
+                        if (CrouchB)
+                        {
+                            anim.SetTrigger(ID2B);
+                            CrouchB = false;
+                            Actions.TurnAroundCheck();
+                        }
                     }
-                }
-                else if (dir6 == directionBufferTime)
-                {
-                    if (FB)
+                    else if (dir6 == directionBufferTime)
                     {
-                        anim.SetTrigger(ID6B);
-                        FB = false;
-                        anim.SetBool(runID, false);
+                        if (FB)
+                        {
+                            anim.SetTrigger(ID6B);
+                            FB = false;
+                            anim.SetBool(runID, false);
+                        }
+                    }
+                    else
+                    {
+                        if (StandB)
+                        {
+                            anim.SetTrigger(ID5B);
+                            StandB = false;
+                            Actions.TurnAroundCheck();
+                        }
                     }
                 }
                 else
                 {
-                    if(StandB)
+                    if (JumpB)
                     {
                         anim.SetTrigger(ID5B);
-                        StandB = false;
-                        Actions.TurnAroundCheck();
+                        JumpB = false;
                     }
                 }
+                breakButton = 0;
+                Hitboxes.ClearHitBox();
             }
-            else
+            else if (Actions.acceptHeavy && heavyButton > 0 && Move.HitDetect.hitStop <= 0)
             {
-                if(JumpB)
+                //heavy attacks
+                if (Actions.standing)
                 {
-                    anim.SetTrigger(ID5B);
-                    JumpB = false;
-                }
-            }
-            breakButton = 0;
-            Hitboxes.ClearHitBox();
-        }
-        else if (Actions.acceptHeavy && heavyButton > 0 && Move.HitDetect.hitStop <= 0)
-        {
-            //heavy attacks
-            if(Actions.standing)
-            {
-                if (MaxInput.GetAxis(Vertical) < 0)
-                {
-                    if (CrouchH)
+                    if (MaxInput.GetAxis(Vertical) < 0)
                     {
-                        anim.SetTrigger(ID2H);
-                        CrouchH = false;
+                        if (CrouchH)
+                        {
+                            anim.SetTrigger(ID2H);
+                            CrouchH = false;
+                        }
+                    }
+                    else
+                    {
+                        if (StandH)
+                        {
+                            anim.SetTrigger(ID5H);
+                            StandH = false;
+                        }
                     }
                 }
                 else
                 {
-                    if (StandH)
+                    if (JumpH1)
                     {
                         anim.SetTrigger(ID5H);
-                        StandH = false;
+                        JumpH1 = false;
                     }
-                }
-            }
-            else
-            {
-                if (JumpH1)
-                {
-                    anim.SetTrigger(ID5H);
-                    JumpH1 = false;
-                }
-               else if (JumpH2)
-                {
-                    anim.SetTrigger(ID5H2);
-                    JumpH2 = false;
-                }
-                else if (JumpH3)
-                {
-                    anim.SetTrigger(ID5H3);
-                    JumpH3 = false;
-                }
-                else if (JumpH4)
-                {
-                    anim.SetTrigger(ID5H4);
-                    JumpH4 = false;
-                }
-
-            }
-            heavyButton = 0;
-            Hitboxes.ClearHitBox();
-        }
-        else if (Actions.acceptMedium && mediumButton > 0 && Move.HitDetect.hitStop <= 0)
-        {
-            //medium attacks
-            if(Actions.standing)
-            {
-                if(MaxInput.GetAxis(Vertical) < 0)
-                {
-                    if(CrouchM)
-                    {
-                        anim.SetTrigger(ID2M);
-                        CrouchM = false;
-                    }
-                }
-                else
-                {
-                    if(StandM)
-                    {
-                        anim.SetTrigger(ID5M);
-                        StandM = false;
-                    }
-                }
-            }
-            else
-            {
-                if(JumpM)
-                {
-                    anim.SetTrigger(ID5M);
-                    JumpM = false;
-                }
-            }
-            mediumButton = 0;
-            Hitboxes.ClearHitBox();
-        }
-        else if (Actions.acceptLight && lightButton > 0 && Move.HitDetect.hitStop <= 0)
-        {
-            //light attacks
-            if(Actions.standing)
-            {
-                if(MaxInput.GetAxis(Vertical) < 0 && !(currentState.IsName("6Lx") || currentState.IsName("6LF")))
-                {
-                    if(CrouchL > 0)
-                    {
-                        if (StandL < 3)
-                            StandL = 0;
-                        anim.SetTrigger(ID2L);
-                        CrouchL--;
-                    }
-                }
-                else if (dir6 == directionBufferTime)
-                {
-                    if (FL)
-                    {
-                        anim.SetTrigger(ID6L);
-                        FL = false;
-                        anim.SetBool(runID, false);
-                    }
-                    else if (FLx == 2)
+                    else if (JumpH2)
                     {
                         anim.SetTrigger(ID5H2);
-                        FLx--;
+                        JumpH2 = false;
                     }
-                    else if (FLx == 1)
+                    else if (JumpH3)
                     {
                         anim.SetTrigger(ID5H3);
-                        FLx--;
+                        JumpH3 = false;
                     }
-                    else if (FLF)
+                    else if (JumpH4)
                     {
                         anim.SetTrigger(ID5H4);
-                        FLF = false;
+                        JumpH4 = false;
+                    }
+
+                }
+                heavyButton = 0;
+                Hitboxes.ClearHitBox();
+            }
+            else if (Actions.acceptMedium && mediumButton > 0 && Move.HitDetect.hitStop <= 0)
+            {
+                //medium attacks
+                if (Actions.standing)
+                {
+                    if (MaxInput.GetAxis(Vertical) < 0)
+                    {
+                        if (CrouchM)
+                        {
+                            anim.SetTrigger(ID2M);
+                            CrouchM = false;
+                        }
+                    }
+                    else
+                    {
+                        if (StandM)
+                        {
+                            anim.SetTrigger(ID5M);
+                            StandM = false;
+                        }
                     }
                 }
                 else
                 {
-                    if (currentState.IsName("6Lx"))
+                    if (JumpM)
                     {
-                        if (FLx > 0)
+                        anim.SetTrigger(ID5M);
+                        JumpM = false;
+                    }
+                }
+                mediumButton = 0;
+                Hitboxes.ClearHitBox();
+            }
+            else if (Actions.acceptLight && lightButton > 0 && Move.HitDetect.hitStop <= 0)
+            {
+                //light attacks
+                if (Actions.standing)
+                {
+                    if (MaxInput.GetAxis(Vertical) < 0 && !(currentState.IsName("6Lx") || currentState.IsName("6LF")))
+                    {
+                        if (CrouchL > 0)
                         {
-                            if (FLx == 2)
-                            {
-                                anim.SetTrigger(ID5H2);
-                            }
-                            else if (FLx < 2)
-                            {
-                                anim.SetTrigger(ID5H3);
-                            }
+                            if (StandL < 3)
+                                StandL = 0;
+                            anim.SetTrigger(ID2L);
+                            CrouchL--;
+                        }
+                    }
+                    else if (dir6 == directionBufferTime)
+                    {
+                        if (FL)
+                        {
+                            anim.SetTrigger(ID6L);
+                            FL = false;
+                            anim.SetBool(runID, false);
+                        }
+                        else if (FLx == 2)
+                        {
+                            anim.SetTrigger(ID5H2);
+                            FLx--;
+                        }
+                        else if (FLx == 1)
+                        {
+                            anim.SetTrigger(ID5H3);
                             FLx--;
                         }
                         else if (FLF)
@@ -770,25 +768,48 @@ public class AttackHandlerDHA : MonoBehaviour
                             FLF = false;
                         }
                     }
-                    else if (StandL > 0)
+                    else
                     {
-                        if (CrouchL < 3)
-                            CrouchL = 0;
-                        anim.SetTrigger(ID5L);
-                        StandL--;
+                        if (currentState.IsName("6Lx"))
+                        {
+                            if (FLx > 0)
+                            {
+                                if (FLx == 2)
+                                {
+                                    anim.SetTrigger(ID5H2);
+                                }
+                                else if (FLx < 2)
+                                {
+                                    anim.SetTrigger(ID5H3);
+                                }
+                                FLx--;
+                            }
+                            else if (FLF)
+                            {
+                                anim.SetTrigger(ID5H4);
+                                FLF = false;
+                            }
+                        }
+                        else if (StandL > 0)
+                        {
+                            if (CrouchL < 3)
+                                CrouchL = 0;
+                            anim.SetTrigger(ID5L);
+                            StandL--;
+                        }
                     }
                 }
-            }
-            else
-            {
-                if(JumpL > 0)
+                else
                 {
-                    anim.SetTrigger(ID5L);
-                    JumpL--;
+                    if (JumpL > 0)
+                    {
+                        anim.SetTrigger(ID5L);
+                        JumpL--;
+                    }
                 }
+                lightButton = 0;
+                Hitboxes.ClearHitBox();
             }
-            lightButton = 0;
-            Hitboxes.ClearHitBox();
         }
 
         // DHA character specific property, can charge Break attacks to make them more powerful
@@ -825,6 +846,7 @@ public class AttackHandlerDHA : MonoBehaviour
         FLx = 2;
         FLF = true;
         FB = true;
+        RushVelvet = true;
     }
 
     void QCFCheck()
@@ -848,6 +870,15 @@ public class AttackHandlerDHA : MonoBehaviour
             dir2 = 0;
             dir1 = 0;
             dir4 = 0;
+        }
+    }
+
+    void DPCheck()
+    {
+        //check if the player has executed a quarter circle back with the control stick
+        if (dir2 > 0 && dir3 > 0 && dir6 > 0 && dir3 > dir2 && dir2 > dir6)
+        {
+            DP = .15f;
         }
     }
 

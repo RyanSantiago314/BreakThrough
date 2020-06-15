@@ -49,6 +49,9 @@ public class HitboxACH : MonoBehaviour
             HitDetect.anim.SetInteger("SinCharge", sinCharge);
         }
 
+        if (HitDetect.currentState.IsName("ForsythiaAim") && !AttackHandler.ForsythiaReticle.activeSelf)
+            SummonReticle();
+
         AttackHandler.anim.SetInteger("Shots", AttackHandler.ForsythiaReticle.GetComponent<ProjectileProperties>().currentHits);
     }
 
@@ -369,7 +372,7 @@ public class HitboxACH : MonoBehaviour
         hit1.offset = new Vector2(1.43f, .51f);
         hit1.size = new Vector2(2.26f, .168f);
 
-        HitDetect.damage = 45;
+        HitDetect.damage = 55;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 100;
         HitDetect.potentialHitStun = hitStunLv3;
@@ -520,7 +523,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.potentialHitStun = hitStunLv4;
         HitDetect.potentialHitStop = hitStopLv3;
         HitDetect.potentialKnockBack = new Vector2(1.5f, 0f);
-        HitDetect.potentialAirKnockBack = new Vector2(1.5f, 2.5f);
+        HitDetect.potentialAirKnockBack = new Vector2(1.5f, 2.6f);
         HitDetect.attackLevel = 3;
         HitDetect.guard = "Overhead";
 
@@ -668,8 +671,8 @@ public class HitboxACH : MonoBehaviour
 
         HitDetect.damage = 40;
         HitDetect.durabilityDamage = 0;
-        HitDetect.potentialKnockBack = new Vector2(.5f, 3f);
-        HitDetect.potentialHitStun = hitStunLv4;
+        HitDetect.potentialKnockBack = new Vector2(.5f, 2.5f);
+        HitDetect.potentialHitStun = 24;
         HitDetect.potentialHitStop = hitStopLv2;
         if (HitDetect.OpponentDetector.Actions.armorActive)
             HitDetect.initialProration = .75f;
@@ -852,8 +855,8 @@ public class HitboxACH : MonoBehaviour
         HitDetect.damage = 115;
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 0;
-        HitDetect.potentialKnockBack = new Vector2(1.5f, 4.7f);
-        HitDetect.potentialHitStun = 75;
+        HitDetect.potentialKnockBack = new Vector2(1.5f, 5f);
+        HitDetect.potentialHitStun = 80;
         HitDetect.potentialHitStop = 15;
         HitDetect.attackLevel = 5;
         HitDetect.guard = "Mid";
@@ -939,14 +942,14 @@ public class HitboxACH : MonoBehaviour
         hit3.enabled = true;
         hit4.enabled = true;
 
-        hit1.offset = new Vector2(.67f, -.73f);
-        hit1.size = new Vector2(.29f, .385f);
+        hit1.offset = new Vector2(.65f, -.73f);
+        hit1.size = new Vector2(.39f, .385f);
         hit2.offset = new Vector2(.47f, -.45f);
-        hit2.size = new Vector2(.29f, .385f);
-        hit3.offset = new Vector2(.22f, -.16f);
-        hit3.size = new Vector2(.29f, .385f);
-        hit4.offset = new Vector2(0f, .14f);
-        hit4.size = new Vector2(.29f, .385f);
+        hit2.size = new Vector2(.39f, .385f);
+        hit3.offset = new Vector2(.27f, -.16f);
+        hit3.size = new Vector2(.5f, .385f);
+        hit4.offset = new Vector2(0.1f, .14f);
+        hit4.size = new Vector2(.56f, .385f);
 
         HitDetect.damage = 120;
         HitDetect.armorDamage = 0;

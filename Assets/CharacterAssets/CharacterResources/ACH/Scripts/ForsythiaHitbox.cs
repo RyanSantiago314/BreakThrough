@@ -207,8 +207,6 @@ public class ForsythiaHitbox : MonoBehaviour
             }
 
             PHitDetect.potentialAirKnockBack = PHitDetect.potentialKnockBack;
-            PHitDetect.initialProration = .85f;
-            PHitDetect.forcedProration = .85f;
             PHitDetect.attackLevel = 10;
             PHitDetect.guard = "Mid";
 

@@ -492,222 +492,225 @@ public class AttackHandlerACH : MonoBehaviour
             //cost for executing blitz cancel
             CharProp.armor--;
             CharProp.durability = 70;
-            blitzActive = 5f/60f;
+            blitzActive = 5f / 60f;
             CharProp.durabilityRefillTimer = 0;
             heavyButton = 0;
             mediumButton = 0;
         }
+        else if (!(Actions.landingLag > 0 && Actions.standing))
+        {
         // basic throw performed by pressing both light and break attack
-        else if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0)
-        {
-            Hitboxes.ClearHitBox();
-            if (Actions.standing)
+            if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0)
             {
-                anim.SetTrigger(IDThrow);
-                if (dir4 == directionBufferTime)
-                    Actions.backThrow = true;
-                else
-                    Actions.backThrow = false;
+                Hitboxes.ClearHitBox();
+                if (Actions.standing)
+                {
+                    anim.SetTrigger(IDThrow);
+                    if (dir4 == directionBufferTime)
+                        Actions.backThrow = true;
+                    else
+                        Actions.backThrow = false;
 
-                Actions.throwTech = true;
-            }
-        }
-        else if (Actions.acceptSuper && lightButton > 0 && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && CharProp.armor >= 2 && Actions.standing)
-        {
-            Move.jumping = 0;
-            Hitboxes.ClearHitBox();
-            // Forsythia Marduk super attack, executed by doing a QCF and pressing L and M together
-            anim.SetTrigger(IDForsythia);
-            CharProp.armor -= 2; 
-            CharProp.durability = 70;
-            CharProp.durabilityRefillTimer = 0;
-            lightButton = 0;
-            mediumButton = 0;
-            QCF = 0;
-        }
-        else if (Actions.acceptSpecial && (heavyButton > 0 || breakButton > 0) && Move.HitDetect.hitStop <= 0 && DP > 0)
-        {
-            Move.jumping = 0;
-            Hitboxes.ClearHitBox();
-            // Heaven Climber special attack, executed by doing a DP and pressing H or B
-            if (Actions.airborne || heavyButton > 0)
-                anim.SetTrigger(IDHeavenClimberH);
-            else
-                anim.SetTrigger(IDHeavenClimberB);
-            Actions.TurnAroundCheck();
-            heavyButton = 0;
-            breakButton = 0;
-            DP = 0;
-        }
-        else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0 && Actions.airborne && Hitboxes.HitDetect.Actions.Move.transform.position.y > 1.5f)
-        {
-            Move.jumping = 0;
-            Hitboxes.ClearHitBox();
-            // Starfall special attack, executed by doing a QCB and pressing B
-            anim.SetTrigger(IDStarfall);
-            Actions.TurnAroundCheck();
-            breakButton = 0;
-            QCB = 0;
-        }
-        else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && !Actions.airborne)
-        {
-            Move.jumping = 0;
-            Hitboxes.ClearHitBox();
-            // Level Hell special attack, executed by doing a QCF and pressing M
-            anim.SetTrigger(IDLevelHell);
-            Actions.TurnAroundCheck();
-            mediumButton = 0;
-            QCF = 0;
-        }
-        else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop <= 0)
-        {
-            //break attacks
-            if (Actions.standing)
-            {
-                if (MaxInput.GetAxis(Vertical) < 0)
-                {
-                    if (CrouchB)
-                    {
-                        anim.SetTrigger(ID2B);
-                        CrouchB = false;
-                        Actions.TurnAroundCheck();
-                        Hitboxes.ClearHitBox();
-                    }
+                    Actions.throwTech = true;
                 }
-                else if (dir3 == directionBufferTime)
+            }
+            else if (Actions.acceptSuper && lightButton > 0 && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && CharProp.armor >= 2 && Actions.standing)
+            {
+                Move.jumping = 0;
+                Hitboxes.ClearHitBox();
+                // Forsythia Marduk super attack, executed by doing a QCF and pressing L and M together
+                anim.SetTrigger(IDForsythia);
+                CharProp.armor -= 2;
+                CharProp.durability = 70;
+                CharProp.durabilityRefillTimer = 0;
+                lightButton = 0;
+                mediumButton = 0;
+                QCF = 0;
+            }
+            else if (Actions.acceptSpecial && (heavyButton > 0 || breakButton > 0) && Move.HitDetect.hitStop <= 0 && DP > 0)
+            {
+                Move.jumping = 0;
+                Hitboxes.ClearHitBox();
+                // Heaven Climber special attack, executed by doing a DP and pressing H or B
+                if (Actions.airborne || heavyButton > 0)
+                    anim.SetTrigger(IDHeavenClimberH);
+                else
+                    anim.SetTrigger(IDHeavenClimberB);
+                Actions.TurnAroundCheck();
+                heavyButton = 0;
+                breakButton = 0;
+                DP = 0;
+            }
+            else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0 && Actions.airborne && Hitboxes.HitDetect.Actions.Move.transform.position.y > 1.5f)
+            {
+                Move.jumping = 0;
+                Hitboxes.ClearHitBox();
+                // Starfall special attack, executed by doing a QCB and pressing B
+                anim.SetTrigger(IDStarfall);
+                Actions.TurnAroundCheck();
+                breakButton = 0;
+                QCB = 0;
+            }
+            else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && !Actions.airborne)
+            {
+                Move.jumping = 0;
+                Hitboxes.ClearHitBox();
+                // Level Hell special attack, executed by doing a QCF and pressing M
+                anim.SetTrigger(IDLevelHell);
+                Actions.TurnAroundCheck();
+                mediumButton = 0;
+                QCF = 0;
+            }
+            else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop <= 0)
+            {
+                //break attacks
+                if (Actions.standing)
                 {
-                    if (DFB)
+                    if (MaxInput.GetAxis(Vertical) < 0)
                     {
-                        anim.SetTrigger(ID3B);
-                        DFB = false;
-                        anim.SetBool(runID, false);
-                        Hitboxes.ClearHitBox();
+                        if (CrouchB)
+                        {
+                            anim.SetTrigger(ID2B);
+                            CrouchB = false;
+                            Actions.TurnAroundCheck();
+                            Hitboxes.ClearHitBox();
+                        }
+                    }
+                    else if (dir3 == directionBufferTime)
+                    {
+                        if (DFB)
+                        {
+                            anim.SetTrigger(ID3B);
+                            DFB = false;
+                            anim.SetBool(runID, false);
+                            Hitboxes.ClearHitBox();
+                        }
+                    }
+                    else
+                    {
+                        if (StandB)
+                        {
+                            anim.SetTrigger(ID5B);
+                            StandB = false;
+                            Actions.TurnAroundCheck();
+                            Hitboxes.ClearHitBox();
+                        }
                     }
                 }
                 else
                 {
-                    if (StandB)
+                    if (JumpB)
                     {
                         anim.SetTrigger(ID5B);
-                        StandB = false;
-                        Actions.TurnAroundCheck();
+                        JumpB = false;
                         Hitboxes.ClearHitBox();
                     }
                 }
+                Hitboxes.ClearHitBox();
+                breakButton = 0;
             }
-            else
+            else if (Actions.acceptHeavy && heavyButton > 0 && Move.HitDetect.hitStop <= 0)
             {
-                if (JumpB)
+                //heavy attacks
+                if (Actions.standing)
                 {
-                    anim.SetTrigger(ID5B);
-                    JumpB = false;
-                    Hitboxes.ClearHitBox();
-                }
-            }
-            Hitboxes.ClearHitBox();
-            breakButton = 0;
-        }
-        else if (Actions.acceptHeavy && heavyButton > 0 && Move.HitDetect.hitStop <= 0)
-        {
-            //heavy attacks
-            if (Actions.standing)
-            {
-                if (MaxInput.GetAxis(Vertical) < 0)
-                {
-                    if (CrouchH)
+                    if (MaxInput.GetAxis(Vertical) < 0)
                     {
-                        anim.SetTrigger(ID2H);
-                        CrouchH = false;
+                        if (CrouchH)
+                        {
+                            anim.SetTrigger(ID2H);
+                            CrouchH = false;
+                        }
+                    }
+                    else
+                    {
+                        if (StandH)
+                        {
+                            anim.SetTrigger(ID5H);
+                            StandH = false;
+                        }
                     }
                 }
                 else
                 {
-                    if (StandH)
+                    if (JumpH)
                     {
                         anim.SetTrigger(ID5H);
-                        StandH = false;
+                        JumpH = false;
                     }
-                }
-            }
-            else
-            {
-                if (JumpH)
-                {
-                    anim.SetTrigger(ID5H);
-                    JumpH = false;
-                }
 
+                }
+                Hitboxes.ClearHitBox();
+                heavyButton = 0;
             }
-            Hitboxes.ClearHitBox();
-            heavyButton = 0;
-        }
-        else if (Actions.acceptMedium && mediumButton > 0 && Move.HitDetect.hitStop <= 0)
-        {
-            //medium attacks
-            if (Actions.standing)
+            else if (Actions.acceptMedium && mediumButton > 0 && Move.HitDetect.hitStop <= 0)
             {
-                if (MaxInput.GetAxis(Vertical) < 0)
+                //medium attacks
+                if (Actions.standing)
                 {
-                    if (CrouchM)
+                    if (MaxInput.GetAxis(Vertical) < 0)
                     {
-                        anim.SetTrigger(ID2M);
-                        CrouchM = false;
+                        if (CrouchM)
+                        {
+                            anim.SetTrigger(ID2M);
+                            CrouchM = false;
+                        }
+                    }
+                    else
+                    {
+                        if (StandM)
+                        {
+                            anim.SetTrigger(ID5M);
+                            StandM = false;
+                        }
                     }
                 }
                 else
                 {
-                    if (StandM)
+                    if (JumpM)
                     {
                         anim.SetTrigger(ID5M);
-                        StandM = false;
+                        JumpM = false;
                     }
                 }
+                Hitboxes.ClearHitBox();
+                mediumButton = 0;
             }
-            else
+            else if (Actions.acceptLight && lightButton > 0 && Move.HitDetect.hitStop <= 0)
             {
-                if (JumpM)
+                //light attacks
+                if (Actions.standing)
                 {
-                    anim.SetTrigger(ID5M);
-                    JumpM = false;
-                }
-            }
-            Hitboxes.ClearHitBox();
-            mediumButton = 0;
-        }
-        else if (Actions.acceptLight && lightButton > 0 && Move.HitDetect.hitStop <= 0)
-        {
-            //light attacks
-            if (Actions.standing)
-            {
-                if (MaxInput.GetAxis(Vertical) < 0)
-                {
-                    if (CrouchL > 0)
+                    if (MaxInput.GetAxis(Vertical) < 0)
                     {
-                        anim.SetTrigger(ID2L);
-                        CrouchL--;
+                        if (CrouchL > 0)
+                        {
+                            anim.SetTrigger(ID2L);
+                            CrouchL--;
+                        }
+                    }
+                    else
+                    {
+                        if (StandL)
+                        {
+                            if (CrouchL < 3)
+                                CrouchL = 0;
+                            anim.SetTrigger(ID5L);
+                            StandL = false;
+                        }
                     }
                 }
                 else
                 {
-                    if (StandL)
+                    if (JumpL > 0)
                     {
-                        if (CrouchL < 3)
-                            CrouchL = 0;
                         anim.SetTrigger(ID5L);
-                        StandL = false;
+                        JumpL--;
                     }
                 }
+                Hitboxes.ClearHitBox();
+                lightButton = 0;
             }
-            else
-            {
-                if (JumpL > 0)
-                {
-                    anim.SetTrigger(ID5L);
-                    JumpL--;
-                }
-            }
-            Hitboxes.ClearHitBox();
-            lightButton = 0;
         }
 
         // ACH character specific, can charge or delay certain special attacks
@@ -776,9 +779,6 @@ public class AttackHandlerACH : MonoBehaviour
         if (dir2 > 0 && dir3 > 0 && dir6 > 0 && dir3 > dir2 && dir2 > dir6)
         {
             DP = .15f;
-            dir2 = 0;
-            dir3 = 0;
-            dir6 = 0;
         }
     }
 

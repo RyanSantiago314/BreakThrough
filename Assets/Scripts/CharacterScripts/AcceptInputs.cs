@@ -103,14 +103,16 @@ public class AcceptInputs : MonoBehaviour
         else
             sprite.sortingOrder = 1;
 
-        if (landingLag > 0 && !airborne)
+        if (landingLag > 0)
         {
-            DisableAll();
-            StopAttacking();
-            anim.SetBool(crouchID, true);
-            anim.SetFloat(landLagID, landingLag);
-            if (!airborne)
+            if (standing)
+            {
+                DisableAll();
+                StopAttacking();
+                anim.SetBool(crouchID, true);
+                anim.SetFloat(landLagID, landingLag);
                 landingLag -= Time.deltaTime;
+            }
         }
         else
             anim.SetFloat(landLagID, -1);
@@ -234,11 +236,15 @@ public class AcceptInputs : MonoBehaviour
         CharProp.HitDetect.allowSpecial = false;
         CharProp.HitDetect.allowSuper = false;
         CharProp.HitDetect.jumpCancellable = false;
-        anim.SetBool(runID, false);
     }
     public void EnableAll()
     {
-        if (airborne ||(landingLag <= 0 && !airborne))
+        if (landingLag > 0 && currentState.IsName("IdleCrouch"))
+        {
+            DisableAll();
+        }
+        else
+        {
             acceptMove = true;
             acceptGuard = true;
             acceptLight = true;
@@ -265,6 +271,7 @@ public class AcceptInputs : MonoBehaviour
             lowCounter = false;
             hiInvincible = false;
             lowInvincible = false;
+        }
     }
 
     public void Attacking()
