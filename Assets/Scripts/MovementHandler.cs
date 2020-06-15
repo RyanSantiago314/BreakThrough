@@ -85,7 +85,9 @@ public class MovementHandler : MonoBehaviourPunCallbacks
 
 
     private NetworkInstantiate netBool;
-    private bool runOnce = true;
+    public bool runOnce = false;
+    private string owner;
+    private PhotonView photonView;
 
    
 
@@ -96,15 +98,17 @@ public class MovementHandler : MonoBehaviourPunCallbacks
         {
             netBool = GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>();
             Debug.Log("Netbool Set: Movement Handler for P1");
+            owner = "Player1";
         }
         else
         {
             netBool = GameObject.Find("Player2").GetComponentInChildren<NetworkInstantiate>();
             Debug.Log("Netbool Set: Movement Handler for P2");
+            owner = "Player2";
         }
 
         
-        
+        photonView = GetComponent<PhotonView>();
         
         //Original system to use in original Training Stage
         if (SceneManager.GetActiveScene().name == "TrainingStage")
@@ -198,22 +202,23 @@ public class MovementHandler : MonoBehaviourPunCallbacks
         {
             
             
-        }
-        
-        
-        if(photonView.IsMine == false && PhotonNetwork.IsConnected == true) //I'm actually questioning if we need this.
-        {
-            Debug.Log("PhotonView, not mine"); //this should print if our photon view is actually used.
-            return;
         }*/
         
-        if (runOnce && netBool.allPlayersInstantiated)//if all players in run once.
+        //Debug.Log("RunOnce: " + runOnce + " netbool: " +netBool.allPlayersInstantiated);
+        if (runOnce)//if all players in run once.
         {    //This doesn't run, only on this script. I think ther is something wrong with the photonView we use.
             Debug.Log("runOnce MovementHandler: " + runOnce);
             runOnce = false;
             Init();
             Debug.Log("MovementHandler lateStart");
         }
+        
+        if(photonView.IsMine == false && PhotonNetwork.IsConnected == true) 
+        {
+           return;
+        }
+
+        
         
         
         
@@ -370,10 +375,11 @@ public class MovementHandler : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-        /*if(photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        if(photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
+            
             return;
-        }*/
+        }
         //walking
         if(anim.GetBool(walkFID) && !anim.GetBool(crouchID))
         {

@@ -35,6 +35,7 @@ namespace Networking
                 loader.P2Character.SetActive(true);
                 //Setting Latestart bools for scripts.
                 GameObject.Find("Player1").GetComponentInChildren<NetworkInstantiate>().allPlayersInstantiated = true;
+                GameObject.Find("Player1").GetComponentInChildren<MovementHandler>().runOnce = true;
 
             }
         
@@ -51,6 +52,7 @@ namespace Networking
                 loader.P1Character.SetActive(true);
                 loader.P2Character.SetActive(true);
                 GameObject.Find("Player2").GetComponentInChildren<NetworkInstantiate>().allPlayersInstantiated = true;
+                GameObject.Find("Player2").GetComponentInChildren<MovementHandler>().runOnce = true;
             }
         
         
