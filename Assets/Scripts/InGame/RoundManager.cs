@@ -448,13 +448,13 @@ public class RoundManager : MonoBehaviour
             {
                 p1Quit.Select();
                 postGameMenuIndex = 1;
-                print("hover quit");
+                //print("hover quit");
             }
             else if (vertical > 0)
             {
                 p1Replay.Select();
                 postGameMenuIndex = 2;
-                print("hover replay");
+                //print("hover replay");
             }
             if (Input.GetButtonDown(p1cross) && postGameMenuIndex == 1)
             {
@@ -467,23 +467,49 @@ public class RoundManager : MonoBehaviour
         }
         else if(postGameMenuOpen == 2 && p2menu.activeSelf)
         {
-            if (vertical2 < 0)
+            if(GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode == "AI")
             {
-                p2Quit.Select();
-                postGameMenuIndex = 1;
+                if (vertical < 0)
+                {
+                    p2Quit.Select();
+                    postGameMenuIndex = 1;
+                }
+                else if (vertical > 0)
+                {
+                    p2Replay.Select();
+                    postGameMenuIndex = 2;
+                }
+
+                if (Input.GetButtonDown(p1cross) && postGameMenuIndex == 1)
+                {
+                    QuitToMenu();
+                }
+                else if (Input.GetButtonDown(p1cross) && postGameMenuIndex == 2)
+                {
+                    ReplayGame();
+                }
             }
-            else if (vertical2 > 0)
+            else
             {
-                p2Replay.Select();
-                postGameMenuIndex = 2;
-            }
-            if (Input.GetButtonDown(p2cross) && postGameMenuIndex == 1)
-            {
-                QuitToMenu();
-            }
-            else if (Input.GetButtonDown(p2cross) && postGameMenuIndex == 2)
-            {
-                ReplayGame();
+                if (vertical2 < 0)
+                {
+                    p2Quit.Select();
+                    postGameMenuIndex = 1;
+                }
+                else if (vertical2 > 0)
+                {
+                    p2Replay.Select();
+                    postGameMenuIndex = 2;
+                }
+
+                if (Input.GetButtonDown(p2cross) && postGameMenuIndex == 1)
+                {
+                    QuitToMenu();
+                }
+                else if (Input.GetButtonDown(p2cross) && postGameMenuIndex == 2)
+                {
+                    ReplayGame();
+                }
             }
         }
     }

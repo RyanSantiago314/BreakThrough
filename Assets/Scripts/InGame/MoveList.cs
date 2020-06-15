@@ -526,7 +526,7 @@ public class MoveList : MonoBehaviour
         pageMoveIconL.color = new Color(1f, 1f, 1f, 1f);
         pageMoveIconR.color = new Color(1f, 1f, 1f, 1f);
         Move1.text = "Forsythia Marduk";
-        Description1.text = "Hold a direction to aim. Press attack to fire.";
+        Description1.text = "Hold a direction to aim. Press an attack to fire.";
         move1Input1.sprite = arrow.sprite;
         move1Input1.transform.rotation = Quaternion.Euler(0, 0, -90);
         move1Input2.sprite = arrow.sprite;
