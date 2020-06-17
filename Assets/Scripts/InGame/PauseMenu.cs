@@ -83,7 +83,37 @@ public class PauseMenu : MonoBehaviour
     private bool acceptBack = false;
     private bool acceptMoveList = true;
 
+    //array and elements for video clips
     public VideoClip[] videoToPlay = new VideoClip[26];
+    private enum videoClips: int
+    {
+        DHA_6L,
+        DHA_6B,
+        DHA_Patissiere,
+        DHA_HeadRush,
+        DHA_BloodBrave,
+        DHA_BasketCase,
+        DHA_Toaster,
+        DHA_JudgementSabre,
+        DHA_L,
+        DHA_M,
+        DHA_H,
+        DHA_B,
+        DHA_Cancel,
+        DHA_Grab,
+        DHA_Neutral,
+        ACH_LevelHell,
+        ACH_HeavenClimber,
+        ACH_Starfall,
+        ACH_ForsythiaMarduk,
+        ACH_L,
+        ACH_M,
+        ACH_H,
+        ACH_B,
+        ACH_Cancel,
+        ACH_Grab,
+        ACH_Neutral
+    }
 
     //Dev tool to remove HUD
     public GameObject HUD;
@@ -1074,8 +1104,10 @@ public class PauseMenu : MonoBehaviour
     //creates path to video file based on menu navigation
     private int SelectVideo(int vertical, int horizontal)
     {
+
         int pathToVideo = -1;
         string characterToShow = "";
+
         //dhalia menu
         if((PlayerData.GetComponent<SelectedCharacterManager>().P1Character == "Dhalia" && playerPaused == 1) || (PlayerData.GetComponent<SelectedCharacterManager>().P2Character == "Dhalia" && playerPaused == 2))
         {
@@ -1084,68 +1116,68 @@ public class PauseMenu : MonoBehaviour
             {
                 if (vertical == 1)
                 {
-                    pathToVideo = 0;
+                    pathToVideo = (int)videoClips.DHA_6L;
                 }
                 else if (vertical == 2)
                 {
-                    pathToVideo = 1;
+                    pathToVideo = (int)videoClips.DHA_6B;
                 }
             }
             else if (horizontal == 2)
             {
                 if (vertical == 1)
                 {
-                    pathToVideo = 2;
+                    pathToVideo = (int)videoClips.DHA_Patissiere;
                 }
                 else if (vertical == 2)
                 {
-                    pathToVideo = 3;
+                    pathToVideo = (int)videoClips.DHA_HeadRush;
                 }
                 else if (vertical == 3)
                 {
-                    pathToVideo = 4;
+                    pathToVideo = (int)videoClips.DHA_BloodBrave;
                 }
                 else if (vertical == 4)
                 {
-                    pathToVideo = 5;
+                    pathToVideo = (int)videoClips.DHA_BasketCase;
                 }
             }
             else if (horizontal == 3)
             {
                 if (vertical == 1)
                 {
-                    pathToVideo = 6;
+                    pathToVideo = (int)videoClips.DHA_Toaster;
                 }
                 else if (vertical == 2)
                 {
-                    pathToVideo = 7;
+                    pathToVideo = (int)videoClips.DHA_JudgementSabre;
                 }
             }
             else if (horizontal == 4)
             {
                 if (vertical == 1)
                 {
-                    pathToVideo = 8;
+                    pathToVideo = (int)videoClips.DHA_L;
                 }
                 else if (vertical == 2)
                 {
-                    pathToVideo = 9;
+                    pathToVideo = (int)videoClips.DHA_M;
                 }
                 else if (vertical == 3)
                 {
-                    pathToVideo = 10;
+                    pathToVideo = (int)videoClips.DHA_H;
                 }
                 else if (vertical == 4)
                 {
-                    pathToVideo = 11;
+                    pathToVideo = (int)videoClips.DHA_B;
                 }
                 else if (vertical == 5)
                 {
-                    pathToVideo = 12;
+                    pathToVideo = (int)videoClips.DHA_Cancel;
                 }
                 else if (vertical == 6)
                 {
-                    pathToVideo = 13;
+                    pathToVideo = (int)videoClips.DHA_Grab;
                 }
             }
         }
@@ -1157,49 +1189,49 @@ public class PauseMenu : MonoBehaviour
             {
                 if(vertical == 1)
                 {
-                    pathToVideo = 15;
+                    pathToVideo = (int)videoClips.ACH_LevelHell;
                 }
                 else if (vertical == 2)
                 {
-                    pathToVideo = 16;
+                    pathToVideo = (int)videoClips.ACH_HeavenClimber;
                 }
                 else if (vertical == 3)
                 {
-                    pathToVideo = 17;
+                    pathToVideo = (int)videoClips.ACH_Starfall;
                 }
             }
             else if (horizontal == 3)
             {
                 if (vertical == 1)
                 {
-                    pathToVideo = 18;
+                    pathToVideo = (int)videoClips.ACH_ForsythiaMarduk;
                 }
             }
             else if (horizontal == 4)
             {
                 if(vertical == 1)
                 {
-                    pathToVideo = 19;
+                    pathToVideo = (int)videoClips.ACH_L;
                 }
                 else if (vertical == 2)
                 {
-                    pathToVideo = 20;
+                    pathToVideo = (int)videoClips.ACH_M;
                 }
                 else if (vertical == 3)
                 {
-                    pathToVideo = 21;
+                    pathToVideo = (int)videoClips.ACH_H;
                 }
                 else if (vertical == 4)
                 {
-                    pathToVideo = 22;
+                    pathToVideo = (int)videoClips.ACH_B;
                 }
                 else if (vertical == 5)
                 {
-                    pathToVideo = 23;
+                    pathToVideo = (int)videoClips.ACH_Cancel;
                 }
                 else if (vertical == 6)
                 {
-                    pathToVideo = 24;
+                    pathToVideo = (int)videoClips.ACH_Grab;
                 }
             }
         }
@@ -1209,11 +1241,11 @@ public class PauseMenu : MonoBehaviour
         {
             if (characterToShow.Equals("DHA"))
             {
-                return 14;
+                return (int)videoClips.DHA_Neutral;
             }
             else if (characterToShow.Equals("ACH"))
             {
-                return 25;
+                return (int)videoClips.ACH_Neutral;
             }
             else
             {
