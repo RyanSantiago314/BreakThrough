@@ -164,6 +164,82 @@ public class HitboxACH : MonoBehaviour
         AttackHandler.ForsythiaReticle.GetComponent<ProjectileProperties>().currentHits = 0;
     }
 
+    public void TowerLeapLControl()
+    {
+        HitDetect.rb.velocity = Vector2.zero;
+        if (Input.GetAxis(AttackHandler.Horizontal) < 0)
+        {
+            if (HitDetect.Actions.Move.facingRight)
+            {
+                HitDetect.rb.AddForce(new Vector2(1f, 4.75f), ForceMode2D.Impulse);
+            }
+            else
+            {
+                HitDetect.rb.AddForce(new Vector2(-2f, 4.75f), ForceMode2D.Impulse);
+            }
+        }
+        else if (Input.GetAxis(AttackHandler.Horizontal) > 0)
+        {
+            if (HitDetect.Actions.Move.facingRight)
+            {
+                HitDetect.rb.AddForce(new Vector2(2f, 4.75f), ForceMode2D.Impulse);
+            }
+            else
+            {
+                HitDetect.rb.AddForce(new Vector2(-1f, 4.75f), ForceMode2D.Impulse);
+            }
+        }
+        else
+        {
+            if (HitDetect.Actions.Move.facingRight)
+            {
+                HitDetect.rb.AddForce(new Vector2(1.5f, 4.75f), ForceMode2D.Impulse);
+            }
+            else
+            {
+                HitDetect.rb.AddForce(new Vector2(-1.5f, 4.75f), ForceMode2D.Impulse);
+            }
+        }
+    }
+
+    public void TowerLeapMControl()
+    {
+        HitDetect.rb.velocity = Vector2.zero;
+        if (Input.GetAxis(AttackHandler.Horizontal) < 0)
+        {
+            if (HitDetect.Actions.Move.facingRight)
+            {
+                HitDetect.rb.AddForce(new Vector2(2.5f, 3.25f), ForceMode2D.Impulse);
+            }
+            else
+            {
+                HitDetect.rb.AddForce(new Vector2(-3.5f, 3.25f), ForceMode2D.Impulse);
+            }
+        }
+        else if (Input.GetAxis(AttackHandler.Horizontal) > 0)
+        {
+            if (HitDetect.Actions.Move.facingRight)
+            {
+                HitDetect.rb.AddForce(new Vector2(3.5f, 3.25f), ForceMode2D.Impulse);
+            }
+            else
+            {
+                HitDetect.rb.AddForce(new Vector2(-2.5f, 3.25f), ForceMode2D.Impulse);
+            }
+        }
+        else
+        {
+            if (HitDetect.Actions.Move.facingRight)
+            {
+                HitDetect.rb.AddForce(new Vector2(3f, 3.25f), ForceMode2D.Impulse);
+            }
+            else
+            {
+                HitDetect.rb.AddForce(new Vector2(-3f, 3.25f), ForceMode2D.Impulse);
+            }
+        }
+    }
+
     //push damage values, knockback, and proration to hitdetector from hitbox events
     void StandingLHitBox()
     {
@@ -926,7 +1002,7 @@ public class HitboxACH : MonoBehaviour
         }
         else
         {
-            HitDetect.potentialKnockBack = new Vector2(3f, 2f);
+            HitDetect.potentialKnockBack = new Vector2(3f, 2.5f);
         }
         HitDetect.usingSpecial = true;
         HitDetect.allowSuper = true;

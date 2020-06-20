@@ -380,7 +380,13 @@ public class HitDetector : MonoBehaviour
                     if (OpponentDetector.Actions.Move.justDefenseTime > 0)
                     {
                         OpponentDetector.blockStun -= (float)(OpponentDetector.blockStun / 3);
-                        OpponentDetector.Actions.CharProp.durability += 25;
+                        if (OpponentDetector.Actions.CharProp.armor > 0)
+                            OpponentDetector.Actions.CharProp.durability += 25;
+                        else
+                        {
+                            OpponentDetector.Actions.CharProp.armor = 1;
+                            OpponentDetector.Actions.CharProp.durability += 25;
+                        }
                         OpponentDetector.justDefense = true;
                         Debug.Log("JUST DEFEND");
                     }
@@ -527,7 +533,7 @@ public class HitDetector : MonoBehaviour
                         Actions.jumpCancel = true;
                     }
 
-                    if (forceShatter || (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.attacking || OpponentDetector.Actions.active || OpponentDetector.Actions.recovering)))
+                    if (forceShatter || (shatter && (guard == "Unblockable" || Actions.Move.OpponentProperties.armor > 0 || OpponentDetector.anim.GetBool(dizzyID)) && (OpponentDetector.Actions.armorActive || OpponentDetector.Actions.attacking || OpponentDetector.Actions.active || OpponentDetector.Actions.recovering || OpponentDetector.anim.GetBool(dizzyID))))
                     {
                         //getting shattered means losing all your meter/armor
                         if (comboCount < 1)
@@ -591,7 +597,7 @@ public class HitDetector : MonoBehaviour
                     else
                         OpponentDetector.KnockBack *= new Vector2(-1, 0);
                 }
-                else if (((OpponentDetector.hitStun <= 0 && OpponentDetector.blockStun <= 0) || OpponentDetector.Actions.grabbed) && hitStun <= 0 && !currentState.IsName("Deflected"))
+                else if (((OpponentDetector.hitStun <= 0 && OpponentDetector.blockStun <= 0) || OpponentDetector.Actions.grabbed) && hitStun <= 0)
                 {
                     Actions.throwTech = false;
 
@@ -599,7 +605,9 @@ public class HitDetector : MonoBehaviour
                     {
                         Actions.Move.OpponentProperties.armor -= armorDamage;
                         Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                        if (Actions.Move.OpponentProperties.armor == 0)
+                        if (Actions.Move.OpponentProperties.armor < 0)
+                            OpponentDetector.anim.SetBool(dizzyID, true);
+                        if (Actions.Move.OpponentProperties.armor <= 0)
                             Actions.Move.OpponentProperties.durability = 0;
                     }
 
@@ -775,11 +783,15 @@ public class HitDetector : MonoBehaviour
             OpponentDetector.rb.velocity = Vector2.zero;
 
         //special properties if hitting a dizzied opponent
-        if(OpponentDetector.anim.GetBool(dizzyID))
+        if(OpponentDetector.currentState.IsName("DizzyIn") || OpponentDetector.currentState.IsName("Dizzy") || (comboCount >= 1 && anim.GetBool(dizzyID)))
         {
             OpponentDetector.anim.SetBool(dizzyID, false);
             OpponentDetector.Actions.CharProp.refill = true;
-            OpponentDetector.Actions.CharProp.comboTimer = 5;
+            if (!shatter)
+            {
+                OpponentDetector.Actions.CharProp.armor = 1;
+            }
+            OpponentDetector.Actions.CharProp.durability = 50;
             forceCrouch = true;
         }
         if(Actions.Move.OpponentProperties.armor < 0 && !grab && !piercing)

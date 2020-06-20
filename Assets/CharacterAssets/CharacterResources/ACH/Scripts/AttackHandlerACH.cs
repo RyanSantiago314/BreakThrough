@@ -84,6 +84,8 @@ public class AttackHandlerACH : MonoBehaviour
     static int ID5B;
     static int ID2B;
     static int ID3B;
+    static int IDTowerLeapL;
+    static int IDTowerLeapM;
     static int IDHeavenClimberH;
     static int IDHeavenClimberB;
     static int IDLevelHell;
@@ -107,7 +109,7 @@ public class AttackHandlerACH : MonoBehaviour
     static int airGuardID;
     static int dizzyID;
     static int KOID;
-    public int dizzyTime;
+    public float dizzyTime;
     float blitzActive;
 
     AnimatorStateInfo currentState;
@@ -123,6 +125,8 @@ public class AttackHandlerACH : MonoBehaviour
         ID5B = Animator.StringToHash("5B");
         ID2B = Animator.StringToHash("2B");
         ID3B = Animator.StringToHash("3B");
+        IDTowerLeapL = Animator.StringToHash("TowerLeapL");
+        IDTowerLeapM = Animator.StringToHash("TowerLeapM");
         IDHeavenClimberH = Animator.StringToHash("HeavenClimberH");
         IDHeavenClimberB = Animator.StringToHash("HeavenClimberB");
         IDLevelHell = Animator.StringToHash("LevelHell");
@@ -215,10 +219,12 @@ public class AttackHandlerACH : MonoBehaviour
             anim.ResetTrigger(ID5B);
             anim.ResetTrigger(ID2B);
             anim.ResetTrigger(IDThrow);
-            /*anim.ResetTrigger(IDBloodBrave);
-            anim.ResetTrigger(IDPatissiere);
-            anim.ResetTrigger(IDHeadRush);
-            anim.ResetTrigger(IDToaster);*/
+            anim.ResetTrigger(IDTowerLeapL);
+            anim.ResetTrigger(IDTowerLeapM);
+            anim.ResetTrigger(IDHeavenClimberH);
+            anim.ResetTrigger(IDHeavenClimberB);
+            anim.ResetTrigger(IDLevelHell);
+            anim.ResetTrigger(IDStarfall);
         }
 
         if (lightButton > 0)
@@ -383,11 +389,11 @@ public class AttackHandlerACH : MonoBehaviour
         }
 
         //dizzy state, mash buttons to get out of it faster
-        if ((dizzyTime == 0 && anim.GetBool(dizzyID)) || anim.GetBool(KOID))
+        if ((dizzyTime <= 0 && anim.GetBool(dizzyID)) || anim.GetBool(KOID))
         {
-            dizzyTime = 300;
+            dizzyTime = 5;
         }
-        else if (!anim.GetBool(dizzyID) || CharProp.currentHealth == CharProp.maxHealth)
+        else if (!anim.GetBool(dizzyID))
         {
             dizzyTime = 0;
         }
@@ -395,22 +401,22 @@ public class AttackHandlerACH : MonoBehaviour
         if (dizzyTime > 0)
         {
             anim.SetBool(dizzyID, true);
-            dizzyTime--;
+            dizzyTime -= Time.deltaTime;
             if (MaxInput.GetButtonDown(Light))
             {
-                dizzyTime -= 5;
+                dizzyTime -= .08f;
             }
             if (MaxInput.GetButtonDown(Medium))
             {
-                dizzyTime -= 5;
+                dizzyTime -= .08f;
             }
             if (MaxInput.GetButtonDown(Heavy))
             {
-                dizzyTime -= 5;
+                dizzyTime -= .08f;
             }
             if (MaxInput.GetButtonDown(Break))
             {
-                dizzyTime -= 5;
+                dizzyTime -= .08f;
             }
         }
 
@@ -500,7 +506,7 @@ public class AttackHandlerACH : MonoBehaviour
         else if (!(Actions.landingLag > 0 && Actions.standing))
         {
         // basic throw performed by pressing both light and break attack
-            if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0)
+            if ((Actions.acceptMove || currentState.IsName("Brake")) && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0)
             {
                 Hitboxes.ClearHitBox();
                 if (Actions.standing)
@@ -560,6 +566,20 @@ public class AttackHandlerACH : MonoBehaviour
                 Actions.TurnAroundCheck();
                 mediumButton = 0;
                 QCF = 0;
+            }
+            else if (Actions.acceptSpecial && (lightButton > 0||mediumButton > 0) && Move.HitDetect.hitStop <= 0 && QCB > 0 && !Actions.airborne)
+            {
+                Move.jumping = 0;
+                Hitboxes.ClearHitBox();
+                // Tower Leap special attack, executed by doing a QCB and pressing L or M, L version leaps higher, M version leaps farther forward
+                if (lightButton > 0)
+                    anim.SetTrigger(IDTowerLeapL);
+                else
+                    anim.SetTrigger(IDTowerLeapM);
+                Actions.TurnAroundCheck();
+                lightButton = 0;
+                mediumButton = 0;
+                QCB = 0;
             }
             else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop <= 0)
             {
