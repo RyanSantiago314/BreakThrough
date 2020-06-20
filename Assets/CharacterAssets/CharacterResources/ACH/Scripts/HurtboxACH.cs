@@ -820,6 +820,36 @@ public class HurtboxACH : MonoBehaviour
         legs2.size = new Vector2(.765f, .325f);
     }
 
+    public void TLStart()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+
+        head.offset = new Vector2(-.43f, .46f);
+        head.size = new Vector2(.21f, .255f);
+        body.offset = new Vector2(-.17f, .25f);
+        body.size = new Vector2(.46f, .75f);
+        legs1.offset = new Vector2(.4f, -.62f);
+        legs1.size = new Vector2(.53f, .705f);
+    }
+
+    public void TLLeap()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+
+        head.offset = new Vector2(-.65f, 0f);
+        head.size = new Vector2(.285f, .725f);
+        body.offset = new Vector2(-.3f, .32f);
+        body.size = new Vector2(.71f, .48f);
+        legs1.offset = new Vector2(.58f, .56f);
+        legs1.size = new Vector2(1.1f, .43f);
+    }
+
     public void HCRecovery()
     {
         ClearHurtBox();

@@ -109,7 +109,7 @@ public class AttackHandlerDHA : MonoBehaviour
     static int airGuardID;
     static int dizzyID;
     static int KOID;
-    public int dizzyTime;
+    public float dizzyTime;
     float blitzActive;
 
     AnimatorStateInfo currentState;
@@ -383,11 +383,11 @@ public class AttackHandlerDHA : MonoBehaviour
         }
 
         //dizzy state, mash buttons to get out of it faster
-        if ((dizzyTime == 0 && anim.GetBool(dizzyID)) || anim.GetBool(KOID))
+        if ((dizzyTime <= 0 && anim.GetBool(dizzyID)) || anim.GetBool(KOID))
         {
-            dizzyTime = 300;
+            dizzyTime = 5;
         }
-        else if (!anim.GetBool(dizzyID) || CharProp.currentHealth == CharProp.maxHealth)
+        else if (!anim.GetBool(dizzyID))
         {
             dizzyTime = 0;
         }
@@ -395,22 +395,22 @@ public class AttackHandlerDHA : MonoBehaviour
         if (dizzyTime > 0)
         {
             anim.SetBool(dizzyID, true);
-            dizzyTime--;
+            dizzyTime -= Time.deltaTime;
             if (MaxInput.GetButtonDown(Light))
             {
-                dizzyTime -= 5;
+                dizzyTime -= .08f;
             }
             if (MaxInput.GetButtonDown(Medium))
             {
-                dizzyTime -= 5;
+                dizzyTime -= .08f;
             }
             if (MaxInput.GetButtonDown(Heavy))
             {
-                dizzyTime -= 5;
+                dizzyTime -= .08f;
             }
             if (MaxInput.GetButtonDown(Break))
             {
-                dizzyTime -= 5;
+                dizzyTime -= .08f;
             }
         }
 
@@ -511,7 +511,7 @@ public class AttackHandlerDHA : MonoBehaviour
         else if (!(Actions.landingLag > 0 && Actions.standing))
         {
             // basic throw performed by pressing both light and break attack
-            if (Actions.acceptMove && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0)
+            if ((Actions.acceptMove || currentState.IsName("Brake")) && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0)
             {
                 Hitboxes.ClearHitBox();
                 if (Actions.standing)

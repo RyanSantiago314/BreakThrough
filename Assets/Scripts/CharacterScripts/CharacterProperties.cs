@@ -20,9 +20,9 @@ public class CharacterProperties : MonoBehaviour
 
     public float durabilityRefillTimer;
     public int durabilityRefillRate = 1;
-    public int refillInterval;
+    public float refillInterval;
     public bool refill = false;
-    int refillCounter;
+    float refillCounter;
 
     AnimatorStateInfo currentState;
 
@@ -85,25 +85,14 @@ public class CharacterProperties : MonoBehaviour
                 durabilityRefillTimer = 0;
             }
 
-            if (currentState.IsName("FUGetup") || currentState.IsName("FDGetup") || currentState.IsName("AirRecovery"))
+            if (currentState.IsName("FUGetup") || currentState.IsName("FDGetup") || currentState.IsName("AirRecovery") || currentState.IsName("DizzyOut"))
             {
-                if (armor < 0)
+                if (armor == 0 && !HitDetect.anim.GetBool(dizzyID))
                 {
-                    //make character dizzy if armor is less than zero, usually triggered by throws but also possible through other means
-                    comboTimer = 0;
-                    armor = 0;
-                    HitDetect.anim.SetBool(dizzyID, true);
-                }
-                else if (armor == 0 || HitDetect.anim.GetBool(dizzyID))
-                {
-                    comboTimer = 0;
                     armor = 2;
                     durability = 50;
                 }
-                else
-                {
-                    comboTimer = 0;
-                }
+                comboTimer = 0;
             }
 
             //increase durability refill rate and damage scaling based on health remaining
@@ -111,29 +100,29 @@ public class CharacterProperties : MonoBehaviour
             {
                 currentValor = valor10;
                 if (durabilityRefillRate > 0)
-                    refillInterval = 1;
+                    refillInterval = 1f/60f;
             }
             else if (currentHealth <= maxHealth / 4)
             {
                 currentValor = valor25;
                 if (durabilityRefillRate > 0)
-                    refillInterval = 2;
+                    refillInterval = 1f/30f;
             }
             else if (currentHealth <= maxHealth / 2)
             {
                 currentValor = valor50;
                 if (durabilityRefillRate == 1)
-                    refillInterval = 3;
+                    refillInterval = 3f/60f;
             }
             else
             {
                 currentValor = 1;
                 if (durabilityRefillRate > 0)
-                    refillInterval = 5;
+                    refillInterval = 5f/60f;
             }
 
             //durability starts refilling after not being in blockstun for three seconds
-            if ((HitDetect.blockStun <= 0 || HitDetect.anim.GetBool(dizzyID)) && HitDetect.Actions.superFlash <= 0)
+            if (HitDetect.blockStun <= 0 && !HitDetect.anim.GetBool(dizzyID) && HitDetect.Actions.superFlash <= 0)
                 durabilityRefillTimer += Time.deltaTime;
             else if (HitDetect.Actions.superFlash > 0)
             { }
@@ -142,14 +131,14 @@ public class CharacterProperties : MonoBehaviour
 
             if (!HitDetect.pauseScreen.isPaused && !HitDetect.anim.GetBool(KOID) && !HitDetect.OpponentDetector.anim.GetBool(KOID) && RoundManager.gameActive)
             {
-                if (durabilityRefillTimer >= 3 && refillCounter == refillInterval)
+                if (durabilityRefillTimer >= 3 && refillCounter >= refillInterval)
                 {
                     durability += durabilityRefillRate;
                     refillCounter = 0;
                 }
                 else if (durabilityRefillTimer >= 3)
                 {
-                    refillCounter++;
+                    refillCounter += Time.deltaTime;
                 }
                 else
                 {

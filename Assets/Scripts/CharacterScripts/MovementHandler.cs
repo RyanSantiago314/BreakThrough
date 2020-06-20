@@ -618,7 +618,7 @@ public class MovementHandler : MonoBehaviour
         if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
         {
             //keeps characters from intersecting and occupying the same space
-            if (!Actions.airborne && opponentMove.Actions.airborne  && opponentMove.rb.velocity.y <= 0)
+            if (((!Actions.airborne && opponentMove.Actions.airborne)|| (Actions.airborne && opponentMove.hittingWall))  && opponentMove.rb.velocity.y <= 0)
             {
                 if (opponent.position.x > transform.position.x)
                 {

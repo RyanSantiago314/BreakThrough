@@ -1485,9 +1485,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainBody: {fileID: 575799685}
   effects: {fileID: 1811009234}
+  effects1: {fileID: 0}
   shadow: {fileID: 237526537}
   subShadow: {fileID: 796406281}
+  subShadow2: {fileID: 0}
   cutSubShadow: {fileID: 796406280}
+  cutSubShadow2: {fileID: 0}
 --- !u!212 &237526537
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1581,6 +1584,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MarkAnimator: {fileID: 0}
+  MoveListMarkAnimator: {fileID: 0}
+  SelectorMarkAnimator: {fileID: 0}
+  VideoScreen: {fileID: 0}
   pauseMenuUI: {fileID: 798303650}
   practicePauseMenuUI: {fileID: 60157823}
   moveListUI: {fileID: 541346889}
@@ -1614,6 +1620,35 @@ MonoBehaviour:
   CPUAirRecoverText: {fileID: 814881464}
   CPUGroundGuardText: {fileID: 0}
   PlayerIdentifier: {fileID: 0}
+  mList: {fileID: 0}
+  MoveListMarker: {fileID: 0}
+  videoToPlay:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   HUD: {fileID: 0}
   PracticeHUD: {fileID: 0}
   PlayerData: {fileID: 0}
@@ -2252,9 +2287,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainBody: {fileID: 1026248756}
   effects: {fileID: 778189322}
+  effects1: {fileID: 0}
   shadow: {fileID: 378330631}
   subShadow: {fileID: 1371204814}
+  subShadow2: {fileID: 0}
   cutSubShadow: {fileID: 1371204813}
+  cutSubShadow2: {fileID: 0}
 --- !u!212 &378330631
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3590,6 +3628,7 @@ MonoBehaviour:
   disableBlitz: 0
   pierceSuccess: 0
   counterSuccess: 0
+  shatterSuccess: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0
@@ -4125,7 +4164,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 1c5165579db3d8d46ae2237ea894a70d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 63b8c5e94fbe3bb4cbfc8258ee050b33, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5895,7 +5934,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: b55f1fac9bc0af446a05398192fd97ce, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e6c5dc2c39b1d6f45889d3f638acccb0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7613,6 +7652,7 @@ MonoBehaviour:
   disableBlitz: 0
   pierceSuccess: 0
   counterSuccess: 0
+  shatterSuccess: 0
   slash: 0
   vertSlash: 0
   horiSlash: 0
@@ -9931,7 +9971,6 @@ MonoBehaviour:
   justDefenseTime: 6
   hittingWall: 0
   hittingBound: 0
-  playing: 0
   wallStickTimer: 0
   jumping: 0
   backDash: 0
@@ -11439,6 +11478,7 @@ MonoBehaviour:
   P1Displays: {fileID: 1191982311}
   P2Displays: {fileID: 1847207045}
   RecordingDisplay: {fileID: 0}
+  refillCPUHealth: 1
 --- !u!4 &2043138271
 Transform:
   m_ObjectHideFlags: 0
@@ -11645,7 +11685,6 @@ MonoBehaviour:
   justDefenseTime: 6
   hittingWall: 0
   hittingBound: 0
-  playing: 0
   wallStickTimer: 0
   jumping: 0
   backDash: 0
