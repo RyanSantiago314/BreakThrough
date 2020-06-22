@@ -747,7 +747,7 @@ public class HitboxACH : MonoBehaviour
 
         HitDetect.damage = 40;
         HitDetect.durabilityDamage = 0;
-        HitDetect.potentialKnockBack = new Vector2(.5f, 2.5f);
+        HitDetect.potentialKnockBack = new Vector2(.5f, 2f);
         HitDetect.potentialHitStun = 24;
         HitDetect.potentialHitStop = hitStopLv2;
         if (HitDetect.OpponentDetector.Actions.armorActive)
