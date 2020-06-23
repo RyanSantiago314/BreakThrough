@@ -80,6 +80,7 @@ public class PauseMenu : MonoBehaviour
     private int verticalMoveListIndex = 1;
     public Image MoveListMarker;
     private bool keepMaxIndex;
+    private bool maxIndexSaved;
     private bool acceptBack = false;
     private bool acceptMoveList = true;
 
@@ -313,6 +314,7 @@ public class PauseMenu : MonoBehaviour
                         MoveListMarker.color = new Color(1f, 1f, 1f, 0f);
                         mList.resetMarker();
                         mList.enableMarker();
+                        mList.resetListPosition();
                         //Choose what video to display
                         VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().clip = videoToPlay[SelectVideo(verticalMoveListIndex, moveListIndex)];//SelectVideo(verticalMoveListIndex, moveListIndex);
 
@@ -602,6 +604,7 @@ public class PauseMenu : MonoBehaviour
                         MoveListMarker.color = new Color(1f, 1f, 1f, 0f);
                         mList.resetMarker();
                         mList.enableMarker();
+                        mList.resetListPosition();
                         //Choose what video to display
                         VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().clip = videoToPlay[SelectVideo(verticalMoveListIndex, moveListIndex)];//SelectVideo(verticalMoveListIndex, moveListIndex);
                     }
@@ -893,6 +896,7 @@ public class PauseMenu : MonoBehaviour
             moveListIndex -= 1;
             acceptInputHor = false;
             updateVideo = true;
+            mList.resetListPosition();
 
             if (verticalMoveListIndex != mList.maxVerticalIndex && moveListIndex != 0)
             {
@@ -910,6 +914,7 @@ public class PauseMenu : MonoBehaviour
             moveListIndex += 1;
             acceptInputHor = false;
             updateVideo = true;
+            mList.resetListPosition();
 
             if (verticalMoveListIndex != mList.maxVerticalIndex && moveListIndex != 5)
             {
@@ -923,14 +928,20 @@ public class PauseMenu : MonoBehaviour
             }
             if (moveListIndex == 4)
             {
-                mList.setUniversal1();
+                mList.setUniversal();
                 if (playerPaused == 1)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character + " Thorne");
+                    if (PlayerData.GetComponent<SelectedCharacterManager>().P1Character == "Dhalia" || PlayerData.GetComponent<SelectedCharacterManager>().P1Character == "Achealis")
+                    {
+                        mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character + " Thorne");
+                    }                  
                 }
                 else if(playerPaused == 2)
                 {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character + " Thorne");
+                    if (PlayerData.GetComponent<SelectedCharacterManager>().P2Character == "Dhalia" || PlayerData.GetComponent<SelectedCharacterManager>().P2Character == "Achealis")
+                    {
+                        mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character + " Thorne");
+                    }
                 }
             }
         }
@@ -948,22 +959,9 @@ public class PauseMenu : MonoBehaviour
         if (keepMaxIndex)
         {
             verticalMoveListIndex = mList.maxVerticalIndex;
-            switch (verticalMoveListIndex)
-            {
-                case 2:
-                    mList.setMarkerPosition(1);
-                    break;
-                case 3:
-                    mList.setMarkerPosition(2);
-                    break;
-                case 4:
-                    mList.setMarkerPosition(3);
-                    break;
-                default:
-                    mList.setMarkerPosition(4);
-                    break;
-            }
+            mList.setMarkerPosition(1);
             keepMaxIndex = false;
+            maxIndexSaved = true;
         }
 
         //Movelist hortizontal scrolling
@@ -987,6 +985,11 @@ public class PauseMenu : MonoBehaviour
 
         if (acceptInputVer && vertical < 0)
         {
+            if (mList.bottomCheck() && verticalMoveListIndex < mList.maxVerticalIndex && verticalMoveListIndex != mList.maxVerticalIndex-1)
+            {
+                mList.moveListUp();
+            }
+
             verticalMoveListIndex += 1;
             acceptInputVer = false;
             updateVideo = true;
@@ -1002,23 +1005,25 @@ public class PauseMenu : MonoBehaviour
                 mList.moveMarkerDown();
                 SelectorMarkAnimator.Play("SelectionSlide", -1, 0f);
             }
-
-            if (moveListIndex == 4 && mList.bottomCheck() && verticalMoveListIndex == 5)
-            {
-                mList.setUniversal2();
-            }
-            else if ((moveListIndex == 4 && mList.bottomCheck() && verticalMoveListIndex == 6))
-            {
-                mList.setUniversal3();
-            }
         }
         else if (acceptInputVer && vertical > 0)
         {
+            if (maxIndexSaved)
+            {
+                verticalMoveListIndex = 1;
+                maxIndexSaved = false;
+            }
+
+            if (mList.topCheck() && verticalMoveListIndex != 1 && verticalMoveListIndex < mList.maxVerticalIndex)
+            {
+                mList.moveListDown();
+            }
+
             verticalMoveListIndex -= 1;
             acceptInputVer = false;
             updateVideo = true;
 
-            if (verticalMoveListIndex != 0 && verticalMoveListIndex != (mList.maxVerticalIndex - 1))
+            if (verticalMoveListIndex != 0 && verticalMoveListIndex != mList.maxVerticalIndex-1)
             {
                 mList.moveMarkerUp();
                 SelectorMarkAnimator.Play("SelectionSlide", -1, 0f);
@@ -1027,43 +1032,6 @@ public class PauseMenu : MonoBehaviour
             {
                 mList.enableMarker();
                 MoveListMarker.color = new Color(1f, 1f, 1f, 0f);
-            }
-
-            if ((moveListIndex == 4 && verticalMoveListIndex == 6) && mList.bottomCheck())
-            {
-                mList.setUniversal3();
-                if (playerPaused == 1)
-                {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character + " Thorne");
-                }
-                else if (playerPaused == 2)
-                {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character + " Thorne");
-                }
-            }
-            else if (moveListIndex == 4 && mList.topCheck() && verticalMoveListIndex == 2)
-            {
-                mList.setUniversal2();
-                if (playerPaused == 1)
-                {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character + " Thorne");
-                }
-                else if (playerPaused == 2)
-                {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character + " Thorne");
-                }
-            }
-            else if (moveListIndex == 4 && mList.topCheck() && verticalMoveListIndex == 1)
-            {
-                mList.setUniversal1();
-                if (playerPaused == 1)
-                {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P1Character + " Thorne");
-                }
-                else if (playerPaused == 2)
-                {
-                    mList.setCharacter(PlayerData.GetComponent<SelectedCharacterManager>().P2Character + " Thorne");
-                }
             }
         }
 
@@ -1085,9 +1053,6 @@ public class PauseMenu : MonoBehaviour
             VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().Play();
 
         }
-
-
-
 
         //Go back to pause menu
         if (((Input.GetButton(p1cross) && playerPaused == 1) || (Input.GetButton(p2cross) && playerPaused == 2)) && verticalMoveListIndex == mList.maxVerticalIndex && acceptBack)
@@ -1135,9 +1100,13 @@ public class PauseMenu : MonoBehaviour
                 }
                 else if (vertical == 3)
                 {
-                    pathToVideo = (int)videoClips.DHA_BloodBrave;
+                    pathToVideo = (int)videoClips.DHA_Neutral;
                 }
                 else if (vertical == 4)
+                {
+                    pathToVideo = (int)videoClips.DHA_BloodBrave;
+                }
+                else if (vertical == 5)
                 {
                     pathToVideo = (int)videoClips.DHA_BasketCase;
                 }
@@ -1189,13 +1158,17 @@ public class PauseMenu : MonoBehaviour
             {
                 if(vertical == 1)
                 {
-                    pathToVideo = (int)videoClips.ACH_LevelHell;
+                    pathToVideo = (int)videoClips.ACH_Neutral;
                 }
                 else if (vertical == 2)
                 {
-                    pathToVideo = (int)videoClips.ACH_HeavenClimber;
+                    pathToVideo = (int)videoClips.ACH_LevelHell;
                 }
                 else if (vertical == 3)
+                {
+                    pathToVideo = (int)videoClips.ACH_HeavenClimber;
+                }
+                else if (vertical == 4)
                 {
                     pathToVideo = (int)videoClips.ACH_Starfall;
                 }
