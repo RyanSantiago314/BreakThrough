@@ -113,7 +113,9 @@ public class PauseMenu : MonoBehaviour
         ACH_B,
         ACH_Cancel,
         ACH_Grab,
-        ACH_Neutral
+        ACH_Neutral,
+        ACH_TowerLeap,
+        DHA_MoodSwing
     }
 
     //Dev tool to remove HUD
@@ -1049,7 +1051,7 @@ public class PauseMenu : MonoBehaviour
         if (updateVideo)
         {
             updateVideo = false;
-            VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().clip = videoToPlay[SelectVideo(verticalMoveListIndex, moveListIndex)];//SelectVideo(verticalMoveListIndex, moveListIndex);
+            VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().clip = videoToPlay[SelectVideo(verticalMoveListIndex, moveListIndex)];
             VideoScreen.GetComponent<UnityEngine.Video.VideoPlayer>().Play();
 
         }
@@ -1100,7 +1102,7 @@ public class PauseMenu : MonoBehaviour
                 }
                 else if (vertical == 3)
                 {
-                    pathToVideo = (int)videoClips.DHA_Neutral;
+                    pathToVideo = (int)videoClips.DHA_MoodSwing;
                 }
                 else if (vertical == 4)
                 {
@@ -1158,7 +1160,7 @@ public class PauseMenu : MonoBehaviour
             {
                 if(vertical == 1)
                 {
-                    pathToVideo = (int)videoClips.ACH_Neutral;
+                    pathToVideo = (int)videoClips.ACH_TowerLeap;
                 }
                 else if (vertical == 2)
                 {

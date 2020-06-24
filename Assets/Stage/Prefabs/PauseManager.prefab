@@ -4539,6 +4539,8 @@ MonoBehaviour:
   - {fileID: 32900000, guid: b535e01c43e81ed49af1c02ae8ebe833, type: 3}
   - {fileID: 32900000, guid: 3251df1a0733aa1429865aa8a7accea2, type: 3}
   - {fileID: 32900000, guid: d936a0c391670f14597a6265558cc919, type: 3}
+  - {fileID: 32900000, guid: cd6836a87063797458efaec01b7c9ffc, type: 3}
+  - {fileID: 32900000, guid: 0830528ddd16b5b40866abed12bf0150, type: 3}
   HUD: {fileID: 0}
   PracticeHUD: {fileID: 0}
   PlayerData: {fileID: 0}
