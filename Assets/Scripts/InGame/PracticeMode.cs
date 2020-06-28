@@ -87,7 +87,10 @@ public class PracticeMode : MonoBehaviour
     public GameObject RecordingDisplay;
 
     private string inputSelect = "Select_P1";
+    private string inputR1 = "R1_P1";
+    private string inputR2 = "R2_P1";
     private string inputR3 = "R3_P1";
+    private string inputL1 = "L1_P1";
     private string inputL2 = "L2_P1";
     private string inputL3 = "L3_P1";
     private string inputCross = "Cross_P1";
@@ -96,6 +99,10 @@ public class PracticeMode : MonoBehaviour
     private string inputSquare = "Square_P1";
     private string inputHorizontal = "Horizontal_P1";
     private string inputVertical = "Vertical_P1";
+
+    private string[,] inputHistory = new string[10,6];
+    private int inputHistoryFrameCounter;
+    //private int inputHistoryCursor;
 
     //For tutorial
     public bool refillCPUHealth = true;
@@ -132,7 +139,10 @@ public class PracticeMode : MonoBehaviour
         P2HighComboDamage.text = "Highest Combo Damage: 0";
 
         inputSelect += UpdateControls(CheckXbox(0));
+        inputR1 += UpdateControls(CheckXbox(0));
+        inputR2 += UpdateControls(CheckXbox(0));
         inputR3 += UpdateControls(CheckXbox(0));
+        inputL1 += UpdateControls(CheckXbox(0));
         inputL2 += UpdateControls(CheckXbox(0));
         inputL3 += UpdateControls(CheckXbox(0));
         inputCross += UpdateControls(CheckXbox(0));
@@ -227,6 +237,7 @@ public class PracticeMode : MonoBehaviour
             // If we are NOT paused
             if (!PracticeModeSettings.GetComponent<PauseMenu>().isPaused)
             {
+                printInputHistory();
                 //Refill Armor Meters Option
                 if (enableArmorRefill)
                 {
@@ -630,6 +641,67 @@ public class PracticeMode : MonoBehaviour
 
             }
         }
+    }
+
+    public void printInputHistory()
+    {
+        //[direction, light, medium, heavy, break, frames]
+        string[] tempInputHistory = new string[6];
+        string[] currentInputHistory = new string[6];
+        bool inputChanged = false;
+        string testingOutput = "";
+        float tempHor = MaxInput.GetAxis("Horizontal_P1");
+        float tempVer = MaxInput.GetAxis("Vertical_P1");
+        for (int i = 0; i < 6; i++)
+            tempInputHistory[i] = inputHistory[0, i];
+
+        if (tempHor == 0 && tempVer == 0) currentInputHistory[0] = "5";
+        if (tempHor > 0 && tempVer == 0) currentInputHistory[0] = "6";
+        if (tempHor > 0 && tempVer < 0) currentInputHistory[0] = "3";
+        if (tempHor == 0 && tempVer < 0) currentInputHistory[0] = "2";
+        if (tempHor < 0 && tempVer < 0) currentInputHistory[0] = "1";
+        if (tempHor < 0 && tempVer == 0) currentInputHistory[0] = "4";
+        if (tempHor < 0 && tempVer > 0) currentInputHistory[0] = "7";
+        if (tempHor == 0 && tempVer > 0) currentInputHistory[0] = "8";
+        if (tempHor > 0 && tempVer > 0) currentInputHistory[0] = "9";
+
+        //buttons
+        if (MaxInput.GetButton("Square_P1")) currentInputHistory[1] = "T"; else currentInputHistory[1] = "F";
+        if (MaxInput.GetButton("Triangle_P1")) currentInputHistory[2] = "T"; else currentInputHistory[2] = "F";
+        if (MaxInput.GetButton("Circle_P1")) currentInputHistory[3] = "T"; else currentInputHistory[3] = "F";
+        if (MaxInput.GetButton("Cross_P1")) currentInputHistory[4] = "T"; else currentInputHistory[4] = "F";
+        if (MaxInput.GetButton("L1_P1")) { currentInputHistory[1] = "T"; currentInputHistory[4] = "T"; } //light, break
+        if (MaxInput.GetButton("L2_P1")) { currentInputHistory[2] = "T"; currentInputHistory[3] = "T"; } //medium, heavy
+        if (MaxInput.GetButton("R1_P1")) { currentInputHistory[1] = "T"; currentInputHistory[2] = "T"; } //light, medium
+        if (MaxInput.GetButton("R2_P1")) { currentInputHistory[3] = "T"; currentInputHistory[4] = "T"; } //heavy, break
+
+        for (int i = 0; i < 5; i++)
+        {
+            if (tempInputHistory[i] != currentInputHistory[i])
+                inputChanged = true;
+        }
+
+        if (inputChanged)
+        {
+            inputHistoryFrameCounter = 0;
+            for(int i = 0; i < 9; i++)
+                for(int j = 0; j < 6; j++)
+                {
+                    inputHistory[i, j] = inputHistory[i + 1, j];
+                }
+            for(int i = 0; i < 6; i++)
+            {
+                inputHistory[0, i] = currentInputHistory[i];
+            }
+        }
+        else
+            inputHistoryFrameCounter += 1;
+
+        inputHistory[0, 5] = inputHistoryFrameCounter.ToString();
+
+        for (int i = 0; i < 6; i++)
+            testingOutput += inputHistory[0, i];
+        print(testingOutput);
     }
 
     public void resetPositions()
