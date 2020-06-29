@@ -100,7 +100,8 @@ public class PracticeMode : MonoBehaviour
     private string inputHorizontal = "Horizontal_P1";
     private string inputVertical = "Vertical_P1";
 
-    private string[,] inputHistory = new string[10,6];
+    private int inputHistoryLength = 10;
+    private string[,] inputHistory = new string[10, 6];
     private int inputHistoryFrameCounter;
     //private int inputHistoryCursor;
 
@@ -646,14 +647,13 @@ public class PracticeMode : MonoBehaviour
     public void printInputHistory()
     {
         //[direction, light, medium, heavy, break, frames]
-        string[] tempInputHistory = new string[6];
+        
         string[] currentInputHistory = new string[6];
         bool inputChanged = false;
         string testingOutput = "";
         float tempHor = MaxInput.GetAxis("Horizontal_P1");
         float tempVer = MaxInput.GetAxis("Vertical_P1");
-        for (int i = 0; i < 6; i++)
-            tempInputHistory[i] = inputHistory[0, i];
+        
 
         if (tempHor == 0 && tempVer == 0) currentInputHistory[0] = "5";
         if (tempHor > 0 && tempVer == 0) currentInputHistory[0] = "6";
@@ -677,14 +677,14 @@ public class PracticeMode : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            if (tempInputHistory[i] != currentInputHistory[i])
+            if (inputHistory[0, i] != currentInputHistory[i])
                 inputChanged = true;
         }
 
         if (inputChanged)
         {
             inputHistoryFrameCounter = 0;
-            for(int i = 0; i < 9; i++)
+            for(int i = 0; i < inputHistoryLength - 1; i++)
                 for(int j = 0; j < 6; j++)
                 {
                     inputHistory[i, j] = inputHistory[i + 1, j];
