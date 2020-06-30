@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657916, g: 0.49641287, b: 0.57481915, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465794, g: 0.4964134, b: 0.57481974, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -196,10 +196,12 @@ MonoBehaviour:
   P1HitType: {fileID: 300914593}
   P2HitType: {fileID: 190983066}
   RecordingState: {fileID: 612075312}
+  InputHistoryOutput: {fileID: 5660124816909190398}
   DamageDisplays: {fileID: 2131062274}
   P1Displays: {fileID: 1609458486}
   P2Displays: {fileID: 1878893716}
   RecordingDisplay: {fileID: 2014833181}
+  refillCPUHealth: 1
 --- !u!114 &190983066 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8094539978171423737, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
@@ -1323,6 +1325,7 @@ MonoBehaviour:
   doingQCB: 0
   doingHCF: 0
   doingHCB: 0
+  doingDP: 0
   doing5L_1: 0
   doing2H_1: 0
   delayTimer: 0
@@ -1895,3 +1898,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ab7bc3416871a94a80b2827c03fc0bc, type: 3}
+--- !u!114 &5660124816909190398 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7162148538109896959, guid: 0ab7bc3416871a94a80b2827c03fc0bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 5660124816909190397}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
