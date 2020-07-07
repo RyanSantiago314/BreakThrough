@@ -45,7 +45,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.65, y: 0}
+  m_Offset: {x: -0.02, y: 0.62}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -56,7 +56,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.285, y: 0.725}
+  m_Size: {x: 0.38, y: 0.295}
   m_EdgeRadius: 0
 --- !u!61 &4805734549988235509
 BoxCollider2D:
@@ -71,7 +71,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.3, y: 0.32}
+  m_Offset: {x: -0.17, y: 0.26}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -82,7 +82,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.71, y: 0.48}
+  m_Size: {x: 0.9, y: 0.45999998}
   m_EdgeRadius: 0
 --- !u!1 &4805734550033573974
 GameObject:
@@ -385,6 +385,7 @@ MonoBehaviour:
   gravScale: 1
   comboHits: 0
   hitType: 
+  screenShake: 0
   anim: {fileID: 4805734550476353333}
   Move: {fileID: 4805734551550778301}
   CharProp: {fileID: 4805734551550778304}
@@ -410,6 +411,8 @@ MonoBehaviour:
   HitDetect: {fileID: 4805734551020860980}
   AttackHandler: {fileID: 4805734551550778299}
   sinCharge: 0
+  install: 0
+  installTimer: 0
 --- !u!114 &4805734550476353335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,7 +476,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.58, y: 0.56}
+  m_Offset: {x: 0.27, y: 0.16}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -484,7 +487,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1, y: 0.43}
+  m_Size: {x: 0.61, y: 0.23}
   m_EdgeRadius: 0
 --- !u!61 &4805734550578863256
 BoxCollider2D:
@@ -493,13 +496,13 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4805734550578863254}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.67}
+  m_Offset: {x: -0.21, y: -0.085}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -510,7 +513,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 0.43}
+  m_Size: {x: 0.68, y: 0.3}
   m_EdgeRadius: 0
 --- !u!1 &4805734550646551874
 GameObject:
@@ -551,13 +554,13 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4805734550646551874}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.09884876, y: 0.24733162}
+  m_Offset: {x: -0.34, y: -0.37}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -568,7 +571,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8705363, y: 0.5146997}
+  m_Size: {x: 0.43, y: 0.375}
   m_EdgeRadius: 0
 --- !u!61 &4805734550646551876
 BoxCollider2D:
@@ -1283,6 +1286,8 @@ MonoBehaviour:
   LHPrefab: {fileID: 183135265375414106, guid: 1da0fc440e7cffe44bc532e4cb620c00, type: 3}
   SFPrefab: {fileID: 4167558336139990631, guid: 41b4791d11e33674389be949b62cf833,
     type: 3}
+  GenesisPrefab: {fileID: 7383627962172183117, guid: 1aeb34d12d71f3247a0108c212d6ebb1,
+    type: 3}
   FMPrefab: {fileID: 9219675691763498829, guid: 7907e0bfd2f7a8a40beeafd8c3c01af6,
     type: 3}
   BlitzPrefab: {fileID: 5624907148042030614, guid: eb89495abd7591d4296e898d5ff395c3,
@@ -1291,6 +1296,7 @@ MonoBehaviour:
   LHSlide: {fileID: 0}
   LHWave: {fileID: 0}
   SFWave: {fileID: 0}
+  GenesisEdge: {fileID: 0}
   BlitzEffect: {fileID: 0}
   ForsythiaReticle: {fileID: 0}
   Horizontal: 
@@ -1322,8 +1328,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitDetect: {fileID: 4805734551020860980}
-  maxHealth: 1150
-  currentHealth: 1150
+  maxHealth: 1100
+  currentHealth: 1100
   armor: 0
   durability: 0
   comboTimer: 0
@@ -1538,7 +1544,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 26.578947, y: 33.57895}
+  m_Size: {x: 31.263159, y: 27.368422}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0

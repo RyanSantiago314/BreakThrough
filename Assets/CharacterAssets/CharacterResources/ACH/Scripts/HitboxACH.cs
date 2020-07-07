@@ -26,6 +26,8 @@ public class HitboxACH : MonoBehaviour
     int hitStopLv4 = 11;
 
     public int sinCharge; // variable used to charge/enhance Genesis Assault special attack, similar to sin charge from DHA
+    public bool install;
+    public float installTimer;
 
 
     void Start()
@@ -153,6 +155,100 @@ public class HitboxACH : MonoBehaviour
         AttackHandler.SFWave.GetComponent<HeavenClimber>().anim.SetTrigger("Activate");
     }
 
+    public void SummonGen1()
+    {
+        if (!install)
+        {
+            AttackHandler.GenesisEdge.SetActive(true);
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().projectileActive = true;
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().maxHits = 2;
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().currentHits = 0;
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().currentLife = 15f / 60f;
+            AttackHandler.GenesisEdge.transform.rotation = transform.rotation;
+            if (HitDetect.Actions.Move.facingRight)
+                AttackHandler.GenesisEdge.transform.position = new Vector3(transform.position.x - 1f, transform.position.y + .15f, transform.position.z);
+            else
+                AttackHandler.GenesisEdge.transform.position = new Vector3(transform.position.x + 1f, transform.position.y + .15f, transform.position.z);
+            AttackHandler.GenesisEdge.GetComponent<GenesisEdgeHitbox>().anim.SetInteger("ProjectileLevel", 0);
+            AttackHandler.GenesisEdge.GetComponent<GenesisEdgeHitbox>().anim.SetTrigger("Activate");
+        }
+        else
+        {
+            AttackHandler.GenesisEdge.SetActive(true);
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().projectileActive = true;
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().maxHits = 3;
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().currentHits = 0;
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().currentLife = 30f / 60f;
+            AttackHandler.GenesisEdge.transform.rotation = transform.rotation;
+            if (HitDetect.Actions.Move.facingRight)
+                AttackHandler.GenesisEdge.transform.position = new Vector3(transform.position.x - 1.1f, transform.position.y + .2f, transform.position.z);
+            else
+                AttackHandler.GenesisEdge.transform.position = new Vector3(transform.position.x + 1.1f, transform.position.y + .2f, transform.position.z);
+            AttackHandler.GenesisEdge.GetComponent<GenesisEdgeHitbox>().anim.SetInteger("ProjectileLevel", 1);
+            AttackHandler.GenesisEdge.GetComponent<GenesisEdgeHitbox>().anim.SetTrigger("Activate");
+        }
+        /*AttackHandler.GenesisEdge.SetActive(true);
+        AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().projectileActive = true;
+        AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().maxHits = 3;
+        AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().currentHits = 0;
+        AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().currentLife = 30f/60f;
+        AttackHandler.GenesisEdge.transform.rotation = transform.rotation;
+        if (HitDetect.Actions.Move.facingRight)
+            AttackHandler.GenesisEdge.transform.position = new Vector3(transform.position.x - 1f, transform.position.y + .2f, transform.position.z);
+        else
+            AttackHandler.GenesisEdge.transform.position = new Vector3(transform.position.x + 1f, transform.position.y + .2f, transform.position.z);
+        AttackHandler.GenesisEdge.GetComponent<GenesisEdgeHitbox>().anim.SetInteger("ProjectileLevel", 1);
+        AttackHandler.GenesisEdge.GetComponent<GenesisEdgeHitbox>().anim.SetTrigger("Activate");*/
+
+        /*AttackHandler.GenesisEdge.SetActive(true);
+        AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().projectileActive = true;
+        AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().maxHits = 3;
+        AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().currentHits = 0;
+        AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().currentLife = 30f / 60f;
+        AttackHandler.GenesisEdge.transform.rotation = transform.rotation;
+        if (HitDetect.Actions.Move.facingRight)
+            AttackHandler.GenesisEdge.transform.position = new Vector3(transform.position.x + .35f, transform.position.y + .25f, transform.position.z);
+        else
+            AttackHandler.GenesisEdge.transform.position = new Vector3(transform.position.x - .35f, transform.position.y + .25f, transform.position.z);
+        AttackHandler.GenesisEdge.GetComponent<GenesisEdgeHitbox>().anim.SetInteger("ProjectileLevel", 2);
+        AttackHandler.GenesisEdge.GetComponent<GenesisEdgeHitbox>().anim.SetTrigger("Activate");*/
+
+    }
+
+    public void SummonGenAir()
+    {
+        if (install)
+        {
+            AttackHandler.GenesisEdge.SetActive(true);
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().projectileActive = true;
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().maxHits = 3;
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().currentHits = 0;
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().currentLife = 30f / 60f;
+            AttackHandler.GenesisEdge.transform.rotation = transform.rotation;
+            if (HitDetect.Actions.Move.facingRight)
+                AttackHandler.GenesisEdge.transform.position = new Vector3(transform.position.x - 1f, transform.position.y + .5f, transform.position.z);
+            else
+                AttackHandler.GenesisEdge.transform.position = new Vector3(transform.position.x + 1f, transform.position.y + .5f, transform.position.z);
+            AttackHandler.GenesisEdge.GetComponent<GenesisEdgeHitbox>().anim.SetInteger("ProjectileLevel", 1);
+            AttackHandler.GenesisEdge.GetComponent<GenesisEdgeHitbox>().anim.SetTrigger("Activate");
+        }
+        else
+        {
+            AttackHandler.GenesisEdge.SetActive(true);
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().projectileActive = true;
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().maxHits = 1;
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().currentHits = 0;
+            AttackHandler.GenesisEdge.GetComponent<ProjectileProperties>().currentLife = 15f / 60f;
+            AttackHandler.GenesisEdge.transform.rotation = transform.rotation;
+            if (HitDetect.Actions.Move.facingRight)
+                AttackHandler.GenesisEdge.transform.position = new Vector3(transform.position.x - 1f, transform.position.y + .5f, transform.position.z);
+            else
+                AttackHandler.GenesisEdge.transform.position = new Vector3(transform.position.x + 1f, transform.position.y + .5f, transform.position.z);
+            AttackHandler.GenesisEdge.GetComponent<GenesisEdgeHitbox>().anim.SetInteger("ProjectileLevel", 0);
+            AttackHandler.GenesisEdge.GetComponent<GenesisEdgeHitbox>().anim.SetTrigger("Activate");
+        }
+    }
+
     public void SummonReticle()
     {
         AttackHandler.ForsythiaReticle.SetActive(true);
@@ -163,6 +259,7 @@ public class HitboxACH : MonoBehaviour
         AttackHandler.ForsythiaReticle.GetComponent<ForsythiaHitbox>().anim.SetTrigger("Activate");
         AttackHandler.ForsythiaReticle.GetComponent<ProjectileProperties>().currentHits = 0;
     }
+
 
     public void TowerLeapLControl()
     {
@@ -340,7 +437,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 50;
         HitDetect.potentialHitStun = hitStunLv2;
-        HitDetect.potentialHitStop = hitStopLv1;
+        HitDetect.potentialHitStop = 4;
         HitDetect.potentialKnockBack = new Vector2(.5f, 0);
         HitDetect.potentialAirKnockBack = new Vector2(.25f, 1f);
         HitDetect.attackLevel = 1;
@@ -470,6 +567,7 @@ public class HitboxACH : MonoBehaviour
     {
         ClearHitBox();
         HitDetect.Actions.AttackActive();
+        HitDetect.Actions.EnableScreenShake();
 
         hit1.enabled = true;
         hit2.enabled = true;
@@ -635,6 +733,7 @@ public class HitboxACH : MonoBehaviour
     {
         ClearHitBox();
         HitDetect.Actions.AttackActive();
+        HitDetect.Actions.EnableScreenShake();
 
         hit1.enabled = true;
         hit2.enabled = true;
@@ -668,6 +767,12 @@ public class HitboxACH : MonoBehaviour
         HitDetect.vertSlash = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
+
+        if (install)
+        {
+            HitDetect.jumpCancellable = true;
+            HitDetect.allowBreak = true;
+        }
     }
 
     void CrouchBHitBox()
@@ -695,6 +800,12 @@ public class HitboxACH : MonoBehaviour
         HitDetect.piercing = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
+
+        if (install)
+        {
+            HitDetect.jumpCancellable = true;
+            HitDetect.allowBreak = true;
+        }
     }
 
     void CrouchBHitBox2()
@@ -724,6 +835,12 @@ public class HitboxACH : MonoBehaviour
         HitDetect.sweep = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
+
+        if (install)
+        {
+            HitDetect.jumpCancellable = true;
+            HitDetect.allowBreak = true;
+        }
     }
 
     void JumpBHitBoxInit()
@@ -748,6 +865,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.damage = 40;
         HitDetect.durabilityDamage = 0;
         HitDetect.potentialKnockBack = new Vector2(.5f, 2f);
+        HitDetect.potentialAirKnockBack = new Vector2(.5f, 1f);
         HitDetect.potentialHitStun = 24;
         HitDetect.potentialHitStop = hitStopLv2;
         if (HitDetect.OpponentDetector.Actions.armorActive)
@@ -760,6 +878,9 @@ public class HitboxACH : MonoBehaviour
         HitDetect.launch = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
+
+        if (install)
+            HitDetect.jumpCancellable = true;
     }
 
     void JumpBHitBoxNext()
@@ -794,6 +915,9 @@ public class HitboxACH : MonoBehaviour
         HitDetect.launch = true;
         HitDetect.allowSpecial = true;
         HitDetect.allowSuper = true;
+
+        if (install)
+            HitDetect.jumpCancellable = true;
     }
 
     void ThrowInit()
@@ -900,6 +1024,12 @@ public class HitboxACH : MonoBehaviour
         HitDetect.launch = true;
         HitDetect.piercing = true;
         HitDetect.usingSpecial = true;
+
+        if (install)
+        {
+            HitDetect.allowSpecial = true;
+            HitDetect.potentialHitStun = 42;
+        }
         HitDetect.allowSuper = true;
     }
 
@@ -941,6 +1071,11 @@ public class HitboxACH : MonoBehaviour
         HitDetect.launch = true;
         HitDetect.shatter = true;
         HitDetect.usingSpecial = true;
+
+        if (install)
+        {
+            HitDetect.allowSpecial = true;
+        }
         HitDetect.allowSuper = true;
     }
 
@@ -968,6 +1103,11 @@ public class HitboxACH : MonoBehaviour
 
         HitDetect.usingSpecial = true;
         HitDetect.allowSuper = true;
+
+        if (install)
+        {
+            HitDetect.allowSpecial = true;
+        }
     }
 
     void LHFinalHit()
@@ -987,7 +1127,7 @@ public class HitboxACH : MonoBehaviour
         HitDetect.armorDamage = 0;
         HitDetect.durabilityDamage = 0;       
         HitDetect.potentialBlockStun = 16;
-        HitDetect.potentialHitStun = 42;
+        HitDetect.potentialHitStun = 32;
         HitDetect.potentialHitStop = 15;
         HitDetect.attackLevel = 5;
         HitDetect.guard = "Mid";
@@ -1002,10 +1142,15 @@ public class HitboxACH : MonoBehaviour
         }
         else
         {
-            HitDetect.potentialKnockBack = new Vector2(3f, 2.5f);
+            HitDetect.potentialKnockBack = new Vector2(3f, 2f);
         }
         HitDetect.usingSpecial = true;
         HitDetect.allowSuper = true;
+
+        if (install)
+        {
+            HitDetect.allowSpecial = true;
+        }
     }
 
     void StarfallHit()
@@ -1045,6 +1190,11 @@ public class HitboxACH : MonoBehaviour
         HitDetect.shatter = true;
         HitDetect.usingSpecial = true;
         HitDetect.allowSuper = true;
+
+        if (install)
+        {
+            HitDetect.allowSpecial = true;
+        }
     }
 
     void HRSlashHit()

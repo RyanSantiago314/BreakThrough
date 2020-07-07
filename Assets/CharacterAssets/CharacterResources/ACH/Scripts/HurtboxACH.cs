@@ -1005,4 +1005,103 @@ public class HurtboxACH : MonoBehaviour
         misc1.offset = new Vector2(-.1f, .247f);
         misc1.size = new Vector2(.87f, .51f);
     }
+
+    public void GECharge()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(0f, .56f);
+        head.size = new Vector2(.2f, .25f);
+        body.offset = new Vector2(.01f, .2f);
+        body.size = new Vector2(.53f, .47f);
+        legs1.offset = new Vector2(-.06f, -.42f);
+        legs1.size = new Vector2(.78f, .87f);
+        legs2.offset = new Vector2(.14f, -.51f);
+        legs2.size = new Vector2(.88f, .73f);
+    }
+
+    public void GEReco()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(.125f, .49f);
+        head.size = new Vector2(.45f, .287f);
+        body.offset = new Vector2(-0.1f, .198f);
+        body.size = new Vector2(.8f, .59f);
+        legs1.offset = new Vector2(-.19f, -.45f);
+        legs1.size = new Vector2(1.05f, .8f);
+        legs2.offset = new Vector2(.11f, -.51f);
+        legs2.size = new Vector2(.82f, .73f);
+        misc1.offset = new Vector2(.27f, .35f);
+        misc1.size = new Vector2(1.6f, .17f);
+    }
+
+    public void GEAirStart()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(-.26f, .62f);
+        head.size = new Vector2(.61f, .28f);
+        body.offset = new Vector2(-0.21f, .31f);
+        body.size = new Vector2(.48f, .36f);
+        legs1.offset = new Vector2(-.45f, .16f);
+        legs1.size = new Vector2(.51f, .47f);
+        legs2.offset = new Vector2(-.74f, -.19f);
+        legs2.size = new Vector2(.95f, .36f);
+    }
+
+    public void GEAirReco1()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(.02f, .74f);
+        head.size = new Vector2(.26f, .53f);
+        body.offset = new Vector2(-0.1f, .258f);
+        body.size = new Vector2(.59f, .46f);
+        legs1.offset = new Vector2(.29f, .07f);
+        legs1.size = new Vector2(.65f, .3f);
+        legs2.offset = new Vector2(-.14f, -.27f);
+        legs2.size = new Vector2(.55f, .535f);
+        misc1.offset = new Vector2(-.325f, -.66f);
+        misc1.size = new Vector2(.15f, .27f);
+    }
+
+    public void GEAirReco2()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(-.02f, .62f);
+        head.size = new Vector2(.38f, .295f);
+        body.offset = new Vector2(-0.17f, .26f);
+        body.size = new Vector2(.9f, .46f);
+        legs1.offset = new Vector2(.27f, .16f);
+        legs1.size = new Vector2(.61f, .23f);
+        legs2.offset = new Vector2(-.21f, -.085f);
+        legs2.size = new Vector2(.68f, .3f);
+        misc1.offset = new Vector2(-.34f, -.37f);
+        misc1.size = new Vector2(.43f, .375f);
+    }
 }

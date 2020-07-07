@@ -15,6 +15,7 @@ public class CameraController : MonoBehaviour
     MovementHandler Char2Move;
 
     float screenShake;
+    float microScreenShake;
     float zPos;
     float zPosZoom;
     float zPosZoomOut;
@@ -29,8 +30,8 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         zPos = transform.position.z;
-        zPosZoom = zPos + 1;
-        zPosZoomOut = zPos - .65f;
+        zPosZoom = zPos + 1f;
+        zPosZoomOut = zPos - .5f;
 
         Player1 = GameObject.Find("Player1");
         Player2 = GameObject.Find("Player2");
@@ -86,31 +87,65 @@ public class CameraController : MonoBehaviour
 
             smooth = 10;
 
-            if ((Char1Move.wallStickTimer <= (float)35/60 && Char1Move.wallStickTimer >= (float)34 / 60)  || (Char2Move.wallStickTimer <= (float)35/60 && Char2Move.wallStickTimer >= (float)34 / 60))
+            if (screenShake <= 0 && ((Char1Move.wallStickTimer < (float)42/60 && Char1Move.wallStickTimer >= (float)40 / 60) || (Char2Move.wallStickTimer < (float)42 / 60 && Char2Move.wallStickTimer >= (float)40 / 60) || (Char1Move.hittingWall && Char1Move.Actions.wallBounce && Char1Move.Actions.airborne) || (Char2Move.hittingWall && Char2Move.Actions.wallBounce && Char2Move.Actions.airborne)))
             {
                 screenShake = .1f;
+            }
+            else if (Char2Move.Actions.screenShake || Char1Move.Actions.screenShake || (microScreenShake <= 0 && ((Char1Move.HitDetect.hitStop > 0 && (Char1Move.HitDetect.hitStun > 29 || Char1Move.Actions.superHit || Char1Move.HitDetect.hitStop > 13f/60f)) || (Char2Move.HitDetect.hitStop > 0 && (Char2Move.HitDetect.hitStun > 29 || Char2Move.Actions.superHit || Char2Move.HitDetect.hitStop > 13f / 60f)))))
+            {
+                microScreenShake = .1f;
+                Char2Move.Actions.screenShake = false;
+                Char1Move.Actions.screenShake = false;
             }
 
             if (screenShake > 0)
             {
                 float randX = Random.Range(-1f, 1f);
                 float randY = Random.Range(-1f, 1f);
-                if (cameraPos.x < -8.5)
-                    randX = Random.Range(0f, 1f);
-                else if (cameraPos.x > 8.5)
-                    randX = Random.Range(-1f, 0f);
 
-                cameraPos = new Vector3(cameraPos.x + randX * 1.5f, cameraPos.y + randY * .3f, zPos);
+                if (randX < 0)
+                    randX -= .3f;
+                else
+                    randX += .3f;
+
+                if (randY < 0)
+                    randY -= .3f;
+                else
+                    randY += .3f;
+
+                if (Mathf.Abs(Character1.position.x - Character2.position.x) > 3.5)
+                    cameraPos = new Vector3(cameraPos.x + randX * 1.5f, cameraPos.y + randY * .5f, zPosZoomOut);
+                else
+                    cameraPos = new Vector3(cameraPos.x + randX * 1.5f, cameraPos.y + randY * .5f, zPos);
+                
+                smooth = 10;
+            }
+            else if (microScreenShake > 0)
+            {
+                float randX = Random.Range(-.5f, .5f);
+                float randY = Random.Range(-.5f, .5f);
+
+                if (randY < 0)
+                    randY -= .05f;
+                else
+                    randY += .05f;
+
+                if (Mathf.Abs(Character1.position.x - Character2.position.x) > 3.5)
+                    cameraPos = new Vector3(cameraPos.x + randX * .3f, cameraPos.y + randY * .75f, zPosZoomOut);
+                else
+                    cameraPos = new Vector3(cameraPos.x + randX * .3f, cameraPos.y + randY * .75f, zPos);
+
                 smooth = 10;
             }
             screenShake -= Time.deltaTime;
+            microScreenShake -= Time.deltaTime;
 
             if (cameraPos.x < -7.8)
                 cameraPos = new Vector3(-7.8f, cameraPos.y, cameraPos.z);
             else if (cameraPos.x > 7.8)
                 cameraPos = new Vector3(7.8f, cameraPos.y, cameraPos.z);
-            if (cameraPos.y < 1.5)
-                cameraPos = new Vector3(cameraPos.x, 1.5f, cameraPos.z);
+            if (cameraPos.y < 1.3)
+                cameraPos = new Vector3(cameraPos.x, 1.3f, cameraPos.z);
             else if (cameraPos.y > 6)
                 cameraPos = new Vector3(cameraPos.x, 6f, cameraPos.z);
         }

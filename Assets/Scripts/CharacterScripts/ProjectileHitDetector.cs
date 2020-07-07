@@ -65,6 +65,10 @@ public class ProjectileHitDetector : MonoBehaviour
     float minDamage;
     float damageToOpponent;
 
+    public bool slash = false;
+    public bool vertSlash = false;
+    public bool horiSlash = false;
+
     static int HiGuard;
     static int LoGuard;
     static int AirGuard;
@@ -282,18 +286,21 @@ public class ProjectileHitDetector : MonoBehaviour
                             Debug.Log("SHATTERED");
                             //damage, hitstun, etc.
                             HitSuccess(other);
+                        if (potentialHitStop > 8)
                             ApplyHitStop(2 * potentialHitStop);
+                        else
+                            ApplyHitStop(24);
 
-                            //chip damage
-                            /*if (Actions.Move.OpponentProperties.currentHealth - damage/5 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
-                                Actions.Move.OpponentProperties.currentHealth = 1;
-                            else
-                                Actions.Move.OpponentProperties.currentHealth -= damage/5;
+                        //chip damage
+                        /*if (Actions.Move.OpponentProperties.currentHealth - damage/5 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
+                            Actions.Move.OpponentProperties.currentHealth = 1;
+                        else
+                            Actions.Move.OpponentProperties.currentHealth -= damage/5;
 
-                            if (Actions.Move.OpponentProperties.currentHealth <= 0)
-                                OpponentDetector.anim.SetTrigger(hitID);*/
+                        if (Actions.Move.OpponentProperties.currentHealth <= 0)
+                            OpponentDetector.anim.SetTrigger(hitID);*/
 
-                        }
+                    }
                     }
                     else if (OpponentDetector.Actions.Move.justDefenseTime <= 0 && OpponentDetector.Actions.standing)
                     {
@@ -362,7 +369,10 @@ public class ProjectileHitDetector : MonoBehaviour
                     Debug.Log("SHATTERED");
                     //damage, hitstun, etc.
                     HitSuccess(other);
-                    ApplyHitStop(2 * potentialHitStop);
+                    if (potentialHitStop > 8)
+                        ApplyHitStop(2 * potentialHitStop);
+                    else
+                        ApplyHitStop(24);
                 }
                 else if (piercing && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                 {
@@ -380,7 +390,7 @@ public class ProjectileHitDetector : MonoBehaviour
                     //if the opponent has armor and is using it, deal armor and durability damage
                     Actions.Move.OpponentProperties.armor -= armorDamage;
                     Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                    ApplyHitStop(potentialHitStop/2);
+                    ApplyHitStop(0);
                     OpponentDetector.armorHit = true;
                     Debug.Log("HitArmor");
                 }
@@ -399,9 +409,16 @@ public class ProjectileHitDetector : MonoBehaviour
             if ((other.transform.GetComponent<ProjectileHitDetector>().attackLevel - attackLevel) > 1 && potentialHitStun > 0)
             {
                 //when one attack is more powerful than another, the weaker attack is deflected
-                ApplyHitStop(2);
+                ApplyHitStop(6);
                 Debug.Log("Projectile DEFLECTED!");
-                other.transform.GetComponent<ProjectileHitDetector>().ProjProp.currentHits = other.transform.GetComponent<ProjectileHitDetector>().ProjProp.maxHits;
+                transform.GetComponent<ProjectileHitDetector>().ProjProp.currentHits = transform.GetComponent<ProjectileHitDetector>().ProjProp.maxHits;
+                transform.GetComponent<ProjectileHitDetector>().anim.SetTrigger("Deactivate");
+
+                HitDetect.hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+
+                HitDetect.hitEffect.transform.GetChild(0).transform.localScale = Vector3.one;
+                HitDetect.hitEffect.transform.GetChild(0).transform.localEulerAngles = new Vector3(0, 0, -30);
+                HitDetect.hitEffect.SetTrigger(parryID);
             }
             else if ((attackLevel - other.transform.GetComponent<ProjectileHitDetector>().attackLevel) <= 1 && potentialHitStun > 0)
             {
@@ -418,18 +435,36 @@ public class ProjectileHitDetector : MonoBehaviour
         else if (allowHit && !blitz && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
         {
             //clash/deflect system projectile vs physical attack
-            if (attackLevel > OpponentDetector.attackLevel && (attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
+            if (attackLevel < OpponentDetector.attackLevel && (OpponentDetector.attackLevel - attackLevel) > 1 && potentialHitStun > 0)
+            {
+                //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
+                ApplyHitStop(2);
+                Debug.Log("DEFLECTED projectile");
+                transform.GetComponent<ProjectileHitDetector>().ProjProp.currentHits = transform.GetComponent<ProjectileHitDetector>().ProjProp.maxHits;
+                transform.GetComponent<ProjectileHitDetector>().anim.SetTrigger("Deactivate");
+                HitDetect.OpponentDetector.anim.SetTrigger(parryID);
+                HitDetect.OpponentDetector.Actions.EnableAll();
+
+                HitDetect.hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+
+                HitDetect.hitEffect.transform.GetChild(0).transform.localScale = Vector3.one;
+                HitDetect.hitEffect.transform.GetChild(0).transform.localEulerAngles = new Vector3(0, 0, -30);
+                HitDetect.hitEffect.SetTrigger(parryID);
+
+
+            }
+            else if (attackLevel > OpponentDetector.attackLevel && (attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
             {
                 //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
                 ApplyHitStop(2);
                 Debug.Log("DEFLECTED! by projectile" + attackLevel);
                 OpponentDetector.anim.SetTrigger(deflectID);
-                HitDetect.anim.SetTrigger(parryID); 
+                OpponentDetector.anim.SetTrigger(parryID); 
                 Actions.jumpCancel = true;
                 OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;
                 Contact(other);
             }
-            else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
+            else if (Mathf.Abs(attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
             {
                 //if the attacks are of similar strength both can immediately input another command
                 Debug.Log("Clash!");
@@ -603,7 +638,6 @@ public class ProjectileHitDetector : MonoBehaviour
             if (allowWallStick && !HitDetect.usedWallStick && OpponentDetector.Actions.wallStick == 0)
             {
                 OpponentDetector.Actions.wallStick = 4;
-                HitDetect.usedWallStick = true;
             }
             else if (OpponentDetector.Actions.wallStick > 0 && !usingSuper)
             {
@@ -760,17 +794,17 @@ public class ProjectileHitDetector : MonoBehaviour
         }
         else if (OpponentDetector.hitStun > 0)
         {
-            if (HitDetect.vertSlash || HitDetect.horiSlash || HitDetect.slash)
+            if (vertSlash || horiSlash || slash)
             {
                 HitDetect.hitEffect.SetTrigger("Slash");
-                if (HitDetect.vertSlash)
+                if (vertSlash)
                 {
                     if (OpponentDetector.KnockBack.y > 2)
                         HitDetect.hitEffect.transform.localEulerAngles = new Vector3(0, 0, Random.Range(60f, 80f));
                     else
                         HitDetect.hitEffect.transform.localEulerAngles = new Vector3(0, 0, Random.Range(-60f, -80f));
                 }
-                else if (HitDetect.horiSlash)
+                else if (horiSlash)
                 {
                     HitDetect.hitEffect.transform.localEulerAngles = new Vector3(0, 0, Random.Range(15f, 15f));
                 }

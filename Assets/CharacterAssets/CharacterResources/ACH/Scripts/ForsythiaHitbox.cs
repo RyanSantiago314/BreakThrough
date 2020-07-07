@@ -217,9 +217,10 @@ public class ForsythiaHitbox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("HurtBox") && other.gameObject.transform.parent.parent == PHitDetect.Actions.Move.opponent && hit1.size.x > 1000)
+        if (other.CompareTag("HurtBox") && other.gameObject.transform.parent.parent == PHitDetect.Actions.Move.opponent && hit1.size.x >= 1000)
         {
             ClearHitBox();
+            transform.gameObject.SetActive(false);
         }
     }
 }

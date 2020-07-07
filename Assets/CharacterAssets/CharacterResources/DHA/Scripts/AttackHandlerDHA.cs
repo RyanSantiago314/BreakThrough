@@ -448,7 +448,7 @@ public class AttackHandlerDHA : MonoBehaviour
             blitzActive = 0;
 
         //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
-        if ((Actions.blitzCancel && Move.HitDetect.hitStun <= 0 && Move.HitDetect.blockStun <= 0 && CharProp.armor >= 1) &&
+        if ((Actions.blitzCancel && Actions.blitzed <= 0 && Move.HitDetect.hitStun <= 0 && Move.HitDetect.blockStun <= 0 && CharProp.armor >= 1) &&
             Move.HitDetect.hitStop <= 0 && heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f)
         {
             RefreshMoveList();
@@ -484,9 +484,6 @@ public class AttackHandlerDHA : MonoBehaviour
                     Move.rb.velocity = new Vector2(0, Move.rb.velocity.y);
                 Move.rb.AddForce(new Vector2(2.7f, 0), ForceMode2D.Impulse);
             }
-
-            if (Move.HitDetect.comboCount > 0)
-                Move.HitDetect.specialProration *= .85f;
 
             //cost for executing blitz cancel
             CharProp.armor--;

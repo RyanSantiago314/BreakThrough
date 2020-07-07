@@ -467,7 +467,7 @@ public class HitDetector : MonoBehaviour
                             Debug.Log("SHATTERED");
                             //damage, hitstun, etc.
                             HitSuccess(other);
-                            if (potentialHitStop > 0)
+                            if (potentialHitStop > 9)
                                 ApplyHitStop(2 * potentialHitStop);
                             else
                                 ApplyHitStop(30);
@@ -569,7 +569,7 @@ public class HitDetector : MonoBehaviour
                         //if the opponent has armor and is using it, deal armor and durability damage
                         Actions.Move.OpponentProperties.armor -= armorDamage;
                         Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                        ApplyHitStop(potentialHitStop/2);
+                        ApplyHitStop(0);
                         OpponentDetector.armorHit = true;
                         Debug.Log("HitArmor");
                     }
@@ -631,6 +631,13 @@ public class HitDetector : MonoBehaviour
                     Actions.jumpCancel = true;
                     Actions.CharProp.durabilityRefillTimer = 0;
                     Actions.EnableAll();
+
+                    hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+
+                    hitEffect.transform.GetChild(0).transform.localScale = Vector3.one;
+                    hitEffect.transform.rotation = Actions.Move.transform.rotation; ;
+                    hitEffect.transform.GetChild(0).transform.localEulerAngles = new Vector3(0, 0, -30);
+                    hitEffect.SetTrigger(parryID);
                     if (usingSuper)
                     {
                         HitSuccess(other);
@@ -669,7 +676,7 @@ public class HitDetector : MonoBehaviour
             Actions.acceptMedium = true;
         if (allowHeavy && !OpponentDetector.armorHit)
             Actions.acceptHeavy = true;
-        if (allowBreak && !OpponentDetector.armorHit)
+        if (allowBreak)
             Actions.acceptBreak = true;
         if (allowSpecial)
             Actions.acceptSpecial = true;
@@ -940,7 +947,6 @@ public class HitDetector : MonoBehaviour
             if (allowWallStick && !usedWallStick && OpponentDetector.Actions.wallStick == 0)
             {
                 OpponentDetector.Actions.wallStick = 4;
-                usedWallStick = true;
             }
             else if (OpponentDetector.Actions.wallStick > 0)
             {
@@ -1017,6 +1023,13 @@ public class HitDetector : MonoBehaviour
         //apply knockback
         if ((potentialAirKnockBack != Vector2.zero || potentialKnockBack != Vector2.zero) && ProjectileKnockBack == Vector2.zero)
         {
+            if (OpponentDetector.currentState.IsName("WallStick") && (potentialAirKnockBack.x < 0 || potentialKnockBack.x < 0))
+            {
+                if (potentialKnockBack.x < 0)
+                    potentialKnockBack = new Vector2(-potentialKnockBack.x, potentialKnockBack.y);
+                if (potentialAirKnockBack.x < 0)
+                    potentialAirKnockBack = new Vector2(-potentialAirKnockBack.x, potentialAirKnockBack.y);
+            }
             if (OpponentDetector.currentState.IsName("FDKnockdown")|| OpponentDetector.currentState.IsName("FUKnockdown"))
             {
                 OpponentDetector.KnockBack = new Vector2(2f, 1.5f);

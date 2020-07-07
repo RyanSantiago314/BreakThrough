@@ -15,6 +15,7 @@ public class AttackHandlerACH : MonoBehaviour
     public GameObject LHSlidePrefab;
     public GameObject LHPrefab;
     public GameObject SFPrefab;
+    public GameObject GenesisPrefab;
     public GameObject FMPrefab;
     public GameObject BlitzPrefab;
 
@@ -22,6 +23,7 @@ public class AttackHandlerACH : MonoBehaviour
     public GameObject LHSlide;
     public GameObject LHWave;
     public GameObject SFWave;
+    public GameObject GenesisEdge;
     public GameObject BlitzEffect;
     public GameObject ForsythiaReticle;
     SpriteRenderer BlitzImage;
@@ -51,6 +53,7 @@ public class AttackHandlerACH : MonoBehaviour
     float QCF;
     float QCB;
     float HCB;
+    float HCF;
     float DP;
 
     //directional variables using numpad notation
@@ -74,6 +77,11 @@ public class AttackHandlerACH : MonoBehaviour
     private bool JumpH = true;
     private bool JumpB = true;
     private bool DFB = true;
+    private bool Starfall = true;
+    private bool HClimber = true;
+    private bool LHell = true;
+    private bool TLeap = true;
+    private bool GEdge = true;
 
     static int ID5L;
     static int ID2L;
@@ -90,6 +98,7 @@ public class AttackHandlerACH : MonoBehaviour
     static int IDHeavenClimberB;
     static int IDLevelHell;
     static int IDStarfall;
+    static int IDGenesis;
     static int BreakCharge;
     static int IDForsythia;
 
@@ -132,6 +141,7 @@ public class AttackHandlerACH : MonoBehaviour
         IDLevelHell = Animator.StringToHash("LevelHell");
         BreakCharge = Animator.StringToHash("BreakCharge");
         IDStarfall = Animator.StringToHash("Starfall");
+        IDGenesis = Animator.StringToHash("GenesisEdge");
         IDForsythia = Animator.StringToHash("Forsythia");
         /*
         IDPatissiere = Animator.StringToHash("Patissiere");
@@ -196,6 +206,8 @@ public class AttackHandlerACH : MonoBehaviour
         SFWave = Instantiate(SFPrefab, new Vector3(0, -10, -3), Quaternion.identity, transform.root);
         SFWave.SetActive(false);
 
+        GenesisEdge = Instantiate(GenesisPrefab, new Vector3(0, -5, -3), Quaternion.identity, transform.root);
+
         ForsythiaReticle = Instantiate(FMPrefab, new Vector3(0, -5, -3), Quaternion.identity, transform.root);
 
         BlitzEffect = Instantiate(BlitzPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.root);
@@ -225,6 +237,8 @@ public class AttackHandlerACH : MonoBehaviour
             anim.ResetTrigger(IDHeavenClimberB);
             anim.ResetTrigger(IDLevelHell);
             anim.ResetTrigger(IDStarfall);
+            anim.ResetTrigger(IDGenesis);
+            anim.ResetTrigger(IDForsythia);
         }
 
         if (lightButton > 0)
@@ -286,6 +300,8 @@ public class AttackHandlerACH : MonoBehaviour
             QCF -= Time.deltaTime;
         if (QCB > 0)
             QCB -= Time.deltaTime;
+        if (HCF > 0)
+            HCF -= Time.deltaTime;
         if (HCB > 0)
             HCB -= Time.deltaTime;
         if (DP > 0)
@@ -323,6 +339,7 @@ public class AttackHandlerACH : MonoBehaviour
         }
         QCFCheck();
         QCBCheck();
+        HCFCheck();
         HCBCheck();
         DPCheck();
 
@@ -454,7 +471,7 @@ public class AttackHandlerACH : MonoBehaviour
             blitzActive = 0;
 
         //blitz cancel mechanic, return to neutral position to extend combos, cancel recovery, make character safe, etc. at the cost of one hit of armor
-        if ((Actions.blitzCancel && Move.HitDetect.hitStun <= 0 && Move.HitDetect.blockStun <= 0 && CharProp.armor >= 1) &&
+        if ((Actions.blitzCancel && Actions.blitzed <= 0 && Move.HitDetect.hitStun <= 0 && Move.HitDetect.blockStun <= 0 && CharProp.armor >= 1) &&
             Move.HitDetect.hitStop <= 0 && heavyButton > 0 && mediumButton > 0 && Mathf.Abs(heavyButton - mediumButton) <= .1f)
         {
             RefreshMoveList();
@@ -491,9 +508,6 @@ public class AttackHandlerACH : MonoBehaviour
                     Move.rb.velocity = new Vector2(0, Move.rb.velocity.y);
                 Move.rb.AddForce(new Vector2(2.7f, 0), ForceMode2D.Impulse);
             }
-
-            if (Move.HitDetect.comboCount > 0)
-                Move.HitDetect.specialProration *= .85f;
 
             //cost for executing blitz cancel
             CharProp.armor--;
@@ -533,21 +547,18 @@ public class AttackHandlerACH : MonoBehaviour
                 mediumButton = 0;
                 QCF = 0;
             }
-            else if (Actions.acceptSpecial && (heavyButton > 0 || breakButton > 0) && Move.HitDetect.hitStop <= 0 && DP > 0)
+            else if (Actions.acceptSpecial && breakButton > 0 && GEdge && Move.HitDetect.hitStop <= 0 && HCF > 0 && !GenesisEdge.activeSelf)
             {
                 Move.jumping = 0;
                 Hitboxes.ClearHitBox();
-                // Heaven Climber special attack, executed by doing a DP and pressing H or B
-                if (Actions.airborne || heavyButton > 0)
-                    anim.SetTrigger(IDHeavenClimberH);
-                else
-                    anim.SetTrigger(IDHeavenClimberB);
+                // Genesis Edge special attack, executed by doing a HCF and pressing B
+                anim.SetTrigger(IDGenesis);
                 Actions.TurnAroundCheck();
-                heavyButton = 0;
                 breakButton = 0;
-                DP = 0;
+                HCF = 0;
+                GEdge = false;
             }
-            else if (Actions.acceptSpecial && breakButton > 0 && Move.HitDetect.hitStop <= 0 && QCB > 0 && Actions.airborne && Hitboxes.HitDetect.Actions.Move.transform.position.y > 1.5f)
+            else if (Actions.acceptSpecial && breakButton > 0 && Starfall && Move.HitDetect.hitStop <= 0 && QCB > 0 && Actions.airborne && Hitboxes.HitDetect.Actions.Move.transform.position.y > 1.5f)
             {
                 Move.jumping = 0;
                 Hitboxes.ClearHitBox();
@@ -556,6 +567,7 @@ public class AttackHandlerACH : MonoBehaviour
                 Actions.TurnAroundCheck();
                 breakButton = 0;
                 QCB = 0;
+                Starfall = false;
             }
             else if (Actions.acceptSpecial && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && QCF > 0 && !Actions.airborne)
             {
@@ -566,6 +578,7 @@ public class AttackHandlerACH : MonoBehaviour
                 Actions.TurnAroundCheck();
                 mediumButton = 0;
                 QCF = 0;
+                LHell = false;
             }
             else if (Actions.acceptSpecial && (lightButton > 0||mediumButton > 0) && Move.HitDetect.hitStop <= 0 && QCB > 0 && !Actions.airborne)
             {
@@ -580,6 +593,22 @@ public class AttackHandlerACH : MonoBehaviour
                 lightButton = 0;
                 mediumButton = 0;
                 QCB = 0;
+                TLeap = false;
+            }
+            else if (Actions.acceptSpecial && HClimber && (heavyButton > 0 || breakButton > 0) && Move.HitDetect.hitStop <= 0 && DP > 0)
+            {
+                Move.jumping = 0;
+                Hitboxes.ClearHitBox();
+                // Heaven Climber special attack, executed by doing a DP and pressing H or B
+                if (Actions.airborne || heavyButton > 0)
+                    anim.SetTrigger(IDHeavenClimberH);
+                else
+                    anim.SetTrigger(IDHeavenClimberB);
+                Actions.TurnAroundCheck();
+                heavyButton = 0;
+                breakButton = 0;
+                DP = 0;
+                HClimber = false;
             }
             else if (Actions.acceptBreak && breakButton > 0 && Move.HitDetect.hitStop <= 0)
             {
@@ -767,6 +796,11 @@ public class AttackHandlerACH : MonoBehaviour
         JumpH = true;
         JumpB = true;
         DFB = true;
+        Starfall = true;
+        HClimber = true;
+        LHell = true;
+        TLeap = true;
+        GEdge = true;
     }
 
     void QCFCheck()
@@ -799,6 +833,20 @@ public class AttackHandlerACH : MonoBehaviour
         if (dir2 > 0 && dir3 > 0 && dir6 > 0 && dir3 > dir2 && dir2 > dir6)
         {
             DP = .15f;
+        }
+    }
+
+    void HCFCheck()
+    {
+        //check if the player has executed a half circle forward with the control stick
+        if (dir6 > 0 && (dir1 > 0 || dir2 > 0 || dir3 > 0) && dir4 > 0 && ((dir4 < dir2 && dir2 < dir6) || (dir4 < dir1 && dir1 < dir6) || (dir4 < dir3 && dir3 < dir6)))
+        {
+            HCF = .15f;
+            dir6 = 0;
+            dir3 = 0;
+            dir2 = 0;
+            dir1 = 0;
+            dir4 = 0;
         }
     }
 

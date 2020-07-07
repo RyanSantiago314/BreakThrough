@@ -49,6 +49,7 @@ public class AcceptInputs : MonoBehaviour
     public float gravScale = 1f;
     public int comboHits = 0;
     public string hitType = "";
+    public bool screenShake;
 
     public Animator anim;
     public MovementHandler Move;
@@ -290,6 +291,11 @@ public class AcceptInputs : MonoBehaviour
         attacking = false;
         active = false;
         recovering = true;
+    }
+
+    public void EnableScreenShake()
+    {
+        screenShake = true;
     }
 
     public void SigilJump()
