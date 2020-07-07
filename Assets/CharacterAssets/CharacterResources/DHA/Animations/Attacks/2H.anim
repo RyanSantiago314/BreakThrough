@@ -1,0 +1,193 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 2H
+  serializedVersion: 6
+  m_Legacy: 0
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves: []
+  m_ScaleCurves: []
+  m_FloatCurves: []
+  m_PPtrCurves:
+  - curve:
+    - time: 0
+      value: {fileID: 21300000, guid: b76310f4d572dac488f903332775b004, type: 3}
+    - time: 0.083333336
+      value: {fileID: 21300000, guid: d211865502913f840b0f7b88fdfdf5c1, type: 3}
+    - time: 0.21666667
+      value: {fileID: 21300000, guid: 8b6a8d99e5114374e95ed5b23bcd9547, type: 3}
+    - time: 0.28333333
+      value: {fileID: 21300000, guid: 57bb12ae165e65549b8621d05930f7fe, type: 3}
+    - time: 0.38333333
+      value: {fileID: 21300000, guid: 803961db68069e54d8b90ce72204c321, type: 3}
+    - time: 0.43333334
+      value: {fileID: 21300000, guid: 80da219fbf5296a4a94798a4c8fc5142, type: 3}
+    - time: 0.46666667
+      value: {fileID: 21300000, guid: f08513b7ab9bf0443b02c7baa68ff248, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: 85668158cc062e549ae2a9933c40a5d8, type: 3}
+    - time: 0.55
+      value: {fileID: 21300000, guid: 85668158cc062e549ae2a9933c40a5d8, type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: 0}
+    - time: 0.21666667
+      value: {fileID: 21300000, guid: d8e2e156c274a2a46807984be8058113, type: 3}
+    - time: 0.26666668
+      value: {fileID: 21300000, guid: e9555d8eef6de5744af1778736609d73, type: 3}
+    - time: 0.56666666
+      value: {fileID: 0}
+    attribute: m_Sprite
+    path: CharEffects1
+    classID: 212
+    script: {fileID: 0}
+  m_SampleRate: 60
+  m_WrapMode: 0
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 529285965
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    pptrCurveMapping:
+    - {fileID: 21300000, guid: b76310f4d572dac488f903332775b004, type: 3}
+    - {fileID: 21300000, guid: d211865502913f840b0f7b88fdfdf5c1, type: 3}
+    - {fileID: 21300000, guid: 8b6a8d99e5114374e95ed5b23bcd9547, type: 3}
+    - {fileID: 21300000, guid: 57bb12ae165e65549b8621d05930f7fe, type: 3}
+    - {fileID: 21300000, guid: 803961db68069e54d8b90ce72204c321, type: 3}
+    - {fileID: 21300000, guid: 80da219fbf5296a4a94798a4c8fc5142, type: 3}
+    - {fileID: 21300000, guid: f08513b7ab9bf0443b02c7baa68ff248, type: 3}
+    - {fileID: 21300000, guid: 85668158cc062e549ae2a9933c40a5d8, type: 3}
+    - {fileID: 21300000, guid: 85668158cc062e549ae2a9933c40a5d8, type: 3}
+    - {fileID: 0}
+    - {fileID: 21300000, guid: d8e2e156c274a2a46807984be8058113, type: 3}
+    - {fileID: 21300000, guid: e9555d8eef6de5744af1778736609d73, type: 3}
+    - {fileID: 0}
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 0.5833333
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 1
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves: []
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_Events:
+  - time: 0
+    functionName: Crouching
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: DisableAll
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: TurnAroundCheck
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: Attacking
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: clearHitType
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.083333336
+    functionName: ForceStand
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.21666667
+    functionName: CrouchingHHitBox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.21666667
+    functionName: CrouchHeavyActive
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.28333333
+    functionName: ClearHitBox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.3
+    functionName: StopAttacking
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.43333334
+    functionName: Crouching
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

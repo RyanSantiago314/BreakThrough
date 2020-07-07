@@ -1,0 +1,233 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RushVelvet
+  serializedVersion: 6
+  m_Legacy: 0
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves: []
+  m_ScaleCurves: []
+  m_FloatCurves: []
+  m_PPtrCurves:
+  - curve:
+    - time: 0
+      value: {fileID: 21300000, guid: 8d0d8621c484a274dade36c72bcc0ff5, type: 3}
+    - time: 0.06666667
+      value: {fileID: 21300000, guid: 0c55de6e12558154cabf80344e2d36ae, type: 3}
+    - time: 0.11666667
+      value: {fileID: 21300000, guid: c0c57f5069b8ffb49839d67e1ec89cd2, type: 3}
+    - time: 0.18333334
+      value: {fileID: 21300000, guid: 6b32e90905b2e394c9aea811213dd0cb, type: 3}
+    - time: 0.26666668
+      value: {fileID: 21300000, guid: cb7cfd54fbbee1f49addc1429d2d7e27, type: 3}
+    - time: 0.35
+      value: {fileID: 21300000, guid: a731f96ee965b5546b9f44ad9e70018a, type: 3}
+    - time: 0.43333334
+      value: {fileID: 21300000, guid: e40ba2190af736b4d82c9c1d344c05d0, type: 3}
+    - time: 0.48333332
+      value: {fileID: 21300000, guid: e40ba2190af736b4d82c9c1d344c05d0, type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: 21300000, guid: c14682afe5ce5f7489464a7f547f861b, type: 3}
+    - time: 0.06666667
+      value: {fileID: 21300000, guid: 812cc840c57fba54381aa3c7ac0d14c9, type: 3}
+    - time: 0.11666667
+      value: {fileID: 21300000, guid: 3f340fddbb17bc545ac354aec6610c6d, type: 3}
+    - time: 0.18333334
+      value: {fileID: 21300000, guid: bb7774f45c45d464398d20976ce79a20, type: 3}
+    - time: 0.25
+      value: {fileID: 21300000, guid: 71a66da046e50634c96782de35abb822, type: 3}
+    - time: 0.31666666
+      value: {fileID: 21300000, guid: a91451f5ed9f2df429af17818594bd46, type: 3}
+    - time: 0.38333333
+      value: {fileID: 21300000, guid: 58d1a8d9bb966154f885c1177a96693e, type: 3}
+    - time: 0.45
+      value: {fileID: 0}
+    - time: 0.48333332
+      value: {fileID: 0}
+    attribute: m_Sprite
+    path: CharEffects0
+    classID: 212
+    script: {fileID: 0}
+  m_SampleRate: 60
+  m_WrapMode: 0
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 1753969627
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    pptrCurveMapping:
+    - {fileID: 21300000, guid: 8d0d8621c484a274dade36c72bcc0ff5, type: 3}
+    - {fileID: 21300000, guid: 0c55de6e12558154cabf80344e2d36ae, type: 3}
+    - {fileID: 21300000, guid: c0c57f5069b8ffb49839d67e1ec89cd2, type: 3}
+    - {fileID: 21300000, guid: 6b32e90905b2e394c9aea811213dd0cb, type: 3}
+    - {fileID: 21300000, guid: cb7cfd54fbbee1f49addc1429d2d7e27, type: 3}
+    - {fileID: 21300000, guid: a731f96ee965b5546b9f44ad9e70018a, type: 3}
+    - {fileID: 21300000, guid: e40ba2190af736b4d82c9c1d344c05d0, type: 3}
+    - {fileID: 21300000, guid: e40ba2190af736b4d82c9c1d344c05d0, type: 3}
+    - {fileID: 21300000, guid: c14682afe5ce5f7489464a7f547f861b, type: 3}
+    - {fileID: 21300000, guid: 812cc840c57fba54381aa3c7ac0d14c9, type: 3}
+    - {fileID: 21300000, guid: 3f340fddbb17bc545ac354aec6610c6d, type: 3}
+    - {fileID: 21300000, guid: bb7774f45c45d464398d20976ce79a20, type: 3}
+    - {fileID: 21300000, guid: 71a66da046e50634c96782de35abb822, type: 3}
+    - {fileID: 21300000, guid: a91451f5ed9f2df429af17818594bd46, type: 3}
+    - {fileID: 21300000, guid: 58d1a8d9bb966154f885c1177a96693e, type: 3}
+    - {fileID: 0}
+    - {fileID: 0}
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 0.5
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 1
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves: []
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_Events:
+  - time: 0
+    functionName: DisableAll
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: Attacking
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: HRUpper
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: DisableBlitz
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: Rise
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.06666667
+    functionName: SigilJump
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.06666667
+    functionName: Rise
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 3.5
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.06666667
+    functionName: Advance
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 1
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.06666667
+    functionName: RVHit1
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.11666667
+    functionName: RVHit2
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.11666667
+    functionName: SetLandLag
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 5
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.31666666
+    functionName: ClearHitBox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.31666666
+    functionName: StopAttacking
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.38333333
+    functionName: JumpStart
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.48333332
+    functionName: EnableAll
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
