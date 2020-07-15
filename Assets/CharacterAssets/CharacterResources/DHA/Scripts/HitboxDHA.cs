@@ -36,18 +36,11 @@ public class HitboxDHA : MonoBehaviour
 
     void Update()
     {
-        if (HitDetect.hit)
+        if (HitDetect.hit && sinBoost > 0)
         {
-            if (sinBoost > 0)
-            {
-                sinCharge += sinBoost;
-                HitDetect.anim.SetInteger("SinCharge", sinCharge);
-                sinBoost = 0;
-            }
-            ClearHitBox();
-            HitDetect.hit = false;
-
-            
+            sinCharge += sinBoost;
+            HitDetect.anim.SetInteger("SinCharge", sinCharge);
+            sinBoost = 0;
         }
 
         if (HitDetect.hitStun > 0)
@@ -64,6 +57,7 @@ public class HitboxDHA : MonoBehaviour
 
     public void ClearHitBox()
     {
+        HitDetect.hit = false;
         hit1.enabled = false;
         hit2.enabled = false;
         hit3.enabled = false;

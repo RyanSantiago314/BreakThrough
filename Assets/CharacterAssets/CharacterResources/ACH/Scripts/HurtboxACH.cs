@@ -418,6 +418,48 @@ public class HurtboxACH : MonoBehaviour
         misc2.size = new Vector2(.25f, .23f);
     }
 
+    public void FLightStart1()
+    {
+        ClearHurtBox();
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        legs1.offset = new Vector2(.2f, -.265f);
+        legs1.size = new Vector2(.48f, .38f);
+        legs2.offset = new Vector2(-.13f, -.465f);
+        legs2.size = new Vector2(.52f, .68f);
+    }
+
+    public void FLightStart2()
+    {
+        ClearHurtBox();
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        legs1.offset = new Vector2(.06f, -.5f);
+        legs1.size = new Vector2(.75f, .29f);
+        legs2.offset = new Vector2(.06f, -.74f);
+        legs2.size = new Vector2(1.07f, .31f);
+    }
+
+    public void FLightActive()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+
+        head.offset = new Vector2(.26f, .45f);
+        head.size = new Vector2(.45f, .395f);
+        body.offset = new Vector2(.28f, .075f);
+        body.size = new Vector2(.6f, .51f);
+        legs1.offset = new Vector2(.15f, -0.34f);
+        legs1.size = new Vector2(.72f, .5f);
+        legs2.offset = new Vector2(.06f, -.74f);
+        legs2.size = new Vector2(1.07f, .31f);
+    }
+
     public void StandMedStartup()
     {
         ClearHurtBox();
@@ -536,6 +578,66 @@ public class HurtboxACH : MonoBehaviour
         legs2.size = new Vector2(.42f, .19f);
         misc1.offset = new Vector2(.4f, .35f);
         misc1.size = new Vector2(.55f, .15f);
+    }
+
+    public void FMedStartup()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(.29f, .635f);
+        head.size = new Vector2(.3f, .4f);
+        body.offset = new Vector2(.17f, .31f);
+        body.size = new Vector2(.38f, .46f);
+        legs1.offset = new Vector2(-.35f, .05f);
+        legs1.size = new Vector2(1f, .37f);
+        legs2.offset = new Vector2(.1f, -.41f);
+        legs2.size = new Vector2(.25f, 1f);
+        misc1.offset = new Vector2(.48f, .52f);
+        misc1.size = new Vector2(.36f, .16f);
+    }
+
+    public void FMedActive()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs1.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(-.13f, .6f);
+        head.size = new Vector2(.185f, .335f);
+        body.offset = new Vector2(-.13f, .33f);
+        body.size = new Vector2(.43f, .43f);
+        legs1.offset = new Vector2(.615f, .12f);
+        legs1.size = new Vector2(1.4f, .22f);
+        legs2.offset = new Vector2(.03f, -.4f);
+        legs2.size = new Vector2(.25f, 1f);
+        misc1.offset = new Vector2(-.16f, .35f);
+        misc1.size = new Vector2(.8f, .17f);
+    }
+
+    public void FMedRecover()
+    {
+        ClearHurtBox();
+        head.enabled = true;
+        body.enabled = true;
+        legs2.enabled = true;
+        misc1.enabled = true;
+
+        head.offset = new Vector2(-.13f, .6f);
+        head.size = new Vector2(.185f, .335f);
+        body.offset = new Vector2(-.05f, .355f);
+        body.size = new Vector2(.42f, .6f);
+        legs2.offset = new Vector2(.03f, -.4f);
+        legs2.size = new Vector2(.25f, 1f);
+        misc1.offset = new Vector2(.27f, .47f);
+        misc1.size = new Vector2(.38f, .25f);
     }
 
     public void StandHeavyActive()
@@ -1104,4 +1206,5 @@ public class HurtboxACH : MonoBehaviour
         misc1.offset = new Vector2(-.34f, -.37f);
         misc1.size = new Vector2(.43f, .375f);
     }
+
 }

@@ -13,6 +13,8 @@ public class GenesisEdgeHitbox : MonoBehaviour
 
     public AttackHandlerACH AttackHandler;
     public Animator anim;
+
+    public bool unblockable;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,12 +42,6 @@ public class GenesisEdgeHitbox : MonoBehaviour
             anim.SetInteger("ProjectileLevel", 0);
         }
 
-        if (PHitDetect.hit)
-        {
-            ClearHitBox();
-            PHitDetect.hit = false;
-        }
-
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("GenesisProjS1End") || anim.GetCurrentAnimatorStateInfo(0).IsName("GenesisProjS2End"))
             StopVelocity();
     }
@@ -66,6 +62,7 @@ public class GenesisEdgeHitbox : MonoBehaviour
     public void ClearHitBox()
     {
         anim.SetInteger("ProjectileLevel", 0);
+        PHitDetect.hit = false;
 
         hit1.enabled = false;
         PHitDetect.potentialHitStun = 0;
@@ -111,8 +108,8 @@ public class GenesisEdgeHitbox : MonoBehaviour
         hit1.size = new Vector2(15.5f, 3.8f);
         PHitDetect.damage = 43;
         PHitDetect.durabilityDamage = 100;
-        PHitDetect.potentialHitStun = 42;
-        PHitDetect.potentialHitStop = 5;
+        PHitDetect.potentialHitStun = 28;
+        PHitDetect.potentialHitStop = 6;
         if  (PHitDetect.HitDetect.Actions.Move.facingRight)
             PHitDetect.potentialKnockBack = new Vector2(2.5f, 1f);
         else
@@ -120,18 +117,11 @@ public class GenesisEdgeHitbox : MonoBehaviour
         PHitDetect.attackLevel = 1;
         PHitDetect.guard = "Mid";
 
-        if (PHitDetect.HitDetect.Actions.airborne)
-        {
-            PHitDetect.allowWallBounce = true;
-            PHitDetect.damage = 85;
-            PHitDetect.potentialHitStun = 32;
-        }
-
         PHitDetect.allowSuper = true;
         PHitDetect.usingSpecial = true;
 
-        if (AttackHandler.Hitboxes.install)
-            PHitDetect.allowSpecial = true;
+        if (transform.position.y >= 1.5f)
+            PHitDetect.allowWallBounce = true;
     }
 
     void GenesisS2Hitbox()
@@ -149,7 +139,7 @@ public class GenesisEdgeHitbox : MonoBehaviour
         {
             PHitDetect.potentialHitStun = 42;
         }
-        PHitDetect.potentialHitStop = 5;
+        PHitDetect.potentialHitStop = 7;
         if (PHitDetect.HitDetect.Actions.Move.facingRight)
             PHitDetect.potentialKnockBack = new Vector2(2.5f, 1f);
         else
@@ -157,13 +147,16 @@ public class GenesisEdgeHitbox : MonoBehaviour
         PHitDetect.attackLevel = 4;
         PHitDetect.guard = "Mid";
 
-        if (PHitDetect.HitDetect.Actions.airborne)
-            PHitDetect.allowWallBounce = true;
-        else if (PHitDetect.ProjProp.currentHits >= 2 || PHitDetect.ProjProp.currentLife <= 6f/60f)
+        if (PHitDetect.ProjProp.currentHits >= 2 || PHitDetect.ProjProp.currentLife <= 6f / 60f)
         {
-                PHitDetect.allowWallStick = true;
-                PHitDetect.allowWallBounce = true;
+            PHitDetect.allowWallStick = true;
+            PHitDetect.allowWallBounce = true;
+
+            if (transform.position.y >= 1.5f)
+                PHitDetect.allowWallStick = false;
         }
+            
+
         PHitDetect.slash = true;
         PHitDetect.shatter = true;
         PHitDetect.allowSuper = true;
@@ -183,13 +176,16 @@ public class GenesisEdgeHitbox : MonoBehaviour
         PHitDetect.damage = 45;
         PHitDetect.durabilityDamage = 0;
         PHitDetect.potentialHitStun = 60;
-        PHitDetect.potentialHitStop = 5;
+        PHitDetect.potentialHitStop = 6;
         if (PHitDetect.HitDetect.Actions.Move.facingRight)
             PHitDetect.potentialKnockBack = new Vector2(3.5f, 1.5f);
         else
             PHitDetect.potentialKnockBack = new Vector2(-3.5f, 1.5f);
         PHitDetect.attackLevel = 7;
-        PHitDetect.guard = "Mid";
+        if (unblockable)
+            PHitDetect.guard = "Unblockable";
+        else
+            PHitDetect.guard = "Mid";
 
         PHitDetect.slash = true;
         PHitDetect.shatter = true;
@@ -207,13 +203,16 @@ public class GenesisEdgeHitbox : MonoBehaviour
         PHitDetect.damage = 200;
         PHitDetect.durabilityDamage = 0;
         PHitDetect.potentialHitStun = 60;
-        PHitDetect.potentialHitStop = 5;
+        PHitDetect.potentialHitStop = 12;
         if (PHitDetect.HitDetect.Actions.Move.facingRight)
             PHitDetect.potentialKnockBack = new Vector2(5f, 2.5f);
         else
             PHitDetect.potentialKnockBack = new Vector2(-5f, 2.5f);
         PHitDetect.attackLevel = 7;
-        PHitDetect.guard = "Mid";
+        if (unblockable)
+            PHitDetect.guard = "Unblockable";
+        else
+            PHitDetect.guard = "Mid";
 
         PHitDetect.allowWallStick = true;
         PHitDetect.allowWallBounce = true;
@@ -221,10 +220,13 @@ public class GenesisEdgeHitbox : MonoBehaviour
         PHitDetect.slash = true;
         PHitDetect.shatter = true;
         PHitDetect.allowSuper = true;
-        PHitDetect.usingSpecial = true;
+        PHitDetect.usingSuper = true;
 
         if (AttackHandler.Hitboxes.install)
             PHitDetect.allowSpecial = true;
+
+
+        unblockable = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -232,7 +234,7 @@ public class GenesisEdgeHitbox : MonoBehaviour
         if (other.CompareTag("HurtBox") && other.gameObject.transform.parent.parent == PHitDetect.Actions.Move.opponent && hit1.size.x >= 1000)
         {
             ClearHitBox();
-            transform.gameObject.SetActive(false);
+            PHitDetect.ProjProp.currentHits = PHitDetect.ProjProp.maxHits;
         }
     }
 }

@@ -309,7 +309,6 @@ public class MovementHandler : MonoBehaviour
 
 
                     vertAxisInUse = true;
-                    Actions.DisableAll();
                 }
             }
         }
@@ -404,6 +403,7 @@ public class MovementHandler : MonoBehaviour
             jumpRight = false;
             jumpLeft = false;
             Actions.airborne = true;
+            Actions.DisableAll();
         }
         else
         {
@@ -682,7 +682,7 @@ public class MovementHandler : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
-        if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
+        if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name && HitDetect.hitStop <= 0)
         {
 
             if (Actions.airborne && opponentMove.Actions.airborne)

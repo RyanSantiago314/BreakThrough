@@ -220,7 +220,7 @@ public class ProjectileHitDetector : MonoBehaviour
         collideCount++;
         if (allowHit && !OpponentDetector.Actions.projInvincible && !(OpponentDetector.anim.GetBool(crouchID) && guard == "High") && 
             !((guard == "Low" && OpponentDetector.Actions.lowInvincible) || ((guard == "Mid" || guard == "High" || guard == "Overhead") && OpponentDetector.Actions.hiInvincible)) &&
-                other.gameObject.transform.parent.parent == Actions.Move.opponent && (potentialHitStun > 0 || blitz) && ProjProp.currentHits <= ProjProp.maxHits)
+                other.gameObject.transform.parent.parent == Actions.Move.opponent && (potentialHitStun > 0 || blitz) && ProjProp.currentHits <= ProjProp.maxHits && !hit)
         {
             OpponentDetector.Actions.shattered = false;
 
@@ -365,7 +365,10 @@ public class ProjectileHitDetector : MonoBehaviour
                     OpponentDetector.anim.SetTrigger(shatterID);
                     OpponentDetector.Actions.shattered = true;
                     if (!forceShatter)
+                    {
                         HitDetect.shatterSuccess = true;
+                        Actions.Move.OpponentProperties.comboTimer = 0;
+                    }
                     Debug.Log("SHATTERED");
                     //damage, hitstun, etc.
                     HitSuccess(other);
@@ -656,34 +659,40 @@ public class ProjectileHitDetector : MonoBehaviour
         }
         else if (!OpponentDetector.Actions.grabbed)
         {
-            OpponentDetector.hitStun = potentialHitStun/60;
-            if (OpponentDetector.Actions.airborne && usingSpecial)
+            OpponentDetector.hitStun = potentialHitStun / 60f;
+            if (OpponentDetector.Actions.airborne && (usingSpecial || allowGroundBounce))
             {
                 if (Actions.Move.OpponentProperties.comboTimer > 16)
-                    OpponentDetector.hitStun = 7 * potentialHitStun / 600;
-                else if (Actions.Move.OpponentProperties.comboTimer >= 13)
-                    OpponentDetector.hitStun = 8 * potentialHitStun / 600;
+                    OpponentDetector.hitStun *= .6f;
+                else if (Actions.Move.OpponentProperties.comboTimer > 14)
+                    OpponentDetector.hitStun *= .7f;
                 else if (Actions.Move.OpponentProperties.comboTimer > 10)
-                    OpponentDetector.hitStun = 9 * potentialHitStun / 600;
+                    OpponentDetector.hitStun *= .8f;
+                else if (Actions.Move.OpponentProperties.comboTimer > 7)
+                    OpponentDetector.hitStun = .9f;
             }
             else if (OpponentDetector.Actions.airborne && !usingSuper)
             {
                 if (Actions.Move.OpponentProperties.comboTimer > 16)
-                    OpponentDetector.hitStun = 6 * potentialHitStun / 600;
-                else if (Actions.Move.OpponentProperties.comboTimer >= 13)
-                    OpponentDetector.hitStun = 7 * potentialHitStun / 600;
+                    OpponentDetector.hitStun = (float)(1 / 60);
+                else if (Actions.Move.OpponentProperties.comboTimer > 14)
+                    OpponentDetector.hitStun *= .6f;
                 else if (Actions.Move.OpponentProperties.comboTimer > 10)
-                    OpponentDetector.hitStun = 8 * potentialHitStun / 600;
+                    OpponentDetector.hitStun *= .7f;
                 else if (Actions.Move.OpponentProperties.comboTimer > 7)
-                    OpponentDetector.hitStun = 9 * potentialHitStun / 600;
+                    OpponentDetector.hitStun *= .8f;
+                else if (Actions.Move.OpponentProperties.comboTimer > 5)
+                    OpponentDetector.hitStun *= .9f;
             }
 
             if (OpponentDetector.anim.GetBool("Crouch"))
                 OpponentDetector.hitStun += (float)1/30;
+
+            Debug.Log("Hit " + HitDetect.comboCount + "; Hitstun: " + OpponentDetector.hitStun * 60 + " CurrentTime: " + Actions.Move.OpponentProperties.comboTimer);
+
             //increase hitstun upon landing a shatter or counter hit
             if (OpponentDetector.Actions.shattered || OpponentDetector.Actions.attacking)
             {
-                Actions.Move.OpponentProperties.comboTimer = 0;
                 OpponentDetector.hitStun *= 2;
                 if (OpponentDetector.Actions.shattered)
                 {

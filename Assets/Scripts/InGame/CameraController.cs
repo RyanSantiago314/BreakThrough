@@ -51,7 +51,7 @@ public class CameraController : MonoBehaviour
            (Char1Move.HitDetect.hitStop > 0 && Character1.GetComponent<CharacterProperties>().currentHealth <= 0) && GameObject.Find("PlayerData").GetComponent<SelectedCharacterManager>().gameMode != "Practice" ||
             (Char2Move.HitDetect.hitStop > 0 && Char2Move.Actions.shattered) ||
             (Char1Move.HitDetect.hitStop > 0 && Char1Move.Actions.shattered) ||
-            Char1Move.Actions.superFlash > (float)7/60 || Char2Move.Actions.superFlash > (float)7/60)
+            Char1Move.Actions.superFlash > (float)7 / 60 || Char2Move.Actions.superFlash > (float)7 / 60)
         {
             //zooming in "dynamic/cinematic" camera
             cameraPos = new Vector3((Character1.position.x + Character2.position.x) / 2, (Character1.position.y + Character2.position.y) / 2, zPosZoom);
@@ -68,6 +68,33 @@ public class CameraController : MonoBehaviour
 
             if (cameraPos.y < 1)
                 cameraPos = new Vector3(cameraPos.x, 1f, cameraPos.z);
+
+            if (screenShake <= 0 && ((Char1Move.wallStickTimer < (float)42 / 60 && Char1Move.wallStickTimer >= (float)40 / 60) || (Char2Move.wallStickTimer < (float)42 / 60 && Char2Move.wallStickTimer >= (float)40 / 60) || (Char1Move.hittingWall && Char1Move.Actions.wallBounce && Char1Move.Actions.airborne) || (Char2Move.hittingWall && Char2Move.Actions.wallBounce && Char2Move.Actions.airborne)))
+            {
+                screenShake = .1f;
+            }
+            else if (Char2Move.Actions.screenShake || Char1Move.Actions.screenShake || (microScreenShake <= 0 && ((Char1Move.HitDetect.hitStop > 0 && (Char1Move.HitDetect.hitStun > 29 || Char1Move.Actions.superHit || Char1Move.HitDetect.hitStop > 13f / 60f)) || (Char2Move.HitDetect.hitStop > 0 && (Char2Move.HitDetect.hitStun > 29 || Char2Move.Actions.superHit || Char2Move.HitDetect.hitStop > 13f / 60f)))))
+            {
+                microScreenShake = .1f;
+                Char2Move.Actions.screenShake = false;
+                Char1Move.Actions.screenShake = false;
+            }
+
+            if (screenShake > 0)
+            {
+                float randX = Random.Range(-1f, 1f);
+                float randY = Random.Range(-1f, 1f);
+
+                if (randX < 0)
+                    randX -= .3f;
+                else
+                    randX += .3f;
+
+                if (randY < 0)
+                    randY -= .3f;
+                else
+                    randY += .3f;
+            }
         }
         else
         {
@@ -87,11 +114,11 @@ public class CameraController : MonoBehaviour
 
             smooth = 10;
 
-            if (screenShake <= 0 && ((Char1Move.wallStickTimer < (float)42/60 && Char1Move.wallStickTimer >= (float)40 / 60) || (Char2Move.wallStickTimer < (float)42 / 60 && Char2Move.wallStickTimer >= (float)40 / 60) || (Char1Move.hittingWall && Char1Move.Actions.wallBounce && Char1Move.Actions.airborne) || (Char2Move.hittingWall && Char2Move.Actions.wallBounce && Char2Move.Actions.airborne)))
+            if (screenShake <= 0 && ((Char1Move.wallStickTimer < (float)42 / 60 && Char1Move.wallStickTimer >= (float)40 / 60) || (Char2Move.wallStickTimer < (float)42 / 60 && Char2Move.wallStickTimer >= (float)40 / 60) || (Char1Move.hittingWall && Char1Move.Actions.wallBounce && Char1Move.Actions.airborne) || (Char2Move.hittingWall && Char2Move.Actions.wallBounce && Char2Move.Actions.airborne)))
             {
                 screenShake = .1f;
             }
-            else if (Char2Move.Actions.screenShake || Char1Move.Actions.screenShake || (microScreenShake <= 0 && ((Char1Move.HitDetect.hitStop > 0 && (Char1Move.HitDetect.hitStun > 29 || Char1Move.Actions.superHit || Char1Move.HitDetect.hitStop > 13f/60f)) || (Char2Move.HitDetect.hitStop > 0 && (Char2Move.HitDetect.hitStun > 29 || Char2Move.Actions.superHit || Char2Move.HitDetect.hitStop > 13f / 60f)))))
+            else if (Char2Move.Actions.screenShake || Char1Move.Actions.screenShake || (microScreenShake <= 0 && ((Char1Move.HitDetect.hitStop > 0 && (Char1Move.HitDetect.hitStun > 29 || Char1Move.Actions.superHit || Char1Move.HitDetect.hitStop > 13f / 60f)) || (Char2Move.HitDetect.hitStop > 0 && (Char2Move.HitDetect.hitStun > 29 || Char2Move.Actions.superHit || Char2Move.HitDetect.hitStop > 13f / 60f)))))
             {
                 microScreenShake = .1f;
                 Char2Move.Actions.screenShake = false;
@@ -117,7 +144,7 @@ public class CameraController : MonoBehaviour
                     cameraPos = new Vector3(cameraPos.x + randX * 1.5f, cameraPos.y + randY * .5f, zPosZoomOut);
                 else
                     cameraPos = new Vector3(cameraPos.x + randX * 1.5f, cameraPos.y + randY * .5f, zPos);
-                
+
                 smooth = 10;
             }
             else if (microScreenShake > 0)

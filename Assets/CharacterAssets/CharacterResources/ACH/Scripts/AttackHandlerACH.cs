@@ -76,6 +76,8 @@ public class AttackHandlerACH : MonoBehaviour
     private bool JumpM = true;
     private bool JumpH = true;
     private bool JumpB = true;
+    private bool FL = true;
+    private bool FM = true;
     private bool DFB = true;
     private bool Starfall = true;
     private bool HClimber = true;
@@ -92,6 +94,8 @@ public class AttackHandlerACH : MonoBehaviour
     static int ID5B;
     static int ID2B;
     static int ID3B;
+    static int ID6L;
+    static int ID6M;
     static int IDTowerLeapL;
     static int IDTowerLeapM;
     static int IDHeavenClimberH;
@@ -134,6 +138,8 @@ public class AttackHandlerACH : MonoBehaviour
         ID5B = Animator.StringToHash("5B");
         ID2B = Animator.StringToHash("2B");
         ID3B = Animator.StringToHash("3B");
+        ID6L = Animator.StringToHash("6L");
+        ID6M = Animator.StringToHash("6M");
         IDTowerLeapL = Animator.StringToHash("TowerLeapL");
         IDTowerLeapM = Animator.StringToHash("TowerLeapM");
         IDHeavenClimberH = Animator.StringToHash("HeavenClimberH");
@@ -224,6 +230,7 @@ public class AttackHandlerACH : MonoBehaviour
         {
             anim.ResetTrigger(ID5L);
             anim.ResetTrigger(ID2L);
+            anim.ResetTrigger(ID6L);
             anim.ResetTrigger(ID5M);
             anim.ResetTrigger(ID2M);
             anim.ResetTrigger(ID5H);
@@ -250,6 +257,7 @@ public class AttackHandlerACH : MonoBehaviour
             lightButton = 0;
             anim.ResetTrigger(ID5L);
             anim.ResetTrigger(ID2L);
+            anim.ResetTrigger(ID6L);
         }
 
         if (mediumButton > 0)
@@ -519,7 +527,7 @@ public class AttackHandlerACH : MonoBehaviour
         }
         else if (!(Actions.landingLag > 0 && Actions.standing))
         {
-        // basic throw performed by pressing both light and break attack
+            // basic throw performed by pressing both light and break attack
             if ((Actions.acceptMove || currentState.IsName("Brake")) && lightButton > 0 && breakButton > 0 && Move.HitDetect.hitStop <= 0)
             {
                 Hitboxes.ClearHitBox();
@@ -580,7 +588,7 @@ public class AttackHandlerACH : MonoBehaviour
                 QCF = 0;
                 LHell = false;
             }
-            else if (Actions.acceptSpecial && (lightButton > 0||mediumButton > 0) && Move.HitDetect.hitStop <= 0 && QCB > 0 && !Actions.airborne)
+            else if (Actions.acceptSpecial && (lightButton > 0 || mediumButton > 0) && Move.HitDetect.hitStop <= 0 && QCB > 0 && !Actions.airborne)
             {
                 Move.jumping = 0;
                 Hitboxes.ClearHitBox();
@@ -692,6 +700,12 @@ public class AttackHandlerACH : MonoBehaviour
                 Hitboxes.ClearHitBox();
                 heavyButton = 0;
             }
+            else if (Actions.acceptHeavy && mediumButton > 0 && Move.HitDetect.hitStop <= 0 && dir6 == directionBufferTime && FM && Actions.standing)
+            {
+                anim.SetTrigger(ID6M);
+                FM = false;
+                anim.SetBool(runID, false);
+            }
             else if (Actions.acceptMedium && mediumButton > 0 && Move.HitDetect.hitStop <= 0)
             {
                 //medium attacks
@@ -736,6 +750,15 @@ public class AttackHandlerACH : MonoBehaviour
                         {
                             anim.SetTrigger(ID2L);
                             CrouchL--;
+                        }
+                    }
+                    else if (dir6 == directionBufferTime)
+                    {
+                        if (FL)
+                        {
+                            anim.SetTrigger(ID6L);
+                            FL = false;
+                            anim.SetBool(runID, false);
                         }
                     }
                     else
@@ -795,6 +818,8 @@ public class AttackHandlerACH : MonoBehaviour
         JumpM = true;
         JumpH = true;
         JumpB = true;
+        FL = true;
+        FM = true;
         DFB = true;
         Starfall = true;
         HClimber = true;

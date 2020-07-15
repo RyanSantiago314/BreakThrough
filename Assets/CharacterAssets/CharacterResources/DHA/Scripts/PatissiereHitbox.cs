@@ -70,9 +70,7 @@ public class PatissiereHitbox : MonoBehaviour
 
         if (PHitDetect.hit)
         {
-            ClearHitBox();
             PHitDetect.currentVelocity *= new Vector2(-.25f, .75f);
-            PHitDetect.hit = false;
         }
 
         if (PHitDetect.ProjProp.currentLife == 0)
@@ -101,6 +99,7 @@ public class PatissiereHitbox : MonoBehaviour
 
     public void ClearHitBox()
     {
+        PHitDetect.hit = false;
         hit1.enabled = false;
         PHitDetect.potentialHitStun = 0;
         PHitDetect.potentialHitStop = 0;
