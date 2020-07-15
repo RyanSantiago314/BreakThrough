@@ -275,7 +275,7 @@ AnimationClip:
     functionName: SetLandLag
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
+    floatParameter: 12
     intParameter: 15
     messageOptions: 0
   - time: 0.35

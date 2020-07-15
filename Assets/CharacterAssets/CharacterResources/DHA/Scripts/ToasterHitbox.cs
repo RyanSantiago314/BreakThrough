@@ -27,11 +27,6 @@ public class ToasterHitbox : MonoBehaviour
         if (!PHitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("BaguetteEnd"))
             charAnim.ResetTrigger("ToasterDeactivate");
 
-        if (PHitDetect.hit)
-        {
-            ClearHitBox();
-            PHitDetect.hit = false;
-        }
         if (transform.position.y > 0)
         {
             if (lightSource.range == 9 && lightSource.intensity > 0)
@@ -66,6 +61,7 @@ public class ToasterHitbox : MonoBehaviour
 
     public void ClearHitBox()
     {
+        PHitDetect.hit = false;
         hit1.enabled = false;
         PHitDetect.potentialHitStun = 0;
         PHitDetect.potentialHitStop = 0;

@@ -342,7 +342,7 @@ public class HitDetector : MonoBehaviour
     {
         collideCount++;
         if (!(OpponentDetector.anim.GetBool(crouchID) && guard == "High") && !((guard == "Low" && OpponentDetector.Actions.lowInvincible) ||
-                ((guard == "Mid" || guard == "High" || guard == "Overhead") && OpponentDetector.Actions.hiInvincible)) && hitStop <= 0)
+                ((guard == "Mid" || guard == "High" || guard == "Overhead") && OpponentDetector.Actions.hiInvincible)) && hitStop <= 0 && !hit)
         {
             if (allowHit && !grab && !commandGrab && !blitz && !usingSuper && ((guard == "Low" && OpponentDetector.Actions.lowCounter) || 
                 ((guard == "Mid" || guard == "High" || guard == "Overhead") && OpponentDetector.Actions.hiCounter)))
@@ -467,7 +467,7 @@ public class HitDetector : MonoBehaviour
                             Debug.Log("SHATTERED");
                             //damage, hitstun, etc.
                             HitSuccess(other);
-                            if (potentialHitStop > 0)
+                            if (potentialHitStop > 9)
                                 ApplyHitStop(2 * potentialHitStop);
                             else
                                 ApplyHitStop(30);
@@ -545,7 +545,10 @@ public class HitDetector : MonoBehaviour
                         OpponentDetector.anim.SetTrigger(shatterID);
                         OpponentDetector.Actions.shattered = true;
                         if (!forceShatter)
+                        {
                             shatterSuccess = true;
+                            Actions.Move.OpponentProperties.comboTimer = 0;
+                        }
                         Debug.Log("SHATTERED");
                         //damage, hitstun, etc.
                         specialProration *= 1.1f;
@@ -569,7 +572,7 @@ public class HitDetector : MonoBehaviour
                         //if the opponent has armor and is using it, deal armor and durability damage
                         Actions.Move.OpponentProperties.armor -= armorDamage;
                         Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                        ApplyHitStop(potentialHitStop/2);
+                        ApplyHitStop(0);
                         OpponentDetector.armorHit = true;
                         Debug.Log("HitArmor");
                     }
@@ -631,6 +634,13 @@ public class HitDetector : MonoBehaviour
                     Actions.jumpCancel = true;
                     Actions.CharProp.durabilityRefillTimer = 0;
                     Actions.EnableAll();
+
+                    hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+
+                    hitEffect.transform.GetChild(0).transform.localScale = Vector3.one;
+                    hitEffect.transform.rotation = Actions.Move.transform.rotation; ;
+                    hitEffect.transform.GetChild(0).transform.localEulerAngles = new Vector3(0, 0, -30);
+                    hitEffect.SetTrigger(parryID);
                     if (usingSuper)
                     {
                         HitSuccess(other);
@@ -669,7 +679,7 @@ public class HitDetector : MonoBehaviour
             Actions.acceptMedium = true;
         if (allowHeavy && !OpponentDetector.armorHit)
             Actions.acceptHeavy = true;
-        if (allowBreak && !OpponentDetector.armorHit)
+        if (allowBreak)
             Actions.acceptBreak = true;
         if (allowSpecial)
             Actions.acceptSpecial = true;
@@ -940,7 +950,6 @@ public class HitDetector : MonoBehaviour
             if (allowWallStick && !usedWallStick && OpponentDetector.Actions.wallStick == 0)
             {
                 OpponentDetector.Actions.wallStick = 4;
-                usedWallStick = true;
             }
             else if (OpponentDetector.Actions.wallStick > 0)
             {
@@ -966,38 +975,39 @@ public class HitDetector : MonoBehaviour
         }
         else
         {
-            OpponentDetector.hitStun = potentialHitStun/60;
-            if (OpponentDetector.Actions.airborne && usingSpecial)
+            OpponentDetector.hitStun = potentialHitStun/60f;
+            if (OpponentDetector.Actions.airborne && (usingSpecial||allowGroundBounce))
             {
-                if (Actions.Move.OpponentProperties.comboTimer > 18)
-                    OpponentDetector.hitStun = (6 * potentialHitStun / 600);
-                else if (Actions.Move.OpponentProperties.comboTimer > 16)
-                    OpponentDetector.hitStun = (7 * potentialHitStun / 600);
-                else if (Actions.Move.OpponentProperties.comboTimer >= 13)
-                    OpponentDetector.hitStun = (8 * potentialHitStun / 600);
+                if (Actions.Move.OpponentProperties.comboTimer > 16)
+                    OpponentDetector.hitStun *= .6f;
+                else if (Actions.Move.OpponentProperties.comboTimer > 14)
+                    OpponentDetector.hitStun *= .7f;
                 else if (Actions.Move.OpponentProperties.comboTimer > 10)
-                    OpponentDetector.hitStun = (9 * potentialHitStun / 600);
+                    OpponentDetector.hitStun *= .8f;
+                else if (Actions.Move.OpponentProperties.comboTimer > 7)
+                    OpponentDetector.hitStun = .9f;
             }
             else if (OpponentDetector.Actions.airborne && !usingSuper)
             {
-                if (Actions.Move.OpponentProperties.comboTimer > 18)
+                if (Actions.Move.OpponentProperties.comboTimer > 16)
                     OpponentDetector.hitStun = (float)(1/60);
-                else if (Actions.Move.OpponentProperties.comboTimer > 16)
-                    OpponentDetector.hitStun = (6 * potentialHitStun/600);
-                else if (Actions.Move.OpponentProperties.comboTimer >= 13)
-                    OpponentDetector.hitStun = (7 * potentialHitStun/600);
+                else if (Actions.Move.OpponentProperties.comboTimer > 14)
+                    OpponentDetector.hitStun *= .6f;
                 else if (Actions.Move.OpponentProperties.comboTimer > 10)
-                    OpponentDetector.hitStun = (8 * potentialHitStun/600);
+                    OpponentDetector.hitStun *= .7f;
                 else if (Actions.Move.OpponentProperties.comboTimer > 7)
-                    OpponentDetector.hitStun = (9 * potentialHitStun/600);
+                    OpponentDetector.hitStun *= .8f;
+                else if (Actions.Move.OpponentProperties.comboTimer > 5)
+                    OpponentDetector.hitStun *= .9f;
             }
 
             if (OpponentDetector.anim.GetBool("Crouch"))
                 OpponentDetector.hitStun += (float)(1/30);
+
+            Debug.Log("Hit " + comboCount + "; Hitstun: " + OpponentDetector.hitStun*60 + " CurrentTime: " + Actions.Move.OpponentProperties.comboTimer);
             //increase hitstun upon landing a shatter or counter hit
             if ((OpponentDetector.Actions.shattered || OpponentDetector.Actions.attacking) && !piercing)
             {
-                Actions.Move.OpponentProperties.comboTimer = 0;
                 OpponentDetector.hitStun *= 2;
                 if (OpponentDetector.Actions.shattered)
                 {
@@ -1017,6 +1027,13 @@ public class HitDetector : MonoBehaviour
         //apply knockback
         if ((potentialAirKnockBack != Vector2.zero || potentialKnockBack != Vector2.zero) && ProjectileKnockBack == Vector2.zero)
         {
+            if (OpponentDetector.currentState.IsName("WallStick") && (potentialAirKnockBack.x < 0 || potentialKnockBack.x < 0))
+            {
+                if (potentialKnockBack.x < 0)
+                    potentialKnockBack = new Vector2(-potentialKnockBack.x, potentialKnockBack.y);
+                if (potentialAirKnockBack.x < 0)
+                    potentialAirKnockBack = new Vector2(-potentialAirKnockBack.x, potentialAirKnockBack.y);
+            }
             if (OpponentDetector.currentState.IsName("FDKnockdown")|| OpponentDetector.currentState.IsName("FUKnockdown"))
             {
                 OpponentDetector.KnockBack = new Vector2(2f, 1.5f);
@@ -1069,17 +1086,17 @@ public class HitDetector : MonoBehaviour
             {
                 if (Actions.Move.OpponentProperties.comboTimer < 2)
                     pushBackScale = .9f;
-                else if (Actions.Move.OpponentProperties.comboTimer < 4)
+                else if (Actions.Move.OpponentProperties.comboTimer < 3)
                     pushBackScale = .95f;
-                else if (Actions.Move.OpponentProperties.comboTimer < 7)
+                else if (Actions.Move.OpponentProperties.comboTimer < 5)
                     pushBackScale = 1f;
-                else if (Actions.Move.OpponentProperties.comboTimer < 10)
+                else if (Actions.Move.OpponentProperties.comboTimer < 7)
                     pushBackScale = 1.05f;
-                else if (Actions.Move.OpponentProperties.comboTimer < 14)
+                else if (Actions.Move.OpponentProperties.comboTimer < 10)
                     pushBackScale = 1.1f;
-                else if (Actions.Move.OpponentProperties.comboTimer < 17)
+                else if (Actions.Move.OpponentProperties.comboTimer < 14)
                     pushBackScale = 1.15f;
-                else if (Actions.Move.OpponentProperties.comboTimer < 20)
+                else if (Actions.Move.OpponentProperties.comboTimer < 16)
                     pushBackScale = 1.2f;
                 else
                     pushBackScale = 1.25f;
@@ -1112,9 +1129,17 @@ public class HitDetector : MonoBehaviour
                     {
                         KnockBack *= new Vector2(.7f, 1);
                     }
+                    else if (OpponentDetector.Actions.Move.hittingWall)
+                    {
+                        //KnockBack *= new Vector2(1.5f, 1);
+                        if (KnockBack.x < 1.6f && potentialKnockBack.x > 0)
+                        {
+                            KnockBack = new Vector2(1.6f, KnockBack.y);
+                        }
+                    }
                     else if (!OpponentDetector.Actions.Move.hittingWall)
                     {
-                        KnockBack *= new Vector2(.85f, 1);
+                        KnockBack *= new Vector2(.9f, 1);
                     }
                 }
             }

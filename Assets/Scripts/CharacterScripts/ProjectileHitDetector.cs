@@ -65,6 +65,10 @@ public class ProjectileHitDetector : MonoBehaviour
     float minDamage;
     float damageToOpponent;
 
+    public bool slash = false;
+    public bool vertSlash = false;
+    public bool horiSlash = false;
+
     static int HiGuard;
     static int LoGuard;
     static int AirGuard;
@@ -216,7 +220,7 @@ public class ProjectileHitDetector : MonoBehaviour
         collideCount++;
         if (allowHit && !OpponentDetector.Actions.projInvincible && !(OpponentDetector.anim.GetBool(crouchID) && guard == "High") && 
             !((guard == "Low" && OpponentDetector.Actions.lowInvincible) || ((guard == "Mid" || guard == "High" || guard == "Overhead") && OpponentDetector.Actions.hiInvincible)) &&
-                other.gameObject.transform.parent.parent == Actions.Move.opponent && (potentialHitStun > 0 || blitz) && ProjProp.currentHits <= ProjProp.maxHits)
+                other.gameObject.transform.parent.parent == Actions.Move.opponent && (potentialHitStun > 0 || blitz) && ProjProp.currentHits <= ProjProp.maxHits && !hit)
         {
             OpponentDetector.Actions.shattered = false;
 
@@ -282,18 +286,21 @@ public class ProjectileHitDetector : MonoBehaviour
                             Debug.Log("SHATTERED");
                             //damage, hitstun, etc.
                             HitSuccess(other);
+                        if (potentialHitStop > 8)
                             ApplyHitStop(2 * potentialHitStop);
+                        else
+                            ApplyHitStop(24);
 
-                            //chip damage
-                            /*if (Actions.Move.OpponentProperties.currentHealth - damage/5 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
-                                Actions.Move.OpponentProperties.currentHealth = 1;
-                            else
-                                Actions.Move.OpponentProperties.currentHealth -= damage/5;
+                        //chip damage
+                        /*if (Actions.Move.OpponentProperties.currentHealth - damage/5 == 0 && Actions.Move.OpponentProperties.currentHealth > 1)
+                            Actions.Move.OpponentProperties.currentHealth = 1;
+                        else
+                            Actions.Move.OpponentProperties.currentHealth -= damage/5;
 
-                            if (Actions.Move.OpponentProperties.currentHealth <= 0)
-                                OpponentDetector.anim.SetTrigger(hitID);*/
+                        if (Actions.Move.OpponentProperties.currentHealth <= 0)
+                            OpponentDetector.anim.SetTrigger(hitID);*/
 
-                        }
+                    }
                     }
                     else if (OpponentDetector.Actions.Move.justDefenseTime <= 0 && OpponentDetector.Actions.standing)
                     {
@@ -358,11 +365,17 @@ public class ProjectileHitDetector : MonoBehaviour
                     OpponentDetector.anim.SetTrigger(shatterID);
                     OpponentDetector.Actions.shattered = true;
                     if (!forceShatter)
+                    {
                         HitDetect.shatterSuccess = true;
+                        Actions.Move.OpponentProperties.comboTimer = 0;
+                    }
                     Debug.Log("SHATTERED");
                     //damage, hitstun, etc.
                     HitSuccess(other);
-                    ApplyHitStop(2 * potentialHitStop);
+                    if (potentialHitStop > 8)
+                        ApplyHitStop(2 * potentialHitStop);
+                    else
+                        ApplyHitStop(24);
                 }
                 else if (piercing && Actions.Move.OpponentProperties.armor > 0 && OpponentDetector.Actions.armorActive)
                 {
@@ -380,7 +393,7 @@ public class ProjectileHitDetector : MonoBehaviour
                     //if the opponent has armor and is using it, deal armor and durability damage
                     Actions.Move.OpponentProperties.armor -= armorDamage;
                     Actions.Move.OpponentProperties.durability -= durabilityDamage;
-                    ApplyHitStop(potentialHitStop/2);
+                    ApplyHitStop(0);
                     OpponentDetector.armorHit = true;
                     Debug.Log("HitArmor");
                 }
@@ -399,9 +412,16 @@ public class ProjectileHitDetector : MonoBehaviour
             if ((other.transform.GetComponent<ProjectileHitDetector>().attackLevel - attackLevel) > 1 && potentialHitStun > 0)
             {
                 //when one attack is more powerful than another, the weaker attack is deflected
-                ApplyHitStop(2);
+                ApplyHitStop(6);
                 Debug.Log("Projectile DEFLECTED!");
-                other.transform.GetComponent<ProjectileHitDetector>().ProjProp.currentHits = other.transform.GetComponent<ProjectileHitDetector>().ProjProp.maxHits;
+                transform.GetComponent<ProjectileHitDetector>().ProjProp.currentHits = transform.GetComponent<ProjectileHitDetector>().ProjProp.maxHits;
+                transform.GetComponent<ProjectileHitDetector>().anim.SetTrigger("Deactivate");
+
+                HitDetect.hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+
+                HitDetect.hitEffect.transform.GetChild(0).transform.localScale = Vector3.one;
+                HitDetect.hitEffect.transform.GetChild(0).transform.localEulerAngles = new Vector3(0, 0, -30);
+                HitDetect.hitEffect.SetTrigger(parryID);
             }
             else if ((attackLevel - other.transform.GetComponent<ProjectileHitDetector>().attackLevel) <= 1 && potentialHitStun > 0)
             {
@@ -418,18 +438,36 @@ public class ProjectileHitDetector : MonoBehaviour
         else if (allowHit && !blitz && other.gameObject.transform.parent == Actions.Move.opponent && other.CompareTag("HitBox"))
         {
             //clash/deflect system projectile vs physical attack
-            if (attackLevel > OpponentDetector.attackLevel && (attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
+            if (attackLevel < OpponentDetector.attackLevel && (OpponentDetector.attackLevel - attackLevel) > 1 && potentialHitStun > 0)
+            {
+                //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
+                ApplyHitStop(2);
+                Debug.Log("DEFLECTED projectile");
+                transform.GetComponent<ProjectileHitDetector>().ProjProp.currentHits = transform.GetComponent<ProjectileHitDetector>().ProjProp.maxHits;
+                transform.GetComponent<ProjectileHitDetector>().anim.SetTrigger("Deactivate");
+                HitDetect.OpponentDetector.anim.SetTrigger(parryID);
+                HitDetect.OpponentDetector.Actions.EnableAll();
+
+                HitDetect.hitEffect.transform.position = other.bounds.ClosestPoint(transform.position + new Vector3(hitBox1.offset.x, hitBox1.offset.y, 0));
+
+                HitDetect.hitEffect.transform.GetChild(0).transform.localScale = Vector3.one;
+                HitDetect.hitEffect.transform.GetChild(0).transform.localEulerAngles = new Vector3(0, 0, -30);
+                HitDetect.hitEffect.SetTrigger(parryID);
+
+
+            }
+            else if (attackLevel > OpponentDetector.attackLevel && (attackLevel - OpponentDetector.attackLevel) > 1 && potentialHitStun > 0)
             {
                 //when one attack is more powerful than another, the weaker attack is deflected and the winner is allowed to followup
                 ApplyHitStop(2);
                 Debug.Log("DEFLECTED! by projectile" + attackLevel);
                 OpponentDetector.anim.SetTrigger(deflectID);
-                HitDetect.anim.SetTrigger(parryID); 
+                OpponentDetector.anim.SetTrigger(parryID); 
                 Actions.jumpCancel = true;
                 OpponentDetector.Actions.CharProp.durabilityRefillTimer = 0;
                 Contact(other);
             }
-            else if ((attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
+            else if (Mathf.Abs(attackLevel - OpponentDetector.attackLevel) <= 1 && potentialHitStun > 0)
             {
                 //if the attacks are of similar strength both can immediately input another command
                 Debug.Log("Clash!");
@@ -603,7 +641,6 @@ public class ProjectileHitDetector : MonoBehaviour
             if (allowWallStick && !HitDetect.usedWallStick && OpponentDetector.Actions.wallStick == 0)
             {
                 OpponentDetector.Actions.wallStick = 4;
-                HitDetect.usedWallStick = true;
             }
             else if (OpponentDetector.Actions.wallStick > 0 && !usingSuper)
             {
@@ -622,34 +659,40 @@ public class ProjectileHitDetector : MonoBehaviour
         }
         else if (!OpponentDetector.Actions.grabbed)
         {
-            OpponentDetector.hitStun = potentialHitStun/60;
-            if (OpponentDetector.Actions.airborne && usingSpecial)
+            OpponentDetector.hitStun = potentialHitStun / 60f;
+            if (OpponentDetector.Actions.airborne && (usingSpecial || allowGroundBounce))
             {
                 if (Actions.Move.OpponentProperties.comboTimer > 16)
-                    OpponentDetector.hitStun = 7 * potentialHitStun / 600;
-                else if (Actions.Move.OpponentProperties.comboTimer >= 13)
-                    OpponentDetector.hitStun = 8 * potentialHitStun / 600;
+                    OpponentDetector.hitStun *= .6f;
+                else if (Actions.Move.OpponentProperties.comboTimer > 14)
+                    OpponentDetector.hitStun *= .7f;
                 else if (Actions.Move.OpponentProperties.comboTimer > 10)
-                    OpponentDetector.hitStun = 9 * potentialHitStun / 600;
+                    OpponentDetector.hitStun *= .8f;
+                else if (Actions.Move.OpponentProperties.comboTimer > 7)
+                    OpponentDetector.hitStun = .9f;
             }
             else if (OpponentDetector.Actions.airborne && !usingSuper)
             {
                 if (Actions.Move.OpponentProperties.comboTimer > 16)
-                    OpponentDetector.hitStun = 6 * potentialHitStun / 600;
-                else if (Actions.Move.OpponentProperties.comboTimer >= 13)
-                    OpponentDetector.hitStun = 7 * potentialHitStun / 600;
+                    OpponentDetector.hitStun = (float)(1 / 60);
+                else if (Actions.Move.OpponentProperties.comboTimer > 14)
+                    OpponentDetector.hitStun *= .6f;
                 else if (Actions.Move.OpponentProperties.comboTimer > 10)
-                    OpponentDetector.hitStun = 8 * potentialHitStun / 600;
+                    OpponentDetector.hitStun *= .7f;
                 else if (Actions.Move.OpponentProperties.comboTimer > 7)
-                    OpponentDetector.hitStun = 9 * potentialHitStun / 600;
+                    OpponentDetector.hitStun *= .8f;
+                else if (Actions.Move.OpponentProperties.comboTimer > 5)
+                    OpponentDetector.hitStun *= .9f;
             }
 
             if (OpponentDetector.anim.GetBool("Crouch"))
                 OpponentDetector.hitStun += (float)1/30;
+
+            Debug.Log("Hit " + HitDetect.comboCount + "; Hitstun: " + OpponentDetector.hitStun * 60 + " CurrentTime: " + Actions.Move.OpponentProperties.comboTimer);
+
             //increase hitstun upon landing a shatter or counter hit
             if (OpponentDetector.Actions.shattered || OpponentDetector.Actions.attacking)
             {
-                Actions.Move.OpponentProperties.comboTimer = 0;
                 OpponentDetector.hitStun *= 2;
                 if (OpponentDetector.Actions.shattered)
                 {
@@ -760,17 +803,17 @@ public class ProjectileHitDetector : MonoBehaviour
         }
         else if (OpponentDetector.hitStun > 0)
         {
-            if (HitDetect.vertSlash || HitDetect.horiSlash || HitDetect.slash)
+            if (vertSlash || horiSlash || slash)
             {
                 HitDetect.hitEffect.SetTrigger("Slash");
-                if (HitDetect.vertSlash)
+                if (vertSlash)
                 {
                     if (OpponentDetector.KnockBack.y > 2)
                         HitDetect.hitEffect.transform.localEulerAngles = new Vector3(0, 0, Random.Range(60f, 80f));
                     else
                         HitDetect.hitEffect.transform.localEulerAngles = new Vector3(0, 0, Random.Range(-60f, -80f));
                 }
-                else if (HitDetect.horiSlash)
+                else if (horiSlash)
                 {
                     HitDetect.hitEffect.transform.localEulerAngles = new Vector3(0, 0, Random.Range(15f, 15f));
                 }

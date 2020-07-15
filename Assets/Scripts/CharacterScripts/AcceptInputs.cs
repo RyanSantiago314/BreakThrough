@@ -49,6 +49,7 @@ public class AcceptInputs : MonoBehaviour
     public float gravScale = 1f;
     public int comboHits = 0;
     public string hitType = "";
+    public bool screenShake;
 
     public Animator anim;
     public MovementHandler Move;
@@ -236,6 +237,7 @@ public class AcceptInputs : MonoBehaviour
         CharProp.HitDetect.allowSpecial = false;
         CharProp.HitDetect.allowSuper = false;
         CharProp.HitDetect.jumpCancellable = false;
+        CharProp.HitDetect.anim.SetBool(runID, false);
     }
     public void EnableAll()
     {
@@ -290,6 +292,11 @@ public class AcceptInputs : MonoBehaviour
         attacking = false;
         active = false;
         recovering = true;
+    }
+
+    public void EnableScreenShake()
+    {
+        screenShake = true;
     }
 
     public void SigilJump()
@@ -427,6 +434,25 @@ public class AcceptInputs : MonoBehaviour
     public void Advance(float x)
     {
         Move.rb.velocity = new Vector2(0, Move.rb.velocity.y);
+        if (blitzed > 0)
+        {
+            if (Move.facingRight)
+                Move.rb.AddForce(new Vector2(x * .5f, 0), ForceMode2D.Impulse);
+            else
+                Move.rb.AddForce(new Vector2(-x * .5f, 0), ForceMode2D.Impulse);
+        }
+        else
+        {
+            if (Move.facingRight)
+                Move.rb.AddForce(new Vector2(x, 0), ForceMode2D.Impulse);
+            else
+                Move.rb.AddForce(new Vector2(-x, 0), ForceMode2D.Impulse);
+        }
+    }
+
+    public void NormalAdvance(float x)
+    {
+        Move.rb.velocity = new Vector2(.75f * Move.rb.velocity.x, Move.rb.velocity.y);
         if (blitzed > 0)
         {
             if (Move.facingRight)

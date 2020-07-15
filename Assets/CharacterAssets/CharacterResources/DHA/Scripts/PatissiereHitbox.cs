@@ -70,9 +70,7 @@ public class PatissiereHitbox : MonoBehaviour
 
         if (PHitDetect.hit)
         {
-            ClearHitBox();
             PHitDetect.currentVelocity *= new Vector2(-.25f, .75f);
-            PHitDetect.hit = false;
         }
 
         if (PHitDetect.ProjProp.currentLife == 0)
@@ -101,6 +99,7 @@ public class PatissiereHitbox : MonoBehaviour
 
     public void ClearHitBox()
     {
+        PHitDetect.hit = false;
         hit1.enabled = false;
         PHitDetect.potentialHitStun = 0;
         PHitDetect.potentialHitStop = 0;
@@ -146,7 +145,7 @@ public class PatissiereHitbox : MonoBehaviour
         PHitDetect.potentialKnockBack = new Vector2(1.2f, 0);
         PHitDetect.potentialAirKnockBack = new Vector2(1.5f, 2);
         PHitDetect.initialProration = .75f;
-        PHitDetect.attackLevel = 1;
+        PHitDetect.attackLevel = 3;
         PHitDetect.guard = "Mid";
 
         PHitDetect.allowSuper = true;
@@ -161,7 +160,7 @@ public class PatissiereHitbox : MonoBehaviour
 
     void ExplosionHitBox()
     {
-        if (PHitDetect.ProjProp.currentLife > -1)
+        if (PHitDetect.ProjProp.currentLife > -1 && PHitDetect.ProjProp.currentHits < PHitDetect.ProjProp.maxHits)
         {
             ClearHitBox();
 
@@ -176,7 +175,7 @@ public class PatissiereHitbox : MonoBehaviour
             PHitDetect.potentialAirKnockBack = new Vector2(1.5f, 3f);
             PHitDetect.initialProration = .85f;
             PHitDetect.forcedProration = 1.1f;
-            PHitDetect.attackLevel = 3;
+            PHitDetect.attackLevel = 5;
             PHitDetect.guard = "Mid";
 
             PHitDetect.piercing = true;

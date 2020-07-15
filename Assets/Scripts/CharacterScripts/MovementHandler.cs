@@ -176,6 +176,9 @@ public class MovementHandler : MonoBehaviour
         else if (transform.position.x > 9.935f && !Actions.grabbed)
             transform.position = new Vector3(9.935f, transform.position.y, transform.position.z);
 
+        if (HitDetect.hitStun > 0)
+            anim.ResetTrigger(jumpID);
+
         if(transform.position.y < 1.3f && Actions.landingLag > 0)
             Actions.DisableAll();
 
@@ -306,7 +309,6 @@ public class MovementHandler : MonoBehaviour
 
 
                     vertAxisInUse = true;
-                    Actions.DisableAll();
                 }
             }
         }
@@ -401,6 +403,7 @@ public class MovementHandler : MonoBehaviour
             jumpRight = false;
             jumpLeft = false;
             Actions.airborne = true;
+            Actions.DisableAll();
         }
         else
         {
@@ -472,6 +475,7 @@ public class MovementHandler : MonoBehaviour
                 rb.velocity = Vector2.zero;
                 Actions.groundBounce = false;
                 Actions.airborne = true;
+                Actions.screenShake = true;
 
                 opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
                 opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
@@ -493,7 +497,7 @@ public class MovementHandler : MonoBehaviour
         }
         else if (collision.collider.CompareTag("Wall"))
         {
-            WallStates();
+            WallStates(collision.collider);
             if (!opponent.GetComponent<MovementHandler>().hittingWall)
                 hittingWall = true;
         }
@@ -506,8 +510,11 @@ public class MovementHandler : MonoBehaviour
         }
         else if (collision.collider.CompareTag("Bound"))
         {
-            if (Actions.wallBounce && Actions.wallStick == 0)
-                WallStates();
+            if (Actions.wallBounce)
+            {
+                Actions.wallStick = 0;
+                WallStates(collision.collider);
+            }
             else
                 hittingBound = true;
         }
@@ -524,6 +531,7 @@ public class MovementHandler : MonoBehaviour
                 anim.SetTrigger(groundBounceID);
                 Actions.groundBounce = false;
                 Actions.airborne = true;
+                Actions.screenShake = true;
 
                 opponentMove.sigil.GetComponent<Sigil>().colorChange = 0;
                 opponentMove.sigil.GetComponent<Sigil>().scaleChange = 0;
@@ -569,7 +577,7 @@ public class MovementHandler : MonoBehaviour
         }
         else if (collision.collider.CompareTag("Wall"))
         {
-            WallStates();
+            WallStates(collision.collider);
         }
         else if (collision.collider.CompareTag("Bound"))
         {
@@ -674,7 +682,7 @@ public class MovementHandler : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
-        if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name)
+        if(other.CompareTag("Player") && other.gameObject.transform.parent.name == opponent.gameObject.transform.parent.name && HitDetect.hitStop <= 0)
         {
 
             if (Actions.airborne && opponentMove.Actions.airborne)
@@ -1020,12 +1028,14 @@ public class MovementHandler : MonoBehaviour
         }
     }
 
-    void WallStates()
+    void WallStates(Collider2D other)
     {
         //makes characters stick against wall and slowly fall
         if (Actions.wallStick > 0 && HitDetect.hitStun > 0 && transform.position.y > 1.2f && !currentState.IsName("WallStick"))
         {
+            HitDetect.OpponentDetector.usedWallStick = true;
             Actions.groundBounce = false;
+            Actions.wallBounce = false;
             rb.velocity = new Vector2(0, rb.velocity.y);
             anim.SetBool(wallStickID, true);
             //set off wall hit effect

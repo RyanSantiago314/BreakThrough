@@ -62,12 +62,6 @@ public class ForsythiaHitbox : MonoBehaviour
         if (PHitDetect.HitDetect.hitStun > 0 || (PHitDetect.HitDetect.anim.GetCurrentAnimatorStateInfo(0).IsName("ForsythiaEnd") && anim.GetCurrentAnimatorStateInfo(0).IsName("ForsythiaReticle")))
             PHitDetect.ProjProp.Deactivate(0);
 
-        if (PHitDetect.hit)
-        {
-            ClearHitBox();
-            PHitDetect.hit = false;
-        }
-
         if (flash.intensity > 0)
         {
             flash.intensity -= .2f;
@@ -76,6 +70,7 @@ public class ForsythiaHitbox : MonoBehaviour
 
     public void ClearHitBox()
     {
+        PHitDetect.hit = false;
         hit1.enabled = false;
         PHitDetect.potentialHitStun = 0;
         PHitDetect.potentialHitStop = 0;
@@ -168,16 +163,17 @@ public class ForsythiaHitbox : MonoBehaviour
             else
                 PHitDetect.guard = "Mid";
 
-            PHitDetect.forceShatter = true;
             if (PHitDetect.OpponentDetector.Actions.standing)
                 PHitDetect.crumple = true;
             else
                 PHitDetect.launch = true;
 
-            /*if (PHitDetect.ProjProp.currentHits <= 1 || PHitDetect.OpponentDetector.hitStun <= 0)
+            if (PHitDetect.ProjProp.currentHits <= 1 || PHitDetect.OpponentDetector.hitStun <= 0)
             {
+                PHitDetect.shatter = true;
+            }
+            else
                 PHitDetect.forceShatter = true;
-            }*/
         }
         else
         {
@@ -217,9 +213,10 @@ public class ForsythiaHitbox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("HurtBox") && other.gameObject.transform.parent.parent == PHitDetect.Actions.Move.opponent && hit1.size.x > 1000)
+        if (other.CompareTag("HurtBox") && other.gameObject.transform.parent.parent == PHitDetect.Actions.Move.opponent && hit1.size.x >= 1000)
         {
             ClearHitBox();
+            transform.gameObject.SetActive(false);
         }
     }
 }

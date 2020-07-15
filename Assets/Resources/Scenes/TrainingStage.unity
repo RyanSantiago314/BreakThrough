@@ -4069,6 +4069,7 @@ MonoBehaviour:
   gravScale: 1
   comboHits: 0
   hitType: 
+  screenShake: 0
   anim: {fileID: 575799686}
   Move: {fileID: 1653018571}
   CharProp: {fileID: 1653018570}
@@ -4164,7 +4165,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 63b8c5e94fbe3bb4cbfc8258ee050b33, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c787a1e6279b14442921225f582f2230, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5934,7 +5935,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: e6c5dc2c39b1d6f45889d3f638acccb0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c70667b885e8cd44396944c737c04de0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6014,6 +6015,7 @@ MonoBehaviour:
   gravScale: 1
   comboHits: 0
   hitType: 
+  screenShake: 0
   anim: {fileID: 1026248757}
   Move: {fileID: 2128405693}
   CharProp: {fileID: 2128405696}
@@ -6057,6 +6059,8 @@ MonoBehaviour:
   HitDetect: {fileID: 515295540}
   AttackHandler: {fileID: 2128405691}
   sinCharge: 0
+  install: 0
+  installTimer: 0
 --- !u!114 &1026248761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8643,7 +8647,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 38.894737, y: 18.105263}
+  m_Size: {x: 31.263159, y: 27.368422}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -10686,7 +10690,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 38.736843, y: 29.631578}
+  m_Size: {x: 31.263159, y: 27.368422}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -11601,6 +11605,7 @@ MonoBehaviour:
   LHSlidePrefab: {fileID: 0}
   LHPrefab: {fileID: 0}
   SFPrefab: {fileID: 0}
+  GenesisPrefab: {fileID: 0}
   FMPrefab: {fileID: 0}
   BlitzPrefab: {fileID: 5624907148042030614, guid: eb89495abd7591d4296e898d5ff395c3,
     type: 3}
@@ -11608,6 +11613,7 @@ MonoBehaviour:
   LHSlide: {fileID: 0}
   LHWave: {fileID: 0}
   SFWave: {fileID: 0}
+  GenesisEdge: {fileID: 0}
   BlitzEffect: {fileID: 0}
   ForsythiaReticle: {fileID: 0}
   Horizontal: 
